@@ -101,6 +101,19 @@ Preselection = cms.PSet(
 )
 
 
+Preselection_SS = cms.PSet(
+        name = cms.string("Preselection_SS"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+Preselection_SS.cuts.extend(copy.deepcopy(Preselection.cuts))
+for cut in Preselection_SS.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+
+
+
+
 
 Blinded_Preselection = cms.PSet(
     name = cms.string("Blinded_Preselection"),

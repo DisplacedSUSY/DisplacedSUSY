@@ -166,6 +166,126 @@ ElectronD0Histograms = cms.PSet(
 )
 
 
+ElectronMuonCorrelationHistograms = cms.PSet(
+    inputCollection = cms.string("electron-muon pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronPtVsMuonPt"),
+            title = cms.string("electronPtVsMuonPt"),
+            bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 500),
+            inputVariables = cms.vstring("muonPt","electronPt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronEtaVsMuonEta"),
+            title = cms.string("electronEtaVsMuonEta"),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, -3, 3),
+            inputVariables = cms.vstring("muonEta","electronEta"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMetMtVsMuonMetMT"),
+            title = cms.string("electronMetMtVsMuonMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, 0, 200),
+            inputVariables = cms.vstring("muonMetMT","electronMetMT"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Muon |d_{0}| wrt Beamspot; muon |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(400, 0, 2, 400, 0, 2), #50 um bins
+            inputVariables = cms.vstring("abs(muonCorrectedD0)","abs(electronCorrectedD0)"),
+        ),
+    )
+)
+
+ElectronCorrelationHistograms = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronD0VsElectronEta"),
+            title = cms.string("electronD0VsElectronEta"),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, 0, 0.05),
+            inputVariables = cms.vstring("eta","abs(correctedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronD0VsElectronPt"),
+            title = cms.string("electronD0VsElectronPt"),
+            bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 0.05),
+            inputVariables = cms.vstring("pt","abs(correctedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronD0VsElectronMetMT"),
+            title = cms.string("electronD0VsElectronMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, 0, 0.05),
+            inputVariables = cms.vstring("metMT","abs(correctedD0)"),
+        ),
+        #
+        cms.PSet (
+            name = cms.string("electronPtVsElectronEta"),
+            title = cms.string("electronPtVsElectronEta"),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, 0, 500),
+            inputVariables = cms.vstring("eta","pt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPtVsElectronMetMT"),
+            title = cms.string("electronPtVsElectronMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, 0, 500),
+            inputVariables = cms.vstring("metMT","pt"),
+        ),
+        #
+        cms.PSet (
+            name = cms.string("electronEtaVsElectronMetMT"),
+            title = cms.string("electronEtaVsElectronMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 500, 100, -3, 3),
+            inputVariables = cms.vstring("metMT","eta"),
+        ),
+    )
+)
+
+MuonCorrelationHistograms = cms.PSet(
+    inputCollection = cms.string("muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonD0VsMuonEta"),
+            title = cms.string("muonD0VsMuonEta"),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, 0, 0.05),
+            inputVariables = cms.vstring("eta","abs(correctedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonD0VsMuonPt"),
+            title = cms.string("muonD0VsMuonPt"),
+            bins = cms.untracked.vdouble(100, 0, 500, 100, 0, 0.05),
+            inputVariables = cms.vstring("pt","abs(correctedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonD0VsMuonMetMT"),
+            title = cms.string("muonD0VsMuonMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, 0, 0.05),
+            inputVariables = cms.vstring("metMT","abs(correctedD0)"),
+        ),
+        #
+        cms.PSet (
+            name = cms.string("muonPtVsMuonEta"),
+            title = cms.string("muonPtVsMuonEta"),
+            bins = cms.untracked.vdouble(100, -3, 3, 100, 0, 500),
+            inputVariables = cms.vstring("eta","pt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPtVsMuonMetMT"),
+            title = cms.string("muonPtVsMuonMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 200, 100, 0, 500),
+            inputVariables = cms.vstring("metMT","pt"),
+        ),
+        #
+        cms.PSet (
+            name = cms.string("muonEtaVsMuonMetMT"),
+            title = cms.string("muonEtaVsMuonMetMT"),
+            bins = cms.untracked.vdouble(100, 0, 500, 100, -3, 3),
+            inputVariables = cms.vstring("metMT","eta"),
+        ),
+    )
+)
+
+
+
 ElectronMuonD0Histograms = cms.PSet(
     inputCollection = cms.string("electron-muon pairs"),
     histograms = cms.VPSet (
@@ -201,6 +321,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
     )
 )
+
 
 
 StopHistograms = cms.PSet(

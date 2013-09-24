@@ -13,7 +13,7 @@ datasets = [
 ### data samples ###
 ####################
 
-    'MuEG_22Jan2013',
+#    'MuEG_22Jan2013',
         
 
 
@@ -22,27 +22,30 @@ datasets = [
 ##########################
 
 
-#    'QCD_ElectronEnriched',
 
-    'Wjets',
+#    'Wjets',
 
-    'Diboson',
+#    'Diboson',
     #    'WW',
     #    'WZ',
     #    'ZZ',
 
-    'DY',
+#    'DY',
     #    'DYToEE_20',
     #    'DYToMuMu_20',
     #    'DYToTauTau_20',
 
-    'TTbar',
+#    'SingleTop',
+
+#    'TTbar',
     #    'TTbar_Had',
     #    'TTbar_SemiLep',
     ##    'TTbar_Lep',
 
     #    'Background',   
 
+
+    'QCD_ElectronEnriched',
     'QCD_MuEnriched',
 
 ]

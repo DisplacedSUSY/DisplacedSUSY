@@ -41,6 +41,6 @@ process.OSUAnalysis.histogramSets.append(EventHistograms)
 ##########################################################
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
-process.OSUAnalysis.channels.append(Preselection)
+#process.OSUAnalysis.channels.append(Preselection)
 process.OSUAnalysis.channels.append(Blinded_Preselection)
 

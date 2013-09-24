@@ -39,11 +39,20 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
-#process.OSUAnalysis.channels.append(Preselection_NoIso)
-#process.OSUAnalysis.channels.append(Preselection_NoIso_Prompt)
+process.OSUAnalysis.channels.append(Preselection_NoIso)
+process.OSUAnalysis.channels.append(Preselection_NoIso_Prompt)
+
+process.OSUAnalysis.channels.append(Preselection_NoIso_SS)
+process.OSUAnalysis.channels.append(Preselection_NoIso_Prompt_SS)
 
 #process.OSUAnalysis.channels.append(Preselection_AntiIso)
 #process.OSUAnalysis.channels.append(Preselection_AntiIso_Prompt)
 
-process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced)
-process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_Prompt)
+#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced)
+#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_Prompt)
+
+
+#from DisplacedSUSY.BackgroundStudies.QCDPreselections_SS import *
+
+#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_SS)
+#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_Prompt_SS)

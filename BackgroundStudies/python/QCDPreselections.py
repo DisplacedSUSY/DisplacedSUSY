@@ -591,3 +591,26 @@ Preselection_AntiIsoExtraReduced_Prompt = cms.PSet(
 
 
 
+
+Preselection_NoIso_SS = cms.PSet(
+    name = cms.string("Preselection_NoIso_SS"),
+    triggers = copy.deepcopy(Preselection_NoIso.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_NoIso_SS.cuts.extend(copy.deepcopy(Preselection_NoIso.cuts))
+for cut in Preselection_NoIso_SS.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+
+Preselection_NoIso_Prompt_SS = cms.PSet(
+    name = cms.string("Preselection_NoIso_Prompt_SS"),
+    triggers = copy.deepcopy(Preselection_NoIso_Prompt.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_NoIso_Prompt_SS.cuts.extend(copy.deepcopy(Preselection_NoIso_Prompt.cuts))
+for cut in Preselection_NoIso_Prompt_SS.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+                
+
+
