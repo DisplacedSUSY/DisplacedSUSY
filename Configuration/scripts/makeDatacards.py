@@ -99,13 +99,13 @@ def GetYieldAndError(condor_dir, process, channel):
         y0 = 0
         y1 = d0CutBinY
     intError = Double (0.0)
-    integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
+    integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
     fracError = 0.0
     if integral > 0.0:
         fracError = 1.0 + (intError / integral)
 
     #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
-            
+
     yieldAndErrorList['yield'] = integral
     yieldAndErrorList['error'] = fracError
     return yieldAndErrorList
@@ -155,6 +155,7 @@ def writeDatacard(mass,lifetime,branching_ratio):
 
     #add background yields
     for background in backgrounds:
+        print background
         bin_row_2.append(default_channel_name)
         process_name_row.append(background)
         process_index_row.append(str(process_index))
@@ -163,38 +164,23 @@ def writeDatacard(mass,lifetime,branching_ratio):
         empty_row.append('')
         
     datacard_data.append(empty_row)
-
-    #add a row for the cross-section error for the signal
-    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
-    for background in backgrounds:
-        row.append('-')
-    datacard_data.append(row)
-
-    #add a row for the cross-section error for each background
-    for process_name in background_cross_section_uncertainties:
-        row = [process_name+"_xsec",background_cross_section_uncertainties[process_name]['type'],'','-']
-        for background in backgrounds:
-            if process_name is background:
-                row.append(background_cross_section_uncertainties[process_name]['value'])
-            else:
-                row.append('-')
-        datacard_data.append(row)
-
+    comment_row = empty_row[:]
+    comment_row[0] = "# STATISTICAL UNCERTAINTIES #"
+    datacard_data.append(comment_row)
     datacard_data.append(empty_row)
-
-
-    #add a row for the statistical normalization error for the signal
+    
+    #add a row for the statistical error of the signal
     signal_error = signalYieldAndError['error']
     signal_error_string = str(round(signal_error,3))
-    row = ['signal_norm','lnN','',signal_error_string]
+    row = ['signal_stat','lnN','',signal_error_string]
     for background in backgrounds:
         row.append('-')
     datacard_data.append(row)
 
-    #add a row for the normalization error for each background
-    for process_name in background_normalization_uncertainties:
-        row = [process_name+"_norm",background_normalization_uncertainties[process_name]['type'],'','-']
-        for background in backgrounds:
+    #add a row for the statistical error of each background
+    for background in backgrounds:
+        row = [background+"_stat",'lnN','','-']
+        for process_name in backgrounds:
             if background is process_name:
                 row.append(str(round(background_errors[process_name],3)))
             else:
@@ -202,21 +188,65 @@ def writeDatacard(mass,lifetime,branching_ratio):
         datacard_data.append(row)
 
     datacard_data.append(empty_row)
+    comment_row = empty_row[:]
+    comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
+    datacard_data.append(comment_row)
+    datacard_data.append(empty_row)
 
-    
-    #add a new row for each uncertainty specified in configuration file
-    for uncertainty in systematic_uncertainties:
-        row = [uncertainty,systematic_uncertainties[uncertainty]['type'],'']
-        if 'signal' in systematic_uncertainties[uncertainty]['applyList']:
-            row.append(systematic_uncertainties[uncertainty]['value'])
-        else:
-            row.append('-')
+
+    #add a row for the cross-section error for the signal
+    row = ['signal_cross_sec','lnN','',str(round(float(signal_cross_sections[mass]['error']),3))]
+    for background in backgrounds:
+        row.append('-')
+    datacard_data.append(row)
+
+    #add a row for the normalization error for each background
+    for process_name in sorted(background_normalization_uncertainties):
+        row = [process_name+"_norm",background_normalization_uncertainties[process_name]['type'],'','-']
         for background in backgrounds:
-            if background in systematic_uncertainties[uncertainty]['applyList']:
-                row.append(systematic_uncertainties[uncertainty]['value'])
+            if process_name is background:
+                row.append(background_normalization_uncertainties[process_name]['value'])
             else:
                 row.append('-')
         datacard_data.append(row)
+
+    datacard_data.append(empty_row)
+    comment_row = empty_row[:]
+    comment_row[0] = "# SYSTEMATIC UNCERTAINTIES #"
+    datacard_data.append(comment_row)
+    datacard_data.append(empty_row)
+
+
+    
+    #add a new row for each uncertainty specified in configuration file
+    for uncertainty in global_systematic_uncertainties:
+        row = [uncertainty,'lnN','']
+        if 'signal' in global_systematic_uncertainties[uncertainty]['applyList']:
+            row.append(global_systematic_uncertainties[uncertainty]['value'])
+        else:
+            row.append('-')
+        for background in backgrounds:
+            if background in global_systematic_uncertainties[uncertainty]['applyList']:
+                row.append(global_systematic_uncertainties[uncertainty]['value'])
+            else:
+                row.append('-')
+        datacard_data.append(row)
+
+    #add a new row for each uncertainty defined in external text files
+    for uncertainty in systematics_dictionary:
+        row = [uncertainty,'lnN','']
+        if signal_dataset in systematics_dictionary[uncertainty]:
+            row.append(systematics_dictionary[uncertainty][signal_dataset])
+        else:
+            row.append('-')
+        for background in backgrounds:
+            if background in systematics_dictionary[uncertainty]:
+                row.append(systematics_dictionary[uncertainty][background])
+            else:
+                row.append('-')
+        datacard_data.append(row)
+
+
 
     #write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
@@ -231,30 +261,39 @@ def writeDatacard(mass,lifetime,branching_ratio):
 
 
 
-###setting up background yields and errors
+###setting up background yields and statistical errors
 background_yields = {}
 background_errors = {}
+
+backgrounds.sort()
 
 for background in backgrounds:
 
     yieldAndError = {}
-    #only get the yield and error from the 2D d0 histogram if it's going to be used
-    if background_normalization_values[background] is 'FromHistogram' or background_normalization_uncertainties[background]['value'] is 'FromHistogram':    
-        yieldAndError = GetYieldAndError(background_sources[background]['condor_dir'], background, background_sources[background]['channel'])
-        #print yieldAndError
+    yieldAndError = GetYieldAndError(background_sources[background]['condor_dir'], background, background_sources[background]['channel'])
+    #print yieldAndError
         
-    if background_normalization_values[background] is 'FromHistogram':
-        background_yields[background] = yieldAndError['yield']
-    else:
-        background_yields[background] = float(background_normalization_values[background])
-
-    if background_normalization_uncertainties[background]['value'] is 'FromHistogram':
-        background_errors[background] = yieldAndError['error']
-    else:
-        background_errors[background] = float(background_normalization_uncertainties[background]['value'])
-            
+    background_yields[background] = yieldAndError['yield']
+    background_errors[background] = yieldAndError['error']
 
     #print background+" yield = "+str(background_yields[background])+" +- "+str(background_errors[background])+"%"
+
+
+###getting all the systematic errors and putting them in a dictionary
+systematics_dictionary = {}
+for systematic in external_systematic_uncertainties:
+    input_file = open('systematic_values__'+systematic+'.txt')
+    systematics_dictionary[systematic] = {}
+    for line in input_file:
+        line = line.rstrip("\n").split(" ")
+        dataset = line[0]
+        if len(line) is 2:
+            systematics_dictionary[systematic][dataset] = line[1]
+        elif len(line) is 3:
+            systematics_dictionary[systematic][dataset]= line[1]+"/"+line[2]
+
+#print systematics_dictionary
+
 
 ###setting up observed number of events
 if run_blind_limits:
@@ -263,7 +302,9 @@ if run_blind_limits:
         background_sum = background_sum + round(float(background_yields[background]),1)
     observation = background_sum
 else:
-    observation = GetYield(data_condir_dir, dataset, data_channel)
+    observation = GetYield(data_condor_dir, dataset, data_channel)
+
+
 
 
 ###looping over signal models and writing a datacard for each

@@ -21,10 +21,10 @@ d0histogramName = "electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits"
 masses = ['500']
 
 #stop ctau values
-#lifetimes = ['1.0']
+lifetimes = ['1.0']
 #lifetimes = ['0.5','5.0','50.0']
 #lifetimes = ['0.5','1.0','5.0','10.0','50.0','100.0']
-lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
+#lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
 #lifetimes = ['0.2','0.3','0.4']
 #lifetimes = ['0.5','0.6','0.7','0.8','0.9','1.0']
 #lifetimes = ['2.0','3.0','4.0','5.0','6.0','7.0']
@@ -128,42 +128,15 @@ background_sources = {
 
 }
 
-#'FromHistogram' will calculate the yield by integrating the 'd0histogramName' histogram above the 'd0Cut' value
-background_normalization_values = {
-   'TTbar'          : 'FromHistogram',
-   'Diboson'        : 'FromHistogram',    
-   'DY'             : 'FromHistogram',    
-   'Wjets'          : 'FromHistogram',    
-   'QCDFromData'    : 'FromHistogram',
-}
 
-#'FromHistogram' will compute the statistical error on the MC sample used
+# These are the systematics on the methods to determine the contribution of each process
+#
+# For things taken from MC, this should be the uncertainty on the calculated cross-section
+# or the uncertainty on the measured CMS cross-section
+#
+# For things take from data, this should be the uncertainty on the data-driven method
+
 background_normalization_uncertainties = {
-
-    'DY' : {
-       'value' : 'FromHistogram',
-       'type' : 'lnN',
-    },
-    'Diboson' : {
-       'value' : 'FromHistogram',
-       'type' : 'lnN',
-    },
-    'TTbar' : {
-       'value' : 'FromHistogram',
-       'type' : 'lnN',
-    },
-    'Wjets' : {
-       'value' : 'FromHistogram',
-       'type' : 'lnN',
-    }, 
-    'QCDFromData' : {
-       'value' : 'FromHistogram',
-#       'value' : '1.50', #from MC efficiency estimation scaling
-       'type' : 'lnN',
-    }, 
-}
-
-background_cross_section_uncertainties = {
 
     'DY' : {
        'value' : '1.2',
@@ -182,7 +155,7 @@ background_cross_section_uncertainties = {
        'type' : 'lnN',
     },
     'QCDFromData' : {
-       'value' : '3',
+       'value' : '1.3',
        'type' : 'lnN',
     },
 
@@ -193,22 +166,26 @@ background_cross_section_uncertainties = {
 ### Experimental Systematic Uncertainty Parameters ###
 ######################################################
 
-#list of backgrounds for which we take the yield from MC
+#list of backgrounds for which we take the yield from MC in some way
 mc_normalized_processes = [
    'TTbar',
    'Diboson',
    'DY',
    'Wjets',
-   'QCDFromData',
+#   'QCDFromData',
    'signal'
 ]
 
-systematic_uncertainties = {
-   'Lumi' :  {
-        'type' : 'lnN',
-   	'value' : '1.044',
+#uncertainties for which the same value applies to all datasets
+global_systematic_uncertainties = {
+   'lumi' :  {
+   	'value' : '1.026',
    	'applyList' : mc_normalized_processes,
     },
 }
 
+#defined in external text files
+external_systematic_uncertainties = [
 
+    'pileup'
+]
