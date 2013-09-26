@@ -5,7 +5,7 @@ import copy
 ##### Set up the event selections (channels) #####
 ###########################################################
 
-##### List of valid input collections #####   
+##### List of valid input collections #####
 # jets, muons, electrons, taus, photons, mets,
 # events, tracks, primaryvertexs,
 # genjets, mcparticles,
