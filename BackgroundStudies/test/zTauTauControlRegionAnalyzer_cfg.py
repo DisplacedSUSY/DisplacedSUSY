@@ -41,4 +41,5 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 
 from DisplacedSUSY.BackgroundStudies.ZTauTauControlRegion import *
 process.OSUAnalysis.channels.append(ZTauTauControlRegion)
+process.OSUAnalysis.channels.append(ZTauTauControlRegion_Prompt)
 

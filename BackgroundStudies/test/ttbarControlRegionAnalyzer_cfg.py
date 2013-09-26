@@ -42,4 +42,5 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 
 from DisplacedSUSY.BackgroundStudies.TTbarControlRegion import *
 process.OSUAnalysis.channels.append(TTbarControlRegion)
+process.OSUAnalysis.channels.append(TTbarControlRegion_Prompt)
 

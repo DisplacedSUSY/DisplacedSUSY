@@ -37,22 +37,20 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
+# for ABCD method
+
+from DisplacedSUSY.StandardAnalysis.Preselection import *
+
+# A
+process.OSUAnalysis.channels.append(Preselection_SS)
+process.OSUAnalysis.channels.append(Blinded_Preselection_SS)
+
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
-process.OSUAnalysis.channels.append(Preselection_NoIso)
-process.OSUAnalysis.channels.append(Preselection_NoIso_Prompt)
+# C
+process.OSUAnalysis.channels.append(Preselection_AntiIso_SS)
+process.OSUAnalysis.channels.append(Preselection_AntiIso_Prompt_SS)
 
-process.OSUAnalysis.channels.append(Preselection_NoIso_SS)
-process.OSUAnalysis.channels.append(Preselection_NoIso_Prompt_SS)
-
-#process.OSUAnalysis.channels.append(Preselection_AntiIso)
-#process.OSUAnalysis.channels.append(Preselection_AntiIso_Prompt)
-
-#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced)
-#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_Prompt)
-
-
-#from DisplacedSUSY.BackgroundStudies.QCDPreselections_SS import *
-
-#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_SS)
-#process.OSUAnalysis.channels.append(Preselection_AntiIsoExtraReduced_Prompt_SS)
+# D
+process.OSUAnalysis.channels.append(Preselection_AntiIso)
+process.OSUAnalysis.channels.append(Preselection_AntiIso_Prompt)

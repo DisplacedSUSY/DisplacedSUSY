@@ -1,616 +1,75 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-###########################################################
+##################################################
 ##### Set up the event selections (channels) #####
-###########################################################
+##################################################
 
-Preselection_NoIso = cms.PSet(
-    name = cms.string("Preselection_NoIso"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
-)
+from DisplacedSUSY.StandardAnalysis.Preselection import *
 
+electron_iso_cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1")
+muon_iso_cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5")
 
 Preselection_AntiIso = cms.PSet(
     name = cms.string("Preselection_AntiIso"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("relPFrhoIso > 0.1"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("relPFdBetaIso > 0.12"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
 )
+Preselection_AntiIso.cuts.extend(copy.deepcopy(Preselection.cuts))
+for cut in Preselection_AntiIso.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+    if "relPFdBetaIso" in str(cut.cutString):    
+        cut.cutString = muon_iso_cutString
 
-
-
-
-
-
-Preselection_NoIso_Prompt = cms.PSet(
-    name = cms.string("Preselection_NoIso_Prompt"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
-)
-
+#################################################################
 
 Preselection_AntiIso_Prompt = cms.PSet(
     name = cms.string("Preselection_AntiIso_Prompt"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("relPFrhoIso > 0.1"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("relPFdBetaIso > 0.12"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
-)
-
-
-Preselection_AntiIsoExtraReduced = cms.PSet(
-    name = cms.string("Preselection_AntiIsoExtraReduced"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
-)
-
-
-Preselection_AntiIsoExtraReduced_Prompt = cms.PSet(
-    name = cms.string("Preselection_AntiIsoExtraReduced_Prompt"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"),
-    cuts = cms.VPSet (
-      cms.PSet (
-        inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("passConvVeto > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 2.5"),
-        numberRequired = cms.string(">= 1")
-      ),    
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > 25"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("tightIDdisplaced > 0"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("chargeProduct < 0"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electron-muon pairs"),
-        cutString = cms.string("deltaR > 0.5"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 2"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(correctedD0) < 0.02"),
-        numberRequired = cms.string("== 1")
-      ),
-   )   
-)
-
-
-
-
-
-Preselection_NoIso_SS = cms.PSet(
-    name = cms.string("Preselection_NoIso_SS"),
-    triggers = copy.deepcopy(Preselection_NoIso.triggers),
+    triggers = cms.vstring(Blinded_Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_NoIso_SS.cuts.extend(copy.deepcopy(Preselection_NoIso.cuts))
-for cut in Preselection_NoIso_SS.cuts:
-    if "chargeProduct" in str(cut.cutString):
-        cut.cutString = cms.string('chargeProduct > 0')
+Preselection_AntiIso_Prompt.cuts.extend(copy.deepcopy(Blinded_Preselection.cuts))
+for cut in Preselection_AntiIso_Prompt.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+    if "relPFdBetaIso" in str(cut.cutString):    
+        cut.cutString = muon_iso_cutString
 
-Preselection_NoIso_Prompt_SS = cms.PSet(
-    name = cms.string("Preselection_NoIso_Prompt_SS"),
-    triggers = copy.deepcopy(Preselection_NoIso_Prompt.triggers),
+
+#################################################################
+#################################################################
+
+Preselection_AntiIso_SS = cms.PSet(
+    name = cms.string("Preselection_AntiIso_SS"),
+    triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_NoIso_Prompt_SS.cuts.extend(copy.deepcopy(Preselection_NoIso_Prompt.cuts))
-for cut in Preselection_NoIso_Prompt_SS.cuts:
-    if "chargeProduct" in str(cut.cutString):
-        cut.cutString = cms.string('chargeProduct > 0')
+Preselection_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection.cuts))
+for cut in Preselection_AntiIso_SS.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+    if "relPFdBetaIso" in str(cut.cutString):    
+        cut.cutString = muon_iso_cutString
+
+#################################################################
+
+Preselection_AntiIso_Prompt_SS = cms.PSet(
+    name = cms.string("Preselection_AntiIso_Prompt_SS"),
+    triggers = cms.vstring(Blinded_Preselection_SS.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_AntiIso_Prompt_SS.cuts.extend(copy.deepcopy(Blinded_Preselection_SS.cuts))
+for cut in Preselection_AntiIso_Prompt_SS.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+    if "relPFdBetaIso" in str(cut.cutString):    
+        cut.cutString = muon_iso_cutString
+
+
+
+
+
                 
 
 
