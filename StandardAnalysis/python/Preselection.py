@@ -12,32 +12,32 @@ Preselection = cms.PSet(
       # EVENT CLEANING
       cms.PSet (
         inputCollection = cms.string("events"),
-        cutString = cms.string("FilterOutScraping > 0"), 
+        cutString = cms.string("FilterOutScraping > 0"),
         numberRequired = cms.string(">= 1")
       ),
       # EVENT HAS GOOD PV
       cms.PSet (
         inputCollection = cms.string("primaryvertexs"),
-        cutString = cms.string("isGood > 0"), 
+        cutString = cms.string("isGood > 0"),
         numberRequired = cms.string(">= 1")
       ),
       # ELECTRON ETA CUT
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 2.5"), 
+        cutString = cms.string("abs(eta) < 2.5"),
         numberRequired = cms.string(">= 1")
       ),
       # ELECTRON CRACK VETO
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 1.444 | abs(eta) > 1.566 "), 
+        cutString = cms.string("abs(eta) < 1.444 | abs(eta) > 1.566 "),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("electron ECAL crack veto")
       ),
       # ELECTRON PT CUT
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("pt > 25"), 
+        cutString = cms.string("pt > 25"),
         numberRequired = cms.string(">= 1")
       ),
       # ELECTRON ID
@@ -121,7 +121,7 @@ Preselection = cms.PSet(
         numberRequired = cms.string("== 1")
       ),
 
-   )   
+   )
 )
 
 #################################################################
@@ -183,7 +183,7 @@ for cut in Blinded_Preselection_SS.cuts:
 ###### ADD GENERATOR-LEVEL MATCHING                       #######
 ###### USED TO SELECT SIGNAL EVENTS WITH E-MU FINAL STATE #######
 #################################################################
-        
+
 from DisplacedSUSY.StandardAnalysis.SignalSelections import *
 
 PreselectionWithGenMatching = cms.PSet(
