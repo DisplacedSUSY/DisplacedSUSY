@@ -155,7 +155,7 @@ def writeDatacard(mass,lifetime,branching_ratio):
 
     #add background yields
     for background in backgrounds:
-        print background
+        #print background
         bin_row_2.append(default_channel_name)
         process_name_row.append(background)
         process_index_row.append(str(process_index))
@@ -282,7 +282,7 @@ for background in backgrounds:
 ###getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/LimitsCalculation/data/systematic_values__" + systematic_name + ".txt")
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/LimitsCalculation/data/systematic_values__" + systematic + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
         line = line.rstrip("\n").split(" ")
