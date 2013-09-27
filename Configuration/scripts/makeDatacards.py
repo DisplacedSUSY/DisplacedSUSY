@@ -282,7 +282,7 @@ for background in backgrounds:
 ###getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open('systematic_values__'+systematic+'.txt')
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/LimitsCalculation/data/systematic_values__" + systematic_name + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
         line = line.rstrip("\n").split(" ")

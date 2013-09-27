@@ -32,12 +32,9 @@ parser.remove_option("-c")
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + arguments.localConfig.split(".")[0] + " import *")
 
 from ROOT import TFile, TH1F
-
-
-
 
 
 def getYield(sample,condor_dir,channel):
@@ -54,10 +51,7 @@ def getYield(sample,condor_dir,channel):
     return yield_
 
 
-
-
-
-outputFile = "systematic_values__" + systematic_name + ".txt"
+outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/LimitsCalculation/data/systematic_values__" + systematic_name + ".txt"
 fout = open (outputFile, "w")
 
 for sample in datasets:
