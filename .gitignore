@@ -4,3 +4,7 @@
 hist.root
 mergeOutput.py.out*
 *~
+*condor
+*limits
+*roostats-*
+*higgsCombineTest*
