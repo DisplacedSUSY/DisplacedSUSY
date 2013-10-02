@@ -5,6 +5,8 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 
 config_file = "eMuAnalyzer_cfg.py"
 
+systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
+
 intLumi = 19680.  # MuEG 22Jan Re-Reco
 
 datasets = [
@@ -85,3 +87,4 @@ options['labels'] = labels
 
 #add_stops (options, [200], [1.0,10.0,100.0])
 #add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
+
