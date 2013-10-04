@@ -34,5 +34,79 @@ SignalGenMatching = cms.PSet(
     )
 )
 
+from DisplacedSUSY.StandardAnalysis.Preselection import * 
 
+#################################################################
 
+# PRESELECTION WITH LEPTON d0 > 200 um
+
+Signal_Selection_200um = cms.PSet(
+        name = cms.string("Signal_Selection_200um"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_200um.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0_cut = cms.PSet (
+        inputCollection = cms.string("electrons"),
+            cutString = cms.string("abs(correctedD0) > 0.02"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_200um.cuts.append(electron_d0_cut)
+
+muon_d0_cut = cms.PSet (
+        inputCollection = cms.string("muons"),
+            cutString = cms.string("abs(correctedD0) > 0.02"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_200um.cuts.append(muon_d0_cut)
+
+#################################################################
+
+# PRESELECTION WITH LEPTON d0 > 500 um
+
+Signal_Selection_500um = cms.PSet(
+        name = cms.string("Signal_Selection_500um"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_500um.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0_cut = cms.PSet (
+        inputCollection = cms.string("electrons"),
+            cutString = cms.string("abs(correctedD0) > 0.05"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_500um.cuts.append(electron_d0_cut)
+
+muon_d0_cut = cms.PSet (
+        inputCollection = cms.string("muons"),
+            cutString = cms.string("abs(correctedD0) > 0.05"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_500um.cuts.append(muon_d0_cut)
+
+#################################################################
+
+# PRESELECTION WITH LEPTON d0 > 1000 um
+
+Signal_Selection_1000um = cms.PSet(
+        name = cms.string("Signal_Selection_1000um"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_1000um.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0_cut = cms.PSet (
+        inputCollection = cms.string("electrons"),
+            cutString = cms.string("abs(correctedD0) > 0.1"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_1000um.cuts.append(electron_d0_cut)
+
+muon_d0_cut = cms.PSet (
+        inputCollection = cms.string("muons"),
+            cutString = cms.string("abs(correctedD0) > 0.1"),
+            numberRequired = cms.string("== 1")
+        )
+Signal_Selection_1000um.cuts.append(muon_d0_cut)
