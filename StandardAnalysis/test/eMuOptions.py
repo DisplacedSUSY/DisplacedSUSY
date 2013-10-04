@@ -7,6 +7,8 @@ config_file = "eMuAnalyzer_cfg.py"
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 
+external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
+
 intLumi = 19680.  # MuEG 22Jan Re-Reco
 
 datasets = [
