@@ -59,27 +59,36 @@ signal_cross_sections = {
 # For things take from data, this should be the uncertainty on the data-driven method
 
 background_normalization_uncertainties = {
-
-    'DY' : {
-       'value' : '1.2',
+    # this is basically all Z->tautau, so we take the uncertainty from the last H->tautau result, HIG-13-004
+    # 3% number found on page 92 of supporting note AN-2013/011
+    'DY' : { 
+       'value' : '1.03',
        'type' : 'lnN',
     },
+    # this is basically all WW, so we'll take the uncertainty from CMS PAS SMP-12-013
+    # central value should be 69.9 pb (need to change that, it's 30% higher than theory value)  
+    # well... the WW control region supports using the theory cross section... effing physics
     'Diboson' : {
-       'value' : '1.2',
+       'value' : '1.16',
        'type' : 'lnN',
     },
+    # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
     'TTbar' : {
-       'value' : '1.3',
+       'value' : '0.966/1.025',
        'type' : 'lnN',
     },
+    # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
     'SingleTop' : {
-       'value' : '1.3',
+       'value' : '1.03',
        'type' : 'lnN',
     },
+    # use number from PAS SMP-12-011
+    # central value should be 356400 pb (need to change that, it's 5% lower than theory value) 
     'Wjets' : {
-       'value' : '1.2',
+       'value' : '1.065',
        'type' : 'lnN',
     },
+    # taken from error on fitting for QCD yield in ABCD method
     'QCDFromData' : {
        'value' : '1.3',
        'type' : 'lnN',
@@ -97,7 +106,6 @@ mc_normalized_processes = [
    'Diboson',
    'DY',
    'Wjets',
-#   'QCDFromData',
    'signal'
 ]
 
