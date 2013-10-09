@@ -43,7 +43,7 @@ Preselection = cms.PSet(
       # ELECTRON ID
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("mvaNonTrigV0 > 0.9"),
+        cutString = cms.string("mvaNonTrig_HtoZZto4l > 0"),
         numberRequired = cms.string(">= 1")
       ),
       # PHOTON CONVERSION VETO
