@@ -16,31 +16,31 @@ signal_cross_sections = {
 
     '200' : {
       'value' : '18.5245',
-      'error' : '1.3',
+      'error' : '1.149',
     },
     '300' : {
       'value' : '1.99608',
-      'error' : '1.3',
+      'error' : '1.147',
     },
     '400' : {
       'value' : '0.35683',
-      'error' : '1.3',
+      'error' : '1.143',
     },
     '500' : {
       'value' : '0.0855847',
-      'error' : '1.3',
+      'error' : '1.15',
     },
     '600' : {
       'value' : '0.0248009',
-      'error' : '1.3',
+      'error' : '1.166',
     },
     '700' : {
       'value' : '0.0081141',
-      'error' : '1.3',
+      'error' : '1.184',
     },
     '800' : {
       'value' : '0.00289588',
-      'error' : '1.3',
+      'error' : '1.205',
     },
 
 }
@@ -68,8 +68,14 @@ background_normalization_uncertainties = {
     # this is basically all WW, so we'll take the uncertainty from CMS PAS SMP-12-013
     # central value should be 69.9 pb (need to change that, it's 30% higher than theory value)  
     # well... the WW control region supports using the theory cross section... effing physics
+##     'Diboson' : {
+##        'value' : '1.16',
+##        'type' : 'lnN',
+##     },
+    # on second thought, let's just use the NLO prediction that they compare to in SMP-12-013
+    # that central value is 57.25, and we currently use 54.83, so ~5% higher
     'Diboson' : {
-       'value' : '1.16',
+       'value' : '0.972/1.041',
        'type' : 'lnN',
     },
     # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
@@ -103,6 +109,7 @@ background_normalization_uncertainties = {
 #list of backgrounds for which we take the yield from MC in some way
 mc_normalized_processes = [
    'TTbar',
+   'SingleTop',
    'Diboson',
    'DY',
    'Wjets',
