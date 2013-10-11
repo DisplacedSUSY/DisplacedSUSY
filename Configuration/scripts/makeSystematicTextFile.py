@@ -60,8 +60,8 @@ for sample in datasets:
     central_yield = getYield(sample,central_condor_dir,channel)
     plus_yield = getYield(sample,plus_condor_dir,channel)
 
-    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield
-    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield
+    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
+    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
 
     minus_factor = str(round_sigfigs(minus_factor,5))
     plus_factor  = str(round_sigfigs(plus_factor,5))
