@@ -10,6 +10,7 @@ for file in os.listdir(dir):
         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
 
 process.OSUAnalysis.applyBtagSF = True
+process.OSUAnalysis.applyTriggerSF = True
 process.OSUAnalysis.doTopPtReweighting = True
         
 ########################################################################

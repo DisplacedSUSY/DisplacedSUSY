@@ -8,7 +8,13 @@ dir = "/store/user/jbrinson/TTJets_FullLeptMGDecays_8TeV-madgraph/BEAN2012-v4/0f
 
 for file in os.listdir(dir):
         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
-        
+
+######################################################################
+##### Overwrite specific variables defined in osuAnalysis_cfi.py #####
+######################################################################
+
+process.OSUAnalysis.applyTriggerSF = True
+	
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
 ########################################################################

@@ -7,13 +7,9 @@ import math
 import copy
 from array import *
 from optparse import OptionParser
+from DisplacedSUSY.Configuration.systematicsDefinitions import *
 
 
-
-integrateOutwardX = True
-integrateOutwardY = True
-#integrateOutwardX = False
-#integrateOutwardY = False
 
 
 parser = OptionParser()
@@ -23,7 +19,10 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
 parser.add_option("-d", "--d0Cut", dest="d0Cut",
                   help="lepton impact parameter requirement in cm")
-
+parser.add_option("-m", "--maxD0", action="store_true", dest="maxD0", default=False,
+                  help="uses d0 cut as a maximum instead of a minimum")
+parser.add_option("-s", "--systematicsChannel", dest="systematicsChannel",
+                  help="channel name used in getting systematics values from text files")
 
 (arguments, args) = parser.parse_args()
 
@@ -44,6 +43,19 @@ else:
 if not arguments.d0Cut:
     print "No d0 cut specified, how could you?"
     sys.exit(0)
+
+if not arguments.systematicsChannel:
+    print "Please specify channel for systematic uncertainties"
+    sys.exit(0)
+
+
+if arguments.maxD0:
+    integrateOutwardX = False
+    integrateOutwardY = False
+else:
+    integrateOutwardX = True
+    integrateOutwardY = True
+
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
@@ -282,7 +294,7 @@ for background in backgrounds:
 ###getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/LimitsCalculation/data/systematic_values__" + systematic + ".txt")
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "__" + arguments.systematicsChannel + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
         line = line.rstrip("\n").split(" ")
@@ -292,6 +304,11 @@ for systematic in external_systematic_uncertainties:
         elif len(line) is 3:
             systematics_dictionary[systematic][dataset]= line[1]+"/"+line[2]
 
+        # turn off systematic when the central yield is zero
+        if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
+            systematics_dictionary[systematic][dataset] = '-'
+            
+            
 #print systematics_dictionary
 
 
@@ -302,7 +319,8 @@ if run_blind_limits:
         background_sum = background_sum + round(float(background_yields[background]),1)
     observation = background_sum
 else:
-    observation = GetYield(data_condor_dir, dataset, data_channel)
+    print GetYieldAndError(data_condor_dir, data_dataset, data_channel)
+    observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 
 

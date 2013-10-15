@@ -9,6 +9,17 @@ systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 
 external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
 
+channel = 'Preselection'
+
+d0histogramName = 'electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits'
+
+d0cuts_array = {
+    0 :    'Preselection',
+    0.02 : 'Signal_Selection_200um',
+    0.05 : 'Signal_Selection_500um',
+    0.1  : 'Signal_Selection_1000um'
+}
+
 intLumi = 19680.  # MuEG 22Jan Re-Reco
 
 datasets = [
@@ -17,12 +28,14 @@ datasets = [
 ### background samples ###
 ##########################
 
-#    'QCDFromData',
+    'WNjets',
+
+    'QCDFromData',
 #     'QCD_ElectronEnriched',
 #     'QCD_MuEnriched',
 #     'QCD_bEnriched',
 
-    'WNjets',
+
 
     'Diboson',
 #    'WW',
@@ -52,8 +65,7 @@ datasets = [
 ### data samples ###
 ####################
 
-#    'MuEG_22Jan2013',
-
+    'MuEG_22Jan2013',
 
 ]
 
@@ -89,5 +101,5 @@ options['labels'] = labels
 ########################################################
 
 #add_stops (options, [200], [1.0,10.0,100.0])
-add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
+#add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
 

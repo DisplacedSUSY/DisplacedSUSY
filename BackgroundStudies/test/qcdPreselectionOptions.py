@@ -5,6 +5,10 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 
 config_file = "qcdPreselectionAnalyzer_cfg.py"
 
+systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
+
+external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
+
 intLumi = 19680.  # MuEG 22Jan Re-Reco
 
 datasets = [
@@ -18,7 +22,10 @@ datasets = [
 #     'QCD_MuEnriched',
 #     'QCD_bEnriched',
 
-    'Wjets',
+    'WNjets',
+#    'W0jets'
+#    'Wjets',
+
 
     'Diboson',
 #    'WW',
