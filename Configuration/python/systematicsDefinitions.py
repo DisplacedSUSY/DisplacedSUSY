@@ -90,13 +90,13 @@ background_normalization_uncertainties = {
     },
     # use number from PAS SMP-12-011
     # central value should be 356400 pb (need to change that, it's 5% lower than theory value) 
-    'Wjets' : {
+    'WNjets' : {
        'value' : '1.065',
        'type' : 'lnN',
     },
     # taken from error on fitting for QCD yield in ABCD method
     'QCDFromData' : {
-       'value' : '1.3',
+       'value' : '1.064',
        'type' : 'lnN',
     },
 
@@ -112,14 +112,14 @@ mc_normalized_processes = [
    'SingleTop',
    'Diboson',
    'DY',
-   'Wjets',
+   'WNjets',
    'signal'
 ]
 
 #uncertainties for which the same value applies to all datasets
 global_systematic_uncertainties = {
    'lumi' :  {
-   	'value' : '1.026',
+        'value' : '1.026',
    	'applyList' : mc_normalized_processes,
     },
 }
@@ -128,5 +128,7 @@ global_systematic_uncertainties = {
 external_systematic_uncertainties = [
     'trigger',
     'pileup',
-    'muonSF'
+    'muonSF',
+    'electronSF',
+    'pdf'
 ]
