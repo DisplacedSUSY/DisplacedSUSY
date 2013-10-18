@@ -203,7 +203,7 @@ for dataset in datasets:
                 if arguments.includeSystematics:
                     bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
-            yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],3)).rstrip("0").rstrip("."))
+            yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],5)).rstrip("0").rstrip("."))
             stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],3)).rstrip("0").rstrip("."))
             if arguments.includeSystematics:
                 sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,3)).rstrip("0").rstrip("."))
