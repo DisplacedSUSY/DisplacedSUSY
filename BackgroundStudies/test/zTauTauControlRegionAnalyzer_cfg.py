@@ -4,7 +4,7 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
 ##### Set Options for Running your Analyzer Interactively #####
 ###############################################################
 
-dir = "/store/user/jbrinson/TTJets_FullLeptMGDecays_8TeV-madgraph/BEAN2012-v4/0ff8045eb3a4a7ce9562dd332df0072c/"
+dir = "/data/users/hart/condor/eMuMinimal/DYToTauTau_20/EMu_Minimal/"
 
 for file in os.listdir(dir):
         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
@@ -29,8 +29,8 @@ process.OSUAnalysis.histogramSets.append(ElectronMuonHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronMuonD0Histograms)
 
 process.OSUAnalysis.histogramSets.append(JetHistograms)
-process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
-process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
+#process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
+#process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
 
 process.OSUAnalysis.histogramSets.append(EventHistograms)
 process.OSUAnalysis.histogramSets.append(MetHistograms)
@@ -40,6 +40,9 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 ##########################################################
 
 from DisplacedSUSY.BackgroundStudies.ZTauTauControlRegion import *
-process.OSUAnalysis.channels.append(ZTauTauControlRegion)
-process.OSUAnalysis.channels.append(ZTauTauControlRegion_Prompt)
+
+process.OSUAnalysis.channels.append(ZTauTauControlRegion_ElectronPrompt)
+process.OSUAnalysis.channels.append(ZTauTauControlRegion_MuonPrompt)
+process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_ElectronPrompt)
+process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_MuonPrompt)
 

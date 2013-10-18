@@ -4,7 +4,7 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
 ##### Set Options for Running your Analyzer Interactively #####
 ###############################################################
 
-dir = "/store/user/jbrinson/TTJets_FullLeptMGDecays_8TeV-madgraph/BEAN2012-v4/0ff8045eb3a4a7ce9562dd332df0072c/"
+dir = "/data/users/hart/condor/eMuMinimal/TTbar_Lep/EMu_Minimal/"
 
 for file in os.listdir(dir):
         process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + file))
@@ -42,6 +42,9 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 ##########################################################
 
 from DisplacedSUSY.BackgroundStudies.TTbarControlRegion import *
-process.OSUAnalysis.channels.append(TTbarControlRegion)
+#process.OSUAnalysis.channels.append(QCDinTTbarControlRegion_Prompt)
 process.OSUAnalysis.channels.append(TTbarControlRegion_Prompt)
-
+process.OSUAnalysis.channels.append(TTbarControlRegion_MuonPrompt)
+process.OSUAnalysis.channels.append(TTbarControlRegion_ElectronPrompt)
+#process.OSUAnalysis.channels.append(QCDinTTbarControlRegion_MuonPrompt)
+#process.OSUAnalysis.channels.append(QCDinTTbarControlRegion_ElectronPrompt)
