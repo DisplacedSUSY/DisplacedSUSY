@@ -2,6 +2,37 @@ import FWCore.ParameterSet.Config as cms
 import copy
 
 #################################################################
+############ EMPTY SELECTION - TO LOOK AT ALL OBJECTS ###########
+#################################################################
+
+
+Empty_Selection = cms.PSet(
+    name = cms.string("Empty_Selection"),
+    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+      # EVENT CLEANING
+      cms.PSet (
+        inputCollection = cms.string("events"),
+        cutString = cms.string("FilterOutScraping > 0"),
+        numberRequired = cms.string(">= 1")
+      ),
+      # EVENT HAS GOOD PV
+      cms.PSet (
+        inputCollection = cms.string("primaryvertexs"),
+        cutString = cms.string("isGood > 0"),
+        numberRequired = cms.string(">= 1")
+      ),
+      cms.PSet (
+        inputCollection = cms.string("jets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 2")
+      ),
+   )
+)
+
+
+
+#################################################################
 ############## STANDARD DISPLACED SUSY PRESELECTION #############
 #################################################################
 
@@ -89,7 +120,7 @@ Preselection = cms.PSet(
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra electron veto")
       ),
-      # VETO EVENTS WITH EXTRA ELECTRON
+      # VETO EVENTS WITH EXTRA MUON
       cms.PSet (
         inputCollection = cms.string("muons"),
         cutString = cms.string("pt > -1"),
