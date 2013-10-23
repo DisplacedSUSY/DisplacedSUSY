@@ -6,6 +6,8 @@ import copy
 ##################################################
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
+from DisplacedSUSY.StandardAnalysis.SignalSelections import *
+
 
 electron_iso_cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1")
 muon_iso_cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5")
@@ -40,12 +42,27 @@ for cut in Preselection_AntiIso_Prompt.cuts:
 #################################################################
 #################################################################
 
+Signal_Selection_AntiIso_200um = cms.PSet(
+    name = cms.string("Signal_Selection_AntiIso_200um"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_AntiIso_200um.cuts.extend(copy.deepcopy(Signal_Selection_200um.cuts))
+for cut in Signal_Selection_AntiIso_200um.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+    if "relPFdBetaIso" in str(cut.cutString):    
+        cut.cutString = muon_iso_cutString
+
+#################################################################
+#################################################################
+
 Preselection_AntiIso_SS = cms.PSet(
     name = cms.string("Preselection_AntiIso_SS"),
     triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection.cuts))
+Preselection_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection_SS.cuts))
 for cut in Preselection_AntiIso_SS.cuts:
     if "relPFrhoIso" in str(cut.cutString):
         cut.cutString = electron_iso_cutString
