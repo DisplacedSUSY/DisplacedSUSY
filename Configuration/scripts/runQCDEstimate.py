@@ -275,8 +275,10 @@ errors['D'] = CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / yield
 yields['B'] = yields['A'] / yields['C'] * yields['D']
 errors['B'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'] + errors['D']*errors['D'])
 
+errors['A/C'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'])
+
 scale_factor = yields['A'] / yields['C']
-scale_factor_error = scale_factor * errors['B']
+scale_factor_error = scale_factor *errors['A/C'] 
 
 
 print
