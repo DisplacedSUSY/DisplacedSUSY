@@ -63,9 +63,9 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
     if inputFile.IsZombie() or not inputFile.GetNkeys():
         return 0 
 
-    TargetHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"/"+distribution).Clone()
+    TargetHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"/"+distribution['name']).Clone()
     TargetHistogram.SetDirectory(0)
-    QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution).Clone()
+    QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution['name']).Clone()
     QCDHistogram.SetDirectory(0)
     BackgroundHistograms.append(QCDHistogram)
 
@@ -78,9 +78,9 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
 
         dataset_file = "%s/%s.root" % (condor_dir,sample)
         inputFile = TFile(dataset_file)
-        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['A']+"/"+distribution)
+        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['A']+"/"+distribution['name'])
         if not HistogramObj:
-            print "WARNING:  Could not find histogram " + pathToDir + "/" + distribution + " in file " + dataset_file + ".  Will skip it and continue."
+            print "WARNING:  Could not find histogram " + pathToDir + "/" + distribution['name'] + " in file " + dataset_file + ".  Will skip it and continue."
             continue
         Histogram = HistogramObj.Clone()
         Histogram.SetDirectory(0)
@@ -99,9 +99,14 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
             
         return value
 
-    
-    lowerLimit = TargetHistogram.GetBinLowEdge (1)
-    upperLimit = TargetHistogram.GetBinLowEdge (TargetHistogram.GetNbinsX ()) + TargetHistogram.GetBinWidth (TargetHistogram.GetNbinsX ())
+    if distribution.has_key('lowerLimit'): 
+    	lowerLimit = distribution['lowerLimit']
+    else:
+    	lowerLimit = TargetHistogram.GetBinLowEdge (1)
+    if distribution.has_key('upperLimit'):
+        upperLimit = distribution['upperLimit'] 
+    else:
+    	upperLimit = TargetHistogram.GetBinLowEdge (TargetHistogram.GetNbinsX ()) + TargetHistogram.GetBinWidth (TargetHistogram.GetNbinsX ())
     func = TF1 ("fit", fitf, lowerLimit, upperLimit, 2*(nBackgrounds))
 
 
@@ -210,7 +215,7 @@ inputFile = TFile(fileName)
 
 yields = {}
 for distribution in distributions_to_fit:
-    yields[distribution] = GetFittedQCDYieldAndError("OSUAnalysis",distribution)
+    yields[distribution['name']] = GetFittedQCDYieldAndError("OSUAnalysis",distribution)
 
 print
 print
@@ -221,7 +226,7 @@ print
 print "yields and errors for fitting different distributions"
 print '-----------------------------------------------------'
 for distribution in distributions_to_fit:
-    print distribution, ": ", yields[distribution]
+    print distribution['name'], ": ", yields[distribution['name']]
 
 
 # 2
@@ -230,9 +235,9 @@ numerator = 0
 denominator = 0
 
 for distribution in distributions_to_fit:
-    absoluteError = yields[distribution][0] * yields[distribution][1]
+    absoluteError = yields[distribution['name']][0] * yields[distribution['name']][1]
     errorSquared = absoluteError * absoluteError
-    numerator += yields[distribution][0] / errorSquared
+    numerator += yields[distribution['name']][0] / errorSquared
     denominator += 1 / errorSquared
 
 average = numerator / denominator
@@ -242,7 +247,7 @@ average = numerator / denominator
 RMS = 0
 
 for distribution in distributions_to_fit:
-    deviation = average - yields[distribution][0]
+    deviation = average - yields[distribution['name']][0]
     RMS += deviation * deviation
 
 RMS = RMS / len(distributions_to_fit)
