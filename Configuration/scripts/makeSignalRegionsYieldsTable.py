@@ -203,10 +203,13 @@ for dataset in datasets:
                 if arguments.includeSystematics:
                     bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
-            yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],5)).rstrip("0").rstrip("."))
-            stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],3)).rstrip("0").rstrip("."))
+            if types[dataset] is "bgMC":
+                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],3)).rstrip("0").rstrip("."))
+            else:
+                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
+            stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],2)).rstrip("0").rstrip("."))
             if arguments.includeSystematics:
-                sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,3)).rstrip("0").rstrip("."))
+                sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,2)).rstrip("0").rstrip("."))
 
 
 #                print dataset,d0cut,bgMCSum[d0cut],"+-",bgMCErrSquared[d0cut],"^2"
