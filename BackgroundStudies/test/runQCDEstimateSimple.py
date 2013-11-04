@@ -62,7 +62,7 @@ def GetFittedQCDYieldAndError(pathToDir):
     inputFile = TFile(fileName)
     if inputFile.IsZombie() or not inputFile.GetNkeys():
         return 0 
-    DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['B']+"CutFlow").Clone()
+    DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"CutFlow").Clone()
     DataHistogram.SetDirectory(0)
     
     print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) 
@@ -74,7 +74,7 @@ def GetFittedQCDYieldAndError(pathToDir):
 
         dataset_file = "%s/%s.root" % (condor_dir,sample)
         inputFile = TFile(dataset_file)
-        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['B']+"CutFlow")
+        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['A']+"CutFlow")
         if not HistogramObj:
             print "WARNING:  Could not find histogram " + pathToDir + "CutFlow" + " in file " + dataset_file + ".  Will skip it and continue."
             continue
