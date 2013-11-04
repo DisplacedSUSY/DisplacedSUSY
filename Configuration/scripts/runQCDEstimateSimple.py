@@ -65,8 +65,7 @@ def GetFittedQCDYieldAndError(pathToDir):
     DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"CutFlow").Clone()
     DataHistogram.SetDirectory(0)
     
-    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) 
-    print 'Data Error: ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) 
+    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + ' +- ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) + ' ( +-' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())/DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + '% )' 
 
     inputFile.Close()
 
@@ -83,8 +82,7 @@ def GetFittedQCDYieldAndError(pathToDir):
         inputFile.Close()
         BackgroundHistograms.append(MCHistogram)
         
-        print str(sample) + ' : ' + str(BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) 
-        print str(sample) + ' Error: ' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())) 
+        print str(sample) + ' : ' + str(BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + ' +- ' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())) + ' ( +-' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())/BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + '% )' 
     
     for Hist in BackgroundHistograms:
 	   DataHistogram.Add(Hist,-1)
@@ -150,11 +148,16 @@ inputFile = TFile(fileName)
 # 3. find RMS of fitted yields about weighted average
 # 4. get ABCD scaling factor and error
 # 5. produce QCDFromData.root for preselection and signal region
+print '#########################################################################'
+print "#This is runQCDEstimateSimple.py, whihc would not do the fitting at all.#"
+print '#########################################################################'
+print
 YieldsAndErrorInA = GetFittedQCDYieldAndError("OSUAnalysis")
+print
+print '-----------------------------------------------------------------------------------------------------------------'
 
-
-
-print "QCD Yield in region A = ", YieldsAndErrorInA[0], "+-", YieldsAndErrorInA[1], "(+-", YieldsAndErrorInA[1]/YieldsAndErrorInA[0]*100, "%)"
+print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+-", YieldsAndErrorInA[1], "(+-", YieldsAndErrorInA[1]/YieldsAndErrorInA[0]*100, "%)"
+print '-----------------------------------------------------------------------------------------------------------------'
 
 # 4
 
@@ -186,9 +189,9 @@ scale_factor = yields['A'] / yields['C']
 scale_factor_error = scale_factor *errors['A/C'] 
 
 
-print
+print '-----------------------------------------------------------------------------------------------------------------'
 print "A/C (B/D) Scale Factor = ", scale_factor, "+-",scale_factor_error, "(+-", scale_factor_error/scale_factor*100, "%)"
-print
+print '-----------------------------------------------------------------------------------------------------------------'
 
 # 5
 
