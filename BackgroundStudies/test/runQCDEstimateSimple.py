@@ -39,7 +39,7 @@ if arguments.localConfig:
 
 
 
-from ROOT import TFile, gROOT, gStyle, gDirectory, TH1F, TIter, TKey, TF1
+from ROOT import TFile, gROOT, gStyle, gDirectory, TH1F, TIter, TKey, TF1, TF2
 
 
 ### setting ROOT options so our plots will look awesome and everyone will love us
@@ -52,26 +52,21 @@ gROOT.SetBatch()
 ##########################################################################################################################################
 
 
-def GetFittedQCDYieldAndError(pathToDir,distribution):
+def GetFittedQCDYieldAndError(pathToDir):
 
-    BackgroundHistograms = []
-
+    BackgroundHistograms = [] 
+   
     fileName = condor_dir + "/" + data_dataset + ".root"
     if not os.path.exists(fileName):
         return 0 
     inputFile = TFile(fileName)
     if inputFile.IsZombie() or not inputFile.GetNkeys():
         return 0 
-
-    TargetHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"/"+distribution['name']).Clone()
-    TargetHistogram.SetDirectory(0)
-    QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution).Clone()
-    QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution['name']).Clone()
-    QCDHistogram.SetDirectory(0)
-    BackgroundHistograms.append(QCDHistogram)
-
-    CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"CutFlow")
-    QCDInputYield = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
+    DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['B']+"CutFlow").Clone()
+    DataHistogram.SetDirectory(0)
+    
+    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) 
+    print 'Data Error: ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) 
 
     inputFile.Close()
 
@@ -79,82 +74,21 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
 
         dataset_file = "%s/%s.root" % (condor_dir,sample)
         inputFile = TFile(dataset_file)
-        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['A']+"/"+distribution['name'])
+        HistogramObj = inputFile.Get(pathToDir+"/"+region_names['B']+"CutFlow")
         if not HistogramObj:
-            print "WARNING:  Could not find histogram " + pathToDir + "/" + distribution['name'] + " in file " + dataset_file + ".  Will skip it and continue."
+            print "WARNING:  Could not find histogram " + pathToDir + "CutFlow" + " in file " + dataset_file + ".  Will skip it and continue."
             continue
-        Histogram = HistogramObj.Clone()
-        Histogram.SetDirectory(0)
+        MCHistogram = HistogramObj.Clone()
+        MCHistogram.SetDirectory(0)
         inputFile.Close()
-
-        BackgroundHistograms.append(Histogram)
-
-    nBackgrounds = len(BackgroundHistograms)
-
-
-    def fitf (x, par):
-        xBin = BackgroundHistograms[0].FindBin (x[0])
-        value = 0.0
-        
-        # create the fit function to be used, with one parameter for each yield and one parameter for the error (to be set to -1,0,1 for varying by +-1 sigma)
-        for i in range (0, len (BackgroundHistograms)):
-            value += par[i] * BackgroundHistograms[i].GetBinContent (xBin) + par[i + len (BackgroundHistograms)] * BackgroundHistograms[i].GetBinError (xBin)
-            
-        return value
-
-    if distribution.has_key('lowerLimit'): 
-    	lowerLimit = distribution['lowerLimit']
-    else:
-    	lowerLimit = TargetHistogram.GetBinLowEdge (1)
-    if distribution.has_key('upperLimit'):
-        upperLimit = distribution['upperLimit'] 
-    else:
-    	upperLimit = TargetHistogram.GetBinLowEdge (TargetHistogram.GetNbinsX ()) + TargetHistogram.GetBinWidth (TargetHistogram.GetNbinsX ())
-    func = TF1 ("fit", fitf, lowerLimit, upperLimit, 2*(nBackgrounds))
-
-    # initialize QCD scale factor parameter
-    func.SetParameter (0, 1.0)
-    func.SetParName (0, 'QCD_ScaleFactor')
-
-    # initialize the other backgrounds that are held constant
-    for i in range (1, nBackgrounds):
-        func.FixParameter (i, 1.0)
-        nameString = "background_" + str(i)
-        func.SetParName (i, nameString)
-
-    # shift each constant background component up and down by 1 sigma, refit and save new yields
-    parErrorRanges = []
-    for i in range (1, len (BackgroundHistograms)):
-        for j in [-1, 1]:
-            for k in range (len (BackgroundHistograms), 2 * len (BackgroundHistograms)):
-                func.FixParameter (k, 0)
-            func.FixParameter (i + len (BackgroundHistograms), j)
-            for k in range (0, 9):
-                if j == -1:
-                    print "Scale down " + func.GetParName (i) + " iteration " + str (k + 1) + "..."
-                if j == 1:
-                    print "Scale up " + func.GetParName (i) + " iteration " + str (k + 1) + "..."
-                TargetHistogram.Fit ("fit", "QEMR0")
-            TargetHistogram.Fit ("fit", "QEMR0")
-            # add the new QCD yields to the list of errors
-            parErrorRanges.append(func.GetParameter(0))
-
-    # get the QCD yield for the central values of the background histograms
-    for i in range (nBackgrounds, 2*(nBackgrounds)):
-        func.FixParameter (i, 0)
-    for i in range (0, 9):
-        print "Iteration " + str (i + 1) + "..."
-        TargetHistogram.Fit ("fit", "QEMR0")
-    TargetHistogram.Fit ("fit", "QEMR0")
-
-    # take average of the deviations from the central value
-    scaleDown = parErrorRanges[0]
-    scaleUp = parErrorRanges[1]
-    parError = (abs (scaleUp - scaleDown)) / 2
+        BackgroundHistograms.append(MCHistogram)
+    
+    for Hist in BackgroundHistograms:
+	   DataHistogram.Add(Hist,-1)
 
     yieldAndError = []
-    yieldAndError.append(func.GetParameter(0) * QCDInputYield)
-    yieldAndError.append(parError)
+    yieldAndError.append(DataHistogram.GetBinContent(DataHistogram.GetNbinsX()))
+    yieldAndError.append(DataHistogram.GetBinError(DataHistogram.GetNbinsX()))
 
     return yieldAndError
 
@@ -214,51 +148,7 @@ inputFile = TFile(fileName)
 # 4. get ABCD scaling factor and error
 # 5. produce QCDFromData.root for preselection and signal region
 
-
-# 1
-
-yields = {}
-for distribution in distributions_to_fit:
-    yields[distribution['name']] = GetFittedQCDYieldAndError("OSUAnalysis",distribution)
-
-print
-print
-print '---------------------------------------------------------------------------------'
-print
-print
-
-print "yields and errors for fitting different distributions"
-print '-----------------------------------------------------'
-for distribution in distributions_to_fit:
-    print distribution['name'], ": ", yields[distribution['name']]
-
-
-# 2
-
-numerator = 0
-denominator = 0
-
-for distribution in distributions_to_fit:
-    absoluteError = yields[distribution['name']][0] * yields[distribution['name']][1]
-    errorSquared = absoluteError * absoluteError
-    numerator += yields[distribution['name']][0] / errorSquared
-    denominator += 1 / errorSquared
-
-average = numerator / denominator
-
-# 3
-
-RMS = 0
-
-for distribution in distributions_to_fit:
-    deviation = average - yields[distribution['name']][0]
-    RMS += deviation * deviation
-
-RMS = RMS / len(distributions_to_fit)
-RMS = sqrt(RMS)
-
-print
-print "QCD Yield in region A = ", average, "+-", RMS, "(+-", RMS/average*100, "%)"
+print "QCD Yield in region A = ", GetFittedQCDYieldAndError("OSUAnalysis")[0], "+-", GetFittedQCDYieldAndError("OSUAnalysis")[1], "(+-", GetFittedQCDYieldAndError("OSUAnalysis")[1]/GetFittedQCDYieldAndError("OSUAnalysis")[0]*100, "%)"
 
 # 4
 
@@ -266,8 +156,8 @@ print "QCD Yield in region A = ", average, "+-", RMS, "(+-", RMS/average*100, "%
 yields = {}
 errors = {}
 
-yields['A'] = average
-errors['A'] = RMS/average
+yields['A'] = GetFittedQCDYieldAndError("OSUAnalysis")[0]
+errors['A'] = GetFittedQCDYieldAndError("OSUAnalysis")[1]/GetFittedQCDYieldAndError("OSUAnalysis")[0]
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"CutFlow")
 yields['C'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())

@@ -12,12 +12,15 @@ region_names = {
 
 # these are the distributinos that will be fit in region A to extract the QCD yield
 distributions_to_fit = [
-    'electronAbsD0BeamspotM',
-    'muonAbsD0BeamspotM',    
-    'electronEta',
-    'muonEta',
-    'electronMetMt',
-    'muonMetMt'
+    {'name' : 'electronAbsD0BeamspotM', 
+     #'lowerLimit' : 0.02,     #you can define upper or lower limits here.
+     #'upperLimit' : 0.05
+    },
+    {'name' : 'muonAbsD0BeamspotM'     },   
+    {'name' : 'electronEta'            },
+    {'name' : 'muonEta'                },
+    {'name' : 'electronMetMt'          },
+    {'name' : 'muonMetMt'              }
 ]
 
 # other contributions in region A that will be held constant in the fitting
