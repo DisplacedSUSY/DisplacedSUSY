@@ -86,3 +86,89 @@ Preselection_AntiIso_Prompt_SS = cms.PSet(
     cuts = cms.VPSet ()
 )
 Preselection_AntiIso_Prompt_SS.cuts = invert_isolation (Blinded_Preselection_SS.cuts)
+
+
+#################################################################
+#################################################################
+#################################################################
+#################################################################
+        
+from DisplacedSUSY.StandardAnalysis.Preselection_EE import *
+
+Preselection_EE_AntiIso = cms.PSet(
+    name = cms.string("Preselection_EE_AntiIso"),
+    triggers = cms.vstring(Preselection_EE.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_EE_AntiIso.cuts.extend(copy.deepcopy(Preselection_EE.cuts))
+for cut in Preselection_EE_AntiIso.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+
+#################################################################
+
+Signal_Selection_EE_AntiIso_200um = cms.PSet(
+    name = cms.string("Signal_Selection_EE_AntiIso_200um"),
+    triggers = cms.vstring(Preselection_EE.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_EE_AntiIso_200um.cuts.extend(copy.deepcopy(Signal_Selection_EE_200um.cuts))
+for cut in Signal_Selection_EE_AntiIso_200um.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+
+#################################################################
+
+Preselection_EE_AntiIso_SS = cms.PSet(
+    name = cms.string("Preselection_EE_AntiIso_SS"),
+    triggers = cms.vstring(Preselection_EE.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_EE_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection_EE_SS.cuts))
+for cut in Preselection_EE_AntiIso_SS.cuts:
+    if "relPFrhoIso" in str(cut.cutString):
+        cut.cutString = electron_iso_cutString
+
+
+
+#################################################################
+#################################################################
+
+
+        
+from DisplacedSUSY.StandardAnalysis.Preselection_MuMu import *
+
+Preselection_MuMu_AntiIso = cms.PSet(
+    name = cms.string("Preselection_MuMu_AntiIso"),
+    triggers = cms.vstring(Preselection_MuMu.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_MuMu_AntiIso.cuts.extend(copy.deepcopy(Preselection_MuMu.cuts))
+for cut in Preselection_MuMu_AntiIso.cuts:
+    if "relPFdBetaIso" in str(cut.cutString):
+        cut.cutString = muon_iso_cutString
+
+#################################################################
+
+Signal_Selection_MuMu_AntiIso_200um = cms.PSet(
+    name = cms.string("Signal_Selection_MuMu_AntiIso_200um"),
+    triggers = cms.vstring(Preselection_MuMu.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_MuMu_AntiIso_200um.cuts.extend(copy.deepcopy(Signal_Selection_MuMu_200um.cuts))
+for cut in Signal_Selection_MuMu_AntiIso_200um.cuts:
+    if "relPFdBetaIso" in str(cut.cutString):
+        cut.cutString = muon_iso_cutString
+
+#################################################################
+
+Preselection_MuMu_AntiIso_SS = cms.PSet(
+    name = cms.string("Preselection_MuMu_AntiIso_SS"),
+    triggers = cms.vstring(Preselection_MuMu.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_MuMu_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection_MuMu_SS.cuts))
+for cut in Preselection_MuMu_AntiIso_SS.cuts:
+    if "relPFdBetaIso" in str(cut.cutString):
+        cut.cutString = muon_iso_cutString
+

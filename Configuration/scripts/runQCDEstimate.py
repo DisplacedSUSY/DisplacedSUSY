@@ -85,6 +85,7 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
         Histogram = HistogramObj.Clone()
         Histogram.SetDirectory(0)
         inputFile.Close()
+
         BackgroundHistograms.append(Histogram)
 
     nBackgrounds = len(BackgroundHistograms)
@@ -94,6 +95,7 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
         xBin = BackgroundHistograms[0].FindBin (x[0])
         value = 0.0
         
+        # create the fit function to be used, with one parameter for each yield and one parameter for the error (to be set to -1,0,1 for varying by +-1 sigma)
         for i in range (0, len (BackgroundHistograms)):
             value += par[i] * BackgroundHistograms[i].GetBinContent (xBin) + par[i + len (BackgroundHistograms)] * BackgroundHistograms[i].GetBinError (xBin)
             
@@ -109,17 +111,19 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
     	upperLimit = TargetHistogram.GetBinLowEdge (TargetHistogram.GetNbinsX ()) + TargetHistogram.GetBinWidth (TargetHistogram.GetNbinsX ())
     func = TF1 ("fit", fitf, lowerLimit, upperLimit, 2*(nBackgrounds))
 
-
+    # initialize QCD scale factor parameter
     func.SetParameter (0, 1.0)
     func.SetParName (0, 'QCD_ScaleFactor')
-    
+
+    # initialize the other backgrounds that are held constant
     for i in range (1, nBackgrounds):
         func.FixParameter (i, 1.0)
         nameString = "background_" + str(i)
         func.SetParName (i, nameString)
 
-    parErrorRanges = {}
-    for i in range (0, len (BackgroundHistograms)):
+    # shift each constant background component up and down by 1 sigma, refit and save new yields
+    parErrorRanges = []
+    for i in range (1, len (BackgroundHistograms)):
         for j in [-1, 1]:
             for k in range (len (BackgroundHistograms), 2 * len (BackgroundHistograms)):
                 func.FixParameter (k, 0)
@@ -131,11 +135,10 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
                     print "Scale up " + func.GetParName (i) + " iteration " + str (k + 1) + "..."
                 TargetHistogram.Fit ("fit", "QEMR0")
             TargetHistogram.Fit ("fit", "QEMR0")
-            if j == -1:
-                parErrorRanges[func.GetParName (i)] = [func.GetParameter (i)]
-            if j == 1:
-                parErrorRanges[func.GetParName (i)].append (func.GetParameter (i))
+            # add the new QCD yields to the list of errors
+            parErrorRanges.append(func.GetParameter(0))
 
+    # get the QCD yield for the central values of the background histograms
     for i in range (nBackgrounds, 2*(nBackgrounds)):
         func.FixParameter (i, 0)
     for i in range (0, 9):
@@ -143,10 +146,10 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
         TargetHistogram.Fit ("fit", "QEMR0")
     TargetHistogram.Fit ("fit", "QEMR0")
 
-
-    scaleDown = parErrorRanges[func.GetParName(0)][0]
-    scaleUp = parErrorRanges[func.GetParName(0)][1]
-    parError = (abs (scaleUp - scaleDown))
+    # take average of the deviations from the central value
+    scaleDown = parErrorRanges[0]
+    scaleUp = parErrorRanges[1]
+    parError = (abs (scaleUp - scaleDown)) / 2
 
     yieldAndError = []
     yieldAndError.append(func.GetParameter(0) * QCDInputYield)
