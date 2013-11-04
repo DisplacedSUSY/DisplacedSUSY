@@ -65,7 +65,6 @@ def GetFittedQCDYieldAndError(pathToDir,distribution):
 
     TargetHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"/"+distribution['name']).Clone()
     TargetHistogram.SetDirectory(0)
-    QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution).Clone()
     QCDHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"/"+distribution['name']).Clone()
     QCDHistogram.SetDirectory(0)
     BackgroundHistograms.append(QCDHistogram)
