@@ -112,49 +112,49 @@ SecondaryMuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
-            name = cms.string("muonAbsD0BeamspotS"),
+            name = cms.string("secondaryMuonAbsD0BeamspotS"),
             title = cms.string("Muon |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.05),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
-            name = cms.string("muonAbsD0BeamspotM"),
+            name = cms.string("secondaryMuonAbsD0BeamspotM"),
             title = cms.string("Muon |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
-            name = cms.string("muonAbsD0BeamspotL"),
+            name = cms.string("secondaryMuonAbsD0BeamspotL"),
             title = cms.string("Muon |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
             bins = cms.untracked.vdouble(100, 0, 5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
-            name = cms.string("muonAbsD0BeamspotXL"),
+            name = cms.string("secondaryMuonAbsD0BeamspotXL"),
             title = cms.string("Muon |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
             bins = cms.untracked.vdouble(100, 0, 50),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
 ##         cms.PSet (
-##             name = cms.string("muonAbsD0BeamspotVsAbsDzS"),
+##             name = cms.string("secondaryMuonAbsD0BeamspotVsAbsDzS"),
 ##             title = cms.string("Muon |d_{0}| wrt Beamspot vs. Muon |d_{z}|; |d_{z}| [cm]; d_{0} [cm]"),
 ##             bins = cms.untracked.vdouble(100, 0, 20, 100, 0, 0.05),
 ##             inputVariables = cms.vstring("abs(correctedDZ)","abs(correctedD0)"),
 ##         ),
 ##         cms.PSet (
-##             name = cms.string("muonAbsD0BeamspotVsAbsDzM"),
+##             name = cms.string("secondaryMuonAbsD0BeamspotVsAbsDzM"),
 ##             title = cms.string("Muon |d_{0}| wrt Beamspot vs. Muon |d_{z}|; |d_{z}| [cm]; d_{0} [cm]"),
 ##             bins = cms.untracked.vdouble(100, 0, 20, 100, 0, 0.5),
 ##             inputVariables = cms.vstring("abs(correctedDZ)","abs(correctedD0)"),
 ##         ),
 ##         cms.PSet (
-##             name = cms.string("muonAbsD0BeamspotVsAbsDzL"),
+##             name = cms.string("secondaryMuonAbsD0BeamspotVsAbsDzL"),
 ##             title = cms.string("Muon |d_{0}| wrt Beamspot vs. Muon |d_{z}|; |d_{z}| [cm]; d_{0} [cm]"),
 ##             bins = cms.untracked.vdouble(100, 0, 20, 100, 0, 5),
 ##             inputVariables = cms.vstring("abs(correctedDZ)","abs(correctedD0)"),
 ##         ),
 ##         cms.PSet (
-##             name = cms.string("muonAbsD0BeamspotVsAbsDzXL"),
+##             name = cms.string("secondaryMuonAbsD0BeamspotVsAbsDzXL"),
 ##             title = cms.string("Muon |d_{0}| wrt Beamspot vs. Muon |d_{z}|; |d_{z}| [cm]; d_{0} [cm]"),
 ##             bins = cms.untracked.vdouble(100, 0, 20, 100, 0, 50),
 ##             inputVariables = cms.vstring("abs(correctedDZ)","abs(correctedD0)"),
@@ -554,6 +554,80 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
     )
 )
+
+ElectronSecondaryElectronD0Histograms = cms.PSet(
+    inputCollection = cms.string("electron-secondary electron pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsSecondaryElectronAbsD0BeamspotForLimits"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Secondary Electron |d_{0}| wrt Beamspot; secondary electron |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(400, 0, 2, 400, 0, 2), #50 um bins
+            inputVariables = cms.vstring("abs(electron2CorrectedD0)","abs(electron1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsSecondaryElectronAbsD0BeamspotS"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Secondary Electron |d_{0}| wrt Beamspot; secondary electron |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 0.05, 100, 0, 0.05),
+            inputVariables = cms.vstring("abs(electron2CorrectedD0)","abs(electron1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsSecondaryElectronAbsD0BeamspotM"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Secondary Electron |d_{0}| wrt Beamspot; secondary electron |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 0.5, 100, 0, 0.5),
+            inputVariables = cms.vstring("abs(electron2CorrectedD0)","abs(electron1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsSecondaryElectronAbsD0BeamspotL"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Secondary Electron |d_{0}| wrt Beamspot; secondary electron |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 5, 100, 0, 5),
+            inputVariables = cms.vstring("abs(electron2CorrectedD0)","abs(electron1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0BeamspotVsSecondaryElectronAbsD0BeamspotXL"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Secondary Electron |d_{0}| wrt Beamspot; secondary electron |d_{0}| [cm]; electron |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 50, 100, 0, 50),
+            inputVariables = cms.vstring("abs(electron2CorrectedD0)","abs(electron1CorrectedD0)"),
+        ),
+    )
+)
+
+
+MuonSecondaryMuonD0Histograms = cms.PSet(
+    inputCollection = cms.string("muon-secondary muon pairs"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonAbsD0BeamspotVsSecondaryMuonAbsD0BeamspotForLimits"),
+            title = cms.string("Muon |d_{0}| wrt Beamspot vs. Secondary Muon |d_{0}| wrt Beamspot; secondary muon |d_{0}| [cm]; muon |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(400, 0, 2, 400, 0, 2), #50 um bins
+            inputVariables = cms.vstring("abs(muon2CorrectedD0)","abs(muon1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0BeamspotVsSecondaryMuonAbsD0BeamspotS"),
+            title = cms.string("Muon |d_{0}| wrt Beamspot vs. Secondary Muon |d_{0}| wrt Beamspot; secondary muon |d_{0}| [cm]; muon |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 0.05, 100, 0, 0.05),
+            inputVariables = cms.vstring("abs(muon2CorrectedD0)","abs(muon1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0BeamspotVsSecondaryMuonAbsD0BeamspotM"),
+            title = cms.string("Muon |d_{0}| wrt Beamspot vs. Secondary Muon |d_{0}| wrt Beamspot; secondary muon |d_{0}| [cm]; muon |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 0.5, 100, 0, 0.5),
+            inputVariables = cms.vstring("abs(muon2CorrectedD0)","abs(muon1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0BeamspotVsSecondaryMuonAbsD0BeamspotL"),
+            title = cms.string("Muon |d_{0}| wrt Beamspot vs. Secondary Muon |d_{0}| wrt Beamspot; secondary muon |d_{0}| [cm]; muon |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 5, 100, 0, 5),
+            inputVariables = cms.vstring("abs(muon2CorrectedD0)","abs(muon1CorrectedD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0BeamspotVsSecondaryMuonAbsD0BeamspotXL"),
+            title = cms.string("Muon |d_{0}| wrt Beamspot vs. Secondary Muon |d_{0}| wrt Beamspot; secondary muon |d_{0}| [cm]; muon |d_{0}| [cm]"),
+            bins = cms.untracked.vdouble(100, 0, 50, 100, 0, 50),
+            inputVariables = cms.vstring("abs(muon2CorrectedD0)","abs(muon1CorrectedD0)"),
+        ),
+    )
+)
+
 
 
 
