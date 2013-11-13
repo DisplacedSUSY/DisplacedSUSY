@@ -248,12 +248,19 @@ average = numerator / denominator
 # 3
 
 RMS = 0
+sumOfWeights = 0
+sumOfWeights2 = 0
 
 for distribution in distributions_to_fit:
+    absoluteError = yields[distribution['name']][0] * yields[distribution['name']][1]
+    errorSquared = absoluteError * absoluteError
+    weight = 1.0 / errorSquared
     deviation = average - yields[distribution['name']][0]
-    RMS += deviation * deviation
+    RMS += weight * (deviation * deviation)
+    sumOfWeights += weight
+    sumOfWeights2 += weight * weight
 
-RMS = RMS / len(distributions_to_fit)
+RMS = RMS * (sumOfWeights / (sumOfWeights * sumOfWeights - sumOfWeights2))
 RMS = sqrt(RMS)
 
 print
