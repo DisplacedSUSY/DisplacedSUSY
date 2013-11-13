@@ -65,8 +65,7 @@ def GetFittedQCDYieldAndError(pathToDir):
     DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"CutFlow").Clone()
     DataHistogram.SetDirectory(0)
     
-    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) 
-    print 'Data Error: ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) 
+    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + ' +- ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) + ' ( +-' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())/DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + '% )' 
 
     inputFile.Close()
 
@@ -82,10 +81,12 @@ def GetFittedQCDYieldAndError(pathToDir):
         MCHistogram.SetDirectory(0)
         inputFile.Close()
         BackgroundHistograms.append(MCHistogram)
+        
+        print str(sample) + ' : ' + str(BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + ' +- ' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())) + ' ( +-' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())/BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + '% )' 
     
     for Hist in BackgroundHistograms:
 	   DataHistogram.Add(Hist,-1)
-
+    
     yieldAndError = []
     yieldAndError.append(DataHistogram.GetBinContent(DataHistogram.GetNbinsX()))
     yieldAndError.append(DataHistogram.GetBinError(DataHistogram.GetNbinsX()))
@@ -147,8 +148,16 @@ inputFile = TFile(fileName)
 # 3. find RMS of fitted yields about weighted average
 # 4. get ABCD scaling factor and error
 # 5. produce QCDFromData.root for preselection and signal region
+print '#########################################################################'
+print "#This is runQCDEstimateSimple.py, whihc would not do the fitting at all.#"
+print '#########################################################################'
+print
+YieldsAndErrorInA = GetFittedQCDYieldAndError("OSUAnalysis")
+print
+print '-----------------------------------------------------------------------------------------------------------------'
 
-print "QCD Yield in region A = ", GetFittedQCDYieldAndError("OSUAnalysis")[0], "+-", GetFittedQCDYieldAndError("OSUAnalysis")[1], "(+-", GetFittedQCDYieldAndError("OSUAnalysis")[1]/GetFittedQCDYieldAndError("OSUAnalysis")[0]*100, "%)"
+print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+-", YieldsAndErrorInA[1], "(+-", YieldsAndErrorInA[1]/YieldsAndErrorInA[0]*100, "%)"
+print '-----------------------------------------------------------------------------------------------------------------'
 
 # 4
 
@@ -156,8 +165,8 @@ print "QCD Yield in region A = ", GetFittedQCDYieldAndError("OSUAnalysis")[0], "
 yields = {}
 errors = {}
 
-yields['A'] = GetFittedQCDYieldAndError("OSUAnalysis")[0]
-errors['A'] = GetFittedQCDYieldAndError("OSUAnalysis")[1]/GetFittedQCDYieldAndError("OSUAnalysis")[0]
+yields['A'] = YieldsAndErrorInA[0]
+errors['A'] = YieldsAndErrorInA[1]/YieldsAndErrorInA[0]
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"CutFlow")
 yields['C'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
@@ -180,9 +189,9 @@ scale_factor = yields['A'] / yields['C']
 scale_factor_error = scale_factor *errors['A/C'] 
 
 
-print
+print '-----------------------------------------------------------------------------------------------------------------'
 print "A/C (B/D) Scale Factor = ", scale_factor, "+-",scale_factor_error, "(+-", scale_factor_error/scale_factor*100, "%)"
-print
+print '-----------------------------------------------------------------------------------------------------------------'
 
 # 5
 
