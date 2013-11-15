@@ -148,9 +148,9 @@ inputFile = TFile(fileName)
 # 3. find RMS of fitted yields about weighted average
 # 4. get ABCD scaling factor and error
 # 5. produce QCDFromData.root for preselection and signal region
-print '#########################################################################'
-print "#This is runQCDEstimateSimple.py, whihc would not do the fitting at all.#"
-print '#########################################################################'
+print '########################################################################'
+print "#This is runQCDEstimateSimple.py, which does not do the fitting at all.#"
+print '########################################################################'
 print
 YieldsAndErrorInA = GetFittedQCDYieldAndError("OSUAnalysis")
 print
@@ -199,6 +199,7 @@ outputFileName = "QCDFromData.root"
 outputFile = TFile(condor_dir + "/" + outputFileName, "RECREATE")
 
 channel_map = {}
+channel_map[region_names['C']] = region_names['A']
 channel_map[region_names['D']] = region_names['B']
 channel_map[region_names['signal_antiIso']] = region_names['signal']
 

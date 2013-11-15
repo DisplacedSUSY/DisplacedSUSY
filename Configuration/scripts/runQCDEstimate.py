@@ -306,6 +306,7 @@ outputFileName = "QCDFromData.root"
 outputFile = TFile(condor_dir + "/" + outputFileName, "RECREATE")
 
 channel_map = {}
+channel_map[region_names['C']] = region_names['A']
 channel_map[region_names['D']] = region_names['B']
 channel_map[region_names['signal_antiIso']] = region_names['signal']
 
