@@ -5,6 +5,7 @@ import os
 import sys
 import math
 import copy
+import re
 from array import *
 from optparse import OptionParser
 
@@ -19,7 +20,7 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 else:
     print "No local config specified, shame on you"
     sys.exit(0)

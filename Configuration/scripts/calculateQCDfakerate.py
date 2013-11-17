@@ -3,6 +3,7 @@ from array import *
 import sys
 import os
 import math
+import re
 from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 
@@ -14,7 +15,7 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 else:
     sys.exit("please specify local configuration file")
         
