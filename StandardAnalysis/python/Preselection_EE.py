@@ -31,7 +31,7 @@ Preselection_EE = cms.PSet(
       # ELECTRON CRACK VETO
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 1.444 | abs(eta) > 1.566 "),
+        cutString = cms.string("isEBEEGap == 0"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("electron ECAL crack veto")
       ),
@@ -75,7 +75,7 @@ Preselection_EE = cms.PSet(
       # SECOND ELECTRON CRACK VETO
       cms.PSet (
         inputCollection = cms.string("secondary electrons"),
-        cutString = cms.string("abs(eta) < 1.444 | abs(eta) > 1.566 "),
+        cutString = cms.string("isEBEEGap == 0"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("secondary electron ECAL crack veto")
       ),
