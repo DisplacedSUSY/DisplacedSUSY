@@ -63,6 +63,20 @@ Signal_Selection_200um.cuts.append(muon_d0_cut)
 
 #################################################################
 
+# DITTO WITH SS LEPTONS
+
+Signal_Selection_SS_200um = cms.PSet(
+        name = cms.string("Signal_Selection_SS_200um"),
+            triggers = copy.deepcopy(Signal_Selection_200um.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_SS_200um.cuts.extend(copy.deepcopy(Signal_Selection_200um.cuts))
+for cut in Signal_Selection_SS_200um.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+
+#################################################################
+
 # PRESELECTION WITH LEPTON d0 > 500 um
 
 Signal_Selection_500um = cms.PSet(
@@ -85,6 +99,20 @@ muon_d0_cut = cms.PSet (
     numberRequired = cms.string("== 1")
 )
 Signal_Selection_500um.cuts.append(muon_d0_cut)
+
+#################################################################
+
+# DITTO WITH SS LEPTONS
+
+Signal_Selection_SS_500um = cms.PSet(
+        name = cms.string("Signal_Selection_SS_500um"),
+            triggers = copy.deepcopy(Signal_Selection_500um.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_SS_500um.cuts.extend(copy.deepcopy(Signal_Selection_500um.cuts))
+for cut in Signal_Selection_SS_500um.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
 
 #################################################################
 
@@ -111,7 +139,19 @@ muon_d0_cut = cms.PSet (
 )
 Signal_Selection_1000um.cuts.append(muon_d0_cut)
 
+#################################################################
 
+# DITTO WITH SS LEPTONS
+
+Signal_Selection_SS_1000um = cms.PSet(
+        name = cms.string("Signal_Selection_SS_1000um"),
+            triggers = copy.deepcopy(Signal_Selection_1000um.triggers),
+            cuts = cms.VPSet ()
+        )
+Signal_Selection_SS_1000um.cuts.extend(copy.deepcopy(Signal_Selection_1000um.cuts))
+for cut in Signal_Selection_SS_1000um.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
 
 #################################################################
 #################################################################
