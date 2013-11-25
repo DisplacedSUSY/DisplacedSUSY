@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from DisplacedSUSY.Configuration.systematicsDefinitions import *
+
 # for the ABCD method and the signal region
 region_names = {
     'A' : 'Preselection_MuMu_SS',
@@ -22,12 +24,22 @@ distributions_to_fit = [
 
 # other contributions in region A that will be held constant in the fitting
 fitting_backgrounds = [
-    'Background'
+    #'Background'
+    'WNjets',
+    'Diboson',
+    'SingleTop',
+    'TTbar',
+    'DY',
 ]
 
 # other contributions in regions C & D that should be subtracted off
 impurities = [
-    'Background'
+    #'Background'
+    'WNjets',
+    'Diboson',
+    'SingleTop',
+    'TTbar',
+    'DY',
 ]
 
 # the data dataset to be used when constructing the data-driven QCD sample
