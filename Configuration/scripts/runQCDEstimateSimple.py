@@ -65,7 +65,11 @@ def GetFittedQCDYieldAndError(pathToDir):
     DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"CutFlow").Clone()
     DataHistogram.SetDirectory(0)
     
-    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + ' +- ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) + ' ( +-' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())/DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + '% )' 
+    nBins = DataHistogram.GetNbinsX ()
+    content = DataHistogram.GetBinContent (nBins)
+    error = DataHistogram.GetBinError (nBins)
+    relError = error / content if content > 0 else 0
+    print 'Data : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(relError * 100.0) + '% )' 
 
     inputFile.Close()
 
@@ -81,11 +85,6 @@ def GetFittedQCDYieldAndError(pathToDir):
         MCHistogram.SetDirectory(0)
         inputFile.Close()
         BackgroundHistograms[sample] = MCHistogram
-        
-        nBins = MCHistogram.GetNbinsX ()
-        content = MCHistogram.GetBinContent (nBins)
-        error = MCHistogram.GetBinError (nBins)
-        print str(sample) + ' : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(error / content) + '% )' 
 
     ###getting all the systematic errors and putting them in a dictionary
     systematics_dictionary = {}
@@ -116,12 +115,15 @@ def GetFittedQCDYieldAndError(pathToDir):
         Hist = BackgroundHistograms[HistName]
         nBins = Hist.GetNbinsX ()
         content = Hist.GetBinContent (nBins)
+        error = Hist.GetBinError (nBins)
         if HistName in systematics_dictionary:
             totalSystematicPlus += systematics_dictionary[HistName]['+'] * content
             totalSystematicMinus += systematics_dictionary[HistName]['-'] * content
         else:
             print "WARNING: no systematics found for " + HistName
         DataHistogram.Add(Hist,-1)
+        relError = error / content if content > 0 else 0
+        print str(HistName) + ' : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(relError * 100.0) + '% )' 
     
     nBins = DataHistogram.GetNbinsX ()
     content = DataHistogram.GetBinContent (nBins)
@@ -200,8 +202,8 @@ print '-------------------------------------------------------------------------
 
 plus = YieldsAndErrorInA[1]
 minus = YieldsAndErrorInA[2]
-plusRelative = (YieldsAndErrorInA[1] / YieldsAndErrorInA[0]) * 100.0
-minusRelative = (YieldsAndErrorInA[2] / YieldsAndErrorInA[0]) * 100.0
+plusRelative = YieldsAndErrorInA[1] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
+minusRelative = YieldsAndErrorInA[2] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
 print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+", plus, "-", minus, "(+", plusRelative, "-", minusRelative, "%)"
 print '-----------------------------------------------------------------------------------------------------------------'
 
