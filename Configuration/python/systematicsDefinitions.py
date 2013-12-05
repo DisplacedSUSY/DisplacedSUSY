@@ -96,7 +96,7 @@ background_normalization_uncertainties = {
     },
     # taken from error on fitting for QCD yield in ABCD method
     'QCDFromData' : {
-       'value' : '1.064',
+       'value' : '1.15',
        'type' : 'lnN',
     },
 
