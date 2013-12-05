@@ -93,7 +93,7 @@ def GetYieldAndError(process,d0cut):
     intError = Double (0.0)
     integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
 
-    #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
+    #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral)
             
     yieldAndErrorList['yield'] = integral
     yieldAndErrorList['error'] = intError
@@ -204,12 +204,12 @@ for dataset in datasets:
                     bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
             if types[dataset] is "bgMC":
-                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],3)).rstrip("0").rstrip("."))
-            else:
+                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],2)).rstrip("0").rstrip("."))
+            else: # this is the data
                 yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
-            stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],2)).rstrip("0").rstrip("."))
+            stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],1)).rstrip("0").rstrip("."))
             if arguments.includeSystematics:
-                sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,2)).rstrip("0").rstrip("."))
+                sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
 
 
 #                print dataset,d0cut,bgMCSum[d0cut],"+-",bgMCErrSquared[d0cut],"^2"
@@ -292,11 +292,11 @@ if bgMCcounter is not 0:
 
         for d0cut in d0cuts_list:
     
-            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],3)).rstrip("0").rstrip("."))
-            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),3)).rstrip("0").rstrip("."))
+            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],2)).rstrip("0").rstrip("."))
+            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
             if arguments.includeSystematics:
-                bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),3)).rstrip("0").rstrip("."))
+                bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
                 line = line + " $\pm$ " + bgMCSysErr_
             line = line + " & "
                 
@@ -315,10 +315,7 @@ for dataset in datasets:
     line = label + " & "
     
     for d0cut in d0cuts_list:
-        if yields[dataset][d0cut].find('$0$') is not -1:
-            line = line + yields[dataset][d0cut] + " & "
-        else:
-            line = line + yields[dataset][d0cut] + " $\pm$ " + stat_errors[dataset][d0cut] + " & "            
+        line = line + yields[dataset][d0cut] + " & "
 
     line = line.rstrip("& ") + endLine + newLine + hLine
     fout.write(line)
