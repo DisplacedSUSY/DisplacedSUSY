@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import re
 from optparse import OptionParser
 
 from OSUT3Analysis.Configuration.configurationOptions import *
@@ -18,7 +19,7 @@ parser.add_option("-c", "--condorDir", dest="condorDir",
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 else:
     print "No local config specified, shame on you"
     exit

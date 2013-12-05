@@ -3,13 +3,14 @@ from array import *
 import sys
 import os
 import math
+import re
 from OSUT3Analysis.Configuration.configurationOptions import *
 
 sys.path.append(os.getcwd())
 sys.argv.pop(0)
 
 for arg in sys.argv:
-    exec("from " + arg.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arg) + " import *")
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 

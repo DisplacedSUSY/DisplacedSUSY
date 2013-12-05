@@ -35,7 +35,7 @@ parser.remove_option("-p")
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 
 
 
@@ -54,7 +54,7 @@ gROOT.SetBatch()
 
 def GetFittedQCDYieldAndError(pathToDir):
 
-    BackgroundHistograms = [] 
+    BackgroundHistograms = {}
    
     fileName = condor_dir + "/" + data_dataset + ".root"
     if not os.path.exists(fileName):
@@ -65,7 +65,11 @@ def GetFittedQCDYieldAndError(pathToDir):
     DataHistogram = inputFile.Get("OSUAnalysis/"+region_names['A']+"CutFlow").Clone()
     DataHistogram.SetDirectory(0)
     
-    print 'Data : ' + str(DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + ' +- ' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())) + ' ( +-' + str(DataHistogram.GetBinError(DataHistogram.GetNbinsX())/DataHistogram.GetBinContent(DataHistogram.GetNbinsX())) + '% )' 
+    nBins = DataHistogram.GetNbinsX ()
+    content = DataHistogram.GetBinContent (nBins)
+    error = DataHistogram.GetBinError (nBins)
+    relError = error / content if content > 0 else 0
+    print 'Data : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(relError * 100.0) + '% )' 
 
     inputFile.Close()
 
@@ -80,16 +84,56 @@ def GetFittedQCDYieldAndError(pathToDir):
         MCHistogram = HistogramObj.Clone()
         MCHistogram.SetDirectory(0)
         inputFile.Close()
-        BackgroundHistograms.append(MCHistogram)
-        
-        print str(sample) + ' : ' + str(BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + ' +- ' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())) + ' ( +-' + str(BackgroundHistograms[-1].GetBinError(BackgroundHistograms[-1].GetNbinsX())/BackgroundHistograms[-1].GetBinContent(BackgroundHistograms[-1].GetNbinsX())) + '% )' 
+        BackgroundHistograms[sample] = MCHistogram
+
+    ###getting all the systematic errors and putting them in a dictionary
+    systematics_dictionary = {}
+    for systematic in external_systematic_uncertainties:
+        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "__" + region_names['signal'] + ".txt")
+        for line in input_file:
+            line = line.rstrip("\n").split(" ")
+            dataset = line[0]
+            if dataset not in systematics_dictionary:
+                systematics_dictionary[dataset] = {}
+                systematics_dictionary[dataset]['+'] = 0.0
+                systematics_dictionary[dataset]['-'] = 0.0
+            if len(line) is 2:
+                line[1] = float (line[1])
+                systematics_dictionary[dataset]['+'] += (line[1] - 1.0) * (line[1] - 1.0)
+                systematics_dictionary[dataset]['-'] += (line[1] - 1.0) * (line[1] - 1.0)
+            elif len(line) is 3:
+                line[1] = float (line[1])
+                line[2] = float (line[2])
+                if line[1] > line[2]:
+                    line[1],line[2] = line[2],line[1]
+                systematics_dictionary[dataset]['+'] += (line[2] - 1.0) * (line[2] - 1.0)
+                systematics_dictionary[dataset]['-'] += (1.0 - line[1]) * (1.0 - line[1])
     
-    for Hist in BackgroundHistograms:
-	   DataHistogram.Add(Hist,-1)
+    totalSystematicPlus = 0.0
+    totalSystematicMinus = 0.0
+    for HistName in BackgroundHistograms:
+        Hist = BackgroundHistograms[HistName]
+        nBins = Hist.GetNbinsX ()
+        content = Hist.GetBinContent (nBins)
+        error = Hist.GetBinError (nBins)
+        if HistName in systematics_dictionary:
+            totalSystematicPlus += systematics_dictionary[HistName]['+'] * content
+            totalSystematicMinus += systematics_dictionary[HistName]['-'] * content
+        else:
+            print "WARNING: no systematics found for " + HistName
+        DataHistogram.Add(Hist,-1)
+        relError = error / content if content > 0 else 0
+        print str(HistName) + ' : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(relError * 100.0) + '% )' 
     
+    nBins = DataHistogram.GetNbinsX ()
+    content = DataHistogram.GetBinContent (nBins)
+    error = DataHistogram.GetBinError (nBins) / 2.0
+    error *= error
+
     yieldAndError = []
-    yieldAndError.append(DataHistogram.GetBinContent(DataHistogram.GetNbinsX()))
-    yieldAndError.append(DataHistogram.GetBinError(DataHistogram.GetNbinsX()))
+    yieldAndError.append(content)
+    yieldAndError.append(sqrt (error + totalSystematicPlus))
+    yieldAndError.append(sqrt (error + totalSystematicMinus))
 
     return yieldAndError
 
@@ -156,7 +200,11 @@ YieldsAndErrorInA = GetFittedQCDYieldAndError("OSUAnalysis")
 print
 print '-----------------------------------------------------------------------------------------------------------------'
 
-print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+-", YieldsAndErrorInA[1], "(+-", YieldsAndErrorInA[1]/YieldsAndErrorInA[0]*100, "%)"
+plus = YieldsAndErrorInA[1]
+minus = YieldsAndErrorInA[2]
+plusRelative = YieldsAndErrorInA[1] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
+minusRelative = YieldsAndErrorInA[2] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
+print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+", plus, "-", minus, "(+", plusRelative, "-", minusRelative, "%)"
 print '-----------------------------------------------------------------------------------------------------------------'
 
 # 4
@@ -166,31 +214,44 @@ yields = {}
 errors = {}
 
 yields['A'] = YieldsAndErrorInA[0]
-errors['A'] = YieldsAndErrorInA[1]/YieldsAndErrorInA[0]
+errors['A'] = {}
+errors['A']['+'] = YieldsAndErrorInA[1] / yields['A']
+errors['A']['-'] = YieldsAndErrorInA[2] / yields['A']
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"CutFlow")
 yields['C'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
-errors['C'] = CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / yields['C']
+errors['C'] = {}
+errors['C']['+'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['C']
+errors['C']['-'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['C']
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['D']+"CutFlow")
 yields['D'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
-errors['D'] = CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / yields['D']
+errors['D'] = {}
+errors['D']['+'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['D']
+errors['D']['-'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['D']
 
 
 # B = A/C * D
 # deltaB = sqrt(deltaA^2+deltaC^2+deltaD^2)
 
 yields['B'] = yields['A'] / yields['C'] * yields['D']
-errors['B'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'] + errors['D']*errors['D'])
+errors['B'] = {}
+errors['B']['+'] = sqrt(errors['A']['+']*errors['A']['+'] + errors['C']['+']*errors['C']['+'] + errors['D']['+']*errors['D']['+'])
+errors['B']['-'] = sqrt(errors['A']['-']*errors['A']['-'] + errors['C']['-']*errors['C']['-'] + errors['D']['-']*errors['D']['-'])
 
-errors['A/C'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'])
+errors['A/C'] = {}
+errors['A/C']['+'] = sqrt(errors['A']['+']*errors['A']['+'] + errors['C']['+']*errors['C']['+'])
+errors['A/C']['-'] = sqrt(errors['A']['-']*errors['A']['-'] + errors['C']['-']*errors['C']['-'])
 
 scale_factor = yields['A'] / yields['C']
-scale_factor_error = scale_factor *errors['A/C'] 
+scale_factor_rel_error_plus = errors['A/C']['+'] * 100.0
+scale_factor_rel_error_minus = errors['A/C']['-'] * 100.0
+scale_factor_error_plus = scale_factor *errors['A/C']['+']
+scale_factor_error_minus = scale_factor *errors['A/C']['-']
 
 
 print '-----------------------------------------------------------------------------------------------------------------'
-print "A/C (B/D) Scale Factor = ", scale_factor, "+-",scale_factor_error, "(+-", scale_factor_error/scale_factor*100, "%)"
+print "A/C (B/D) Scale Factor = ", scale_factor, "+",scale_factor_error_plus, "-", scale_factor_error_minus, "(+", scale_factor_rel_error_plus, "-", scale_factor_rel_error_minus, "%)"
 print '-----------------------------------------------------------------------------------------------------------------'
 
 # 5
@@ -241,7 +302,7 @@ for key in gDirectory.GetListOfKeys(): # loop over histograms in the current dir
         Histogram.SetDirectory(0)
 
         subtractImpurities (Histogram)
-        applySF (Histogram, scale_factor, scale_factor_error)
+        applySF (Histogram, scale_factor, 2.0 * max (scale_factor_error_plus, scale_factor_error_minus))
         outputFile.cd (rootDirectory)
 
         #change the names of the cutflow histograms, so it will still work with makeYieldsTables.py
@@ -263,7 +324,7 @@ for channel in input_channels: # loop over final states, which each have their o
         Histogram.SetDirectory(0)
 
         subtractImpurities (Histogram,channel)
-        applySF (Histogram, scale_factor, scale_factor_error)
+        applySF (Histogram, scale_factor, 2.0 * max (scale_factor_error_plus, scale_factor_error_minus))
 
         outputFile.cd (rootDirectory + "/" + channel_map[channel])
         Histogram.Write ()

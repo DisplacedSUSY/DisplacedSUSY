@@ -5,6 +5,7 @@ import os
 import sys
 import math
 import copy
+import re
 from array import *
 from optparse import OptionParser
 from operator import itemgetter
@@ -30,14 +31,14 @@ parser.add_option("-S", "--systematics", action="store_true", dest="includeSyste
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 else:
     print "No local config specified, shame on you"
     sys.exit(0)
 
 if arguments.includeSystematics:
     sys.path.append(os.getcwd())
-    exec("from " + systematics_file.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", systematics_file) + " import *")
 
 if arguments.condorDir:
     condor_dir = set_condor_output_dir(arguments)

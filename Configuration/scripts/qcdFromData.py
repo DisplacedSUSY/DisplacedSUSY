@@ -30,7 +30,7 @@ parser.add_option("-q", "--qcdDir", dest="qcdDir",
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
-    exec("from " + arguments.localConfig.rstrip('.py') + " import *")
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 
 outputFileName = "QCDFromData.root"
 if arguments.outputFileName:
