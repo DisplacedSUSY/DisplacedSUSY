@@ -7,11 +7,14 @@ import copy
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
 from DisplacedSUSY.StandardAnalysis.SignalSelections import *
+from DisplacedSUSY.StandardAnalysis.DisplacedControlRegions import *
+
 
 electron_iso_cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1")
 muon_iso_cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5")
 
 vetoes = {
+    # for E Mu channel
     "extra electron veto" : cms.PSet (
         inputCollection = cms.string("electrons"),
         cutString = cms.string("relPFrhoIso < 0.1"),
@@ -19,6 +22,7 @@ vetoes = {
         alias = cms.string("extra electron veto"),
         isVeto = cms.bool(True)
     ),
+    # for E Mu channel
     "extra muon veto" : cms.PSet (
         inputCollection = cms.string("muons"),
         cutString = cms.string("relPFdBetaIso < 0.12"),
@@ -30,6 +34,7 @@ vetoes = {
 
 def invert_isolation (template_cuts):
     cuts = cms.VPSet (copy.deepcopy(template_cuts))
+    cutsToPop = []
     for i in range (0, len (cuts)):
         alias = cuts[i].alias.pythonValue ()[1:-1] if hasattr (cuts[i], "alias") else ""
         if "relPFrhoIso" in str(cuts[i].cutString):
@@ -38,6 +43,10 @@ def invert_isolation (template_cuts):
             cuts[i].cutString = muon_iso_cutString
         if alias == "extra electron veto" or alias == "extra muon veto":
             cuts[i] = vetoes[alias]
+        if alias == "electron near jet veto" or alias == "muon near jet veto" or alias == "secondary electron near jet veto" or alias == "secondary muon near jet veto":
+            cutsToPop.append (i - len (cutsToPop))
+    for i in cutsToPop:
+        cuts.pop (i)
     return cuts
 
 #################################################################
@@ -88,6 +97,49 @@ Preselection_AntiIso_Prompt_SS = cms.PSet(
 Preselection_AntiIso_Prompt_SS.cuts = invert_isolation (Blinded_Preselection_SS.cuts)
 
 
+
+
+
+#################################################################
+
+Displaced_Control_Region_AntiIso = cms.PSet(
+    name = cms.string("Displaced_Control_Region_AntiIso"),
+    triggers = cms.vstring(Displaced_Control_Region.triggers),
+    cuts = cms.VPSet ()
+)
+Displaced_Control_Region_AntiIso.cuts = invert_isolation (Displaced_Control_Region.cuts)
+
+#################################################################
+
+Displaced_Control_Region_AntiIso_SS = cms.PSet(
+    name = cms.string("Displaced_Control_Region_AntiIso_SS"),
+    triggers = cms.vstring(Displaced_Control_Region_SS.triggers),
+    cuts = cms.VPSet ()
+)
+Displaced_Control_Region_AntiIso_SS.cuts = invert_isolation (Displaced_Control_Region_SS.cuts)
+
+
+#################################################################
+
+Preselection_100um_AntiIso = cms.PSet(
+    name = cms.string("Preselection_100um_AntiIso"),
+    triggers = cms.vstring(Preselection_100um.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_100um_AntiIso.cuts = invert_isolation (Preselection_100um.cuts)
+
+#################################################################
+
+Preselection_100um_AntiIso_SS = cms.PSet(
+    name = cms.string("Preselection_100um_AntiIso_SS"),
+    triggers = cms.vstring(Preselection_100um_SS.triggers),
+    cuts = cms.VPSet ()
+)
+Preselection_100um_AntiIso_SS.cuts = invert_isolation (Preselection_100um_SS.cuts)
+
+
+
+
 #################################################################
 #################################################################
 #################################################################
@@ -100,10 +152,7 @@ Preselection_EE_AntiIso = cms.PSet(
     triggers = cms.vstring(Preselection_EE.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_EE_AntiIso.cuts.extend(copy.deepcopy(Preselection_EE.cuts))
-for cut in Preselection_EE_AntiIso.cuts:
-    if "relPFrhoIso" in str(cut.cutString):
-        cut.cutString = electron_iso_cutString
+Preselection_EE_AntiIso.cuts = invert_isolation (Preselection_EE.cuts)
 
 #################################################################
 
@@ -112,10 +161,7 @@ Signal_Selection_EE_AntiIso_200um = cms.PSet(
     triggers = cms.vstring(Preselection_EE.triggers),
     cuts = cms.VPSet ()
 )
-Signal_Selection_EE_AntiIso_200um.cuts.extend(copy.deepcopy(Signal_Selection_EE_200um.cuts))
-for cut in Signal_Selection_EE_AntiIso_200um.cuts:
-    if "relPFrhoIso" in str(cut.cutString):
-        cut.cutString = electron_iso_cutString
+Signal_Selection_EE_AntiIso_200um.cuts = invert_isolation (Signal_Selection_EE_200um.cuts)
 
 #################################################################
 
@@ -124,10 +170,7 @@ Preselection_EE_AntiIso_SS = cms.PSet(
     triggers = cms.vstring(Preselection_EE.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_EE_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection_EE_SS.cuts))
-for cut in Preselection_EE_AntiIso_SS.cuts:
-    if "relPFrhoIso" in str(cut.cutString):
-        cut.cutString = electron_iso_cutString
+Preselection_EE_AntiIso_SS.cuts = invert_isolation (Preselection_EE_SS.cuts)
 
 
 
@@ -143,10 +186,7 @@ Preselection_MuMu_AntiIso = cms.PSet(
     triggers = cms.vstring(Preselection_MuMu.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_MuMu_AntiIso.cuts.extend(copy.deepcopy(Preselection_MuMu.cuts))
-for cut in Preselection_MuMu_AntiIso.cuts:
-    if "relPFdBetaIso" in str(cut.cutString):
-        cut.cutString = muon_iso_cutString
+Preselection_MuMu_AntiIso.cuts = invert_isolation (Preselection_MuMu.cuts)
 
 #################################################################
 
@@ -155,10 +195,7 @@ Signal_Selection_MuMu_AntiIso_200um = cms.PSet(
     triggers = cms.vstring(Preselection_MuMu.triggers),
     cuts = cms.VPSet ()
 )
-Signal_Selection_MuMu_AntiIso_200um.cuts.extend(copy.deepcopy(Signal_Selection_MuMu_200um.cuts))
-for cut in Signal_Selection_MuMu_AntiIso_200um.cuts:
-    if "relPFdBetaIso" in str(cut.cutString):
-        cut.cutString = muon_iso_cutString
+Signal_Selection_MuMu_AntiIso_200um.cuts = invert_isolation (Signal_Selection_MuMu_200um.cuts)
 
 #################################################################
 
@@ -167,8 +204,5 @@ Preselection_MuMu_AntiIso_SS = cms.PSet(
     triggers = cms.vstring(Preselection_MuMu.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_MuMu_AntiIso_SS.cuts.extend(copy.deepcopy(Preselection_MuMu_SS.cuts))
-for cut in Preselection_MuMu_AntiIso_SS.cuts:
-    if "relPFdBetaIso" in str(cut.cutString):
-        cut.cutString = muon_iso_cutString
+Preselection_MuMu_AntiIso_SS.cuts = invert_isolation (Preselection_MuMu_SS.cuts)
 
