@@ -6,6 +6,7 @@ import sys
 import math
 import copy
 import re
+import subprocess
 from array import *
 from operator import itemgetter
 from optparse import OptionParser
@@ -90,7 +91,10 @@ def makeSignalName(mass,lifetime,branching_ratio):
     return "stop"+str(mass)+"_"+str(lifetime)+"mm_"+"br"+str(branching_ratio)
 
 def makeSignalFileName(mass,lifetime,branching_ratio,directory):
-    return "limits/"+directory+"/limits_"+makeSignalName(mass,lifetime,branching_ratio)+".root"
+    signal_name = makeSignalName(mass,lifetime,branching_ratio)
+    if not os.path.exists ("limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root")
+    return "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
 
 def getTheoryGraph():
     x = [ ]
@@ -101,12 +105,12 @@ def getTheoryGraph():
         y.append(float(xSection))
 
     graph = TGraph(len(x), array('d', x), array('d', y))
-    graph.SetLineWidth(4);
-    graph.SetLineStyle(3);
-    graph.SetFillColor(0);
-    graph.SetLineColor(1);
-    graph.SetMarkerSize(0.8);
-    graph.SetMarkerColor(1);
+    graph.SetLineWidth(4)
+    graph.SetLineStyle(3)
+    graph.SetFillColor(0)
+    graph.SetLineColor(1)
+    graph.SetMarkerSize(0.8)
+    graph.SetMarkerColor(1)
     return graph
 
 def getGraph(limits, x_key, y_key):
@@ -123,24 +127,24 @@ def getGraph(limits, x_key, y_key):
 
 def getObservedGraph(limits,xAxisType,colorScheme):
     graph = getGraph(limits, xAxisType, 'observed')
-    graph.SetLineWidth(4);
-    graph.SetLineStyle(1);
-    graph.SetFillColor(0);
-    graph.SetLineColor(colorSchemes[colorScheme]['obs']);
-    graph.SetMarkerStyle(20);
-    graph.SetMarkerSize(0.8);
-    graph.SetMarkerColor(colorSchemes[colorScheme]['obs']);
+    graph.SetLineWidth(4)
+    graph.SetLineStyle(1)
+    graph.SetFillColor(0)
+    graph.SetLineColor(colorSchemes[colorScheme]['obs'])
+    graph.SetMarkerStyle(20)
+    graph.SetMarkerSize(0.8)
+    graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
 def getExpectedGraph(limits,xAxisType,colorScheme):
     graph = getGraph(limits, xAxisType, 'expected')
-    graph.SetLineWidth(4);
-    graph.SetLineStyle(2);
-    graph.SetFillColor(0);
-    graph.SetLineColor(colorSchemes[colorScheme]['exp']);
-    graph.SetMarkerStyle(20);
-    graph.SetMarkerSize(0.8);
-    graph.SetMarkerColor(colorSchemes[colorScheme]['exp']);
+    graph.SetLineWidth(4)
+    graph.SetLineStyle(2)
+    graph.SetFillColor(0)
+    graph.SetLineColor(colorSchemes[colorScheme]['exp'])
+    graph.SetMarkerStyle(20)
+    graph.SetMarkerSize(0.8)
+    graph.SetMarkerColor(colorSchemes[colorScheme]['exp'])
     return graph
 
 def getGraphAsymmErrors(limits, x_key, y_key, up_key, down_key):
@@ -168,18 +172,18 @@ def getGraphAsymmErrors(limits, x_key, y_key, up_key, down_key):
     
 def getOneSigmaGraph(limits,xAxisType,colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up1', 'down1')
-    graph.SetFillColor(colorSchemes[colorScheme]['oneSigma']);
-    graph.SetFillStyle(1001);
-    graph.SetLineColor(colorSchemes[colorScheme]['oneSigma']);
-    graph.SetMarkerColor(colorSchemes[colorScheme]['oneSigma']);
+    graph.SetFillColor(colorSchemes[colorScheme]['oneSigma'])
+    graph.SetFillStyle(1001)
+    graph.SetLineColor(colorSchemes[colorScheme]['oneSigma'])
+    graph.SetMarkerColor(colorSchemes[colorScheme]['oneSigma'])
     return graph
 
 def getTwoSigmaGraph(limits,xAxisType,colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up2', 'down2')
-    graph.SetFillColor(colorSchemes[colorScheme]['twoSigma']);
-    graph.SetFillStyle(1001);
-    graph.SetLineColor(colorSchemes[colorScheme]['twoSigma']);
-    graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma']);
+    graph.SetFillColor(colorSchemes[colorScheme]['twoSigma'])
+    graph.SetFillStyle(1001)
+    graph.SetLineColor(colorSchemes[colorScheme]['twoSigma'])
+    graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma'])
     return graph
 
 
