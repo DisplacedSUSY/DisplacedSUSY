@@ -340,7 +340,7 @@ def drawPlot(plot):
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
         tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
-        tGraph.GetYaxis().SetTitle('#sigma_{95%CL} (pb)')
+        tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
         if 'yAxis' in plot:
             tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
         else:
