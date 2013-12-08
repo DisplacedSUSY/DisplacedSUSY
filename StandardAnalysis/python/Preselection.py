@@ -141,29 +141,29 @@ Preselection = cms.PSet(
         numberRequired = cms.string("== 1")
       ),
 
-      ########### START OF ADDITIONAL CUTS TO REQUIRE LEPTON IS NOT IN A JET
+      #########START OF ADDITIONAL CUTS TO REQUIRE LEPTON IS NOT IN A JET
       # ONLY CONSIDER 30 GEV JETS
-#      cms.PSet (
-#        inputCollection = cms.string("jets"),
-#        cutString = cms.string("pt > 30"),
-#        numberRequired = cms.string(">= 0")
-#      ),
-#      # ELECTRON NOT OVERLAPPING WITH JET
-#      cms.PSet (
-#        inputCollection = cms.string("electron-jet pairs"),
-#        cutString = cms.string("deltaR < 0.5"),
-#        numberRequired = cms.string("== 0"),
-#        isVeto = cms.bool(True),
-#        alias = cms.string("electron near jet veto"),
-#      ),
-#      # MUON NOT OVERLAPPING WITH JET
-#      cms.PSet (
-#        inputCollection = cms.string("muon-jet pairs"),
-#        cutString = cms.string("deltaR < 0.5"),
-#        numberRequired = cms.string("== 0"),
-#        isVeto = cms.bool(True),
-#        alias = cms.string("muon near jet veto"),
-#      ),
+      cms.PSet (
+        inputCollection = cms.string("jets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 0")
+      ),
+      # ELECTRON NOT OVERLAPPING WITH JET
+      cms.PSet (
+        inputCollection = cms.string("electron-jet pairs"),
+        cutString = cms.string("deltaR < 0.5"),
+        numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
+        alias = cms.string("electron near jet veto"),
+      ),
+      # MUON NOT OVERLAPPING WITH JET
+      cms.PSet (
+        inputCollection = cms.string("muon-jet pairs"),
+        cutString = cms.string("deltaR < 0.5"),
+        numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
+        alias = cms.string("muon near jet veto"),        
+      ),
       ########### END OF ADDITIONAL CUTS TO REQUIRE LEPTON IS NOT IN A JET      
 
       # RESTRICT ELECTRONS TO RECONSTRUCTION ACCEPTANCE
@@ -178,6 +178,16 @@ Preselection = cms.PSet(
         cutString = cms.string("abs(correctedD0) < 2"),
         numberRequired = cms.string("== 1")
       ),
+##       cms.PSet (
+##         inputCollection = cms.string("electrons"),
+##         cutString = cms.string("abs(correctedDZ) < 2"),
+##         numberRequired = cms.string("== 1")
+##       ),
+##       cms.PSet (
+##         inputCollection = cms.string("muons"),
+##         cutString = cms.string("abs(correctedDZ) < 2"),
+##         numberRequired = cms.string("== 1")
+##       ),
 
    )
 )
@@ -211,14 +221,14 @@ Blinded_Preselection.cuts.extend(copy.deepcopy(Preselection.cuts))
 
 electron_d0_cut = cms.PSet (
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("abs(correctedD0) < 0.02"),
+    cutString = cms.string("abs(correctedD0) < 0.01"),
     numberRequired = cms.string("== 1")
 )
 Blinded_Preselection.cuts.append(electron_d0_cut)
 
 muon_d0_cut = cms.PSet (
     inputCollection = cms.string("muons"),
-    cutString = cms.string("abs(correctedD0) < 0.02"),
+    cutString = cms.string("abs(correctedD0) < 0.01"),
     numberRequired = cms.string("== 1")
 )
 Blinded_Preselection.cuts.append(muon_d0_cut)

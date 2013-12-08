@@ -4,12 +4,12 @@ from DisplacedSUSY.Configuration.systematicsDefinitions import *
 
 # for the ABCD method and the signal region
 region_names = {
-    'A' : 'Preselection_SS',
-    'B' : 'Preselection',
-    'C' : 'Preselection_AntiIso_SS',
-    'D' : 'Preselection_AntiIso',
-    'signal' : 'Signal_Selection_200um',
-    'signal_antiIso' : 'Signal_Selection_AntiIso_200um'
+    'A' : 'Preselection_100um_SS',
+    'B' : 'Preselection_100um',
+    'C' : 'Preselection_100um_AntiIso_SS',
+    'D' : 'Preselection_100um_AntiIso',
+    'signal' : 'Preselection_100um',
+    'signal_antiIso' : 'Preselection_100um_AntiIso'
 }
 
 # these are the distributinos that will be fit in region A to extract the QCD yield

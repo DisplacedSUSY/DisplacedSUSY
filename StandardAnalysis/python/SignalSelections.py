@@ -38,6 +38,56 @@ from DisplacedSUSY.StandardAnalysis.Preselection import *
 
 #################################################################
 
+# PRESELECTION WITH LEPTON d0 > 50 um
+
+Signal_Selection_50um = cms.PSet(
+    name = cms.string("Signal_Selection_50um"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_50um.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0_cut = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("abs(correctedD0) > 0.005"),
+    numberRequired = cms.string("== 1")
+)
+Signal_Selection_50um.cuts.append(electron_d0_cut)
+
+muon_d0_cut = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("abs(correctedD0) > 0.005"),
+    numberRequired = cms.string("== 1")
+)
+Signal_Selection_50um.cuts.append(muon_d0_cut)
+
+#################################################################
+
+# PRESELECTION WITH LEPTON d0 > 100 um
+
+Signal_Selection_100um = cms.PSet(
+    name = cms.string("Signal_Selection_100um"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_100um.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0_cut = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string("== 1")
+)
+Signal_Selection_100um.cuts.append(electron_d0_cut)
+
+muon_d0_cut = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string("== 1")
+)
+Signal_Selection_100um.cuts.append(muon_d0_cut)
+
+#################################################################
+
 # PRESELECTION WITH LEPTON d0 > 200 um
 
 Signal_Selection_200um = cms.PSet(
@@ -60,6 +110,7 @@ muon_d0_cut = cms.PSet (
     numberRequired = cms.string("== 1")
 )
 Signal_Selection_200um.cuts.append(muon_d0_cut)
+
 
 #################################################################
 
