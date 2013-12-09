@@ -320,7 +320,7 @@ if run_blind_limits:
         background_sum = background_sum + round(float(background_yields[background]),1)
     observation = background_sum
 else:
-    print GetYieldAndError(data_condor_dir, data_dataset, data_channel)
+    #print GetYieldAndError(data_condor_dir, data_dataset, data_channel)
     observation = GetYieldAndError(data_condor_dir, data_dataset, data_channel)['yield']
 
 
