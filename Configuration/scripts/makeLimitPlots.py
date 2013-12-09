@@ -7,6 +7,7 @@ import math
 import copy
 import re
 import subprocess
+import glob
 from array import *
 from operator import itemgetter
 from optparse import OptionParser
@@ -35,7 +36,7 @@ else:
     sys.exit(0)
 
 
-from ROOT import TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack
+from ROOT import TFile, TGraph, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -86,15 +87,33 @@ colorSchemes = {
     },
 }
 
+#set the text for the luminosity label
+if(intLumi < 1000.):
+    LumiInPb = intLumi
+    LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
+    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+else:
+    LumiInFb = intLumi/1000.
+    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+
+#set the text for the fancy heading
+HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
+
 
 def makeSignalName(mass,lifetime,branching_ratio):
     return "stop"+str(mass)+"_"+str(lifetime)+"mm_"+"br"+str(branching_ratio)
 
-def makeSignalFileName(mass,lifetime,branching_ratio,directory):
+def makeSignalRootFileName(mass,lifetime,branching_ratio,directory):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
-    if not os.path.exists ("limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"):
+    if glob.glob("limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root")
     return "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
+
+def makeSignalLogFileName(mass,lifetime,branching_ratio,directory):
+    signal_name = makeSignalName(mass,lifetime,branching_ratio)
+    if glob.glob("limits/"+directory+"/"+signal_name+"/condor_0*.out"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"/condor_0.out limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt")
+    return "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".log"
 
 def getTheoryGraph():
     x = [ ]
@@ -189,27 +208,53 @@ def getTwoSigmaGraph(limits,xAxisType,colorScheme):
 
 def fetchLimits(mass,lifetime,branching_ratio,directory):
 
-    file = TFile(makeSignalFileName(mass,lifetime,branching_ratio,directory))
-    limit_tree = file.Get('limit')
-    limit = { }
-    if limit_tree.GetEntries() < 6:
-        return -1
-    for i in range(0,limit_tree.GetEntries()):
-        limit_tree.GetEntry(i)
-        quantileExpected = limit_tree.quantileExpected
-        if quantileExpected == -1.0:
-            limit['observed'] = limit_tree.limit
-        if quantileExpected == 0.5:
-            limit['expected'] = limit_tree.limit
-        if math.fabs(quantileExpected - 0.025) < 0.0001:
-            limit['down2'] = limit_tree.limit
-        if math.fabs(quantileExpected - 0.16) < 0.0001:
-            limit['down1'] = limit_tree.limit
-        if math.fabs(quantileExpected - 0.84) < 0.0001:
-            limit['up1'] = limit_tree.limit
-        if math.fabs(quantileExpected - 0.975) < 0.0001:
-            limit['up2'] = limit_tree.limit
+    with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.outputDir+"/method.txt", 'r') as methodFile:
+        method = methodFile.readline()
 
+    limit = { }
+
+    #########################################################
+
+    # for Asymptotic CLs, get the limits from the root file
+    if method == "Asymptotic":
+        file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory))
+        limit_tree = file.Get('limit')
+        if limit_tree.GetEntries() < 6:
+            return -1
+        for i in range(0,limit_tree.GetEntries()):
+            limit_tree.GetEntry(i)
+            quantileExpected = limit_tree.quantileExpected
+            if quantileExpected == -1.0:
+                limit['observed'] = limit_tree.limit
+            if quantileExpected == 0.5:
+                limit['expected'] = limit_tree.limit
+            if math.fabs(quantileExpected - 0.025) < 0.0001:
+                limit['down2'] = limit_tree.limit
+            if math.fabs(quantileExpected - 0.16) < 0.0001:
+                limit['down1'] = limit_tree.limit
+            if math.fabs(quantileExpected - 0.84) < 0.0001:
+                limit['up1'] = limit_tree.limit
+            if math.fabs(quantileExpected - 0.975) < 0.0001:
+                limit['up2'] = limit_tree.limit
+
+    #########################################################
+
+    # for other methods, get the ranges from the log file
+    else:
+        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory))
+        for line in file:
+            line = line.rstrip("\n").split(":")
+            if line[0] =="Limit": #observed limit
+                limit['observed'] = float(line[1].split(" ")[3])
+            elif line[0] == "median expected limit": 
+                limit['expected'] = float(line[1].split(" ")[3])
+            elif line[0] == "   68% expected band ": 
+                limit['down1'] = float(line[1].split(" ")[1])
+                limit['up1'] = float(line[1].split(" ")[5])             
+            elif line[0] == "   95% expected band ": 
+                limit['down2'] = float(line[1].split(" ")[1])
+                limit['up2'] = float(line[1].split(" ")[5])
+                
     limit['up2'] = math.fabs(limit['up2'] - limit['expected'])
     limit['up1'] = math.fabs(limit['up1'] - limit['expected'])
     limit['down2'] = math.fabs(limit['down2'] - limit['expected'])
@@ -224,8 +269,10 @@ def fetchLimits(mass,lifetime,branching_ratio,directory):
     limit['down2'] *= xSection
 
     limit['mass'] = mass
-    limit['lifetime'] = lifetime
+    # convert lifetime to cm
+    limit['lifetime'] = 0.1 * float(lifetime)
     limit['branching_ratio'] = branching_ratio
+
     #print limit
     #print
 
@@ -246,8 +293,9 @@ def drawPlot(plot):
     elif plot['xAxisType'] is 'lifetime':
         canvas.SetLogy()
         canvas.SetLogx()
-        xAxisMin = float(lifetimes[0])
-        xAxisMax = float(lifetimes[-1])
+        # convert lifetime to cm
+        xAxisMin = 0.1*float(lifetimes[0])
+        xAxisMax = 0.1*float(lifetimes[-1])
 
     legend = TLegend(0.5, 0.6, 0.9, 0.88)
     legend.SetBorderSize(0)
@@ -340,7 +388,7 @@ def drawPlot(plot):
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
         tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
-        tGraph.GetYaxis().SetTitle('#sigma_{95%CL} (pb)')
+        tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
         if 'yAxis' in plot:
             tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
         else:
@@ -349,6 +397,34 @@ def drawPlot(plot):
         
     legend.Draw()
     canvas.SetTitle('')
+
+    #draw the header label
+    HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
+    HeaderLabel.SetTextAlign(32)
+    HeaderLabel.SetBorderSize(0)
+    HeaderLabel.SetFillColor(0)
+    HeaderLabel.SetFillStyle(0)
+    HeaderLabel.Draw()
+
+    if 'massLabel' in plot:
+        MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
+        MassLabel.SetTextSize(0.5454546)
+        MassLabel.SetTextAlign(12)
+        MassLabel.SetBorderSize(0)
+        MassLabel.SetFillColor(0)
+        MassLabel.SetFillStyle(0)
+        MassLabel.Draw()
+
+    if 'brLabel' in plot:
+        BRLabel = TPaveLabel(0.1609195,0.779661,0.5014368,0.8368644,plot['brLabel'],"NDC")
+        BRLabel.SetTextSize(0.6666667)
+        BRLabel.SetTextAlign(12)
+        BRLabel.SetBorderSize(0)
+        BRLabel.SetFillColor(0)
+        BRLabel.SetFillStyle(0)
+        BRLabel.Draw()
+
+
     canvas.Update()
     
     canvas.RedrawAxis('g')
