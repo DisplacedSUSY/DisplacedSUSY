@@ -107,13 +107,15 @@ def makeSignalRootFileName(mass,lifetime,branching_ratio,directory):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
     if glob.glob("limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root")
+    print "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
     return "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
 
 def makeSignalLogFileName(mass,lifetime,branching_ratio,directory):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
     if glob.glob("limits/"+directory+"/"+signal_name+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"/condor_0.out limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt")
-    return "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".log"
+    print "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
+    return "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
     x = [ ]
@@ -208,7 +210,7 @@ def getTwoSigmaGraph(limits,xAxisType,colorScheme):
 
 def fetchLimits(mass,lifetime,branching_ratio,directory):
 
-    with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.outputDir+"/method.txt", 'r') as methodFile:
+    with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
         method = methodFile.readline()
 
     limit = { }
