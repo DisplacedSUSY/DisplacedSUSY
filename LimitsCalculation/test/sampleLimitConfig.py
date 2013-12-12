@@ -8,6 +8,7 @@
 #name of histogram to integrate to get yields
 d0histogramName = "electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits"
 
+
 #########################
 ### Signal Parameters ###
 #########################
@@ -24,7 +25,7 @@ masses = ['500']
 lifetimes = ['1.0']
 #lifetimes = ['0.5','5.0','50.0']
 #lifetimes = ['0.5','1.0','5.0','10.0','50.0','100.0']
-#lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
+lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
 #lifetimes = ['0.2','0.3','0.4']
 #lifetimes = ['0.5','0.6','0.7','0.8','0.9','1.0']
 #lifetimes = ['2.0','3.0','4.0','5.0','6.0','7.0']
@@ -35,10 +36,10 @@ lifetimes = ['1.0']
 branching_ratios = ['50']
 
 #condor directory in which to find signal root files
-signal_condor_dir = 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION'
+signal_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR_SIGNAL'
 
 #name of event selection from which to take signal yields
-signal_channel = 'Preselection'
+signal_channel = 'Preselection_100um'
 
 
 #######################
@@ -46,15 +47,15 @@ signal_channel = 'Preselection'
 #######################
 
 #this just sets the observed number of events equal to the total background expectation
-run_blind_limits = True
+run_blind_limits = False
 
-dataset = "MuEG_22Jan2013"
+data_dataset = "MuEG_22Jan2013"
 
 #condor directory in which to find data root file
-data_condir_dir = 'Don\'t even think about looking at the data yet'
+data_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR'
 
 #name of event selection from which to take observed events
-data_channel = 'Preselection'
+data_channel = 'Preselection_100um'
 
 #############################
 ### Background Parameters ###
@@ -63,34 +64,38 @@ data_channel = 'Preselection'
 #list of backgrounds that will be added into the datacards
 backgrounds = [
    'TTbar',
+   'SingleTop',
    'Diboson',
    'DY',
-   'Wjets',
+   'WNjets',
    'QCDFromData',
 ]
 
 #information about where to get the yields for each background
-#can be taken from a histogram or set manually
 background_sources = {
    'TTbar' : {
-      'condor_dir' : 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION',
-      'channel'    : 'Preselection',
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
+   },
+   'SingleTop' : {
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
    },
    'Diboson' : {
-      'condor_dir' : 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION',
-      'channel'    : 'Preselection',
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
    },
    'DY' : {
-      'condor_dir' : 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION',
-      'channel'    : 'Preselection',
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
    },
-   'Wjets' : {
-      'condor_dir' : 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION',
-      'channel'    : 'Preselection',
+   'WNjets' : {
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
    },
    'QCDFromData' : {
-      'condor_dir' : 'AUG28__PRESELECTION_AND_BLINDED_PRESELECTION',
-      'channel'    : 'Preselection',
+      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'channel'    : 'Preselection_100um',
    },
 
 }
