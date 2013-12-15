@@ -1,7 +1,6 @@
 Executable              = $combine
 Universe                = vanilla
 Getenv                  = True
-Arguments               = $arguments
 
 Output                  = condor_$(Process).out
 Error                   = condor_$(Process).err
