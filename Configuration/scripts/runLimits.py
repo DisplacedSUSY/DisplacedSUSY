@@ -37,18 +37,24 @@ if not arguments.outputDir:
     sys.exit(0)
 
 def output_condor(command, options):
+    script = "#!/usr/bin/env bash\n\n"
+    script += command+" "+options+"\n"
+    f = open ("condor.sh", "w")
+    f.write (script)
+    f.close ()
+    os.chmod ("condor.sh", 0775)
+    command = os.getcwd () + "/condor.sh"
+
     sub_file = ""
     if os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/data/condor.sub"):
         f = open (os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/data/condor.sub", "r")
         sub_file = f.read ()
         f.close ()
         sub_file = re.sub (r"\$combine", command, sub_file)
-        sub_file = re.sub (r"\$arguments", options, sub_file)
     else:
         sub_file += "Executable              = "+command+"\n"
         sub_file += "Universe                = vanilla\n"
         sub_file += "Getenv                  = True\n"
-        sub_file += "Arguments               = "+options+"\n"
         sub_file += "\n"
         sub_file += "Output                  = condor_$(Process).out\n"
         sub_file += "Error                   = condor_$(Process).err\n"
@@ -88,6 +94,7 @@ for mass in masses:
                 combine_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
 
             combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
+            combine_command = combine_command.rstrip()
 
             shutil.rmtree(condor_dir, True)
             os.mkdir(condor_dir)
@@ -95,13 +102,13 @@ for mass in masses:
             os.chdir(condor_dir)
 
             if not arguments.batchMode:
-                command = "combine "+datacard_name+" "+combine_options+" --name "+signal_name+" > combine_log_"+signal_name+".log"
+                command = "(combine "+datacard_name+" "+combine_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
                 print command
                 os.system(command)
 
             else:
                 print "combine "+datacard_name+" "+combine_options+" --name "+signal_name
-                output_condor(combine_command, datacard_name+" "+combine_options+" --name "+signal_name)
+                output_condor(combine_command, datacard_name+" "+combine_options+" --name "+signal_name+" | tee /dev/null")
                 os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
             os.chdir("../../..")
