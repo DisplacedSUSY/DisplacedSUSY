@@ -103,19 +103,19 @@ HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
 def makeSignalName(mass,lifetime,branching_ratio):
     return "stop"+str(mass)+"_"+str(lifetime)+"mm_"+"br"+str(branching_ratio)
 
-def makeSignalRootFileName(mass,lifetime,branching_ratio,directory):
+def makeSignalRootFileName(mass,lifetime,branching_ratio,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
-    if glob.glob("limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root"):
-        os.system ("mv -f limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root")
-    print "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
-    return "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
+    if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
+    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
+    return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
 
-def makeSignalLogFileName(mass,lifetime,branching_ratio,directory):
+def makeSignalLogFileName(mass,lifetime,branching_ratio,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
-    if glob.glob("limits/"+directory+"/"+signal_name+"/condor_0*.out"):
-        os.system ("mv -f limits/"+directory+"/"+signal_name+"/condor_0.out limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt")
-    print "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
-    return "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
+    if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
+    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
+    return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
     x = [ ]
@@ -219,15 +219,13 @@ def fetchLimits(mass,lifetime,branching_ratio,directory):
 
     # for Asymptotic CLs, get the limits from the root file
     if method == "Asymptotic":
-        file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory))
+        file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"expected"))
         limit_tree = file.Get('limit')
         if limit_tree.GetEntries() < 6:
             return -1
         for i in range(0,limit_tree.GetEntries()):
             limit_tree.GetEntry(i)
             quantileExpected = limit_tree.quantileExpected
-            if quantileExpected == -1.0:
-                limit['observed'] = limit_tree.limit
             if quantileExpected == 0.5:
                 limit['expected'] = limit_tree.limit
             if math.fabs(quantileExpected - 0.025) < 0.0001:
@@ -238,17 +236,27 @@ def fetchLimits(mass,lifetime,branching_ratio,directory):
                 limit['up1'] = limit_tree.limit
             if math.fabs(quantileExpected - 0.975) < 0.0001:
                 limit['up2'] = limit_tree.limit
+        file.close()
+
+        file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"observed"))
+        limit_tree = file.Get('limit')
+        if limit_tree.GetEntries() < 6:
+            return -1
+        for i in range(0,limit_tree.GetEntries()):
+            limit_tree.GetEntry(i)
+            quantileExpected = limit_tree.quantileExpected
+            if quantileExpected == -1.0:
+                limit['observed'] = limit_tree.limit
+        file.close()
 
     #########################################################
 
     # for other methods, get the ranges from the log file
     else:
-        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory))
+        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory,"expected"))
         for line in file:
             line = line.rstrip("\n").split(":")
-            if line[0] =="Limit": #observed limit
-                limit['observed'] = float(line[1].split(" ")[3])
-            elif line[0] == "median expected limit": 
+            if line[0] == "median expected limit": 
                 limit['expected'] = float(line[1].split(" ")[3])
             elif line[0] == "   68% expected band ": 
                 limit['down1'] = float(line[1].split(" ")[1])
@@ -256,6 +264,14 @@ def fetchLimits(mass,lifetime,branching_ratio,directory):
             elif line[0] == "   95% expected band ": 
                 limit['down2'] = float(line[1].split(" ")[1])
                 limit['up2'] = float(line[1].split(" ")[5])
+        file.close()
+
+        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory,"observed"))
+        for line in file:
+            line = line.rstrip("\n").split(":")
+            if line[0] =="Limit": #observed limit
+                limit['observed'] = float(line[1].split(" ")[3])
+        file.close()
                 
     limit['up2'] = math.fabs(limit['up2'] - limit['expected'])
     limit['up1'] = math.fabs(limit['up1'] - limit['expected'])
