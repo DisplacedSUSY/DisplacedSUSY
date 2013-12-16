@@ -19,8 +19,10 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                                     help="output directory")
 parser.add_option("-M", "--method", dest="method", default="Asymptotic",
                                     help="which method of combine to use: currently supported options are Asymptotic (default), MarkovChainMC and HybridNew")
+parser.add_option("-r", "--tries", dest="Ntries", default="1",
+                  help="how many times the algorithm will run for observed limits, default = 1")
 parser.add_option("-t", "--toys", dest="Ntoys", default="1",
-                  help="how many toy MC to throw, default = 1")
+                  help="how many toy MC to throw for expected limits, default = 1")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
                                     help="run on the condor queue")
 
@@ -82,33 +84,55 @@ for mass in masses:
         for branching_ratio in branching_ratios:
 
             signal_name = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
-            condor_dir = "limits/"+arguments.outputDir+"/"+signal_name
+            condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
+            condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
             datacard_name = "datacard_"+signal_name+".txt"
             datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
-            datacard_dst_name = condor_dir+"/"+datacard_name
-            combine_options = "-s -1 -H ProfileLikelihood "
+            datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
+            datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
+            combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
             if arguments.method == "HybridNew" or arguments.method == "MarkovChainMC":
-                combine_options += "-M " + arguments.method + " "
-                combine_options = combine_options + "-t " + arguments.Ntoys + " "
+                combine_expected_options += "-M " + arguments.method + " "
+                combine_observed_options += "-M " + arguments.method + " "
+                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+                combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " "
             else:
-                combine_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
 
             combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
             combine_command = combine_command.rstrip()
 
-            shutil.rmtree(condor_dir, True)
-            os.mkdir(condor_dir)
-            shutil.copy(datacard_src_name, datacard_dst_name)
-            os.chdir(condor_dir)
+            shutil.rmtree(condor_expected_dir, True)
+            os.mkdir(condor_expected_dir)
+            shutil.copy(datacard_src_name, datacard_dst_expected_name)
+            os.chdir(condor_expected_dir)
 
             if not arguments.batchMode:
-                command = "(combine "+datacard_name+" "+combine_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+                command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
                 print command
                 os.system(command)
 
             else:
-                print "combine "+datacard_name+" "+combine_options+" --name "+signal_name
-                output_condor(combine_command, datacard_name+" "+combine_options+" --name "+signal_name+" | tee /dev/null")
+                print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
+                output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
+                os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
+
+            os.chdir("../../..")
+
+            shutil.rmtree(condor_observed_dir, True)
+            os.mkdir(condor_observed_dir)
+            shutil.copy(datacard_src_name, datacard_dst_observed_name)
+            os.chdir(condor_observed_dir)
+
+            if not arguments.batchMode:
+                command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+                print command
+                os.system(command)
+
+            else:
+                print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
+                output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
                 os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
             os.chdir("../../..")
