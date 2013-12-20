@@ -19,8 +19,10 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                                     help="output directory")
 parser.add_option("-M", "--method", dest="method", default="Asymptotic",
                                     help="which method of combine to use: currently supported options are Asymptotic (default), MarkovChainMC and HybridNew")
-parser.add_option("-r", "--tries", dest="Ntries", default="1",
-                  help="how many times the algorithm will run for observed limits, default = 1")
+parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
+                  help="how many points are proposed to fill a single Markov chain, default = 10k")
+parser.add_option("-r", "--tries", dest="Ntries", default="10",
+                  help="how many times the algorithm will run for observed limits, default = 10")
 parser.add_option("-t", "--toys", dest="Ntoys", default="1",
                   help="how many toy MC to throw for expected limits, default = 1")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
@@ -91,11 +93,16 @@ for mass in masses:
             datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
             datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
             combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
-            if arguments.method == "HybridNew" or arguments.method == "MarkovChainMC":
+            if arguments.method == "HybridNew":
                 combine_expected_options += "-M " + arguments.method + " "
                 combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-                combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " "
+                combine_observed_options = combine_observed_options + "--frequentist --testStat LHC" + " "
+            elif arguments.method == "MarkovChainMC":
+                combine_expected_options += "-M " + arguments.method + " "
+                combine_observed_options += "-M " + arguments.method + " "
+                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+                combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
             else:
                 combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
                 combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
