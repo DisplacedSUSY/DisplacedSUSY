@@ -55,6 +55,12 @@ colorSchemes = {
         'oneSigma' : 410,
         'twoSigma' : 393,
     },
+    'theory' : {
+        'obs' : 1,
+        'exp' : 1,
+        'oneSigma' : 921,
+        'twoSigma' : 920,
+    },
     'red' : {
         'obs' : 633,
         'exp' : 633,
@@ -127,11 +133,41 @@ def getTheoryGraph():
 
     graph = TGraph(len(x), array('d', x), array('d', y))
     graph.SetLineWidth(4)
-    graph.SetLineStyle(3)
+    graph.SetLineStyle(2)
     graph.SetFillColor(0)
-    graph.SetLineColor(1)
+    graph.SetLineColor(colorSchemes['theory']['exp'])
+    graph.SetMarkerStyle(20)
     graph.SetMarkerSize(0.8)
-    graph.SetMarkerColor(1)
+    graph.SetMarkerColor(colorSchemes['theory']['exp'])
+    return graph
+
+def getTheoryOneSigmaGraph():
+    x = [ ]
+    y = [ ]
+    up = [ ]
+    down = [ ]
+    for mass in masses:
+        xSection = float(signal_cross_sections[str(mass)]['value'])
+        xSectionError = float(signal_cross_sections[str(mass)]['error'])
+        x.append(float(mass))
+        y.append(float(xSection))
+        up.append(float(xSectionError * xSection))
+        down.append(float((2.0 - xSectionError) * xSection))
+
+    graph = TGraphAsymmErrors(
+        len(x),
+        array('d', x),
+        array('d', y),
+        array('d', [0 for i in range(0, len(x))]),
+        array('d', [0 for i in range(0, len(x))]),
+        array('d', down),
+        array('d', up)
+    )
+    graph.SetFillColor(colorSchemes['theory']['oneSigma'])
+    graph.SetFillStyle(1001)
+    graph.SetLineColor(colorSchemes['theory']['oneSigma'])
+    graph.SetMarkerColor(colorSchemes['theory']['oneSigma'])
+
     return graph
 
 def getGraph(limits, x_key, y_key):
@@ -330,6 +366,24 @@ def drawPlot(plot):
     #construct tGraph objects for all curves and draw them
     tGraphs = []
     plotDrawn = False
+    if 'showTheory' in plot and plot['showTheory'] and ('showTheoryError' in plot and plot['showTheoryError']):
+        if plot['xAxisType'] is 'mass':
+            tGraphs.append(getTheoryOneSigmaGraph())
+            if plotDrawn:
+                tGraphs[-1].Draw('3')
+            else:
+                tGraphs[-1].Draw('A3')
+            plotDrawn = True
+            legend.AddEntry(tGraphs[-1], "#pm 1 #sigma: theory", 'F')
+
+            tGraphs.append(getTheoryGraph())
+            if plotDrawn:
+                tGraphs[-1].Draw('LP')
+            else:
+                tGraphs[-1].Draw('ALP')
+            plotDrawn = True
+            legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
+
     for graph in plot['graphs']:
         colorScheme = 'brazilian'
         if 'colorScheme' in graph:
@@ -382,16 +436,16 @@ def drawPlot(plot):
                 legendEntry = legendEntry + ": " + graph['legendEntry']
             legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
-    if 'showTheory' in plot:
-        if 'showTheory':
-            if plot['xAxisType'] is 'mass':
-                tGraphs.append(getTheoryGraph())
-                if plotDrawn:
-                    tGraphs[-1].Draw('LP')
-                else:
-                    tGraphs[-1].Draw('ALP')
+    if 'showTheory' in plot and plot['showTheory'] and ('showTheoryError' not in plot or not plot['showTheoryError']):
+        if plot['xAxisType'] is 'mass':
+            tGraphs.append(getTheoryGraph())
+            if plotDrawn:
+                tGraphs[-1].Draw('LP')
+            else:
+                tGraphs[-1].Draw('ALP')
+            plotDrawn = True
 
-                legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
+            legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
 
 
     #get the min and max of all graphs, so the y-axis can be set appropriately
