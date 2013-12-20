@@ -86,7 +86,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
 ##             {
-##                 'source' : 'DEC9_200um_Asymptotic',
+##                 'source' : ['DEC9_200um_Asymptotic'],
 ##                 'br'   : 50,
 ##                 'mass' : 500,
 ##                 'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],
@@ -94,7 +94,7 @@ plotDefinitions = [
 ##                 'legendEntry' : 'Asymptotic CLs',
 ##             },
 ##             {
-##                 'source' : 'DEC9_200um_HybridNew',
+##                 'source' : ['DEC9_200um_HybridNew'],
 ##                 'br'   : 50,
 ##                 'mass' : 500,
 ##                 'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],                
@@ -103,7 +103,7 @@ plotDefinitions = [
 ##             },
 
             {
-                'source' : 'DEC9_200um_MarkovChainMC',
+                'source' : ['DEC9_200um_MarkovChainMC'],
                 'br'   : 50,
                 'mass' : 500,
                 'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],                
@@ -127,7 +127,7 @@ plotDefinitions = [
 ##         #define all the curves to include on this canvas
 ##         'graphs' : [
 ##             {
-##                 'source' : 'NOV26__optimized',
+##                 'source' : ['NOV26__200um', 'NOV26__500um', 'NOV26__1000um'],
 ##                 'br'   : 50,
 ##                 'mass' : 500,
 ##                 'graphsToInclude' : ['obs','exp','oneSigma','twoSigma'],
@@ -146,7 +146,7 @@ plotDefinitions = [
 ##         'xAxisLabel' : 'Stop Mass [GeV]',
 ##         'graphs' : [
 ##             {
-##                 'source' : 'AUG29_200um',
+##                 'source' : ['AUG29_200um'],
 ##                 'br'   : 50,
 ##                 'lifetime' : 0.5,
 ##                 'colorScheme' : 'green',
@@ -154,7 +154,7 @@ plotDefinitions = [
 ##                 'legendEntry' : 'c#tau_{#tilde{t}} = 0.5 mm',
 ##             },
 ##             {
-##                 'source' : 'AUG29_1000um',
+##                 'source' : ['AUG29_1000um'],
 ##                 'br'   : 50,
 ##                 'lifetime' : 5.0,
 ##                 'colorScheme' : 'red',
@@ -162,7 +162,7 @@ plotDefinitions = [
 ##                 'legendEntry' : 'c#tau_{#tilde{t}} = 5 mm',
 ##             },
 ##             {
-##                 'source' : 'AUG29_1000um',
+##                 'source' : ['AUG29_1000um'],
 ##                 'br'   : 50,
 ##                 'lifetime' : 50.0,
 ##                 'colorScheme' : 'brazilian',
@@ -187,7 +187,7 @@ plotDefinitions = [
 ##         #define all the curves to include on this canvas
 ##         'graphs' : [
 ## ##             {
-## ##                 'source' : 'AUG29_piecewise',
+## ##                 'source' : ['AUG29_200um', 'AUG29_500um', 'AUG29_1000um'],
 ## ##                 'br'   : 50,
 ## ##                 'mass' : 500,
 ## ##                 'graphsToInclude' : ['oneSigma','twoSigma'],
@@ -195,7 +195,7 @@ plotDefinitions = [
 ## ##                 'legendEntry' : 'optimized',
 ## ##             },
 ## ##             {
-## ##                 'source' : 'AUG29_0um',
+## ##                 'source' : ['AUG29_0um'],
 ## ##                 'br'   : 50,
 ## ##                 'mass' : 500,
 ## ##                 'graphsToInclude' : ['exp'],
@@ -203,7 +203,7 @@ plotDefinitions = [
 ## ##                 'legendEntry' : 'no |d_{0}| cut',
 ## ##             },
 ##             {
-##                 'source' : 'OCT10__TEST_RUN',
+##                 'source' : ['OCT10__TEST_RUN'],
 ##                 'br'   : 50,
 ##                 'mass' : 500,
 ##                 'graphsToInclude' : ['exp','oneSigma','twoSigma','obs'],
@@ -211,7 +211,7 @@ plotDefinitions = [
 ##                 'legendEntry' : '|d_{0}| > 200 #mum',
 ##             },
 ## ##             {
-## ##                 'source' : 'AUG29_500um',
+## ##                 'source' : ['AUG29_500um'],
 ## ##                 'br'   : 50,
 ## ##                 'mass' : 500,
 ## ##                 'graphsToInclude' : ['exp'],
@@ -219,7 +219,7 @@ plotDefinitions = [
 ## ##                 'legendEntry' : '|d_{0}| > 500 #mum',
 ## ##             },
 ## ##             {
-## ##                 'source' : 'AUG29_1000um',
+## ##                 'source' : ['AUG29_1000um'],
 ## ##                 'br'   : 50,
 ## ##                 'mass' : 500,
 ## ##                 'graphsToInclude' : ['exp'],
