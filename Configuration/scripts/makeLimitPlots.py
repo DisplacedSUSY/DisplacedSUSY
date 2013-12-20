@@ -151,8 +151,8 @@ def getTheoryOneSigmaGraph():
         xSectionError = float(signal_cross_sections[str(mass)]['error'])
         x.append(float(mass))
         y.append(float(xSection))
-        up.append(float(xSectionError * xSection))
-        down.append(float((2.0 - xSectionError) * xSection))
+        up.append(float((xSectionError - 1.0) * xSection))
+        down.append(float((xSectionError - 1.0) * xSection))
 
     graph = TGraphAsymmErrors(
         len(x),
