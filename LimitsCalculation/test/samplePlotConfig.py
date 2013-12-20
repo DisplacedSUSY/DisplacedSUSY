@@ -82,6 +82,7 @@ plotDefinitions = [
         # optional (False if not included)
         # currently only works if the x-axis is mass
         'showTheory' : False,
+        'showTheoryError' : False,
 
         #define all the curves to include on this canvas
         'graphs' : [
@@ -141,6 +142,7 @@ plotDefinitions = [
     ##################### EXAMPLE LIMIT PLOT VS. MASS
 ##     {
 ##         'showTheory' : True,
+##         'showTheoryError' : True,
 ##         'title' : 'limits_vs_mass',
 ##         'xAxisType' : 'mass',
 ##         'xAxisLabel' : 'Stop Mass [GeV]',
