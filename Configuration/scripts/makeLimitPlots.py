@@ -103,19 +103,19 @@ HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = 8 TeV"
 def makeSignalName(mass,lifetime,branching_ratio):
     return "stop"+str(mass)+"_"+str(lifetime)+"mm_"+"br"+str(branching_ratio)
 
-def makeSignalRootFileName(mass,lifetime,branching_ratio,directory):
+def makeSignalRootFileName(mass,lifetime,branching_ratio,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
-    if glob.glob("limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root"):
-        os.system ("mv -f limits/"+directory+"/"+signal_name+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root")
-    print "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
-    return "limits/"+directory+"/"+signal_name+"/limits_"+signal_name+".root"
+    if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
+    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
+    return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
 
-def makeSignalLogFileName(mass,lifetime,branching_ratio,directory):
+def makeSignalLogFileName(mass,lifetime,branching_ratio,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime,branching_ratio)
-    if glob.glob("limits/"+directory+"/"+signal_name+"/condor_0*.out"):
-        os.system ("mv -f limits/"+directory+"/"+signal_name+"/condor_0.out limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt")
-    print "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
-    return "limits/"+directory+"/"+signal_name+"/combine_log_"+signal_name+".txt"
+    if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
+        os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt")
+    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
+    return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".txt"
 
 def getTheoryGraph():
     x = [ ]
@@ -208,77 +208,100 @@ def getTwoSigmaGraph(limits,xAxisType,colorScheme):
     return graph
 
 
-def fetchLimits(mass,lifetime,branching_ratio,directory):
-
-    with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
-        method = methodFile.readline()
+def fetchLimits(mass,lifetime,branching_ratio,directories):
 
     limit = { }
+    limit['expected'] = 1.0e6
 
-    #########################################################
+    for directory in directories:
+        with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
+            method = methodFile.readline()
 
-    # for Asymptotic CLs, get the limits from the root file
-    if method == "Asymptotic":
-        file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory))
-        limit_tree = file.Get('limit')
-        if limit_tree.GetEntries() < 6:
-            return -1
-        for i in range(0,limit_tree.GetEntries()):
-            limit_tree.GetEntry(i)
-            quantileExpected = limit_tree.quantileExpected
-            if quantileExpected == -1.0:
-                limit['observed'] = limit_tree.limit
-            if quantileExpected == 0.5:
-                limit['expected'] = limit_tree.limit
-            if math.fabs(quantileExpected - 0.025) < 0.0001:
-                limit['down2'] = limit_tree.limit
-            if math.fabs(quantileExpected - 0.16) < 0.0001:
-                limit['down1'] = limit_tree.limit
-            if math.fabs(quantileExpected - 0.84) < 0.0001:
-                limit['up1'] = limit_tree.limit
-            if math.fabs(quantileExpected - 0.975) < 0.0001:
-                limit['up2'] = limit_tree.limit
+        #########################################################
 
-    #########################################################
+        tmp_limit = { }
 
-    # for other methods, get the ranges from the log file
-    else:
-        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory))
+        # for Asymptotic CLs, get the limits from the root file
+        if method == "Asymptotic":
+            file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"expected"))
+            limit_tree = file.Get('limit')
+            if limit_tree.GetEntries() < 6:
+                continue
+            for i in range(0,limit_tree.GetEntries()):
+                limit_tree.GetEntry(i)
+                quantileExpected = limit_tree.quantileExpected
+                if quantileExpected == 0.5:
+                    tmp_limit['expected'] = limit_tree.limit
+                if math.fabs(quantileExpected - 0.025) < 0.0001:
+                    tmp_limit['down2'] = limit_tree.limit
+                if math.fabs(quantileExpected - 0.16) < 0.0001:
+                    tmp_limit['down1'] = limit_tree.limit
+                if math.fabs(quantileExpected - 0.84) < 0.0001:
+                    tmp_limit['up1'] = limit_tree.limit
+                if math.fabs(quantileExpected - 0.975) < 0.0001:
+                    tmp_limit['up2'] = limit_tree.limit
+            file.Close()
+
+            file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"observed"))
+            limit_tree = file.Get('limit')
+            if limit_tree.GetEntries() < 6:
+                continue
+            for i in range(0,limit_tree.GetEntries()):
+                limit_tree.GetEntry(i)
+                quantileExpected = limit_tree.quantileExpected
+                if quantileExpected == -1.0:
+                    tmp_limit['observed'] = limit_tree.limit
+            file.Close()
+
+        #########################################################
+
+        # for other methods, get the ranges from the log file
+        else:
+            file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory,"expected"))
+            for line in file:
+                line = line.rstrip("\n").split(":")
+                if line[0] == "median expected limit": 
+                    tmp_limit['expected'] = float(line[1].split(" ")[3])
+                elif line[0] == "   68% expected band ": 
+                    tmp_limit['down1'] = float(line[1].split(" ")[1])
+                    tmp_limit['up1'] = float(line[1].split(" ")[5])             
+                elif line[0] == "   95% expected band ": 
+                    tmp_limit['down2'] = float(line[1].split(" ")[1])
+                    tmp_limit['up2'] = float(line[1].split(" ")[5])
+            file.close()
+
+        file = open(makeSignalLogFileName(mass,lifetime,branching_ratio,directory,"observed"))
         for line in file:
             line = line.rstrip("\n").split(":")
             if line[0] =="Limit": #observed limit
-                limit['observed'] = float(line[1].split(" ")[3])
-            elif line[0] == "median expected limit": 
-                limit['expected'] = float(line[1].split(" ")[3])
-            elif line[0] == "   68% expected band ": 
-                limit['down1'] = float(line[1].split(" ")[1])
-                limit['up1'] = float(line[1].split(" ")[5])             
-            elif line[0] == "   95% expected band ": 
-                limit['down2'] = float(line[1].split(" ")[1])
-                limit['up2'] = float(line[1].split(" ")[5])
-                
-    limit['up2'] = math.fabs(limit['up2'] - limit['expected'])
-    limit['up1'] = math.fabs(limit['up1'] - limit['expected'])
-    limit['down2'] = math.fabs(limit['down2'] - limit['expected'])
-    limit['down1'] = math.fabs(limit['down1'] - limit['expected'])
+                tmp_limit['observed'] = float(line[1].split(" ")[3])
+        file.close()
+                    
+        tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
+        tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
+        tmp_limit['down2'] = math.fabs(tmp_limit['down2'] - tmp_limit['expected'])
+        tmp_limit['down1'] = math.fabs(tmp_limit['down1'] - tmp_limit['expected'])
 
-    xSection = float(signal_cross_sections[str(mass)]['value'])
-    limit['up2'] *= xSection
-    limit['up1'] *= xSection
-    limit['observed'] *= xSection
-    limit['expected'] *= xSection
-    limit['down1'] *= xSection
-    limit['down2'] *= xSection
+        xSection = float(signal_cross_sections[str(mass)]['value'])
+        tmp_limit['up2'] *= xSection
+        tmp_limit['up1'] *= xSection
+        tmp_limit['observed'] *= xSection
+        tmp_limit['expected'] *= xSection
+        tmp_limit['down1'] *= xSection
+        tmp_limit['down2'] *= xSection
 
-    limit['mass'] = mass
-    # convert lifetime to cm
-    limit['lifetime'] = 0.1 * float(lifetime)
-    limit['branching_ratio'] = branching_ratio
+        tmp_limit['mass'] = mass
+        # convert lifetime to cm
+        tmp_limit['lifetime'] = 0.1 * float(lifetime)
+        tmp_limit['branching_ratio'] = branching_ratio
 
-    #print limit
-    #print
+        if tmp_limit['expected'] < limit['expected']:
+            limit = tmp_limit
 
-    return limit
+        #print limit
+        #print
+
+    return (limit if limit['expected'] < 9.9e5 else -1)
         
 
 def drawPlot(plot):
@@ -454,11 +477,15 @@ for plot in plotDefinitions:
                 limit = fetchLimits(graph['mass'],lifetime,graph['br'],graph['source'])
                 if limit is not -1:
                     graph['limits'].append(limit)
+                else:
+                    print "WARNING: not plotting lifetime " + str (lifetime) + " mm"
         elif plot['xAxisType'] is 'mass':
             for mass in masses:
                 limit = fetchLimits(mass,graph['lifetime'],graph['br'],graph['source'])
                 if limit is not -1:
                     graph['limits'].append(limit)
+                else:
+                    print "WARNING: not plotting mass " + str (mass) + " GeV"
 
     #now that all the limits are in place, draw the plot
     drawPlot(plot)

@@ -192,8 +192,17 @@ Preselection = cms.PSet(
    )
 )
 
+
 #################################################################
 ############ VARIATIONS ON THE STANDARD PRESELECTION ############
+#################################################################
+
+# PRESELECTION WITHOUT THE TRIGGER
+
+Preselection_NoTrigger = copy.deepcopy(Preselection)
+Preselection_NoTrigger.name = cms.string("Preselection_NoTrigger")
+Preselection_NoTrigger.triggers = cms.vstring()
+
 #################################################################
 
 # PRESELECTION WITH SS LEPTONS
