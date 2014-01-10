@@ -10,13 +10,11 @@ intLumi = 19680 # MuEG 22Jan Rereco
 # first we define the values to be used when the limit plot axis is the given variable
 
 #stop masses
-#masses = ['200','300','400','500','600','700','800']
+masses = ['200','300','400','500','600','700','800']
 #masses = ['300','400','500','600','700','800']
-masses = ['500']
 
 #stop ctau values
-#lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
-lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
+lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
 #lifetimes = ['0.5','1.0','5.0','10.0','50.0','100.0']
 #lifetimes = ['1.0']
 
@@ -71,7 +69,7 @@ plotDefinitions = [
         'xAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'Stop c#tau [cm]',
+        'xAxisLabel' : 'stop #LTc#tau#GT [cm]',
 
         'massLabel' : 'M_{#tilde{t}} = 500 GeV',
         'brLabel' : 'BR(#tilde{t}#rightarrowbl) = BR(#tilde{t}#rightarrowt#nu) = 50%',
@@ -104,12 +102,39 @@ plotDefinitions = [
 ##             },
 
             {
-                'source' : ['DEC9_200um_MarkovChainMC'],
+                'source' : ['signal_region_combined'],
                 'br'   : 50,
                 'mass' : 500,
                 'graphsToInclude' : ['exp','obs','oneSigma','twoSigma'],                
                 'colorScheme' : 'red',
-                'legendEntry' : 'Markov Chain MC',
+                'legendEntry' : 'Asymptotic CL_{s}',
+            },
+        ],
+    },
+
+    {
+        # this will be the name of the canvas in the output root file
+        'title' : 'ctau_vs_mass',
+
+        # current options are 'mass' and 'lifetime'
+        'xAxisType' : 'mass',
+        'yAxisType' : 'lifetime',
+
+        # xmin, xmax, label
+        'xAxisLabel' : 'stop mass [GeV]',
+        'yAxisLabel' : 'stop #LTc#tau#GT [cm]',
+
+        'brLabel' : 'BR(#tilde{t}#rightarrowbl) = BR(#tilde{t}#rightarrowt#nu) = 50%',
+
+        #define all the curves to include on this canvas
+        'graphs' : [
+            {
+                'source' : ['signal_region_combined'],
+                'br'   : 50,
+                'mass' : 500,
+                'graphsToInclude' : ['exp', 'obs', 'oneSigma', 'oneSigmaTheory'],
+                'colorScheme' : 'brazilian',
+                'legendEntry' : 'Asymptotic CL_{s}',
             },
         ],
     },
