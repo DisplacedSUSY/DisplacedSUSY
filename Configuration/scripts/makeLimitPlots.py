@@ -651,7 +651,6 @@ def drawPlot(plot):
                     legendEntry = legendEntry + ": " + graph['legendEntry']
                 legend.AddEntry(tGraphs[-1], legendEntry, 'L')
         else:
-            plotDrawn = False
             if 'twoSigma' in graph['graphsToInclude']:
                 tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
                 if plotDrawn:
