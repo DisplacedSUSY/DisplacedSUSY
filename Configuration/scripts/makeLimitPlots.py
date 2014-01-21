@@ -438,6 +438,9 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
     limit['expected'] = 1.0e6
 
     for directory in directories:
+        if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt"):
+            return -1
+
         with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
             method = methodFile.readline()
 
@@ -448,7 +451,11 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
         # for Asymptotic CLs, get the limits from the root file
         if method == "Asymptotic":
             file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"expected"))
+            if not file.GetNkeys():
+                return -1
             limit_tree = file.Get('limit')
+            if not limit_tree:
+                return -1
             if limit_tree.GetEntries() < 6:
                 continue
             for i in range(0,limit_tree.GetEntries()):
@@ -467,7 +474,11 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
             file.Close()
 
             file = TFile(makeSignalRootFileName(mass,lifetime,branching_ratio,directory,"observed"))
+            if not file.GetNkeys():
+                return -1
             limit_tree = file.Get('limit')
+            if not limit_tree:
+                return -1
             if limit_tree.GetEntries() < 6:
                 continue
             for i in range(0,limit_tree.GetEntries()):
