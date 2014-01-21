@@ -336,12 +336,9 @@ for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most e
     currentD0Cut = arguments.d0Cuts[cutIndex]
     nextD0Cut = arguments.d0Cuts[cutIndex+1]
     for background in backgrounds:
-        print background
         currentError = background_yields[background][currentD0Cut] * (background_errors[background][currentD0Cut]-1)
         nextError = background_yields[background][nextD0Cut] * (background_errors[background][nextD0Cut]-1)
         background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
-        print currentError,nextError
-        print currentError*currentError - nextError*nextError
         if background_yields[background][currentD0Cut] > 0.0:
             background_errors[background][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / background_yields[background][currentD0Cut] + 1
         else:
