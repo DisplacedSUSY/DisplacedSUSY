@@ -132,14 +132,20 @@ def writeDatacard(mass,lifetime,branching_ratio):
         signal_yield[d0Cut] = signalYieldAndError['yield']
         signal_error[d0Cut] = signalYieldAndError['error']        
 
-    # subtract the contributions from the more exclusive signal region
+    # subtract the contributions from the more exclusive signal region - signal
     for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
-        d0Cut = arguments.d0Cuts[cutIndex]
-        currentError = signal_yield[d0Cut] * (signal_error[d0Cut]-1)
-        nextError = signal_yield[arguments.d0Cuts[cutIndex+1]] * (signal_error[arguments.d0Cuts[cutIndex+1]]-1)
-        print currentError,nextError
-        signal_yield[d0Cut] = signal_yield[d0Cut] - signal_yield[arguments.d0Cuts[cutIndex+1]]
-        signal_error[d0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / signal_yield[d0Cut] + 1
+        currentD0Cut = arguments.d0Cuts[cutIndex]
+        nextD0Cut = arguments.d0Cuts[cutIndex+1]
+        currentError = signal_yield[currentD0Cut] * (signal_error[currentD0Cut]-1)
+        nextError = signal_yield[nextD0Cut] * (signal_error[nextD0Cut]-1)
+
+        signal_yield[currentD0Cut] = signal_yield[currentD0Cut] - signal_yield[nextD0Cut]
+        if signal_yield[currentD0Cut] > 0.0:
+            signal_error[currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / signal_yield[currentD0Cut] + 1
+        else:
+            signal_error[currentD0Cut] = 0
+
+
     
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
@@ -317,12 +323,28 @@ for background in backgrounds:
         yieldAndError = GetYieldAndError(background_sources[background]['condor_dir'], background, background_sources[background]['channel'], d0Cut)
         #print background, d0Cut
         #print yieldAndError
-        
+
         background_yields[background][d0Cut] = yieldAndError['yield']
         background_errors[background][d0Cut] = yieldAndError['error']
 
         #print "for d0 > "+d0Cut+":"
         #print background+" yield = "+str(background_yields[background][d0Cut])+" +- "+str(100*(background_errors[background][d0Cut]-1))+"%"
+
+
+# subtract the contributions from the more exclusive signal region - backgrounds
+for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
+    currentD0Cut = arguments.d0Cuts[cutIndex]
+    nextD0Cut = arguments.d0Cuts[cutIndex+1]
+    for background in backgrounds:
+        currentError = background_yields[background][currentD0Cut] * (background_errors[background][currentD0Cut]-1)
+        nextError = background_yields[background][nextD0Cut] * (background_errors[background][nextD0Cut]-1)
+        background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
+        if background_yields[background][currentD0Cut] > 0.0:
+            background_errors[background][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / background_yields[background][currentD0Cut] + 1
+        else:
+            background_errors[background][currentD0Cut] = 0
+
+
 
 
 ###getting all the systematic errors and putting them in a dictionary
