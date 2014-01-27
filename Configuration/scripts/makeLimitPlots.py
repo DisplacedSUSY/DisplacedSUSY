@@ -217,26 +217,26 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 first_allowed_mass = mass
                 break
             previous_mass = mass
-        if previous_mass == first_allowed_mass:
-            continue
+        mass_limit = 0.0
+        if previous_mass != first_allowed_mass:
+            # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
+            x1 = previous_mass
+            x3 = previous_mass
+            x2 = first_allowed_mass
+            x4 = first_allowed_mass
+            y1 = limit_dict[lifetime][previous_mass]['theory']
+            y3 = limit_dict[lifetime][previous_mass]['experiment']
+            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
+            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
+            mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+            if math.isnan (mass_limit):
+                mass_limit = 0.0
 
-        # find intersection using http://en.wikipedia.org/wiki/Line-line_intersection
-        x1 = previous_mass
-        x3 = previous_mass
-        x2 = first_allowed_mass
-        x4 = first_allowed_mass
-        y1 = limit_dict[lifetime][previous_mass]['theory']
-        y3 = limit_dict[lifetime][previous_mass]['experiment']
-        y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-        y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
-        mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
-        mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-
-        if not math.isnan (mass_limit):
-            x.append (mass_limit)
-            y.append (lifetime)
-            if x_key is 'lifetime' and y_key is 'mass':
-                x[-1], y[-1] = y[-1], x[-1]
+        x.append (mass_limit)
+        y.append (lifetime)
+        if x_key is 'lifetime' and y_key is 'mass':
+            x[-1], y[-1] = y[-1], x[-1]
 
     graph = TGraph (len (x), x, y)
     return graph
