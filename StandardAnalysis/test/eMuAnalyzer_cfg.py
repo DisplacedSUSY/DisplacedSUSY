@@ -22,7 +22,8 @@ process.OSUAnalysis.electronSFFile  =  cms.string (os.environ['CMSSW_BASE'] + '/
 process.OSUAnalysis.electronSFID    =  cms.string ('')
 process.OSUAnalysis.electronSF      =  cms.string ('h_electronScaleFactor_IdIsoSip')
 process.OSUAnalysis.applyTriggerSF  =  True
-#process.OSUAnalysis.doPileupReweighting = True
+process.OSUAnalysis.applyTrackingSF =  True
+process.OSUAnalysis.applyLeptonSF   =  True
 
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
