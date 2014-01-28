@@ -284,13 +284,13 @@ Preselection_100um.cuts.append(muon_d0_cut)
 
 # PRESELECTION WITH SS LEPTONS AND 100 MICRON |D0| CUTS
 
-Preselection_SS_100um = cms.PSet(
-        name = cms.string("Preselection_SS_100um"),
+Preselection_100um_SS = cms.PSet(
+        name = cms.string("Preselection_100um_SS"),
             triggers = copy.deepcopy(Preselection_100um.triggers),
             cuts = cms.VPSet ()
         )
-Preselection_SS_100um.cuts.extend(copy.deepcopy(Preselection_100um.cuts))
-for cut in Preselection_SS_100um.cuts:
+Preselection_100um_SS.cuts.extend(copy.deepcopy(Preselection_100um.cuts))
+for cut in Preselection_100um_SS.cuts:
     if "chargeProduct" in str(cut.cutString):
         cut.cutString = cms.string('chargeProduct > 0')
 
