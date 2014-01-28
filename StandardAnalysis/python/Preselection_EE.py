@@ -117,6 +117,28 @@ Preselection_EE = cms.PSet(
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra electron veto")
       ),
+      # ONLY CONSIDER 30 GEV JETS
+      cms.PSet (
+        inputCollection = cms.string("jets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 0")
+      ),
+      # ELECTRON NOT OVERLAPPING WITH JET
+      cms.PSet (
+        inputCollection = cms.string("electron-jet pairs"),
+        cutString = cms.string("deltaR < 0.5"),
+        numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
+        alias = cms.string("electron near jet veto"),
+      ),
+      # SECONDARY ELECTRON NOT OVERLAPPING WITH JET
+      cms.PSet (
+        inputCollection = cms.string("secondary electron-jet pairs"),
+        cutString = cms.string("deltaR < 0.5"),
+        numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
+        alias = cms.string("secondary electron near jet veto"),
+      ),
       # RESTRICT ELECTRON TO RECONSTRUCTION ACCEPTANCE
       cms.PSet (
         inputCollection = cms.string("electrons"),
@@ -161,14 +183,14 @@ Blinded_Preselection_EE.cuts.extend(copy.deepcopy(Preselection_EE.cuts))
 
 electron_d0_cut = cms.PSet (
     inputCollection = cms.string("electrons"),
-    cutString = cms.string("abs(correctedD0) < 0.02"),
+    cutString = cms.string("abs(correctedD0) < 0.01"),
     numberRequired = cms.string("== 1")
 )
 Blinded_Preselection_EE.cuts.append(electron_d0_cut)
 
 secondary_electron_d0_cut = cms.PSet (
     inputCollection = cms.string("secondary_electrons"),
-    cutString = cms.string("abs(correctedD0) < 0.02"),
+    cutString = cms.string("abs(correctedD0) < 0.01"),
     numberRequired = cms.string("== 1")
 )
 Blinded_Preselection_EE.cuts.append(secondary_electron_d0_cut)
