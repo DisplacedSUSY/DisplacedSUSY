@@ -60,6 +60,6 @@ from DisplacedSUSY.StandardAnalysis.Preselection import *
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
 process.OSUAnalysis.channels.append(Preselection_100um) # B
-process.OSUAnalysis.channels.append(Preselection_SS_100um) # A
-process.OSUAnalysis.channels.append(Preselection_AntiIso) # D
-process.OSUAnalysis.channels.append(Preselection_AntiIso_SS_100um) # C
+process.OSUAnalysis.channels.append(Preselection_100um_SS) # A
+process.OSUAnalysis.channels.append(Preselection_100um_AntiIso) # D
+process.OSUAnalysis.channels.append(Preselection_100um_AntiIso_SS) # C
