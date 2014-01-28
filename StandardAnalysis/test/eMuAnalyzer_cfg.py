@@ -5,12 +5,14 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 ##### Set Options for Running your Analyzer Interactively #####
 ###############################################################
 
-#dir = "/mnt/hadoop/mc/stop200ToBottom_100mm_8TeV-pythia6_Summer12-START52_V9-v2_ahart-stop200ToBottom_100mm_TuneZ2star_8TeV-pythia6_Summer12_DR53X-PU_S10_START53_V7A-v2-3c2c2ea126eaa14f77b77129f5e671ee_USER_STOP2012-v1/"
+
 #dir = "/store/user/ahart/DYToTauTau_M-20_CT10_TuneZ2star_v2_8TeV-powheg-tauola-pythia6/BEAN2012-v4/4a12a6f1b79fbeb9915fe6064a3d6fce/"
-dir = "/store/user/ahart/eMuMinimal/TTbar_Lep/EMu_Minimal"
+dir = "/mnt/hadoop/se/store/user/ahart/eMuMinimal_new/stop200toBl_10mm/EMu_Minimal"
 
 for file in os.listdir(dir):
     process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + '/' + file))
+
+#process.source.fileNames.extend(cms.untracked.vstring('file:/home/lantonel/CMSSW_6_1_2/src/DisplacedSUSY/StandardAnalysis/test/signalRegionEvents.root'))
 
 ######################################################################
 ##### Overwrite specific variables defined in osuAnalysis_cfi.py #####
@@ -20,6 +22,7 @@ process.OSUAnalysis.electronSFFile  =  cms.string (os.environ['CMSSW_BASE'] + '/
 process.OSUAnalysis.electronSFID    =  cms.string ('')
 process.OSUAnalysis.electronSF      =  cms.string ('h_electronScaleFactor_IdIsoSip')
 process.OSUAnalysis.applyTriggerSF  =  True
+#process.OSUAnalysis.doPileupReweighting = True
 
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
@@ -54,17 +57,9 @@ process.OSUAnalysis.histogramSets.append(EventHistograms)
 ##########################################################
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
-from DisplacedSUSY.StandardAnalysis.SignalSelections import *
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
-
-process.OSUAnalysis.channels.append(Preselection) # B
-process.OSUAnalysis.channels.append(Preselection_SS) # A
+process.OSUAnalysis.channels.append(Preselection_100um) # B
+process.OSUAnalysis.channels.append(Preselection_SS_100um) # A
 process.OSUAnalysis.channels.append(Preselection_AntiIso) # D
-process.OSUAnalysis.channels.append(Preselection_AntiIso_SS) # C
-
-process.OSUAnalysis.channels.append(Signal_Selection_200um)
-process.OSUAnalysis.channels.append(Signal_Selection_AntiIso_200um)
-
-#process.OSUAnalysis.channels.append(Signal_Selection_500um)
-#process.OSUAnalysis.channels.append(Signal_Selection_1000um)
+process.OSUAnalysis.channels.append(Preselection_AntiIso_SS_100um) # C
