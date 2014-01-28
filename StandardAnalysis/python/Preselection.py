@@ -22,11 +22,6 @@ Empty_Selection = cms.PSet(
         cutString = cms.string("isGood > 0"),
         numberRequired = cms.string(">= 1")
       ),
-      cms.PSet (
-        inputCollection = cms.string("jets"),
-        cutString = cms.string("pt > 30"),
-        numberRequired = cms.string(">= 2")
-      ),
    )
 )
 
@@ -178,17 +173,6 @@ Preselection = cms.PSet(
         cutString = cms.string("abs(correctedD0) < 2"),
         numberRequired = cms.string("== 1")
       ),
-##       cms.PSet (
-##         inputCollection = cms.string("electrons"),
-##         cutString = cms.string("abs(correctedDZ) < 2"),
-##         numberRequired = cms.string("== 1")
-##       ),
-##       cms.PSet (
-##         inputCollection = cms.string("muons"),
-##         cutString = cms.string("abs(correctedDZ) < 2"),
-##         numberRequired = cms.string("== 1")
-##       ),
-
    )
 )
 
@@ -312,40 +296,4 @@ for cut in Preselection_SS_100um.cuts:
 
 #################################################################
 
-# PRESELECTION WITH 50 MICRON |D0| CUTS
-
-Preselection_50um = cms.PSet(
-    name = cms.string("Preselection_50um"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet ()
-)
-Preselection_50um.cuts.extend(copy.deepcopy(Preselection.cuts))
-
-electron_d0_cut = cms.PSet (
-    inputCollection = cms.string("electrons"),
-    cutString = cms.string("abs(correctedD0) > 0.005"),
-    numberRequired = cms.string("== 1")
-)
-Preselection_50um.cuts.append(electron_d0_cut)
-
-muon_d0_cut = cms.PSet (
-    inputCollection = cms.string("muons"),
-    cutString = cms.string("abs(correctedD0) > 0.005"),
-    numberRequired = cms.string("== 1")
-)
-Preselection_50um.cuts.append(muon_d0_cut)
-
-#################################################################
-
-# PRESELECTION WITH SS LEPTONS AND 50 MICRON |D0| CUTS
-
-Preselection_SS_50um = cms.PSet(
-        name = cms.string("Preselection_SS_50um"),
-            triggers = copy.deepcopy(Preselection_50um.triggers),
-            cuts = cms.VPSet ()
-        )
-Preselection_SS_50um.cuts.extend(copy.deepcopy(Preselection_50um.cuts))
-for cut in Preselection_SS_50um.cuts:
-    if "chargeProduct" in str(cut.cutString):
-        cut.cutString = cms.string('chargeProduct > 0')
 
