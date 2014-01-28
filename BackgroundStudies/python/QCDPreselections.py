@@ -7,8 +7,6 @@ import copy
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
 from DisplacedSUSY.StandardAnalysis.SignalSelections import *
-from DisplacedSUSY.StandardAnalysis.DisplacedControlRegions import *
-
 
 electron_iso_cutString = cms.string("relPFrhoIso > 0.2 & relPFrhoIso < 1")
 muon_iso_cutString = cms.string("relPFdBetaIso > 0.24 & relPFdBetaIso < 1.5")
@@ -102,24 +100,6 @@ Preselection_AntiIso_SS_100um = cms.PSet(
 Preselection_AntiIso_SS_100um.cuts = invert_isolation (Preselection_SS_100um.cuts)
 
 #################################################################
-
-Preselection_AntiIso_50um = cms.PSet(
-    name = cms.string("Preselection_AntiIso_50um"),
-    triggers = cms.vstring(Preselection.triggers),
-    cuts = cms.VPSet ()
-)
-Preselection_AntiIso_50um.cuts = invert_isolation (Preselection_50um.cuts)
-
-#################################################################
-
-Preselection_AntiIso_SS_50um = cms.PSet(
-    name = cms.string("Preselection_AntiIso_SS_50um"),
-    triggers = cms.vstring(Preselection.triggers),
-    cuts = cms.VPSet ()
-)
-Preselection_AntiIso_SS_50um.cuts = invert_isolation (Preselection_SS_50um.cuts)
-
-#################################################################
 #################################################################
 
 Signal_Selection_AntiIso_1000um = cms.PSet(
@@ -140,24 +120,6 @@ Signal_Selection_AntiIso_SS_1000um.cuts = invert_isolation (Signal_Selection_SS_
 
 #################################################################
 
-Signal_Selection_AntiIso_500um = cms.PSet(
-    name = cms.string("Signal_Selection_AntiIso_500um"),
-    triggers = cms.vstring(Preselection.triggers),
-    cuts = cms.VPSet ()
-)
-Signal_Selection_AntiIso_500um.cuts = invert_isolation (Signal_Selection_500um.cuts)
-
-#################################################################
-
-Signal_Selection_AntiIso_SS_500um = cms.PSet(
-    name = cms.string("Signal_Selection_AntiIso_SS_500um"),
-    triggers = cms.vstring(Preselection.triggers),
-    cuts = cms.VPSet ()
-)
-Signal_Selection_AntiIso_SS_500um.cuts = invert_isolation (Signal_Selection_SS_500um.cuts)
-
-#################################################################
-
 Signal_Selection_AntiIso_200um = cms.PSet(
     name = cms.string("Signal_Selection_AntiIso_200um"),
     triggers = cms.vstring(Preselection.triggers),
@@ -174,47 +136,23 @@ Signal_Selection_AntiIso_SS_200um = cms.PSet(
 )
 Signal_Selection_AntiIso_SS_200um.cuts = invert_isolation (Signal_Selection_SS_200um.cuts)
 
+#################################################################
 
-
+Signal_Selection_AntiIso_500um = cms.PSet(
+    name = cms.string("Signal_Selection_AntiIso_500um"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+Signal_Selection_AntiIso_500um.cuts = invert_isolation (Signal_Selection_500um.cuts)
 
 #################################################################
 
-Displaced_Control_Region_AntiIso = cms.PSet(
-    name = cms.string("Displaced_Control_Region_AntiIso"),
-    triggers = cms.vstring(Displaced_Control_Region.triggers),
+Signal_Selection_AntiIso_SS_500um = cms.PSet(
+    name = cms.string("Signal_Selection_AntiIso_SS_500um"),
+    triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Displaced_Control_Region_AntiIso.cuts = invert_isolation (Displaced_Control_Region.cuts)
-
-#################################################################
-
-Displaced_Control_Region_AntiIso_SS = cms.PSet(
-    name = cms.string("Displaced_Control_Region_AntiIso_SS"),
-    triggers = cms.vstring(Displaced_Control_Region_SS.triggers),
-    cuts = cms.VPSet ()
-)
-Displaced_Control_Region_AntiIso_SS.cuts = invert_isolation (Displaced_Control_Region_SS.cuts)
-
-
-#################################################################
-
-Preselection_100um_AntiIso = cms.PSet(
-    name = cms.string("Preselection_100um_AntiIso"),
-    triggers = cms.vstring(Preselection_100um.triggers),
-    cuts = cms.VPSet ()
-)
-Preselection_100um_AntiIso.cuts = invert_isolation (Preselection_100um.cuts)
-
-#################################################################
-
-Preselection_100um_AntiIso_SS = cms.PSet(
-    name = cms.string("Preselection_100um_AntiIso_SS"),
-    triggers = cms.vstring(Preselection_100um_SS.triggers),
-    cuts = cms.VPSet ()
-)
-Preselection_100um_AntiIso_SS.cuts = invert_isolation (Preselection_100um_SS.cuts)
-
-
+Signal_Selection_AntiIso_SS_500um.cuts = invert_isolation (Signal_Selection_SS_500um.cuts)
 
 
 #################################################################
@@ -233,14 +171,6 @@ Preselection_EE_AntiIso.cuts = invert_isolation (Preselection_EE.cuts)
 
 #################################################################
 
-Signal_Selection_EE_AntiIso_200um = cms.PSet(
-    name = cms.string("Signal_Selection_EE_AntiIso_200um"),
-    triggers = cms.vstring(Preselection_EE.triggers),
-    cuts = cms.VPSet ()
-)
-Signal_Selection_EE_AntiIso_200um.cuts = invert_isolation (Signal_Selection_EE_200um.cuts)
-
-#################################################################
 
 Preselection_EE_AntiIso_SS = cms.PSet(
     name = cms.string("Preselection_EE_AntiIso_SS"),
@@ -261,15 +191,6 @@ Preselection_MuMu_AntiIso = cms.PSet(
     cuts = cms.VPSet ()
 )
 Preselection_MuMu_AntiIso.cuts = invert_isolation (Preselection_MuMu.cuts)
-
-#################################################################
-
-Signal_Selection_MuMu_AntiIso_200um = cms.PSet(
-    name = cms.string("Signal_Selection_MuMu_AntiIso_200um"),
-    triggers = cms.vstring(Preselection_MuMu.triggers),
-    cuts = cms.VPSet ()
-)
-Signal_Selection_MuMu_AntiIso_200um.cuts = invert_isolation (Signal_Selection_MuMu_200um.cuts)
 
 #################################################################
 
