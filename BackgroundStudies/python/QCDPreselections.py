@@ -83,21 +83,21 @@ Preselection_AntiIso_Prompt_SS.cuts = invert_isolation (Blinded_Preselection_SS.
 
 #################################################################
 
-Preselection_AntiIso_100um = cms.PSet(
-    name = cms.string("Preselection_AntiIso_100um"),
+Preselection_100um_AntiIso = cms.PSet(
+    name = cms.string("Preselection_100um_AntiIso"),
     triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_AntiIso_100um.cuts = invert_isolation (Preselection_100um.cuts)
+Preselection_100um_AntiIso.cuts = invert_isolation (Preselection_100um.cuts)
 
 #################################################################
 
-Preselection_AntiIso_SS_100um = cms.PSet(
-    name = cms.string("Preselection_AntiIso_SS_100um"),
+Preselection_100um_AntiIso_SS = cms.PSet(
+    name = cms.string("Preselection_100um_AntiIso_SS"),
     triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_AntiIso_SS_100um.cuts = invert_isolation (Preselection_SS_100um.cuts)
+Preselection_100um_AntiIso_SS.cuts = invert_isolation (Preselection_SS_100um.cuts)
 
 #################################################################
 #################################################################
