@@ -97,7 +97,7 @@ Preselection_100um_AntiIso_SS = cms.PSet(
     triggers = cms.vstring(Preselection.triggers),
     cuts = cms.VPSet ()
 )
-Preselection_100um_AntiIso_SS.cuts = invert_isolation (Preselection_SS_100um.cuts)
+Preselection_100um_AntiIso_SS.cuts = invert_isolation (Preselection_100um_SS.cuts)
 
 #################################################################
 #################################################################
