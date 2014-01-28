@@ -248,8 +248,11 @@ for dataset in datasets:
 
         else: # this is the data
             yields_strings[dataset][d0cut] = formatNumber(str(int(yields[dataset][d0cut])))
+
+
         if arguments.includeSystematics:
             sys_errors_strings[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
+
         stat_errors_strings[dataset][d0cut] = formatNumber(str(round_sigfigs(stat_errors[dataset][d0cut],1)).rstrip("0").rstrip("."))
 
 
@@ -299,6 +302,7 @@ for dataset in datasets:
 
     if types[dataset] is not "bgMC":
         continue
+
     bgMCcounter = bgMCcounter + 1
     rawlabel = "$" + labels[dataset] + "$"
     label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
@@ -334,10 +338,41 @@ if bgMCcounter is not 0:
                 
         line = line.rstrip("& ") + endLine + newLine + hLine
         fout.write(line)
-        
+
+#write a line for each signalMC sample
+signalCounter = 0
 for dataset in datasets:
 
+    if types[dataset] is not "signalMC" or not yields[dataset]:
+        continue
+
+    signalCounter = signalCounter + 1
+        
+    rawlabel = "$" + labels[dataset] + "$"
+    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
+
+    line = label + " & "
     
+    for d0cut in d0cuts_list:
+        if yields_strings[dataset][d0cut].find('$0$') is not -1:
+            line = line + yields_strings[dataset][d0cut] + " & "
+        else:
+            line = line + yields_strings[dataset][d0cut] + " $\pm$ " + stat_errors_strings[dataset][d0cut]
+            if arguments.includeSystematics:
+                line = line + " $\pm$ " + sys_errors_strings[dataset][d0cut]
+            line = line + " & "
+
+    line = line.rstrip("& ") + endLine + newLine
+    fout.write(line)
+
+
+if signalCounter > 0:
+    line = endLine + newLine + hLine
+    fout.write(line)
+
+#write a line with the data
+for dataset in datasets:
+
     if types[dataset] is not "data" or not yields[dataset]:
         continue
 
@@ -351,6 +386,9 @@ for dataset in datasets:
 
     line = line.rstrip("& ") + endLine + newLine + hLine
     fout.write(line)
+
+
+
 
     
 fout.write("\\end{tabular} \\end{center} \\end{table}"+newLine)
