@@ -18,7 +18,7 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
 parser.add_option("-c", "--outputDir", dest="outputDir",
                                     help="output directory")
 parser.add_option("-M", "--method", dest="method", default="Asymptotic",
-                                    help="which method of combine to use: currently supported options are Asymptotic (default), MarkovChainMC and HybridNew")
+                                    help="which method of combine to use: currently supported options are Asymptotic (default), BayesianSimple, MarkovChainMC, BayesianToyMC, and HybridNew")
 parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
                   help="how many points are proposed to fill a single Markov chain, default = 10k")
 parser.add_option("-r", "--tries", dest="Ntries", default="10",
@@ -73,6 +73,42 @@ def output_condor(command, options):
     f.write (sub_file)
     f.close ()
 
+def scaleSignal(src, dst):
+    f = open (src, "r")
+    processLine = ""
+    rateLine = ""
+    for line in f:
+      if re.search (r"^\s*process\s", line) and not processLine:
+          processLine = line
+      if re.search (r"^\s*rate\s", line) and not rateLine:
+          rateLine = line
+    f.close ()
+
+    processLine = processLine.split ()
+    rateLine = rateLine.split ()
+    signalRate = []
+    for process in range (0, len (processLine)):
+        if re.search (r"^stop", processLine[process]):
+            signalRate.append (float (rateLine[process]))
+    signalSF = 0.1 / (sorted (signalRate)[-1])
+    for process in range (0, len (processLine)):
+        if re.search (r"^stop", processLine[process]):
+            rateLine[process] = str (signalSF * float (rateLine[process]))
+
+    fin = open (src, "r")
+    fout = open (dst, "w")
+    for line in fin:
+      if re.search (r"^\s*rate\s", line):
+          fout.write (" ".join (rateLine))
+      else:
+          fout.write (line)
+    fin.close ()
+    fout.close ()
+
+    dst = re.sub (r"^(.*)\.[^./]*$", r"\1.sf", dst)
+    f = open (dst, "w")
+    f.write (str (signalSF) + "\n")
+    f.close ()
 
 ### create a file to keep track of which combine method was used
 ### (since extracting the limits is different for each one)
@@ -103,6 +139,16 @@ for mass in masses:
                 combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
                 combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+            elif arguments.method == "BayesianSimple":
+                combine_expected_options += "-M " + arguments.method + " "
+                combine_observed_options += "-M " + arguments.method + " "
+                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+                combine_observed_options = combine_observed_options + " "
+            elif arguments.method == "BayesianToyMC":
+                combine_expected_options += "-M " + arguments.method + " "
+                combine_observed_options += "-M " + arguments.method + " "
+                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+                combine_observed_options = combine_observed_options + " "
             else:
                 combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
                 combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
@@ -112,7 +158,8 @@ for mass in masses:
 
             shutil.rmtree(condor_expected_dir, True)
             os.mkdir(condor_expected_dir)
-            shutil.copy(datacard_src_name, datacard_dst_expected_name)
+            #shutil.copy(datacard_src_name, datacard_dst_expected_name)
+            scaleSignal(datacard_src_name, datacard_dst_expected_name)
             os.chdir(condor_expected_dir)
 
             if not arguments.batchMode:

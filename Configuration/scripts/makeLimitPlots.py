@@ -123,6 +123,15 @@ def makeSignalLogFileName(mass,lifetime,branching_ratio,directory,limit_type):
     print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".log"
     return "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".log"
 
+def getSignalSF(mass,lifetime,branching_ratio,directory):
+    signal_name = makeSignalName(mass,lifetime,branching_ratio)
+    signalSFFile = glob.glob("limits/"+directory+"/"+signal_name+"_expected/*.sf")
+    if not signalSFFile:
+        return 1.0
+    f = open (signalSFFile[0], "r")
+    signalSF = f.readline ().rstrip ()
+    return float (signalSF)
+
 def getTheoryGraph():
     x = [ ]
     y = [ ]
@@ -435,7 +444,7 @@ def getTwoSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
 def fetchLimits(mass,lifetime,branching_ratio,directories):
 
     limit = { }
-    limit['expected'] = 1.0e6
+    limit['expected'] = 1.0e12
 
     for directory in directories:
         if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt"):
@@ -530,10 +539,17 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
         tmp_limit['lifetime'] = 0.1 * float(lifetime)
         tmp_limit['branching_ratio'] = branching_ratio
 
+        signalSF = getSignalSF (mass, lifetime, branching_ratio, directory)
+        tmp_limit['expected'] *= signalSF
+        tmp_limit['up1'] *= signalSF
+        tmp_limit['up2'] *= signalSF
+        tmp_limit['down1'] *= signalSF
+        tmp_limit['down2'] *= signalSF
+
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
 
-    return (limit if limit['expected'] < 9.9e5 else -1)
+    return (limit if limit['expected'] < 9.9e11 else -1)
         
 
 def drawPlot(plot):
