@@ -17,12 +17,12 @@ d0histogramName = "electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits"
 # named "datacard_stopMASS_CTAUmm_brBR.root"
 
 #stop masses
-#masses = ['200','300','400','500','600','700','800']
+masses = ['200','300','400','500','600','700','800']
 #masses = ['300','700']
-masses = ['500']
+#masses = ['500']
 
 #stop ctau values
-lifetimes = ['1.0']
+#lifetimes = ['1.0']
 #lifetimes = ['0.5','5.0','50.0']
 #lifetimes = ['0.5','1.0','5.0','10.0','50.0','100.0']
 lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
@@ -32,11 +32,12 @@ lifetimes = ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1.0','2.0','3.0','
 #lifetimes = ['8.0','9.0','10.0','20.0','30.0','40.0','50.0','60.0','70.0','80.0','90.0','100.0']
 
 #stop->Bl branching ratios in percent
-#branching_ratios = ['0','50','100']
-branching_ratios = ['50']
+branching_ratios = ['0','50','100']
+#branching_ratios = ['50']
 
 #condor directory in which to find signal root files
-signal_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR_SIGNAL'
+#signal_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR_SIGNAL'
+signal_condor_dir = 'JAN28__Signal'
 
 #name of event selection from which to take signal yields
 signal_channel = 'Preselection_100um'
@@ -52,7 +53,8 @@ run_blind_limits = False
 data_dataset = "MuEG_22Jan2013"
 
 #condor directory in which to find data root file
-data_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR'
+#data_condor_dir = 'NOV26__QCD_ESTIMATE_DELTAR'
+data_condor_dir = 'JAN28__MC_Backgrounds'
 
 #name of event selection from which to take observed events
 data_channel = 'Preselection_100um'
@@ -63,38 +65,48 @@ data_channel = 'Preselection_100um'
 
 #list of backgrounds that will be added into the datacards
 backgrounds = [
-   'TTbar',
-   'SingleTop',
-   'Diboson',
-   'DY',
-   'WNjets',
-   'QCDFromData',
+##    'TTbar',
+##    'SingleTop',
+##    'Diboson',
+##    'DY',
+##    'WNjets',
+    'Top',
+    'EWK_WNjets',
+    'QCDFromData',
 ]
 
 #information about where to get the yields for each background
 background_sources = {
-   'TTbar' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+##    'TTbar' : {
+##       'condor_dir' : 'JAN28__MC_Backgrounds',
+##       'channel'    : 'Preselection_100um',
+##    },
+##    'SingleTop' : {
+##       'condor_dir' : 'JAN28__MC_Backgrounds',
+##       'channel'    : 'Preselection_100um',
+##    },
+##    'Diboson' : {
+##       'condor_dir' : 'JAN28__MC_Backgrounds',
+##       'channel'    : 'Preselection_100um',
+##    },
+##    'DY' : {
+##       'condor_dir' : 'JAN28__MC_Backgrounds',
+##       'channel'    : 'Preselection_100um',
+##    },
+##    'WNjets' : {
+##       'condor_dir' : 'JAN28__MC_Backgrounds',
+##       'channel'    : 'Preselection_100um',
+##    },
+   'Top' : {
+      'condor_dir' : 'JAN28__MC_Backgrounds',
       'channel'    : 'Preselection_100um',
    },
-   'SingleTop' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
-      'channel'    : 'Preselection_100um',
-   },
-   'Diboson' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
-      'channel'    : 'Preselection_100um',
-   },
-   'DY' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
-      'channel'    : 'Preselection_100um',
-   },
-   'WNjets' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+   'EWK_WNjets' : {
+      'condor_dir' : 'JAN28__MC_Backgrounds',
       'channel'    : 'Preselection_100um',
    },
    'QCDFromData' : {
-      'condor_dir' : 'NOV26__QCD_ESTIMATE_DELTAR',
+      'condor_dir' : 'JAN28__MC_Backgrounds',
       'channel'    : 'Preselection_100um',
    },
 
