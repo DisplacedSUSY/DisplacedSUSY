@@ -51,7 +51,7 @@ def getYield(sample,condor_dir,channel):
     return yield_
 
 
-outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic_name + "__" + channel + ".txt"
+outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic_name + ".txt"
 fout = open (outputFile, "w")
 
 for sample in datasets:
