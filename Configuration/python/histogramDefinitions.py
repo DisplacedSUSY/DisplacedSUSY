@@ -322,6 +322,82 @@ SecondaryElectronD0Histograms = cms.PSet(
     )
 )
 
+ConversionHistograms = cms.PSet(
+    inputCollection = cms.string("electrons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronEscOverPin"),
+            title = cms.string("Electron EscOverPin; "),
+            bins = cms.untracked.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("EscOverPin"),
+        ),
+        cms.PSet (
+            name = cms.string("electronEseedOverPout"),
+            title = cms.string("Electron EseedOverPout; "),
+            bins = cms.untracked.vdouble(100, 0, 5),
+            inputVariables = cms.vstring("EseedOverPout"),
+        ),
+        cms.PSet (
+            name = cms.string("electronhadOverEm"),
+            title = cms.string("Electron hadOverEm; "),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("hadOverEm"),
+        ),
+        cms.PSet (
+            name = cms.string("electronabsInvEMinusInvPin"),
+            title = cms.string("Electron absInvEMinusInvPin ; "),
+            bins = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("absInvEMinusInvPin"),
+        ),
+        cms.PSet (
+            name = cms.string("electrondist"),
+            title = cms.string("Electron dist; "),
+            bins = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("dist"),
+        ),
+        cms.PSet (
+            name = cms.string("electrondcot"),
+            title = cms.string("Electron dcot; "),
+            bins = cms.untracked.vdouble(100, -10, 10 ),
+            inputVariables = cms.vstring("dcot"),
+        ),
+        cms.PSet (
+            name = cms.string("electronconvradius"),
+            title = cms.string("Electron convradius; "),
+            bins = cms.untracked.vdouble(100, -100, 100),
+            inputVariables = cms.vstring("convradius"),
+        ),
+        cms.PSet (
+            name = cms.string("electronconvPointX"),
+            title = cms.string("Electron convPointX; "),
+            bins = cms.untracked.vdouble(100, -100, 100),
+            inputVariables = cms.vstring("convPointX"),
+        ),
+        cms.PSet (
+            name = cms.string("electronconvPointY"),
+            title = cms.string("Electron convPointY; "),
+            bins = cms.untracked.vdouble(100, -100, 100),
+            inputVariables = cms.vstring("convPointY"),
+        ),
+        cms.PSet (
+            name = cms.string("electronconvPointZ"),
+            title = cms.string("Electron convPointZ; "),
+            bins = cms.untracked.vdouble(100, -100, 100),
+            inputVariables = cms.vstring("convPointZ"),
+        ),
+        cms.PSet (
+            name = cms.string("electronconvPointYvsconvPointY"),
+            title = cms.string("Electron convPointY vs convPointX; x [cm]; y [cm]"),
+            bins = cms.untracked.vdouble(500, -100, 100, 500, -100, 100),
+            inputVariables = cms.vstring("convPointX","convPointY"),
+        ),
+
+
+
+
+    )
+)
+
 ElectronMuonCorrelationHistograms = cms.PSet(
     inputCollection = cms.string("electron-muon pairs"),
     histograms = cms.VPSet (
