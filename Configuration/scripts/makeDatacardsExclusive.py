@@ -20,8 +20,7 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
 parser.add_option("-d", "--d0Cut", action="append", dest="d0Cuts",
                   help="include a channel with specified lepton impact parameter requirement in cm, (the syntax for multiple channels is '-d STRING1 -d STRING2' etc.)")
-parser.add_option("-s", "--systematicsChannel", dest="systematicsChannel",
-                  help="channel name used in getting systematics values from text files")
+
 
 (arguments, args) = parser.parse_args()
 
@@ -43,9 +42,7 @@ if not arguments.d0Cuts:
     print "No d0 cuts specified, how could you?"
     sys.exit(0)
 
-if not arguments.systematicsChannel:
-    print "Please specify channel for systematic uncertainties"
-    sys.exit(0)
+
 
 
     
@@ -260,7 +257,7 @@ def writeDatacard(mass,lifetime,branching_ratio):
 
 
     
-    #add a new row for each uncertainty specified in configuration file
+    #add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:        
@@ -274,6 +271,23 @@ def writeDatacard(mass,lifetime,branching_ratio):
                 else:
                     row.append('-')
         datacard_data.append(row)
+
+
+    #add a new row for each dataset-specific uncertainty specified in configuration file
+    for uncertainty in unique_systematic_uncertainties:
+        row = [uncertainty,'lnN','']
+        for d0Cut in arguments.d0Cuts:        
+            if 'signal' is unique_systematic_uncertainties[uncertainty]['dataset']:
+                row.append(unique_systematic_uncertainties[uncertainty]['value'])
+            else:
+                row.append('-')
+            for background in backgrounds:
+                if background is unique_systematic_uncertainties[uncertainty]['dataset']:
+                    row.append(unique_systematic_uncertainties[uncertainty]['value'])
+                else:
+                    row.append('-')
+        datacard_data.append(row)
+
 
     #add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
@@ -350,7 +364,7 @@ for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most e
 ###getting all the systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "__" + arguments.systematicsChannel + ".txt")
+    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
     systematics_dictionary[systematic] = {}
     for line in input_file:
         line = line.rstrip("\n").split(" ")
