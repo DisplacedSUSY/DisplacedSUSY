@@ -89,7 +89,7 @@ def GetFittedQCDYieldAndError(pathToDir):
     ###getting all the systematic errors and putting them in a dictionary
     systematics_dictionary = {}
     for systematic in external_systematic_uncertainties:
-        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "__" + region_names['signal'] + ".txt")
+        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
         for line in input_file:
             line = line.rstrip("\n").split(" ")
             dataset = line[0]
@@ -142,7 +142,7 @@ def GetFittedQCDYieldAndError(pathToDir):
 ##########################################################################################################################################
 ##########################################################################################################################################
 
-def applySF (Histogram, sf, sfError):
+def applySF (Histogram, sf):    
     xLimit = Histogram.GetNbinsX () + 2
     yLimit = Histogram.GetNbinsY () + 2
     zLimit = Histogram.GetNbinsZ () + 2
@@ -157,7 +157,7 @@ def applySF (Histogram, sf, sfError):
                 content = Histogram.GetBinContent (bin)
                 error = Histogram.GetBinError (bin)
                 newContent = content * sf
-                newError = sqrt (content * content * sfError * sfError + error * error * sf * sf)
+                newError = error * sf
                 Histogram.SetBinContent (bin, newContent)
                 Histogram.SetBinError (bin, newError)
 
@@ -302,7 +302,7 @@ for key in gDirectory.GetListOfKeys(): # loop over histograms in the current dir
         Histogram.SetDirectory(0)
 
         subtractImpurities (Histogram)
-        applySF (Histogram, scale_factor, 2.0 * max (scale_factor_error_plus, scale_factor_error_minus))
+        applySF (Histogram, scale_factor)
         outputFile.cd (rootDirectory)
 
         #change the names of the cutflow histograms, so it will still work with makeYieldsTables.py
@@ -324,7 +324,7 @@ for channel in input_channels: # loop over final states, which each have their o
         Histogram.SetDirectory(0)
 
         subtractImpurities (Histogram,channel)
-        applySF (Histogram, scale_factor, 2.0 * max (scale_factor_error_plus, scale_factor_error_minus))
+        applySF (Histogram, scale_factor)
 
         outputFile.cd (rootDirectory + "/" + channel_map[channel])
         Histogram.Write ()
