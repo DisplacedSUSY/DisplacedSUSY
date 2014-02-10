@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 
 config_file = "qcdMuonControlRegionAnalyzer_cfg.py"
 
-intLumi = 19680.  # MuEG 22Jan Re-Reco
+intLumi = 24.8  # DoubleMuon 22Jan Re-Reco
 
 datasets = [
 
@@ -15,17 +15,14 @@ datasets = [
 
 #    'QCDFromData',
 #     'QCD_ElectronEnriched',
-#     'QCD_MuEnriched',
 #     'QCD_bEnriched',
 
-    'Wjets',
+    #'WNjets',
 
-    'Diboson',
 #    'WW',
 #    'WZ',
 #    'ZZ',
 
-    'SingleTop',
 ##     'SingleT_s',
 ##     'SingleTbar_s',
 ##     'SingleT_t',
@@ -33,23 +30,26 @@ datasets = [
 ##     'SingleT_tW',
 ##     'SingleTbar_tW',
 
-    'TTbar',
 #    'TTbar_Had',
 #    'TTbar_SemiLep',
 #    'TTbar_Lep',
 
-    'DY',
+    #'DY',
 #    'DYToEE_20',
 #    'DYToMuMu_20',
 #    'DYToTauTau_20',
 
+    #'Diboson',
+    #'SingleTop',
+    #'TTbar',
+    # 'QCD_MuEnriched',
 
 ####################
 ### data samples ###
 ####################
 
-    'MuEG_22Jan2013',
-
+    #'DoubleMu_22Jan2013',
+    'DoubleMu_2012A_22Jan2013',
 
 ]
 

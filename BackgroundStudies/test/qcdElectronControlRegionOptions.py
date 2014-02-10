@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 
 config_file = "qcdElectronControlRegionAnalyzer_cfg.py"
 
-intLumi = 19680.  # MuEG 22Jan Re-Reco
+intLumi = 23.889233  # DoubleElectron_22Jan2013
 
 datasets = [
 
@@ -14,18 +14,16 @@ datasets = [
 ##########################
 
 #    'QCDFromData',
-#     'QCD_ElectronEnriched',
 #     'QCD_MuEnriched',
 #     'QCD_bEnriched',
 
-    'Wjets',
+    'WNjets',
 
     'Diboson',
 #    'WW',
 #    'WZ',
 #    'ZZ',
 
-    'SingleTop',
 ##     'SingleT_s',
 ##     'SingleTbar_s',
 ##     'SingleT_t',
@@ -33,7 +31,6 @@ datasets = [
 ##     'SingleT_tW',
 ##     'SingleTbar_tW',
 
-    'TTbar',
 #    'TTbar_Had',
 #    'TTbar_SemiLep',
 #    'TTbar_Lep',
@@ -42,13 +39,15 @@ datasets = [
 #    'DYToEE_20',
 #    'DYToMuMu_20',
 #    'DYToTauTau_20',
-
+    'SingleTop',
+    'TTbar',
+    'QCD_ElectronEnriched',
 
 ####################
 ### data samples ###
 ####################
 
-    'MuEG_22Jan2013',
+    'DoubleElectron_22Jan2013',
 
 
 ]
