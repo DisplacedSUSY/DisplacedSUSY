@@ -85,7 +85,7 @@ BbBar_Muon_Selection = cms.PSet(
 
 BbBar_Electron_Selection = cms.PSet(
     name = cms.string("BbBar_Electron_Selection"),
-    triggers = cms.vstring("HLT_Ele17_CaloIdL_CaloIsoVL_v"),
+    triggers = cms.vstring("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v"),
     cuts = cms.VPSet (
       cms.PSet (
         inputCollection = cms.string("events"),
@@ -184,3 +184,23 @@ BbBar_Electron_Selection_AntiIso = cms.PSet(
 )
 BbBar_Electron_Selection_AntiIso.cuts = invert_isolation (BbBar_Electron_Selection.cuts)
 
+BbBar_Muon_Selection_NoIso = cms.PSet(
+    name = cms.string("BbBar_Muon_Selection_NoIso"),
+    triggers = cms.vstring(BbBar_Muon_Selection.triggers),
+    cuts = cms.VPSet ()
+)
+BbBar_Muon_Selection_NoIso.cuts = invert_isolation (BbBar_Muon_Selection.cuts)
+for cut in BbBar_Muon_Selection_NoIso.cuts:
+	if 'dBeta' in str(cut.cutString):
+		BbBar_Muon_Selection_NoIso.cuts.remove(cut)
+
+
+BbBar_Electron_Selection_NoIso = cms.PSet(
+    name = cms.string("BbBar_Electron_Selection_NoIso"),
+    triggers = cms.vstring(BbBar_Electron_Selection.triggers),
+    cuts = cms.VPSet ()
+)
+BbBar_Electron_Selection_NoIso.cuts = invert_isolation (BbBar_Electron_Selection.cuts)
+for cut in BbBar_Electron_Selection_NoIso.cuts:
+	if 'PF' in str(cut.cutString):
+		BbBar_Electron_Selection_NoIso.cuts.remove(cut)
