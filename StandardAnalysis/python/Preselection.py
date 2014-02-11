@@ -228,6 +228,71 @@ Blinded_Preselection.cuts.append(muon_d0_cut)
 
 #################################################################
 
+# PRESELECTION WITH ONE PROMPT LEPTON AND ONE NON-PROMPT LEPTON
+
+MuonPromptElectronNonPrompt_Preselection = cms.PSet(
+    name = cms.string("MuonPromptElectronNonPrompt_Preselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+MuonPromptElectronNonPrompt_Preselection.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+ElectronPromptMuonNonPrompt_Preselection = cms.PSet(
+    name = cms.string("ElectronPromptMuonNonPrompt_Preselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+ElectronPromptMuonNonPrompt_Preselection.cuts.extend(copy.deepcopy(Preselection.cuts))
+
+electron_d0blinding_cut = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("abs(correctedD0) < 0.02"),
+    numberRequired = cms.string("== 1")
+)
+muon_d0blinding_cut = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("abs(correctedD0) < 0.02"),
+    numberRequired = cms.string("== 1")
+)
+electron_d0nonprompt_cut = cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string("== 1")
+)
+muon_d0nonprompt_cut = cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string("== 1")
+)
+
+MuonPromptElectronNonPrompt_Preselection.cuts.append(muon_d0blinding_cut)
+ElectronPromptMuonNonPrompt_Preselection.cuts.append(electron_d0blinding_cut)
+MuonPromptElectronNonPrompt_Preselection.cuts.append(electron_d0nonprompt_cut)
+ElectronPromptMuonNonPrompt_Preselection.cuts.append(muon_d0nonprompt_cut)
+
+# PRESELECTION WITH ONE PROMPT LEPTON AND ONE NON-PROMPT LEPTON SS
+MuonPromptElectronNonPrompt_Preselection_SS = cms.PSet(
+    name = cms.string("MuonPromptElectronNonPrompt_Preselection_SS"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+MuonPromptElectronNonPrompt_Preselection_SS.cuts.extend(copy.deepcopy(MuonPromptElectronNonPrompt_Preselection.cuts))
+
+ElectronPromptMuonNonPrompt_Preselection_SS = cms.PSet(
+    name = cms.string("ElectronPromptMuonNonPrompt_Preselection_SS"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+ElectronPromptMuonNonPrompt_Preselection_SS.cuts.extend(copy.deepcopy(ElectronPromptMuonNonPrompt_Preselection.cuts))
+
+for cut in MuonPromptElectronNonPrompt_Preselection_SS.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+for cut in ElectronPromptMuonNonPrompt_Preselection_SS.cuts:
+    if "chargeProduct" in str(cut.cutString):
+        cut.cutString = cms.string('chargeProduct > 0')
+#################################################################
+
 # PRESELECTION WITH PROMPT SS LEPTONS
 
 Blinded_Preselection_SS = cms.PSet(
