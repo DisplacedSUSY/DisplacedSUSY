@@ -85,7 +85,7 @@ BbBar_Muon_Selection = cms.PSet(
 
 BbBar_Electron_Selection = cms.PSet(
     name = cms.string("BbBar_Electron_Selection"),
-    triggers = cms.vstring("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v"),
+    triggers = cms.vstring("HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v"),
     cuts = cms.VPSet (
       cms.PSet (
         inputCollection = cms.string("events"),

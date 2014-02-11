@@ -2,6 +2,9 @@
 
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 
+external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
+
+
 # for the ABCD method and the signal region
 region_names = {
     'A' : 'Preselection_100um_SS',
@@ -27,6 +30,9 @@ distributions_to_fit = [
 
 # other contributions in region A that will be held constant in the fitting
 fitting_backgrounds = [
+#    'EWK_WNjets',
+#    'Top'
+
     #'Background'
     'WNjets',
     'Diboson',
@@ -37,6 +43,8 @@ fitting_backgrounds = [
 
 # other contributions in regions C & D that should be subtracted off
 impurities = [
+#    'EWK_WNjets',
+#    'Top'
     #'Background'
     'WNjets',
     'Diboson',
