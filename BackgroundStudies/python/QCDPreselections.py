@@ -56,6 +56,42 @@ Preselection_AntiIso.cuts = invert_isolation (Preselection.cuts)
 
 #################################################################
 
+MuonPromptElectronNonPrompt_Preselection_AntiIso = cms.PSet(
+    name = cms.string("MuonPromptElectronNonPrompt_Preselection_AntiIso"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+MuonPromptElectronNonPrompt_Preselection_AntiIso.cuts = invert_isolation (MuonPromptElectronNonPrompt_Preselection.cuts)
+
+#################################################################
+
+ElectronPromptMuonNonPrompt_Preselection_AntiIso = cms.PSet(
+    name = cms.string("ElectronPromptMuonNonPrompt_Preselection_AntiIso"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+ElectronPromptMuonNonPrompt_Preselection_AntiIso.cuts = invert_isolation (ElectronPromptMuonNonPrompt_Preselection.cuts)
+
+#################################################################
+
+MuonPromptElectronNonPrompt_Preselection_SS_AntiIso = cms.PSet(
+    name = cms.string("MuonPromptElectronNonPrompt_Preselection_SS_AntiIso"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+MuonPromptElectronNonPrompt_Preselection_SS_AntiIso.cuts = invert_isolation (MuonPromptElectronNonPrompt_Preselection_SS.cuts)
+
+#################################################################
+
+ElectronPromptMuonNonPrompt_Preselection_SS_AntiIso = cms.PSet(
+    name = cms.string("ElectronPromptMuonNonPrompt_Preselection_SS_AntiIso"),
+    triggers = cms.vstring(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+ElectronPromptMuonNonPrompt_Preselection_SS_AntiIso.cuts = invert_isolation (ElectronPromptMuonNonPrompt_Preselection_SS.cuts)
+
+#################################################################
+
 Preselection_AntiIso_Prompt = cms.PSet(
     name = cms.string("Preselection_AntiIso_Prompt"),
     triggers = cms.vstring(Blinded_Preselection.triggers),
