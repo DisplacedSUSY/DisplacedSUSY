@@ -44,6 +44,15 @@ if not arguments.d0Cuts:
 
 
 
+dataset_weights = {
+
+    'WNjets' : 8.2,
+    'Diboson' : 0.108,
+    'SingleTop' : 0.88,
+    'TTbar' : 0.042,
+    'DY' : 0.773,
+
+}
 
     
 integrateOutwardX = True
@@ -341,6 +350,8 @@ for background in backgrounds:
         background_yields[background][d0Cut] = yieldAndError['yield']
         background_errors[background][d0Cut] = yieldAndError['error']
 
+
+
         #print "for d0 > "+d0Cut+":"
         #print background+" yield = "+str(background_yields[background][d0Cut])+" +- "+str(100*(background_errors[background][d0Cut]-1))+"%"
 
@@ -355,10 +366,19 @@ for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most e
         background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
         if background_yields[background][currentD0Cut] > 0.0:
             background_errors[background][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / background_yields[background][currentD0Cut] + 1
-        else:
-            background_errors[background][currentD0Cut] = 0
+        else: 
+            if background in dataset_weights:
+                background_yields[background][currentD0Cut] = 0.69 * dataset_weights[background]
+            else:
+                background_errors[background][currentD0Cut] = 0
 
+for background in backgrounds:
+    currentD0Cut = arguments.d0Cuts[-1]
+    if not background_yields[background][currentD0Cut] > 0.0:
+        if background in dataset_weights:
+            background_yields[background][currentD0Cut] = 0.69 * dataset_weights[background]
 
+    
 
 
 ###getting all the systematic errors and putting them in a dictionary

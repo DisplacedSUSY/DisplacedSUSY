@@ -52,10 +52,75 @@ gROOT.SetBatch()
 ##########################################################################################################################################
 
 
+
+def getSystematicError(sample):
+    errorSquared = 0.0
+    if types[sample] is "data":
+        return 0.0
+
+    # add uncertainty on normalization method
+    if sample in background_normalization_uncertainties:
+        input_error = background_normalization_uncertainties[sample]['value']
+        if '/' in input_error:
+            line = input_error.split('/')
+            minus_error = float(line[0]) - 1
+            plus_error = float(line[1]) - 1
+            if abs(minus_error) > abs(plus_error):
+                error = minus_error
+            else:
+                error = plus_error
+        else:
+            error = float(input_error) - 1
+        errorSquared = errorSquared + error * error
+
+    # add global uncertainties
+    for uncertainty in global_systematic_uncertainties:
+        if sample in global_systematic_uncertainties[uncertainty]['applyList']:
+            error = float(global_systematic_uncertainties[uncertainty]['value']) -1
+            errorSquared = errorSquared + error * error
+
+    # add sample-specific uncertainties
+    for uncertainty in unique_systematic_uncertainties:
+        if sample is unique_systematic_uncertainties[uncertainty]['dataset']:
+            error = float(unique_systematic_uncertainties[uncertainty]['value']) -1
+            errorSquared = errorSquared + error * error
+
+  
+    # add sample-specific uncertainties from text files
+    for uncertainty in external_systematic_uncertainties:
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
+        if not os.path.exists(input_file_path):
+            print "WARNING: didn't find ",input_file_path
+            print "   will skip this systematic for this channel"
+            return 0
+        input_file = open(input_file_path)
+        for line in input_file:
+            line = line.rstrip("n").split(" ")
+            dataset = line[0]
+            if dataset != sample:
+                continue
+
+            if line[1] != '0':
+                if len(line) is 2: #just one error
+                    error = float(line[1]) - 1
+                elif len(line) is 3: #asymmetric +- errors (we'll take the bigger one)
+                    minus_error = float(line[1]) - 1
+                    plus_error = float(line[2]) - 1
+                    if abs(minus_error) > abs(plus_error):
+                        error = minus_error
+                    else:
+                        error = plus_error
+                errorSquared = errorSquared + error * error
+
+  
+    return math.sqrt(errorSquared)
+
+########################################################################################
+########################################################################################
+
+
 def GetFittedQCDYieldAndError(pathToDir):
 
-    BackgroundHistograms = {}
-   
     fileName = condor_dir + "/" + data_dataset + ".root"
     if not os.path.exists(fileName):
         return 0 
@@ -73,7 +138,7 @@ def GetFittedQCDYieldAndError(pathToDir):
 
     inputFile.Close()
 
-    for sample in fitting_backgrounds: # loop over different samples that get held constant in the fit
+    for sample in fitting_backgrounds: # loop over different samples that get subtracted from the total and save the cutflow table
 
         dataset_file = "%s/%s.root" % (condor_dir,sample)
         inputFile = TFile(dataset_file)
@@ -84,56 +149,29 @@ def GetFittedQCDYieldAndError(pathToDir):
         MCHistogram = HistogramObj.Clone()
         MCHistogram.SetDirectory(0)
         inputFile.Close()
-        BackgroundHistograms[sample] = MCHistogram
 
-    ###getting all the systematic errors and putting them in a dictionary
-    systematics_dictionary = {}
-    for systematic in external_systematic_uncertainties:
-        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
-        for line in input_file:
-            line = line.rstrip("\n").split(" ")
-            dataset = line[0]
-            if dataset not in systematics_dictionary:
-                systematics_dictionary[dataset] = {}
-                systematics_dictionary[dataset]['+'] = 0.0
-                systematics_dictionary[dataset]['-'] = 0.0
-            if len(line) is 2:
-                line[1] = float (line[1])
-                systematics_dictionary[dataset]['+'] += (line[1] - 1.0) * (line[1] - 1.0)
-                systematics_dictionary[dataset]['-'] += (line[1] - 1.0) * (line[1] - 1.0)
-            elif len(line) is 3:
-                line[1] = float (line[1])
-                line[2] = float (line[2])
-                if line[1] > line[2]:
-                    line[1],line[2] = line[2],line[1]
-                systematics_dictionary[dataset]['+'] += (line[2] - 1.0) * (line[2] - 1.0)
-                systematics_dictionary[dataset]['-'] += (1.0 - line[1]) * (1.0 - line[1])
-    
-    totalSystematicPlus = 0.0
-    totalSystematicMinus = 0.0
-    for HistName in BackgroundHistograms:
-        Hist = BackgroundHistograms[HistName]
-        nBins = Hist.GetNbinsX ()
-        content = Hist.GetBinContent (nBins)
-        error = Hist.GetBinError (nBins)
-        if HistName in systematics_dictionary:
-            totalSystematicPlus += systematics_dictionary[HistName]['+'] * content
-            totalSystematicMinus += systematics_dictionary[HistName]['-'] * content
-        else:
-            print "WARNING: no systematics found for " + HistName
-        DataHistogram.Add(Hist,-1)
-        relError = error / content if content > 0 else 0
-        print str(HistName) + ' : ' + str(content) + ' +- ' + str(error) + ' ( +-' + str(relError * 100.0) + '% )' 
+        nBins = MCHistogram.GetNbinsX ()
+        content = MCHistogram.GetBinContent (nBins)
+        error = MCHistogram.GetBinError (nBins)
+        statRelError = error / content if content > 0 else 0
+        sysRelError =  getSystematicError(sample)
+
+        # add the stat. and sys. errors and apply them to the last bin of the cutflow table
+        totalRelError = sqrt(statRelError*statRelError + sysRelError*sysRelError)
+        MCHistogram.SetBinError(nBins,totalRelError*content)
+
+        # subtract the MC histogram from the data
+        DataHistogram.Add(MCHistogram,-1)
+
+        print str(sample) + ' : ' + str(content) + ' +- ' + str(MCHistogram.GetBinError(nBins)) + ' ( +-' + str(totalRelError * 100.0) + '% )' 
     
     nBins = DataHistogram.GetNbinsX ()
     content = DataHistogram.GetBinContent (nBins)
-    error = DataHistogram.GetBinError (nBins) / 2.0
-    error *= error
+    error = DataHistogram.GetBinError (nBins)
 
     yieldAndError = []
     yieldAndError.append(content)
-    yieldAndError.append(sqrt (error + totalSystematicPlus))
-    yieldAndError.append(sqrt (error + totalSystematicMinus))
+    yieldAndError.append(error)
 
     return yieldAndError
 
@@ -200,11 +238,9 @@ YieldsAndErrorInA = GetFittedQCDYieldAndError("OSUAnalysis")
 print
 print '-----------------------------------------------------------------------------------------------------------------'
 
-plus = YieldsAndErrorInA[1]
-minus = YieldsAndErrorInA[2]
-plusRelative = YieldsAndErrorInA[1] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
-minusRelative = YieldsAndErrorInA[2] / YieldsAndErrorInA[0] if YieldsAndErrorInA[0] > 0 else 0
-print "QCD Yield in Region A by Subtracting MC from Data = ", YieldsAndErrorInA[0], "+", plus, "-", minus, "(+", plusRelative, "-", minusRelative, "%)"
+qcdYield = YieldsAndErrorInA[0]
+qcdError = YieldsAndErrorInA[1]
+print "QCD Yield in Region A by Subtracting MC from Data = ", qcdYield, "+-", qcdError, "(+-", qcdError/qcdYield * 100, "%)"
 print '-----------------------------------------------------------------------------------------------------------------'
 
 # 4
@@ -213,45 +249,42 @@ print '-------------------------------------------------------------------------
 yields = {}
 errors = {}
 
-yields['A'] = YieldsAndErrorInA[0]
-errors['A'] = {}
-errors['A']['+'] = YieldsAndErrorInA[1] / yields['A']
-errors['A']['-'] = YieldsAndErrorInA[2] / yields['A']
+yields['A'] = qcdYield
+errors['A'] = qcdError / qcdYield
+#print "yields['A']", yields['A']
+#print "errors['A']", errors['A']
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['C']+"CutFlow")
 yields['C'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
-errors['C'] = {}
-errors['C']['+'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['C']
-errors['C']['-'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['C']
+#print "yields['C']", yields['C']
+errors['C'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['C']
+#print "errors['C']", errors['C']
 
 CutFlowHistogram = inputFile.Get("OSUAnalysis/"+region_names['D']+"CutFlow")
 yields['D'] = CutFlowHistogram.GetBinContent(CutFlowHistogram.GetNbinsX())
-errors['D'] = {}
-errors['D']['+'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['D']
-errors['D']['-'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['D']
-
+#print "yields['D']", yields['D']
+errors['D'] = (CutFlowHistogram.GetBinError(CutFlowHistogram.GetNbinsX()) / 2.0) / yields['D']
+#print "errors['D']", errors['D']
 
 # B = A/C * D
 # deltaB = sqrt(deltaA^2+deltaC^2+deltaD^2)
 
 yields['B'] = yields['A'] / yields['C'] * yields['D']
-errors['B'] = {}
-errors['B']['+'] = sqrt(errors['A']['+']*errors['A']['+'] + errors['C']['+']*errors['C']['+'] + errors['D']['+']*errors['D']['+'])
-errors['B']['-'] = sqrt(errors['A']['-']*errors['A']['-'] + errors['C']['-']*errors['C']['-'] + errors['D']['-']*errors['D']['-'])
+errors['B'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'] + errors['D']*errors['D'])
 
-errors['A/C'] = {}
-errors['A/C']['+'] = sqrt(errors['A']['+']*errors['A']['+'] + errors['C']['+']*errors['C']['+'])
-errors['A/C']['-'] = sqrt(errors['A']['-']*errors['A']['-'] + errors['C']['-']*errors['C']['-'])
+errors['A/C'] = sqrt(errors['A']*errors['A'] + errors['C']*errors['C'])
 
 scale_factor = yields['A'] / yields['C']
-scale_factor_rel_error_plus = errors['A/C']['+'] * 100.0
-scale_factor_rel_error_minus = errors['A/C']['-'] * 100.0
-scale_factor_error_plus = scale_factor *errors['A/C']['+']
-scale_factor_error_minus = scale_factor *errors['A/C']['-']
+scale_factor_rel_error = errors['A/C']
+scale_factor_error = scale_factor_rel_error * scale_factor
+
+#print errors['A']
+#print errors['C']
+#print errors['A/C']
 
 
 print '-----------------------------------------------------------------------------------------------------------------'
-print "A/C (B/D) Scale Factor = ", scale_factor, "+",scale_factor_error_plus, "-", scale_factor_error_minus, "(+", scale_factor_rel_error_plus, "-", scale_factor_rel_error_minus, "%)"
+print "A/C (B/D) Scale Factor = ", scale_factor, "+-", scale_factor_error, "(+-", scale_factor_rel_error * 100, "%)"
 print '-----------------------------------------------------------------------------------------------------------------'
 
 # 5

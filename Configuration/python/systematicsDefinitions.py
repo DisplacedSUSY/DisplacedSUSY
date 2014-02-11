@@ -59,61 +59,61 @@ signal_cross_sections = {
 # For things take from data, this should be the uncertainty on the data-driven method
 
 background_normalization_uncertainties = {
-##     # this is basically all Z->tautau, so we take the uncertainty from the last H->tautau result, HIG-13-004
-##     # 3% number found on page 92 of supporting note AN-2013/011
-##     'DY' : { 
-##        'value' : '1.03',
-##        'type' : 'lnN',
-##     },
-##     # this is basically all WW, so we'll take the uncertainty from CMS PAS SMP-12-013
-##     # central value should be 69.9 pb (need to change that, it's 30% higher than theory value)  
-##     # well... the WW control region supports using the theory cross section... effing physics
-## ##     'Diboson' : {
-## ##        'value' : '1.16',
-## ##        'type' : 'lnN',
-## ##     },
-##     # on second thought, let's just use the NLO prediction that they compare to in SMP-12-013
-##     # that central value is 57.25, and we currently use 54.83, so ~5% higher
-##     'Diboson' : {
-##        'value' : '0.972/1.041',
-##        'type' : 'lnN',
-##     },
-##     # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
-##     'TTbar' : {
-##        'value' : '0.966/1.025',
-##        'type' : 'lnN',
-##     },
-##     # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
-##     'SingleTop' : {
-##        'value' : '1.03',
-##        'type' : 'lnN',
-##     },
-##     # use number from PAS SMP-12-011
-##     # central value should be 356400 pb (need to change that, it's 5% lower than theory value) 
-##     'WNjets' : {
-##        'value' : '1.065',
-##        'type' : 'lnN',
-##     },
+    # this is basically all Z->tautau, so we take the uncertainty from the last H->tautau result, HIG-13-004
+    # 3% number found on page 92 of supporting note AN-2013/011
+    'DY' : { 
+       'value' : '1.03',
+       'type' : 'lnN',
+    },
+    # this is basically all WW, so we'll take the uncertainty from CMS PAS SMP-12-013
+    # central value should be 69.9 pb (need to change that, it's 30% higher than theory value)  
+    # well... the WW control region supports using the theory cross section... effing physics
+    # 'Diboson' : {
+    #    'value' : '1.16',
+    #    'type' : 'lnN',
+    # },
+    # on second thought, let's just use the NLO prediction that they compare to in SMP-12-013
+    # that central value is 57.25, and we currently use 54.83, so ~5% higher
+    'Diboson' : {
+       'value' : '0.972/1.041',
+       'type' : 'lnN',
+    },
+    # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
+    'TTbar' : {
+       'value' : '0.966/1.025',
+       'type' : 'lnN',
+    },
+    # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
+    'SingleTop' : {
+       'value' : '1.03',
+       'type' : 'lnN',
+    },
+    # use number from PAS SMP-12-011
+    # central value should be 356400 pb (need to change that, it's 5% lower than theory value) 
+    'WNjets' : {
+       'value' : '1.065',
+       'type' : 'lnN',
+    },
 
 
     # taken from error on fitting for QCD yield in ABCD method
     'QCDFromData' : {
-       'value' : '1.15',
+       'value' : '1.25',
        'type' : 'lnN',
     },
 
     # with new merged datasets, just take the uncertainty from the dataset which dominates the sample
 
-    # dominated by TTbar
-    'Top' : {
-       'value' : '0.966/1.025',
-       'type' : 'lnN',
-    },
-    # dominated by Z->tautau
-    'EWK_WNjets' : {
-       'value' : '1.03',
-       'type' : 'lnN',
-    },
+##     # dominated by TTbar
+##     'Top' : {
+##        'value' : '0.966/1.025',
+##        'type' : 'lnN',
+##     },
+##     # dominated by Z->tautau
+##     'EWK_WNjets' : {
+##        'value' : '1.03',
+##        'type' : 'lnN',
+##     },
 
 
 }
@@ -123,20 +123,20 @@ background_normalization_uncertainties = {
 ######################################################
 
 #list of backgrounds for which we take the yield from MC in some way
-## mc_normalized_processes = [
-##    'TTbar',
-##    'SingleTop',
-##    'Diboson',
-##    'DY',
-##    'WNjets',
-##    'signal'
-## ]
-
 mc_normalized_processes = [
-   'Top',
-   'EWK_WNjets',
+   'TTbar',
+   'SingleTop',
+   'Diboson',
+   'DY',
+   'WNjets',
    'signal'
 ]
+
+## mc_normalized_processes = [
+##    'Top',
+##    'EWK_WNjets',
+##    'signal'
+## ]
 
 
 
@@ -159,29 +159,71 @@ global_systematic_uncertainties = {
 
 #uncertainties which have different values for each dataset
 unique_systematic_uncertainties = {
-    'Top_matching' : {
+##     'Top_matching' : {
+##         'value' : '1.05',
+##         'dataset' : 'Top'
+##     },
+##     'Top_scale' : {
+##         'value' : '1.64',
+##         'dataset' : 'Top'
+##     },
+##     'EWK_WNjets_matching' : {
+##         'value' : '1.19',
+##         'dataset' : 'EWK_WNjets'
+##     },
+##     'EWK_WNjets_scale' : {
+##         'value' : '1.22',
+##         'dataset' : 'EWK_WNjets'
+##     },    
+
+    'TTbar_matching' : {
         'value' : '1.05',
-        'dataset' : 'Top'
+        'dataset' : 'TTbar'
     },
-    'Top_scale' : {
+    'TTbar_scale' : {
         'value' : '1.64',
-        'dataset' : 'Top'
+        'dataset' : 'TTbar'
     },
-    'EWK_WNjets_matching' : {
-        'value' : '1.19',
-        'dataset' : 'EWK_WNjets'
+    'SingleTop_matching' : {
+        'value' : '1.05',
+        'dataset' : 'SingleTop'
     },
-    'EWK_WNjets_scale' : {
-        'value' : '1.22',
-        'dataset' : 'EWK_WNjets'
+    'SingleTop_scale' : {
+        'value' : '1.64',
+        'dataset' : 'SingleTop'
+    },
+    'WNjets_matching' : {
+        'value' : '1.35',
+        'dataset' : 'WNjets'
+    },
+    'WNjets_scale' : {
+        'value' : '1.3',
+        'dataset' : 'WNjets'
     },    
+    'Diboson_matching' : {
+        'value' : '1.19',
+        'dataset' : 'Diboson'
+    },
+    'Diboson_scale' : {
+        'value' : '1.22',
+        'dataset' : 'Diboson'
+    },    
+    'DY_matching' : {
+        'value' : '1.19',
+        'dataset' : 'DY'
+    },
+    'DY_scale' : {
+        'value' : '1.22',
+        'dataset' : 'DY'
+    },    
+
 }
 
 
 #defined in external text files (located in DisplacedSUSY/Configuration/data)
 external_systematic_uncertainties = [
-##     'electronSF',
-##     'muonSF',
-##     'pdf',
+    'electronSF',
+    'muonSF',
+    'pdf',
     'pileup',
 ]
