@@ -630,130 +630,132 @@ def drawPlot(plot):
         if 'colorScheme' in graph:
             colorScheme = graph['colorScheme']
         if not is2D:
-            if 'twoSigma' in graph['graphsToInclude']:
-                tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('3')
-                else:
-                    tGraphs[-1].Draw('A3')
-                plotDrawn = True
-                legendEntry = '#pm 2 #sigma'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-            if 'oneSigma' in graph['graphsToInclude']:
-                tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('3')
-                else:
-                    tGraphs[-1].Draw('A3')
-                plotDrawn = True
+            for graphName in graph['graphsToInclude']:
+                if graphName is 'twoSigma':
+                    tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('3')
+                    else:
+                        tGraphs[-1].Draw('A3')
+                    plotDrawn = True
+                    legendEntry = '#pm 2 #sigma'
+                    if graphName is 'legendEntry':
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                if graphName is 'oneSigma':
+                    tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('3')
+                    else:
+                        tGraphs[-1].Draw('A3')
+                    plotDrawn = True
 
-                legendEntry = '#pm 1 #sigma'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-            if 'exp' in graph['graphsToInclude']:
-                tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
+                    legendEntry = '#pm 1 #sigma'
+                    if graphName is 'legendEntry':
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                if graphName is 'exp':
+                    tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
 
-                legendEntry = 'exp. limit'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-            if 'obs' in graph['graphsToInclude']:
-                tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
+                    legendEntry = 'exp. limit'
+                    if graphName is 'legendEntry':
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                if graphName is 'obs':
+                    tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
 
-                legendEntry = 'obs. limit'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                    legendEntry = 'obs. limit'
+                    if graphName is 'legendEntry':
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
         else:
-            if 'twoSigma' in graph['graphsToInclude']:
-                tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('F')
-                else:
-                    tGraphs[-1].Draw('AF')
-                plotDrawn = True
-                legendEntry = '#pm 2 #sigma_{experiment}'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-            if 'oneSigma' in graph['graphsToInclude']:
-                tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('F')
-                else:
-                    tGraphs[-1].Draw('AF')
-                plotDrawn = True
-                legendEntry = '#pm 1 #sigma_{experiment}'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-            if 'exp' in graph['graphsToInclude']:
-                tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
-                if plotDrawn:
+            for graphName in graph['graphsToInclude']:
+                if graphName is 'twoSigma':
+                    tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('F')
+                    else:
+                        tGraphs[-1].Draw('AF')
+                    plotDrawn = True
+                    legendEntry = '#pm 2 #sigma_{experiment}'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                if graphName is 'oneSigma':
+                    tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('F')
+                    else:
+                        tGraphs[-1].Draw('AF')
+                    plotDrawn = True
+                    legendEntry = '#pm 1 #sigma_{experiment}'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                if graphName is 'exp':
+                    tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
+                    legendEntry = 'exp. limit'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                if graphName is 'twoSigmaTheory':
+                    tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
+                    lineWidth = tGraphs[-1].GetLineWidth ()
+                    tGraphs[-1].SetLineWidth (lineWidth - 4)
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
+                    tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme))
+                    tGraphs[-1].SetLineWidth (lineWidth - 4)
                     tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
-                legendEntry = 'exp. limit'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-            if 'twoSigmaTheory' in graph['graphsToInclude']:
-                tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
-                lineWidth = tGraphs[-1].GetLineWidth ()
-                tGraphs[-1].SetLineWidth (lineWidth - 4)
-                if plotDrawn:
+                    legendEntry = '#pm 2 #sigma_{theory}'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                if graphName is 'oneSigmaTheory':
+                    tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
+                    lineWidth = tGraphs[-1].GetLineWidth ()
+                    tGraphs[-1].SetLineWidth (lineWidth - 2)
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
+                    tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme))
+                    tGraphs[-1].SetLineWidth (lineWidth - 2)
                     tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
-                tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme))
-                tGraphs[-1].SetLineWidth (lineWidth - 4)
-                tGraphs[-1].Draw('L')
-                legendEntry = '#pm 2 #sigma_{theory}'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-            if 'oneSigmaTheory' in graph['graphsToInclude']:
-                tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
-                lineWidth = tGraphs[-1].GetLineWidth ()
-                tGraphs[-1].SetLineWidth (lineWidth - 2)
-                if plotDrawn:
-                    tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
-                tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme))
-                tGraphs[-1].SetLineWidth (lineWidth - 2)
-                tGraphs[-1].Draw('L')
-                legendEntry = '#pm 1 #sigma_{theory}'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-            if 'obs' in graph['graphsToInclude']:
-                tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
-                if plotDrawn:
-                    tGraphs[-1].Draw('L')
-                else:
-                    tGraphs[-1].Draw('AL')
-                plotDrawn = True
-                legendEntry = 'obs. limit'
-                if 'legendEntry' in graph:
-                    legendEntry = legendEntry + ": " + graph['legendEntry']
-                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                    legendEntry = '#pm 1 #sigma_{theory}'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                if graphName is 'obs':
+                    tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
+                    if plotDrawn:
+                        tGraphs[-1].Draw('L')
+                    else:
+                        tGraphs[-1].Draw('AL')
+                    plotDrawn = True
+                    legendEntry = 'obs. limit'
+                    if 'legendEntry' in graph:
+                        legendEntry = legendEntry + ": " + graph['legendEntry']
+                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
     if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' not in plot or not plot['showTheoryError']):
         if plot['xAxisType'] is 'mass':
@@ -785,8 +787,8 @@ def drawPlot(plot):
     for tGraph in tGraphs:
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
+        tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
         if not is2D:
-            tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
             tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
             if 'yAxis' in plot:
                 tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
@@ -794,6 +796,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
         else:
             tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
+            tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
 
     legend.Draw()
     canvas.SetTitle('')
