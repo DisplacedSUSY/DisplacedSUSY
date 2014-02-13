@@ -787,6 +787,7 @@ def drawPlot(plot):
     for tGraph in tGraphs:
         tGraph.SetTitle("")
         tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
+        tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
         tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
         if not is2D:
             tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
@@ -796,6 +797,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
         else:
             tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
+            tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
             tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
 
     legend.Draw()
