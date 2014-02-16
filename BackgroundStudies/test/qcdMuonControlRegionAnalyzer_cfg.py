@@ -15,7 +15,7 @@ process.OSUAnalysis.electronSFID    =  cms.string ('')
 process.OSUAnalysis.electronSF      =  cms.string ('h_electronScaleFactor_IdIsoSip')
 #process.OSUAnalysis.applyTriggerSF  =  True
 process.OSUAnalysis.applyLeptonSF  =  True
-#process.OSUAnalysis.applyTrackingSF = True
+process.OSUAnalysis.applyTrackingSF = True
 
 ########################################################################
 ##### Import the information about all the histograms to be filled #####
@@ -25,11 +25,12 @@ process.OSUAnalysis.applyLeptonSF  =  True
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import *
 
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
 process.OSUAnalysis.histogramSets.append(MuonD0Histograms)
 #process.OSUAnalysis.histogramSets.append(JetHistograms)
 #process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
 process.OSUAnalysis.histogramSets.append(EventHistograms)
-#process.OSUAnalysis.histogramSets.append(MetHistograms)
+process.OSUAnalysis.histogramSets.append(MetHistograms)
 
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
