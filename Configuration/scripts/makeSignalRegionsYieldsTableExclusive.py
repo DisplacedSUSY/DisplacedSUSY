@@ -47,6 +47,16 @@ else:
     sys.exit(0)
 
 
+dataset_weights = {
+
+    'WNjets' : 8.2,
+    'Diboson' : 0.108,
+    'SingleTop' : 0.88,
+    'TTbar' : 0.042,
+    'DY' : 0.773,
+
+    }
+
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 
@@ -131,9 +141,16 @@ def getSystematicError(sample,channel):
             error = float(global_systematic_uncertainties[uncertainty]['value']) -1
             errorSquared = errorSquared + error * error
 
+    # add sample-specific uncertainties
+    for uncertainty in unique_systematic_uncertainties:
+        if sample is unique_systematic_uncertainties[uncertainty]['dataset']:
+            error = float(unique_systematic_uncertainties[uncertainty]['value']) -1
+            errorSquared = errorSquared + error * error
+
+
     # add sample-specific uncertainties from text files
     for uncertainty in external_systematic_uncertainties:
-        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + "__" + channel + ".txt"
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
             print "WARNING: didn't find ",input_file_path
             print "   will skip this systematic for this channel"
@@ -214,9 +231,7 @@ for dataset in datasets:
 for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
     currentD0Cut = d0cuts_list[cutIndex]
     nextD0Cut = d0cuts_list[cutIndex+1]
-#    print "d0 cut = ",currentD0Cut
     for dataset in datasets:
-#        print dataset
         currentError = stat_errors[dataset][currentD0Cut]
         nextError = stat_errors[dataset][nextD0Cut]
         yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
@@ -225,7 +240,16 @@ for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclus
         if yields[dataset][currentD0Cut] > 0.0:
             stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
         else:
-            stat_errors[dataset][currentD0Cut] = 0
+            if dataset in dataset_weights:
+                yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
+            else:
+                stat_errors[dataset][currentD0Cut] = 0
+
+for dataset in datasets:
+    currentD0Cut = d0cuts_list[-1]
+    if not yields[dataset][currentD0Cut] > 0.0:
+        if dataset in dataset_weights:
+            yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
 
 
 # format the numbers and turning them into strings
