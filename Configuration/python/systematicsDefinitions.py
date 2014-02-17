@@ -98,7 +98,7 @@ background_normalization_uncertainties = {
 
     # taken from error on fitting for QCD yield in ABCD method
     'QCDFromData' : {
-       'value' : '1.25',
+       'value' : '1.3',
        'type' : 'lnN',
     },
 
@@ -184,14 +184,14 @@ unique_systematic_uncertainties = {
         'value' : '1.64',
         'dataset' : 'TTbar'
     },
-    'SingleTop_matching' : {
-        'value' : '1.05',
-        'dataset' : 'SingleTop'
-    },
-    'SingleTop_scale' : {
-        'value' : '1.64',
-        'dataset' : 'SingleTop'
-    },
+##     'SingleTop_matching' : {
+##         'value' : '1.05',
+##         'dataset' : 'SingleTop'
+##     },
+##     'SingleTop_scale' : {
+##         'value' : '1.64',
+##         'dataset' : 'SingleTop'
+##     },
     'WNjets_matching' : {
         'value' : '1.35',
         'dataset' : 'WNjets'
@@ -200,22 +200,22 @@ unique_systematic_uncertainties = {
         'value' : '1.3',
         'dataset' : 'WNjets'
     },    
-    'Diboson_matching' : {
-        'value' : '1.19',
-        'dataset' : 'Diboson'
-    },
-    'Diboson_scale' : {
-        'value' : '1.22',
-        'dataset' : 'Diboson'
-    },    
-    'DY_matching' : {
-        'value' : '1.19',
-        'dataset' : 'DY'
-    },
-    'DY_scale' : {
-        'value' : '1.22',
-        'dataset' : 'DY'
-    },    
+##     'Diboson_matching' : {
+##         'value' : '1.19',
+##         'dataset' : 'Diboson'
+##     },
+##     'Diboson_scale' : {
+##         'value' : '1.22',
+##         'dataset' : 'Diboson'
+##     },    
+##     'DY_matching' : {
+##         'value' : '1.19',
+##         'dataset' : 'DY'
+##     },
+##     'DY_scale' : {
+##         'value' : '1.22',
+##         'dataset' : 'DY'
+##     },    
 
 }
 
