@@ -32,7 +32,7 @@ e_metMT_cut =  cms.PSet (
     cutString = cms.string("metMT < 50"),
     numberRequired = cms.string("== 1")
 )
-ZTauTauControlRegion.cuts.append(e_metMT_cut)
+ZTauTauControlRegion.cuts.insert(12,e_metMT_cut)
 ZTauTauControlRegion_Prompt.cuts.append(e_metMT_cut)
 
 mu_metMT_cut =  cms.PSet (
@@ -40,7 +40,7 @@ mu_metMT_cut =  cms.PSet (
     cutString = cms.string("metMT < 50"),
     numberRequired = cms.string("== 1")
 )
-ZTauTauControlRegion.cuts.append(mu_metMT_cut)
+ZTauTauControlRegion.cuts.insert(12,mu_metMT_cut)
 ZTauTauControlRegion_Prompt.cuts.append(mu_metMT_cut)
 
 deltaPhi_cut =  cms.PSet (

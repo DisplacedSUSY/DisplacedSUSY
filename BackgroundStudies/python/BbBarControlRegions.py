@@ -39,11 +39,6 @@ BbBar_Muon_Selection = cms.PSet(
       ),
       cms.PSet (
         inputCollection = cms.string("muons"),
-        cutString = cms.string("metMT < 60"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("muons"),
         cutString = cms.string("relPFdBetaIso < 0.12"),
         numberRequired = cms.string(">= 1")
       ),
@@ -85,7 +80,7 @@ BbBar_Muon_Selection = cms.PSet(
 
 BbBar_Electron_Selection = cms.PSet(
     name = cms.string("BbBar_Electron_Selection"),
-    triggers = cms.vstring("HLT_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v"),
+    triggers = cms.vstring("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Jet30_v"),
     cuts = cms.VPSet (
       cms.PSet (
         inputCollection = cms.string("events"),
@@ -131,11 +126,6 @@ BbBar_Electron_Selection = cms.PSet(
       ),
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("metMT < 60"),
-        numberRequired = cms.string(">= 1")
-      ),
-      cms.PSet (
-        inputCollection = cms.string("electrons"),
         cutString = cms.string("abs(correctedD0) < 2"),
         numberRequired = cms.string(">= 1")
       ),
@@ -168,6 +158,18 @@ BbBar_Electron_Selection = cms.PSet(
     )
 )
 
+mu_nonpromptd0_cut =  cms.PSet (
+    inputCollection = cms.string("muons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string(">= 1")
+)
+
+ele_nonpromptd0_cut =  cms.PSet (
+    inputCollection = cms.string("electrons"),
+    cutString = cms.string("abs(correctedD0) > 0.01"),
+    numberRequired = cms.string(">= 1")
+)
+
 ###############################################################################
 
 BbBar_Muon_Selection_AntiIso = cms.PSet(
@@ -193,6 +195,7 @@ BbBar_Muon_Selection_NoIso.cuts = invert_isolation (BbBar_Muon_Selection.cuts)
 for cut in BbBar_Muon_Selection_NoIso.cuts:
 	if 'dBeta' in str(cut.cutString):
 		BbBar_Muon_Selection_NoIso.cuts.remove(cut)
+BbBar_Muon_Selection_NoIso.cuts.insert(6,mu_nonpromptd0_cut)
 
 
 BbBar_Electron_Selection_NoIso = cms.PSet(
@@ -204,3 +207,4 @@ BbBar_Electron_Selection_NoIso.cuts = invert_isolation (BbBar_Electron_Selection
 for cut in BbBar_Electron_Selection_NoIso.cuts:
 	if 'PF' in str(cut.cutString):
 		BbBar_Electron_Selection_NoIso.cuts.remove(cut)
+BbBar_Electron_Selection_NoIso.cuts.insert(8,ele_nonpromptd0_cut)

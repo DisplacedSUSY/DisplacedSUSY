@@ -18,7 +18,7 @@ datasets = [
 #     'QCD_MuEnriched',
 #     'QCD_bEnriched',
 
-    'Wjets',
+    'WNjets',
 
     'Diboson',
 #    'WW',
