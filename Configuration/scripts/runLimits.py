@@ -27,6 +27,8 @@ parser.add_option("-t", "--toys", dest="Ntoys", default="1",
                   help="how many toy MC to throw for expected limits, default = 1")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
                                     help="run on the condor queue")
+parser.add_option("-s", "--scaleSignalRate", dest="maxSignalRate", default="0.1",
+                  help="scale all signal rates so the maximum is MAXSIGNALRATE, default = 0.1; negative values turn off scaling")
 
 (arguments, args) = parser.parse_args()
 
@@ -77,29 +79,41 @@ def scaleSignal(src, dst):
     f = open (src, "r")
     processLine = ""
     rateLine = ""
+    gammaLines = []
     for line in f:
       if re.search (r"^\s*process\s", line) and not processLine:
-          processLine = line
+          processLine = line.split ()
       if re.search (r"^\s*rate\s", line) and not rateLine:
-          rateLine = line
+          rateLine = line.split ()
+      if re.search (r"\sgmN\s", line):
+          gammaLines.append (line.split ())
     f.close ()
 
-    processLine = processLine.split ()
-    rateLine = rateLine.split ()
     signalRate = []
+    signalAlpha = []
     for process in range (0, len (processLine)):
         if re.search (r"^stop", processLine[process]):
             signalRate.append (float (rateLine[process]))
-    signalSF = 0.1 / (sorted (signalRate)[-1])
+    signalSF = 1.0
+    if len (signalRate) > 0:
+        signalSF = float (arguments.maxSignalRate) / (sorted (signalRate)[-1])
     for process in range (0, len (processLine)):
         if re.search (r"^stop", processLine[process]):
             rateLine[process] = str (signalSF * float (rateLine[process]))
+            for gammaLine in gammaLines:
+                try:
+                    gammaLine[process + 2] = str (signalSF * float (gammaLine[process + 2]))
+                except ValueError:
+                    pass
 
     fin = open (src, "r")
     fout = open (dst, "w")
     for line in fin:
       if re.search (r"^\s*rate\s", line):
-          fout.write (" ".join (rateLine))
+          fout.write (" ".join (rateLine) + "\n")
+      elif re.search (r"\sgmN\s", line):
+          fout.write (" ".join (gammaLines[0]) + "\n")
+          del gammaLines[0]
       else:
           fout.write (line)
     fin.close ()
@@ -158,8 +172,10 @@ for mass in masses:
 
             shutil.rmtree(condor_expected_dir, True)
             os.mkdir(condor_expected_dir)
-            #shutil.copy(datacard_src_name, datacard_dst_expected_name)
-            scaleSignal(datacard_src_name, datacard_dst_expected_name)
+            if arguments.maxSignalRate < 0.0:
+                shutil.copy(datacard_src_name, datacard_dst_expected_name)
+            else:
+                scaleSignal(datacard_src_name, datacard_dst_expected_name)
             os.chdir(condor_expected_dir)
 
             if not arguments.batchMode:

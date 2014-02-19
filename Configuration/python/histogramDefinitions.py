@@ -625,7 +625,7 @@ ElectronMuonD0Histograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronAbsD0BeamspotVsMuonAbsD0BeamspotForLimits"),
             title = cms.string("Electron |d_{0}| wrt Beamspot vs. Muon |d_{0}| wrt Beamspot; muon |d_{0}| [cm]; electron |d_{0}| [cm]"),
-            bins = cms.untracked.vdouble(400, 0, 2, 400, 0, 2), #50 um bins
+            bins = cms.untracked.vdouble(2000, 0, 2, 2000, 0, 2), #10 um bins
             inputVariables = cms.vstring("abs(muonCorrectedD0)","abs(electronCorrectedD0)"),
         ),
         cms.PSet (

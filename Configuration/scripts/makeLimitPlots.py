@@ -520,6 +520,10 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
             if line[0] =="Limit": #observed limit
                 tmp_limit['observed'] = float(line[1].split(" ")[3])
         file.close()
+
+        if len(tmp_limit) is not 6:
+            return -1
+                    
                     
         tmp_limit['up2'] = math.fabs(tmp_limit['up2'] - tmp_limit['expected'])
         tmp_limit['up1'] = math.fabs(tmp_limit['up1'] - tmp_limit['expected'])
