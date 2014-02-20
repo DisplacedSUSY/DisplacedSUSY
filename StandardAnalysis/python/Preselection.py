@@ -8,7 +8,7 @@ import copy
 
 Empty_Selection = cms.PSet(
     name = cms.string("Empty_Selection"),
-    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"), # TRIGGER
+#    triggers = cms.vstring("HLT_Mu22_Photon22_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet (
       # EVENT CLEANING
       cms.PSet (
@@ -270,6 +270,48 @@ ElectronPromptMuonNonPrompt_Preselection.cuts.append(electron_d0blinding_cut)
 MuonPromptElectronNonPrompt_Preselection.cuts.append(electron_d0nonprompt_cut)
 ElectronPromptMuonNonPrompt_Preselection.cuts.append(muon_d0nonprompt_cut)
 
+#################################################################
+# PROMPT - NON-PROMPT SELECTIONS WITH LEPTON ID OFF
+
+MuonPromptElectronNonPrompt_Preselection_NoID = cms.PSet(
+        name = cms.string("MuonPromptElectronNonPrompt_Preselection_NoID"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+MuonPromptElectronNonPrompt_Preselection_NoID.cuts.extend(copy.deepcopy(MuonPromptElectronNonPrompt_Preselection.cuts))
+
+
+ElectronPromptMuonNonPrompt_Preselection_NoID = cms.PSet(
+        name = cms.string("ElectronPromptMuonNonPrompt_Preselection_NoID"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+ElectronPromptMuonNonPrompt_Preselection_NoID.cuts.extend(copy.deepcopy(ElectronPromptMuonNonPrompt_Preselection.cuts))
+
+MuonPromptElectronNonPrompt_Preselection_NoConvVeto = cms.PSet(
+        name = cms.string("MuonPromptElectronNonPrompt_Preselection_NoConvVeto"),
+            triggers = copy.deepcopy(Preselection.triggers),
+            cuts = cms.VPSet ()
+        )
+MuonPromptElectronNonPrompt_Preselection_NoConvVeto.cuts.extend(copy.deepcopy(MuonPromptElectronNonPrompt_Preselection.cuts))
+
+
+for cut in MuonPromptElectronNonPrompt_Preselection_NoID.cuts:
+    if "mvaNonTrig_HtoZZto4l" in str(cut.cutString):
+        cut.cutString = cms.string('mvaNonTrig_HtoZZto4l > -999')
+
+for cut in MuonPromptElectronNonPrompt_Preselection_NoConvVeto.cuts:
+    if "passConvVeto" in str(cut.cutString):
+        cut.cutString = cms.string('passConvVeto > -999')
+
+for cut in ElectronPromptMuonNonPrompt_Preselection_NoID.cuts:
+    if "tightIDdisplaced" in str(cut.cutString):
+        cut.cutString = cms.string('tightIDdisplaced > -999')
+
+
+
+#################################################################
+
 # PRESELECTION WITH ONE PROMPT LEPTON AND ONE NON-PROMPT LEPTON SS
 MuonPromptElectronNonPrompt_Preselection_SS = cms.PSet(
     name = cms.string("MuonPromptElectronNonPrompt_Preselection_SS"),
@@ -291,6 +333,7 @@ for cut in MuonPromptElectronNonPrompt_Preselection_SS.cuts:
 for cut in ElectronPromptMuonNonPrompt_Preselection_SS.cuts:
     if "chargeProduct" in str(cut.cutString):
         cut.cutString = cms.string('chargeProduct > 0')
+
 #################################################################
 
 # PRESELECTION WITH PROMPT SS LEPTONS
