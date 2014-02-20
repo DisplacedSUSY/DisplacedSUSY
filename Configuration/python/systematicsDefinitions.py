@@ -177,11 +177,11 @@ unique_systematic_uncertainties = {
 ##     },    
 
     'TTbar_matching' : {
-        'value' : '1.05',
+        'value' : '1.004',
         'dataset' : 'TTbar'
     },
     'TTbar_scale' : {
-        'value' : '1.64',
+        'value' : '1.02',
         'dataset' : 'TTbar'
     },
 ##     'SingleTop_matching' : {
@@ -193,11 +193,11 @@ unique_systematic_uncertainties = {
 ##         'dataset' : 'SingleTop'
 ##     },
     'WNjets_matching' : {
-        'value' : '1.35',
+        'value' : '1.08',
         'dataset' : 'WNjets'
     },
     'WNjets_scale' : {
-        'value' : '1.3',
+        'value' : '1.026',
         'dataset' : 'WNjets'
     },    
 ##     'Diboson_matching' : {
