@@ -60,7 +60,7 @@ dataset_weights = {
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 
-def GetYieldAndError(process,d0cut):
+def GetYieldAndError(process,d0cut,factorize=True):
 
     integrateOutwardX = True
     integrateOutwardY = True
@@ -68,7 +68,13 @@ def GetYieldAndError(process,d0cut):
     #integrateOutwardY = False
 
     inputFile = TFile(condor_dir+"/"+process+".root")
-    HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
+    HistogramObj = 0
+    if process is "QCDFromData":
+        HistogramObj = inputFile.Get("OSUAnalysis/"+qcdFromDataChannel+"/"+d0histogramName)
+    elif types[process] is 'signalMC':
+        HistogramObj = inputFile.Get("OSUAnalysis/"+signalChannel+"/"+d0histogramName)
+    else:
+        HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
     if not HistogramObj:
         print "WARNING:  Could not find histogram " + "OSUAnalysis/"+channel+"/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
         return
@@ -102,7 +108,34 @@ def GetYieldAndError(process,d0cut):
         y0 = 0
         y1 = d0CutBinY
     intError = Double (0.0)
-    integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
+    integral = 0.0
+
+    if not factorize:
+        integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
+    else:
+        totalError = Double (0.0)
+        displacedXError = Double (0.0)
+        displacedYError = Double (0.0)
+        total = d0Histogram.IntegralAndError(0,nBinsX + 1,0,nBinsY + 1,totalError)
+        displacedX = d0Histogram.IntegralAndError(x0,x1,0,nBinsY + 1,displacedXError)
+        displacedY = d0Histogram.IntegralAndError(0,nBinsX + 1,y0,y1,displacedYError)
+
+        yieldAndErrorList['total'] = total
+        yieldAndErrorList['displacedX'] = displacedX
+        yieldAndErrorList['displacedY'] = displacedY
+
+        if process is "WNjets" or process is "Wjets":
+            ttbarYields = {}
+            ttbarYields = GetYieldAndError("TTbar",d0cut)
+            if displacedX < 1.0e-12 and displacedY > 1.0e-12:
+                displacedX = ttbarYields['displacedX']
+                total = ttbarYields['total']
+            if displacedY < 1.0e-12 and displacedX > 1.0e-12:
+                displacedY = ttbarYields['displacedY']
+                total = ttbarYields['total']
+
+        integral = (displacedX * displacedY) / total
+        intError = math.sqrt (displacedX * displacedX * displacedY * displacedY * totalError * totalError + total * total * displacedX * displacedX * displacedYError * displacedYError + total * total * displacedXError * displacedXError * displacedY * displacedY) / (total * total)
 
     #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral)
             
@@ -150,7 +183,7 @@ def getSystematicError(sample,channel):
 
     # add sample-specific uncertainties from text files
     for uncertainty in external_systematic_uncertainties:
-        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "/systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
             print "WARNING: didn't find ",input_file_path
             print "   will skip this systematic for this channel"
@@ -219,13 +252,15 @@ for dataset in datasets:
     for d0cut in d0cuts_array:
         
         yieldAndError = {}
-        yieldAndError = GetYieldAndError(dataset,d0cut)
+        if dataset is 'QCDFromData' or types[dataset] is 'data' or types[dataset] is 'signalMC':
+            yieldAndError = GetYieldAndError(dataset,d0cut,False)
+        else:
+            yieldAndError = GetYieldAndError(dataset,d0cut)
 
         if yieldAndError:
 
             yields[dataset][d0cut] = yieldAndError['yield']
             stat_errors[dataset][d0cut] = yieldAndError['error']
-
 
 # subtract the contributions from the more exclusive signal region
 for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
@@ -237,20 +272,30 @@ for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclus
         yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
         #print currentError,nextError
         #print currentError*currentError - nextError*nextError
-        if yields[dataset][currentD0Cut] > 0.0:
-            stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
-        else:
-            if dataset in dataset_weights:
-                yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
-            else:
-                stat_errors[dataset][currentD0Cut] = 0
+        #if yields[dataset][currentD0Cut] > 0.0:
+        #    stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
+        #else:
+        #    if dataset in dataset_weights:
+        #        yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
+        #    else:
+        #        stat_errors[dataset][currentD0Cut] = 0
+        stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
 
-for dataset in datasets:
-    currentD0Cut = d0cuts_list[-1]
-    if not yields[dataset][currentD0Cut] > 0.0:
-        if dataset in dataset_weights:
-            yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
+#for dataset in datasets:
+#    currentD0Cut = d0cuts_list[-1]
+#    if not yields[dataset][currentD0Cut] > 0.0:
+#        if dataset in dataset_weights:
+#            yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
 
+for cutIndex in range(1,len(d0cuts_list)): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
+    currentD0Cut = d0cuts_list[cutIndex]
+    previousD0Cut = d0cuts_list[cutIndex-1]
+    for dataset in datasets:
+        if types[dataset] is "data":
+            continue
+        if yields[dataset][currentD0Cut] < 1.0e-12:
+            yields[dataset][currentD0Cut] = copy.deepcopy (yields[dataset][previousD0Cut])
+            stat_errors[dataset][currentD0Cut] = copy.deepcopy (stat_errors[dataset][previousD0Cut])
 
 # format the numbers and turning them into strings
 
@@ -260,7 +305,7 @@ for dataset in datasets:
         
         # include systematic errors
         if arguments.includeSystematics:
-            systematic_error = yields[dataset][d0cut]*getSystematicError(dataset,d0cuts_array[d0cut])
+            systematic_error = yields[dataset][d0cut]*getSystematicError(dataset,d0cut)
         if types[dataset] is "bgMC":
             bgMCSum[d0cut] = bgMCSum[d0cut] + yields[dataset][d0cut]
             bgMCStatErrSquared[d0cut] = bgMCStatErrSquared[d0cut] + stat_errors[dataset][d0cut] * stat_errors[dataset][d0cut]
