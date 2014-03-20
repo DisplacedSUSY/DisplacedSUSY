@@ -54,7 +54,7 @@ OffZPeakCut  = cms.PSet(
 
 LooseCosmic_No_TightId = cms.PSet(
     name = cms.string("LooseCosmic_No_TightId"),
-    triggers = cms.vstring("HLT_IsoMu24_v"),# check trigger HLT_IsoMu24_v
+    triggers = cms.vstring("HLT_IsoMu24_v"),# check trigger!! not applied in the skim
     cuts = cms.VPSet (
     cms.PSet (
     inputCollection = cms.string("events"),
