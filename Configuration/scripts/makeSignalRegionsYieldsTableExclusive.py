@@ -26,6 +26,8 @@ parser.add_option("-s", "--standAlone", action="store_true", dest="standAlone", 
                                     help="adds the necessary header to be able to compile it")
 parser.add_option("-S", "--systematics", action="store_true", dest="includeSystematics", default=False,
                                     help="also lists the systematic uncertainties")
+parser.add_option("-C", "--cutAndCount", action="store_true", dest="cutAndCount", default=False,
+                                    help="do not factorize the efficiencies; simply cut-and-count to obtain the yields")
 
 (arguments, args) = parser.parse_args()
 
@@ -255,7 +257,7 @@ for dataset in datasets:
         if dataset is 'QCDFromData' or types[dataset] is 'data' or types[dataset] is 'signalMC':
             yieldAndError = GetYieldAndError(dataset,d0cut,False)
         else:
-            yieldAndError = GetYieldAndError(dataset,d0cut)
+            yieldAndError = GetYieldAndError(dataset,d0cut,(not arguments.cutAndCount))
 
         if yieldAndError:
 
