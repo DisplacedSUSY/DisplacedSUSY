@@ -70,7 +70,7 @@ background_normalization_uncertainties = {
     # this is basically all Z->tautau, so we take the uncertainty from the last H->tautau result, HIG-13-004
     # 3% number found on page 92 of supporting note AN-2013/011
     'DY' : { 
-       'value' : '1.03',
+       'value' : '0.95487/1.0457',
        'type' : 'lnN',
     },
     # this is basically all WW, so we'll take the uncertainty from CMS PAS SMP-12-013
@@ -83,23 +83,23 @@ background_normalization_uncertainties = {
     # on second thought, let's just use the NLO prediction that they compare to in SMP-12-013
     # that central value is 57.25, and we currently use 54.83, so ~5% higher
     'Diboson' : {
-       'value' : '0.972/1.041',
+       'value' : '0.93801/1.0620',
        'type' : 'lnN',
     },
     # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
     'TTbar' : {
-       'value' : '0.966/1.025',
+       'value' : '0.95720/1.0361',
        'type' : 'lnN',
     },
     # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV#List_of_processes
     'SingleTop' : {
-       'value' : '1.03',
+       'value' : '0.93139/1.0686',
        'type' : 'lnN',
     },
     # use number from PAS SMP-12-011
     # central value should be 356400 pb (need to change that, it's 5% lower than theory value) 
     'WNjets' : {
-       'value' : '1.065',
+       'value' : '0.96595/1.0345',
        'type' : 'lnN',
     },
 
