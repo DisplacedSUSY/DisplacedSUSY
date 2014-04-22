@@ -9,6 +9,7 @@ import re
 from array import *
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 
 
 
@@ -44,16 +45,6 @@ if not arguments.d0Cuts:
 
 
 
-dataset_weights = {
-
-    'WNjets' : 8.2,
-    'Diboson' : 0.108,
-    'SingleTop' : 0.88,
-    'TTbar' : 0.042,
-    'DY' : 0.773,
-
-}
-
     
 integrateOutwardX = True
 integrateOutwardY = True
@@ -87,6 +78,8 @@ def fancyTable(arrays):
 
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
+    print process, d0Cut
+
     d0Histogram = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName).Clone()
     d0Histogram.SetDirectory(0)
     inputFile.Close()
@@ -112,15 +105,49 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
     else:
         y0 = 0
         y1 = d0CutBinY
+
+
     intError = Double (0.0)
-    integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
     fracError = 0.0
-    if integral > 0.0:
-        fracError = 1.0 + (intError / integral)
 
-    #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral) + " +- " + str (intError) + " (" + str (fracError) + ")"
+    # just do normal 2D d0 cuts
+    if process.find("stop") is not -1 or types[process] is "data" or process is "QCDFromData":
+        yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
+        if yield_ > 0.0:
+            fracError = 1.0 + (intError / yield_)
 
-    yieldAndErrorList['yield'] = integral
+    # do 2D factorized d0 cuts
+    else:
+        totalError =  Double (0.0)
+        totalIntegral = d0Histogram.IntegralAndError(0,x1,0,y1,totalError)
+
+        if process is "WNjets":
+            ttbarFile = TFile("condor/"+condor_dir+"/"+"TTbar"+".root")
+            ttbarHistogram = ttbarFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName).Clone()
+            ttbarHistogram.SetDirectory(0)
+            inputFile.Close()
+            xError = Double (0.0)
+            xIntegral = ttbarHistogram.IntegralAndError(x0,x1,0,y1,xError)
+            xEfficiency = xIntegral/ttbarHistogram.Integral(0,x1,0,y1)
+
+        else:
+            xError = Double (0.0)
+            xIntegral = d0Histogram.IntegralAndError(x0,x1,0,y1,xError)
+            xEfficiency = xIntegral/totalIntegral
+        
+        yError = Double (0.0)
+        yIntegral = d0Histogram.IntegralAndError(0,x1,y0,y1,yError)
+        yEfficiency = yIntegral/totalIntegral
+        
+        factorizedEfficiency = xEfficiency * yEfficiency
+        yield_ = factorizedEfficiency * totalIntegral
+        factorizedYieldError = Double (0.0)
+        if xIntegral > 0.0 and yIntegral > 0.0 and  totalIntegral > 0.0:
+            factorizedYieldError = (xError/xIntegral)*(xError/xIntegral)+(yError/yIntegral)*(yError/yIntegral)+(totalError/totalIntegral)*(totalError/totalIntegral)
+            factorizedYieldError = math.sqrt(factorizedYieldError)
+        fracError = 1.0 + factorizedYieldError
+
+    yieldAndErrorList['yield'] = yield_
     yieldAndErrorList['error'] = fracError
     return yieldAndErrorList
 
@@ -232,17 +259,22 @@ def writeDatacard(mass,lifetime,branching_ratio):
         datacard_data.append(row)
 
     #add a row for the statistical error of each background in each region
+
+    # first do the QCD, since it's a special case
     for background in backgrounds:
+        if background is not 'QCDFromData':
+            continue
         for d0Cut in arguments.d0Cuts:
             name = background+'_stat_' + 'd0min_' + str(d0Cut)
-            row = [name,'gmN']
+            type = 'gmN'
+            row =  [name,type]
             if background_yields[background][d0Cut] > 0.0:
                 error = abs(background_errors[background][d0Cut]-1)
                 original_events = 1.0/(error*error)
                 row.append(str(int(original_events)))
             else:
                 row.append('0')
-
+                
             for d0CutInner in arguments.d0Cuts:
                 row.append('-') # for signal
                 for process_name in backgrounds:
@@ -250,26 +282,28 @@ def writeDatacard(mass,lifetime,branching_ratio):
                         if background_yields[process_name][d0Cut] > 0.0:
                             row.append(str(round(background_yields[process_name][d0Cut]/original_events,7)))
                         else:
-                            row.append(str(dataset_weights[process_name]))
+                            row.append("0")
+                            #row.append(str(dataset_weights[process_name]))
                     else:
                         row.append('-') # for signal in other region 
 
             datacard_data.append(row)
 
 
-# previous version using log normal distributions
 
-##     #add a row for the statistical error of each background
-##     for background in backgrounds:
-##         row = [background+"_stat",'lnN','']
-##         for d0Cut in arguments.d0Cuts:
-##             row.append('-') # for the signal
-##             for process_name in backgrounds:
-##                 if background is process_name:
-##                     row.append(str(round(background_errors[process_name][d0Cut],3)))
-##                 else:
-##                     row.append('-')
-##         datacard_data.append(row)
+    #add a row for the statistical error of each background
+    for background in backgrounds:
+        if background is 'QCDFromData':
+            continue
+        row = [background+"_stat",'lnN','']
+        for d0Cut in arguments.d0Cuts:
+            row.append('-') # for the signal
+            for process_name in backgrounds:
+                if background is process_name:
+                    row.append(str(round(background_errors[process_name][d0Cut],3)))
+                else:
+                    row.append('-')
+        datacard_data.append(row)
 
 
     datacard_data.append(empty_row)
@@ -342,13 +376,13 @@ def writeDatacard(mass,lifetime,branching_ratio):
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
-            if signal_dataset in systematics_dictionary[uncertainty]:
-                row.append(systematics_dictionary[uncertainty][signal_dataset])
+            if signal_dataset in systematics_dictionary[uncertainty][float(float(d0Cut))]:
+                row.append(systematics_dictionary[uncertainty][float(d0Cut)][signal_dataset])
             else:
                 row.append('-')
             for background in backgrounds:
-                if background in systematics_dictionary[uncertainty]:
-                    row.append(systematics_dictionary[uncertainty][background])
+                if background in systematics_dictionary[uncertainty][float(d0Cut)]:
+                    row.append(systematics_dictionary[uncertainty][(float(d0Cut))][background])
                 else:
                     row.append('-')
         datacard_data.append(row)
@@ -401,47 +435,51 @@ for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most e
     currentD0Cut = arguments.d0Cuts[cutIndex]
     nextD0Cut = arguments.d0Cuts[cutIndex+1]
     for background in backgrounds:
+        if background is not "QCDFromData":
+            continue
         currentError = background_yields[background][currentD0Cut] * (background_errors[background][currentD0Cut]-1)
         nextError = background_yields[background][nextD0Cut] * (background_errors[background][nextD0Cut]-1)
         background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
         if background_yields[background][currentD0Cut] > 0.0:
             background_errors[background][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / background_yields[background][currentD0Cut] + 1
         else: 
-            if background in dataset_weights:
-                #background_yields[background][currentD0Cut] = 0.69 * dataset_weights[background]
-                background_errors[background][currentD0Cut] = 0.69 * dataset_weights[background]
-            else:
-                background_errors[background][currentD0Cut] = 0
-            
+            background_errors[background][currentD0Cut] = 0
 
-for background in backgrounds:
-    currentD0Cut = arguments.d0Cuts[-1]
-    if not background_yields[background][currentD0Cut] > 0.0:
-        if background in dataset_weights:
-##             background_yields[background][currentD0Cut] = 0.69 * dataset_weights[background]
-            background_errors[background][currentD0Cut] = 0.69 * dataset_weights[background]
+
+# if a background prediction is null, just set it equal to the previous region's yield
+for cutIndex in range(len(arguments.d0Cuts)):
+    currentD0Cut = arguments.d0Cuts[cutIndex]
+    lastD0Cut = arguments.d0Cuts[max(0,cutIndex-1)]
+    for background in backgrounds:
+        if not background_yields[background][currentD0Cut] > 0.0:
+            background_yields[background][currentD0Cut] = background_yields[background][lastD0Cut]
+            background_errors[background][currentD0Cut] = background_errors[background][lastD0Cut]
+
     
 
 
-###getting all the systematic errors and putting them in a dictionary
+###getting all the external systematic errors and putting them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
-    input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
-    systematics_dictionary[systematic] = {}
-    for line in input_file:
-        line = line.rstrip("\n").split(" ")
-        dataset = line[0]
-        if len(line) is 2:
-            systematics_dictionary[systematic][dataset] = line[1]
-        elif len(line) is 3:
-            systematics_dictionary[systematic][dataset]= line[1]+"/"+line[2]
+    systematics_dictionary[systematic] =  {}
+    for d0Cut in d0cuts_array:
+        systematics_dictionary[systematic][d0Cut] = {}
+        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "_" + d0cuts_array[d0Cut] + ".txt")
+        for line in input_file:
+            line = line.rstrip("\n").split(" ")
+            dataset = line[0]
+            if len(line) is 2:
+                systematics_dictionary[systematic][d0Cut][dataset] = line[1]
+            elif len(line) is 3:
+                systematics_dictionary[systematic][d0Cut][dataset]= line[1]+"/"+line[2]
 
-        # turn off systematic when the central yield is zero
-        if systematics_dictionary[systematic][dataset] == '0' or systematics_dictionary[systematic][dataset] == '0/0':
-            systematics_dictionary[systematic][dataset] = '-'
+            # turn off systematic when the central yield is zero
+            if systematics_dictionary[systematic][d0Cut][dataset] == '0' or systematics_dictionary[systematic][d0Cut][dataset] == '0/0':
+                systematics_dictionary[systematic][d0Cut][dataset] = '-'
             
             
-#print systematics_dictionary
+#print systematics_dictionary['pdf']['0.02']['stop300_7.0mm_br0']
+
 
 
 
