@@ -29,8 +29,8 @@ process.OSUAnalysis.histogramSets.append(ElectronMuonHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronMuonD0Histograms)
 
 process.OSUAnalysis.histogramSets.append(JetHistograms)
-#process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
-#process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
+process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
 
 process.OSUAnalysis.histogramSets.append(EventHistograms)
 process.OSUAnalysis.histogramSets.append(MetHistograms)
@@ -40,9 +40,11 @@ process.OSUAnalysis.histogramSets.append(MetHistograms)
 ##########################################################
 
 from DisplacedSUSY.BackgroundStudies.ZTauTauControlRegion import *
+add_channels(process, [ZTauTauControlRegion])
 
-process.OSUAnalysis.channels.append(ZTauTauControlRegion_ElectronPrompt)
-process.OSUAnalysis.channels.append(ZTauTauControlRegion_MuonPrompt)
-process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_ElectronPrompt)
-process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_MuonPrompt)
+#process.OSUAnalysis.channels.append(ZTauTauControlRegion)
+#process.OSUAnalysis.channels.append(ZTauTauControlRegion_ElectronPrompt)
+#process.OSUAnalysis.channels.append(ZTauTauControlRegion_MuonPrompt)
+#process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_ElectronPrompt)
+#process.OSUAnalysis.channels.append(QCDinZTauTauControlRegion_MuonPrompt)
 
