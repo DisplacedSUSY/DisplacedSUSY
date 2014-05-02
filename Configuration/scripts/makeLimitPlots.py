@@ -630,9 +630,9 @@ def drawPlot(plot):
 	for source in plot['th2fs']:
 		for th2f in source['th2fsToInclude'] :  
                 	if th2f is 'obs':
-				canvasName = plot['title'] + ' with ratio of observed to theory limits'
+				canvasName = plot['title'] + ' with_ratio_of_observed_to_theory_limits'
 			elif th2f is 'exp':
-				canvasName = plot['title'] + ' with ratio of expected to theory limits'
+				canvasName = plot['title'] + ' with_ratio_of_expected_to_theory_limits'
                 	tmp_canvas = TCanvas(canvasName)
 			generalCanvas.append(tmp_canvas)
 # canvas.SetGridx()
