@@ -91,6 +91,14 @@ plotDefinitions = [
         'showTheoryError' : False,
 
         #define all the curves to include on this canvas
+        'th2fs' : [
+            {
+                #'source' : ['APRIL23__rHadrons_ASYMPTOTIC_CLS'],    
+                'source' : ['APRIL23__rHadrons_MARKOV_CHAIN_MC'],
+                'br'   : 100,
+                'th2fsToInclude' : ['exp','obs'],
+            },
+        ],   
         'graphs' : [
 ##             {
 ##                 'source' : ['DEC9_200um_Asymptotic'],
