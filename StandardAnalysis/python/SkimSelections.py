@@ -25,13 +25,13 @@ EMu_Skim = cms.PSet(
       # ELECTRON CUT
       cms.PSet (
         inputCollection = cms.string("electrons"),
-        cutString = cms.string("abs(eta) < 3 & pt > 20"),
+        cutString = cms.string("abs(eta) < 3 & pt > 25"),
         numberRequired = cms.string(">= 1")
       ),
       # MUON CUT
       cms.PSet (
         inputCollection = cms.string("muons"),
-        cutString = cms.string("abs(eta) < 3 & pt > 20"),
+        cutString = cms.string("abs(eta) < 3 & pt > 25"),
         numberRequired = cms.string(">= 1")
       ),
    )
