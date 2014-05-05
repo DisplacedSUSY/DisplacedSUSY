@@ -155,7 +155,8 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
 def writeDatacard(mass,lifetime,branching_ratio):
 
 
-    signal_dataset = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
+#    signal_dataset = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
+    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
 
     signal_yield = {}
     signal_error = {}    
@@ -464,7 +465,7 @@ for systematic in external_systematic_uncertainties:
     systematics_dictionary[systematic] =  {}
     for d0Cut in d0cuts_array:
         systematics_dictionary[systematic][d0Cut] = {}
-        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + "_" + d0cuts_array[d0Cut] + ".txt")
+        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
         for line in input_file:
             line = line.rstrip("\n").split(" ")
             dataset = line[0]
