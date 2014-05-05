@@ -135,7 +135,8 @@ for mass in masses:
     for lifetime in lifetimes:
         for branching_ratio in branching_ratios:
 
-            signal_name = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
+#            signal_name = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
+            signal_name = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio            
             condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
             condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
             datacard_name = "datacard_"+signal_name+".txt"

@@ -138,7 +138,7 @@ def GetFittedQCDYieldAndError(pathToDir):
 
     inputFile.Close()
 
-    for sample in fitting_backgrounds: # loop over different samples that get subtracted from the total and save the cutflow table
+    for sample in impurities: # loop over different samples that get subtracted from the total and save the cutflow table
 
         dataset_file = "%s/%s.root" % (condor_dir,sample)
         inputFile = TFile(dataset_file)

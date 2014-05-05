@@ -78,7 +78,7 @@ MuonD0Histograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonAbsD0BeamspotXL"),
             title = cms.string("Muon |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
-            bins = cms.untracked.vdouble(100, 0, 50),
+            bins = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
@@ -247,13 +247,20 @@ ElectronD0Histograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronAbsD0BeamspotL"),
             title = cms.string("Electron |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
-            bins = cms.untracked.vdouble(100, 0, 5),
+            bins = cms.untracked.vdouble(100, 0, 2),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0BeamspotLVariableBins"),
+            title = cms.string("Electron |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
+            variableBinsX = cms.untracked.vdouble(0.00,0.05,0.1,0.15,0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.50,2.0),
+            inputVariables = cms.vstring("abs(correctedD0)")
+        ),
+        
+        cms.PSet (
             name = cms.string("electronAbsD0BeamspotXL"),
             title = cms.string("Electron |d_{0}| wrt Beamspot; |d_{0}| [cm]"),
-            bins = cms.untracked.vdouble(100, 0, 50),
+            bins = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
 
