@@ -113,49 +113,49 @@ SecondaryMuonD0Histograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("secondaryMuonD0BeamspotS"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -0.05, 0.05),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryMuonD0BeamspotM"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryMuonD0BeamspotL"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -5, 5),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryMuonD0BeamspotXL"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -50, 50),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryMuonAbsD0BeamspotS"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.05),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryMuonAbsD0BeamspotM"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryMuonAbsD0BeamspotL"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryMuonAbsD0BeamspotXL"),
-            title = cms.string("Secondary Muon d_{0} wrt Beamspot; secondary muon d_{0} [cm]"),
+            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 50),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
@@ -296,50 +296,50 @@ SecondaryElectronD0Histograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("secondaryElectronD0BeamspotS"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -0.05, 0.05),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryElectronD0BeamspotM"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -0.5, 0.5),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryElectronD0BeamspotL"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -5, 5),
             inputVariables = cms.vstring("correctedD0"),
         ),
         cms.PSet (
             name = cms.string("secondaryElectronD0BeamspotXL"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -50, 50),
             inputVariables = cms.vstring("correctedD0"),
         ),
 
         cms.PSet (
             name = cms.string("secondaryElectronAbsD0BeamspotS"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.05),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryElectronAbsD0BeamspotM"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryElectronAbsD0BeamspotL"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 5),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
         cms.PSet (
             name = cms.string("secondaryElectronAbsD0BeamspotXL"),
-            title = cms.string("Secondary Electron d_{0} wrt Beamspot; secondary electron d_{0} [cm]"),
+            title = cms.string("Electron d_{0} wrt Beamspot; electron d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, 0, 50),
             inputVariables = cms.vstring("abs(correctedD0)")
         ),
