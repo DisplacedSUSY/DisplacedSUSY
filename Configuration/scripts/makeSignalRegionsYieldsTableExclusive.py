@@ -26,8 +26,6 @@ parser.add_option("-s", "--standAlone", action="store_true", dest="standAlone", 
                                     help="adds the necessary header to be able to compile it")
 parser.add_option("-S", "--systematics", action="store_true", dest="includeSystematics", default=False,
                                     help="also lists the systematic uncertainties")
-parser.add_option("-C", "--cutAndCount", action="store_true", dest="cutAndCount", default=False,
-                                    help="do not factorize the efficiencies; simply cut-and-count to obtain the yields")
 
 (arguments, args) = parser.parse_args()
 
@@ -49,20 +47,10 @@ else:
     sys.exit(0)
 
 
-dataset_weights = {
-
-    'WNjets' : 8.2,
-    'Diboson' : 0.108,
-    'SingleTop' : 0.88,
-    'TTbar' : 0.042,
-    'DY' : 0.773,
-
-    }
-
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 
-def GetYieldAndError(process,d0cut,factorize=True):
+def GetYieldAndError(process,d0cut):
 
     integrateOutwardX = True
     integrateOutwardY = True
@@ -70,13 +58,10 @@ def GetYieldAndError(process,d0cut,factorize=True):
     #integrateOutwardY = False
 
     inputFile = TFile(condor_dir+"/"+process+".root")
-    HistogramObj = 0
-    if process is "QCDFromData":
-        HistogramObj = inputFile.Get("OSUAnalysis/"+qcdFromDataChannel+"/"+d0histogramName)
-    elif types[process] is 'signalMC':
-        HistogramObj = inputFile.Get("OSUAnalysis/"+signalChannel+"/"+d0histogramName)
-    else:
+    if process is not "QCDFromData":
         HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
+    else:
+        HistogramObj = inputFile.Get("OSUAnalysis/Preselection_100um/"+d0histogramName)
     if not HistogramObj:
         print "WARNING:  Could not find histogram " + "OSUAnalysis/"+channel+"/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
         return
@@ -109,40 +94,62 @@ def GetYieldAndError(process,d0cut,factorize=True):
     else:
         y0 = 0
         y1 = d0CutBinY
+
+
     intError = Double (0.0)
-    integral = 0.0
 
-    if not factorize:
-        integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
+
+    # just do normal 2D d0 cuts
+    if process.find("stop") is not -1 or types[process] is "data" or process is "QCDFromData":
+        yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
+        if yield_ > 0.0:
+            error_ = intError
+        else:
+            error_ = 0
+        
+    # do 2D factorized d0 cuts
     else:
-        totalError = Double (0.0)
-        displacedXError = Double (0.0)
-        displacedYError = Double (0.0)
-        total = d0Histogram.IntegralAndError(0,nBinsX + 1,0,nBinsY + 1,totalError)
-        displacedX = d0Histogram.IntegralAndError(x0,x1,0,nBinsY + 1,displacedXError)
-        displacedY = d0Histogram.IntegralAndError(0,nBinsX + 1,y0,y1,displacedYError)
+        totalError =  Double (0.0)
+        totalIntegral = d0Histogram.IntegralAndError(0,x1,0,y1,totalError)
 
-        yieldAndErrorList['total'] = total
-        yieldAndErrorList['displacedX'] = displacedX
-        yieldAndErrorList['displacedY'] = displacedY
+        xError = Double (0.0)
+        xIntegral = d0Histogram.IntegralAndError(x0,x1,0,y1,xError)
+        xEfficiency = xIntegral/totalIntegral
+        
+        yError = Double (0.0)
+        yIntegral = d0Histogram.IntegralAndError(0,x1,y0,y1,yError)
+        yEfficiency = yIntegral/totalIntegral
 
-        if process is "WNjets" or process is "Wjets":
-            ttbarYields = {}
-            ttbarYields = GetYieldAndError("TTbar",d0cut)
-            if displacedX < 1.0e-12 and displacedY > 1.0e-12:
-                displacedX = ttbarYields['displacedX']
-                total = ttbarYields['total']
-            if displacedY < 1.0e-12 and displacedX > 1.0e-12:
-                displacedY = ttbarYields['displacedY']
-                total = ttbarYields['total']
 
-        integral = (displacedX * displacedY) / total
-        intError = math.sqrt (displacedX * displacedX * displacedY * displacedY * totalError * totalError + total * total * displacedX * displacedX * displacedYError * displacedYError + total * total * displacedXError * displacedXError * displacedY * displacedY) / (total * total)
+        # for W jets, take the muon efficiency from TTbar (since there are low stats in WNjets and the curve looks like TTbar anyway for muons)
+        if process is "WNjets":
+            inputFile = TFile(condor_dir+"/"+"TTbar"+".root")
+            HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
+            if not HistogramObj:
+                print "WARNING:  something wrong in TTbar file"
+                return
+            ttbarD0Histogram = HistogramObj.Clone()
+            ttbarD0Histogram.SetDirectory(0)
+            inputFile.Close()
+            ttbarError =  Double (0.0)
+            ttbarIntegral = ttbarD0Histogram.IntegralAndError(0,x1,0,y1,ttbarError)
+            xIntegral = ttbarD0Histogram.IntegralAndError(x0,x1,0,y1,xError)
+            xEfficiency = xIntegral/ttbarIntegral
 
-    #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral)
-            
-    yieldAndErrorList['yield'] = integral
-    yieldAndErrorList['error'] = intError
+
+        
+        factorizedEfficiency = xEfficiency * yEfficiency
+        yield_ = factorizedEfficiency * totalIntegral
+        factorizedYieldError = Double (0.0)
+        if xIntegral > 0.0 and yIntegral > 0.0 and  totalIntegral > 0.0:
+            factorizedYieldError = (xError/xIntegral)*(xError/xIntegral)+(yError/yIntegral)*(yError/yIntegral)+(totalError/totalIntegral)*(totalError/totalIntegral)
+            factorizedYieldError = math.sqrt(factorizedYieldError)
+        error_ = factorizedYieldError * yield_
+
+        # print dataset,":",d0cut,xEfficiency,yEfficiency,factorizedEfficiency,yield_
+                                            
+    yieldAndErrorList['yield'] = yield_
+    yieldAndErrorList['error'] = error_
     return yieldAndErrorList
 
 ########################################################################################
@@ -185,7 +192,7 @@ def getSystematicError(sample,channel):
 
     # add sample-specific uncertainties from text files
     for uncertainty in external_systematic_uncertainties:
-        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "/systematic_values__" + uncertainty + ".txt"
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
             print "WARNING: didn't find ",input_file_path
             print "   will skip this systematic for this channel"
@@ -230,7 +237,7 @@ sys_errors = {}
 yields_strings = {}
 stat_errors_strings = {}
 sys_errors_strings = {}
-
+null_expectation_flags = {}
 
 bgMCSum = {}
 bgMCStatErrSquared = {}
@@ -250,19 +257,18 @@ for dataset in datasets:
     yields_strings[dataset] = {}
     stat_errors_strings[dataset] = {}
     sys_errors_strings[dataset] = {}
+    null_expectation_flags[dataset] = {}
 
     for d0cut in d0cuts_array:
         
         yieldAndError = {}
-        if dataset is 'QCDFromData' or types[dataset] is 'data' or types[dataset] is 'signalMC':
-            yieldAndError = GetYieldAndError(dataset,d0cut,False)
-        else:
-            yieldAndError = GetYieldAndError(dataset,d0cut,(not arguments.cutAndCount))
+        yieldAndError = GetYieldAndError(dataset,d0cut)
 
         if yieldAndError:
 
             yields[dataset][d0cut] = yieldAndError['yield']
             stat_errors[dataset][d0cut] = yieldAndError['error']
+
 
 # subtract the contributions from the more exclusive signal region
 for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
@@ -272,32 +278,31 @@ for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclus
         currentError = stat_errors[dataset][currentD0Cut]
         nextError = stat_errors[dataset][nextD0Cut]
         yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
-        #print currentError,nextError
-        #print currentError*currentError - nextError*nextError
-        #if yields[dataset][currentD0Cut] > 0.0:
-        #    stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
-        #else:
-        #    if dataset in dataset_weights:
-        #        yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
-        #    else:
-        #        stat_errors[dataset][currentD0Cut] = 0
-        stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
+#        print currentError,nextError
+#        print currentError*currentError - nextError*nextError
+        if yields[dataset][currentD0Cut] > 0.0:
+            stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
+        else:
+            stat_errors[dataset][currentD0Cut] = 0
 
-#for dataset in datasets:
-#    currentD0Cut = d0cuts_list[-1]
-#    if not yields[dataset][currentD0Cut] > 0.0:
-#        if dataset in dataset_weights:
-#            yields[dataset][currentD0Cut] = 0.69 * dataset_weights[dataset]
+# initial everything to false, later set it to true 
+for cutIndex in range(len(d0cuts_list)):
+    for dataset in datasets:
+        if types[dataset] is not "bgMC":
+            continue
+        null_expectation_flags[dataset][d0cuts_list[cutIndex]] = False
 
-for cutIndex in range(1,len(d0cuts_list)): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
+# for null background expectations, set them equal to the expectation from the previous regions
+for cutIndex in range(1,len(d0cuts_list)):
     currentD0Cut = d0cuts_list[cutIndex]
     previousD0Cut = d0cuts_list[cutIndex-1]
     for dataset in datasets:
-        if types[dataset] is "data":
+        if types[dataset] is not "bgMC":
             continue
-        if yields[dataset][currentD0Cut] < 1.0e-12:
-            yields[dataset][currentD0Cut] = copy.deepcopy (yields[dataset][previousD0Cut])
-            stat_errors[dataset][currentD0Cut] = copy.deepcopy (stat_errors[dataset][previousD0Cut])
+        if not yields[dataset][currentD0Cut] > 0.0:
+            yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
+            stat_errors[dataset][currentD0Cut] = stat_errors[dataset][previousD0Cut]
+            null_expectation_flags[dataset][currentD0Cut] = True
 
 # format the numbers and turning them into strings
 
@@ -307,7 +312,7 @@ for dataset in datasets:
         
         # include systematic errors
         if arguments.includeSystematics:
-            systematic_error = yields[dataset][d0cut]*getSystematicError(dataset,d0cut)
+            systematic_error = yields[dataset][d0cut]*getSystematicError(dataset,d0cuts_array[d0cut])
         if types[dataset] is "bgMC":
             bgMCSum[d0cut] = bgMCSum[d0cut] + yields[dataset][d0cut]
             bgMCStatErrSquared[d0cut] = bgMCStatErrSquared[d0cut] + stat_errors[dataset][d0cut] * stat_errors[dataset][d0cut]
@@ -369,24 +374,33 @@ fout.write(line)
 
 #write a line for each background sample
 bgMCcounter = 0
+null_background_found = False
 for dataset in datasets:
 
     if types[dataset] is not "bgMC":
         continue
 
     bgMCcounter = bgMCcounter + 1
-    rawlabel = "$" + labels[dataset] + "$"
-    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
+    rawlabel = labels[dataset]
+    label = rawlabel.replace("#bar{t}","$\\bar{\\mathrm{t}}$").replace("#nu","$\\nu$").replace("#rightarrow","${\\rightarrow}$").replace(" ","\\ ")
+#    rawlabel = "$" + labels[dataset] + "$"
+#    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
     line = label + " & "
     
     for d0cut in d0cuts_list:
         if yields_strings[dataset][d0cut].find('$0$') is not -1:
+            print "found null background expectation!"
             line = line + yields_strings[dataset][d0cut] + " & "
         else:
+            if null_expectation_flags[dataset][d0cut]:
+                null_background_found = True
+                line = line + "["
             line = line + yields_strings[dataset][d0cut] + " $\pm$ " + stat_errors_strings[dataset][d0cut]
             if arguments.includeSystematics:
                 line = line + " $\pm$ " + sys_errors_strings[dataset][d0cut]
+            if null_expectation_flags[dataset][d0cut]:
+                line = line + "]"
             line = line + " & "
 
     line = line.rstrip("& ") + endLine + newLine
@@ -395,7 +409,7 @@ for dataset in datasets:
 
 #write a line with the sum of the backgrounds
 if bgMCcounter is not 0:
-        line = hLine+"background sum & "
+        line = hLine+"Total expected background & "
 
         for d0cut in d0cuts_list:
     
@@ -410,18 +424,47 @@ if bgMCcounter is not 0:
         line = line.rstrip("& ") + endLine + newLine + hLine
         fout.write(line)
 
+
+#write a line with the data
+for dataset in datasets:
+
+    if types[dataset] is not "data" or not yields[dataset]:
+        continue
+                
+    rawlabel = "Observation"
+#    rawlabel = "$" + labels[dataset] + "$"
+    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
+
+    line = label + " & "
+    
+    for d0cut in d0cuts_list:
+        line = line + yields_strings[dataset][d0cut] + " & "
+
+    line = line.rstrip("& ") + endLine + newLine + hLine
+    fout.write(line)
+
+
 #write a line for each signalMC sample
 signalCounter = 0
 for dataset in datasets:
-
     if types[dataset] is not "signalMC" or not yields[dataset]:
         continue
-
     signalCounter = signalCounter + 1
-        
-    rawlabel = "$" + labels[dataset] + "$"
-    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
+#draw a double line if there is signal included
+if signalCounter > 0:
+    line = hLine
+    fout.write(line)
+
+for dataset in datasets:
+
+    if types[dataset] is not "signalMC" or not yields[dataset]:
+                continue
+        
+    rawlabel = labels[dataset]
+    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
+    label = rawlabel.replace("#tilde{t}","${\\tilde{t}}$").replace("#LTc#tau#GT","${\\LT\\mathrm{c}\\tau\\GT}$").replace("#nu","$\\nu$").replace("#rightarrow","${\\rightarrow}$").replace(" ","\\ ")
+    
     line = label + " & "
     
     for d0cut in d0cuts_list:
@@ -438,27 +481,8 @@ for dataset in datasets:
 
 
 if signalCounter > 0:
-    line = endLine + newLine + hLine
+    line = hLine
     fout.write(line)
-
-#write a line with the data
-for dataset in datasets:
-
-    if types[dataset] is not "data" or not yields[dataset]:
-        continue
-
-    rawlabel = "$" + labels[dataset] + "$"
-    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
-
-    line = label + " & "
-    
-    for d0cut in d0cuts_list:
-        line = line + yields_strings[dataset][d0cut] + " & "
-
-    line = line.rstrip("& ") + endLine + newLine + hLine
-    fout.write(line)
-
-
 
 
     
