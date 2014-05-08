@@ -300,7 +300,7 @@ for cutIndex in range(1,len(d0cuts_list)):
         if types[dataset] is not "bgMC":
             continue
         if not yields[dataset][currentD0Cut] > 0.0:
-            yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
+	    yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
             stat_errors[dataset][currentD0Cut] = stat_errors[dataset][previousD0Cut]
             null_expectation_flags[dataset][currentD0Cut] = True
 
@@ -319,17 +319,18 @@ for dataset in datasets:
             if arguments.includeSystematics:
                 bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
-        if types[dataset] is not "data":
-            yields_strings[dataset][d0cut] = formatNumber(str(round_sigfigs(yields[dataset][d0cut],2)).rstrip("0").rstrip("."))
+        dic = roundingNumbers(yields[dataset][d0cut],stat_errors[dataset][d0cut],systematic_error)
+	if types[dataset] is not "data":
+	    yields_strings[dataset][d0cut] = str(dic["central"])
 
         else: # this is the data
             yields_strings[dataset][d0cut] = formatNumber(str(int(yields[dataset][d0cut])))
 
 
         if arguments.includeSystematics:
-            sys_errors_strings[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
+            sys_errors_strings[dataset][d0cut] = str(dic["sys"])
 
-        stat_errors_strings[dataset][d0cut] = formatNumber(str(round_sigfigs(stat_errors[dataset][d0cut],1)).rstrip("0").rstrip("."))
+        stat_errors_strings[dataset][d0cut] = str(dic["sta"])
 
 
 #print yields_strings
@@ -412,12 +413,12 @@ if bgMCcounter is not 0:
         line = hLine+"Total expected background & "
 
         for d0cut in d0cuts_list:
-    
-            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],2)).rstrip("0").rstrip("."))
-            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
+            dic = roundingNumbers(bgMCSum[d0cut],math.sqrt(bgMCStatErrSquared[d0cut]),math.sqrt(bgMCSysErrSquared[d0cut]))
+            bgMCSum_ = str(dic["central"])
+            bgMCStatErr_ = str(dic["sta"])
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
             if arguments.includeSystematics:
-                bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
+                bgMCSysErr_ = str(dic["sys"])
                 line = line + " $\pm$ " + bgMCSysErr_
             line = line + " & "
                 
