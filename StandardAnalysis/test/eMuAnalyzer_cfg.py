@@ -1,4 +1,4 @@
-from OSUT3Analysis.AnaTools.osuAnalysis_cfi import *
+from DisplacedSUSY.StandardAnalysis.displacedSUSY_cfi import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
 ###############################################################
@@ -7,25 +7,16 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 
 
 #dir = "/store/user/ahart/DYToTauTau_M-20_CT10_TuneZ2star_v2_8TeV-powheg-tauola-pythia6/BEAN2012-v4/4a12a6f1b79fbeb9915fe6064a3d6fce/"
-dir = "/mnt/hadoop/se/store/user/ahart/eMuMinimal_new/stop200toBl_10mm/EMu_Minimal"
+#dir = "/mnt/hadoop/se/store/user/ahart/eMuMinimal_new/WW/EMu_Minimal"
+#dir = "./condor/eMuMinimal/DYToTauTau_20/EMu_Minimal"
+#for file in os.listdir(dir):
+#    process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + '/' + file))
 
-for file in os.listdir(dir):
-    process.source.fileNames.extend(cms.untracked.vstring('file:' + dir + '/' + file))
+process.source.fileNames.extend(cms.untracked.vstring('file:/store/user/ahart/EMuSkim/DYToTauTau_20/EMu_Skim/bean_0.root'))
 
-#process.source.fileNames.extend(cms.untracked.vstring('file:/home/lantonel/CMSSW_6_1_2/src/DisplacedSUSY/StandardAnalysis/test/signalRegionEvents.root'))
 
-######################################################################
-##### Overwrite specific variables defined in osuAnalysis_cfi.py #####
-######################################################################
 
-process.OSUAnalysis.electronSFFile  =  cms.string (os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/MVANonTrig_HtoZZto4l_IdIsoSip.root')
-process.OSUAnalysis.electronSFID    =  cms.string ('')
-process.OSUAnalysis.electronSF      =  cms.string ('h_electronScaleFactor_IdIsoSip')
-process.OSUAnalysis.applyTriggerSF  =  True
-process.OSUAnalysis.applyTrackingSF =  True
-process.OSUAnalysis.applyLeptonSF   =  True
-
-########################################################################
+#######################################################################
 ##### Import the information about all the histograms to be filled #####
 ########################################################################
 
@@ -35,6 +26,7 @@ from DisplacedSUSY.Configuration.histogramDefinitions import *
 
 process.OSUAnalysis.histogramSets.append(ElectronHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronD0Histograms)
+## process.OSUAnalysis.histogramSets.append(ConversionHistograms)
 
 process.OSUAnalysis.histogramSets.append(MuonHistograms)
 process.OSUAnalysis.histogramSets.append(MuonD0Histograms)
@@ -46,9 +38,9 @@ process.OSUAnalysis.histogramSets.append(JetHistograms)
 process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
 process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
 
-#process.OSUAnalysis.histogramSets.append(PhotonHistograms)
-#process.OSUAnalysis.histogramSets.append(ElectronPhotonHistograms)
-#process.OSUAnalysis.histogramSets.append(MuonPhotonHistograms)
+## #process.OSUAnalysis.histogramSets.append(PhotonHistograms)
+## #process.OSUAnalysis.histogramSets.append(ElectronPhotonHistograms)
+## #process.OSUAnalysis.histogramSets.append(MuonPhotonHistograms)
 
 process.OSUAnalysis.histogramSets.append(MetHistograms)
 process.OSUAnalysis.histogramSets.append(EventHistograms)
@@ -58,9 +50,45 @@ process.OSUAnalysis.histogramSets.append(EventHistograms)
 ##########################################################
 
 from DisplacedSUSY.StandardAnalysis.Preselection import *
-from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
+#from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
-process.OSUAnalysis.channels.append(Preselection_100um) # B
-process.OSUAnalysis.channels.append(Preselection_100um_SS) # A
-process.OSUAnalysis.channels.append(Preselection_100um_AntiIso) # D
-process.OSUAnalysis.channels.append(Preselection_100um_AntiIso_SS) # C
+#from DisplacedSUSY.StandardAnalysis.SignalSelections import *
+
+process.OSUAnalysis.channels.append(Blinded_Preselection)
+#process.OSUAnalysis.channels.append(Preselection)
+#process.OSUAnalysis.channels.append(Signal_Selection_200um)
+#process.OSUAnalysis.channels.append(Signal_Selection_500um)
+#process.OSUAnalysis.channels.append(Signal_Selection_1000um)
+
+
+#process.OSUAnalysis.channels.append(Preselection_100um) # B
+
+#add_channels(process, [Preselection])
+
+#process.OSUAnalysis.channels.append(Blinded_Preselection)
+#process.OSUAnalysis.channels.append(Preselection_real_electron)
+#process.OSUAnalysis.channels.append(Preselection_fake_electron)
+#process.OSUAnalysis.channels.append(Empty_Selection)
+#process.OSUAnalysis.channels.append(Preselection_100um_SS) # A
+#process.OSUAnalysis.channels.append(Preselection_100um_AntiIso) # D
+#process.OSUAnalysis.channels.append(Preselection_100um_AntiIso_SS) # C
+#process.OSUAnalysis.channels.append(Preselection_AntiIso) # D
+#process.OSUAnalysis.channels.append(Preselection_AntiIso_SS) # C
+
+## add_channels(process, [MuonPromptElectronNonPrompt_Preselection])
+## add_channels(process, [MuonPromptElectronNonPrompt_Preselection_SS])
+## add_channels(process, [MuonPromptElectronNonPrompt_Preselection_AntiIso])
+## add_channels(process, [MuonPromptElectronNonPrompt_Preselection_SS_AntiIso])
+
+## add_channels(process, [ElectronPromptMuonNonPrompt_Preselection])
+## add_channels(process, [ElectronPromptMuonNonPrompt_Preselection_SS])
+## add_channels(process, [ElectronPromptMuonNonPrompt_Preselection_AntiIso])
+## add_channels(process, [ElectronPromptMuonNonPrompt_Preselection_SS_AntiIso])
+
+#process.OSUAnalysis.channels.append(MuonPromptElectronNonPrompt_Preselection_NoID)
+#process.OSUAnalysis.channels.append(MuonPromptElectronNonPrompt_Preselection_NoConvVeto)
+
+#process.OSUAnalysis.channels.append(ElectronPromptMuonNonPrompt_Preselection)
+#process.OSUAnalysis.channels.append(ElectronPromptMuonNonPrompt_Preselection_NoID)
+
+#add_channels(process, [Preselection])
