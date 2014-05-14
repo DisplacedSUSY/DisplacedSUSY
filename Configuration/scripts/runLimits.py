@@ -96,7 +96,8 @@ def scaleSignal(src, dst):
             signalRate.append (float (rateLine[process]))
     signalSF = 1.0
     if len (signalRate) > 0:
-        signalSF = float (arguments.maxSignalRate) / (sorted (signalRate)[-1])
+        largestSignalRate = sorted (signalRate)[-1]
+        signalSF = float (arguments.maxSignalRate) / largestSignalRate if largestSignalRate > 0 else 0.0
     for process in range (0, len (processLine)):
         if re.search (r"^stop", processLine[process]):
             rateLine[process] = str (signalSF * float (rateLine[process]))
