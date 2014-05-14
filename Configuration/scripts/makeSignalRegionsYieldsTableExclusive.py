@@ -319,18 +319,18 @@ for dataset in datasets:
             if arguments.includeSystematics:
                 bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
-        dic = roundingNumbers(yields[dataset][d0cut],stat_errors[dataset][d0cut],systematic_error)
+        roundedNumbersDictionary = roundingNumbers(yields[dataset][d0cut],stat_errors[dataset][d0cut],systematic_error)
 	if types[dataset] is not "data":
-	    yields_strings[dataset][d0cut] = str(dic["central"])
+	    yields_strings[dataset][d0cut] = str(roundedNumbersDictionary["central_value"])
 
         else: # this is the data
             yields_strings[dataset][d0cut] = formatNumber(str(int(yields[dataset][d0cut])))
 
 
         if arguments.includeSystematics:
-            sys_errors_strings[dataset][d0cut] = str(dic["sys"])
+            sys_errors_strings[dataset][d0cut] = str(roundedNumbersDictionary["syst_error"])
 
-        stat_errors_strings[dataset][d0cut] = str(dic["sta"])
+        stat_errors_strings[dataset][d0cut] = str(roundedNumbersDictionary["stat_error"])
 
 
 #print yields_strings
@@ -368,9 +368,13 @@ line = line + "}"+newLine+hLine
 fout.write (line)
 
 line = "Event Source & "
-for d0cut in d0cuts_list:
-    line = line + "$\lvert d_{0} \\rvert > " + str(d0cut) + "$ cm & "
-line = line.rstrip("& ")+endLine+newLine+hLine
+for d0cutIndex in range(len(d0cuts_list)):
+    if d0cutIndex is not len(d0cuts_list)-1: #not last signal region
+        line = line + str(d0cuts_list[d0cutIndex]) + " cm " + "$<  |d_{0}| <$ " + str(d0cuts_list[d0cutIndex+1]) + " cm & "
+    else: #last signal region
+        line = line + "$|d_{0}| >$ " + str(d0cuts_list[d0cutIndex]) + " cm"
+        
+line = line+endLine+newLine+hLine
 fout.write(line)
 
 #write a line for each background sample
@@ -384,9 +388,6 @@ for dataset in datasets:
     bgMCcounter = bgMCcounter + 1
     rawlabel = labels[dataset]
     label = rawlabel.replace("#bar{t}","$\\bar{\\mathrm{t}}$").replace("#nu","$\\nu$").replace("#rightarrow","${\\rightarrow}$").replace(" ","\\ ")
-#    rawlabel = "$" + labels[dataset] + "$"
-#    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
-
     line = label + " & "
     
     for d0cut in d0cuts_list:
@@ -413,12 +414,12 @@ if bgMCcounter is not 0:
         line = hLine+"Total expected background & "
 
         for d0cut in d0cuts_list:
-            dic = roundingNumbers(bgMCSum[d0cut],math.sqrt(bgMCStatErrSquared[d0cut]),math.sqrt(bgMCSysErrSquared[d0cut]))
-            bgMCSum_ = str(dic["central"])
-            bgMCStatErr_ = str(dic["sta"])
+            roundedNumbersDictionary = roundingNumbers(bgMCSum[d0cut],math.sqrt(bgMCStatErrSquared[d0cut]),math.sqrt(bgMCSysErrSquared[d0cut]))
+            bgMCSum_ = str(roundedNumbersDictionary["central_value"])
+            bgMCStatErr_ = str(roundedNumbersDictionary["stat_error"])
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
             if arguments.includeSystematics:
-                bgMCSysErr_ = str(dic["sys"])
+                bgMCSysErr_ = str(roundedNumbersDictionary["syst_error"])
                 line = line + " $\pm$ " + bgMCSysErr_
             line = line + " & "
                 
@@ -432,9 +433,7 @@ for dataset in datasets:
     if types[dataset] is not "data" or not yields[dataset]:
         continue
                 
-    rawlabel = "Observation"
-#    rawlabel = "$" + labels[dataset] + "$"
-    label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
+    label =  "Observation"
 
     line = label + " & "
     
@@ -445,7 +444,7 @@ for dataset in datasets:
     fout.write(line)
 
 
-#write a line for each signalMC sample
+#check to see if any signal samples are included
 signalCounter = 0
 for dataset in datasets:
     if types[dataset] is not "signalMC" or not yields[dataset]:
@@ -457,6 +456,7 @@ if signalCounter > 0:
     line = hLine
     fout.write(line)
 
+#write a line for each signalMC sample
 for dataset in datasets:
 
     if types[dataset] is not "signalMC" or not yields[dataset]:
