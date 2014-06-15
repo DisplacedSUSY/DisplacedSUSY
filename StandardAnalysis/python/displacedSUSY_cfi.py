@@ -65,11 +65,25 @@ process.OSUAnalysis.calcPdfWeights = cms.bool(False)      # If setting this to t
 process.OSUAnalysis.pdfSet = cms.string('cteq66.LHgrid')  # only used if calcPdfWeights is True
 process.OSUAnalysis.pdfSetFlag = cms.int32(1)             # only used if calcPdfWeights is True
 
+################################################################################
+# Redo batch mode configuration since we modified dataset and datasetType
+################################################################################
+if osusub.batchMode:
+  dataset = osusub.dataset
+  sourceLabel = get_short_name (dataset, dataset_names)
+  if sourceLabel=="Unknown":
+    print "Error[osuAnalysis_cfi.py]:  Could not find short name for dataset: %s; this will cause job to crash." % dataset  
+  label = osusub.datasetLabel
+  process.OSUAnalysis.dataset = cms.string (sourceLabel)
+  process.OSUAnalysis.datasetType = cms.string (types[sourceLabel])
 
+  if process.OSUAnalysis.datasetType == cms.string ("signalMC") and re.match (r"stop[^_]*to[^_]*_[^_]*mm.*", label):
+    stopCTau = stop_ctau (label)
+    sourceStopCTau = source_stop_ctau (stopCTau)
+    process.OSUAnalysis.stopCTau = cms.vdouble (sourceStopCTau / 10.0, stopCTau / 10.0)
 
-
-
-
-
-
-
+  if process.OSUAnalysis.datasetType == cms.string ("signalMC") and re.match (r"AMSB*", label):
+    charginoCTau =  chargino_ctau (label)
+    sourceCharginoCTau = source_chargino_ctau (charginoCTau)
+    process.OSUAnalysis.stopCTau = cms.vdouble (sourceCharginoCTau, charginoCTau)
+    print "Setting stopCTau = (" + str(sourceCharginoCTau) + ", " + str(charginoCTau) + ") "  
