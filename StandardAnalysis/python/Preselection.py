@@ -140,7 +140,7 @@ Preselection = cms.PSet(
       # ONLY CONSIDER 30 GEV JETS
       cms.PSet (
         inputCollection = cms.string("jets"),
-        cutString = cms.string("pt > 30"),
+        cutString = cms.string("pt > 10"),
         numberRequired = cms.string(">= 0")
       ),
       # ELECTRON NOT OVERLAPPING WITH JET
