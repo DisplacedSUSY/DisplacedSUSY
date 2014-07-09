@@ -30,7 +30,7 @@ process.OSUAnalysis.verbose = cms.int32(0)
 
 
 process.OSUAnalysis.applyLeptonSF = cms.bool(True)  #  multiplies scale factors in the case of multiple leptons
-
+process.OSUAnalysis.applyGentoRecoEfficiency = cms.bool(False)  #  multiplies 
 
 process.OSUAnalysis.electronSFFile = cms.string (os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/Configuration/data/MVANonTrig_HtoZZto4l_IdIsoSip.root')
 process.OSUAnalysis.electronSFID = cms.string ('')
