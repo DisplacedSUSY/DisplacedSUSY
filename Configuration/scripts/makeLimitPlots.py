@@ -132,6 +132,11 @@ def getSignalSF(mass,lifetime,branching_ratio,directory):
     signalSF = f.readline ().rstrip ()
     return float (signalSF)
 
+def scaleObserved(mass,lifetime,branching_ratio,directory):
+    signal_name = makeSignalName(mass,lifetime,branching_ratio)
+    signalSFFile = glob.glob("limits/"+directory+"/"+signal_name+"_observed/*.sf")
+    return signalSFFile
+
 def getTheoryGraph():
     x = [ ]
     y = [ ]
@@ -613,6 +618,8 @@ def fetchLimits(mass,lifetime,branching_ratio,directories):
         tmp_limit['up2'] *= signalSF
         tmp_limit['down1'] *= signalSF
         tmp_limit['down2'] *= signalSF
+        if scaleObserved (mass, lifetime, branching_ratio, directory):
+            tmp_limit['observed'] *= signalSF
         if tmp_limit['expected'] < limit['expected']:
                 limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
