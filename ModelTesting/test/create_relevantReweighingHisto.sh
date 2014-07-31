@@ -1,3 +1,5 @@
+## All the string necessary to use sed with variable changes
+# To change the dataset used
 beginSedStrig='s/ToBeSet/'
 endSedString='/g'
 CoreSedString='stopHadron'
@@ -5,6 +7,22 @@ CoreSedString2='toBl_'
 CoreSedString3='.0mm'
 stringM='M_'
 stringctau='ctau_'
+
+# To change the condor directory used
+beginSedStringCond='s/scondor_dir=.*/'
+endSedStringCond='/g'
+scondordir=$1  # This parameter is set to the first argument of the script 
+singleket="'"
+scondor_dir="scondor_dir="
+totSedStringCond="$beginSedStringCond$scondor_dir$singleket$scondordir$singleket$endSedStringCond"
+##
+
+# Edit all the config to put the right condor_dir
+sed -i $totSedStringCond ElrecoEffPlotConfig.py
+sed -i $totSedStringCond MurecoEffPlotConfig.py
+sed -i $totSedStringCond ElselectionEffPlotConfig.py
+sed -i $totSedStringCond MuselectionEffPlotConfig.py
+
 
 # loop on the masses    
 for M in 200 600 1000
