@@ -5,13 +5,42 @@ import FWCore.ParameterSet.Config as cms
 ##### Set up the histograms to be plotted #####
 ###############################################
 
+MCparticlesHistograms = cms.PSet(
+    inputCollection = cms.string("mcparticles"),
+    histograms = cms.VPSet (
+       cms.PSet (
+    name = cms.string("MCmuonD0Beamspot"),
+    title = cms.string("MC Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
+    bins = cms.untracked.vdouble(1000, -5, 5),
+    inputVariables = cms.vstring("muond0Beamspot"),
+    ),
+       cms.PSet (
+    name = cms.string("MCelectronD0Beamspot"),
+    title = cms.string("MC Electron d_{0} wrt Beamspot; electron d_{0}"),
+    bins = cms.untracked.vdouble(1000, -5, 5),
+    inputVariables = cms.vstring("electrond0Beamspot"),
+    ),
+       cms.PSet (
+    name = cms.string("MCmuonPt"),
+    title = cms.string("MC muon pt; pt [GeV]"),
+    bins = cms.untracked.vdouble(1000, 0, 1000),
+    inputVariables = cms.vstring("muonPt"),
+    ),
+       cms.PSet (
+    name = cms.string("MCelectronePt"),
+    title = cms.string("MC Electron ; electron pt [GeV]"),
+    bins = cms.untracked.vdouble(1000, 0, 1000),
+    inputVariables = cms.vstring("electronPt"),
+    ),
+       )
+    )
 
 MuonD0Histograms = cms.PSet(
     inputCollection = cms.string("muons"),
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("muonD0BeamspotS"),
-            title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
+             title = cms.string("Muon d_{0} wrt Beamspot; muon d_{0} [cm]"),
             bins = cms.untracked.vdouble(100, -0.05, 0.05),
             inputVariables = cms.vstring("correctedD0"),
         ),

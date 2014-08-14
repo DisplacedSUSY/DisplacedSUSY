@@ -1,7 +1,7 @@
 ###
-### This macro create plot to compare the 4 histograms that will be used for the reweighting (do not create the histograms them self, use create_relevantReweighingHisto.sh for that) for all the different sample.
-### needs one argument, which the name of the output condor dir. It will put all the plot under the same directory in the current directory.
-### needs for config files ElrecoEffPlotConfig.py, MurecoEffPlotConfig.py, ElselectionEffPlotConfig.py and  MuselectionEffPlotConfig.py
+### This macro create the 4 histograms that will be used for the reweighting (do not make the plots, use do_stackPlotForAllSignalModel_RecoAndSelctionOnly.sh for that) for all the different sample.
+### needs one argument, which the name of the output condor dir. It will put all the histograms under the appropriate directory .../OSUT3Analysis/Configuration/data/
+### needs two four config files: ElrecoEffPlotConfig.py, MurecoEffPlotConfig.py, ElselectionEffPlotConfig.py and MuselectionEffPlotConfig.py
 ### uses example
 ### source create_relevantReweighingHisto.sh ModelTestingMoreCTau
 ###
