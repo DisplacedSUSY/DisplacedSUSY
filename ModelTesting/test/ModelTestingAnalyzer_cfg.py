@@ -36,55 +36,53 @@ from DisplacedSUSY.Configuration.histogramDefinitions import *
 #process.OSUAnalysis.histogramSets.append(ElectronD0Histograms)
 ## process.OSUAnalysis.histogramSets.append(ConversionHistograms)
 
+
+### block of gen level histograms
+#"""
 process.OSUAnalysis.histogramSets.append(MCParticleHistograms)
 process.OSUAnalysis.histogramSets.append(SecondaryMCParticleHistograms)
+process.OSUAnalysis.histogramSets.append(MCParticleDrJetHistogram)
+process.OSUAnalysis.histogramSets.append(SecondaryMCParticleDrJetHistogram)
+#"""
 
 
-
-#process.OSUAnalysis.histogramSets.append(MuonHistograms)
-#process.OSUAnalysis.histogramSets.append(MuonD0Histograms)
-
-#process.OSUAnalysis.histogramSets.append(ElectronMuonHistograms)
-#process.OSUAnalysis.histogramSets.append(ElectronMuonD0Histograms)
-
-#process.OSUAnalysis.histogramSets.append(JetHistograms)
-#process.OSUAnalysis.histogramSets.append(ElectronJetHistograms)
-#process.OSUAnalysis.histogramSets.append(MuonJetHistograms)
-
-
-
-## #process.OSUAnalysis.histogramSets.append(PhotonHistograms)
-## #process.OSUAnalysis.histogramSets.append(ElectronPhotonHistograms)
-## #process.OSUAnalysis.histogramSets.append(MuonPhotonHistograms)
-
-#process.OSUAnalysis.histogramSets.append(MetHistograms)
-#process.OSUAnalysis.histogramSets.append(EventHistograms)
+### block of reco level histograms
+"""
+process.OSUAnalysis.histogramSets.append(MuonHistograms)
+process.OSUAnalysis.histogramSets.append(ElectronHistograms)
+"""
 
 ##########################################################
 ##### Add the Desired Channels to the List to be Run #####
 ##########################################################
 
 #from DisplacedSUSY.StandardAnalysis.ModelTestingSelections import *
-from DisplacedSUSY.ModelTesting.ModelTestingSelections import *
+#from DisplacedSUSY.ModelTesting.ModelTestingSelections import *
+from DisplacedSUSY.ModelTesting.ModelTestingSelections_short import *
+from DisplacedSUSY.ModelTesting.CheckRecoEffSelections import *
 
-#from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
+# for standard Preselection
+from DisplacedSUSY.StandardAnalysis.Preselection import *
 
-#from DisplacedSUSY.StandardAnalysis.SignalSelections import *
 
 
-### MC particles selection for eta range Technical proposal study
-#process.OSUAnalysis.channels.append(Mc_muon)
-#process.OSUAnalysis.channels.append(Mc_electron)
-
-#process.OSUAnalysis.channels.append(Preselection_SignalGenMatching_500umMuon)
-### Empty selection
-process.OSUAnalysis.channels.append(SignalGenMatching_KynCuts_CrossCuts)#1
+### ModelTesting block. Create the 6 necessary channel to make the reweighting histograms
 #"""
-process.OSUAnalysis.channels.append(SignalGenMatching_KynCuts_CrossCuts_oneRecoEl)#2a
-process.OSUAnalysis.channels.append(SignalGenMatching_KynCuts_CrossCuts_oneRecoMu)#2b
-process.OSUAnalysis.channels.append(SignalGenMatching_KynCuts_CrossCuts_oneRecoEl_Electron_cuts)#3a
-process.OSUAnalysis.channels.append(SignalGenMatching_KynCuts_CrossCuts_oneRecoMu_Muon_cuts)#3b
+process.OSUAnalysis.channels.append(McPartInitial)
+process.OSUAnalysis.channels.append(McPartInitial_OneRecoEl)
+process.OSUAnalysis.channels.append(McPartInitial_OneRecoEl_Electron_cuts)
+process.OSUAnalysis.channels.append(SecondaryMcPartInitial)
+process.OSUAnalysis.channels.append(SecondaryMcPartInitial_OneRecoMu)
+process.OSUAnalysis.channels.append(SecondaryMcPartInitial_OneRecoMu_Muon_cuts)
 #"""
+
+
+
+#process.OSUAnalysis.channels.append(Preselection)
+#process.OSUAnalysis.channels.append(Preselection_GenLevel)
+#process.OSUAnalysis.channels.append(Preselection_GenLevel_test)
+
+### Different signal region block  
 """
 process.OSUAnalysis.channels.append(Preselection_SignalGenMatching_NoTrigger)
 process.OSUAnalysis.channels.append(Preselection_SignalGenMatching)
@@ -95,5 +93,27 @@ process.OSUAnalysis.channels.append(Preselection_SignalGenMatching_500umMuon)
 process.OSUAnalysis.channels.append(Preselection_SignalGenMatching_1000umElectron)
 process.OSUAnalysis.channels.append(Preselection_SignalGenMatching_1000umMuon)
 """
+
+
+### Check reco efficiency block
+"""
+process.OSUAnalysis.channels.append(McPartMatchedToSignal)
+process.OSUAnalysis.channels.append(McPartMatchedToSignal_OneRecoEl)
+process.OSUAnalysis.channels.append(SecondaryMcPartMatchedToSignal)
+process.OSUAnalysis.channels.append(SecondaryMcPartMatchedToSignalOneRecoMu)
+
+process.OSUAnalysis.channels.append(OneMcPartMatchedToSignal)
+process.OSUAnalysis.channels.append(OneMcPartMatchedToSignal_OneRecoEl)
+process.OSUAnalysis.channels.append(OneSecondaryMcPartMatchedToSignal)
+process.OSUAnalysis.channels.append(OneSecondaryMcPartMatchedToSignalOneRecoMu)
+
+
+process.OSUAnalysis.channels.append(EmptySelection)
+process.OSUAnalysis.channels.append(OneRecoEl)
+process.OSUAnalysis.channels.append(OneRecoMu)
+"""
+
+
+
 ### skim example
 #add_channels(process, [SignalGenMatching_KynCuts_CrossCuts])

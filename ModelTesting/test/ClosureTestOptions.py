@@ -30,37 +30,39 @@ datasets = [
 ### background samples ###
 ##########################
 
-#    'MuEG_22Jan2013',
+
 ]
 
 
 ## colors and labels must defined for signal samples that will be plotted
 
-colors['stopHadron200_10.0mm_br100'] = 1
+colors['stopHadron200_1.0mm_br100'] = 632
 colors['stopHadron200_100.0mm_br100'] = 600
+colors['stopHadron200_10000.0mm_br100'] = 1
 
-
-colors['stopHadron600_10.0mm_br100'] = 2
+colors['stopHadron600_1.0mm_br100'] = 633
 colors['stopHadron600_100.0mm_br100'] = 601
+colors['stopHadron600_10000.0mm_br100'] = 2
 
-
-colors['stopHadron1000_10.0mm_br100'] = 3
+colors['stopHadron1000_1.0mm_br100'] = 634
 colors['stopHadron1000_100.0mm_br100'] = 602
+colors['stopHadron1000_10000.0mm_br100'] = 3
 
 
+labels['stopHadron200_1.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(1mm)"
+labels['stopHadron200_100.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(10mm)"
+labels['stopHadron200_10000.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(100mm)"
 
-labels['stopHadron200_10.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(10mm)"
-labels['stopHadron200_100.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(100mm)"
+labels['stopHadron600_1.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(1mm)"
+labels['stopHadron600_100.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(10mm)"
+labels['stopHadron600_10000.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(100mm)"
 
+labels['stopHadron1000_1.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(1mm)"
+labels['stopHadron1000_100.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(10mm)"
+labels['stopHadron1000_10000.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(100mm)"
 
-labels['stopHadron600_10.0mm_br100'] = "#tilde{t}#tilde{t} M(600) c#tau(10mm)"
-labels['stopHadron600_100.0mm_br100'] = "#tilde{t}#tilde{t} M(600) c#tau(100mm)"
-
-
-labels['stopHadron1000_10.0mm_br100'] = "#tilde{t}#tilde{t} M(1000) c#tau(10mm)"
-labels['stopHadron1000_100.0mm_br100'] = "#tilde{t}#tilde{t} M(1000) c#tau(100mm)"
-
-
+#
+labels['allSample'] = "allSample"
 
 options = {}
 options['datasets'] = datasets
@@ -82,10 +84,10 @@ options['labels'] = labels
 
 ########################################################
 
-add_stops (options, [200,600,1000], [10.0,100.0])
-
-#add_stops (options, [200], [10.0])
-#add_stops (options, [200], [100.0])
-#add_stops (options, [200,400,600,800,1000], [10.0,100.0])
-#add_stops (options, [200,600,1000], [1.0,100.0,10000.0])
+#add_stops (options, [200], [10. 0])
+#add_stops (options, [200,600,1000], [10.0,100.0])
+#add_stops (options, [200,300,400,500,600,700,800,900,1000], [10.0,100.0])
 #add_stops (options, [600], [1.0,100.0,10000.0])
+#
+#add_stops (options, [200,600,1000], [1.0,10.0,100.0,1000.0,10000.0])
+add_stops (options, [200,600,1000], [1.0,10.0,100.0,1000.0])

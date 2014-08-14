@@ -17,7 +17,7 @@ for file in os.listdir(dir):
 #process.source.fileNames.extend(cms.untracked.vstring('file:/store/user/ahart/eMuMinimal/stop300toTnu_50.0mm/EMu_Minimal/bean_0.root'))
 
 
-#process.OSUAnalysis.applyGentoRecoEfficiency = True
+process.OSUAnalysis.applyGentoRecoEfficiency = True
 
 #######################################################################
 ##### Import the information about all the histograms to be filled #####

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 #sdataset='allSample'
 sdataset='ToBeSet'
-scondor_dir='modelTesting_check'
+scondor_dir='ModelTestingMoreCTau'
 
 input_histograms = [
     { 'condor_dir' : scondor_dir,
       'dataset' : sdataset,
-      'channel_numerator' : 'SignalGenMatching_KynCuts_CrossCuts_oneRecoMu_Muon_cuts',
-      'channel_denominator' : 'SignalGenMatching_KynCuts_CrossCuts_oneRecoMu',
-      'name' : 'secondaryMcparticlePt',
+      'channel_denominator' : 'SecondaryMcPartInitial_OneRecoMu',
+      'channel_numerator' : 'SecondaryMcPartInitial_OneRecoMu_Muon_cuts',
+      'name' : 'secondaryMcparticlePt_smartBin',
       'legend_entry' : 'Muon_cuts',
       'color': 1,
     },

@@ -1,3 +1,11 @@
+###
+### This macro create plot to compare the 4 histograms that will be used for the reweighting (do not create the histograms them self, use create_relevantReweighingHisto.sh for that) for all the different sample.
+### needs one argument, which the name of the output condor dir. It will put all the plot under the same directory in the current directory.
+### needs for config files ElrecoEffPlotConfig.py, MurecoEffPlotConfig.py, ElselectionEffPlotConfig.py and  MuselectionEffPlotConfig.py
+### uses example
+### source create_relevantReweighingHisto.sh ModelTestingMoreCTau
+###
+
 ## All the string necessary to use sed with variable changes
 # To change the dataset used
 beginSedStrig='s/ToBeSet/'
@@ -17,7 +25,7 @@ scondor_dir="scondor_dir="
 totSedStringCond="$beginSedStringCond$scondor_dir$singleket$scondordir$singleket$endSedStringCond"
 ##
 
-# Edit all the config to put the right condor_dir
+# Edit all the config files to put the right condor_dir
 sed -i $totSedStringCond ElrecoEffPlotConfig.py
 sed -i $totSedStringCond MurecoEffPlotConfig.py
 sed -i $totSedStringCond ElselectionEffPlotConfig.py
@@ -25,10 +33,10 @@ sed -i $totSedStringCond MuselectionEffPlotConfig.py
 
 
 # loop on the masses    
-for M in 200 600 1000
+for M in 200 600 1000 All # 
 do
     # loop on the ctaus
-    for ctau in 1 100 # 10000 has 0 stat
+    for ctau in 1 10 100 1000 All # 
     do
     if [ 0 == 0 ]
     then
@@ -38,13 +46,13 @@ do
 	
 	# Create the histo for the efficiency to reco electrons
 	sed -e $totSedString ElrecoEffPlotConfig.py > ElrecoEffPlotConfig_$StringToAppendTofile.py
-	makeEfficiencyComparisonPlot.py -l ElrecoEffPlotConfig_$StringToAppendTofile.py --noTGraph -o recoElectron_$StringToAppendTofile.root
+	makeEfficiencyComparisonPlot.py -l ElrecoEffPlotConfig_$StringToAppendTofile.py --noTGraph -b 20 -o recoElectron_$StringToAppendTofile.root
 	rm ElrecoEffPlotConfig_$StringToAppendTofile.p*
 	mv recoElectron_$StringToAppendTofile.root ../../../OSUT3Analysis/Configuration/data/
 	
 	# Create the histo for the efficiency to reco muons
 	sed -e $totSedString MurecoEffPlotConfig.py > MurecoEffPlotConfig_$StringToAppendTofile.py
-	makeEfficiencyComparisonPlot.py -l MurecoEffPlotConfig_$StringToAppendTofile.py --noTGraph -o recoMuon_$StringToAppendTofile.root
+	makeEfficiencyComparisonPlot.py -l MurecoEffPlotConfig_$StringToAppendTofile.py --noTGraph -b 20 -o recoMuon_$StringToAppendTofile.root
 	rm MurecoEffPlotConfig_$StringToAppendTofile.p*
 	mv recoMuon_$StringToAppendTofile.root ../../../OSUT3Analysis/Configuration/data/
 	
@@ -63,13 +71,16 @@ do
 	echo ""
     fi
 
-
     done
 
-#    sed -e 's/ToBeSet/allSample/'  MurecoEffPlotConfig.py > MurecoEffPlotConfig_allSample.py
+done
 
+
+
+
+    ### Below is probaply outdated kepp if [ 1 == 0 ] to ignore
     # Create the histo for the efficiency to reco electrons
-    if [ 0 == 0 ]
+    if [ 1 == 0 ]
     then 
 	sed -e 's/ToBeSet/allSample/' ElrecoEffPlotConfig.py > ElrecoEffPlotConfig_allSample.py
 	makeEfficiencyComparisonPlot.py -l ElrecoEffPlotConfig_allSample.py --noTGraph -o recoElectron_allSample.root
@@ -94,7 +105,5 @@ do
 	rm MuselectionEffPlotConfig_allSample.p*
 	mv muonCut_allSample.root ../../../OSUT3Analysis/Configuration/data/
     fi
-	
-done
 
 echo "end of script!!!!!"

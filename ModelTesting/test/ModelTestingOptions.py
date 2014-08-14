@@ -3,7 +3,7 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
-#config_file = "eMuAnalyzer_cfg.py"
+
 config_file = "ModelTestingAnalyzer_cfg.py"
 
 
@@ -61,6 +61,8 @@ labels['stopHadron1000_1.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(1mm)"
 labels['stopHadron1000_100.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(10mm)"
 labels['stopHadron1000_10000.0mm_br100'] = "#tilde{t}#tilde{t} M(200) c#tau(100mm)"
 
+#
+labels['allSample'] = "allSample"
 
 options = {}
 options['datasets'] = datasets
@@ -82,6 +84,10 @@ options['labels'] = labels
 
 ########################################################
 
-#add_stops (options, [200], [1.0])
-add_stops (options, [200,600,1000], [1.0,100.0,10000.0])
+#add_stops (options, [200], [10. 0])
+#add_stops (options, [200,600,1000], [10.0,100.0])
+#add_stops (options, [200,300,400,500,600,700,800,900,1000], [10.0,100.0])
 #add_stops (options, [600], [1.0,100.0,10000.0])
+#
+#add_stops (options, [200,600,1000], [1.0,10.0,100.0,1000.0,10000.0])
+add_stops (options, [200,600,1000], [1.0,10.0,100.0,1000.0])
