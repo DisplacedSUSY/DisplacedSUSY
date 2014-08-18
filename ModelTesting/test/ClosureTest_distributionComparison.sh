@@ -55,14 +55,14 @@ do
     makeSinglePlot.py -l el_d0_samplePlotConfig_$StringToAppendTofile.py -b 20 -r --pdf
     mv simple_plot.root $1/el_d0$StringToAppendTofile.root
     mv simple_plot.pdf $1/el_d0$StringToAppendTofile.pdf
-    rm el_d0_samplePlotConfig_$StringToAppendTofile.py
+    rm el_d0_samplePlotConfig_$StringToAppendTofile.py*
 
     # el pt comparison
     sed -e $totSedString el_pt_samplePlotConfig.py > el_pt_samplePlotConfig_$StringToAppendTofile.py
     makeSinglePlot.py -l el_pt_samplePlotConfig_$StringToAppendTofile.py -b 20 -r --pdf
     mv simple_plot.root $1/el_pt$StringToAppendTofile.root
     mv simple_plot.pdf $1/el_pt$StringToAppendTofile.pdf
-    rm el_pt_samplePlotConfig_$StringToAppendTofile.py
+    rm el_pt_samplePlotConfig_$StringToAppendTofile.py*
     fi
 
     if [ 0 == 0 ]
@@ -72,14 +72,14 @@ do
     makeSinglePlot.py -l mu_d0_samplePlotConfig_$StringToAppendTofile.py -b 10 -r --pdf
     mv simple_plot.root $1/mu_d0_$StringToAppendTofile.root
     mv simple_plot.pdf $1/mu_d0_$StringToAppendTofile.pdf
-    rm mu_d0_samplePlotConfig_$StringToAppendTofile.py
+    rm mu_d0_samplePlotConfig_$StringToAppendTofile.py*
 
     # mu pt comparison
     sed -e $totSedString mu_pt_samplePlotConfig.py > mu_pt_samplePlotConfig_$StringToAppendTofile.py
     makeSinglePlot.py -l mu_pt_samplePlotConfig_$StringToAppendTofile.py -b 10 -r --pdf
     mv simple_plot.root $1/mu_pt_$StringToAppendTofile.root
     mv simple_plot.pdf $1/mu_pt_$StringToAppendTofile.pdf
-    rm mu_pt_samplePlotConfig_$StringToAppendTofile.py
+    rm mu_pt_samplePlotConfig_$StringToAppendTofile.py*
     fi
 
     done
