@@ -29,7 +29,7 @@ totSedStringCond="$beginSedStringCond$scondor_dir2$singleket$scondordir$singleke
 ##                                                                                                                                                                                 
 
 # Edit all the config files to put the right condor_dir                                                                                                                            
-sedmu_d0_samplePlotConfig.py -i $totSedStringCond el_d0_samplePlotConfig.py
+sed -i $totSedStringCond el_d0_samplePlotConfig.py
 sed -i $totSedStringCond el_pt_samplePlotConfig.py
 sed -i $totSedStringCond mu_d0_samplePlotConfig.py
 sed -i $totSedStringCond mu_pt_samplePlotConfig.py
