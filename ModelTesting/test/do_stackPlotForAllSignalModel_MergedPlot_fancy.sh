@@ -1,9 +1,9 @@
 ###                                                                                        
 ### This macro create plot to compare the 4 histograms that will be used for the reweighting (do not create the histograms them self, use create_relevantReweighingHisto.sh for that) for all the different sample.                                                            
 ### needs one argument, which the name of the output condor dir. It will put all the plot under the same directory in the current directory.                                         
-### needs two config files recoEffPlotConfig.py and selectionEffPlotConfig.py
+### needs two config files SameCtauAllMass.py and SameMassAllCtau.py
 ### uses example                                                                           
-### source create_relevantReweighingHisto.sh ModelTestingMoreCTau                          
+### source do_stackPlotForAllSignalModel_MergedPlot_fancy.sh ModelTesting_v0_vz_ptCut
 ###
 
 
@@ -34,7 +34,7 @@ Comp_SF_Cond=$SF_Cond$EFBA$SF_Cond
 RS_Cond=$1
 Comp_RS_Cond=$SK$RS_Cond$SK
 TOT_Cond=$BOS$Comp_SF_Cond$ES$Comp_RS_Cond$EOS
-echo $TOT_Cond
+#echo $TOT_Cond
 
 sed -i $TOT_Cond SameCtauAllMass.py
 sed -i $TOT_Cond SameMassAllCtau.py
@@ -48,7 +48,7 @@ Comp_SF_Init=$SF_Init$EFBA$SF_Init
 RS_Init='McPartInitial'
 Comp_RS_Init=$SK$RS_Init$SK
 TOT_Init=$BOS$Comp_SF_Init$ES$Comp_RS_Init$EOS
-echo $TOT_Init
+#echo $TOT_Init
 
 
 ### To change the efficiency type 
@@ -59,7 +59,7 @@ Comp_SF_EffType=$SF_EffType$EFBA$SF_EffType
 RS_EffType='noeff'
 Comp_RS_EffType=$SK$RS_EffType$SK
 TOT_EffType=$BOS$Comp_SF_EffType$ES$Comp_RS_EffType$EOS
-echo $TOT_EffType
+#echo $TOT_EffType
 
 
 
@@ -71,7 +71,7 @@ Comp_SF_Ctau=$SF_Ctau$EFBA$SF_Ctau
 RS_Ctau='noctau'
 Comp_RS_Ctau=$SK$RS_Ctau$SK
 TOT_Ctau=$BOS$Comp_SF_Ctau$ES$Comp_RS_Ctau$EOS
-echo $TOT_Ctau	
+#echo $TOT_Ctau	
 
 
 ## To change the Mass in the fixed Ctau plots
@@ -82,7 +82,7 @@ Comp_SF_Mass=$SF_Mass$EFBA$SF_Mass
 RS_Mass='mas'
 Comp_RS_Mass=$SK$RS_Mass$SK
 TOT_Mass=$BOS$Comp_SF_Mass$ES$Comp_RS_Mass$EOS
-echo $TOT_Mass	
+#echo $TOT_Mass	
 
 
 ## To change the name of the outputfile
