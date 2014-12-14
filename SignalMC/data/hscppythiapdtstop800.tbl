@@ -1,18 +1,18 @@
-//  This table was generated from 
+//  This table was generated from
 //  HepPDT-3.02.01/data/particle.tbl
 //  It is modified to use the original pythia particle IDs
 //  It is essentially a copy of the pythia particle table, with a few heavy ions
 //  The ID numbers and names conform to the 2006 PDG standard.
 //
 //  This table can be read with the addParticleTable function.
-//  Fixed columns are not required 
+//  Fixed columns are not required
 //  Blank characters in the middle of particle names are illegal
 //  and will result in nonsense.
 //
 // Comments are identified by either "//" or "#", beginning in the first column.
 // Comments MUST be in the first column.
 //
-//       ID name                  chg       mass    total width   lifetime 
+//       ID name                  chg       mass    total width   lifetime
 //
           1 d                      -1      0.33000     0.00000   0.00000E+00
          -1 dbar                    1      0.33000     0.00000   0.00000E+00
@@ -561,21 +561,21 @@
  1000020040 Alpha-(He4)             6      3.72742     0.00000   0.00000E+00
     1000006 ~t_1                    2     800.000      1.00000   0.00000E+00
 	1000612 ~T+                     3     800.325      0.00000   6.58654E+10
-	1000622 ~T0                     0     800.325      0.00000   6.58654E+10  
-	1000632 ~T_s+                   3     800.500      0.00000   6.58654E+10 
+	1000622 ~T0                     0     800.325      0.00000   6.58654E+10
+	1000632 ~T_s+                   3     800.500      0.00000   6.58654E+10
 	1000642 ~T_c0                   0     801.500      0.00000   6.58654E+10
-   	1000652 ~T_b+                   3     804.800      0.00000   6.58654E+10   
-	1006113 ~T_dd10                 0     800.650      0.00000   6.58654E+10  
-	1006211 ~T_ud0+                 3     800.650      0.00000   6.58654E+10  
-	1006213 ~T_ud1+                 3     800.650      0.00000   6.58654E+10   
-	1006223 ~T_uu1++                6     800.650      0.00000   6.58654E+10   
+   	1000652 ~T_b+                   3     804.800      0.00000   6.58654E+10
+	1006113 ~T_dd10                 0     800.650      0.00000   6.58654E+10
+	1006211 ~T_ud0+                 3     800.650      0.00000   6.58654E+10
+	1006213 ~T_ud1+                 3     800.650      0.00000   6.58654E+10
+	1006223 ~T_uu1++                6     800.650      0.00000   6.58654E+10
 	1006311 ~T_sd00                 0     800.825      0.00000   6.58654E+10
-	1006313 ~T_sd10                 0     800.825      0.00000   6.58654E+10  
-	1006321 ~T_su0+                 3     800.825      0.00000   6.58654E+10  
-	1006323 ~T_su1+                 3     800.825      0.00000   6.58654E+10 
-	1006333 ~T_ss10                 0     801.000      0.00000   6.58654E+10   
-        -1000006 ~t_1bar               -2     800.000      1.00000   0.00000E+00   
-	-1000612 ~Tbar-                -3     800.325      0.00000   6.58654E+10 
+	1006313 ~T_sd10                 0     800.825      0.00000   6.58654E+10
+	1006321 ~T_su0+                 3     800.825      0.00000   6.58654E+10
+	1006323 ~T_su1+                 3     800.825      0.00000   6.58654E+10
+	1006333 ~T_ss10                 0     801.000      0.00000   6.58654E+10
+        -1000006 ~t_1bar               -2     800.000      1.00000   0.00000E+00
+	-1000612 ~Tbar-                -3     800.325      0.00000   6.58654E+10
 	-1000622 ~Tbar0                 0     800.325      0.00000   6.58654E+10
 	-1000632 ~Tbar_s-              -3     800.500      0.00000   6.58654E+10
 	-1000642 ~Tbar_c0               0     801.500      0.00000   6.58654E+10

@@ -1,5 +1,5 @@
 ## Important note!
-## This file has been modified by hand to give the gluino and the 
+## This file has been modified by hand to give the gluino and the
 ## stop_1 a very narrow width, such that it can be used to try out
 ## the R-hadron machinery. It is not a realistic SUSY scenario.
 ##
@@ -40,11 +40,11 @@ BLOCK DCINFO  # Decay Program information
      2   1.1a        # version number
 #
 BLOCK SPINFO  # Spectrum calculator information
-     1   SOFTSUSY    # spectrum calculator                 
-     2   2.0.5         # version number                    
+     1   SOFTSUSY    # spectrum calculator
+     2   2.0.5         # version number
 #
 BLOCK MODSEL  # Model selection
-     1     1   sugra                                             
+     1     1   sugra
 #
 BLOCK SMINPUTS  # Standard Model inputs
      1     1.27934000E+02   # alpha_em^-1(M_Z)^MSbar
@@ -56,11 +56,11 @@ BLOCK SMINPUTS  # Standard Model inputs
      7     1.77700000E+00   # mtau pole mass
 #
 BLOCK MINPAR  # Input parameters - minimal models
-     1     1.00000000E+02   # m0                  
-     2     2.50000000E+02   # m12                 
-     3     1.00000000E+01   # tanb                
-     4     1.00000000E+00   # sign(mu)            
-     5    -1.00000000E+02   # A0                  
+     1     1.00000000E+02   # m0
+     2     2.50000000E+02   # m12
+     3     1.00000000E+01   # tanb
+     4     1.00000000E+00   # sign(mu)
+     5    -1.00000000E+02   # A0
 #
 BLOCK MASS  # Mass Spectrum
 # PDG code           mass       particle
@@ -152,10 +152,10 @@ BLOCK ALPHA  # Higgs mixing
           -1.13825210E-01   # Mixing angle in the neutral Higgs boson sector
 #
 BLOCK HMIX Q=  4.67034192E+02  # DRbar Higgs Parameters
-     1     3.57680977E+02   # mu(Q)MSSM DRbar     
+     1     3.57680977E+02   # mu(Q)MSSM DRbar
      2     9.74862403E+00   # tan beta(Q)MSSM DRba
      3     2.44894549E+02   # higgs vev(Q)MSSM DRb
-     4     1.66439065E+05   # mA^2(Q)MSSM DRbar   
+     4     1.66439065E+05   # mA^2(Q)MSSM DRbar
 #
 BLOCK GAUGE Q=  4.67034192E+02  # The gauge couplings
      3     1.10178679E+00   # g3(Q) MSbar
@@ -185,26 +185,26 @@ BLOCK YE Q=  4.67034192E+02  # The Yukawa couplings
   3  3     1.00890810E-01   # y_tau(Q) DRbar
 #
 BLOCK MSOFT Q=  4.67034192E+02  # The soft SUSY breaking masses at the scale Q
-     1     1.01396534E+02   # M_1(Q)              
-     2     1.91504241E+02   # M_2(Q)              
-     3     5.88263031E+02   # M_3(Q)              
-    21     3.23374943E+04   # mH1^2(Q)            
-    22    -1.28800134E+05   # mH2^2(Q)            
-    31     1.95334764E+02   # meL(Q)              
-    32     1.95334764E+02   # mmuL(Q)             
-    33     1.94495956E+02   # mtauL(Q)            
-    34     1.36494061E+02   # meR(Q)              
-    35     1.36494061E+02   # mmuR(Q)             
-    36     1.34043428E+02   # mtauR(Q)            
-    41     5.47573466E+02   # mqL1(Q)             
-    42     5.47573466E+02   # mqL2(Q)             
-    43     4.98763839E+02   # mqL3(Q)             
-    44     5.29511195E+02   # muR(Q)              
-    45     5.29511195E+02   # mcR(Q)              
-    46     4.23245877E+02   # mtR(Q)              
-    47     5.23148807E+02   # mdR(Q)              
-    48     5.23148807E+02   # msR(Q)              
-    49     5.19867261E+02   # mbR(Q)              
+     1     1.01396534E+02   # M_1(Q)
+     2     1.91504241E+02   # M_2(Q)
+     3     5.88263031E+02   # M_3(Q)
+    21     3.23374943E+04   # mH1^2(Q)
+    22    -1.28800134E+05   # mH2^2(Q)
+    31     1.95334764E+02   # meL(Q)
+    32     1.95334764E+02   # mmuL(Q)
+    33     1.94495956E+02   # mtauL(Q)
+    34     1.36494061E+02   # meR(Q)
+    35     1.36494061E+02   # mmuR(Q)
+    36     1.34043428E+02   # mtauR(Q)
+    41     5.47573466E+02   # mqL1(Q)
+    42     5.47573466E+02   # mqL2(Q)
+    43     4.98763839E+02   # mqL3(Q)
+    44     5.29511195E+02   # muR(Q)
+    45     5.29511195E+02   # mcR(Q)
+    46     4.23245877E+02   # mtR(Q)
+    47     5.23148807E+02   # mdR(Q)
+    48     5.23148807E+02   # msR(Q)
+    49     5.19867261E+02   # mbR(Q)
 #
 #
 #
