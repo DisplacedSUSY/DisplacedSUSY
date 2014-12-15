@@ -3,11 +3,7 @@ COM_ENERGY = 13000. # GeV
 MASS_POINT = 600   # GeV
 CROSS_SECTION = 0.174599 # pb
 CTAU_POINT = 1. # mm
-PROCESS_FILE = 'SimG4Core/CustomPhysics/data/stophadronProcessList.txt'
-PARTICLE_FILE = 'Configuration/Generator/data/particles_%s_%d_GeV.txt'  % (FLAVOR, MASS_POINT)
 SLHA_FILE ='Configuration/Generator/data/DisplacedSUSY_%sToBottom_%d_%.1fmm_SLHA.spc' % (FLAVOR, MASS_POINT, CTAU_POINT)
-PDT_FILE = 'Configuration/Generator/data/hscppythiapdt%s%d.tbl'  % (FLAVOR, MASS_POINT)
-USE_REGGE = False
 
 import FWCore.ParameterSet.Config as cms
 
@@ -41,13 +37,6 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
         )
     )
 )
-generator.hscpFlavor = cms.untracked.string(FLAVOR)
-generator.massPoint = cms.untracked.int32(MASS_POINT)
-generator.particleFile = cms.untracked.string(PARTICLE_FILE)
-generator.slhaFile = cms.untracked.string(SLHA_FILE)
-generator.processFile = cms.untracked.string(PROCESS_FILE)
-generator.pdtFile = cms.FileInPath(PDT_FILE)
-generator.useregge = cms.bool(USE_REGGE)
 
 dirhadrongenfilter = cms.EDFilter("MCParticlePairFilter",
     #Status = cms.untracked.vint32(1, 1),
