@@ -138,7 +138,7 @@ for cut in DisplacedControlRegionInclusiveDisplacedTrigger_13TeV.cuts:
         cut.cutString = cms.string("pt > 40")
 
 DisplacedControlRegionDisplacedTrigger_13TeV = cms.PSet(
-    name = cms.string("AntiIsoDisplacedControlRegionDisplacedTrigger13TeV"),
+    name = cms.string("DisplacedControlRegionDisplacedTrigger13TeV"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
@@ -172,7 +172,7 @@ for cut in IsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13TeV.
         cut.cutString = cms.string("pt > 40")
 
 IsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger_13TeV = cms.PSet(
-    name = cms.string("AntiIsoDisplacedControlRegionDisplacedTrigger13TeV"),
+    name = cms.string("IsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger13TeV"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
@@ -205,7 +205,7 @@ for cut in AntiIsoMuIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13TeV.
         cut.cutString = cms.string("pt > 40")
 
 AntiIsoMuIsoEleDisplacedControlRegionDisplacedTrigger_13TeV = cms.PSet(
-    name = cms.string("AntiIsoDisplacedControlRegionDisplacedTrigger13TeV"),
+    name = cms.string("AntiIsoMuIsoEleDisplacedControlRegionDisplacedTrigger13TeV"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
@@ -239,7 +239,7 @@ for cut in AntiIsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13
         cut.cutString = cms.string("pt > 40")
 
 AntiIsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger_13TeV = cms.PSet(
-    name = cms.string("AntiIsoDisplacedControlRegionDisplacedTrigger13TeV"),
+    name = cms.string("AntiIsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger13TeV"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
