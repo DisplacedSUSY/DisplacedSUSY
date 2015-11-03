@@ -64,13 +64,13 @@ variableProducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection_13TeV import *
+from DisplacedSUSY.StandardAnalysis.DisplacedControlRegionSelection_13TeV import *
 
 eventSelections = []
-eventSelections.append(AntiIsoMuIsoElePromptControlRegionPromptTrigger_13TeV)
-eventSelections.append(PromptControlRegionPromptTrigger_13TeV)
-eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger_13TeV)
-eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger_13TeV)
+eventSelections.append(AntiIsoMuIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13TeV)
+eventSelections.append(DisplacedControlRegionInclusiveDisplacedTrigger_13TeV)
+eventSelections.append(IsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13TeV)
+eventSelections.append(AntiIsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger_13TeV)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
