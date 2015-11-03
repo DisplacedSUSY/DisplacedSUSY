@@ -9,7 +9,7 @@ import re
 from array import *
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
-from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 
 
 
@@ -79,8 +79,7 @@ def fancyTable(arrays):
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     print process, d0Cut
-
-    d0Histogram = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName).Clone()
+    d0Histogram = inputFile.Get(channel+"/"+d0histogramName).Clone()
     d0Histogram.SetDirectory(0)
     inputFile.Close()
     yieldAndErrorList = {}
@@ -123,7 +122,7 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
 
         if process is "WNjets":
             ttbarFile = TFile("condor/"+condor_dir+"/"+"TTbar"+".root")
-            ttbarHistogram = ttbarFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName).Clone()
+            ttbarHistogram = ttbarFile.Get(channel+"/"+d0histogramName).Clone()
             ttbarHistogram.SetDirectory(0)
             inputFile.Close()
             xError = Double (0.0)
@@ -152,11 +151,11 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
     return yieldAndErrorList
 
 
-def writeDatacard(mass,lifetime,branching_ratio):
+def writeDatacard(mass,lifetime):
 
 
-#    signal_dataset = "stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
-    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
+    signal_dataset = "stop"+mass+"_"+lifetime+"mm_MiniAOD"
+#    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
 
     signal_yield = {}
     signal_error = {}    
@@ -493,7 +492,7 @@ for d0Cut in arguments.d0Cuts:
     if run_blind_limits:
         background_sum = 0
         for background in backgrounds:
-            background_sum = background_sum + round(float(background_yields[background]),1)
+            background_sum = background_sum + round(float(background_yields[background][d0Cut]),1)
         observation[d0Cut] = background_sum
     else:
         observation[d0Cut] = GetYieldAndError(data_condor_dir, data_dataset, data_channel, d0Cut)['yield']
@@ -504,6 +503,5 @@ for d0Cut in arguments.d0Cuts:
 ###looping over signal models and writing a datacard for each
 for mass in masses:
   for lifetime in lifetimes:
-    for branching_ratio in branching_ratios:
-        print "making datacard_stop"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio+".txt"
-        writeDatacard(mass,lifetime,branching_ratio)
+        print "making datacard_stop"+mass+"_"+lifetime+"mm_MiniAOD.txt"
+        writeDatacard(mass,lifetime)

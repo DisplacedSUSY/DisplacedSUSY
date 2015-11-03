@@ -14,51 +14,54 @@
 #taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVstopsbottom
 signal_cross_sections = {
 
+    '100' : {
+      'value' : '1521.11',
+      'error' : '1.154038',
+    },
     '200' : {
-      'value' : '18.5245',
-      'error' : '1.149147',
+      'value' : ' 64.5085',
+      'error' : '1.144098',
     },
     '300' : {
-      'value' : '1.99608',
-      'error' : '1.146905',
+      'value' : '8.51615',
+      'error' : '1.139223',
     },
     '400' : {
-      'value' : '0.35683',
-      'error' : '1.142848',
+      'value' : '1.83537',
+      'error' : '1.136985',
     },
     '500' : {
-      'value' : '0.0855847',
-      'error' : '1.149611',
+      'value' : '0.51848',
+      'error' : '1.133797',
     },
     '600' : {
-      'value' : '0.0248009',
-      'error' : '1.166406',
+      'value' : '0.174599',
+      'error' : '1.132074',
     },
     '700' : {
-      'value' : '0.0081141',
-      'error' : '1.184146',
+      'value' : '0.0670476',
+      'error' : '1.133429',
     },
     '800' : {
-      'value' : '0.00289588',
-      'error' : '1.20516',
+      'value' : '0.0283338',
+      'error' : '1.14171',
     },
     '900' : {
-      'value' : '0.00109501',
-      'error' : '1.239439',
+      'value' : '0.0128895',
+      'error' : '1.152026',
     },
     '1000' : {
-      'value' : '0.000435488',
-      'error' : '1.276595',
+      'value' : '0.00615134',
+      'error' : '1.162953',
     },
-    '900' : {
-      'value' : '0.00109501',
-      'error' : '1.239',
+    '1100' : {
+      'value' : '0.00307413',
+      'error' : '1.173377',
     },
-    '1000' : {
-      'value' : '0.000435488 ',
-      'error' : '1.28',
+    '1200' : {
+      'value' : '0.00159844',
+      'error' : '1.185209',
     },
-
 }
 
 
@@ -192,8 +195,8 @@ unique_systematic_uncertainties = {
 
 #defined in external text files (located in DisplacedSUSY/Configuration/data)
 external_systematic_uncertainties = [
-    'electronSF',
-    'muonSF',
-    'pdf',
-    'pileup',
+#    'electronSF',
+#    'muonSF',
+#    'pdf',
+#    'pileup',
 ]
