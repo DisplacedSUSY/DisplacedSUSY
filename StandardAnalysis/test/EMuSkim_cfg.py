@@ -65,10 +65,10 @@ variableProducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.StandardAnalysis.EMuSkimSelection_13TeV import *
+from DisplacedSUSY.StandardAnalysis.EMuSkimSelection import *
 
 eventSelections = []
-eventSelections.append(EMuSkim_13TeV)
+eventSelections.append(EMuSkimSelection)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

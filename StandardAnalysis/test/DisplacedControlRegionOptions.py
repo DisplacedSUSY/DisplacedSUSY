@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
+# to be run with submitToCondor.py -l protoBatchConfig.py
+
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 
 # specify which config file to pass to cmsRun
-config_file = "EMuSkimSelection.py"
+config_file = "DisplacedControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-#intLumi = 19700 # from 8 TeV MuEG dataset
-intLumi = 2445.23 # for 13 TeV 
+intLumi = 2445.23 # from 8 TeV MuEG dataset
 
 # create list of datasets to process
 datasets = [
@@ -19,7 +20,6 @@ datasets = [
     'TTJets_Lept_MiniAOD',
     'QCD_MuEnriched_MiniAOD',
     'MuonEG_2015D',
-    'DisplacedSUSY'
 ]
 
-InputCondorArguments = {}
+InputCondorArguments = {'hold': 'true'}
