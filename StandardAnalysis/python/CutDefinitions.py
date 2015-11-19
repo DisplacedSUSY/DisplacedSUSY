@@ -3,7 +3,7 @@ import copy
 import string
 # Electron inversed isolation cut 
 electron_inversed_iso_cut = cms.PSet (
-    inputCollection = cms.vstring("candeles"),
+    inputCollection = cms.vstring("electrons"),
     cutString = cms.string('          \
         ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt >= 0.0646 & \
         (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
@@ -34,7 +34,7 @@ muon_inversed_iso_cut = cms.PSet (
 )
 #Electron isolation cut
 electron_iso_cut = cms.PSet (
-    inputCollection = cms.vstring("candeles"),
+    inputCollection = cms.vstring("electrons"),
     cutString = cms.string("        \
         ((pfIso_.sumChargedHadronPt   \
         + max(0.0,                    \
@@ -69,26 +69,26 @@ muon_iso_cut = cms.PSet (
 electron_basic_selection_cuts = cms.VPSet(
     # ELECTRON ETA CUT
     cms.PSet (
-        inputCollection = cms.vstring("candeles"),
+        inputCollection = cms.vstring("electrons"),
         cutString = cms.string("abs(eta) < 2.4"),
         numberRequired = cms.string(">= 1")
     ),
     # ELECTRON CRACK VETO
     cms.PSet (
-        inputCollection = cms.vstring("candeles"),
+        inputCollection = cms.vstring("electrons"),
         cutString = cms.string("isEBEEGap = 0"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("electron ECAL crack veto")
     ),
     # ELECTRON PT CUT
     cms.PSet (
-        inputCollection = cms.vstring("candeles"),
+        inputCollection = cms.vstring("electrons"),
         cutString = cms.string("pt > 25"),
         numberRequired = cms.string(">= 1")
     ),
     # ELECTRON ID
     cms.PSet (
-        inputCollection = cms.vstring("candeles"),
+        inputCollection = cms.vstring("electrons"),
         cutString = cms.string("                              \
           (isEB & \
           missingInnerHits_ <= 2 & \
