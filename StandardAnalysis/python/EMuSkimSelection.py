@@ -5,8 +5,8 @@ import string
 ######## Set up the EMu Skim Selections for the displaced SUSY analysis #########
 ##########################################################################
 ##########################################################################
-EMuSkim_13TeV = cms.PSet(
-    name = cms.string("EMuSKim13TeV"),
+EMuSkimSelection = cms.PSet(
+    name = cms.string("EMuSKimSelection"),
     triggers = cms.vstring(), # TRIGGER
     cuts = cms.VPSet (
         cms.PSet (

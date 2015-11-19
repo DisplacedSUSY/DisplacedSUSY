@@ -1,6 +1,0 @@
-<lcgdict>
-  <class name="CandidateElectron"/>
-  <class name="std::vector<CandidateElectron>"/>
-  <class name="edm::Wrapper<CandidateElectron>"/>
-  <class name="edm::Wrapper<std::vector<CandidateElectron> >"/>
-</lcgdict>
