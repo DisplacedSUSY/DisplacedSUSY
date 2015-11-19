@@ -1,9 +1,0 @@
-<use name="DataFormats/Common"/>
-<use name="DataFormats/PatCandidates"/>
-<use name="DataFormats/EgammaCandidates"/>
-<use name="EgammaAnalysis/ElectronTools"/>
-<use name="RecoEgamma/EgammaTools"/>
-<flags  CXXFLAGS="-mtune=core2 -march=core2 -O3 -pipe"/>
-<export>
-  <lib  name="1"/>
-</export>
