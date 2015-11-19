@@ -47,12 +47,14 @@ ttbar_control_region_cuts = cms.VPSet(
     cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
-        numberRequired = cms.string(">= 2")
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('>= 2 good jets')
     ),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.89"),
-        numberRequired = cms.string(">= 1")
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 medium b jets')
     )
 )
 ##########################################################################
