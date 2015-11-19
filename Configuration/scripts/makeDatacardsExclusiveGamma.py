@@ -21,6 +21,8 @@ parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
 parser.add_option("-d", "--d0Cut", action="append", dest="d0Cuts",
                   help="include a channel with specified lepton impact parameter requirement in cm, (the syntax for multiple channels is '-d STRING1 -d STRING2' etc.)")
+parser.add_option("-m", "--d0Max", dest="d0Max", default = 999.0,
+                  help="specific a max d0 cut")
 
 
 (arguments, args) = parser.parse_args()
@@ -77,12 +79,20 @@ def fancyTable(arrays):
 
 
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
+    yieldAndErrorList = {}
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     print process, d0Cut
-    d0Histogram = inputFile.Get(channel+"/"+d0histogramName).Clone()
+    d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
+    if not d0HistogramTry:
+        print "WARNING: input histogram not found"
+        yieldAndErrorList['yield'] = 0.0
+        yieldAndErrorList['error'] = 0.0
+        return yieldAndErrorList
+
+    d0Histogram = d0HistogramTry.Clone()
     d0Histogram.SetDirectory(0)
     inputFile.Close()
-    yieldAndErrorList = {}
+
     nBinsX = d0Histogram.GetNbinsX()
     nBinsY = d0Histogram.GetNbinsY()
     x0 = x1 = y0 = y1 = 0
@@ -92,15 +102,20 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
     xValue = d0Histogram.GetXaxis().GetBinCenter(d0CutBinX)
     yValue = d0Histogram.GetYaxis().GetBinCenter(d0CutBinY)
 
+    d0CutMaxX = d0Histogram.GetXaxis().FindBin (float(d0Max))
+    d0CutMaxY = d0Histogram.GetYaxis().FindBin (float(d0Max))
+
     if ((xValue >= 0) == integrateOutwardX):
         x0 = d0CutBinX
-        x1 = nBinsX + 1
+#        x1 = nBinsX + 1
+        x1 = d0CutMaxX
     else:
         x0 = 0
         x1 = d0CutBinX
     if ((yValue >= 0) == integrateOutwardY):
         y0 = d0CutBinY
-        y1 = nBinsY + 1
+#        y1 = nBinsY + 1
+        y1 = d0CutMaxY
     else:
         y0 = 0
         y1 = d0CutBinY
