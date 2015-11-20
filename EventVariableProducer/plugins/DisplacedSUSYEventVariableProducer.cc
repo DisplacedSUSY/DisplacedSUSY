@@ -8,38 +8,66 @@ DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void
 DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
-#if DATA_FORMAT == MINI_AOD_CUSTOM
-  objectsToGet_.insert ("candjets");
-  objectsToGet_.insert ("primaryvertexs");
+#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == AOD_CUSTOM
+  objectsToGet_.insert ("jets");
+  objectsToGet_.insert ("electrons");
+  objectsToGet_.insert ("muons");
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
-  double sumJetPt = 0;
-  double numLooseBjets = 0; 
-  double numMediumBjets = 0; 
-  double numTightBjets = 0; 
-  double numPV = 0;
-  for (const auto &candjet1 : *handles_.candjets) {
-    //if(getMember(candjet1, "pt") >= 25 && abs(getMember(candjet1, "eta")) <= 2.4 && getMember(candjet1,"neutralHadronEnergyFraction") < 0.99 && getMember(candjet1,"chargedEmEnergyFraction") < 0.99 && getMember(candjet1, "neutralEmEnergyFraction") < 0.99 && getMember(candjet1, "numberOfDaughters") > 1 && getMember(candjet1, "chargedHadronEnergyFraction") > 0.0 && getMember(candjet1, "chargedMultiplicity") > 0.0 )  
-     // sumJetPt = sumJetPt + getMember(candjet1, "pt");
-    //if(getMember(candjet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.605)
-    //  numLooseBjets = numLooseBjets + 1;
-    //if(getMember(candjet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.89)
-    //  numMediumBjets = numMediumBjets + 1;
-    //if(getMember(candjet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.97)
-    //  numTightBjets = numTightBjets + 1;
-    if(candjet1.pt() >= 25)
-      sumJetPt = sumJetPt + candjet1.pt();
-  }
- for (const auto &pv1 : *handles_.primaryvertexs) {
-    if(pv1.isValid())
-      numPV = numPV + 1;
-  }
+  double sumJetPt = -1;
+  double numLooseBjets = -1; 
+  double numMediumBjets = -1; 
+  double numTightBjets = -1; 
+  for (const auto &jet1 : *handles_.jets) {
+    if(getMember(jet1, "pt") >= 25 && abs(getMember(jet1, "eta")) <= 2.4 && getMember(jet1,"neutralHadronEnergyFraction") < 0.99 && getMember(jet1,"chargedEmEnergyFraction") < 0.99 && getMember(jet1, "neutralEmEnergyFraction") < 0.99 && getMember(jet1, "numberOfDaughters") > 1 && getMember(jet1, "chargedHadronEnergyFraction") > 0.0 && getMember(jet1, "chargedMultiplicity") > 0.0)
+    {
+      if(passCleaning(jet1.eta(),jet1.phi(), handles_) )  
+        sumJetPt = sumJetPt + getMember(jet1, "pt");
+      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.605)
+        numLooseBjets = numLooseBjets + 1;
+      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.89)
+        numMediumBjets = numMediumBjets + 1;
+      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.97)
+        numTightBjets = numTightBjets + 1;
+      if(jet1.pt() >= 25)
+        sumJetPt = sumJetPt + jet1.pt();
+    }
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numLooseBjets"] = numLooseBjets;
   (*eventvariables)["numMediumBjets"] = numMediumBjets;
   (*eventvariables)["numTightBjets"] = numTightBjets;
-  (*eventvariables)["numPV"] = numPV;
  # endif
  }  
+
+bool
+DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, OriginalCollections &handles)
+{
+  bool muonClean = true;
+  bool eleClean = true;
+  for (const auto &muon1 : *handles_.muons)
+    {
+      if(deltaR(eta,phi,muon1.eta(),muon1.phi()) < 0.5)
+        {
+          if(muon1.isPFMuon() && muon1.isGlobalMuon() && muon1.pt() > 25)
+            {  
+              muonClean = false; 
+              break;
+            }
+        }
+    }
+ for (const auto &electron1 : *handles_.electrons)
+   {
+     if(deltaR(eta,phi,electron1.eta(),electron1.phi()) < 0.5)
+       {
+         if(electron1.pt() > 25 && ((electron1.isEB() && electron1.missingInnerHits() <= 2 && abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.0105 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.115 && electron1.full5x5_sigmaIetaIeta() < 0.0103 && electron1.hadronicOverEm() < 0.104 && abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.102 && !electron1.vtxFitConversion())|| (electron1.isEE() && electron1.missingInnerHits() <= 1 && abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00814 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.182 && electron1.full5x5_sigmaIetaIeta() < 0.0301 && electron1.hadronicOverEm() < 0.0897 && abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.126 && !electron1.vtxFitConversion())))
+           {
+             eleClean = false;       
+             break;   
+           }
+       }      
+   }
+  return muonClean && eleClean;
+}
+
 void
 DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<string> &objectsToGet, const edm::ParameterSet &collections, OriginalCollections &handles, const edm::Event &event)
 {
@@ -48,27 +76,9 @@ DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<
   // Retrieve each object collection which we need and print a warning if it is
   // missing.
   //////////////////////////////////////////////////////////////////////////////
-  if  (VEC_CONTAINS  (objectsToGet,  "beamspots")         &&  collections.exists  ("beamspots"))         anatools::getCollection  (collections.getParameter<edm::InputTag>  ("beamspots"),         handles.beamspots,         event);
-  if  (VEC_CONTAINS  (objectsToGet,  "bxlumis")           &&  collections.exists  ("bxlumis"))           anatools::getCollection  (collections.getParameter<edm::InputTag>  ("bxlumis"),           handles.bxlumis,           event);
   if  (VEC_CONTAINS  (objectsToGet,  "electrons")         &&  collections.exists  ("electrons"))         anatools::getCollection  (collections.getParameter<edm::InputTag>  ("electrons"),         handles.electrons,         event);
-  if  (VEC_CONTAINS  (objectsToGet,  "events")            &&  collections.exists  ("events"))            anatools::getCollection  (collections.getParameter<edm::InputTag>  ("events"),            handles.events,            event);
-  if  (VEC_CONTAINS  (objectsToGet,  "genjets")           &&  collections.exists  ("genjets"))           anatools::getCollection  (collections.getParameter<edm::InputTag>  ("genjets"),           handles.genjets,           event);
   if  (VEC_CONTAINS  (objectsToGet,  "jets")              &&  collections.exists  ("jets"))              anatools::getCollection  (collections.getParameter<edm::InputTag>  ("jets"),              handles.jets,              event);
-  if  (VEC_CONTAINS  (objectsToGet,  "basicjets")         &&  collections.exists  ("basicjets"))         anatools::getCollection  (collections.getParameter<edm::InputTag>  ("basicjets"),         handles.basicjets,         event);
-  if  (VEC_CONTAINS  (objectsToGet,  "candjets")          &&  collections.exists  ("candjets"))          anatools::getCollection  (collections.getParameter<edm::InputTag>  ("candjets"),          handles.candjets,          event);
-  if  (VEC_CONTAINS  (objectsToGet,  "candeles")          &&  collections.exists  ("candeles"))          anatools::getCollection  (collections.getParameter<edm::InputTag>  ("candeles"),          handles.candeles,          event);
-  if  (VEC_CONTAINS  (objectsToGet,  "generatorweights")  &&  collections.exists  ("generatorweights"))  anatools::getCollection  (collections.getParameter<edm::InputTag>  ("generatorweights"),  handles.generatorweights,  event);
-  if  (VEC_CONTAINS  (objectsToGet,  "mcparticles")       &&  collections.exists  ("mcparticles"))       anatools::getCollection  (collections.getParameter<edm::InputTag>  ("mcparticles"),       handles.mcparticles,       event);
-  if  (VEC_CONTAINS  (objectsToGet,  "mets")              &&  collections.exists  ("mets"))              anatools::getCollection  (collections.getParameter<edm::InputTag>  ("mets"),              handles.mets,              event);
   if  (VEC_CONTAINS  (objectsToGet,  "muons")             &&  collections.exists  ("muons"))             anatools::getCollection  (collections.getParameter<edm::InputTag>  ("muons"),             handles.muons,             event);
-  if  (VEC_CONTAINS  (objectsToGet,  "photons")           &&  collections.exists  ("photons"))           anatools::getCollection  (collections.getParameter<edm::InputTag>  ("photons"),           handles.photons,           event);
-  if  (VEC_CONTAINS  (objectsToGet,  "prescales")         &&  collections.exists  ("prescales"))         anatools::getCollection  (collections.getParameter<edm::InputTag>  ("prescales"),         handles.prescales,         event);
-  if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs")    &&  collections.exists  ("primaryvertexs"))    anatools::getCollection  (collections.getParameter<edm::InputTag>  ("primaryvertexs"),    handles.primaryvertexs,    event);
-  if  (VEC_CONTAINS  (objectsToGet,  "superclusters")     &&  collections.exists  ("superclusters"))     anatools::getCollection  (collections.getParameter<edm::InputTag>  ("superclusters"),     handles.superclusters,     event);
-  if  (VEC_CONTAINS  (objectsToGet,  "taus")              &&  collections.exists  ("taus"))              anatools::getCollection  (collections.getParameter<edm::InputTag>  ("taus"),              handles.taus,              event);
-  if  (VEC_CONTAINS  (objectsToGet,  "tracks")            &&  collections.exists  ("tracks"))            anatools::getCollection  (collections.getParameter<edm::InputTag>  ("tracks"),            handles.tracks,            event);
-  if  (VEC_CONTAINS  (objectsToGet,  "triggers")          &&  collections.exists  ("triggers"))          anatools::getCollection  (collections.getParameter<edm::InputTag>  ("triggers"),          handles.triggers,          event);
-  if  (VEC_CONTAINS  (objectsToGet,  "trigobjs")          &&  collections.exists  ("trigobjs"))          anatools::getCollection  (collections.getParameter<edm::InputTag>  ("trigobjs"),          handles.trigobjs,          event);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

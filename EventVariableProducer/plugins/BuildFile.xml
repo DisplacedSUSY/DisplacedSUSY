@@ -13,7 +13,6 @@
 <use  name="Geometry/Records"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <use  name="DisplacedSUSY/StandardAnalysis"/>
-<use  name="DisplacedSUSY/CandidateJetProducer"/>
 <use  name="OSUT3Analysis/Collections"/>
 <use  name="lhapdf"/>
 <use  name="root"/>
