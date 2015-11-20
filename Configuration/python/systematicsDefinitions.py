@@ -11,8 +11,8 @@
 ### signal cross sections and their uncertainties ###
 #####################################################
 
-#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections8TeVstopsbottom
-signal_cross_sections = {
+#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom
+signal_cross_sections_13TeV = {
 
     '100' : {
       'value' : '1521.11',
@@ -64,6 +64,42 @@ signal_cross_sections = {
     },
 }
 
+
+signal_cross_sections_8TeV = {
+
+    '200' : {
+      'value' : '18.5245',
+      'error' : '1.149147',
+    },
+    '300' : {
+      'value' : '1.99608',
+      'error' : '1.146905',
+    },
+    '400' : {
+      'value' : '0.35683',
+      'error' : '1.142848',
+    },
+    '500' : {
+      'value' : '0.0855847',
+      'error' : '1.149611',
+    },
+    '600' : {
+      'value' : '0.0248009',
+      'error' : '1.166406',
+    },
+    '700' : {
+      'value' : '0.0081141',
+      'error' : '1.184146',
+    },
+    '800' : {
+      'value' : '0.00289588',
+      'error' : '1.20516',
+    },
+    '900' : {
+      'value' : '0.00109501',
+      'error' : '1.239439',
+    },
+}
 
 
 ##############################################
@@ -141,6 +177,12 @@ background_normalization_uncertainties = {
 ## ]
 
 mc_normalized_processes = [
+    'Diboson_MiniAOD',
+#    'WJetsToLNu_MiniAOD',                                                                                                                                                                                  
+#    'DYJetsToLL_50_MiniAOD',                                                                                                                                                                               
+    'SingleTop_MiniAOD',
+    'TTJets_Lept_MiniAOD',
+
    'EWK_WNjets_Other',
    'Top',
    'DYToTauTau_20',
@@ -167,6 +209,10 @@ global_systematic_uncertainties = {
     },
    'track_reco' :  {
         'value' : '1.056',
+   	'applyList' : mc_normalized_processes,
+    },
+   'dummy' :  {
+        'value' : '1.5',
    	'applyList' : mc_normalized_processes,
     },
 
