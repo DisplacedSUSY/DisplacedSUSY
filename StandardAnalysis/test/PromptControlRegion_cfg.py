@@ -77,10 +77,10 @@ weights = cms.VPSet (
 from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 
 eventSelections = []
-#eventSelections.append(AntiIsoMuIsoElePromptControlRegionPromptTrigger_13TeV)
+eventSelections.append(AntiIsoMuIsoElePromptControlRegionPromptTrigger)
 eventSelections.append(PromptControlRegionPromptTrigger)
-#eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger_13TeV)
-#eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger_13TeV)
+#eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger)
+#eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
