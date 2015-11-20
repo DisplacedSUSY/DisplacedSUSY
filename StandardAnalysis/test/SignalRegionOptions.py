@@ -64,6 +64,6 @@ datasets = [
 #   'stop1200_10mm_MiniAOD',
 #   'stop1200_100mm_MiniAOD',
 #   'stop1200_1000mm_MiniAOD',
-    'DisplacedSUSY',
+    'DisplacedSUSYSignal',
 ]
 InputCondorArguments = {'hold': 'true'}

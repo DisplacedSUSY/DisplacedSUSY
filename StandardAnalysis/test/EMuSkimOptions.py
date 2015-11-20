@@ -4,7 +4,7 @@
 from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 
 # specify which config file to pass to cmsRun
-config_file = "EMuSkimSelection.py"
+config_file = "EMuSkim_cfg.py"
 
 # choose luminosity used for MC normalization
 #intLumi = 19700 # from 8 TeV MuEG dataset
@@ -19,7 +19,7 @@ datasets = [
     'TTJets_Lept_MiniAOD',
     'QCD_MuEnriched_MiniAOD',
     'MuonEG_2015D',
-    'DisplacedSUSY'
+    'DisplacedSUSYSignal'
 ]
 
 InputCondorArguments = {}
