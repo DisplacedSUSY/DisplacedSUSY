@@ -330,7 +330,13 @@ def writeDatacard(mass,lifetime):
     #add a row for the cross-section error for the signal
     row = ['signal_cross_sec','lnN','']
     for d0Cut in arguments.d0Cuts:
-        row.append(str(round(float(signal_cross_sections[mass]['error']),3)))
+        if energy == '13':
+            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
+        elif energy == '8':
+            row.append(str(round(float(signal_cross_sections_8TeV[mass]['error']),3)))
+        else:
+            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
+
         for background in backgrounds:
             row.append('-')
     datacard_data.append(row)

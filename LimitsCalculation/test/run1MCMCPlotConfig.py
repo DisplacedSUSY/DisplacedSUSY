@@ -3,6 +3,7 @@
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections
 
 intLumi = 19680 # MuEG 22Jan Rereco
+energy = '8'
 
 #masses = ['200','300','400','500','600','700','800','900']
 masses = ['200']
@@ -24,7 +25,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'energy' : '8TeV'
+                'energy' : '8'
                 'source' : ['Run1_FinalResults_MCMC'],
                 'graphsToInclude' : ['twoSigma','oneSigma','exp','obs'],
                 'legendEntry' : 'MCMC',
@@ -40,7 +41,7 @@ plotDefinitions = [
          'graphs' : [                 
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                 
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'mass' : '200',    
                  'colorScheme' : 'green',                                    
                  'graphsToInclude' : ['exp','obs'],                                
@@ -48,7 +49,7 @@ plotDefinitions = [
              },                       
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'mass' : '300',    
                  'colorScheme' : 'red',                                      
                  'graphsToInclude' : ['exp','obs'],                                
@@ -56,7 +57,7 @@ plotDefinitions = [
              },                       
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'mass' : '400',   
                  'colorScheme' : 'blue',                                
                  'graphsToInclude' : ['exp','obs'],                                
@@ -72,7 +73,7 @@ plotDefinitions = [
          'graphs' : [                 
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                 
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'lifetime' : '1',    
                  'colorScheme' : 'green',                                    
                  'graphsToInclude' : ['exp','obs'],                                
@@ -80,7 +81,7 @@ plotDefinitions = [
              },                       
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'lifetime' : '10',    
                  'colorScheme' : 'red',                                      
                  'graphsToInclude' : ['exp','obs'],                                
@@ -88,7 +89,7 @@ plotDefinitions = [
              },                       
              {                        
                  'source' : ['Run1_FinalResults_MCMC'],                                
-                 'energy' : '8TeV'
+                 'energy' : '8'
                  'lifetime' : '100',   
                  'colorScheme' : 'blue',                                
                  'graphsToInclude' : ['exp','obs'],                                

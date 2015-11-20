@@ -61,6 +61,7 @@ def output_condor(command, options):
         sub_file += "Executable              = "+command+"\n"
         sub_file += "Universe                = vanilla\n"
         sub_file += "Getenv                  = True\n"
+        sub_file += "Requirements            = Memory > 1900\n"
         sub_file += "\n"
         sub_file += "Output                  = condor_$(Process).out\n"
         sub_file += "Error                   = condor_$(Process).err\n"
@@ -135,7 +136,8 @@ methodFile.close()
 ### looping over signal models and running a combine job for each one
 for mass in masses:
     for lifetime in lifetimes:
-            signal_name = "stop"+mass+"_"+lifetime+"mm_MiniAOD"
+            signal_name = "stop"+mass+"_"+lifetime.split(".0")[0]+"mm_MiniAOD"
+
 
             condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
             condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
@@ -171,6 +173,7 @@ for mass in masses:
             combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
             combine_command = combine_command.rstrip()
 
+
             shutil.rmtree(condor_expected_dir, True)
             os.mkdir(condor_expected_dir)
             if arguments.maxSignalRate < 0.0:
@@ -188,22 +191,27 @@ for mass in masses:
                 print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
                 output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
                 os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-
             os.chdir("../../..")
 
-            shutil.rmtree(condor_observed_dir, True)
-            os.mkdir(condor_observed_dir)
-            shutil.copy(datacard_src_name, datacard_dst_observed_name)
-            os.chdir(condor_observed_dir)
+            # for everything other than Asymptotic, we need to also run observed limits
+            if arguments.method != "Asymptotic":
 
-            if not arguments.batchMode:
-                command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
-                print command
-                os.system(command)
+                shutil.rmtree(condor_observed_dir, True)
+                os.mkdir(condor_observed_dir)
+                if arguments.maxSignalRate < 0.0:
+                    shutil.copy(datacard_src_name, datacard_dst_observed_name)
+                else:
+                    scaleSignal(datacard_src_name, datacard_dst_observed_name)
+                os.chdir(condor_observed_dir)
 
-            else:
-                print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
-                output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
-                os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
+                if not arguments.batchMode:
+                    command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+                    print command
+                    os.system(command)
 
-            os.chdir("../../..")
+                else:
+                    print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
+                    output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
+                    os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
+
+                os.chdir("../../..")
