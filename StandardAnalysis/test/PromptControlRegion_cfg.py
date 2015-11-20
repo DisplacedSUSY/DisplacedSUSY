@@ -98,4 +98,4 @@ process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/S
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 
-outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
+#outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
