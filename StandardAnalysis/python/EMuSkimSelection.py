@@ -6,7 +6,7 @@ import string
 ##########################################################################
 ##########################################################################
 EMuSkimSelection = cms.PSet(
-    name = cms.string("EMuSKimSelection"),
+    name = cms.string("EMuSkimSelection"),
     triggers = cms.vstring(), # TRIGGER
     cuts = cms.VPSet (
         cms.PSet (
