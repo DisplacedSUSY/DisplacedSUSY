@@ -63,6 +63,7 @@ collections = miniAOD_collections
 
 variableProducers = []
 variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('DisplacedSUSYEventVariableProducer')
 
 weights = cms.VPSet (
     cms.PSet (
@@ -79,8 +80,8 @@ from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 eventSelections = []
 eventSelections.append(AntiIsoMuIsoElePromptControlRegionPromptTrigger)
 eventSelections.append(PromptControlRegionPromptTrigger)
-#eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger)
-#eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger)
+eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger)
+eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -93,8 +94,8 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,metHistograms,eventHistograms),weights, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
-process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
+process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/StandardAnalysis/data/pu.root")
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 
-#outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
+outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

@@ -360,6 +360,12 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("puScalingFactor"),
         ),
+        cms.PSet (
+            name = cms.string("sumJetPt"),
+            title = cms.string("Sum of Jet Transverse Momentum; #Sigma p_{T}_{jet}"),
+            binsX = cms.untracked.vdouble(500, 0, 500),
+            inputVariables = cms.vstring("sumJetPt"),
+        ),
     )
 ) 
 

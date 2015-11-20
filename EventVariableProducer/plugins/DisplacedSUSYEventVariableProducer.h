@@ -9,6 +9,7 @@ struct OriginalCollections
   edm::Handle<vector<osu::Electron> >       electrons;
   edm::Handle<vector<pat::Jet> >            jets;
   edm::Handle<vector<osu::Muon> >           muons;
+  edm::Handle<vector<reco::Vertex> >        primaryvertexs;
 };
 
 class DisplacedSUSYEventVariableProducer : public EventVariableProducer

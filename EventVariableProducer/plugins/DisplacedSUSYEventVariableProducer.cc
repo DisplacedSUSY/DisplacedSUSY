@@ -8,33 +8,27 @@ DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void
 DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
-#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == AOD_CUSTOM
+#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
+  objectsToGet_.insert ("primaryvertexs");
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
   double sumJetPt = -1;
-  double numLooseBjets = -1; 
-  double numMediumBjets = -1; 
-  double numTightBjets = -1; 
+  double numPV = 0;
   for (const auto &jet1 : *handles_.jets) {
-    if(getMember(jet1, "pt") >= 25 && abs(getMember(jet1, "eta")) <= 2.4 && getMember(jet1,"neutralHadronEnergyFraction") < 0.99 && getMember(jet1,"chargedEmEnergyFraction") < 0.99 && getMember(jet1, "neutralEmEnergyFraction") < 0.99 && getMember(jet1, "numberOfDaughters") > 1 && getMember(jet1, "chargedHadronEnergyFraction") > 0.0 && getMember(jet1, "chargedMultiplicity") > 0.0)
+    if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0)
     {
       if(passCleaning(jet1.eta(),jet1.phi(), handles_) )  
-        sumJetPt = sumJetPt + getMember(jet1, "pt");
-      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.605)
-        numLooseBjets = numLooseBjets + 1;
-      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.89)
-        numMediumBjets = numMediumBjets + 1;
-      if(getMember(jet1, "pfCombinedInclusiveSecondaryVertexV2BJetTags") >= 0.97)
-        numTightBjets = numTightBjets + 1;
-      if(jet1.pt() >= 25)
         sumJetPt = sumJetPt + jet1.pt();
+      }
     }
+ for (const auto &pv1 : *handles_.primaryvertexs) {
+    if(pv1.isValid())
+      numPV = numPV + 1;
+  }
   (*eventvariables)["sumJetPt"] = sumJetPt;
-  (*eventvariables)["numLooseBjets"] = numLooseBjets;
-  (*eventvariables)["numMediumBjets"] = numMediumBjets;
-  (*eventvariables)["numTightBjets"] = numTightBjets;
+  (*eventvariables)["numPV"] = numPV;
  # endif
  }  
 
@@ -79,6 +73,7 @@ DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<
   if  (VEC_CONTAINS  (objectsToGet,  "electrons")         &&  collections.exists  ("electrons"))         anatools::getCollection  (collections.getParameter<edm::InputTag>  ("electrons"),         handles.electrons,         event);
   if  (VEC_CONTAINS  (objectsToGet,  "jets")              &&  collections.exists  ("jets"))              anatools::getCollection  (collections.getParameter<edm::InputTag>  ("jets"),              handles.jets,              event);
   if  (VEC_CONTAINS  (objectsToGet,  "muons")             &&  collections.exists  ("muons"))             anatools::getCollection  (collections.getParameter<edm::InputTag>  ("muons"),             handles.muons,             event);
+  if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs")    &&  collections.exists  ("primaryvertexs"))    anatools::getCollection  (collections.getParameter<edm::InputTag>  ("primaryvertexs"),    handles.primaryvertexs,    event);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
