@@ -2,8 +2,10 @@
 #include "DisplacedSUSY/EventVariableProducer/plugins/DisplacedSUSYEventVariableProducer.h"
 
 DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm::ParameterSet &cfg) :
-  EventVariableProducer(cfg) {}
-
+  EventVariableProducer(cfg),
+  type_             (cfg.getParameter<string>("type"))
+{
+}
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void
@@ -13,9 +15,12 @@ DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
   objectsToGet_.insert ("primaryvertexs");
+  if(type_.find("bgMC") < type_.length())
+      objectsToGet_.insert ("pileupinfos");
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
   double sumJetPt = -1;
   double numPV = 0;
+  double numTruePV = 0;
   for (const auto &jet1 : *handles_.jets) {
     if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0)
     {
@@ -27,6 +32,14 @@ DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
     if(pv1.isValid())
       numPV = numPV + 1;
   }
+  if(type_.find("bgMC") < type_.length())
+    {
+      for (const auto &pv1 : *handles_.pileupinfos) {
+      if(pv1.getBunchCrossing() == 0)
+        numTruePV = pv1.getTrueNumInteractions();
+      }
+    }
+  (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
  # endif
@@ -74,6 +87,7 @@ DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<
   if  (VEC_CONTAINS  (objectsToGet,  "jets")              &&  collections.exists  ("jets"))              anatools::getCollection  (collections.getParameter<edm::InputTag>  ("jets"),              handles.jets,              event);
   if  (VEC_CONTAINS  (objectsToGet,  "muons")             &&  collections.exists  ("muons"))             anatools::getCollection  (collections.getParameter<edm::InputTag>  ("muons"),             handles.muons,             event);
   if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs")    &&  collections.exists  ("primaryvertexs"))    anatools::getCollection  (collections.getParameter<edm::InputTag>  ("primaryvertexs"),    handles.primaryvertexs,    event);
+  if  (VEC_CONTAINS  (objectsToGet,  "pileupinfos")    &&  collections.exists  ("pileupinfos"))    anatools::getCollection  (collections.getParameter<edm::InputTag>  ("pileupinfos"),    handles.pileupinfos,    event);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

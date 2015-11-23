@@ -10,6 +10,7 @@ struct OriginalCollections
   edm::Handle<vector<pat::Jet> >            jets;
   edm::Handle<vector<osu::Muon> >           muons;
   edm::Handle<vector<reco::Vertex> >        primaryvertexs;
+  edm::Handle<vector<PileupSummaryInfo>>    pileupinfos;
 };
 
 class DisplacedSUSYEventVariableProducer : public EventVariableProducer
@@ -23,5 +24,6 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
 
     private:
         void AddVariables(const edm::Event &);
+        string type_; 
   };
 #endif
