@@ -366,6 +366,12 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(500, 0, 500),
             inputVariables = cms.vstring("sumJetPt"),
         ),
+        cms.PSet (
+            name = cms.string("numTruePV"),
+            title = cms.string("Number of True PVs; #True PVs"),
+            binsX = cms.untracked.vdouble(65, 0, 65),
+            inputVariables = cms.vstring("numTruePV"),
+        ),
     )
 ) 
 
