@@ -375,6 +375,30 @@ eventHistograms = cms.PSet(
     )
 ) 
 
+electronJetHistograms = cms.PSet(
+    inputCollection = cms.vstring("electrons","jets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronJetDeltaR"),
+            title = cms.string("Electron - Jet #DeltaR"),
+            binsX = cms.untracked.vdouble(300, 0, 3),
+            inputVariables = cms.vstring("deltaR(electron,jet)"),
+        ),
+    )
+)
+
+muonJetHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons","jets"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonJetDeltaR"),
+            title = cms.string("Muon - Jet #DeltaR"),
+            binsX = cms.untracked.vdouble(300, 0, 3),
+            inputVariables = cms.vstring("deltaR(muon,jet)"),
+        ),
+    )
+)
+
 jetHistograms = cms.PSet(
     inputCollection = cms.vstring("jets"),
     histograms = cms.VPSet (
