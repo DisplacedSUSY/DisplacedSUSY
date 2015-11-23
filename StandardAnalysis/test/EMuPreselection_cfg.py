@@ -14,11 +14,15 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    #'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-    'file:/data/users/bing/condor/EMuSkim13TeV/MuonEG_2015D_v3/EMuSKim13TeV/skim_1.root',
+ #       'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
+#        'file:/data/users/bing/condor/EMuSkim13TeV/DYJetsToLL_50_MiniAOD/EMuSKim13TeV/skim_0.root',
+#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
+#    'file:/data/users/bing/condor/EMuSkim13TeV/MuonEG_2015D_v3/EMuSKim13TeV/skim_1.root',
   )
 )
 
+
+set_input(process, "/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/")
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
@@ -27,7 +31,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
+    input = cms.untracked.int32 (10000)
 )
 
 ################################################################################
@@ -59,9 +63,10 @@ collections = miniAOD_collections
 ##### Set up any user-defined variable producers ###############################
 ################################################################################
 
+
 variableProducers = []
-variableProducers.append('PUScalingFactorProducer')
 variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('PUScalingFactorProducer')
 
 weights = cms.VPSet (
     cms.PSet (
@@ -77,21 +82,24 @@ weights = cms.VPSet (
 from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 
 eventSelections = []
-eventSelections.append(EMuPreselectionInclusiveDisplacedTrigger)
-#eventSelections.append(EMuPreselectionDisplacedTrigger)
+eventSelections.append(EMuPreselectionInclusiveTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
+
 from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
+
+histograms = cms.VPSet (muonHistograms, electronHistograms, electronMuonHistograms, eventHistograms, metHistograms, electronJetHistograms, muonJetHistograms)
+
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,eventHistograms,metHistograms), weights, collections,variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, collections, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("DYJetsToLL_50_MiniAOD")
-process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/StandardAnalysis/data/pu.root")
-process.PUScalingFactorProducer.type = cms.string("data")
+process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
+process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
