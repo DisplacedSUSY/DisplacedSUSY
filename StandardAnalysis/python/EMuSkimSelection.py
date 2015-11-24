@@ -37,4 +37,11 @@ EMuSkimSelection = cms.PSet(
     ),
 )
 
+EMuSkimSelectionInclusiveTrigger = cms.PSet(
+    name = cms.string("EMuSkimSelectionInclusiveTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet ()
+)
+
+EMuSkimSelectionInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuSkimSelection.cuts))
 
