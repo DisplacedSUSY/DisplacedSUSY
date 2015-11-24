@@ -101,5 +101,5 @@ add_channels (process, eventSelections, histograms, weights, collections, variab
 process.PUScalingFactorProducer.dataset = cms.string("DYJetsToLL_50_MiniAOD")
 process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
-
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

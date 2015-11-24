@@ -89,5 +89,5 @@ add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistog
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
 process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/StandardAnalysis/data/pu.root")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
-
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

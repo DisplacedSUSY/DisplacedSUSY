@@ -29,7 +29,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
+    input = cms.untracked.int32 (10000)
 )
 
 ################################################################################
@@ -78,10 +78,14 @@ weights = cms.VPSet (
 from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 
 eventSelections = []
-eventSelections.append(AntiIsoMuIsoElePromptControlRegionPromptTrigger)
-eventSelections.append(PromptControlRegionPromptTrigger)
-eventSelections.append(IsoMuAntiIsoElePromptControlRegionPromptTrigger)
-eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionPromptTrigger)
+#eventSelections.append(AntiIsoMuIsoElePromptControlRegionInclusiveDisplacedTrigger)
+eventSelections.append(PromptControlRegionInclusiveDisplacedTrigger)
+#eventSelections.append(IsoMuAntiIsoElePromptControlRegionInclusiveDisplacedTrigger)
+#eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegionInclusiveDisplacedTrigger)
+#eventSelections.append(AntiIsoMuIsoElePromptControlRegion)
+#eventSelections.append(PromptControlRegion)
+#eventSelections.append(IsoMuAntiIsoElePromptControlRegion)
+#eventSelections.append(AntiIsoMuAntiIsoElePromptControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -94,8 +98,9 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,metHistograms,eventHistograms),weights, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
-process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/StandardAnalysis/data/pu.root")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

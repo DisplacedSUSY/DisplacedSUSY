@@ -16,6 +16,8 @@ process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
     #'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
     'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/50000/00759690-D16E-E511-B29E-00261894382D.root',
+    #'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root',
+  
   )
 )
 
@@ -60,6 +62,8 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
+#variableProducers.append('PUScalingFactorProducer')
+#variableProducers.append('DisplacedSUSYEventVariableProducer')
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -68,14 +72,27 @@ variableProducers = []
 from DisplacedSUSY.StandardAnalysis.EMuSkimSelection import *
 
 eventSelections = []
+#eventSelections.append(EMuSkimSelectionInclusiveTrigger)
 eventSelections.append(EMuSkimSelection)
 
+weights = cms.VPSet (
+#    cms.PSet (
+#        inputCollections = cms.vstring("eventvariables"),
+#        inputVariable = cms.string("puScalingFactor")
+#    ),
+)
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
+from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet (),cms.VPSet (), collections,variableProducers, True)
+add_channels (process, eventSelections, cms.VPSet(eventHistograms),weights, collections,variableProducers, False)
+#process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
+#process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+#process.PUScalingFactorProducer.type = cms.string("data")
+#process.PUScalingFactorProducer.type = cms.string("bgMC")
+#process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
