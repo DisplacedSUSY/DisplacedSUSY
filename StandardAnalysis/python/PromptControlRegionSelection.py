@@ -73,9 +73,9 @@ AntiIsoMuAntiIsoElePromptControlRegion = cms.PSet(
     )
 )
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inversed_iso_cut)
+AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_cut)
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(muon_inversed_iso_cut)
+AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(muon_inverted_iso_cut)
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
 
 IsoMuAntiIsoElePromptControlRegion = cms.PSet(
@@ -85,7 +85,7 @@ IsoMuAntiIsoElePromptControlRegion = cms.PSet(
     )
 )
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-IsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inversed_iso_cut)
+IsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_cut)
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
 IsoMuAntiIsoElePromptControlRegion.cuts.append(muon_iso_cut)
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
@@ -99,7 +99,7 @@ AntiIsoMuIsoElePromptControlRegion = cms.PSet(
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
 AntiIsoMuIsoElePromptControlRegion.cuts.append(electron_iso_cut)
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuIsoElePromptControlRegion.cuts.append(muon_inversed_iso_cut)
+AntiIsoMuIsoElePromptControlRegion.cuts.append(muon_inverted_iso_cut)
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
 ##########################################################################
 #Selections with different triggers
