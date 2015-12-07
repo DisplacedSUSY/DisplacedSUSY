@@ -31,6 +31,50 @@ for cut in OSAntiIso.cuts:
 
 #################################################################
 
+OSAntiIsoMuIsoEle = cms.PSet(
+    name = cms.string("OSAntiIsoMuIsoEle"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
+    cuts = cms.VPSet ()
+)
+OSAntiIsoMuIsoEle.cuts.extend(jet_basic_selection_cuts)
+OSAntiIsoMuIsoEle.cuts.extend(electron_basic_selection_cuts)
+OSAntiIsoMuIsoEle.cuts.append(electron_iso_cut)
+OSAntiIsoMuIsoEle.cuts.append(electron_jet_deltaR_cut)
+OSAntiIsoMuIsoEle.cuts.extend(muon_basic_selection_cuts)
+OSAntiIsoMuIsoEle.cuts.append(muon_inverted_iso_cut)
+OSAntiIsoMuIsoEle.cuts.extend(preselection_emu_cuts)
+OSAntiIsoMuIsoEle.cuts.append(os_emu_cut)
+
+for cut in OSAntiIsoMuIsoEle.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
+
+#################################################################
+
+OSIsoMuAntiIsoEle = cms.PSet(
+    name = cms.string("OSIsoMuAntiIsoEle"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
+    cuts = cms.VPSet ()
+)
+OSIsoMuAntiIsoEle.cuts.extend(jet_basic_selection_cuts)
+OSIsoMuAntiIsoEle.cuts.extend(electron_basic_selection_cuts)
+OSIsoMuAntiIsoEle.cuts.append(electron_inverted_iso_cut)
+OSIsoMuAntiIsoEle.cuts.extend(muon_basic_selection_cuts)
+OSIsoMuAntiIsoEle.cuts.append(muon_iso_cut)
+OSIsoMuAntiIsoEle.cuts.append(muon_jet_deltaR_cut)
+OSIsoMuAntiIsoEle.cuts.extend(preselection_emu_cuts)
+OSIsoMuAntiIsoEle.cuts.append(os_emu_cut)
+
+for cut in OSIsoMuAntiIsoEle.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
+
+#################################################################
+
 SSAntiIso = cms.PSet(
     name = cms.string("SSAntiIso"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 

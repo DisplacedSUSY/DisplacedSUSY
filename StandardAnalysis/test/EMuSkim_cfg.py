@@ -47,6 +47,8 @@ miniAOD_collections = cms.PSet (
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   generatorweights = cms.InputTag  ('generator', ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
+  #please notice this inputTag is different in miniAODv1 and v2.
+  #pileupinfos     =  cms.InputTag  ("addPileupInfo",           ""),
   pileupinfos     =  cms.InputTag  ("slimmedAddPileupInfo",           ""),
   beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
   superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
@@ -62,8 +64,6 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-#variableProducers.append('PUScalingFactorProducer')
-#variableProducers.append('DisplacedSUSYEventVariableProducer')
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -72,14 +72,9 @@ variableProducers = []
 from DisplacedSUSY.StandardAnalysis.EMuSkimSelection import *
 
 eventSelections = []
-#eventSelections.append(EMuSkimSelectionInclusiveTrigger)
 eventSelections.append(EMuSkimSelection)
 
 weights = cms.VPSet (
-#    cms.PSet (
-#        inputCollections = cms.vstring("eventvariables"),
-#        inputVariable = cms.string("puScalingFactor")
-#    ),
 )
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -90,9 +85,4 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet(eventHistograms),weights, collections,variableProducers, False)
-#process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
-#process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
-#process.PUScalingFactorProducer.type = cms.string("data")
-#process.PUScalingFactorProducer.type = cms.string("bgMC")
-#process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+add_channels (process, eventSelections, cms.VPSet(),weights, collections,variableProducers, True)

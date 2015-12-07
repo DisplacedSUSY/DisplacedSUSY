@@ -11,7 +11,7 @@ process = cms.Process ('OSUAnalysis')
 
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
  #       'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
@@ -65,6 +65,7 @@ collections = miniAOD_collections
 
 
 variableProducers = []
+#DisplacedSUSYEventVariableProducer can only run over skims
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('PUScalingFactorProducer')
 
@@ -85,15 +86,15 @@ from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 eventSelections = []
 eventSelections.append(EMuPreselectionInclusiveTrigger)
 eventSelections.append(OSAntiIso)
-eventSelections.append(SSIso)
-eventSelections.append(SSAntiIso)
+eventSelections.append(OSIsoMuAntiIsoEle)
+eventSelections.append(OSAntiIsoMuIsoEle)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
 from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
-
+#eventHistograms can only run over skims. 
 histograms = cms.VPSet (muonHistograms, electronHistograms, electronMuonHistograms, eventHistograms, metHistograms, electronJetHistograms, muonJetHistograms)
 #histograms = cms.VPSet ()
 
@@ -106,5 +107,9 @@ add_channels (process, eventSelections, histograms, weights, collections, variab
 process.PUScalingFactorProducer.dataset = cms.string("DYJetsToLL_50_MiniAOD")
 process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
+#DisplacedSUSYEventVariableProducer can only run over skims.
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

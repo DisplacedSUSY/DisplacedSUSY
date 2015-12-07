@@ -12,14 +12,15 @@ intLumi = 2445.23 # for 13 TeV
 
 # create list of datasets to process
 datasets = [
-    'Diboson_MiniAOD',
-    'WJetsToLNu_MiniAOD',
-    'DYJetsToLL_50_MiniAOD',
-    'SingleTop_MiniAOD',
-    'TTJets_Lept_MiniAOD',
-    'QCD_MuEnriched_MiniAOD',
-    'MuonEG_2015D',
-    'DisplacedSUSYSignal'
+    #'Diboson_MiniAOD',
+    #'WJetsToLNu_MiniAOD',
+    #'DYJetsToLL_50_MiniAOD',
+    #'SingleTop_MiniAOD',
+    #'TTJets_Lept_MiniAOD',
+    #'QCD_MuEnriched_MiniAOD',
+    #'MuonEG_2015D',
+    'MET_2015D',
+    #'DisplacedSUSYSignal'
 ]
 
 InputCondorArguments = {}

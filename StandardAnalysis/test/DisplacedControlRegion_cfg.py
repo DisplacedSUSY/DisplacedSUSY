@@ -62,6 +62,7 @@ collections = miniAOD_collections
 
 variableProducers = []
 variableProducers.append('PUScalingFactorProducer')
+#DisplacedSUSYEventVariableProducer can only run over skims
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 
 
@@ -70,23 +71,30 @@ variableProducers.append('DisplacedSUSYEventVariableProducer')
 ################################################################################
 
 weights = cms.VPSet (
-cms.PSet (
+    cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("triggerScalingFactor")
     ),
 )
 
 ################################################################################
-##### Import the channels to be run ############################################
-################################################################################
+##### Import the channels to be run ############################################################################################################################################################################################################
 
 from DisplacedSUSY.StandardAnalysis.DisplacedControlRegionSelection import *
 
 eventSelections = []
 #eventSelections.append(AntiIsoMuIsoEleDisplacedControlRegionInclusiveDisplacedTrigger)
-eventSelections.append(DisplacedControlRegionInclusiveDisplacedTrigger)
+#eventSelections.append(DisplacedControlRegionInclusiveDisplacedTrigger)
 #eventSelections.append(IsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger)
 #eventSelections.append(AntiIsoMuAntiIsoEleDisplacedControlRegionInclusiveDisplacedTrigger)
+#eventSelections.append(AntiIsoMuIsoEleDisplacedControlRegionDisplacedTrigger)
+eventSelections.append(DisplacedControlRegionDisplacedTrigger)
+#eventSelections.append(IsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger)
+#eventSelections.append(AntiIsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -95,13 +103,16 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
-
+#eventHistograms can only run over skims. 
 add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,eventHistograms,metHistograms),weights, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
 process.PUScalingFactorProducer.PU = cms.string("$CMSSW_BASE/src/DisplacedSUSY/StandardAnalysis/data/pu.root")
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
+#DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9596)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
