@@ -307,7 +307,7 @@ electronMuonHistograms = cms.PSet(
             name = cms.string("deltaPhi"),
             title = cms.string("Electron-muon #Phi Separation ;#Delta#phi_{e-mu}"),
             binsX = cms.untracked.vdouble(32, 0, 3.2),
-            inputVariables = cms.vstring("deltaPhi(electron,muon)"),
+            inputVariables = cms.vstring("abs(deltaPhi(electron,muon))"),
         ),
         cms.PSet (
             name = cms.string("deltaEta"),
