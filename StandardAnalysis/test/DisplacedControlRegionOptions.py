@@ -9,7 +9,7 @@ from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 config_file = "DisplacedControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2445.23 # from 8 TeV MuEG dataset
+intLumi = 2538.43 # from 13 TeV MuEG 2015D dataset, Silver Json
 
 # create list of datasets to process
 datasets = [

@@ -9,7 +9,7 @@ from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
 config_file = "EMuPreselection_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2445.23 # for 13 TeV 
+intLumi = 2538.43 # for 13 TeV 2015D Silver Json 
 
 # create list of datasets to process
 datasets = [
