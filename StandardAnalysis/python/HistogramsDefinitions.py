@@ -104,7 +104,7 @@ muonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("absMuonDxyInclusive"),
             title = cms.string("Muon IP;|muon d_{xy}| [CM]"),
-            binsX = cms.untracked.vdouble(400, 0, 4),
+            binsX = cms.untracked.vdouble(500, 0, 0.5),
             inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px))/muon.pt"),
         ),
         cms.PSet (
@@ -125,6 +125,13 @@ muonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(200, -0.01, 0.01),
             inputVariables = cms.vstring("muon.phi","(-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonEtaPt"),
+            title = cms.string("Muon Pseudorapidity vs Transverse Momentum;muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100,0,500),
+            binsY = cms.untracked.vdouble(5, -2.5, 2.5),
+            inputVariables = cms.vstring("muon.pt","muon.eta"),
         ),
   )
 )
@@ -249,7 +256,7 @@ electronHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("absElectronDxyInclusive"),
             title = cms.string("Electron IP;|electron d_{xy}| [CM]"),
-            binsX = cms.untracked.vdouble(400, 0, 4),
+            binsX = cms.untracked.vdouble(500, 0, 0.5),
             inputVariables = cms.vstring("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px))/electron.pt"),
         ),
         cms.PSet (
@@ -270,6 +277,13 @@ electronHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             binsY = cms.untracked.vdouble(200, -0.01, 0.01),
             inputVariables = cms.vstring("electron.phi","(-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronEtaPt"),
+            title = cms.string("Electron Pseudorapidity vs Transverse Momentum;electron p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100,0,500),
+            binsY = cms.untracked.vdouble(5, -2.5, 2.5),
+            inputVariables = cms.vstring("electron.pt","electron.eta"),
         ),
   )
 )
@@ -315,6 +329,20 @@ electronMuonHistograms = cms.PSet(
             inputVariables = cms.vstring("muon.pt","electron.pt"),
         ),
         cms.PSet (
+            name = cms.string("electronPtMuonPtExtended"),
+            title = cms.string("Electron Momentum vs Muon Momentum;muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100,0,500),
+            binsY = cms.untracked.vdouble(100,0,500),
+            inputVariables = cms.vstring("muon.pt","electron.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronEtaMuonEta"),
+            title = cms.string("Electron Pseudorapidity vs Muon Pseudorapidity;muon #eta"),
+            binsX = cms.untracked.vdouble(50,-2.5,2.5),
+            binsY = cms.untracked.vdouble(50,-2.50,2.5),
+            inputVariables = cms.vstring("muon.eta","electron.eta"),
+        ),
+        cms.PSet (
             name = cms.string("electronIpMuonIpPrompt"),
             title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
             binsX = cms.untracked.vdouble(100,0,0.01),
@@ -331,8 +359,8 @@ electronMuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronIpMuonIpInclusive"),
             title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
-            binsX = cms.untracked.vdouble(400,0,4),
-            binsY = cms.untracked.vdouble(400,0,4),
+            binsX = cms.untracked.vdouble(500,0,0.5),
+            binsY = cms.untracked.vdouble(500,0,0.5),
             inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
         ),
         cms.PSet (
@@ -371,6 +399,18 @@ eventHistograms = cms.PSet(
             title = cms.string("Number of True PVs; #True PVs"),
             binsX = cms.untracked.vdouble(65, 0, 65),
             inputVariables = cms.vstring("numTruePV"),
+        ),
+        cms.PSet (
+            name = cms.string("passTrigger"),
+            title = cms.string("Pass Trigger; Trigger Flag"),
+            binsX = cms.untracked.vdouble(4, -2, 2),
+            inputVariables = cms.vstring("passTrigger"),
+        ),
+        cms.PSet (
+            name = cms.string("triggerScalingFactor"),
+            title = cms.string("Trigger Scaling Factor; Trigger Scaling Factor"),
+            binsX = cms.untracked.vdouble(10, 0, 1),
+            inputVariables = cms.vstring("triggerScalingFactor"),
         ),
     )
 ) 
