@@ -65,6 +65,7 @@ collections = miniAOD_collections
 
 
 variableProducers = []
+#DisplacedSUSYEventVariableProducer can only run over skims
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('PUScalingFactorProducer')
 
@@ -72,6 +73,10 @@ weights = cms.VPSet (
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("triggerScalingFactor")
     ),
 )
 
@@ -89,7 +94,7 @@ eventSelections.append(EMuPreselectionInclusiveTrigger)
 ################################################################################
 
 from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
-
+#eventHistograms can only run over skims. 
 histograms = cms.VPSet (muonHistograms, electronHistograms, electronMuonHistograms, eventHistograms, metHistograms, electronJetHistograms, muonJetHistograms)
 
 ################################################################################
@@ -101,5 +106,8 @@ add_channels (process, eventSelections, histograms, weights, collections, variab
 process.PUScalingFactorProducer.dataset = cms.string("DYJetsToLL_50_MiniAOD")
 process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
+#DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9596)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
