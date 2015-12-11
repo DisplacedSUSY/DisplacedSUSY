@@ -42,6 +42,12 @@ muonHistograms = cms.PSet(
             inputVariables = cms.vstring("muon.globalTrack.hitPattern_.numberOfValidMuonHits"),
         ),
         cms.PSet (
+            name = cms.string("muonNormalizedChi2"),
+            title = cms.string("Muon normalizedChi2; muon #Chi^{2}_{Norm}"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            inputVariables = cms.vstring("muon.globalTrack.normalizedChi2"),
+        ),
+        cms.PSet (
             name = cms.string("muonNumberOfMatchedStations"),
             title = cms.string("Muon Number of Matched Stations;muon numberOfMatchedStations"),
             binsX = cms.untracked.vdouble(30, 0, 30),
@@ -485,4 +491,46 @@ metHistograms = cms.PSet(
             inputVariables = cms.vstring("phi"),
         ),
     )
+)
+
+muonSignalHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonPtExtended"),
+            title = cms.string("Muon Transverse Momentum;muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(500, 0, 500),
+            inputVariables = cms.vstring("muon.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonEta"),
+            title = cms.string("Muon Pseudorapidity;muon #eta"),
+            binsX = cms.untracked.vdouble(50, -2.5, 2.5),
+            inputVariables = cms.vstring("muon.eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPhi"),
+            title = cms.string("Muon Azimuthal Angle;muon #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("muon.phi"),
+        ),
+        cms.PSet (
+            name = cms.string("muonDxy"),
+            title = cms.string("Muon IP;muon d_{xy}"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("(-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("absMuonDxy"),
+            title = cms.string("Muon IP;|muon d_{xy}| [CM]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px))/muon.pt"),
+        ),
+        cms.PSet (
+            name = cms.string("muonDz"),
+            title = cms.string("Muon Dz;muon d_{z}"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("(muon.vz - beamspot.z0) - ((muon.vx - beamspot.x0)*muon.px + (muon.vy - beamspot.y0)*muon.py)/muon.pt*(muon.pz/muon.pt)"),
+        ),
+  )
 )

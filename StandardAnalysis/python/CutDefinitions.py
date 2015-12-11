@@ -220,6 +220,7 @@ muon_basic_selection_cuts = cms.VPSet(
         isGlobalMuon & \
         isPFMuon & \
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
+        globalTrack.normalizedChi2 < 10 & \
         numberOfMatchedStations > 1 & \
         innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
         innerTrack.hitPattern_.trackerLayersWithMeasurement > 5"),
@@ -238,6 +239,7 @@ muon_id_cut = cms.PSet (
         isPFMuon & \
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
         numberOfMatchedStations > 1 & \
+        globalTrack.normalizedChi2 < 10 & \
         innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
         innerTrack.hitPattern_.trackerLayersWithMeasurement > 5"),
     numberRequired = cms.string(">= 1"),
