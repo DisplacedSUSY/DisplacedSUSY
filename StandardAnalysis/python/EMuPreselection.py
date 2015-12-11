@@ -53,3 +53,10 @@ for cut in EMuPreselectionDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 30")
 
 ##########################################################################
+
+EMuPreselectionPrescaleInclusiveTrigger = cms.PSet(
+    name = cms.string("EMuPreselectionPrescaleInclusiveTrigger"),
+    triggers = cms.vstring("HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet ()
+)
+EMuPreselectionPrescaleInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionNoTrigger.cuts))
