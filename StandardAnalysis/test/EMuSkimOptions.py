@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 # import the definitions of all the datasets on the T3
-from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
+from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.miniAODV2Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "EMuSkim_cfg.py"
@@ -11,12 +12,12 @@ intLumi = 2538.43 # for 13 TeV Silver Json
 
 # create list of datasets to process
 datasets = [
-    'Diboson_MiniAOD',
-    'WJetsToLNu_MiniAOD',
-    'DYJetsToLL_50_MiniAOD',
-    'SingleTop_MiniAOD',
-    'TTJets_Lept_MiniAOD',
-    'QCD_MuEnriched_MiniAOD',
+    'Diboson',
+    'WJetsToLNu',
+    'DYJetsToLL_50',
+    'SingleTop',
+    'TTJets_Lept',
+    'QCD_MuEnriched',
     'MuonEG_2015D',
     #'MET_2015D',
     'DisplacedSUSYSignal'
