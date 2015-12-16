@@ -9,7 +9,7 @@ import re
 from array import *
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
-from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 
 
 

@@ -3,7 +3,8 @@
 # to be run with submitToCondor.py -l protoBatchConfig.py
 
 # import the definitions of all the datasets on the T3
-from OSUT3Analysis.Configuration.configurationOptions_13TeV import *
+from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.miniAODV2Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "TTbarControlRegion_cfg.py"
@@ -13,12 +14,12 @@ intLumi = 2548.43# from 13 TeV MuEG 2015D dataset, Silver Json
 
 # create list of datasets to process
 datasets = [
-    'Diboson_MiniAOD',
-    'QCD_MuEnriched_MiniAOD',
-    'WJetsToLNu_MiniAOD',
-    'SingleTop_MiniAOD',
-    'TTJets_Lept_MiniAOD',
-    'DYJetsToLL_50_MiniAOD',
+    'Diboson',
+    'QCD_MuEnriched',
+    'WJetsToLNu',
+    'SingleTop',
+    'TTJets_Lept',
+    'DYJetsToLL_50',
     'MuonEG_2015D',
 ]
 

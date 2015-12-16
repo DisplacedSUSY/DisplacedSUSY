@@ -153,15 +153,3 @@ ztautau_preselection_cuts = cms.VPSet(
         ),
 )
 
-ZTauTauLowPtControlRegion = cms.PSet(
-    name = cms.string("ZTauTauLowPtControlRegion"),
-    triggers = cms.vstring("HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v"),
-    cuts = cms.VPSet ()
-)
-                                                                       
-ZTauTauLowPtControlRegion.cuts.extend(electron_basic_selection_cuts)
-ZTauTauLowPtControlRegion.cuts.append(electron_iso_cut)
-ZTauTauLowPtControlRegion.cuts.extend(muon_basic_selection_cuts)
-ZTauTauLowPtControlRegion.cuts.append(muon_iso_cut)
-ZTauTauLowPtControlRegion.cuts.append(os_emu_cut)
-ZTauTauLowPtControlRegion.cuts.extend(preselection_emu_cuts)
