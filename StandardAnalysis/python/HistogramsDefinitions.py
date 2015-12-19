@@ -120,6 +120,12 @@ muonHistograms = cms.PSet(
             inputVariables = cms.vstring("(muon.vz - beamspot.z0) - ((muon.vx - beamspot.x0)*muon.px + (muon.vy - beamspot.y0)*muon.py)/muon.pt*(muon.pz/muon.pt)"),
         ),
         cms.PSet (
+            name = cms.string("muonDxySignificance"),
+            title = cms.string("Muon Dxy Significance; muon d_{xy}/#delta_{d_{xy}}"),
+            binsX = cms.untracked.vdouble(20, -10, 10),
+            inputVariables = cms.vstring('((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)/hypot(muon.innerTrack.d0Error, hypot(beamspot.x0Error, beamspot.y0Error))'),
+        ),
+        cms.PSet (
             name = cms.string("muonDbetaIsolation"),
             title = cms.string("Muon Isolation; muon #Delta#beta Isolation"),
             binsX = cms.untracked.vdouble(150, 0, 1.5),
@@ -270,6 +276,12 @@ electronHistograms = cms.PSet(
             title = cms.string("Electron Dz;electron d_{z}"),
             binsX = cms.untracked.vdouble(200, -10, 10),
             inputVariables = cms.vstring("(electron.vz - beamspot.z0) - ((electron.vx - beamspot.x0)*electron.px + (electron.vy - beamspot.y0)*electron.py)/electron.pt*(electron.pz/electron.pt)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronDxySignificance"),
+            title = cms.string("Electron Dxy Significance; electron d_{xy}/#delta_{d_{xy}}"),
+            binsX = cms.untracked.vdouble(20, -10, 10),
+            inputVariables = cms.vstring('((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)/hypot(electron.gsfTrack.d0Error, hypot(beamspot.x0Error, beamspot.y0Error))'),
         ),
         cms.PSet (
             name = cms.string("electronDrhoIsolation"),
