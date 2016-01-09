@@ -6,20 +6,21 @@
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2Samples import *
 
+#from OSUT3Analysis.Configuration.configurationOptions_13TeV_miniAODv2 import *
 # specify which config file to pass to cmsRun
 config_file = "QCDMuonControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2556.37 # for 13 TeV Silver Json, 2015D 
+intLumi = 118.434 # for HLT_Mu20_v* path, 2015D 
 
 # create list of datasets to process
 datasets = [
-    'Diboson',
+    'SingleMu_2015D',
+    'QCD_MuEnriched',
     'WJetsToLNu',
-    'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    'QCD_MuEnriched',
-    'SingleMu_2015D',
+    'DYJetsToLL_50',
+    'Diboson',
 ]
-InputCondorArguments = {'hold': 'true'}
+#InputCondorArguments = {'hold': 'true'}

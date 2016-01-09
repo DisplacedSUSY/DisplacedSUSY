@@ -16,9 +16,10 @@ process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
 #        'file:/data/users/lantonel/condor/DEC3__DisplacedControlRegionNoTriggerNoIsoSkim/TTJets_DiLept_MiniAOD/DisplacedControlRegionNoTriggerNoIso/skim_0.root'
 
-        'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
+#        'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
 #        'file:/data/users/bing/condor/EMuSkim13TeV/DYJetsToLL_50_MiniAOD/EMuSKim13TeV/skim_0.root',
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
+ 'file:/home/lantonel/CMSSW_7_4_5_ROOT5/src/DisplacedSUSY/BackgroundStudies/test/QCDElectronControlRegion/skim_QCDElectronControlRegion_2015_12_19_13h09m30s.root'
 #    'file:/data/users/bing/condor/EMuSkim13TeV/MuonEG_2015D_v3/EMuSKim13TeV/skim_1.root',
   )
 )
@@ -88,10 +89,10 @@ eventSelections.append(QCDElectronControlRegion)
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 
 histograms = cms.VPSet()
-histograms.append(ElectronHistograms)
-histograms.append(ElectronIPHistograms)
-histograms.append(MetHistograms)
-histograms.append(JetHistograms)
+#histograms.append(ElectronHistograms)
+#histograms.append(ElectronIPHistograms)
+#histograms.append(MetHistograms)
+#histograms.append(JetHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################

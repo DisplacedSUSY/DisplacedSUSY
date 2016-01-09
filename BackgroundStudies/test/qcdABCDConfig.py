@@ -1,60 +1,30 @@
 #!/usr/bin/env python
 
-from DisplacedSUSY.Configuration.systematicsDefinitions import *
+#from DisplacedSUSY.Configuration.systematicsDefinitions import *
 
-external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
+#external_systematics_directory = 'DisplacedSUSY/Configuration/data/'
 
 
 # for the ABCD method and the signal region
 region_names = {
-    'A' : 'Preselection_100um_SS',
-    'B' : 'Preselection_100um',
-    'C' : 'Preselection_100um_AntiIso_SS',
-    'D' : 'Preselection_100um_AntiIso',
-    'signal' : 'Preselection_100um',
-    'signal_antiIso' : 'Preselection_100um_AntiIso'
+    'A' : 'SSIso',
+    'B' : 'OSIso',
+    'C' : 'SSAntiIso',
+    'D' : 'OSAntiIso',
+    'signal' : 'OSIso',
+    'signal_antiIso' : 'OSAntiIso'
 }
 
-# these are the distributinos that will be fit in region A to extract the QCD yield
-distributions_to_fit = [
-    {'name' : 'electronAbsD0BeamspotM', 
-     #'lowerLimit' : 0.02,     #you can define upper or lower limits here.
-     #'upperLimit' : 0.05
-    },
-    {'name' : 'muonAbsD0BeamspotM'     },   
-    {'name' : 'electronEta'            },
-    {'name' : 'muonEta'                },
-    {'name' : 'electronMetMt'          },
-    {'name' : 'muonMetMt'              }
-]
-
-# other contributions in region A that will be held constant in the fitting
-fitting_backgrounds = [
-#    'EWK_WNjets',
-#    'Top'
-
-    #'Background'
-    'WNjets',
-    'Diboson',
-    'SingleTop',
-    'TTbar',
-    'DY',
-]
-
-# other contributions in regions C & D that should be subtracted off
-impurities = [
-#    'EWK_WNjets',
-#    'Top'
-    #'Background'
-    'WNjets',
-    'Diboson',
-    'SingleTop',
-    'TTbar',
-    'DY',
+backgrounds = [
+    'Diboson_MiniAOD',
+    'WJetsToLNu_MiniAOD',
+    'DYJetsToLL_50_MiniAOD',
+    'SingleTop_MiniAOD',
+    'TTJets_Lept_MiniAOD',
 ]
 
 # the data dataset to be used when constructing the data-driven QCD sample
-data_dataset = 'MuEG_22Jan2013'
+data_dataset = 'MuonEG_2015D'
 
 
 
