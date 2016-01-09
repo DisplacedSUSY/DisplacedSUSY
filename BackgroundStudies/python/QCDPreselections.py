@@ -8,6 +8,23 @@ import copy
 from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
+# ELECTRON DXY
+electron_d0_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) >= 0.01 "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("electron dxy >= 0.01 cm")
+)
+
+# MUON DXY
+muon_d0_cut = cms.PSet (
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) >= 0.01 "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("muon dxy >= 0.01 cm")
+)
+
+
 #################################################################
 
 OSAntiIso = cms.PSet(
