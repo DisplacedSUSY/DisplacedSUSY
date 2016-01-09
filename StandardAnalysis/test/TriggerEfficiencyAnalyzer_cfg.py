@@ -10,7 +10,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
 #        'file:/data/users/lantonel/condor/DEC3__DisplacedControlRegionNoTriggerNoIsoSkim/TTJets_DiLept_MiniAOD/DisplacedControlRegionNoTriggerNoIso/skim_0.root'
-        'file:/data/users/lantonel/condor/DEC2__EMUTRIGGERSTUDYSKIM/TTJets_DiLept_MiniAOD/EMuTriggerStudySkimSelection/skim_0.root'
+#        'file:/data/users/lantonel/condor/DEC19__QCDMuonControlRegionSkim/SingleMu_2015D_v3/QCDMuonControlRegion/skim_1.root'
 
 
 #        'file:/data/users/lantonel/condor/DEC3__DisplacedControlRegionNoTriggerNoIsoSkim/MuonEG_2015D_v4/DisplacedControlRegionNoTriggerNoIso/skim_0.root'
@@ -18,7 +18,7 @@ process.source = cms.Source ('PoolSource',
   )
 )
 
-#set_input(process,'/data/users/lantonel/condor/DEC3__DisplacedControlRegionNoTriggerNoIsoSkim/MuonEG_2015D_v3/DisplacedControlRegionNoTriggerNoIso/')
+set_input(process,'/data/users/lantonel/condor/DEC19__QCDMuonControlRegionSkim/SingleMu_2015D_v3/QCDMuonControlRegion/')
 #process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
 process.TFileService = cms.Service ('TFileService',
@@ -58,6 +58,47 @@ EMu = cms.PSet(
         "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v",
         ),
     )
-process.TriggerEfficiencyAnalyzer.triggers.append(EMu)
+#process.TriggerEfficiencyAnalyzer.triggers.append(EMu)
+
+SingleMu = cms.PSet(
+    trigType = cms.string("SingleMu"),
+    trigs = cms.vstring(
+        "HLT_Mu16_eta2p1_CaloMET30_v",
+        "HLT_Mu40_eta2p1_PFJet200_PFJet50_v",
+        "HLT_Mu20_v",
+        "HLT_TkMu20_v",
+        "HLT_Mu24_eta2p1_v",
+        "HLT_TkMu24_eta2p1_v",
+        "HLT_Mu27_v",
+        "HLT_TkMu27_v",
+        "HLT_Mu50_v",
+        "HLT_Mu45_eta2p1_v",
+        "HLT_Mu8_TrkIsoVVL_v",
+        "HLT_Mu17_TrkIsoVVL_v",
+        "HLT_Mu24_TrkIsoVVL_v",
+        "HLT_Mu34_TrkIsoVVL_v",
+        "HLT_BTagMu_DiJet20_Mu5_v",
+        "HLT_BTagMu_DiJet40_Mu5_v",
+        "HLT_BTagMu_DiJet70_Mu5_v",
+        "HLT_BTagMu_DiJet110_Mu5_v",
+        "HLT_BTagMu_Jet300_Mu5_v",
+        "HLT_Mu3er_PFHT140_PFMET125_NoiseCleaned_v",
+        "HLT_Mu6_PFHT200_PFMET100_NoiseCleaned_BTagCSV07_v",
+        "HLT_Mu6_PFHT200_PFMET125_NoiseCleaned_v",
+        "HLT_Mu14er_PFMET120_NoiseCleaned_v",
+        "HLT_Mu10_CentralPFJet30_BTagCSV0p5PF_v",
+        "HLT_Mu10_TrkIsoVVL_DiPFJet40_DEta3p5_MJJ750_HTT350_PFMETNoMu60_v",
+        "HLT_Mu15_IsoVVVL_BTagCSV07_PFHT400_v",
+        "HLT_Mu15_IsoVVVL_PFHT400_PFMET70_v",
+        "HLT_Mu15_IsoVVVL_PFHT600_v",
+        "HLT_Mu15_PFHT300_v",
+        "HLT_Mu8_v",
+        "HLT_Mu17_v",
+        "HLT_Mu24_v",
+        "HLT_Mu34_v",
+        ),
+    )
+process.TriggerEfficiencyAnalyzer.triggers.append(SingleMu)
+
 
 process.myPath = cms.Path (process.TriggerEfficiencyAnalyzer)
