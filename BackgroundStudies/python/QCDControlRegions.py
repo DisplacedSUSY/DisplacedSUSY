@@ -125,23 +125,30 @@ QCDElectronSkim = cms.PSet(
 ##############################################################
 # extra cuts for the control region
 
-# CSV M working point
-bjet_cut = cms.PSet (
-    inputCollection = cms.vstring("bjets"),
-    cutString = cms.string("abs(eta) < 2.4 & pt > 50 & pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.89"),
+# dummy muon cut
+muon_dummy_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
 )
-secondary_jet_cut = cms.PSet (
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("abs(eta) < 2.4 & pt > 50"),
+
+# CSV L working point
+bjet_csvl_cut = cms.PSet (
+    inputCollection = cms.vstring("bjets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.605"),
+    numberRequired = cms.string(">= 1"),
+)
+# CSV M working point
+bjet_csvm_cut = cms.PSet (
+    inputCollection = cms.vstring("bjets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.89"),
     numberRequired = cms.string(">= 1"),
 )
 dijet_cut = cms.PSet (
     inputCollection = cms.vstring("jets","bjets"),
-    cutString = cms.string("deltaPhi(jet,bjet) > 2.5"),
+    cutString = cms.string("abs(deltaPhi(jet,bjet)) > 2.5"),
     numberRequired = cms.string(">= 1"),
 )
-
 muonjet_cut = cms.PSet (
     inputCollection = cms.vstring("muons","jets"),
     cutString = cms.string("deltaR(muon,jet) < 0.2"),
@@ -152,35 +159,51 @@ electronjet_cut = cms.PSet (
     cutString = cms.string("deltaR(electron,jet) < 0.2"),
     numberRequired = cms.string(">= 1"),
 )
-
+muon_inverted_iso_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("                \
+        (pfIsolationR04_.sumChargedHadronPt \
+        + max(0.0,                          \
+        pfIsolationR04_.sumNeutralHadronEt  \
+        + pfIsolationR04_.sumPhotonEt       \
+        - 0.5*pfIsolationR04_.sumPUPt))     \
+        /pt >= 0.15                         \
+       "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("inverted muon isolation")
+)
 
 
 ##############################################################
 
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
-#    triggers = cms.vstring("HLT_Mu17_v"),
+    triggers = cms.vstring("HLT_Mu20_v"),
     cuts = cms.VPSet ()
 )
 
+QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
-QCDMuonControlRegion.cuts.append(bjet_cut)
-QCDMuonControlRegion.cuts.append(secondary_jet_cut)
+QCDMuonControlRegion.cuts.extend(jet_basic_selection_cuts)
+QCDMuonControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDMuonControlRegion.cuts.append(bjet_csvl_cut)
 QCDMuonControlRegion.cuts.append(dijet_cut)
 QCDMuonControlRegion.cuts.append(muonjet_cut)
+QCDMuonControlRegion.cuts.append(muon_inverted_iso_cut)
 
 ##############################################################
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
+# still need to choose an optimal trigger
 #    triggers = cms.vstring("HLT_Ele8_CaloIdT_TrkIdVL_Jet30_v"),
     cuts = cms.VPSet ()
 )
 
 QCDElectronControlRegion.cuts.extend(electron_basic_selection_cuts)
-QCDElectronControlRegion.cuts.append(bjet_cut)
-QCDElectronControlRegion.cuts.append(secondary_jet_cut)
+QCDElectronControlRegion.cuts.extend(jet_basic_selection_cuts)
+QCDElectronControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDElectronControlRegion.cuts.append(bjet_csvl_cut)
 QCDElectronControlRegion.cuts.append(dijet_cut)
 QCDElectronControlRegion.cuts.append(electronjet_cut)
-
 
