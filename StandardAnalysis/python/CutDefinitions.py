@@ -26,6 +26,28 @@ jet_basic_selection_cuts = cms.VPSet(
 
 ##########################################################################
 
+#Basic bjet selections
+bjet_basic_selection_cuts = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("abs(eta) < 2.4"),
+        numberRequired = cms.string(">= 0")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 0")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        numberRequired = cms.string(">= 0"),
+        alias = cms.string('bjet ID')
+    ),
+)
+
+##########################################################################
+
 # Electron inverted isolation cut
 electron_inverted_iso_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
@@ -213,12 +235,20 @@ muon_basic_selection_cuts = cms.VPSet(
         cutString = cms.string("pt > 25"),
         numberRequired = cms.string(">= 1")
     ),
+    # GLOBAL MUON
+    cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("isGlobalMuon & isPFMuon"),
+        numberRequired = cms.string(">= 1"),
+    ),
     # MUON ID
     cms.PSet (
         inputCollection = cms.vstring("muons"),
+        # moving these selections to a separate cut
+        # to avoid non-global muons from passing the ID
+#        isGlobalMuon & \
+#        isPFMuon & \
         cutString = cms.string("\
-        isGlobalMuon & \
-        isPFMuon & \
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
         globalTrack.normalizedChi2 < 10 & \
         numberOfMatchedStations > 1 & \
@@ -232,11 +262,21 @@ muon_basic_selection_cuts = cms.VPSet(
 ##########################################################################
 
 # MUON ID
+muon_global_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isGlobalMuon & isPFMuon"),
+    numberRequired = cms.string(">= 1"),
+)
+##########################################################################
+
+# MUON ID
 muon_id_cut = cms.PSet (
     inputCollection = cms.vstring("muons"),
+        # moving these selections to a separate cut
+        # to avoid non-global muons from passing the ID
+#        isGlobalMuon & \
+#        isPFMuon & \
     cutString = cms.string("\
-        isGlobalMuon & \
-        isPFMuon & \
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
         numberOfMatchedStations > 1 & \
         globalTrack.normalizedChi2 < 10 & \
