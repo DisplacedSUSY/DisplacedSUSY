@@ -26,6 +26,7 @@ QCDMuonSkim = cms.PSet(
             cutString = cms.string("\
                                     isGlobalMuon & \
                                     isPFMuon & \
+                                    globalTrack.normalizedChi2 < 10 & \
                                     globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
                                     numberOfMatchedStations > 1 & \
                                     innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
