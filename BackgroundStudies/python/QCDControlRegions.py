@@ -85,7 +85,7 @@ QCDElectronSkim = cms.PSet(
                                     full5x5_sigmaIetaIeta < 0.0101 & \
                                     hadronicOverEm < 0.0597 & \
                                     abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
-                                    !vtxFitConversion)|\
+                                    passConversionVeto)|\
                                     (isEE & \
                                     missingInnerHits_ <= 1 & \
                                     abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
@@ -93,7 +93,7 @@ QCDElectronSkim = cms.PSet(
                                     full5x5_sigmaIetaIeta < 0.0279 & \
                                     hadronicOverEm < 0.0615 & \
                                     abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.00999 & \
-                                    !vtxFitConversion)"),
+                                    passConversionVeto)"),
             numberRequired = cms.string(">= 1"),
             alias = cms.string("electron tight displaced ID")
         ),

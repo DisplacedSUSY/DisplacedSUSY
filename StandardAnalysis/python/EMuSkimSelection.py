@@ -20,11 +20,6 @@ EMuSkimSelection = cms.PSet(
             numberRequired = cms.string(">= 1")
         ),
         cms.PSet (
-            inputCollection = cms.vstring("bjets"),
-            cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.89"),
-            numberRequired = cms.string(">= 1")
-        ),
-        cms.PSet (
             inputCollection = cms.vstring("muons"),
             cutString = cms.string("abs(eta) < 2.4"),
             numberRequired = cms.string(">= 1")

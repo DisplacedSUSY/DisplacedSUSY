@@ -6,9 +6,9 @@
 #include "OSUT3Analysis/AnaTools/interface/ValueLookupTree.h"
 struct OriginalCollections
 {
-  edm::Handle<vector<osu::Electron> >       electrons;
+  edm::Handle<vector<pat::Electron> >       electrons;
   edm::Handle<vector<pat::Jet> >            jets;
-  edm::Handle<vector<osu::Muon> >           muons;
+  edm::Handle<vector<pat::Muon> >           muons;
   edm::Handle<vector<reco::Vertex> >        primaryvertexs;
   edm::Handle<vector<PileupSummaryInfo>>    pileupinfos;
   edm::Handle<edm::TriggerResults>          triggers;
