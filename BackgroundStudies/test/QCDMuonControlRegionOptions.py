@@ -11,16 +11,16 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "QCDMuonControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 118.434 # for HLT_Mu20_v* path, 2015D 
+intLumi = 28.67 # for HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v* path, 2015D 
 
 # create list of datasets to process
 datasets = [
-    'SingleMu_2015D',
-    'QCD_MuEnriched',
+    'Diboson',
+    'DYJetsToLL_50',
     'WJetsToLNu',
     'SingleTop',
     'TTJets_Lept',
-    'DYJetsToLL_50',
-    'Diboson',
+    'SingleMu_2015D',
+    'QCD_MuEnriched',
 ]
-#InputCondorArguments = {'hold': 'true'}
+InputCondorArguments = {'hold': 'true'}
