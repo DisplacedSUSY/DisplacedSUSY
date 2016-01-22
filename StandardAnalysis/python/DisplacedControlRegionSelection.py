@@ -66,6 +66,57 @@ displaced_control_region_cuts = cms.VPSet(
     ),
 )
 
+displaced_control_region_no_os_cuts = cms.VPSet(
+    # MUON DXY DISPLACED
+    cms.PSet (
+        inputCollection = cms.vstring("muons","beamspots"),
+        cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) > 0.01 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("muon dxy > 0.01 cm")
+    ),
+    # ELECTRON DISPLACED
+    cms.PSet (
+        inputCollection = cms.vstring("electrons","beamspots"),
+        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) > 0.01 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron dxy > 0.01 cm")
+    ),
+    # MUON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("muons","beamspots"),
+        cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.02 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("muon dxy <= 0.02 cm")
+    ),
+    # ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons","beamspots"),
+        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.02 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron dxy <= 0.02 cm")
+    ),
+    # ELECTRON AND MUON ARE NOT OVERLAPPING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons", "muons"),
+        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
+    ),
+    #Extra Lepton Veto
+    cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra muon veto")
+    ),
+    # ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra electron veto")
+    ),
+)
 ##########################################################################
 #Selections without triggers
 DisplacedControlRegion = cms.PSet(
@@ -251,4 +302,20 @@ for cut in AntiIsoMuAntiIsoEleDisplacedControlRegionDisplacedTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 30")
 
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(displaced_control_region_no_os_cuts)
+for cut in DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
 
