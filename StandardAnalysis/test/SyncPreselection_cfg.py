@@ -14,11 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
- #       'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
-#        'file:/data/users/bing/condor/EMuSkim13TeV/DYJetsToLL_50_MiniAOD/EMuSKim13TeV/skim_0.root',
-#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-    'file:/data/users/bing/condor/EMuSkim13TeV/stop500_10mm_MiniAOD/EMuSkimSelection/skim_0.root',
-    'file:/data/users/bing/condor/EMuSkim13TeV/stop500_10mm_MiniAOD/EMuSkimSelection/skim_1.root',
+    "root://xrootd-cms.infn.it//store/mc/RunIISpring15MiniAODv2/DisplacedSUSY_StopToBL_M-500_CTau-10_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/DCDF36C8-2772-E511-BFEC-90B11C0506C6.root", 
   )
 )
 
