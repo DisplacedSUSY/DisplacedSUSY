@@ -10,7 +10,7 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "PromptControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2538.43 #from 13 TeV MuEG dataset 2015D Silver JSON
+intLumi = 2502  #from 13 TeV MuEG dataset 2015D Silver JSON
 
 # create list of datasets to process
 datasets = [
@@ -21,6 +21,11 @@ datasets = [
     'TTJets_Lept',
     'QCD_MuEnriched',
     'MuonEG_2015D',
+    #'DisplacedSUSYSignal',
+    #'stop200_1mm', 
+    #'stop300_1mm', 
+    #'stop400_1mm', 
+    #'stop500_1mm', 
 ]
 
 InputCondorArguments = {'hold': 'true'}
