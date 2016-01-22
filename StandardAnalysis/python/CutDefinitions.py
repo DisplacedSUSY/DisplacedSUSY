@@ -62,6 +62,18 @@ electron_inverted_iso_cut = cms.PSet (
 
 ##########################################################################
 
+# Electron loose isolation cut
+electron_loose_iso_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string('          \
+        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
+        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho_*AEff_))/pt <= 1.5 & isEB) \
+        '),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("loose electron isolation")
+)
+##########################################################################
+
 # Muon inverted isolation cut
 muon_inverted_iso_cut = cms.PSet (
     inputCollection = cms.vstring("muons"),
@@ -81,6 +93,23 @@ muon_inverted_iso_cut = cms.PSet (
        "),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("inverted muon isolation")
+)
+
+##########################################################################
+
+# Muon inverted isolation cut
+muon_loose_iso_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("                \
+        (pfIsolationR04_.sumChargedHadronPt \
+        + max(0.0,                          \
+        pfIsolationR04_.sumNeutralHadronEt  \
+        + pfIsolationR04_.sumPhotonEt       \
+        - 0.5*pfIsolationR04_.sumPUPt))     \
+        /pt <= 1.5                          \
+       "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("loose muon isolation")
 )
 
 ##########################################################################
