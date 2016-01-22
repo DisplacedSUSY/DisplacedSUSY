@@ -68,22 +68,22 @@ electron_basic_selection_cuts = cms.VPSet(
     cms.PSet (
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("                              \
-          (isEB & \
+          (abs(superCluster.eta) <= 1.479 & \
           missingInnerHits_ <= 2 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
           full5x5_sigmaIetaIeta < 0.0101 & \
           hadronicOverEm < 0.0597 & \
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
-          !vtxFitConversion)|\
-          (isEE & \
+          passConversionVeto)|\
+          (abs(superCluster.eta) > 1.479 & abs(superCluster.eta) < 2.5 &\
           missingInnerHits_ <= 1 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
           full5x5_sigmaIetaIeta < 0.0279 & \
           hadronicOverEm < 0.0615 & \
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.00999 & \
-          !vtxFitConversion)"),
+          passConversionVeto)"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("electron tight displaced ID")
     ),
@@ -95,22 +95,22 @@ electron_basic_selection_cuts = cms.VPSet(
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("                              \
-          (isEB & \
+          (abs(superCluster.eta) <= 1.479 & \
           missingInnerHits_ <= 2 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
           full5x5_sigmaIetaIeta < 0.0101 & \
           hadronicOverEm < 0.0597 & \
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
-          !vtxFitConversion)|\
-          (isEE & \
+          passConversionVeto)|\
+          (abs(superCluster.eta) > 1.479 & abs(superCluster.eta) < 2.5 & \
           missingInnerHits_ <= 1 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
           full5x5_sigmaIetaIeta < 0.0279 & \
           hadronicOverEm < 0.0615 & \
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.00999 & \
-          !vtxFitConversion)"),
+          passConversionVeto)"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron tight displaced ID")
 )
