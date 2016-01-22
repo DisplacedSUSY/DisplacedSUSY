@@ -8,7 +8,7 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "EMuSkim_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2538.43 # for 13 TeV Silver Json
+intLumi = 2502 # for 13 TeV Silver Json
 
 # create list of datasets to process
 datasets = [
@@ -19,7 +19,6 @@ datasets = [
     'TTJets_Lept',
     'QCD_MuEnriched',
     'MuonEG_2015D',
-    #'MET_2015D',
     'DisplacedSUSYSignal'
 ]
 
