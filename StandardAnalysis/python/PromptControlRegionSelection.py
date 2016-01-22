@@ -43,7 +43,45 @@ prompt_control_region_cuts = cms.VPSet(
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra muon veto")
     ),
-    # ELECTRON DXY BLINDING
+    #ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra electron veto")
+    ),
+)
+
+prompt_control_region_no_os_cuts = cms.VPSet(
+    # MUON DXY PROMPT
+    cms.PSet (
+        inputCollection = cms.vstring("muons","beamspots"),
+        cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.01 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("muon dxy <= 0.01 cm")
+    ),
+    # ELECTRON PROMPT
+    cms.PSet (
+        inputCollection = cms.vstring("electrons","beamspots"),
+        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.01 "),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron dxy <= 0.01 cm")
+    ),
+    # ELECTRON AND MUON ARE NOT OVERLAPPING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons", "muons"),
+        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
+    ),
+    #Extra Lepton Veto
+    cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra muon veto")
+    ),
+    #ELECTRON DXY BLINDING
     cms.PSet (
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("pt > -1"),
@@ -238,3 +276,48 @@ for cut in AntiIsoMuAntiIsoElePromptControlRegionDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 30")
 
 
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
+
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
+
+for cut in MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
+PromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("PromptControlRegionNoOSInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_iso_cut)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_iso_cut)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
+for cut in PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
