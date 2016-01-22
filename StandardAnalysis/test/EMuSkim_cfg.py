@@ -14,9 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    #'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/50000/00759690-D16E-E511-B29E-00261894382D.root',
-    #'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root',
+    "root://xrootd-cms.infn.it//store/mc/RunIISpring15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2_ext1-v1/10000/04F3CE5C-CE6D-E511-92F9-E0DB55FC100D.root",
   
   )
 )
@@ -29,7 +27,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (6000)
 )
 
 ################################################################################
@@ -43,6 +41,7 @@ miniAOD_collections = cms.PSet (
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   jets            =  cms.InputTag  ('slimmedJets',                   ''),
+  bjets           =  cms.InputTag  ('slimmedJets',                   ''),
   electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   generatorweights = cms.InputTag  ('generator', ''),
@@ -85,4 +84,5 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet(),weights, collections,variableProducers, True)
+add_channels (process, eventSelections, cms.VPSet(), weights, collections, variableProducers, True)
+#outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
