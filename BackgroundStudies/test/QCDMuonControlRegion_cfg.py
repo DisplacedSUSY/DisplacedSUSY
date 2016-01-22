@@ -14,17 +14,10 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#        'file:/data/users/lantonel/condor/DEC3__DisplacedControlRegionNoTriggerNoIsoSkim/TTJets_DiLept_MiniAOD/DisplacedControlRegionNoTriggerNoIso/skim_0.root'
-#        'file:/data/users/lantonel/condor/DEC10__QCDMuonSkim/SingleMu_2015D_v3/QCDMuonSkim/skim_1.root'
-#        'file:/data/users/lantonel/condor/DEC10__QCDMuonSkim/TTJets_DiLept_MiniAOD/QCDMuonSkim/skim_1.root'
-
-#        'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
-#        'file:/data/users/bing/condor/EMuSkim13TeV/DYJetsToLL_50_MiniAOD/EMuSKim13TeV/skim_0.root',
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
 
-        'file:/data/users/lantonel/condor/DEC19__QCDMuonControlRegionSkim/QCD_MuEnriched_120to170/QCDMuonControlRegion/skim_0.root'
+        'file:/data/users/bing/condor/QCDMuonSkim/QCD_MuEnriched_170to300/QCDMuonSkim/skim_28.root',
 
-#    'file:/data/users/bing/condor/EMuSkim13TeV/MuonEG_2015D_v3/EMuSKim13TeV/skim_1.root',
   )
 )
 
@@ -73,13 +66,13 @@ collections = miniAOD_collections
 
 
 variableProducers = []
-#variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('PUScalingFactorProducer')
 
 weights = cms.VPSet (
-#    cms.PSet (
-#        inputCollections = cms.vstring("eventvariables"),
-#        inputVariable = cms.string("puScalingFactor")
-#    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
 )
 
 ################################################################################
@@ -97,6 +90,7 @@ eventSelections.append(QCDMuonControlRegion)
 
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms
+from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
 
 histograms = cms.VPSet()
 histograms.append(MuonHistograms)
@@ -108,15 +102,16 @@ histograms.append(BjetHistograms)
 histograms.append(JetBjetHistograms)
 histograms.append(MuonJetHistograms)
 histograms.append(MuonBjetHistograms)
+histograms.append(eventHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, collections, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, collections, variableProducers, False)
 
-#process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_120to170")
-#process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
-#process.PUScalingFactorProducer.type = cms.string("bgMC")
+process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
