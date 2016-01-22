@@ -13,7 +13,7 @@ QCDMuonSkim = cms.PSet(
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("muons"),
-            cutString = cms.string("pt > 10"),
+            cutString = cms.string("pt > 15"),
             numberRequired = cms.string(">= 1")
         ),
         cms.PSet (
@@ -67,7 +67,7 @@ QCDElectronSkim = cms.PSet(
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("electrons"),
-            cutString = cms.string("pt > 10"),
+            cutString = cms.string("pt > 15"),
             numberRequired = cms.string(">= 1")
         ),
         cms.PSet (
@@ -179,11 +179,11 @@ muon_inverted_iso_cut = cms.PSet (
 
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
-    triggers = cms.vstring("HLT_Mu20_v"),
+    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
     cuts = cms.VPSet ()
 )
 
-QCDMuonControlRegion.cuts.append(muon_global_cut)
+#QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
 QCDMuonControlRegion.cuts.extend(jet_basic_selection_cuts)
 QCDMuonControlRegion.cuts.extend(bjet_basic_selection_cuts)
@@ -191,13 +191,17 @@ QCDMuonControlRegion.cuts.append(bjet_csvl_cut)
 QCDMuonControlRegion.cuts.append(dijet_cut)
 QCDMuonControlRegion.cuts.append(muonjet_cut)
 QCDMuonControlRegion.cuts.append(muon_inverted_iso_cut)
+for cut in QCDMuonControlRegion.cuts:
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 30")
 
 ##############################################################
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
 # still need to choose an optimal trigger
-#    triggers = cms.vstring("HLT_Ele8_CaloIdT_TrkIdVL_Jet30_v"),
+#    triggers = cms.vstring("HLT_Ele33_CaloIdL_TrackIdL_IsoVL_PFJet30_v"),
+    triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
 
@@ -207,4 +211,9 @@ QCDElectronControlRegion.cuts.extend(bjet_basic_selection_cuts)
 QCDElectronControlRegion.cuts.append(bjet_csvl_cut)
 QCDElectronControlRegion.cuts.append(dijet_cut)
 QCDElectronControlRegion.cuts.append(electronjet_cut)
+QCDElectronControlRegion.cuts.append(electron_inverted_iso_cut)
+# pT threshold should be determined by the trigger
+#for cut in QCDElectronControlRegion.cuts:
+#    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+#        cut.cutString = cms.string("pt > 35")
 
