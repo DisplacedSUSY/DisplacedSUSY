@@ -10,7 +10,7 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "QCDMuonSkim_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2556.37 # for 13 TeV Silver Json, 2015D 
+intLumi = 2502 # for 13 TeV Silver Json, 2015D 
 
 # create list of datasets to process
 datasets = [
