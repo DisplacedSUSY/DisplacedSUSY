@@ -75,6 +75,8 @@ eventSelections.append(EMuSkimSelection)
 
 weights = cms.VPSet (
 )
+
+scalingfactorproducers = []
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
@@ -84,5 +86,5 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet(), weights, collections, variableProducers, True)
+add_channels (process, eventSelections, cms.VPSet(), weights, scalingfactorproducers, collections, variableProducers, True)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
