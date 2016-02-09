@@ -32,7 +32,8 @@ EMuSkimSelection = cms.PSet(
         cms.PSet (
             inputCollection = cms.vstring("muons"),
             cutString = cms.string("isPFMuon & isGlobalMuon"),
-            numberRequired = cms.string(">= 1")
+            numberRequired = cms.string(">= 1"),
+            alias = cms.string("Global Muon")
         ),
     ),
 )

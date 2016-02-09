@@ -276,17 +276,17 @@ for cut in AntiIsoMuAntiIsoElePromptControlRegionDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 30")
 
 
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger = cms.PSet(
-    name = cms.string("MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger"),
+PromptControlRegionNoIsoInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("PromptControlRegionNoIsoInclusiveDisplacedTrigger"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet (
     )
 )
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
-MuEleNoIsoPromptControlRegionInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
 
 MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
     name = cms.string("MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger"),
@@ -294,17 +294,18 @@ MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
     cuts = cms.VPSet (
     )
 )
-MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
-MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
-MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
 
-for cut in MuEleNoIsoPromptControlRegionNoOSInclusiveDisplacedTrigger.cuts:
+for cut in PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
+
 PromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
     name = cms.string("PromptControlRegionNoOSInclusiveDisplacedTrigger"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
