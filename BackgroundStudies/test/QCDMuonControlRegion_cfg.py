@@ -73,7 +73,24 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
     ),
+    #cms.PSet (
+    #    inputCollections = cms.vstring("eventvariables"),
+    #    inputVariable = cms.string("muonScalingFactor")
+    #),
 )
+
+
+scalingfactorproducers = []
+#ObjectScalingFactorProducer = {}
+#ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+#ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
+#ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
+#ObjectScalingFactorProducer['muonWp'] = cms.string('NUM_TightIDandIPCut_DEN_genTracks_PAR_pt_spliteta_bin1/abseta_vs_pt')
+#ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+#ObjectScalingFactorProducer['doEleSF'] = cms.bool(False)
+#ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
+
+#scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -108,7 +125,7 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')

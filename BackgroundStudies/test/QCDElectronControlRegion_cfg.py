@@ -15,7 +15,9 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-     'file:/data/users/bing/condor/QCDElectronSkim/QCD_EMEnriched_170to300/QCDElectronSkim/skim_12.root',
+     #'file:/data/users/bing/condor/QCDElectronSkim/SingleEle_2015D_v3/QCDElectronSkim/skim_21.root',
+     'file:/data/users/bing/condor/QCDElectronSkim/SingleEle_2015D_v3/QCDElectronSkim/skim_21.root',
+     #'file:/data/users/bing/condor/QCDElectronSkim/QCD_EMEnriched_170to300/QCDElectronSkim/skim_79.root'
   )
 )
 
@@ -71,8 +73,23 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
     ),
+    #cms.PSet (
+    #    inputCollections = cms.vstring("eventvariables"),
+    #    inputVariable = cms.string("electronScalingFactor")
+    #),
 )
 
+scalingfactorproducers = []
+#ObjectScalingFactorProducer = {}
+#ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+#ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
+#ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
+#ObjectScalingFactorProducer['muonWp'] = cms.string('NUM_TightIDandIPCut_DEN_genTracks_PAR_pt_spliteta_bin1/abseta_vs_pt')
+#ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+#ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
+#ObjectScalingFactorProducer['doMuSF'] = cms.bool(False)
+
+#scalingfactorproducers.append(ObjectScalingFactorProducer)
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
@@ -106,10 +123,10 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("QCD_EMEnriched_170to300")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
-process.PUScalingFactorProducer.type = cms.string("bgMC")
+process.PUScalingFactorProducer.type = cms.string("data")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
