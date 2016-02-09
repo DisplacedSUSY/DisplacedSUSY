@@ -10,7 +10,7 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "PromptControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2502  #from 13 TeV MuEG dataset 2015D Silver JSON
+intLumi = 2504  #from 13 TeV MuEG dataset 2015D Silver JSON
 
 # create list of datasets to process
 datasets = [
