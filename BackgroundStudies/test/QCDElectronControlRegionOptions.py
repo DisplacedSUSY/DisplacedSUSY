@@ -10,10 +10,11 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "QCDElectronControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2502 # for 13 TeV Silver Json, 2015D 
+intLumi = 6.5 # for 13 TeV Silver Json, 2015D 
 
 # create list of datasets to process
 datasets = [
+    #'DoubleEG_2015D',
     'SingleEle_2015D',
     'DYJetsToLL_50',
     'WJetsToLNu',
