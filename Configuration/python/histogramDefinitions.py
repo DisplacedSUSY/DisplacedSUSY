@@ -330,4 +330,30 @@ on.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)"),
     )
 )
 
+ElectronMuonD0Histograms = cms.PSet(
+    inputCollection = cms.vstring("electrons","muons","beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("electronIpMuonIpPrompt"),
+            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
+            binsX = cms.untracked.vdouble(100,0,0.01),
+            binsY = cms.untracked.vdouble(100,0,0.01),
+            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronIpMuonIpDisplaced"),
+            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
+            binsX = cms.untracked.vdouble(100,0.01,0.02),
+            binsY = cms.untracked.vdouble(100,0.01,0.02),
+            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronIpMuonIpInclusive"),
+            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
+            binsX = cms.untracked.vdouble(500,0,0.5),
+            binsY = cms.untracked.vdouble(500,0,0.5),
+            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
+        ),
+    )
+)
 
