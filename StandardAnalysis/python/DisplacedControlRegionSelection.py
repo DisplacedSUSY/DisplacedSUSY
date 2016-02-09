@@ -319,3 +319,36 @@ for cut in DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("DisplacedControlRegionNoIsoInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(displaced_control_region_cuts)
+for cut in DisplacedControlRegionNoIsoInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
+
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("DisplacedControlRegionNoOSInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_iso_cut)
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_iso_cut)
+DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(displaced_control_region_no_os_cuts)
+for cut in DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
