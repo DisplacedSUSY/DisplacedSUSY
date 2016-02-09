@@ -10,7 +10,7 @@ from OSUT3Analysis.Configuration.miniAODV2Samples import *
 config_file = "QCDPreselection_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2538.43 # for 13 TeV Silver Json, 2015D 
+intLumi = 2504 # for 13 TeV Silver Json, 2015D 
 
 # create list of datasets to process
 datasets = [
