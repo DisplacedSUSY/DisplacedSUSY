@@ -433,27 +433,6 @@ electronMuonHistograms = cms.PSet(
             inputVariables = cms.vstring("muon.eta","electron.eta"),
         ),
         cms.PSet (
-            name = cms.string("electronIpMuonIpPrompt"),
-            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
-            binsX = cms.untracked.vdouble(100,0,0.01),
-            binsY = cms.untracked.vdouble(100,0,0.01),
-            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
-        ),
-        cms.PSet (
-            name = cms.string("electronIpMuonIpDisplaced"),
-            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
-            binsX = cms.untracked.vdouble(100,0.01,0.02),
-            binsY = cms.untracked.vdouble(100,0.01,0.02),
-            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
-        ),
-        cms.PSet (
-            name = cms.string("electronIpMuonIpInclusive"),
-            title = cms.string("Electron abs(Ip) vs Muon abs(Ip);|d_{xy}_{mu}| [cm]"),
-            binsX = cms.untracked.vdouble(500,0,0.5),
-            binsY = cms.untracked.vdouble(500,0,0.5),
-            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
-        ),
-        cms.PSet (
             name = cms.string("electronIsoMuonIso"),
             title = cms.string("Electron Iso vs Muon Iso;muon #Delta#beta Iso"),
             binsX = cms.untracked.vdouble(150,0,1.5),
@@ -501,6 +480,18 @@ eventHistograms = cms.PSet(
             title = cms.string("Trigger Scaling Factor; Trigger Scaling Factor"),
             binsX = cms.untracked.vdouble(10, 0, 1),
             inputVariables = cms.vstring("triggerScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("electronScalingFactor"),
+            title = cms.string("Electron Scaling Factor; Electron Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("electronScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("muonScalingFactor"),
+            title = cms.string("Muon Scaling Factor; Muon Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("muonScalingFactor"),
         ),
     )
 ) 
