@@ -7,13 +7,50 @@ from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 ##############################################################
 ##### EVENT SELECTIONS FOR OUR QCD B-BBAR CONTROL REGIONS ####
 ##############################################################
+jet_basic_selection_cuts = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("abs(eta) < 2.4"),
+        numberRequired = cms.string(">= 1")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 1")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('jet ID')
+    ),
+)
+
+bjet_basic_selection_cuts = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("abs(eta) < 2.4"),
+        numberRequired = cms.string(">= 1")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 1")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("bjets"),
+        cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('bjet ID')
+    ),
+)
 
 QCDMuonSkim = cms.PSet(
     name = cms.string("QCDMuonSkim"),
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("muons"),
-            cutString = cms.string("pt > 15"),
+            cutString = cms.string("pt > 20"),
             numberRequired = cms.string(">= 1")
         ),
         cms.PSet (
@@ -37,24 +74,18 @@ QCDMuonSkim = cms.PSet(
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("abs(eta) < 2.4"),
-            numberRequired = cms.string(">= 1"),
+            numberRequired = cms.string(">= 2"),
         ),
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("pt > 30"),
-            numberRequired = cms.string(">= 1")
+            numberRequired = cms.string(">= 2")
         ),
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
-            numberRequired = cms.string(">= 1"),
+            numberRequired = cms.string(">= 2"),
             alias = cms.string('jet ID')
-        ),
-        # loose CSV working point for run 2
-        cms.PSet (
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.605"),
-            numberRequired = cms.string(">= 1"),
         ),
     )
 )
@@ -67,7 +98,7 @@ QCDElectronSkim = cms.PSet(
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("electrons"),
-            cutString = cms.string("pt > 15"),
+            cutString = cms.string("pt > 20"),
             numberRequired = cms.string(">= 1")
         ),
         cms.PSet (
@@ -100,38 +131,31 @@ QCDElectronSkim = cms.PSet(
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("abs(eta) < 2.4"),
-            numberRequired = cms.string(">= 1"),
+            numberRequired = cms.string(">= 2"),
         ),
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("pt > 30"),
-            numberRequired = cms.string(">= 1")
+            numberRequired = cms.string(">= 2")
         ),
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
-            numberRequired = cms.string(">= 1"),
+            numberRequired = cms.string(">= 2"),
             alias = cms.string('jet ID')
         ),
         # loose CSV working point for run 2
-        cms.PSet (
-            inputCollection = cms.vstring("jets"),
-            cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.605"),
-            numberRequired = cms.string(">= 1"),
-        ),
+        #cms.PSet (
+        #    inputCollection = cms.vstring("jets"),
+        #    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.605"),
+        #    numberRequired = cms.string(">= 1"),
+        #),
     )
 )
 
 
 ##############################################################
 # extra cuts for the control region
-
-# dummy muon cut
-muon_dummy_cut = cms.PSet (
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > -1"),
-    numberRequired = cms.string(">= 1"),
-)
 
 # CSV L working point
 bjet_csvl_cut = cms.PSet (
@@ -160,20 +184,27 @@ electronjet_cut = cms.PSet (
     cutString = cms.string("deltaR(electron,jet) < 0.2"),
     numberRequired = cms.string(">= 1"),
 )
-muon_inverted_iso_cut = cms.PSet (
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("                \
-        (pfIsolationR04_.sumChargedHadronPt \
-        + max(0.0,                          \
-        pfIsolationR04_.sumNeutralHadronEt  \
-        + pfIsolationR04_.sumPhotonEt       \
-        - 0.5*pfIsolationR04_.sumPUPt))     \
-        /pt >= 0.15                         \
-       "),
+jet_csv_ranking_cut = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("inverted muon isolation")
+    arbitration = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags"), 
+    alias = cms.string("leading CSV jet"),
 )
 
+muon_veto_cut = cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("leading muon"),
+)
+
+electron_veto_cut = cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("leading electron"),
+)
 
 ##############################################################
 
@@ -183,37 +214,40 @@ QCDMuonControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 
-#QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
 QCDMuonControlRegion.cuts.extend(jet_basic_selection_cuts)
 QCDMuonControlRegion.cuts.extend(bjet_basic_selection_cuts)
-QCDMuonControlRegion.cuts.append(bjet_csvl_cut)
+QCDMuonControlRegion.cuts.append(bjet_csvm_cut)
 QCDMuonControlRegion.cuts.append(dijet_cut)
 QCDMuonControlRegion.cuts.append(muonjet_cut)
+QCDMuonControlRegion.cuts.append(jet_csv_ranking_cut)
 QCDMuonControlRegion.cuts.append(muon_inverted_iso_cut)
+QCDMuonControlRegion.cuts.append(muon_veto_cut)
 for cut in QCDMuonControlRegion.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 30")
+        cut.cutString = cms.string("pt > 40")
 
 ##############################################################
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
 # still need to choose an optimal trigger
-#    triggers = cms.vstring("HLT_Ele33_CaloIdL_TrackIdL_IsoVL_PFJet30_v"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+#    triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
 
 QCDElectronControlRegion.cuts.extend(electron_basic_selection_cuts)
 QCDElectronControlRegion.cuts.extend(jet_basic_selection_cuts)
 QCDElectronControlRegion.cuts.extend(bjet_basic_selection_cuts)
-QCDElectronControlRegion.cuts.append(bjet_csvl_cut)
+QCDElectronControlRegion.cuts.append(bjet_csvm_cut)
 QCDElectronControlRegion.cuts.append(dijet_cut)
 QCDElectronControlRegion.cuts.append(electronjet_cut)
+QCDElectronControlRegion.cuts.append(jet_csv_ranking_cut)
 QCDElectronControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronControlRegion.cuts.append(electron_veto_cut)
 # pT threshold should be determined by the trigger
-#for cut in QCDElectronControlRegion.cuts:
-#    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-#        cut.cutString = cms.string("pt > 35")
+for cut in QCDElectronControlRegion.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
 
