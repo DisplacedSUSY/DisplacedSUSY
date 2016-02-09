@@ -66,6 +66,8 @@ variableProducers = []
 
 weights = cms.VPSet ()
 
+scalingfactorproducers = []
+
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
@@ -87,6 +89,6 @@ histograms = cms.VPSet()
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, collections, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
