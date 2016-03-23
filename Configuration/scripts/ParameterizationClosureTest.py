@@ -21,7 +21,7 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--condorDir", dest="condorDir",
                   help="condor output directory")
-parser.add_option("-m", "--method", dest="method", default = "Dir"
+parser.add_option("-m", "--method", dest="method", default = "Dir",
                   help="Define the method you want to use, direct count(Dir) or parameterization(Para)")
 parser.add_option("-s", "--standAlone", action="store_true", dest="standAlone", default=False,
                                     help="adds the necessary header to be able to compile it")
