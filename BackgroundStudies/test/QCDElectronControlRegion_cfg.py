@@ -14,10 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-     #'file:/data/users/bing/condor/QCDElectronSkim/SingleEle_2015D_v3/QCDElectronSkim/skim_21.root',
-     'file:/data/users/bing/condor/QCDElectronSkim/SingleEle_2015D_v3/QCDElectronSkim/skim_21.root',
-     #'file:/data/users/bing/condor/QCDElectronSkim/QCD_EMEnriched_170to300/QCDElectronSkim/skim_79.root'
+    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
   )
 )
 
@@ -97,7 +94,10 @@ scalingfactorproducers = []
 from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
 
 eventSelections = []
+#eventSelections.append(QCDElectronEEControlRegion)
+#eventSelections.append(QCDElectronNoTriggerControlRegion)
 eventSelections.append(QCDElectronControlRegion)
+#eventSelections.append(QCDElectronEBControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -116,6 +116,7 @@ histograms.append(JetHistograms)
 histograms.append(BjetHistograms)
 histograms.append(JetBjetHistograms)
 histograms.append(ElectronJetHistograms)
+histograms.append(ElectronMetHistograms)
 histograms.append(ElectronBjetHistograms)
 histograms.append(eventHistograms)
 
