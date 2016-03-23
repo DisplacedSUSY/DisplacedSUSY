@@ -16,7 +16,8 @@ process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
     #'file:/data/users/bing/condor/EMuSkim_Nov6th/DYJetsToLL_50_MiniAOD/EMuSKim13TeV/skim_91.root', 
     #'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root',
-    'file:/data/users/bing/condor/EMuSkim13TeV/MET_2015D_v4/EMuSKim13TeV/skim_107.root'
+    #'file:/data/users/bing/condor/EMuSkim76X/MET_2015D/EMuSkimSelection/skim_107.root'
+    'file:/data/users/bing/condor/EMuSkim76X/TTJets_DiLept/EMuSkimSelection/skim_99.root'
    )
 )
 
@@ -37,13 +38,15 @@ process.maxEvents = cms.untracked.PSet (
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',''),
+  #electrons       =  cms.InputTag  ('slimmedElectrons',''),
+  electrons       =  cms.InputTag  ('objectSelector0','originalFormat','OSUAnalysisEMuSkimSelection1455848588'),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights= cms.InputTag  ('generator', ''), 
+  generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
-  muons           =  cms.InputTag  ('slimmedMuons',                   ''),
+  #muons           =  cms.InputTag  ('slimmedMuons',                   ''),
+  muons           =  cms.InputTag  ('objectSelector1','originalFormat','OSUAnalysisEMuSkimSelection1455848588'),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
   pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
@@ -70,6 +73,14 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonScalingFactor")
+    ),
 )
 
 weightsWithTrigger = cms.VPSet (
@@ -81,7 +92,27 @@ weightsWithTrigger = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("passTrigger")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonScalingFactor")
+    ),
 )
+
+scalingfactorproducers = []
+ObjectScalingFactorProducer = {}
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
+ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
+ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
+
+scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -92,16 +123,26 @@ from DisplacedSUSY.BackgroundStudies.TTbarControlRegion import *
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
-from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
+from OSUT3Analysis.Configuration.histogramDefinitions import *
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
+from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
+histograms = cms.VPSet()
+histograms.append(ElectronHistograms)
+histograms.append(ElectronD0Histograms)
+histograms.append(MuonHistograms)
+histograms.append(MuonD0Histograms)
+histograms.append(ElectronMuonD0Histograms)
+histograms.append(ElectronMuonHistograms)
+histograms.append(eventHistograms)
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 #eventHistograms can only run over skims. 
-add_channels (process, [TTbarControlRegionMETTrigger], cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,eventHistograms, metHistograms, jetHistograms), weights, collections,variableProducers, False)
-add_channels (process, [TTbarControlRegionMETTriggerPassEMuTrigger], cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,eventHistograms, metHistograms, jetHistograms), weightsWithTrigger, collections,variableProducers, False)
+add_channels (process, [TTbarControlRegionMETTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
+add_channels (process, [TTbarControlRegionMETTriggerPassEMuTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
 
-process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
-process.PUScalingFactorProducer.PU = cms.string("/data/users/bing/condor/PU2015MC/puMC.root")
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 #process.PUScalingFactorProducer.type = cms.string("bgMC")
 process.PUScalingFactorProducer.type = cms.string("data")
 #DisplacedSUSYEventVariableProducer can only run over skims.
