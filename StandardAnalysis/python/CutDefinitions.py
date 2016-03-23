@@ -18,6 +18,11 @@ jet_basic_selection_cuts = cms.VPSet(
     ),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton < 1 "),
+        numberRequired = cms.string(">= 0")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
         cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
         numberRequired = cms.string(">= 0"),
         alias = cms.string('jet ID')
@@ -54,7 +59,7 @@ electron_inverted_iso_cut = cms.PSet (
     cutString = cms.string('          \
         ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt >= 0.15 & \
         (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
-        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho_*AEff_))/pt >= 0.15 & (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho_*AEff_))/pt <= 1.5 & isEB) \
+        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt >= 0.15 & (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEB) \
         '),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("inverted electron isolation")
@@ -67,7 +72,7 @@ electron_loose_iso_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string('          \
         ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
-        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho_*AEff_))/pt <= 1.5 & isEB) \
+        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEB) \
         '),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("loose electron isolation")
@@ -118,7 +123,7 @@ electron_iso_cut = cms.PSet (
         + max(0.0,                    \
         pfIso_.sumNeutralHadronEt     \
         + pfIso_.sumPhotonEt          \
-        - rho_*AEff_))                \
+        - rho*AEff))                \
         /pt <= 0.0354 && isEB)"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron isolation")
@@ -146,7 +151,7 @@ muon_iso_cut = cms.PSet (
 # ELECTRON-JET OVERLAP VETO
 electron_jet_deltaR_cut = cms.PSet (
         inputCollection = cms.vstring("electrons", "jets"),
-        cutString = cms.string("deltaR(electron, jet) > 0.05 & deltaR(electron, jet) < 0.5"),
+        cutString = cms.string("deltaR(electron, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
         isVeto = cms.bool(True),
         alias = cms.string("electron near jet veto")
@@ -157,14 +162,103 @@ electron_jet_deltaR_cut = cms.PSet (
 # MUON-JET OVERLAP VETO
 muon_jet_deltaR_cut = cms.PSet (
         inputCollection = cms.vstring("muons", "jets"),
-        cutString = cms.string("deltaR(muon, jet) > 0.05 & deltaR(muon, jet) < 0.5"),
+        cutString = cms.string("deltaR(muon, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
         isVeto = cms.bool(True),
         alias = cms.string("muon near jet veto")
 )
 
 ##########################################################################
+#Basic electron selections
+electron_basic_selection_eb_cuts = cms.VPSet(
+    # ELECTRON ETA CUT
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("abs(eta) < 1.5"),
+        numberRequired = cms.string(">= 1")
+    ),
+    # ELECTRON CRACK VETO
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("isEBEEGap = 0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron ECAL crack veto")
+    ),
+    # ELECTRON PT CUT
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > 25"),
+        numberRequired = cms.string(">= 1")
+    ),
+    # ELECTRON ID
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("                              \
+          (isEB & \
+          missingInnerHits_ <= 2 & \
+          abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
+          abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
+          full5x5_sigmaIetaIeta < 0.0101 & \
+          hadronicOverEm < 0.0597 & \
+          abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
+          passConversionVeto)|\
+          (isEE & \
+          missingInnerHits_ <= 1 & \
+          abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
+          abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
+          full5x5_sigmaIetaIeta < 0.0279 & \
+          hadronicOverEm < 0.0615 & \
+          abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.00999 & \
+          passConversionVeto)"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron tight displaced ID")
+    ),
+)
 
+electron_basic_selection_ee_cuts = cms.VPSet(
+    # ELECTRON ETA CUT
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("abs(eta) < 2.4 && abs(eta) >= 1.5"),
+        numberRequired = cms.string(">= 1")
+    ),
+    # ELECTRON CRACK VETO
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("isEBEEGap = 0"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron ECAL crack veto")
+    ),
+    # ELECTRON PT CUT
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > 25"),
+        numberRequired = cms.string(">= 1")
+    ),
+    # ELECTRON ID
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("                              \
+          (isEB & \
+          missingInnerHits_ <= 2 & \
+          abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
+          abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
+          full5x5_sigmaIetaIeta < 0.0101 & \
+          hadronicOverEm < 0.0597 & \
+          abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
+          passConversionVeto)|\
+          (isEE & \
+          missingInnerHits_ <= 1 & \
+          abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
+          abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
+          full5x5_sigmaIetaIeta < 0.0279 & \
+          hadronicOverEm < 0.0615 & \
+          abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.00999 & \
+          passConversionVeto)"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron tight displaced ID")
+    ),
+)
 
 #Basic electron selections
 electron_basic_selection_cuts = cms.VPSet(
@@ -264,10 +358,6 @@ muon_basic_selection_cuts = cms.VPSet(
     # MUON ID
     cms.PSet (
         inputCollection = cms.vstring("muons"),
-        # moving these selections to a separate cut
-        # to avoid non-global muons from passing the ID
-#        isGlobalMuon & \
-#        isPFMuon & \
         cutString = cms.string("\
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
         globalTrack.normalizedChi2 < 10 & \
@@ -293,11 +383,9 @@ muon_global_cut = cms.PSet (
 # MUON ID
 muon_id_cut = cms.PSet (
     inputCollection = cms.vstring("muons"),
-        # moving these selections to a separate cut
-        # to avoid non-global muons from passing the ID
-#        isGlobalMuon & \
-#        isPFMuon & \
     cutString = cms.string("\
+        isGlobalMuon & \
+        isPFMuon & \
         globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
         numberOfMatchedStations > 1 & \
         globalTrack.normalizedChi2 < 10 & \
@@ -418,14 +506,75 @@ displaced_control_region_cuts = cms.VPSet(
 
 ##########################################################################
 #Blinded control region specific cuts
+electron_blinded_control_region_cuts = cms.VPSet(
+    #ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons","beamspots"),
+        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.02"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("electron blinding cuts")
+    ),
+    # ELECTRON AND MUON ARE NOT OVERLAPPING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons", "muons"),
+        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
+    ),
+    #Extra Lepton Veto
+    cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra muon veto")
+    ),
+    # ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra electron veto")
+    ),
+)
+
+muon_blinded_control_region_cuts = cms.VPSet(
+    #MUON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("muons","beamspots"),
+        cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.02"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("muon blinding cuts")
+    ),
+    # ELECTRON AND MUON ARE NOT OVERLAPPING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons", "muons"),
+        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
+    ),
+    #Extra Lepton Veto
+    cms.PSet (
+        inputCollection = cms.vstring("muons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra muon veto")
+    ),
+    # ELECTRON DXY BLINDING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra electron veto")
+    ),
+)
+
 blinded_control_region_cuts = cms.VPSet(
     # DXY BLINDING
-    #Only blind the region where both muons and electrons have dxy > 0.02 cm.
     cms.PSet (
         inputCollection = cms.vstring("electrons","muons","beamspots"),
-        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.02 | abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.02 "),
+        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.02 | abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.02"),
         numberRequired = cms.string(">= 1"),
-        alias = cms.string("blinding cuts")
+        alias = cms.string("blinded cuts")
     ),
     # ELECTRON AND MUON ARE NOT OVERLAPPING
     cms.PSet (
