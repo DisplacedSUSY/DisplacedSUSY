@@ -139,9 +139,9 @@ muon_near_jet_cut = cms.PSet (
     numberRequired = cms.string(">= 0"),
     alias = cms.string("jets near muons")
 )
-electron_near_bjet_cut = cms.PSet (
-    inputCollection = cms.vstring("electrons","bjets"),
-    cutString = cms.string("deltaR(electron,bjet) < 0.5"),
+electron_near_jet_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons","jets"),
+    cutString = cms.string("deltaR(electron,jet) < 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("jets near electrons")
 )
@@ -158,133 +158,123 @@ jet_csv_cut = cms.PSet (
     arbitration = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags"),
 )
 
-AntiIsoBlinded = cms.PSet(
-    name = cms.string("AntiIsoBlinded"),
+AntiIsoElectronBlinded = cms.PSet(
+    name = cms.string("AntiIsoElectronBlinded"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoBlinded.cuts.extend(jet_basic_selection_cuts)
-AntiIsoBlinded.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoBlinded.cuts.append(electron_inverted_iso_cut)
-AntiIsoBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoBlinded.cuts.append(muon_inverted_iso_cut)
-AntiIsoBlinded.cuts.append(muon_near_jet_cut)
-AntiIsoBlinded.cuts.append(jet_csv_cut)
-AntiIsoBlinded.cuts.append(electron_near_bjet_cut)
-AntiIsoBlinded.cuts.append(bjet_csv_cut)
-AntiIsoBlinded.cuts.extend(blinded_control_region_cuts)
+AntiIsoElectronBlinded.cuts.extend(jet_basic_selection_cuts)
+AntiIsoElectronBlinded.cuts.extend(electron_basic_selection_cuts)
+AntiIsoElectronBlinded.cuts.append(electron_inverted_iso_cut)
+AntiIsoElectronBlinded.cuts.extend(muon_basic_selection_cuts)
+AntiIsoElectronBlinded.cuts.append(muon_inverted_iso_cut)
+AntiIsoElectronBlinded.cuts.append(muon_near_jet_cut)
+AntiIsoElectronBlinded.cuts.append(jet_csv_cut)
+AntiIsoElectronBlinded.cuts.extend(electron_blinded_control_region_cuts)
 
-for cut in AntiIsoBlinded.cuts:
+for cut in AntiIsoElectronBlinded.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-AntiIsoBlindedOS = cms.PSet(
-    name = cms.string("AntiIsoBlindedOS"),
+AntiIsoMuonBlinded = cms.PSet(
+    name = cms.string("AntiIsoMuonBlinded"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoBlindedOS.cuts.extend(jet_basic_selection_cuts)
-AntiIsoBlindedOS.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoBlindedOS.cuts.extend(electron_basic_selection_cuts)
-AntiIsoBlindedOS.cuts.append(electron_inverted_iso_cut)
-AntiIsoBlindedOS.cuts.extend(muon_basic_selection_cuts)
-AntiIsoBlindedOS.cuts.append(muon_inverted_iso_cut)
-AntiIsoBlindedOS.cuts.append(muon_near_jet_cut)
-AntiIsoBlindedOS.cuts.append(electron_near_bjet_cut)
-AntiIsoBlindedOS.cuts.extend(blinded_control_region_cuts)
-AntiIsoBlindedOS.cuts.append(os_emu_cut)
+AntiIsoMuonBlinded.cuts.extend(jet_basic_selection_cuts)
+AntiIsoMuonBlinded.cuts.extend(electron_basic_selection_cuts)
+AntiIsoMuonBlinded.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlinded.cuts.extend(muon_basic_selection_cuts)
+AntiIsoMuonBlinded.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlinded.cuts.append(electron_near_jet_cut)
+AntiIsoMuonBlinded.cuts.append(jet_csv_cut)
+AntiIsoMuonBlinded.cuts.extend(muon_blinded_control_region_cuts)
 
-for cut in AntiIsoBlindedOS.cuts:
+for cut in AntiIsoMuonBlinded.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-AntiIsoBlindedSS = cms.PSet(
-    name = cms.string("AntiIsoBlindedSS"),
+AntiIsoMuonBlindedEleEE = cms.PSet(
+    name = cms.string("AntiIsoMuonBlindedEleEE"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoBlindedSS.cuts.extend(jet_basic_selection_cuts)
-AntiIsoBlindedSS.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoBlindedSS.cuts.extend(electron_basic_selection_cuts)
-AntiIsoBlindedSS.cuts.append(electron_inverted_iso_cut)
-AntiIsoBlindedSS.cuts.extend(muon_basic_selection_cuts)
-AntiIsoBlindedSS.cuts.append(muon_inverted_iso_cut)
-AntiIsoBlindedSS.cuts.append(muon_near_jet_cut)
-AntiIsoBlindedSS.cuts.append(electron_near_bjet_cut)
-AntiIsoBlindedSS.cuts.extend(blinded_control_region_cuts)
-AntiIsoBlindedSS.cuts.append(ss_emu_cut)
+AntiIsoMuonBlindedEleEE.cuts.extend(jet_basic_selection_cuts)
+AntiIsoMuonBlindedEleEE.cuts.extend(electron_basic_selection_ee_cuts)
+AntiIsoMuonBlindedEleEE.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedEleEE.cuts.extend(muon_basic_selection_cuts)
+AntiIsoMuonBlindedEleEE.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedEleEE.cuts.append(electron_near_jet_cut)
+AntiIsoMuonBlindedEleEE.cuts.append(jet_csv_cut)
+AntiIsoMuonBlindedEleEE.cuts.extend(muon_blinded_control_region_cuts)
 
-for cut in AntiIsoBlindedSS.cuts:
+for cut in AntiIsoMuonBlindedEleEE.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-AntiIsoNotBlinded = cms.PSet(
-    name = cms.string("AntiIsoNotBlinded"),
+AntiIsoMuonBlindedEleEB = cms.PSet(
+    name = cms.string("AntiIsoMuonBlindedEleEB"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoNotBlinded.cuts.extend(jet_basic_selection_cuts)
-AntiIsoNotBlinded.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoNotBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoNotBlinded.cuts.append(electron_inverted_iso_cut)
-AntiIsoNotBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoNotBlinded.cuts.append(muon_inverted_iso_cut)
-AntiIsoNotBlinded.cuts.append(muon_near_jet_cut)
-AntiIsoNotBlinded.cuts.append(electron_near_bjet_cut)
-AntiIsoNotBlinded.cuts.extend(preselection_emu_cuts)
+AntiIsoMuonBlindedEleEB.cuts.extend(jet_basic_selection_cuts)
+AntiIsoMuonBlindedEleEB.cuts.extend(electron_basic_selection_eb_cuts)
+AntiIsoMuonBlindedEleEB.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedEleEB.cuts.extend(muon_basic_selection_cuts)
+AntiIsoMuonBlindedEleEB.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedEleEB.cuts.append(electron_near_jet_cut)
+AntiIsoMuonBlindedEleEB.cuts.append(jet_csv_cut)
+AntiIsoMuonBlindedEleEB.cuts.extend(muon_blinded_control_region_cuts)
 
-for cut in AntiIsoNotBlinded.cuts:
+for cut in AntiIsoMuonBlindedEleEB.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-AntiIsoDisplacedBlinded = cms.PSet(
-    name = cms.string("AntiIsoDisplacedBlinded"),
+AntiIsoMuonBlindedElectronDisplaced = cms.PSet(
+    name = cms.string("AntiIsoMuonBlindedElectronDisplaced"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoDisplacedBlinded.cuts.extend(jet_basic_selection_cuts)
-AntiIsoDisplacedBlinded.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoDisplacedBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoDisplacedBlinded.cuts.append(electron_inverted_iso_cut)
-AntiIsoDisplacedBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoDisplacedBlinded.cuts.append(muon_inverted_iso_cut)
-AntiIsoDisplacedBlinded.cuts.append(muon_near_jet_cut)
-AntiIsoDisplacedBlinded.cuts.append(electron_near_bjet_cut)
-AntiIsoDisplacedBlinded.cuts.append(bjet_csv_cut)
-AntiIsoDisplacedBlinded.cuts.extend(displaced_blinded_control_region_cuts)
+AntiIsoMuonBlindedElectronDisplaced.cuts.extend(jet_basic_selection_cuts)
+AntiIsoMuonBlindedElectronDisplaced.cuts.extend(electron_basic_selection_cuts)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.extend(muon_basic_selection_cuts)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_near_jet_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_d0_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(jet_csv_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.extend(muon_blinded_control_region_cuts)
 
-for cut in AntiIsoDisplacedBlinded.cuts:
+for cut in AntiIsoMuonBlindedElectronDisplaced.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-AntiIsoLooseDisplacedBlinded = cms.PSet(
-    name = cms.string("AntiIsoLooseDisplacedBlinded"),
+AntiIsoElectronBlindedMuonDisplaced = cms.PSet(
+    name = cms.string("AntiIsoElectronBlindedMuonDisplaced"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
     cuts = cms.VPSet ()
 )
-AntiIsoLooseDisplacedBlinded.cuts.extend(jet_basic_selection_cuts)
-AntiIsoLooseDisplacedBlinded.cuts.extend(bjet_basic_selection_cuts)
-AntiIsoLooseDisplacedBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoLooseDisplacedBlinded.cuts.append(electron_inverted_iso_cut)
-AntiIsoLooseDisplacedBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoLooseDisplacedBlinded.cuts.append(muon_inverted_iso_cut)
-AntiIsoLooseDisplacedBlinded.cuts.append(muon_near_jet_cut)
-AntiIsoLooseDisplacedBlinded.cuts.append(electron_near_bjet_cut)
-AntiIsoLooseDisplacedBlinded.cuts.append(bjet_csv_cut)
-AntiIsoLooseDisplacedBlinded.cuts.extend(loose_displaced_blinded_control_region_cuts)
+AntiIsoElectronBlindedMuonDisplaced.cuts.extend(jet_basic_selection_cuts)
+AntiIsoElectronBlindedMuonDisplaced.cuts.extend(electron_basic_selection_cuts)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(electron_inverted_iso_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.extend(muon_basic_selection_cuts)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_inverted_iso_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_near_jet_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_d0_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(jet_csv_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.extend(electron_blinded_control_region_cuts)
 
-for cut in AntiIsoLooseDisplacedBlinded.cuts:
+for cut in AntiIsoElectronBlindedMuonDisplaced.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
