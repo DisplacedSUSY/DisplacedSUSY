@@ -6,6 +6,7 @@ import sys
 import math
 import copy
 import re
+from math import *
 from array import *
 from optparse import OptionParser
 from operator import itemgetter
@@ -15,12 +16,10 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
 
 
-
-
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
-parser.add_option("-c", "--condorDir", dest="condorDir",
+parser.add_option("-w", "--condorDir", dest="condorDir",
                   help="condor output directory")
 parser.add_option("-s", "--standAlone", action="store_true", dest="standAlone", default=False,
                                     help="adds the necessary header to be able to compile it")
@@ -49,55 +48,65 @@ else:
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
+def getDivError(a,b,deltaa,deltab):
+    return sqrt(pow(deltaa,2)/pow(b,2) + pow(deltab,2)*pow(a,2)/pow(b,4))
+def getMulError(a,b,deltaa,deltab):
+    return sqrt(pow(deltaa,2)*pow(b,2) + pow(deltab,2)*pow(a,2))
 
 def GetYieldAndError(process,d0cut):
-
-    integrateOutwardX = True
-    integrateOutwardY = True
-    #integrateOutwardX = False
-    #integrateOutwardY = False
-
+    if process == "WJetsToLNu":
+        processTmp = "Diboson"
+    else:
+        processTmp = process
     inputFile = TFile(condor_dir+"/"+process+".root")
-    HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
+    effInputFile = TFile(condor_dir+"/"+processTmp+"_DxyEff.root")
+    HistogramObj = inputFile.Get(channel+"Plotter/"+d0histogramName)
+    MuHistogramObj = effInputFile.Get(mud0histogramName)
+    EleHistogramObj = effInputFile.Get(eled0histogramName)
     if not HistogramObj:
-        print "WARNING:  Could not find histogram " + "OSUAnalysis/"+channel+"/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + channel+"Plotter/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
+        return
+    if not MuHistogramObj:
+        print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
+        return
+    if not EleHistogramObj:
+        print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
         return
     d0Histogram = HistogramObj.Clone()
     d0Histogram.SetDirectory(0)
+    mud0Histogram = MuHistogramObj.Clone()
+    mud0Histogram.SetDirectory(0)
+    eled0Histogram = EleHistogramObj.Clone()
+    eled0Histogram.SetDirectory(0)
     inputFile.Close()
 
-
-    d0Histogram.SetDirectory(0)
-    inputFile.Close()
     yieldAndErrorList = {}
+
+    muNBins = mud0Histogram.GetNbinsX()
+    mud0CutBin  = mud0Histogram.GetXaxis ().FindBin (float(d0cut))
+    mud0CutUpper = mud0Histogram.GetXaxis ().FindBin (float(0.02))
+    muSF = mud0Histogram.GetBinContent(mud0CutUpper) - mud0Histogram.GetBinContent(mud0CutBin)
+    muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
+    
+    eleNBins = eled0Histogram.GetNbinsX()
+    eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0cut))
+    eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(0.02))
+    eleSF = eled0Histogram.GetBinContent(eled0CutUpper) - eled0Histogram.GetBinContent(eled0CutBin)
+    eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
+
+    overalSF = muSF*eleSF
+    overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr) 
+    
     nBinsX = d0Histogram.GetNbinsX()
     nBinsY = d0Histogram.GetNbinsY()
-    x0 = x1 = y0 = y1 = 0
 
-    d0CutBinX = d0Histogram.GetXaxis ().FindBin (float(d0cut))
-    d0CutBinY = d0Histogram.GetYaxis ().FindBin (float(d0cut))
-    xValue = d0Histogram.GetXaxis().GetBinCenter(d0CutBinX)
-    yValue = d0Histogram.GetYaxis().GetBinCenter(d0CutBinY)
-
-    if ((xValue >= 0) == integrateOutwardX):
-        x0 = d0CutBinX
-        x1 = nBinsX + 1
-    else:
-        x0 = 0
-        x1 = d0CutBinX
-    if ((yValue >= 0) == integrateOutwardY):
-        y0 = d0CutBinY
-        y1 = nBinsY + 1
-    else:
-        y0 = 0
-        y1 = d0CutBinY
-    intError = Double (0.0)
-    integral = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)  
-
-    #print channel + ", " + d0histogramName + ", " + process + ": " + str (integral)
+    normIntErr = Double (0.0)
+    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+    targetYield = normIntegral*overalSF
+    targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
             
-    yieldAndErrorList['yield'] = integral
-    yieldAndErrorList['error'] = intError
+    yieldAndErrorList['yield'] = round(targetYield,4)
+    yieldAndErrorList['error'] = round(targetYieldErr,4)
     return yieldAndErrorList
 
 ########################################################################################
