@@ -26,7 +26,6 @@ ttbar_control_region_cuts = cms.VPSet(
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra muon veto")
     ),
-    # ELECTRON DXY BLINDING
     cms.PSet (
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("pt > -1"),
@@ -46,13 +45,19 @@ ttbar_control_region_cuts = cms.VPSet(
     ),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton < 1 "),
+        numberRequired = cms.string(">= 2")
+        alias = cms.string('>= 2 jets pass lepton cleaning')
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
         cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
         numberRequired = cms.string(">= 2"),
         alias = cms.string('>= 2 good jets')
     ),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.89"),
+        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string('>= 1 medium b jets')
     )
@@ -74,7 +79,7 @@ TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)
 
 TTbarControlRegionMETTrigger = cms.PSet(
     name = cms.string("TTbartoEMuMETTrigger"),
-    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v","HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v"),
+    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v","HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v"),
     cuts = cms.VPSet ()
 )
 
@@ -94,7 +99,7 @@ for cut in TTbarControlRegionMETTrigger.cuts:
 
 TTbarControlRegionMETTriggerPassEMuTrigger = cms.PSet(
     name = cms.string("TTbartoEMuMETTriggerPassEMuTrigger"),
-    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v","HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v"),
+    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v","HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v"),
     cuts = cms.VPSet ()
 )
 
@@ -105,44 +110,6 @@ TTbarControlRegionMETTriggerPassEMuTrigger.cuts.append(muon_iso_cut)
 TTbarControlRegionMETTriggerPassEMuTrigger.cuts.extend(ttbar_control_region_cuts)
 
 for cut in TTbarControlRegionMETTriggerPassEMuTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-TTbarControlRegionMETTriggerMC = cms.PSet(
-    name = cms.string("TTbartoEMuMETTriggerMC"),
-    triggers = cms.vstring("HLT_CaloMET200_NoiseCleaned_v","HLT_PFMET170_NoiseCleaned_v","HLT_PFMET120_NoiseCleaned_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_NoiseCleaned_PFMHT90_IDTight_v","HLT_MonoCentralPFJet80_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v"),
-    cuts = cms.VPSet ()
-)
-
-TTbarControlRegionMETTriggerMC.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTriggerMC.cuts.append(electron_iso_cut)
-TTbarControlRegionMETTriggerMC.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTriggerMC.cuts.append(muon_iso_cut)
-TTbarControlRegionMETTriggerMC.cuts.extend(ttbar_control_region_cuts)
-
-for cut in TTbarControlRegionMETTriggerMC.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-
-
-TTbarControlRegionMETTriggerMCPassEMuTrigger = cms.PSet(
-    name = cms.string("TTbartoEMuMETTriggerMCPassEMuTrigger"),
-    triggers = cms.vstring("HLT_CaloMET200_NoiseCleaned_v","HLT_PFMET170_NoiseCleaned_v","HLT_PFMET120_NoiseCleaned_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_NoiseCleaned_PFMHT90_IDTight_v","HLT_MonoCentralPFJet80_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight_v"),
-    cuts = cms.VPSet ()
-)
-
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.append(electron_iso_cut)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.append(muon_iso_cut)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(ttbar_control_region_cuts)
-
-for cut in TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
