@@ -4,13 +4,13 @@
 
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions import *
-from OSUT3Analysis.Configuration.miniAODV2Samples import *
+from OSUT3Analysis.Configuration.miniAODV2_76X_Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "DisplacedControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2504 # from 13 TeV MuEG 2015D dataset, Silver Json
+intLumi = 2613 # from 13 TeV MuEG 2015D dataset, Silver Json
 
 # create list of datasets to process
 datasets = [
@@ -19,12 +19,12 @@ datasets = [
     'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    'QCD_MuEnriched',
+    #'QCD_MuEnriched',
     'MuonEG_2015D',
     #'DisplacedSUSYSignal'
     #'stop200_10mm',
-    'stop500_10mm',
-    'stop800_10mm',
+    #'stop500_10mm',
+    #'stop800_10mm',
     #'stop1100_10mm',
 ]
 

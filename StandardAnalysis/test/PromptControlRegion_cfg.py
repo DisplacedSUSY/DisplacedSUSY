@@ -14,8 +14,8 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    #'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-    'file:/data/users/bing/condor/EMuSkimJan14th/TTJets_DiLept/EMuSkimSelection/skim_57.root',
+    'root://cms-xrd-global.cern.ch//store/mc/RunIISpring15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2_ext1-v1/10000/0036F7A6-CC6D-E511-8B5B-002590D60150.root',
+    #'file:/data/users/bing/condor/EMuSkim76X/TTJets_DiLept/EMuSkimSelection/skim_81.root',
   )
 )
 
@@ -27,7 +27,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10000)
+    input = cms.untracked.int32 (1000)
 )
 
 ################################################################################
@@ -88,8 +88,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID;1')
-ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -101,10 +101,12 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 
 eventSelections = []
-eventSelections.append(PromptControlRegionNoOSInclusiveDisplacedTrigger)
-eventSelections.append(PromptControlRegionInclusiveDisplacedTrigger)
-eventSelections.append(PromptControlRegionNoIsoInclusiveDisplacedTrigger)
-eventSelections.append(PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger)
+#eventSelections.append(PromptControlRegionNoOSInclusiveDisplacedTrigger)
+#eventSelections.append(PromptControlRegionInclusiveDisplacedTrigger)
+eventSelections.append(PromptControlRegionEBEleInclusiveDisplacedTrigger)
+eventSelections.append(PromptControlRegionEEEleInclusiveDisplacedTrigger)
+#eventSelections.append(PromptControlRegionNoIsoInclusiveDisplacedTrigger)
+#eventSelections.append(PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -119,20 +121,22 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
 histograms.append(ElectronD0Histograms)
+histograms.append(ElectronIPHistograms)
 histograms.append(MuonHistograms)
 histograms.append(MuonD0Histograms)
+histograms.append(MuonIPHistograms)
 histograms.append(ElectronMuonD0Histograms)
 histograms.append(ElectronMuonHistograms)
 histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections,variableProducers, False)
 
-process.PUScalingFactorProducer.dataset = cms.string("MuonEG_2015D")
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.962)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
