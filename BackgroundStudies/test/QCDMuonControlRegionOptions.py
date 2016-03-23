@@ -4,7 +4,7 @@
 
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions import *
-from OSUT3Analysis.Configuration.miniAODV2Samples import *
+from OSUT3Analysis.Configuration.miniAODV2_76X_Samples import *
 
 #from OSUT3Analysis.Configuration.configurationOptions_13TeV_miniAODv2 import *
 # specify which config file to pass to cmsRun

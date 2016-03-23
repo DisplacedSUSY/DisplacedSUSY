@@ -14,9 +14,8 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-
-        'file:/data/users/bing/condor/QCDMuonSkim/QCD_MuEnriched_170to300/QCDMuonSkim/skim_28.root',
+    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
+    #'file:/data/users/bing/condor/QCDMuonSkim76X/QCD_MuEnriched_120to170/QCDMuonSkim/skim_41.root',
 
   )
 )
@@ -85,8 +84,8 @@ scalingfactorproducers = []
 #ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 #ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 #ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-#ObjectScalingFactorProducer['muonWp'] = cms.string('NUM_TightIDandIPCut_DEN_genTracks_PAR_pt_spliteta_bin1/abseta_vs_pt')
-#ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+#ObjectScalingFactorProducer['muonWp'] = cms.string('TightID,1')
+#ObjectScalingFactorProducer['electronWp'] = cms.string('TightID,1')
 #ObjectScalingFactorProducer['doEleSF'] = cms.bool(False)
 #ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 

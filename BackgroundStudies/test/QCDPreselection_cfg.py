@@ -14,10 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#       'file:/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/skim_416.root'
-        #'file:/home/bing/CMSSW_7_4_5_ROOT5/src/DisplacedSUSY/BackgroundStudies/test/condor/EMuSkimFinal/MuonEG_2015D_v3/EMuSkimSelection/skim_100.root',
-    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-#    'file:/data/users/bing/condor/EMuSkim13TeV/MuonEG_2015D_v3/EMuSKim13TeV/skim_1.root',
+    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
   )
 )
 
@@ -86,8 +83,8 @@ scalingfactorproducers = []
 #ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 #ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 #ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-#ObjectScalingFactorProducer['muonWp'] = cms.string('NUM_TightIDandIPCut_DEN_genTracks_PAR_pt_spliteta_bin1/abseta_vs_pt')
-#ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+#ObjectScalingFactorProducer['muonWp'] = cms.string('TightID,1')
+#ObjectScalingFactorProducer['electronWp'] = cms.string('TightID,1')
 #ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 #ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -100,17 +97,11 @@ from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
 eventSelections = []
-#eventSelections.append(OSAntiIso)
-#eventSelections.append(OSAntiIsoMuIsoEle)
-#eventSelections.append(OSIsoMuAntiIsoEle)
-#eventSelections.append(SSAntiIso)
-#eventSelections.append(SSIso)
-eventSelections.append(AntiIsoBlinded)
-#eventSelections.append(AntiIsoBlindedOS)
-#eventSelections.append(AntiIsoBlindedSS)
-#eventSelections.append(AntiIsoNotBlinded)
-#eventSelections.append(AntiIsoDisplacedBlinded)
-#eventSelections.append(AntiIsoLooseDisplacedBlinded)
+#eventSelections.append(AntiIsoElectronBlinded)
+#eventSelections.append(AntiIsoElectronBlindedMuonDisplaced)
+eventSelections.append(AntiIsoMuonBlindedEleEB)
+eventSelections.append(AntiIsoMuonBlindedEleEE)
+#eventSelections.append(AntiIsoMuonBlindedElectronDisplaced)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -126,8 +117,11 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
 histograms.append(ElectronD0Histograms)
+histograms.append(ElectronIPHistograms)
 histograms.append(MuonHistograms)
+histograms.append(JetHistograms)
 histograms.append(MuonD0Histograms)
+histograms.append(MuonIPHistograms)
 histograms.append(ElectronMuonD0Histograms)
 histograms.append(ElectronMuonHistograms)
 histograms.append(eventHistograms)
@@ -140,6 +134,6 @@ process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.962)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
