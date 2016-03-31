@@ -46,7 +46,7 @@ ttbar_control_region_cuts = cms.VPSet(
     cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("matchedToLepton < 1 "),
-        numberRequired = cms.string(">= 2")
+        numberRequired = cms.string(">= 2"),
         alias = cms.string('>= 2 jets pass lepton cleaning')
     ),
     cms.PSet (
