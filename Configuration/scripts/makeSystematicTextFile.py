@@ -26,27 +26,43 @@ parser.remove_option("-b")
 parser.remove_option("--2D")
 parser.remove_option("-y")
 parser.remove_option("-p")
-parser.remove_option("-c")
+
+parser.add_option("-i", "--inputHistogram", dest="inputHistogram",
+                  help="choose an input histogram and calculate the yield from its integral (histogram should be filled once per event)")
 
 (arguments, args) = parser.parse_args()
+
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + arguments.localConfig.split(".")[0] + " import *")
+else:
+    print "please specify config file"
 
-from ROOT import TFile, TH1F
+
+
+from ROOT import TFile, TH1F, Double
 
 
 def getYield(sample,condor_dir,channel):
     dataset_file = "condor/%s/%s.root" % (condor_dir,sample)
     inputFile = TFile(dataset_file)
-    cutFlowHistogram = inputFile.Get("OSUAnalysis/"+channel+"CutFlow")
-    if not cutFlowHistogram:
-        print "WARNING: didn't find cutflow for ", sample, "dataset in", channel, "channel"
-        return 0
+    if not arguments.inputHistogram:
+        cutFlowHistogram = inputFile.Get(channel+"CutFlowPlotter/cutFlow")
+        if not cutFlowHistogram:
+            print "WARNING: didn't find cutflow for ", sample, "dataset in", channel, "channel"
+            return 0.0
+        yield_ = cutFlowHistogram.GetBinContent(cutFlowHistogram.GetNbinsX())
 
-    yield_ = cutFlowHistogram.GetBinContent(cutFlowHistogram.GetNbinsX())
-
+    else:
+        newChannel = channel + "Plotter"
+        inputHistogram = inputFile.Get(newChannel + "/" + arguments.inputHistogram)
+        if not inputHistogram:
+            print "WARNING: didn't find input histogram for ", sample, "dataset in", newChannel, "channel"
+            return 0.0
+        statError_ = Double(0.0)
+        yield_ = inputHistogram.IntegralAndError(0, inputHistogram.GetNbinsX()+1, statError_)
+        
     inputFile.Close()
     return yield_
 
@@ -56,9 +72,9 @@ fout = open (outputFile, "w")
 
 for sample in datasets:
     
-    minus_yield = getYield(sample,minus_condor_dir,channel)
-    central_yield = getYield(sample,central_condor_dir,channel)
-    plus_yield = getYield(sample,plus_condor_dir,channel)
+    minus_yield = getYield(sample,condor_dir,minus_channel)
+    central_yield = getYield(sample,condor_dir,central_channel)
+    plus_yield = getYield(sample,condor_dir,plus_channel)
 
     minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
     plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
