@@ -3,30 +3,62 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 
 datasets = [
-    'Wjets',
     'Diboson',
+    'WJetsToLNu',
+    'DYJetsToLL_50',
     'SingleTop',
-    'TTbar',
-    'DY',
+    'TTJets_Lept',
+#    'QCD_MuEnriched',
+#    'MuonEG_2015D',
+    'stop200_1mm',
+    'stop200_10mm',
+    'stop200_100mm',
+    'stop200_1000mm',
+    'stop300_1mm',
+    'stop300_10mm',
+    'stop300_100mm',
+    'stop300_1000mm',
+    'stop400_1mm',
+    'stop400_10mm',
+    'stop400_100mm',
+    'stop400_1000mm',
+    'stop500_1mm',
+    'stop500_10mm',
+    'stop500_100mm',
+    'stop500_1000mm',
+    'stop600_1mm',
+    'stop600_10mm',
+    'stop600_100mm',
+    'stop600_1000mm',
+    'stop700_1mm',
+    'stop700_10mm',
+    'stop700_100mm',
+    'stop700_1000mm',
+    'stop800_1mm',
+    'stop800_10mm',
+    'stop800_100mm',
+    'stop800_1000mm',
+    'stop900_1mm',
+    'stop900_10mm',
+    'stop900_100mm',
+    'stop900_1000mm',
+    'stop1000_1mm',
+    'stop1000_10mm',
+    'stop1000_100mm',
+    'stop1000_1000mm',
+    'stop1100_1mm',
+    'stop1100_10mm',
+    'stop1100_100mm',
+    'stop1100_1000mm',
+    'stop1200_1mm',
+    'stop1200_10mm',
+    'stop1200_100mm',
+    'stop1200_1000mm',
 ]
 
-options = {}
-options['datasets'] = datasets
-options['composite_dataset_definitions'] = composite_dataset_definitions
-options['dataset_names'] = dataset_names
-options['nJobs'] = nJobs
-options['maxEvents'] = maxEvents
-options['types'] = types
-options['labels'] = labels
+systematic_name = "electronSF100um"
+condor_dir = "APR3_16_LeptonSFSystematics"
 
-#add_stops (options, [200], [1.0,10.0,100.0])
-#add_stops (options, [200], [0.2])
-#add_stops (options, [200,300,400,500,600,700,800], [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0])
-
-
-systematic_name = "electronSF"
-channel = "Blinded_Preselection"
-
-central_condor_dir = "electronSF_central"
-minus_condor_dir = "electronSF_down"
-plus_condor_dir = "electronSF_up"
+central_channel = "CentralValue100um"
+minus_channel = "EleDown100um"
+plus_channel = "EleUp100um"

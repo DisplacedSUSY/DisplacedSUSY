@@ -167,11 +167,13 @@ add_channels (process, [MuDown], histograms, weights, [MuDownSFProducer], collec
 add_channels (process, [EleUp], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
 add_channels (process, [EleDown], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
 
+add_channels (process, [CentralValue50um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
 add_channels (process, [MuUp50um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
 add_channels (process, [MuDown50um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
 add_channels (process, [EleUp50um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
 add_channels (process, [EleDown50um], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
 
+add_channels (process, [CentralValue100um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
 add_channels (process, [MuUp100um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
 add_channels (process, [MuDown100um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
 add_channels (process, [EleUp100um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
