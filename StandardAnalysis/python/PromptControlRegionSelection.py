@@ -111,9 +111,9 @@ AntiIsoMuAntiIsoElePromptControlRegion = cms.PSet(
     )
 )
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuAntiIsoElePromptControlRegion.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuAntiIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
 
 IsoMuAntiIsoElePromptControlRegion = cms.PSet(
@@ -123,9 +123,9 @@ IsoMuAntiIsoElePromptControlRegion = cms.PSet(
     )
 )
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-IsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_cut)
+IsoMuAntiIsoElePromptControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-IsoMuAntiIsoElePromptControlRegion.cuts.append(muon_iso_cut)
+IsoMuAntiIsoElePromptControlRegion.cuts.append(muon_iso_corr_cut)
 IsoMuAntiIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
 
 AntiIsoMuIsoElePromptControlRegion = cms.PSet(
@@ -135,9 +135,9 @@ AntiIsoMuIsoElePromptControlRegion = cms.PSet(
     )
 )
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-AntiIsoMuIsoElePromptControlRegion.cuts.append(electron_iso_cut)
+AntiIsoMuIsoElePromptControlRegion.cuts.append(electron_iso_corr_cut)
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuIsoElePromptControlRegion.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuIsoElePromptControlRegion.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuIsoElePromptControlRegion.cuts.extend(prompt_control_region_cuts)
 ##########################################################################
 #Selections with different triggers
@@ -167,9 +167,9 @@ PromptControlRegionEBEleInclusiveDisplacedTrigger = cms.PSet(
     cuts = cms.VPSet ()
 )
 PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_eb_cuts)
-PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.append(electron_iso_cut)
+PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.append(electron_iso_corr_cut)
 PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.append(muon_iso_cut)
+PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.append(muon_iso_corr_cut)
 PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
 
 for cut in PromptControlRegionEBEleInclusiveDisplacedTrigger.cuts:
@@ -184,9 +184,9 @@ PromptControlRegionEEEleInclusiveDisplacedTrigger = cms.PSet(
     cuts = cms.VPSet ()
 )
 PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_ee_cuts)
-PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.append(electron_iso_cut)
+PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.append(electron_iso_corr_cut)
 PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.append(muon_iso_cut)
+PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.append(muon_iso_corr_cut)
 PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
 
 for cut in PromptControlRegionEEEleInclusiveDisplacedTrigger.cuts:
@@ -317,9 +317,9 @@ PromptControlRegionNoIsoInclusiveDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_corr_cut)
 PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_corr_cut)
 PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
 
 for cut in PromptControlRegionNoIsoInclusiveDisplacedTrigger.cuts:
@@ -335,9 +335,9 @@ PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(electron_loose_iso_corr_cut)
 PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.append(muon_loose_iso_corr_cut)
 PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
 
 for cut in PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger.cuts:
@@ -353,9 +353,9 @@ PromptControlRegionNoOSInclusiveDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_iso_cut)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(electron_iso_corr_cut)
 PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_iso_cut)
+PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.append(muon_iso_corr_cut)
 PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
 for cut in PromptControlRegionNoOSInclusiveDisplacedTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
@@ -371,9 +371,9 @@ PromptControlRegionNoIsoDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoIsoDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoIsoDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoDisplacedTrigger.cuts.append(electron_loose_iso_corr_cut)
 PromptControlRegionNoIsoDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoIsoDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoDisplacedTrigger.cuts.append(muon_loose_iso_corr_cut)
 PromptControlRegionNoIsoDisplacedTrigger.cuts.extend(prompt_control_region_cuts)
 
 for cut in PromptControlRegionNoIsoDisplacedTrigger.cuts:
@@ -389,9 +389,9 @@ PromptControlRegionNoIsoNoOSDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.append(electron_loose_iso_cut)
+PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.append(electron_loose_iso_corr_cut)
 PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.append(muon_loose_iso_cut)
+PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.append(muon_loose_iso_corr_cut)
 PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
 
 for cut in PromptControlRegionNoIsoNoOSDisplacedTrigger.cuts:
@@ -407,9 +407,9 @@ PromptControlRegionNoOSDisplacedTrigger = cms.PSet(
     )
 )
 PromptControlRegionNoOSDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegionNoOSDisplacedTrigger.cuts.append(electron_iso_cut)
+PromptControlRegionNoOSDisplacedTrigger.cuts.append(electron_iso_corr_cut)
 PromptControlRegionNoOSDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegionNoOSDisplacedTrigger.cuts.append(muon_iso_cut)
+PromptControlRegionNoOSDisplacedTrigger.cuts.append(muon_iso_corr_cut)
 PromptControlRegionNoOSDisplacedTrigger.cuts.extend(prompt_control_region_no_os_cuts)
 for cut in PromptControlRegionNoOSDisplacedTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
