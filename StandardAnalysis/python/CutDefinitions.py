@@ -58,11 +58,19 @@ electron_inverted_iso_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string('          \
         ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt >= 0.15 & \
-        (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
-        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt >= 0.15 & (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEB) \
-        '),
+        (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5)'
+     ),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("inverted electron isolation")
+)
+
+electron_inverted_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string('          \
+        pfdRhoIsoCorr >= 0.15 & pfdRhoIsoCorr <= 1.5 \
+         '),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("inverted electron isolation corrected")
 )
 
 ##########################################################################
@@ -71,11 +79,18 @@ electron_inverted_iso_cut = cms.PSet (
 electron_loose_iso_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string('          \
-        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEE ) |\
-        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5 & isEB) \
-        '),
+        (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt <= 1.5'),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("loose electron isolation")
+)
+
+electron_loose_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string('          \
+        pfdRhoIsoCorr <= 1.5 \
+    '),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("loose electron isolation corrected")
 )
 ##########################################################################
 
@@ -90,6 +105,14 @@ muon_inverted_iso_cut = cms.PSet (
     alias = cms.string("inverted muon isolation")
 )
 
+muon_inverted_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string('               \
+        pfdBetaIsoCorr >= 0.15 & pfdBetaIsoCorr <= 1.5 \
+       '),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("inverted muon isolation corrected")
+)
 ##########################################################################
 
 # Muon loose isolation cut
@@ -107,9 +130,28 @@ muon_loose_iso_cut = cms.PSet (
     alias = cms.string("loose muon isolation")
 )
 
+muon_loose_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("                \
+        pfdBetaIsoCorr <= 1.5\
+       "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("loose muon isolation corrected")
+)
+
 ##########################################################################
 
 #Electron isolation cut
+electron_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("        \
+        (pfdRhoIsoCorr <= 0.0646 && isEE) | \
+        (pfdRhoIsoCorr <= 0.0354  && isEB) \
+        "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("electron isolation corrected")
+)
+
 electron_iso_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("        \
@@ -128,7 +170,6 @@ electron_iso_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron isolation")
 )
-
 ##########################################################################
 
 # Muon isolation cut
@@ -144,6 +185,15 @@ muon_iso_cut = cms.PSet (
        "),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon isolation")
+)
+
+muon_iso_corr_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("                \
+        pfdBetaIsoCorr <= 0.15\
+        "),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("muon isolation corrected")
 )
 
 ##########################################################################
