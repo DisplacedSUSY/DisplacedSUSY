@@ -277,7 +277,7 @@ QCDMuonControlRegion.cuts.append(bjet_csvm_cut)
 QCDMuonControlRegion.cuts.append(dijet_cut)
 QCDMuonControlRegion.cuts.append(muonjet_cut)
 QCDMuonControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDMuonControlRegion.cuts.append(muon_inverted_iso_cut)
+QCDMuonControlRegion.cuts.append(muon_inverted_iso_corr_cut)
 QCDMuonControlRegion.cuts.append(muon_veto_cut)
 QCDMuonControlRegion.cuts.append(muonbjet_cut)
 for cut in QCDMuonControlRegion.cuts:
@@ -297,14 +297,35 @@ QCDMuonIsoControlRegion.cuts.append(bjet_csvm_cut)
 QCDMuonIsoControlRegion.cuts.append(dijet_cut)
 QCDMuonIsoControlRegion.cuts.append(muonjet_cut)
 QCDMuonIsoControlRegion.cuts.append(muon_dxy_cut)
-#QCDMuonIsoControlRegion.cuts.append(muonjet_ptdiff_cut)
 QCDMuonIsoControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDMuonIsoControlRegion.cuts.append(muon_iso_cut)
+QCDMuonIsoControlRegion.cuts.append(muon_iso_corr_cut)
 QCDMuonIsoControlRegion.cuts.append(muon_veto_cut)
 QCDMuonIsoControlRegion.cuts.append(muonbjet_cut)
 for cut in QCDMuonIsoControlRegion.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
+
+QCDMuonNoIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDMuonNoIsoDisplacedControlRegion"),
+    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    cuts = cms.VPSet ()
+)
+
+QCDMuonNoIsoDisplacedControlRegion.cuts.extend(muon_basic_selection_cuts)
+QCDMuonNoIsoDisplacedControlRegion.cuts.extend(jet_basic_selection_cuts)
+QCDMuonNoIsoDisplacedControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(bjet_csvm_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(dijet_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(muonjet_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(muon_dxy_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(jet_csv_ranking_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(muon_loose_iso_corr_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(muon_veto_cut)
+QCDMuonNoIsoDisplacedControlRegion.cuts.append(muonbjet_cut)
+for cut in QCDMuonNoIsoDisplacedControlRegion.cuts:
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
+
 
 QCDMuonDisplacedControlRegion = cms.PSet(
     name = cms.string("QCDMuonDisplacedControlRegion"),
@@ -320,7 +341,7 @@ QCDMuonDisplacedControlRegion.cuts.append(dijet_cut)
 QCDMuonDisplacedControlRegion.cuts.append(muonjet_cut)
 QCDMuonDisplacedControlRegion.cuts.append(muon_dxy_cut)
 QCDMuonDisplacedControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDMuonDisplacedControlRegion.cuts.append(muon_inverted_iso_cut)
+QCDMuonDisplacedControlRegion.cuts.append(muon_inverted_iso_corr_cut)
 QCDMuonDisplacedControlRegion.cuts.append(muon_veto_cut)
 QCDMuonDisplacedControlRegion.cuts.append(muonbjet_cut)
 for cut in QCDMuonDisplacedControlRegion.cuts:
@@ -343,7 +364,7 @@ QCDElectronControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronControlRegion.cuts.append(dijet_cut)
 QCDElectronControlRegion.cuts.append(electronjet_cut)
 QCDElectronControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronControlRegion.cuts.append(electron_veto_cut)
 QCDElectronControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -354,8 +375,8 @@ for cut in QCDElectronControlRegion.cuts:
 QCDElectronNoTriggerControlRegion = cms.PSet(
     name = cms.string("QCDElectronNoTriggerControlRegion"),
 # still need to choose an optimal trigger
+    #triggers = cms.vstring("HLT_Photon90_v","HLT_Photon120_v","HLT_Photon175_v","HLT_Photon165_HE10_v","HLT_Photon22_R9Id90_HE10_IsoM_v","HLT_Photon30_R9Id90_HE10_IsoM_v","HLT_Photon36_R9Id90_HE10_IsoM_v","HLT_Photon50_R9Id90_HE10_IsoM_v","HLT_Photon75_R9Id90_HE10_IsoM_v","HLT_Photon90_R9Id90_HE10_IsoM_v","HLT_Photon120_R9Id90_HE10_IsoM_v","HLT_Photon165_R9Id90_HE10_IsoM_v","HLT_Photon90_CaloIdL_PFHT500_v","HLT_Photon90_CaloIdL_PFHT600_v","HLT_Photon500_v","HLT_Photon600_v","HLT_Photon135_PFMET100_v","HLT_Photon250_NoHE_v","HLT_Photon300_NoHE_v","HLT_Photon22_v","HLT_Photon30_v","HLT_Photon36_v","HLT_Photon50_v","HLT_Photon75_v"),
     triggers = cms.vstring(),
-#    triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
 
@@ -366,7 +387,7 @@ QCDElectronNoTriggerControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronNoTriggerControlRegion.cuts.append(dijet_cut)
 QCDElectronNoTriggerControlRegion.cuts.append(electronjet_cut)
 QCDElectronNoTriggerControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronNoTriggerControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronNoTriggerControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronNoTriggerControlRegion.cuts.append(electron_veto_cut)
 QCDElectronNoTriggerControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -389,7 +410,7 @@ QCDElectronEBControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronEBControlRegion.cuts.append(dijet_cut)
 QCDElectronEBControlRegion.cuts.append(electronjet_cut)
 QCDElectronEBControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronEBControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronEBControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronEBControlRegion.cuts.append(electron_veto_cut)
 QCDElectronEBControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -412,7 +433,7 @@ QCDElectronEEControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronEEControlRegion.cuts.append(dijet_cut)
 QCDElectronEEControlRegion.cuts.append(electronjet_cut)
 QCDElectronEEControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronEEControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronEEControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronEEControlRegion.cuts.append(electron_veto_cut)
 QCDElectronEEControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -435,7 +456,7 @@ QCDElectronLFControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronLFControlRegion.cuts.append(dijet_cut)
 QCDElectronLFControlRegion.cuts.append(electronjet_cut)
 QCDElectronLFControlRegion.cuts.append(jet_csvl_inverted_cut)
-QCDElectronLFControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronLFControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronLFControlRegion.cuts.append(electron_veto_cut)
 QCDElectronLFControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -458,7 +479,7 @@ QCDElectronHFControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronHFControlRegion.cuts.append(dijet_cut)
 QCDElectronHFControlRegion.cuts.append(electronjet_cut)
 QCDElectronHFControlRegion.cuts.append(jet_csvl_cut)
-QCDElectronHFControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronHFControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronHFControlRegion.cuts.append(electron_veto_cut)
 QCDElectronHFControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
@@ -480,9 +501,8 @@ QCDElectronIsoControlRegion.cuts.extend(bjet_basic_selection_cuts)
 QCDElectronIsoControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronIsoControlRegion.cuts.append(dijet_cut)
 QCDElectronIsoControlRegion.cuts.append(electronjet_cut)
-#QCDElectronIsoControlRegion.cuts.append(electronjet_ptdiff_cut)
 QCDElectronIsoControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronIsoControlRegion.cuts.append(electron_iso_cut)
+QCDElectronIsoControlRegion.cuts.append(electron_iso_corr_cut)
 QCDElectronIsoControlRegion.cuts.append(electron_dxy_cut)
 QCDElectronIsoControlRegion.cuts.append(electron_veto_cut)
 QCDElectronIsoControlRegion.cuts.append(electronbjet_cut)
@@ -506,7 +526,7 @@ QCDElectronIsoJetVetoControlRegion.cuts.append(bjet_csvt_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(dijet_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(electronjet_veto_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronIsoJetVetoControlRegion.cuts.append(electron_iso_cut)
+QCDElectronIsoJetVetoControlRegion.cuts.append(electron_iso_corr_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(electron_dxy_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(electron_veto_cut)
 QCDElectronIsoJetVetoControlRegion.cuts.append(electronbjet_cut)
@@ -531,10 +551,56 @@ QCDElectronDisplacedControlRegion.cuts.append(dijet_cut)
 QCDElectronDisplacedControlRegion.cuts.append(electronjet_cut)
 QCDElectronDisplacedControlRegion.cuts.append(electron_dxy_cut)
 QCDElectronDisplacedControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronDisplacedControlRegion.cuts.append(electron_inverted_iso_cut)
+QCDElectronDisplacedControlRegion.cuts.append(electron_inverted_iso_corr_cut)
 QCDElectronDisplacedControlRegion.cuts.append(electron_veto_cut)
 QCDElectronDisplacedControlRegion.cuts.append(electronbjet_cut)
 # pT threshold should be determined by the trigger
 for cut in QCDElectronDisplacedControlRegion.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+
+QCDElectronDisplacedNoTriggerControlRegion = cms.PSet(
+    name = cms.string("QCDElectronDisplacedNoTriggerControlRegion"),
+# still need to choose an optimal trigger
+    triggers = cms.vstring(),
+    cuts = cms.VPSet ()
+)
+
+QCDElectronDisplacedNoTriggerControlRegion.cuts.extend(electron_basic_selection_cuts)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.extend(jet_basic_selection_cuts)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(bjet_csvm_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(dijet_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(electronjet_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(electron_dxy_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(jet_csv_ranking_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(electron_inverted_iso_corr_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(electron_veto_cut)
+QCDElectronDisplacedNoTriggerControlRegion.cuts.append(electronbjet_cut)
+# pT threshold should be determined by the trigger
+for cut in QCDElectronDisplacedNoTriggerControlRegion.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+
+QCDElectronNoIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDElectronNoIsoDisplacedControlRegion"),
+# still need to choose an optimal trigger
+    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+    cuts = cms.VPSet ()
+)
+
+QCDElectronNoIsoDisplacedControlRegion.cuts.extend(electron_basic_selection_cuts)
+QCDElectronNoIsoDisplacedControlRegion.cuts.extend(jet_basic_selection_cuts)
+QCDElectronNoIsoDisplacedControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(bjet_csvt_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(dijet_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(electronjet_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(electron_dxy_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(jet_csv_ranking_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(electron_loose_iso_corr_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(electron_veto_cut)
+QCDElectronNoIsoDisplacedControlRegion.cuts.append(electronbjet_cut)
+# pT threshold should be determined by the trigger
+for cut in QCDElectronNoIsoDisplacedControlRegion.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 42")

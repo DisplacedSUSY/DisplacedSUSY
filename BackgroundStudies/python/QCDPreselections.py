@@ -26,113 +26,6 @@ muon_d0_cut = cms.PSet (
 
 
 #################################################################
-
-OSAntiIso = cms.PSet(
-    name = cms.string("OSAntiIso"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
-    cuts = cms.VPSet ()
-)
-OSAntiIso.cuts.extend(jet_basic_selection_cuts)
-OSAntiIso.cuts.extend(electron_basic_selection_cuts)
-OSAntiIso.cuts.append(electron_inverted_iso_cut)
-OSAntiIso.cuts.extend(muon_basic_selection_cuts)
-OSAntiIso.cuts.append(muon_inverted_iso_cut)
-OSAntiIso.cuts.extend(preselection_emu_cuts)
-OSAntiIso.cuts.append(os_emu_cut)
-
-for cut in OSAntiIso.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-#################################################################
-
-OSAntiIsoMuIsoEle = cms.PSet(
-    name = cms.string("OSAntiIsoMuIsoEle"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
-    cuts = cms.VPSet ()
-)
-OSAntiIsoMuIsoEle.cuts.extend(jet_basic_selection_cuts)
-OSAntiIsoMuIsoEle.cuts.extend(electron_basic_selection_cuts)
-OSAntiIsoMuIsoEle.cuts.append(electron_iso_cut)
-OSAntiIsoMuIsoEle.cuts.append(electron_jet_deltaR_cut)
-OSAntiIsoMuIsoEle.cuts.extend(muon_basic_selection_cuts)
-OSAntiIsoMuIsoEle.cuts.append(muon_inverted_iso_cut)
-OSAntiIsoMuIsoEle.cuts.extend(preselection_emu_cuts)
-OSAntiIsoMuIsoEle.cuts.append(os_emu_cut)
-
-for cut in OSAntiIsoMuIsoEle.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-#################################################################
-
-OSIsoMuAntiIsoEle = cms.PSet(
-    name = cms.string("OSIsoMuAntiIsoEle"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
-    cuts = cms.VPSet ()
-)
-OSIsoMuAntiIsoEle.cuts.extend(jet_basic_selection_cuts)
-OSIsoMuAntiIsoEle.cuts.extend(electron_basic_selection_cuts)
-OSIsoMuAntiIsoEle.cuts.append(electron_inverted_iso_cut)
-OSIsoMuAntiIsoEle.cuts.extend(muon_basic_selection_cuts)
-OSIsoMuAntiIsoEle.cuts.append(muon_iso_cut)
-OSIsoMuAntiIsoEle.cuts.append(muon_jet_deltaR_cut)
-OSIsoMuAntiIsoEle.cuts.extend(preselection_emu_cuts)
-OSIsoMuAntiIsoEle.cuts.append(os_emu_cut)
-
-for cut in OSIsoMuAntiIsoEle.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-#################################################################
-
-SSAntiIso = cms.PSet(
-    name = cms.string("SSAntiIso"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
-    cuts = cms.VPSet ()
-)
-SSAntiIso.cuts.extend(jet_basic_selection_cuts)
-SSAntiIso.cuts.extend(electron_basic_selection_cuts)
-SSAntiIso.cuts.append(electron_inverted_iso_cut)
-SSAntiIso.cuts.extend(muon_basic_selection_cuts)
-SSAntiIso.cuts.append(muon_inverted_iso_cut)
-SSAntiIso.cuts.extend(preselection_emu_cuts)
-SSAntiIso.cuts.append(ss_emu_cut)
-
-for cut in SSAntiIso.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-#################################################################
-
-SSIso = cms.PSet(
-    name = cms.string("SSIso"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), 
-    cuts = cms.VPSet ()
-)
-SSIso.cuts.extend(jet_basic_selection_cuts)
-SSIso.cuts.extend(electron_basic_selection_cuts)
-SSIso.cuts.append(electron_iso_cut)
-SSIso.cuts.extend(muon_basic_selection_cuts)
-SSIso.cuts.append(muon_iso_cut)
-SSIso.cuts.extend(preselection_emu_cuts)
-SSIso.cuts.append(ss_emu_cut)
-
-for cut in SSIso.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-#################################################################
 muon_near_jet_cut = cms.PSet (
     inputCollection = cms.vstring("muons","jets"),
     cutString = cms.string("deltaR(muon,jet) < 0.5"),
@@ -142,7 +35,7 @@ muon_near_jet_cut = cms.PSet (
 electron_near_jet_cut = cms.PSet (
     inputCollection = cms.vstring("electrons","jets"),
     cutString = cms.string("deltaR(electron,jet) < 0.5"),
-    numberRequired = cms.string(">= 1"),
+    numberRequired = cms.string(">= 0"),
     alias = cms.string("jets near electrons")
 )
 bjet_csv_cut = cms.PSet (
@@ -165,9 +58,9 @@ AntiIsoElectronBlinded = cms.PSet(
 )
 AntiIsoElectronBlinded.cuts.extend(jet_basic_selection_cuts)
 AntiIsoElectronBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoElectronBlinded.cuts.append(electron_inverted_iso_cut)
+AntiIsoElectronBlinded.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoElectronBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoElectronBlinded.cuts.append(muon_inverted_iso_cut)
+AntiIsoElectronBlinded.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoElectronBlinded.cuts.append(muon_near_jet_cut)
 AntiIsoElectronBlinded.cuts.append(jet_csv_cut)
 AntiIsoElectronBlinded.cuts.extend(electron_blinded_control_region_cuts)
@@ -185,9 +78,9 @@ AntiIsoMuonBlinded = cms.PSet(
 )
 AntiIsoMuonBlinded.cuts.extend(jet_basic_selection_cuts)
 AntiIsoMuonBlinded.cuts.extend(electron_basic_selection_cuts)
-AntiIsoMuonBlinded.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlinded.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoMuonBlinded.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuonBlinded.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlinded.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuonBlinded.cuts.append(electron_near_jet_cut)
 AntiIsoMuonBlinded.cuts.append(jet_csv_cut)
 AntiIsoMuonBlinded.cuts.extend(muon_blinded_control_region_cuts)
@@ -205,9 +98,9 @@ AntiIsoMuonBlindedEleEE = cms.PSet(
 )
 AntiIsoMuonBlindedEleEE.cuts.extend(jet_basic_selection_cuts)
 AntiIsoMuonBlindedEleEE.cuts.extend(electron_basic_selection_ee_cuts)
-AntiIsoMuonBlindedEleEE.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedEleEE.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoMuonBlindedEleEE.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuonBlindedEleEE.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedEleEE.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuonBlindedEleEE.cuts.append(electron_near_jet_cut)
 AntiIsoMuonBlindedEleEE.cuts.append(jet_csv_cut)
 AntiIsoMuonBlindedEleEE.cuts.extend(muon_blinded_control_region_cuts)
@@ -225,9 +118,9 @@ AntiIsoMuonBlindedEleEB = cms.PSet(
 )
 AntiIsoMuonBlindedEleEB.cuts.extend(jet_basic_selection_cuts)
 AntiIsoMuonBlindedEleEB.cuts.extend(electron_basic_selection_eb_cuts)
-AntiIsoMuonBlindedEleEB.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedEleEB.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoMuonBlindedEleEB.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuonBlindedEleEB.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedEleEB.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuonBlindedEleEB.cuts.append(electron_near_jet_cut)
 AntiIsoMuonBlindedEleEB.cuts.append(jet_csv_cut)
 AntiIsoMuonBlindedEleEB.cuts.extend(muon_blinded_control_region_cuts)
@@ -245,9 +138,9 @@ AntiIsoMuonBlindedElectronDisplaced = cms.PSet(
 )
 AntiIsoMuonBlindedElectronDisplaced.cuts.extend(jet_basic_selection_cuts)
 AntiIsoMuonBlindedElectronDisplaced.cuts.extend(electron_basic_selection_cuts)
-AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_inverted_iso_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoMuonBlindedElectronDisplaced.cuts.extend(muon_basic_selection_cuts)
-AntiIsoMuonBlindedElectronDisplaced.cuts.append(muon_inverted_iso_cut)
+AntiIsoMuonBlindedElectronDisplaced.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_near_jet_cut)
 AntiIsoMuonBlindedElectronDisplaced.cuts.append(electron_d0_cut)
 AntiIsoMuonBlindedElectronDisplaced.cuts.append(jet_csv_cut)
@@ -266,9 +159,9 @@ AntiIsoElectronBlindedMuonDisplaced = cms.PSet(
 )
 AntiIsoElectronBlindedMuonDisplaced.cuts.extend(jet_basic_selection_cuts)
 AntiIsoElectronBlindedMuonDisplaced.cuts.extend(electron_basic_selection_cuts)
-AntiIsoElectronBlindedMuonDisplaced.cuts.append(electron_inverted_iso_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(electron_inverted_iso_corr_cut)
 AntiIsoElectronBlindedMuonDisplaced.cuts.extend(muon_basic_selection_cuts)
-AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_inverted_iso_cut)
+AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_inverted_iso_corr_cut)
 AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_near_jet_cut)
 AntiIsoElectronBlindedMuonDisplaced.cuts.append(muon_d0_cut)
 AntiIsoElectronBlindedMuonDisplaced.cuts.append(jet_csv_cut)
