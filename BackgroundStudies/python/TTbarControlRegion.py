@@ -47,7 +47,7 @@ ttbar_control_region_cuts = cms.VPSet(
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("matchedToLepton < 1 "),
         numberRequired = cms.string(">= 2"),
-        alias = cms.string('>= 2 jets passing jet-lepton veto')
+        alias = cms.string('>= 2 jets pass lepton cleaning')
     ),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
@@ -60,7 +60,7 @@ ttbar_control_region_cuts = cms.VPSet(
         cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string('>= 1 medium b jets')
-    ),
+    )
 )
 ##########################################################################
 
@@ -70,54 +70,16 @@ TTbarControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 TTbarControlRegion.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegion.cuts.append(electron_iso_cut)
+TTbarControlRegion.cuts.append(electron_iso_corr_cut)
 TTbarControlRegion.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegion.cuts.append(muon_iso_cut)
+TTbarControlRegion.cuts.append(muon_iso_corr_cut)
 TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)
 
 ##########################################################################
 
-TTbarControlRegionMETTriggerMC = cms.PSet(
-    name = cms.string("TTbartoEMuMETTriggerMC"),
-    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
-    cuts = cms.VPSet ()
-)
-
-TTbarControlRegionMETTriggerMC.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTriggerMC.cuts.append(electron_iso_cut)
-TTbarControlRegionMETTriggerMC.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTriggerMC.cuts.append(muon_iso_cut)
-TTbarControlRegionMETTriggerMC.cuts.extend(ttbar_control_region_cuts)
-
-for cut in TTbarControlRegionMETTriggerMC.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
-
-
-TTbarControlRegionMETTriggerMCPassEMuTrigger = cms.PSet(
-    name = cms.string("TTbartoEMuMETTriggerMCPassEMuTrigger"),
-    triggers = cms.vstring("HLT_MET200_v","HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
-    cuts = cms.VPSet ()
-)
-
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.append(electron_iso_cut)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.append(muon_iso_cut)
-TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts.extend(ttbar_control_region_cuts)
-
-for cut in TTbarControlRegionMETTriggerMCPassEMuTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
-
 TTbarControlRegionMETTrigger = cms.PSet(
     name = cms.string("TTbartoEMuMETTrigger"),
-    triggers = cms.vstring("HLT_PFMET170_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v","HLT_PFMET120_PFMHT120_IDTight_v"),
+    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
     cuts = cms.VPSet ()
 )
 
@@ -137,7 +99,7 @@ for cut in TTbarControlRegionMETTrigger.cuts:
 
 TTbarControlRegionMETTriggerPassEMuTrigger = cms.PSet(
     name = cms.string("TTbartoEMuMETTriggerPassEMuTrigger"),
-    triggers = cms.vstring("HLT_PFMET170_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v","HLT_PFMET120_PFMHT120_IDTight_v"),
+    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
     cuts = cms.VPSet ()
 )
 
