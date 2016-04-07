@@ -99,9 +99,9 @@ PromptControlRegion = cms.PSet(
     )
 )
 PromptControlRegion.cuts.extend(electron_basic_selection_cuts)
-PromptControlRegion.cuts.append(electron_iso_cut)
+PromptControlRegion.cuts.append(electron_iso_corr_cut)
 PromptControlRegion.cuts.extend(muon_basic_selection_cuts)
-PromptControlRegion.cuts.append(muon_iso_cut)
+PromptControlRegion.cuts.append(muon_iso_corr_cut)
 PromptControlRegion.cuts.extend(prompt_control_region_cuts)
 
 AntiIsoMuAntiIsoElePromptControlRegion = cms.PSet(
