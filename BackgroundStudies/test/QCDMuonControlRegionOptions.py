@@ -15,12 +15,12 @@ intLumi = 28.67 # for HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v* path, 2015D
 
 # create list of datasets to process
 datasets = [
-    'Diboson',
-    'DYJetsToLL_50',
-    'WJetsToLNu',
-    'SingleTop',
-    'TTJets_Lept',
+    #'Diboson',
+    #'DYJetsToLL_50',
+    #'WJetsToLNu',
+    #'SingleTop',
+    #'TTJets_Lept',
     'SingleMu_2015D',
-    'QCD_MuEnriched',
+    #'QCD_MuEnriched',
 ]
 InputCondorArguments = {'hold': 'true'}

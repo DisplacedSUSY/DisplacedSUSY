@@ -14,7 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
+    'root://cmsxrootd.fnal.gov//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
   )
 )
 
@@ -98,10 +98,9 @@ from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
 eventSelections = []
 #eventSelections.append(AntiIsoElectronBlinded)
-#eventSelections.append(AntiIsoElectronBlindedMuonDisplaced)
-eventSelections.append(AntiIsoMuonBlindedEleEB)
-eventSelections.append(AntiIsoMuonBlindedEleEE)
-#eventSelections.append(AntiIsoMuonBlindedElectronDisplaced)
+#eventSelections.append(AntiIsoMuonBlinded)
+eventSelections.append(AntiIsoElectronBlindedMuonDisplaced)
+eventSelections.append(AntiIsoMuonBlindedElectronDisplaced)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -129,6 +128,7 @@ histograms.append(eventHistograms)
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("DYJetsToLL_50")
+process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
