@@ -14,11 +14,11 @@ intLumi = 2613 # from 13 TeV MuEG 2015D dataset, Silver Json
 
 # create list of datasets to process
 datasets = [
-    'Diboson',
-    'WJetsToLNu',
-    'DYJetsToLL_50',
-    'SingleTop',
-    'TTJets_Lept',
+    #'Diboson',
+    #'WJetsToLNu',
+    #'DYJetsToLL_50',
+    #'SingleTop',
+    #'TTJets_Lept',
     #'QCD_MuEnriched',
     'MuonEG_2015D',
     #'DisplacedSUSYSignal'

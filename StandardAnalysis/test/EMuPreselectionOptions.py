@@ -19,8 +19,9 @@ datasets = [
     'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    'QCD_MuEnriched',
-    'MuonEG_2015D',
-    'DisplacedSUSYSignal',
+    #'QCD_MuEnriched',
+    #'MuonEG_2015D',
+    #'DisplacedSUSYSignal',
 ]
 InputCondorArguments = {'hold': 'true'}
+

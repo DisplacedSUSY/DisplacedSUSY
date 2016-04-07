@@ -14,8 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    #'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root',
-    'file:/data/users/bing/condor/EMuSkimJan14th/stop200_1mm/EMuSkimSelection/skim_1.root'
+    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/12086E80-62BC-E511-AED8-6CC2173CEC30.root'
 )
 )
 
@@ -86,7 +85,7 @@ ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
 ObjectScalingFactorProducer['muonWp'] = cms.string('TightID;1')
-ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
+ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -98,9 +97,6 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 from DisplacedSUSY.StandardAnalysis.SignalRegionSelection import *
 eventSelections = []
-eventSelections.append(SignalRegionSelectionNoIsoNoOSInclusiveDisplacedTrigger)
-eventSelections.append(SignalRegionSelectionNoIsoInclusiveDisplacedTrigger)
-eventSelections.append(SignalRegionSelectionNoOSInclusiveDisplacedTrigger)
 eventSelections.append(SignalRegionSelectionInclusiveDisplacedTrigger)
 
 ################################################################################
@@ -121,13 +117,14 @@ histograms.append(ElectronMuonD0Histograms)
 histograms.append(ElectronMuonHistograms)
 histograms.append(eventHistograms)
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections,variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections,variableProducers, True)
 
 process.PUScalingFactorProducer.dataset = cms.string("MuonEG_2015D")
+process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.962)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

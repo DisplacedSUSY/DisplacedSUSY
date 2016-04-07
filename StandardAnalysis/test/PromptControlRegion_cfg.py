@@ -14,8 +14,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'root://cms-xrd-global.cern.ch//store/mc/RunIISpring15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2_ext1-v1/10000/0036F7A6-CC6D-E511-8B5B-002590D60150.root',
-    #'file:/data/users/bing/condor/EMuSkim76X/TTJets_DiLept/EMuSkimSelection/skim_81.root',
+    'root://cmsxrootd.fnal.gov//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/12086E80-62BC-E511-AED8-6CC2173CEC30.root',
   )
 )
 
@@ -101,12 +100,7 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 
 eventSelections = []
-#eventSelections.append(PromptControlRegionNoOSInclusiveDisplacedTrigger)
-#eventSelections.append(PromptControlRegionInclusiveDisplacedTrigger)
-eventSelections.append(PromptControlRegionEBEleInclusiveDisplacedTrigger)
-eventSelections.append(PromptControlRegionEEEleInclusiveDisplacedTrigger)
-#eventSelections.append(PromptControlRegionNoIsoInclusiveDisplacedTrigger)
-#eventSelections.append(PromptControlRegionNoIsoNoOSInclusiveDisplacedTrigger)
+eventSelections.append(PromptControlRegionInclusiveDisplacedTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -132,6 +126,7 @@ histograms.append(eventHistograms)
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
+process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
