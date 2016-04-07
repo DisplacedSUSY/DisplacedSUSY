@@ -19,27 +19,29 @@ def Round2DHistograms(histogram, precision):
             newHistogram.SetBinError(i, j, round(histogram.GetBinError(i,j), precision))
     return newHistogram
 
-inputFileMC = TFile("/data/users/bing/condor/TriggerEfficiency76X/TTJets_Lept.root")
+inputFileMC = TFile("/data/users/bing/condor/TriggerEfficiency_April1st_All2p6_LooseId_LepSF/TTJets_Lept.root")
 DenHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plots/electronEtaMuonEta")
 NumHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronEtaMuonEta")
 NumHistogram = NumHistogramObj.Clone().ProjectionX("Num",0,-1,"e")
 DenHistogram = DenHistogramObj.Clone().ProjectionX("Den",0,-1,"e")
-NumHistogramNew = NumHistogram.Rebin(1,"numnew")
-DenHistogramNew = DenHistogram.Rebin(1,"dennew")
+xBins = array('d',[0,0.2,0.4,1.0,1.6,2.4])
+NumHistogramNew = NumHistogram.Rebin(5,"Parameter Summary",xBins)
+DenHistogramNew = DenHistogram.Rebin(5,"dennew",xBins)
 EffHistogramMC = NumHistogramNew
 EffHistogramMC.Sumw2()
 EffHistogramMC.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
 #EffHistogramMC = TGraphAsymmErrors()
 #EffHistogramMC.BayesDivide(NumHistogramNew,DenHistogramNew,"w");
 
-inputFileData = TFile("/data/users/bing/condor/TriggerEfficiency76X/MET_2015D.root")
+inputFileData = TFile("/data/users/bing/condor/TriggerEfficiency_April1st_All2p6_LooseId_LepSF/MET_2015D.root")
 outputFile = TFile("DataMCRatio_Muon_Eta.root", "RECREATE")
 DenHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plots/electronEtaMuonEta")
 NumHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronEtaMuonEta")
 NumHistogram = NumHistogramObj.Clone().ProjectionX("Num",0,-1,"e")
 DenHistogram = DenHistogramObj.Clone().ProjectionX("Den",0,-1,"e")
-NumHistogramNew = NumHistogram.Rebin(1,"Parameter Summary")
-DenHistogramNew = DenHistogram.Rebin(1,"dennew")
+xBins = array('d',[0,0.2,0.4,1.0,1.6,2.4])
+NumHistogramNew = NumHistogram.Rebin(5,"Parameter Summary",xBins)
+DenHistogramNew = DenHistogram.Rebin(5,"dennew",xBins)
 EffHistogramData = NumHistogramNew
 EffHistogramData.Sumw2()
 EffHistogramData.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
