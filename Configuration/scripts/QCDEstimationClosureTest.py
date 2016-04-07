@@ -41,14 +41,19 @@ eleHistogram = eleHistogramObj.Clone()
 muDenError = Double(0.0)
 muDen = muHistogram.IntegralAndError(muHistogram.GetXaxis().FindBin(normMuLow), muHistogram.GetXaxis().FindBin(normMuHigh) - 1, muDenError)
 muNumError = Double(0.0)
-print muHistogram.GetXaxis().FindBin(targetMuLow)
-muNum = muHistogram.IntegralAndError(muHistogram.GetXaxis().FindBin(targetMuLow), muHistogram.GetXaxis().FindBin(targetMuHigh) - 1, muNumError)
+if not muHistogram.GetXaxis().FindBin(targetMuHigh) > muHistogram.GetXaxis().GetNbins():
+    muNum = muHistogram.IntegralAndError(muHistogram.GetXaxis().FindBin(targetMuLow), muHistogram.GetXaxis().FindBin(targetMuHigh) - 1, muNumError)
+else:
+    muNum = muHistogram.IntegralAndError(muHistogram.GetXaxis().FindBin(targetMuLow), muHistogram.GetXaxis().GetNbins() + 1, muNumError)
 muRatio = muNum/muDen
 muRatioError = getDivError(muNum,muDen,muNumError,muDenError)
 eleDenError = Double(0.0)
 eleDen = eleHistogram.IntegralAndError(eleHistogram.GetXaxis().FindBin(normEleLow), eleHistogram.GetXaxis().FindBin(normEleHigh) - 1, eleDenError)
 eleNumError = Double(0.0)
-eleNum = eleHistogram.IntegralAndError(eleHistogram.GetXaxis().FindBin(targetEleLow), eleHistogram.GetXaxis().FindBin(targetEleHigh) - 1, eleNumError)
+if not eleHistogram.GetXaxis().FindBin(targetEleHigh) > eleHistogram.GetXaxis().GetNbins():
+    eleNum = eleHistogram.IntegralAndError(eleHistogram.GetXaxis().FindBin(targetEleLow), eleHistogram.GetXaxis().FindBin(targetEleHigh) - 1, eleNumError)
+else:
+    eleNum = eleHistogram.IntegralAndError(eleHistogram.GetXaxis().FindBin(targetEleLow), eleHistogram.GetXaxis().GetNbins() + 1, eleNumError)
 eleRatio = eleNum/eleDen
 eleRatioError = getDivError(eleNum,eleDen,eleNumError,eleDenError)
 
@@ -86,8 +91,8 @@ dataNorm = dataHistogram.IntegralAndError(dataHistogram.GetXaxis().FindBin(normM
 QCD = dataNorm * scalingFactor
 QCDError = getMulError(dataNorm, scalingFactor, dataNormError , scalingFactorError)
 
-print "Data-driven QCD is : " + str(round(QCD,3))
-print "Data-driven QCD error is: " + str(round(QCDError,3))
+print "Data-driven QCD is : " + str(round(QCD,5))
+print "Data-driven QCD error is: " + str(round(QCDError,5))
 print "#################################################\n"
 print "########   Generate QCDFromData.root   #########"
 

@@ -82,12 +82,8 @@ def GetYieldAndErrorDir(process,d0cut):
     return yieldAndErrorList
 
 def GetYieldAndErrorPara(process,d0cut):
-    if process == "WJetsToLNu":
-        processTmp = "Diboson"
-    else:
-        processTmp = process
     inputFile = TFile(condor_dir+"/"+process+".root")
-    effInputFile = TFile(condor_dir+"/"+processTmp+"_DxyEff.root")
+    effInputFile = TFile(condor_dir+"/"+process+"_DxyEff.root")
     HistogramObj = inputFile.Get(channel+"Plotter/"+d0histogramName)
     MuHistogramObj = effInputFile.Get(mud0histogramName)
     EleHistogramObj = effInputFile.Get(eled0histogramName)
@@ -95,10 +91,10 @@ def GetYieldAndErrorPara(process,d0cut):
         print "WARNING:  Could not find histogram " + channel+"Plotter/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
         return
     if not MuHistogramObj:
-        print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + process+"_DxyEff.root" + ".  Will skip it and continue."
         return
     if not EleHistogramObj:
-        print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + process+"_DxyEff.root" + ".  Will skip it and continue."
         return
     d0Histogram = HistogramObj.Clone()
     d0Histogram.SetDirectory(0)
@@ -113,13 +109,21 @@ def GetYieldAndErrorPara(process,d0cut):
     muNBins = mud0Histogram.GetNbinsX()
     mud0CutBin  = mud0Histogram.GetXaxis ().FindBin (float(d0cut))
     mud0CutUpper = mud0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
+    if mud0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) >= mud0Histogram.GetNbinsX ():
+       mud0CutUpper = mud0Histogram.GetNbinsX ()
     muSF = mud0Histogram.GetBinContent(mud0CutBin) - mud0Histogram.GetBinContent(mud0CutUpper)
+    if mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
+        muSF = mud0Histogram.GetBinContent(mud0CutBin)
     muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
     
     eleNBins = eled0Histogram.GetNbinsX()
     eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0cut))
     eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
+    if eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) >= eled0Histogram.GetNbinsX ():
+        eled0CutUpper = eled0Histogram.GetNbinsX ()
     eleSF = eled0Histogram.GetBinContent(eled0CutBin) - eled0Histogram.GetBinContent(eled0CutUpper)
+    if eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
+        eleSF = eled0Histogram.GetBinContent(eled0CutBin)
     eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
 
     overalSF = muSF*eleSF
@@ -245,7 +249,7 @@ for dataset in datasets:
                     bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
             if types[dataset] is "bgMC":
-                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],2)).rstrip("0").rstrip("."))
+                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],4)).rstrip("0").rstrip("."))
             else: # this is the data
                 yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
             stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],1)).rstrip("0").rstrip("."))
@@ -333,8 +337,8 @@ if bgMCcounter is not 0:
 
         for d0cut in d0cuts_list:
     
-            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],2)).rstrip("0").rstrip("."))
-            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
+            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],4)).rstrip("0").rstrip("."))
+            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),4)).rstrip("0").rstrip("."))
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
             if arguments.includeSystematics:
                 bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))

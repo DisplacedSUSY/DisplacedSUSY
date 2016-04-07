@@ -74,8 +74,6 @@ def MakeEffHist(process):
     muLimitErr = 0.0
    
     for d0bin in range(1, muNBins + 1):     
-        if d0bin == muNBins:
-            d0bin = muNBins - 1
         muDenErr = Double(0.0) 
         muDenIntegral = mud0Histogram.IntegralAndError(0, muNBins + 1, muDenErr)
         muNumErr = Double(0.0) 
