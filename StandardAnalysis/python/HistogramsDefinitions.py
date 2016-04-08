@@ -493,8 +493,15 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 1),
             inputVariables = cms.vstring("muonScalingFactor"),
         ),
+        cms.PSet (
+            name = cms.string("lifetimeWeight"),
+            title = cms.string("Lifetime Scaling Factor; Lifetime Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("lifetimeWeight"),
+        ),
+
     )
-) 
+)
 
 electronJetHistograms = cms.PSet(
     inputCollection = cms.vstring("electrons","jets"),
