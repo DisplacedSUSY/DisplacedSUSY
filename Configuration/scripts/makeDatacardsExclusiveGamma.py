@@ -81,7 +81,7 @@ def fancyTable(arrays):
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
     yieldAndErrorList = {}
     inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
-    print process, d0Cut
+#    print process, d0Cut
     d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
     if not d0HistogramTry:
         print "WARNING: input histogram not found"
@@ -102,8 +102,8 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
     xValue = d0Histogram.GetXaxis().GetBinCenter(d0CutBinX)
     yValue = d0Histogram.GetYaxis().GetBinCenter(d0CutBinY)
 
-    d0CutMaxX = d0Histogram.GetXaxis().FindBin (float(d0Max))
-    d0CutMaxY = d0Histogram.GetYaxis().FindBin (float(d0Max))
+    d0CutMaxX = d0Histogram.GetXaxis().FindBin (float(arguments.d0Max))
+    d0CutMaxY = d0Histogram.GetYaxis().FindBin (float(arguments.d0Max))
 
     if ((xValue >= 0) == integrateOutwardX):
         x0 = d0CutBinX
@@ -169,7 +169,7 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
 def writeDatacard(mass,lifetime):
 
 
-    signal_dataset = "stop"+mass+"_"+lifetime+"mm_MiniAOD"
+    signal_dataset = "stop"+mass+"_"+lifetime+"mm"
 #    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
 
     signal_yield = {}
@@ -397,13 +397,13 @@ def writeDatacard(mass,lifetime):
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
-            if signal_dataset in systematics_dictionary[uncertainty][float(float(d0Cut))]:
-                row.append(systematics_dictionary[uncertainty][float(d0Cut)][signal_dataset])
+            if signal_dataset in systematics_dictionary[uncertainty][d0Cut]:
+                row.append(systematics_dictionary[uncertainty][d0Cut][signal_dataset])
             else:
                 row.append('-')
             for background in backgrounds:
-                if background in systematics_dictionary[uncertainty][float(d0Cut)]:
-                    row.append(systematics_dictionary[uncertainty][(float(d0Cut))][background])
+                if background in systematics_dictionary[uncertainty][d0Cut]:
+                    row.append(systematics_dictionary[uncertainty][d0Cut][background])
                 else:
                     row.append('-')
         datacard_data.append(row)
@@ -483,7 +483,7 @@ for cutIndex in range(len(arguments.d0Cuts)):
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
     systematics_dictionary[systematic] =  {}
-    for d0Cut in d0cuts_array:
+    for d0Cut in arguments.d0Cuts:
         systematics_dictionary[systematic][d0Cut] = {}
         input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
         for line in input_file:
@@ -524,5 +524,5 @@ for d0Cut in arguments.d0Cuts:
 ###looping over signal models and writing a datacard for each
 for mass in masses:
   for lifetime in lifetimes:
-        print "making datacard_stop"+mass+"_"+lifetime+"mm_MiniAOD.txt"
+        print "making datacard_stop"+mass+"_"+lifetime+"mm.txt"
         writeDatacard(mass,lifetime)

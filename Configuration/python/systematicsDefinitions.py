@@ -113,136 +113,107 @@ signal_cross_sections_8TeV = {
 #
 # For things take from data, this should be the uncertainty on the data-driven method
 
+
+# 4-12-16: initialize everything to 10% until we can look them up
 background_normalization_uncertainties = {
-    'DY' : { 
-       'value' : '1.045',
+    'DYJetsToLL_50' : {
+#       'value' : '1.045',
+       'value' : '1.1',
        'type' : 'lnN',
     },
     'Diboson' : {
-       'value' : '1.062',
-       'type' : 'lnN',
-    },
-    'TTbar' : {
-       'value' : '1.043',
+#       'value' : '1.062',
+       'value' : '1.1',
        'type' : 'lnN',
     },
     'SingleTop' : {
-       'value' : '1.069',
+#       'value' : '1.069',
+       'value' : '1.1',
        'type' : 'lnN',
     },
-    'WNjets' : {
-       'value' : '1.035',
+    'TTJets_Lept' : {
+#       'value' : '1.043',
+       'value' : '1.1',
        'type' : 'lnN',
     },
-
-    # with new merged datasets, just take the uncertainty from the dataset which dominates the sample
-
-    'DYToTauTau_20' : { 
-       'value' : '1.045',
-       'type' : 'lnN',
-    },
-    # dominated by TTbar
-    'Top' : {
-       'value' : '1.045',
-       'type' : 'lnN',
-    },
-    # lots of contributions, call it 10% to be safe
-    'EWK_WNjets_Other' : {
-       'value' : '1.10',
+    'WJetsToLNu' : {
+#       'value' : '1.035',
+       'value' : '1.1',
        'type' : 'lnN',
     },
     'QCDFromData' : {
-       'value' : '1.3',
+#       'value' : '1.3',
+       'value' : '1.1',
        'type' : 'lnN',
     },
-
-
 }
 
 ######################################################
 ### Experimental Systematic Uncertainty Parameters ###
 ######################################################
 
-#list of backgrounds for which we take the yield from MC in some way
-## mc_normalized_processes = [
-##    'EWK_WNjets_Other',
-##    'Top',
-##    'DYToTauTau_20',
-##    'TTbar',
-##    'SingleTop',
-##    'Diboson',
-##    'DY',
-##    'WNjets',
-##    'signal'
-## ]
-
+# list of backgrounds for which we take the yield from MC in some way
 mc_normalized_processes = [
-    'Diboson_MiniAOD',
-#    'WJetsToLNu_MiniAOD',                                                                                                                                                                                  
-#    'DYJetsToLL_50_MiniAOD',                                                                                                                                                                               
-    'SingleTop_MiniAOD',
-    'TTJets_Lept_MiniAOD',
-
-   'EWK_WNjets_Other',
-   'Top',
-   'DYToTauTau_20',
-   'signal',
-
-   'TTbar',
-   'SingleTop',
-   'Diboson',
-   'DY',
-   'WNjets',
-
+    'DYJetsToLL_50',
+    'Diboson',
+    'SingleTop',
+    'TTJets_Lept',
+    'WJetsToLNu',
+    'signal'
 ]
 
 
-#uncertainties for which the same value applies to all datasets
+# uncertainties for which the same value applies to all datasets
 global_systematic_uncertainties = {
-   'lumi' :  {
-        'value' : '1.026',
+    # ballpark estimate from LUM-15-001
+    'lumi' :  {
+        'value' : '1.027',
    	'applyList' : mc_normalized_processes,
     },
+    # taken from the error on the trigger effieciency scale factor
    'trigger' :  {
-        'value' : '1.02',
+        'value' : '1.009',
    	'applyList' : mc_normalized_processes,
     },
+    # taken as twice the 2% error quoted by ian
    'track_reco' :  {
-        'value' : '1.056',
+        'value' : '1.04',
    	'applyList' : mc_normalized_processes,
     },
-   'dummy' :  {
-        'value' : '1.5',
-   	'applyList' : mc_normalized_processes,
-    },
+   # 'dummy' :  {
+   #      'value' : '1.5',
+   # 	'applyList' : mc_normalized_processes,
+   #  },
 
 }
 
-#uncertainties which have different values for each dataset
+# uncertainties that have different values for each dataset
 unique_systematic_uncertainties = {
-    'TTbar_matching' : {
-        'value' : '1.004',
-        'dataset' : 'TTbar'
-    },
-    'TTbar_scale' : {
-        'value' : '1.02',
-        'dataset' : 'TTbar'
-    },
-    'WNjets_matching' : {
-        'value' : '1.08',
-        'dataset' : 'WNjets'
-    },
-    'WNjets_scale' : {
-        'value' : '1.026',
-        'dataset' : 'WNjets'
-    },    
+    # 'TTbar_matching' : {
+    #     'value' : '1.004',
+    #     'dataset' : 'TTbar'
+    # },
+    # 'TTbar_scale' : {
+    #     'value' : '1.02',
+    #     'dataset' : 'TTbar'
+    # },
+    # 'WNjets_matching' : {
+    #     'value' : '1.08',
+    #     'dataset' : 'WNjets'
+    # },
+    # 'WNjets_scale' : {
+    #     'value' : '1.026',
+    #     'dataset' : 'WNjets'
+    # },
 }
 
 
-#defined in external text files (located in DisplacedSUSY/Configuration/data)
+# defined in external text files (located in DisplacedSUSY/Configuration/data)
 external_systematic_uncertainties = [
-#    'electronSF',
-#    'muonSF',
+    'electronSF',
+    'muonSF',
+
+    # still need to produce these two
 #    'pdf',
 #    'pileup',
 ]

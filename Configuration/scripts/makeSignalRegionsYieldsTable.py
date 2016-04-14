@@ -87,7 +87,7 @@ def GetYieldAndError(process,d0cut):
     if mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
         muSF = mud0Histogram.GetBinContent(mud0CutBin)
     muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
-    
+
     eleNBins = eled0Histogram.GetNbinsX()
     eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0cut))
     eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
@@ -99,16 +99,16 @@ def GetYieldAndError(process,d0cut):
     eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
 
     overalSF = muSF*eleSF
-    overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr) 
-    
+    overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr)
+
     nBinsX = d0Histogram.GetNbinsX()
     nBinsY = d0Histogram.GetNbinsY()
 
     normIntErr = Double (0.0)
-    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)
     targetYield = normIntegral*overalSF
     targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
-            
+
     yieldAndErrorList['yield'] = round(targetYield,4)
     yieldAndErrorList['error'] = round(targetYieldErr,4)
     return yieldAndErrorList
@@ -116,11 +116,9 @@ def GetYieldAndError(process,d0cut):
 ########################################################################################
 ########################################################################################
 
-def getSystematicError(sample,channel):
+def getSystematicError(sample):
     errorSquared = 0.0
     if types[sample] is "data":
-        return 0.0
-    if len(channel) is 0:
         return 0.0
 
     # add uncertainty on normalization method
@@ -138,6 +136,7 @@ def getSystematicError(sample,channel):
             error = float(input_error) - 1
         errorSquared = errorSquared + error * error
 
+
     # add global uncertainties
     for uncertainty in global_systematic_uncertainties:
         if sample in global_systematic_uncertainties[uncertainty]['applyList']:
@@ -146,7 +145,7 @@ def getSystematicError(sample,channel):
 
     # add sample-specific uncertainties from text files
     for uncertainty in external_systematic_uncertainties:
-        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + "__" + channel + ".txt"
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
             print "WARNING: didn't find ",input_file_path
             print "   will skip this systematic for this channel"
@@ -201,7 +200,7 @@ for dataset in datasets:
     sys_errors[dataset] = {}
 
     for d0cut in d0cuts_array:
-        
+
         yieldAndError = {}
         yieldAndError = GetYieldAndError(dataset,d0cut)
 
@@ -210,8 +209,8 @@ for dataset in datasets:
 
             # include systematic errors
             if arguments.includeSystematics:
-                systematic_error = yieldAndError['yield']*getSystematicError(dataset,d0cuts_array[d0cut])
-            if types[dataset] is "bgMC":            
+                systematic_error = yieldAndError['yield']*getSystematicError(dataset)
+            if types[dataset] is "bgMC":
                 bgMCSum[d0cut] = bgMCSum[d0cut] + yieldAndError['yield']
                 bgMCStatErrSquared[d0cut] = bgMCStatErrSquared[d0cut] + yieldAndError['error'] * yieldAndError['error']
                 if arguments.includeSystematics:
@@ -220,7 +219,7 @@ for dataset in datasets:
             if types[dataset] is "bgMC":
                 yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],4)).rstrip("0").rstrip("."))
             else: # this is the data
-                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
+                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))
             stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],1)).rstrip("0").rstrip("."))
             if arguments.includeSystematics:
                 sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
@@ -286,7 +285,7 @@ for dataset in datasets:
     label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
     line = label + " & "
-    
+
     for d0cut in d0cuts_list:
         if yields[dataset][d0cut].find('$0$') is not -1:
             line = line + yields[dataset][d0cut] + " & "
@@ -305,7 +304,7 @@ if bgMCcounter is not 0:
         line = hLine+"background sum & "
 
         for d0cut in d0cuts_list:
-    
+
             bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],4)).rstrip("0").rstrip("."))
             bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
@@ -313,13 +312,13 @@ if bgMCcounter is not 0:
                 bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
                 line = line + " $\pm$ " + bgMCSysErr_
             line = line + " & "
-                
+
         line = line.rstrip("& ") + endLine + newLine + hLine
         fout.write(line)
-        
+
 for dataset in datasets:
 
-    
+
     if types[dataset] is not "data" or not yields[dataset]:
         continue
 
@@ -327,14 +326,14 @@ for dataset in datasets:
     label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
     line = label + " & "
-    
+
     for d0cut in d0cuts_list:
         line = line + yields[dataset][d0cut] + " & "
 
     line = line.rstrip("& ") + endLine + newLine + hLine
     fout.write(line)
 
-    
+
 fout.write("\\end{tabular} \\end{center} \\end{table}"+newLine)
 if(arguments.standAlone):
     fout.write("\\end{document}"+newLine)
