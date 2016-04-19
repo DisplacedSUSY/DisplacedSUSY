@@ -111,34 +111,36 @@ signal_cross_sections_8TeV = {
 # For things taken from MC, this should be the uncertainty on the calculated cross-section
 # or the uncertainty on the measured CMS cross-section
 #
+#   The measured cross-sections have similar errors to the theory ones, 
+#   and are often in different mass windows than our signals
+#   so we'll use the theory uncertainties from this twiki:
+#   https://twiki.cern.ch/twiki/bin/view/CMS/StandardModelCrossSectionsat13TeV
+#       -Jamie 4-19-16
+#
 # For things take from data, this should be the uncertainty on the data-driven method
 
 
 # 4-12-16: initialize everything to 10% until we can look them up
 background_normalization_uncertainties = {
     'DYJetsToLL_50' : {
-#       'value' : '1.045',
-       'value' : '1.1',
+       'value' : '1.0379',
        'type' : 'lnN',
     },
+    # use WW values
     'Diboson' : {
-#       'value' : '1.062',
-       'value' : '1.1',
+       'value' : '1.025',
        'type' : 'lnN',
     },
     'SingleTop' : {
-#       'value' : '1.069',
-       'value' : '1.1',
+       'value' : '1.0423',
        'type' : 'lnN',
     },
     'TTJets_Lept' : {
-#       'value' : '1.043',
-       'value' : '1.1',
+       'value' : '1.0614',
        'type' : 'lnN',
     },
     'WJetsToLNu' : {
-#       'value' : '1.035',
-       'value' : '1.1',
+       'value' : '1.0384',
        'type' : 'lnN',
     },
     'QCDFromData' : {
@@ -214,6 +216,6 @@ external_systematic_uncertainties = [
     'muonSF',
 
     # still need to produce these two
-#    'pdf',
+#    'pdf', - might be already covered by theory expectation
 #    'pileup',
 ]
