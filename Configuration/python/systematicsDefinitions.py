@@ -120,7 +120,6 @@ signal_cross_sections_8TeV = {
 # For things take from data, this should be the uncertainty on the data-driven method
 
 
-# 4-12-16: initialize everything to 10% until we can look them up
 background_normalization_uncertainties = {
     'DYJetsToLL_50' : {
        'value' : '1.0379',
