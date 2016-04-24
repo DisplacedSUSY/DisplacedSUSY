@@ -54,8 +54,12 @@ def getMulError(a,b,deltaa,deltab):
     return sqrt(pow(deltaa,2)*pow(b,2) + pow(deltab,2)*pow(a,2))
 
 def GetYieldAndError(process,d0cut):
+    if process == "WJetsToLNu":
+        processTmp = "Diboson"
+    else:
+        processTmp = process
     inputFile = TFile(condor_dir+"/"+process+".root")
-    effInputFile = TFile(condor_dir+"/"+process+"_DxyEff.root")
+    effInputFile = TFile(condor_dir+"/"+processTmp+"_DxyEff.root")
     HistogramObj = inputFile.Get(channel+"Plotter/"+d0histogramName)
     MuHistogramObj = effInputFile.Get(mud0histogramName)
     EleHistogramObj = effInputFile.Get(eled0histogramName)
@@ -63,10 +67,10 @@ def GetYieldAndError(process,d0cut):
         print "WARNING:  Could not find histogram " + channel+"Plotter/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
         return
     if not MuHistogramObj:
-        print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + process +"_DxyEff.root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
         return
     if not EleHistogramObj:
-        print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + process +"_DxyEff.root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + processTmp+"_DxyEff.root" + ".  Will skip it and continue."
         return
     d0Histogram = HistogramObj.Clone()
     d0Histogram.SetDirectory(0)
@@ -81,22 +85,32 @@ def GetYieldAndError(process,d0cut):
     muNBins = mud0Histogram.GetNbinsX()
     mud0CutBin  = mud0Histogram.GetXaxis ().FindBin (float(d0cut))
     mud0CutUpper = mud0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
+    if mud0Histogram.GetXaxis ().FindBin (float(d0cut)) >= mud0Histogram.GetNbinsX ():
+       mud0CutBin = mud0Histogram.GetNbinsX ()
     if mud0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) > mud0Histogram.GetNbinsX ():
-       mud0CutUpper = mud0Histogram.GetNbinsX ()
-    muSF = mud0Histogram.GetBinContent(mud0CutUpper) - mud0Histogram.GetBinContent(mud0CutBin)
-    if mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
-        muSF = mud0Histogram.GetBinContent(mud0CutBin)
-    muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
+       muSF = mud0Histogram.GetBinContent(mud0CutBin)
+       muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutBin),2))
+    elif mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
+       muSF = mud0Histogram.GetBinContent(mud0CutBin)
+       muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
+    else: 
+       muSF = mud0Histogram.GetBinContent(mud0CutUpper) - mud0Histogram.GetBinContent(mud0CutBin)
+       muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
     
     eleNBins = eled0Histogram.GetNbinsX()
     eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0cut))
     eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
+    if eled0Histogram.GetXaxis ().FindBin (float(d0cut)) > eled0Histogram.GetNbinsX ():
+        eled0CutBin = eled0Histogram.GetNbinsX ()
     if eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) > eled0Histogram.GetNbinsX ():
-        eled0CutUpper = eled0Histogram.GetNbinsX ()
-    eleSF = eled0Histogram.GetBinContent(eled0CutUpper) - eled0Histogram.GetBinContent(eled0CutBin)
+       eleSF = eled0Histogram.GetBinContent(eled0CutBin)
+       eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutBin),2))
+    elif eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
+       eleSF = eled0Histogram.GetBinContent(eled0CutBin)
+       eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
     if eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
-        eleSF = eled0Histogram.GetBinContent(eled0CutBin)
-    eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
+       eleSF = eled0Histogram.GetBinContent(eled0CutUpper) - eled0Histogram.GetBinContent(eled0CutBin)
+       eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
 
     overalSF = muSF*eleSF
     overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr) 
