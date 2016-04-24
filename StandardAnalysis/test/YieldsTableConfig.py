@@ -21,8 +21,9 @@ datasets = [
 ]
 
 #d0cuts_array = array('d',[0.005,0.006,0.007,0.008,0.009,0.01])
-d0cuts_array = array('d',[0.008,0.009,0.01])
-d0UpperCut = 0.02
+#d0cuts_array = array('d',[0.008,0.009,0.01])
+d0cuts_array = array('d',[0.02])
+d0UpperCut = 10
 d0histogramName    = "Electron-muon-beamspot Plots/electronIpMuonIpMedium"
 #mud0histogramName  = "Muon-beamspot Plots/muonAbsD0BeamspotM"
 mud0histogramName  = "muonAbsD0BeamspotM"
