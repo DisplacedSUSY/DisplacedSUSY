@@ -22,5 +22,14 @@ datasets = [
     #'TTJets_Lept',
     'SingleMu_2015D',
     #'QCD_MuEnriched',
+    #'WG',
+    #'ZZToLLLL',
+    #'WWToLNuLNu',
+    #'ZG',
+    #'WZToLLLNu',
+    #'WZToLNu2QorQQ2L',
+    #'ZZToLLQQ',
+    #'WZToLNuNuNu',
+    #'ZZToNuNuQQ',
 ]
 InputCondorArguments = {'hold': 'true'}
