@@ -108,7 +108,7 @@ def GetYieldAndError(process,d0cut):
     elif eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
        eleSF = eled0Histogram.GetBinContent(eled0CutBin)
        eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
-    if eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
+    else: 
        eleSF = eled0Histogram.GetBinContent(eled0CutUpper) - eled0Histogram.GetBinContent(eled0CutBin)
        eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
 
@@ -123,18 +123,17 @@ def GetYieldAndError(process,d0cut):
     targetYield = normIntegral*overalSF
     targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
             
-    yieldAndErrorList['yield'] = round(targetYield,4)
-    yieldAndErrorList['error'] = round(targetYieldErr,4)
+    #yieldAndErrorList['yield'] = round(targetYield,4)
+    yieldAndErrorList['yield'] = targetYield
+    #yieldAndErrorList['error'] = round(targetYieldErr,4)
+    yieldAndErrorList['error'] = targetYieldErr
     return yieldAndErrorList
 
 ########################################################################################
 ########################################################################################
-
-def getSystematicError(sample,channel):
+def getSystematicError(sample):
     errorSquared = 0.0
     if types[sample] is "data":
-        return 0.0
-    if len(channel) is 0:
         return 0.0
 
     # add uncertainty on normalization method
@@ -152,6 +151,7 @@ def getSystematicError(sample,channel):
             error = float(input_error) - 1
         errorSquared = errorSquared + error * error
 
+
     # add global uncertainties
     for uncertainty in global_systematic_uncertainties:
         if sample in global_systematic_uncertainties[uncertainty]['applyList']:
@@ -160,7 +160,7 @@ def getSystematicError(sample,channel):
 
     # add sample-specific uncertainties from text files
     for uncertainty in external_systematic_uncertainties:
-        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + "__" + channel + ".txt"
+        input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
             print "WARNING: didn't find ",input_file_path
             print "   will skip this systematic for this channel"
@@ -186,6 +186,9 @@ def getSystematicError(sample,channel):
 
 
     return math.sqrt(errorSquared)
+
+########################################################################################
+########################################################################################
 
 ########################################################################################
 ########################################################################################
@@ -224,7 +227,7 @@ for dataset in datasets:
 
             # include systematic errors
             if arguments.includeSystematics:
-                systematic_error = yieldAndError['yield']*getSystematicError(dataset,d0cuts_array[d0cut])
+                systematic_error = yieldAndError['yield']*getSystematicError(dataset)
             if types[dataset] is "bgMC":            
                 bgMCSum[d0cut] = bgMCSum[d0cut] + yieldAndError['yield']
                 bgMCStatErrSquared[d0cut] = bgMCStatErrSquared[d0cut] + yieldAndError['error'] * yieldAndError['error']
