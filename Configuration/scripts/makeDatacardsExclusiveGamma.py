@@ -4,14 +4,13 @@ import time
 import os
 import sys
 import math
+from math import *
 import copy
 import re
 from array import *
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
-
-
 
 
 parser = OptionParser()
@@ -24,8 +23,14 @@ parser.add_option("-d", "--d0Cut", action="append", dest="d0Cuts",
 parser.add_option("-m", "--d0Max", dest="d0Max", default = 999.0,
                   help="specific a max d0 cut")
 
+def getDivError(a,b,deltaa,deltab):
+    return sqrt(pow(deltaa,2)/pow(b,2) + pow(deltab,2)*pow(a,2)/pow(b,4))
+def getMulError(a,b,deltaa,deltab):
+    return sqrt(pow(deltaa,2)*pow(b,2) + pow(deltab,2)*pow(a,2))
 
 (arguments, args) = parser.parse_args()
+
+d0Max = arguments.d0Max
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -80,96 +85,130 @@ def fancyTable(arrays):
 
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
     yieldAndErrorList = {}
-    inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
     print process, d0Cut
-    d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
-    if not d0HistogramTry:
-        print "WARNING: input histogram not found"
-        yieldAndErrorList['yield'] = 0.0
-        yieldAndErrorList['error'] = 0.0
-        return yieldAndErrorList
+    if process != "QCDFromData":
+        inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
+        d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
+        if not d0HistogramTry:
+            print "WARNING: input histogram not found"
+            yieldAndErrorList['yield'] = 0.0
+            yieldAndErrorList['error'] = 0.0
+            return yieldAndErrorList
+        d0Histogram = d0HistogramTry.Clone()
+        d0Histogram.SetDirectory(0)
+        inputFile.Close()
 
-    d0Histogram = d0HistogramTry.Clone()
-    d0Histogram.SetDirectory(0)
-    inputFile.Close()
+        nBinsX = d0Histogram.GetNbinsX()
+        nBinsY = d0Histogram.GetNbinsY()
 
-    nBinsX = d0Histogram.GetNbinsX()
-    nBinsY = d0Histogram.GetNbinsY()
-    x0 = x1 = y0 = y1 = 0
-
-    d0CutBinX = d0Histogram.GetXaxis().FindBin (float(d0Cut))
-    d0CutBinY = d0Histogram.GetYaxis().FindBin (float(d0Cut))
-    xValue = d0Histogram.GetXaxis().GetBinCenter(d0CutBinX)
-    yValue = d0Histogram.GetYaxis().GetBinCenter(d0CutBinY)
-
-    d0CutMaxX = d0Histogram.GetXaxis().FindBin (float(d0Max))
-    d0CutMaxY = d0Histogram.GetYaxis().FindBin (float(d0Max))
-
-    if ((xValue >= 0) == integrateOutwardX):
-        x0 = d0CutBinX
-#        x1 = nBinsX + 1
-        x1 = d0CutMaxX
-    else:
-        x0 = 0
-        x1 = d0CutBinX
-    if ((yValue >= 0) == integrateOutwardY):
-        y0 = d0CutBinY
-#        y1 = nBinsY + 1
-        y1 = d0CutMaxY
-    else:
-        y0 = 0
-        y1 = d0CutBinY
-
-
-    intError = Double (0.0)
-    fracError = 0.0
-
-    # just do normal 2D d0 cuts
-    if process.find("stop") is not -1 or types[process] is "data" or process is "QCDFromData":
-        yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
-        if yield_ > 0.0:
-            fracError = 1.0 + (intError / yield_)
-
-    # do 2D factorized d0 cuts
-    else:
-        totalError =  Double (0.0)
-        totalIntegral = d0Histogram.IntegralAndError(0,x1,0,y1,totalError)
-
-        if process is "WNjets":
-            ttbarFile = TFile("condor/"+condor_dir+"/"+"TTbar"+".root")
-            ttbarHistogram = ttbarFile.Get(channel+"/"+d0histogramName).Clone()
-            ttbarHistogram.SetDirectory(0)
-            inputFile.Close()
-            xError = Double (0.0)
-            xIntegral = ttbarHistogram.IntegralAndError(x0,x1,0,y1,xError)
-            xEfficiency = xIntegral/ttbarHistogram.Integral(0,x1,0,y1)
-
+        d0CutBinX = d0Histogram.GetXaxis().FindBin (float(d0Cut))
+        d0CutBinY = d0Histogram.GetYaxis().FindBin (float(d0Cut))
+    
+        d0CutMaxX = d0Histogram.GetXaxis().FindBin (float(arguments.d0Max))
+        d0CutMaxY = d0Histogram.GetYaxis().FindBin (float(arguments.d0Max))
+    
+        intError = Double (0.0)
+        fracError = 0.0
+    
+        if process.find("stop") is not -1 or types[process] is "data":
+            yield_ = d0Histogram.IntegralAndError(d0CutBinX,d0CutMaxX - 1,d0CutBinY,d0CutMaxY - 1,intError)
+            if yield_ > 0.0:
+                fracError = 1.0 + (intError / yield_)
+            yieldAndErrorList['yield'] = yield_
+            yieldAndErrorList['error'] = fracError
         else:
-            xError = Double (0.0)
-            xIntegral = d0Histogram.IntegralAndError(x0,x1,0,y1,xError)
-            xEfficiency = xIntegral/totalIntegral
+            inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
+            effInputFile = TFile("condor/"+condor_dir+"/"+process+"_DxyEff.root")
+            HistogramObj = inputFile.Get(channel+"/"+d0histogramName)
+            MuHistogramObj = effInputFile.Get(mud0histogramName)
+            EleHistogramObj = effInputFile.Get(eled0histogramName)
+            if not HistogramObj:
+                print "WARNING:  Could not find histogram " + channel+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
+                return
+            if not MuHistogramObj:
+                print "WARNING:  Could not find histogram " + mud0histogramName + " in file " + process+"_DxyEff.root" + ".  Will skip it and continue."
+                return
+            if not EleHistogramObj:
+                print "WARNING:  Could not find histogram " + eled0histogramName + " in file " + process+"_DxyEff.root" + ".  Will skip it and continue."
+                return
+            d0Histogram = HistogramObj.Clone()
+            d0Histogram.SetDirectory(0)
+            mud0Histogram = MuHistogramObj.Clone()
+            mud0Histogram.SetDirectory(0)
+            eled0Histogram = EleHistogramObj.Clone()
+            eled0Histogram.SetDirectory(0)
+            inputFile.Close()
         
-        yError = Double (0.0)
-        yIntegral = d0Histogram.IntegralAndError(0,x1,y0,y1,yError)
-        yEfficiency = yIntegral/totalIntegral
+            yieldAndErrorList = {}
+            
+            muSF = 0
+            eleSF = 0
+            muSFErr = 0 
+            eleSFErr = 0
+            muNBins = mud0Histogram.GetNbinsX()
+            mud0CutBin  = mud0Histogram.GetXaxis ().FindBin (float(d0Cut))
+            mud0CutUpper = mud0Histogram.GetXaxis ().FindBin (float(d0Max))
+            if mud0Histogram.GetXaxis ().FindBin (float(d0Cut)) >= mud0Histogram.GetNbinsX ():
+                 mud0CutBin = mud0Histogram.GetNbinsX ()
+            if mud0Histogram.GetXaxis ().FindBin (float(d0Max)) > mud0Histogram.GetNbinsX ():
+                muSF = mud0Histogram.GetBinContent(mud0CutBin)
+                muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutBin),2))
+            elif mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
+       	       	muSF = mud0Histogram.GetBinContent(mud0CutBin)
+       		muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
+    	    else: 
+       		muSF = mud0Histogram.GetBinContent(mud0CutUpper) - mud0Histogram.GetBinContent(mud0CutBin)
+       		muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
+            
+            eleNBins = eled0Histogram.GetNbinsX()
+            eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0Cut))
+            eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(d0Max))
+            if eled0Histogram.GetXaxis ().FindBin (float(d0Cut)) > eled0Histogram.GetNbinsX ():
+                eled0CutBin = eled0Histogram.GetNbinsX ()
+            if eled0Histogram.GetXaxis ().FindBin (float(d0Max)) > eled0Histogram.GetNbinsX ():
+                eleSF = eled0Histogram.GetBinContent(eled0CutBin)
+       		eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutBin),2))
+            elif eled0Histogram.GetBinContent(eled0CutBin) == eled0Histogram.GetBinContent(eled0CutUpper):
+                eleSF = eled0Histogram.GetBinContent(eled0CutBin)
+                eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
+            else: 
+                eleSF = eled0Histogram.GetBinContent(eled0CutUpper) - eled0Histogram.GetBinContent(eled0CutBin)
+                eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
         
-        factorizedEfficiency = xEfficiency * yEfficiency
-        yield_ = factorizedEfficiency * totalIntegral
-        factorizedYieldError = Double (0.0)
-        if xIntegral > 0.0 and yIntegral > 0.0 and  totalIntegral > 0.0:
-            factorizedYieldError = (xError/xIntegral)*(xError/xIntegral)+(yError/yIntegral)*(yError/yIntegral)+(totalError/totalIntegral)*(totalError/totalIntegral)
-            factorizedYieldError = math.sqrt(factorizedYieldError)
-        fracError = 1.0 + factorizedYieldError
-
-    yieldAndErrorList['yield'] = yield_
-    yieldAndErrorList['error'] = fracError
+            overalSF = muSF*eleSF
+            overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr) 
+            
+            nBinsX = d0Histogram.GetNbinsX()
+            nBinsY = d0Histogram.GetNbinsY()
+        
+            normIntErr = Double (0.0)
+            normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+            targetYield = normIntegral*overalSF
+            targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
+            if targetYield:
+                fracError = 1.0 + (targetYieldErr / targetYield)        
+            yieldAndErrorList['yield'] = targetYield
+            yieldAndErrorList['error'] = fracError
+    else:
+        if d0Cut == '0.02':
+            yieldAndErrorList['yield'] = 0.301
+            yieldAndErrorList['error'] = 1.609 
+        if d0Cut == '0.05':
+            yieldAndErrorList['yield'] = 0.017177
+            yieldAndErrorList['error'] = 0.09167 
+        if d0Cut == '0.1':
+            yieldAndErrorList['yield'] = 0.000386
+            yieldAndErrorList['error'] = 0.00206
+            #yieldAndErrorList['yield'] = round(targetYield,4)
+            #yieldAndErrorList['error'] = round(fracError,4)
+    
     return yieldAndErrorList
 
 
 def writeDatacard(mass,lifetime):
-
-
-    signal_dataset = "stop"+mass+"_"+lifetime+"mm_MiniAOD"
+    if '.' in lifetime:
+        lifetime = lifetime.replace('.','p')
+    signal_dataset = "stop"+mass+"_"+lifetime+"mm"
 #    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
 
     signal_yield = {}
@@ -194,7 +233,7 @@ def writeDatacard(mass,lifetime):
             signal_error[currentD0Cut] = 0
 
 
-    
+    signal_dataset = "stop"+mass+"_"+lifetime.replace('p','.')+"mm" 
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
 
@@ -243,7 +282,7 @@ def writeDatacard(mass,lifetime):
             process_name_row.append(background)
             process_index_row.append(str(process_index))
             process_index = process_index + 1
-            rate_row.append(str(round(background_yields[background][d0Cut],4)))
+            rate_row.append(str(round(background_yields[background][d0Cut],8)))
             empty_row.append('')
         
     datacard_data.append(empty_row)
@@ -263,7 +302,7 @@ def writeDatacard(mass,lifetime):
 
         for d0CutInner in arguments.d0Cuts:
             if d0Cut is d0CutInner:
-                signal_error_string = str(round(signal_yield[d0Cut]/original_events,7))
+                signal_error_string = str(round(signal_yield[d0Cut]/original_events,8))
                 row.append(signal_error_string)
             else:
                 row.append('-') # for signal in other region
@@ -284,8 +323,7 @@ def writeDatacard(mass,lifetime):
             type = 'gmN'
             row =  [name,type]
             if background_yields[background][d0Cut] > 0.0:
-                error = abs(background_errors[background][d0Cut]-1)
-                original_events = 1.0/(error*error)
+                original_events = 0.395
                 row.append(str(int(original_events)))
             else:
                 row.append('0')
@@ -295,7 +333,13 @@ def writeDatacard(mass,lifetime):
                 for process_name in backgrounds:
                     if background is process_name and d0Cut is d0CutInner:
                         if background_yields[process_name][d0Cut] > 0.0:
-                            row.append(str(round(background_yields[process_name][d0Cut]/original_events,7)))
+                            #row.append(str(round(background_yields[process_name][d0Cut]/original_events,7)))
+                            if d0Cut == '0.02':
+                                row.append(str(1.517))
+                            if d0Cut == '0.05':
+                                row.append(str(0.090))
+                            if d0Cut == '0.1':
+                                row.append(str(0.021))
                         else:
                             row.append("0")
                             #row.append(str(dataset_weights[process_name]))
@@ -315,7 +359,7 @@ def writeDatacard(mass,lifetime):
             row.append('-') # for the signal
             for process_name in backgrounds:
                 if background is process_name:
-                    row.append(str(round(background_errors[process_name][d0Cut],3)))
+                    row.append(str(round(background_errors[process_name][d0Cut],8)))
                 else:
                     row.append('-')
         datacard_data.append(row)
@@ -397,7 +441,7 @@ def writeDatacard(mass,lifetime):
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
-            if signal_dataset in systematics_dictionary[uncertainty][float(float(d0Cut))]:
+            if signal_dataset in systematics_dictionary[uncertainty][float(d0Cut)]:
                 row.append(systematics_dictionary[uncertainty][float(d0Cut)][signal_dataset])
             else:
                 row.append('-')
@@ -456,8 +500,8 @@ for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most e
     currentD0Cut = arguments.d0Cuts[cutIndex]
     nextD0Cut = arguments.d0Cuts[cutIndex+1]
     for background in backgrounds:
-        if background is not "QCDFromData":
-            continue
+        #if background is not "QCDFromData":
+        #    continue
         currentError = background_yields[background][currentD0Cut] * (background_errors[background][currentD0Cut]-1)
         nextError = background_yields[background][nextD0Cut] * (background_errors[background][nextD0Cut]-1)
         background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
@@ -475,7 +519,7 @@ for cutIndex in range(len(arguments.d0Cuts)):
         if not background_yields[background][currentD0Cut] > 0.0:
             background_yields[background][currentD0Cut] = background_yields[background][lastD0Cut]
             background_errors[background][currentD0Cut] = background_errors[background][lastD0Cut]
-
+            
     
 
 
@@ -483,20 +527,20 @@ for cutIndex in range(len(arguments.d0Cuts)):
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
     systematics_dictionary[systematic] =  {}
-    for d0Cut in d0cuts_array:
-        systematics_dictionary[systematic][d0Cut] = {}
+    for d0Cut in arguments.d0Cuts:
+        systematics_dictionary[systematic][float(d0Cut)] = {}
         input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
         for line in input_file:
             line = line.rstrip("\n").split(" ")
             dataset = line[0]
             if len(line) is 2:
-                systematics_dictionary[systematic][d0Cut][dataset] = line[1]
+                systematics_dictionary[systematic][float(d0Cut)][dataset] = line[1]
             elif len(line) is 3:
-                systematics_dictionary[systematic][d0Cut][dataset]= line[1]+"/"+line[2]
+                systematics_dictionary[systematic][float(d0Cut)][dataset]= line[1]+"/"+line[2]
 
             # turn off systematic when the central yield is zero
-            if systematics_dictionary[systematic][d0Cut][dataset] == '0' or systematics_dictionary[systematic][d0Cut][dataset] == '0/0':
-                systematics_dictionary[systematic][d0Cut][dataset] = '-'
+            if systematics_dictionary[systematic][float(d0Cut)][dataset] == '0' or systematics_dictionary[systematic][float(d0Cut)][dataset] == '0/0':
+                systematics_dictionary[systematic][float(d0Cut)][dataset] = '-'
             
             
 #print systematics_dictionary['pdf']['0.02']['stop300_7.0mm_br0']
@@ -524,5 +568,5 @@ for d0Cut in arguments.d0Cuts:
 ###looping over signal models and writing a datacard for each
 for mass in masses:
   for lifetime in lifetimes:
-        print "making datacard_stop"+mass+"_"+lifetime+"mm_MiniAOD.txt"
+        print "making datacard_stop"+mass+"_"+lifetime+"mm.txt"
         writeDatacard(mass,lifetime)
