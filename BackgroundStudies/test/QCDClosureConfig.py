@@ -1,19 +1,24 @@
-bbbarMuFile = '/data/users/bing/condor/QCDMuon76X_IsoCorr_April5th/SingleMu_2015D.root'
-bbbarEleFile = '/data/users/bing/condor/QCDElectron76X_IsoCorr_April5th/SingleEle_2015D.root'
-bbbarMuIPShape = 'QCDMuonDisplacedControlRegionPlotter/Muon-beamspot Plots/muonAbsD0BeamspotM'
-bbbarEleIPShape = 'QCDElectronDisplacedControlRegionPlotter/Electron-beamspot Plots/electronAbsD0BeamspotM'
+bbbarMuFile = '/data/users/bing/condor/QCDMuon76X_IsoCorr_April11thPreApr/SingleMu_2015D.root'
+bbbarEleFile = '/data/users/bing/condor/QCDElectron76X_IsoCorr_April11thPreApr/SingleEle_2015D.root'
+#bbbarMuFile = '/data/users/bing/condor/AntiIsoDisplaced76X_IsoCorr_April11thPreApr/MuonEG_2015D.root'
+#bbbarEleFile = '/data/users/bing/condor/QCDElectron76X_IsoCorr_SinglePhoton_April11thPreApr/SinglePhoton_2015D.root'
+#bbbarEleFile = '/data/users/bing/condor/AntiIsoDisplaced76X_IsoCorr_April11thPreApr/MuonEG_2015D.root'
+bbbarMuIPShape = 'QCDMuonControlRegionPlotter/Muon-beamspot Plots/muonAbsD0BeamspotM'
+bbbarEleIPShape = 'QCDElectronControlRegionPlotter/Electron-beamspot Plots/electronAbsD0BeamspotM'
+#bbbarMuIPShape = 'AntiIsoElectronBlindedMuonDisplacedPlotter/Muon-beamspot Plots/muonAbsD0BeamspotM'
+#bbbarEleIPShape = 'AntiIsoMuonBlindedElectronDisplacedPlotter/Electron-beamspot Plots/electronAbsD0BeamspotM'
 
-normSource = 'Displaced control region'
+normSource = 'EMuPreselection'
 
-dataNormFile = '/data/users/bing/condor/DisplacedControlRegion76X_March9/MuonEG_2015D.root'
-bgNormFile = '/data/users/bing/condor/DisplacedControlRegion76X_March9/Background.root'
-normIPDistribution = 'DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTriggerPlotter/Electron-muon-beamspot Plots/electronIpMuonIpInclusive'
+dataNormFile = '/data/users/bing/condor/EMuPreselection76X_IsoCorr_April11thPreApr/MuonEG_2015D.root'
+bgNormFile = '/data/users/bing/condor/EMuPreselection76X_IsoCorr_April11thPreApr/Background.root'
+normIPDistribution = 'EMuPreselectionInclusiveTriggerPlotter/Electron-muon-beamspot Plots/electronIpMuonIpMedium'
 
 targetSource = 'Displaced control region'
 
-dataTargetFile = '/data/users/bing/condor/DisplacedControlRegion76X_March9/MuonEG_2015D.root'
-bgTargetFile = '/data/users/bing/condor/DisplacedControlRegion76X_March9/Background.root'
-targetNormIPDistribution = 'DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTriggerPlotter/Electron-muon-beamspot Plots/electronIpMuonIpInclusive'
+dataTargetFile = '/data/users/bing/condor/DisplacedControlRegion76X_IsoCorr_April11thPreApr/MuonEG_2015D.root'
+bgTargetFile = '/data/users/bing/condor/DisplacedControlRegion76X_IsoCorr_April11thPreApr/Background.root'
+targetNormIPDistribution = 'DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTriggerPlotter/Electron-muon-beamspot Plots/electronIpMuonIpMedium'
 
 normMuLow = 0.01
 normMuHigh = 0.02
