@@ -65,7 +65,7 @@ ttbar_control_region_cuts = cms.VPSet(
 ##########################################################################
 
 TTbarControlRegion = cms.PSet(
-    name = cms.string("TTbartoEMu"),
+    name = cms.string("TTbarControlRegion"),
     triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
@@ -78,16 +78,12 @@ TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)
 ##########################################################################
 
 TTbarControlRegionMETTrigger = cms.PSet(
-    name = cms.string("TTbartoEMuMETTrigger"),
-    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
+    name = cms.string("TTbarControlRegionMETTrigger"),
+    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_PFMET120_JetIdCleaned_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
     cuts = cms.VPSet ()
 )
 
-TTbarControlRegionMETTrigger.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTrigger.cuts.append(electron_iso_corr_cut)
-TTbarControlRegionMETTrigger.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTrigger.cuts.append(muon_iso_corr_cut)
-TTbarControlRegionMETTrigger.cuts.extend(ttbar_control_region_cuts)
+TTbarControlRegionMETTrigger.cuts = cms.VPSet (copy.deepcopy(TTbarControlRegion.cuts))
 
 for cut in TTbarControlRegionMETTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
@@ -98,16 +94,12 @@ for cut in TTbarControlRegionMETTrigger.cuts:
 
 
 TTbarControlRegionMETTriggerPassEMuTrigger = cms.PSet(
-    name = cms.string("TTbartoEMuMETTriggerPassEMuTrigger"),
-    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
+    name = cms.string("TTbarControlRegionMETTriggerPassEMuTrigger"),
+    triggers = cms.vstring("HLT_PFMET170_v","HLT_PFMET120_BTagCSV0p72_v","HLT_PFMET120_JetIdCleaned_BTagCSV0p72_v","HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV0p72_v"),
     cuts = cms.VPSet ()
 )
 
-TTbarControlRegionMETTriggerPassEMuTrigger.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegionMETTriggerPassEMuTrigger.cuts.append(electron_iso_corr_cut)
-TTbarControlRegionMETTriggerPassEMuTrigger.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegionMETTriggerPassEMuTrigger.cuts.append(muon_iso_corr_cut)
-TTbarControlRegionMETTriggerPassEMuTrigger.cuts.extend(ttbar_control_region_cuts)
+TTbarControlRegionMETTriggerPassEMuTrigger.cuts = cms.VPSet (copy.deepcopy(TTbarControlRegion.cuts))
 
 for cut in TTbarControlRegionMETTriggerPassEMuTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
