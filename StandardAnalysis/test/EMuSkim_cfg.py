@@ -45,6 +45,7 @@ miniAOD_collections = cms.PSet (
   electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   generatorweights = cms.InputTag  ('generator', ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''), 
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
   #please notice this inputTag is different in miniAODv1 and v2.
   #pileupinfos     =  cms.InputTag  ("addPileupInfo",           ""),
