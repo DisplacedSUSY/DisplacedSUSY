@@ -8,6 +8,9 @@ from OSUT3Analysis.Configuration.miniAODV2_76X_Samples import *
 from array import array
 # specify which config file to pass to cmsRun
 
+systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
+external_systematics_directory = "DisplacedSUSY/Configuration/data/"
+
 # create list of datasets to process
 datasets = [
     'Diboson',
@@ -22,8 +25,8 @@ datasets = [
 
 #d0cuts_array = array('d',[0.005,0.006,0.007,0.008,0.009,0.01])
 #d0cuts_array = array('d',[0.008,0.009,0.01])
-d0cuts_array = array('d',[0.02])
-d0UpperCut = 10
+d0cuts_array = array('d',[0.01])
+d0UpperCut = 0.02
 d0histogramName    = "Electron-muon-beamspot Plots/electronIpMuonIpMedium"
 #mud0histogramName  = "Muon-beamspot Plots/muonAbsD0BeamspotM"
 mud0histogramName  = "muonAbsD0BeamspotM"
