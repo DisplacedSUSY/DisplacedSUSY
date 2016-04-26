@@ -19,33 +19,32 @@ def Round2DHistograms(histogram, precision):
             newHistogram.SetBinError(i, j, round(histogram.GetBinError(i,j), precision))
     return newHistogram
 
-inputFileMC = TFile("/data/users/bing/condor/TriggerEfficiency_April1st_All2p6_LooseId_LepSF/TTJets_Lept.root")
-#inputFileMC = TFile("/data/users/bing/condor/TriggerEfficiency_March27th_TightBJet/TTJets_Lept.root")
+inputFileMC = TFile("/data/users/bing/condor/TriggerEfficiency76X_IsoCorr_April11thPreApr/TTJets_DiLept.root")
 DenHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
-DenHistogram = DenHistogramObj.Clone().ProjectionX("Den",0,-1,"e")
 NumHistogram = NumHistogramObj.Clone().ProjectionX("Num",0,-1,"e")
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = NumHistogram.Rebin(5,"numnew", xBins)
-DenHistogramNew = DenHistogram.Rebin(5,"dennew", xBins)
+DenHistogram = DenHistogramObj.Clone().ProjectionX("Den",0,-1,"e")
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[40,50,60,80,100,120,200])
+NumHistogramNew = NumHistogram.Rebin(1,"numnew", xBins)
+DenHistogramNew = DenHistogram.Rebin(1,"dennew", xBins)
 EffHistogramMC = NumHistogramNew
 EffHistogramMC.Sumw2()
 EffHistogramMC.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
 #EffHistogramMC = TGraphAsymmErrors()
 #EffHistogramMC.BayesDivide(NumHistogramNew,DenHistogramNew,"w");
 
-inputFileData = TFile("/data/users/bing/condor/TriggerEfficiency_April1st_All2p6_LooseId_LepSF/MET_2015D.root")
+inputFileData = TFile("/data/users/bing/condor/TriggerEfficiency76X_IsoCorr_April11thPreApr/MET_2015D.root")
 #inputFileData = TFile("/data/users/bing/condor/TriggerEfficiency76X/MET_2015D.root")
 outputFile = TFile("DataMCRatio_Muon.root", "RECREATE")
 DenHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogram = NumHistogramObj.Clone().ProjectionX("Num",0,-1,"e")
 DenHistogram = DenHistogramObj.Clone().ProjectionX("Den",0,-1,"e")
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = NumHistogram.Rebin(5,"Parameter Summary", xBins)
-DenHistogramNew = DenHistogram.Rebin(5,"dennew", xBins)
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[40,50,60,80,100,120,200])
+NumHistogramNew = NumHistogram.Rebin(1,"Parameter Summary", xBins)
+DenHistogramNew = DenHistogram.Rebin(1,"dennew", xBins)
 EffHistogramData = NumHistogramNew
 EffHistogramData.Sumw2()
 EffHistogramData.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
@@ -70,10 +69,10 @@ DenHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plo
 NumHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogram = NumHistogramObj.Clone().ProjectionY("Num",0,-1,"e")
 DenHistogram = DenHistogramObj.Clone().ProjectionY("Den",0,-1,"e")
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = NumHistogram.Rebin(5,"numnew", yBins)
-DenHistogramNew = DenHistogram.Rebin(5,"dennew", yBins)
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[42,50,60,80,100,120,200])
+NumHistogramNew = NumHistogram.Rebin(6,"numnew", yBins)
+DenHistogramNew = DenHistogram.Rebin(6,"dennew", yBins)
 EffHistogramMC = NumHistogramNew
 EffHistogramMC.Sumw2()
 EffHistogramMC.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
@@ -85,10 +84,10 @@ DenHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPlotter/Electron-muon P
 NumHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogram = NumHistogramObj.Clone().ProjectionY("Num",0,-1,"e")
 DenHistogram = DenHistogramObj.Clone().ProjectionY("Den",0,-1,"e")
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = NumHistogram.Rebin(5,"Parameter Summary", yBins)
-DenHistogramNew = DenHistogram.Rebin(5,"dennew", yBins)
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[42,50,60,80,100,120,200])
+NumHistogramNew = NumHistogram.Rebin(6,"Parameter Summary", yBins)
+DenHistogramNew = DenHistogram.Rebin(6,"dennew", yBins)
 EffHistogramData = NumHistogramNew
 EffHistogramData.Sumw2()
 EffHistogramData.Divide(NumHistogramNew,DenHistogramNew,1,1,"B")
@@ -114,13 +113,13 @@ DenHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPlotter/Electron-muon Plo
 NumHistogramObj = inputFileMC.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogram = NumHistogramObj.Clone()
 DenHistogram = DenHistogramObj.Clone()
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = TH2D("Efficiency","Efficiency",5,xBins,5,yBins)
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[42,50,60,80,100,120,200])
+NumHistogramNew = TH2D("Efficiency","Efficiency",6,xBins,6,yBins)
 for j in range(1, NumHistogram.GetYaxis().GetNbins() + 1):
   for i in range(1, NumHistogram.GetXaxis().GetNbins() + 1): 
     NumHistogramNew.Fill(NumHistogram.GetXaxis().GetBinCenter(i),NumHistogram.GetYaxis().GetBinCenter(j),NumHistogram.GetBinContent(i,j));
-DenHistogramNew = TH2D("Efficiency","Efficiency",5,xBins,5,yBins)
+DenHistogramNew = TH2D("Efficiency","Efficiency",6,xBins,6,yBins)
 for j in range(1, DenHistogram.GetYaxis().GetNbins() + 1):
   for i in range(1, DenHistogram.GetXaxis().GetNbins() + 1): 
     DenHistogramNew.Fill(DenHistogram.GetXaxis().GetBinCenter(i),DenHistogram.GetYaxis().GetBinCenter(j),DenHistogram.GetBinContent(i,j));
@@ -134,13 +133,13 @@ DenHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPlotter/Electron-muon P
 NumHistogramObj = inputFileData.Get("TTbartoEMuMETTriggerPassEMuTriggerPlotter/Electron-muon Plots/electronPtMuonPt")
 NumHistogram = NumHistogramObj.Clone()
 DenHistogram = DenHistogramObj.Clone()
-xBins = array('d',[40,50,60,80,100,120])
-yBins = array('d',[40,50,60,80,100,120])
-NumHistogramNew = TH2D("Efficiency","Efficiency",5,xBins,5,yBins)
+xBins = array('d',[40,50,60,80,100,120,200])
+yBins = array('d',[42,50,60,80,100,120,200])
+NumHistogramNew = TH2D("Efficiency","Efficiency",6,xBins,6,yBins)
 for j in range(1, NumHistogram.GetYaxis().GetNbins() + 1):
   for i in range(1, NumHistogram.GetXaxis().GetNbins() + 1): 
     NumHistogramNew.Fill(NumHistogram.GetXaxis().GetBinCenter(i),NumHistogram.GetYaxis().GetBinCenter(j),NumHistogram.GetBinContent(i,j));
-DenHistogramNew = TH2D("Efficiency","Efficiency",5,xBins,5,yBins)
+DenHistogramNew = TH2D("Efficiency","Efficiency",6,xBins,6,yBins)
 for j in range(1, DenHistogram.GetYaxis().GetNbins() + 1):
   for i in range(1, DenHistogram.GetXaxis().GetNbins() + 1): 
     DenHistogramNew.Fill(DenHistogram.GetXaxis().GetBinCenter(i),DenHistogram.GetYaxis().GetBinCenter(j),DenHistogram.GetBinContent(i,j));

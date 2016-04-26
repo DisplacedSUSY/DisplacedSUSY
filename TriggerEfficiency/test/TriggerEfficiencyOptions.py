@@ -14,11 +14,15 @@ intLumi = -1 # from 8 TeV MuEG dataset
 
 # create list of datasets to process
 datasets = [
-    #'TTJets_DiLept',
+    'TTJets_DiLept',
     #'TTJets_Lept',
-    #'MET_2015D'
+    #'MET_2015D',
     'MuonEG_2015D'
     #'DisplacedSUSYSignal',
+    #'stop200_1mm',
+    #'stop200_10mm',
+    #'stop200_100mm',
+    #'stop200_1000mm',
 ]
 
 InputCondorArguments = {'hold':'true'}
