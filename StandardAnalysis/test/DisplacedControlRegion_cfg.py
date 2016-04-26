@@ -132,6 +132,6 @@ process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.975)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
