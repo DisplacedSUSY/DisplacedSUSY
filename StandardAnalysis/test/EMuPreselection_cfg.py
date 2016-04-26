@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
+from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
 import math
 import os
 
@@ -39,6 +40,7 @@ miniAOD_collections = cms.PSet (
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -62,6 +64,7 @@ collections = miniAOD_collections
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('LifetimeWeightProducer')
 
 weights = cms.VPSet (
     cms.PSet (
@@ -79,6 +82,10 @@ weights = cms.VPSet (
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
     ),
 )
 
@@ -101,7 +108,7 @@ from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 
 eventSelections = []
 #eventSelections.append(EMuPreselectionControlTrigger)
-eventSelections.append(EMuPreselectionInclusiveTrigger)
+eventSelections.append(EMuPreselectionDisplacedTrigger)
 
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
@@ -127,12 +134,12 @@ histograms.append(eventHistograms)
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
-process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
+process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D_Down")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.975)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
