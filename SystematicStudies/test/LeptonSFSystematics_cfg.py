@@ -12,13 +12,13 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
-#process.source = cms.Source ('PoolSource',
-#  fileNames = cms.untracked.vstring (
-#        'file:/data/users/bing/condor/EMuSkim76X/DYJetsToLL_50/EMuSkimSelection/skim_6.root',
+process.source = cms.Source ('PoolSource',
+  fileNames = cms.untracked.vstring (
+      'file:/data/users/bing/condor/EMuSkim76XSignal/stop200_1000mm/EMuSkimSelection/skim_1.root',
 #    'root://cms-xrd-global.cern.ch//store/mc/RunIISpring15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2_ext1-v1/10000/0036F7A6-CC6D-E511-8B5B-002590D60150.root',
 #  )
-#)
-set_input(process, "/data/users/bing/condor/EMuSkim76X/DYJetsToLL_50/EMuSkimSelection/")
+))
+#set_input(process, "/data/users/bing/condor/EMuSkim76X/DYJetsToLL_50/EMuSkimSelection/")
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
@@ -44,6 +44,7 @@ miniAOD_collections = cms.PSet (
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
   pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
@@ -64,6 +65,7 @@ collections = miniAOD_collections
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('LifetimeWeightProducer')
 
 weights = cms.VPSet (
     cms.PSet (
@@ -81,6 +83,10 @@ weights = cms.VPSet (
     cms.PSet (
        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
     ),
 )
 
@@ -167,17 +173,17 @@ add_channels (process, [MuDown], histograms, weights, [MuDownSFProducer], collec
 add_channels (process, [EleUp], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
 add_channels (process, [EleDown], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
 
-add_channels (process, [CentralValue50um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
-add_channels (process, [MuUp50um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
-add_channels (process, [MuDown50um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
-add_channels (process, [EleUp50um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
-add_channels (process, [EleDown50um], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
+#add_channels (process, [CentralValue50um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
+#add_channels (process, [MuUp50um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
+#add_channels (process, [MuDown50um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
+#add_channels (process, [EleUp50um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
+#add_channels (process, [EleDown50um], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
 
-add_channels (process, [CentralValue100um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
-add_channels (process, [MuUp100um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
-add_channels (process, [MuDown100um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
-add_channels (process, [EleUp100um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
-add_channels (process, [EleDown100um], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
+#add_channels (process, [CentralValue100um], histograms, weights, [DefaultSFProducer], collections, variableProducers, False)
+#add_channels (process, [MuUp100um], histograms, weights, [MuUpSFProducer], collections, variableProducers, False)
+#add_channels (process, [MuDown100um], histograms, weights, [MuDownSFProducer], collections, variableProducers, False)
+#add_channels (process, [EleUp100um], histograms, weights, [EleUpSFProducer], collections, variableProducers, False)
+#add_channels (process, [EleDown100um], histograms, weights, [EleDownSFProducer], collections, variableProducers, False)
 
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
@@ -187,6 +193,6 @@ process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.975)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
