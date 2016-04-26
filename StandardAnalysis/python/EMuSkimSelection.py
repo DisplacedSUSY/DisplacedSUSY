@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
+from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 ##########################################################################
 ##### Set up the EMu Skim Selections for the displaced SUSY analysis #####
 ##########################################################################
@@ -48,6 +49,21 @@ EMuSkimSelectionInclusiveTrigger = cms.PSet(
 
 EMuSkimSelectionInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuSkimSelection.cuts))
 
+##########################################################################
+EMuPreselectionSkim = cms.PSet(
+    name = cms.string("EMuPreselectionSkim"),
+    triggers = cms.vstring(), # TRIGGER
+    cuts = cms.VPSet ()
+)
+
+EMuPreselectionSkim.cuts.extend(electron_basic_selection_cuts)
+EMuPreselectionSkim.cuts.extend(muon_basic_selection_cuts)
+
+for cut in EMuPreselectionSkim.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
 ##########################################################################
 
 EMuTriggerStudySkimSelection = cms.PSet(
