@@ -20,6 +20,8 @@ datasets = [
     'SingleTop',
     'TTJets_Lept',
     #'QCD_MuEnriched',
+    #'QCD_EMEnriched',
+    #'QCD_bcToE'
     #'MuonEG_2015D',
     #'DisplacedSUSYSignal',
 ]
