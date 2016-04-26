@@ -99,8 +99,11 @@ from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
 
 eventSelections = []
 eventSelections.append(QCDMuonDisplacedControlRegion)
+eventSelections.append(QCDMuonControlRegion)
+#eventSelections.append(QCDMuonDisplacedControlRegionTightB)
+#eventSelections.append(QCDMuonDisplacedControlRegionLooseB)
 eventSelections.append(QCDMuonIsoControlRegion)
-eventSelections.append(QCDMuonNoIsoDisplacedControlRegion)
+#eventSelections.append(QCDMuonNoIsoDisplacedControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
