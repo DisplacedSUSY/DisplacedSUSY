@@ -208,6 +208,8 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
 def writeDatacard(mass,lifetime):
     if '.' in lifetime:
         lifetime = lifetime.replace('.','p')
+
+
     signal_dataset = "stop"+mass+"_"+lifetime+"mm"
 #    signal_dataset = "stopHadron"+mass+"_"+lifetime+"mm_"+"br"+branching_ratio
 
@@ -446,8 +448,8 @@ def writeDatacard(mass,lifetime):
             else:
                 row.append('-')
             for background in backgrounds:
-                if background in systematics_dictionary[uncertainty][float(d0Cut)]:
-                    row.append(systematics_dictionary[uncertainty][(float(d0Cut))][background])
+                if background in systematics_dictionary[uncertainty][d0Cut]:
+                    row.append(systematics_dictionary[uncertainty][d0Cut][background])
                 else:
                     row.append('-')
         datacard_data.append(row)

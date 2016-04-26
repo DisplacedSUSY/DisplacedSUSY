@@ -113,13 +113,13 @@ def GetYieldAndError(process,d0cut):
        eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutUpper),2) + pow(eled0Histogram.GetBinError(eled0CutBin),2))
 
     overalSF = muSF*eleSF
-    overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr) 
-    
+    overalSFErr = getMulError(muSF, eleSF, muSFErr, eleSFErr)
+
     nBinsX = d0Histogram.GetNbinsX()
     nBinsY = d0Histogram.GetNbinsY()
 
     normIntErr = Double (0.0)
-    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)
     targetYield = normIntegral*overalSF
     targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
             
@@ -218,7 +218,7 @@ for dataset in datasets:
     sys_errors[dataset] = {}
 
     for d0cut in d0cuts_array:
-        
+
         yieldAndError = {}
         yieldAndError = GetYieldAndError(dataset,d0cut)
 
@@ -237,7 +237,7 @@ for dataset in datasets:
             if types[dataset] is "bgMC":
                 yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],4)).rstrip("0").rstrip("."))
             else: # this is the data
-                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
+                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))
             stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],1)).rstrip("0").rstrip("."))
             if arguments.includeSystematics:
                 sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
@@ -303,7 +303,7 @@ for dataset in datasets:
     label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
     line = label + " & "
-    
+
     for d0cut in d0cuts_list:
         if yields[dataset][d0cut].find('$0$') is not -1:
             line = line + yields[dataset][d0cut] + " & "
@@ -322,7 +322,7 @@ if bgMCcounter is not 0:
         line = hLine+"background sum & "
 
         for d0cut in d0cuts_list:
-    
+
             bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],4)).rstrip("0").rstrip("."))
             bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
             line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
@@ -330,13 +330,13 @@ if bgMCcounter is not 0:
                 bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
                 line = line + " $\pm$ " + bgMCSysErr_
             line = line + " & "
-                
+
         line = line.rstrip("& ") + endLine + newLine + hLine
         fout.write(line)
-        
+
 for dataset in datasets:
 
-    
+
     if types[dataset] is not "data" or not yields[dataset]:
         continue
 
@@ -344,14 +344,14 @@ for dataset in datasets:
     label = rawlabel.replace("#","\\").replace("\\rightarrow","{\\rightarrow}").replace(" ","\\ ")
 
     line = label + " & "
-    
+
     for d0cut in d0cuts_list:
         line = line + yields[dataset][d0cut] + " & "
 
     line = line.rstrip("& ") + endLine + newLine + hLine
     fout.write(line)
 
-    
+
 fout.write("\\end{tabular} \\end{center} \\end{table}"+newLine)
 if(arguments.standAlone):
     fout.write("\\end{document}"+newLine)

@@ -181,6 +181,10 @@ global_systematic_uncertainties = {
         'value' : '1.04',
    	'applyList' : mc_normalized_processes,
     },
+   # 'dummy' :  {
+   #      'value' : '1.5',
+   # 	'applyList' : mc_normalized_processes,
+   #  },
 
 }
 
@@ -212,4 +216,5 @@ external_systematic_uncertainties = [
     # still need to produce these two
 #    'pdf', - might be already covered by theory expectation
     'pileup',
+
 ]
