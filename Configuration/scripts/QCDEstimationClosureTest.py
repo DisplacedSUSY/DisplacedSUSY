@@ -57,6 +57,9 @@ else:
 eleRatio = eleNum/eleDen
 eleRatioError = getDivError(eleNum,eleDen,eleNumError,eleDenError)
 
+print "Muon SF: " + str(muRatio) + "+-"  + str(muRatioError)
+print "Electron SF: " + str(eleRatio) + "+-" + str(eleRatioError)
+
 scalingFactor = muRatio*eleRatio
 scalingFactorError = getMulError(muRatio,eleRatio,muRatioError,eleRatioError) 
 
