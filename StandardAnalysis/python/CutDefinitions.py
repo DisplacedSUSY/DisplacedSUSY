@@ -16,16 +16,19 @@ jet_basic_selection_cuts = cms.VPSet(
         cutString = cms.string("pt > 30"),
         numberRequired = cms.string(">= 0")
     ),
+    #cms.PSet (
+    #    inputCollection = cms.vstring("jets"),
+    #    cutString = cms.string("matchedToLepton < 1 "),
+    #    numberRequired = cms.string(">= 0")
+    #),
     cms.PSet (
         inputCollection = cms.vstring("jets"),
-        cutString = cms.string("matchedToLepton < 1 "),
-        numberRequired = cms.string(">= 0")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        #loose jet Id
+        #cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        #tight lepton veto Id
+        cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
         numberRequired = cms.string(">= 0"),
-        alias = cms.string('jet ID')
+        alias = cms.string('tight lepton veto jet ID')
     ),
 )
 
@@ -45,9 +48,12 @@ bjet_basic_selection_cuts = cms.VPSet(
     ),
     cms.PSet (
         inputCollection = cms.vstring("bjets"),
-        cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        #loose jet Id
+        #cutString = cms.string("neutralHadronEnergyFraction < 0.99 & chargedEmEnergyFraction < 0.99 & neutralEmEnergyFraction < 0.99 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0"),
+        #tight lepton veto Id
+        cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
         numberRequired = cms.string(">= 0"),
-        alias = cms.string('bjet ID')
+        alias = cms.string('tight lepton veto bjet ID')
     ),
 )
 

@@ -16,6 +16,7 @@ EMuPreselectionNoTrigger.cuts.extend(electron_basic_selection_cuts)
 EMuPreselectionNoTrigger.cuts.append(electron_iso_corr_cut)
 EMuPreselectionNoTrigger.cuts.extend(muon_basic_selection_cuts)
 EMuPreselectionNoTrigger.cuts.append(muon_iso_corr_cut)
+EMuPreselectionNoTrigger.cuts.extend(jet_basic_selection_cuts)
 EMuPreselectionNoTrigger.cuts.extend(preselection_emu_cuts)
 EMuPreselectionNoTrigger.cuts.append(os_emu_cut)
 
