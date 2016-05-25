@@ -25,7 +25,7 @@ datasets = [
 #    'stop1100_50mm',
 ]
 
-d0cuts_array = array('d',[0.02])
+d0cuts_array = array('d',[0.02,0.05,0.1])
 d0UpperCut = 10
 d0histogramName    = "Electron-muon-beamspot Plots/electronIpMuonIpMedium"
 #mud0histogramName  = "Muon-beamspot Plots/muonAbsD0BeamspotM"

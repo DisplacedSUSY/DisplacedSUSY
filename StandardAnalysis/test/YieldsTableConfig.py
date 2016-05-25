@@ -32,5 +32,5 @@ d0histogramName    = "Electron-muon-beamspot Plots/electronIpMuonIpMedium"
 mud0histogramName  = "muonAbsD0BeamspotM"
 #eled0histogramName = "Electron-beamspot Plots/electronAbsD0BeamspotM"
 eled0histogramName = "electronAbsD0BeamspotM"
-channel = "EMuPreselectionInclusiveTrigger"
+channel = "DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger"
 
