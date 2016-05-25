@@ -209,6 +209,7 @@ for cut in PromptControlRegionDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 30")
 
 
+
 IsoMuAntiIsoElePromptControlRegionPromptTrigger = cms.PSet(
     name = cms.string("IsoMuAntiIsoElePromptControlRegionPromptTrigger"),
     triggers = cms.vstring("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v"), # TRIGGER
@@ -416,4 +417,3 @@ for cut in PromptControlRegionNoOSDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 32")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 30")
-
