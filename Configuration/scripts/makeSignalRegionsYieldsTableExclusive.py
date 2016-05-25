@@ -124,9 +124,9 @@ def GetYieldAndError(process,d0cut):
         targetYield = normIntegral*overalSF
         targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
                 
-        yieldAndErrorList['yield'] = round(targetYield,4)
+        yieldAndErrorList['yield'] = round(targetYield,8)
         #yieldAndErrorList['yield'] = targetYield
-        yieldAndErrorList['error'] = round(targetYieldErr,4)
+        yieldAndErrorList['error'] = round(targetYieldErr,8)
         #yieldAndErrorList['error'] = targetYieldErr
         return yieldAndErrorList
     else:
@@ -137,8 +137,8 @@ def GetYieldAndError(process,d0cut):
         d0Histogram.SetDirectory(0)
         normIntErr = Double (0.0)
         normIntegral = d0Histogram.IntegralAndError(d0Histogram.GetXaxis().FindBin(float(d0cut)), d0Histogram.GetXaxis().FindBin(float(d0UpperCut)) - 1, d0Histogram.GetYaxis().FindBin(float(d0cut)), d0Histogram.GetYaxis().FindBin(float(d0UpperCut)) - 1, normIntErr)  
-        yieldAndErrorList['yield'] = round(normIntegral,4)
-        yieldAndErrorList['error'] = round(normIntErr,4)
+        yieldAndErrorList['yield'] = round(normIntegral,8)
+        yieldAndErrorList['error'] = round(normIntErr,8)
         return yieldAndErrorList
 ########################################################################################
 ########################################################################################
@@ -218,73 +218,10 @@ sys_errors = {}
 yields_strings = {}
 stat_errors_strings = {}
 sys_errors_strings = {}
-null_expectation_flags = {}
 
 bgMCSum = {}
 bgMCStatErrSquared = {}
 bgMCSysErrSquared = {}
-
-
-for d0cut in d0cuts_array:
-    bgMCSum[d0cut] = 0
-    bgMCStatErrSquared[d0cut] = 0
-    bgMCSysErrSquared[d0cut] = 0
-
-
-for dataset in datasets:
-    yields[dataset] = {}
-    stat_errors[dataset] = {}
-    sys_errors[dataset] = {}
-    yields_strings[dataset] = {}
-    stat_errors_strings[dataset] = {}
-    sys_errors_strings[dataset] = {}
-    null_expectation_flags[dataset] = {}
-
-    for d0cut in d0cuts_array:
-        
-        yieldAndError = {}
-        yieldAndError = GetYieldAndError(dataset,d0cut)
-
-        if yieldAndError:
-
-            yields[dataset][d0cut] = yieldAndError['yield']
-            stat_errors[dataset][d0cut] = yieldAndError['error']
-
-
-# subtract the contributions from the more exclusive signal region
-for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
-    currentD0Cut = d0cuts_list[cutIndex]
-    nextD0Cut = d0cuts_list[cutIndex+1]
-    for dataset in datasets:
-        currentError = stat_errors[dataset][currentD0Cut]
-        nextError = stat_errors[dataset][nextD0Cut]
-        yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
-#        print currentError,nextError
-#        print currentError*currentError - nextError*nextError
-        if yields[dataset][currentD0Cut] > 0.0:
-            stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
-        else:
-            stat_errors[dataset][currentD0Cut] = 0
-
-# initial everything to false, later set it to true 
-for cutIndex in range(len(d0cuts_list)):
-    for dataset in datasets:
-        if types[dataset] is not "bgMC":
-            continue
-        null_expectation_flags[dataset][d0cuts_list[cutIndex]] = False
-
-# for null background expectations, set them equal to the expectation from the previous regions
-for cutIndex in range(1,len(d0cuts_list)):
-    currentD0Cut = d0cuts_list[cutIndex]
-    previousD0Cut = d0cuts_list[cutIndex-1]
-    for dataset in datasets:
-        if types[dataset] is not "bgMC":
-            continue
-        if not yields[dataset][currentD0Cut] > 0.0:
-	    yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
-            stat_errors[dataset][currentD0Cut] = stat_errors[dataset][previousD0Cut]
-            null_expectation_flags[dataset][currentD0Cut] = True
-
 
 for d0cut in d0cuts_array:
     bgMCSum[d0cut] = 0
@@ -315,17 +252,44 @@ for dataset in datasets:
                     bgMCSysErrSquared[d0cut] = bgMCSysErrSquared[d0cut] + systematic_error * systematic_error
 
             if types[dataset] is "bgMC":
-                yields[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['yield'],4)).rstrip("0").rstrip("."))
+                yields[dataset][d0cut] = round_sigfigs(yieldAndError['yield'],8)
             else: # this is the data
-                yields[dataset][d0cut] = formatNumber(str(int(yieldAndError['yield'])))                
-            stat_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(yieldAndError['error'],1)).rstrip("0").rstrip("."))
+                yields[dataset][d0cut] = int(yieldAndError['yield'])                
+            stat_errors[dataset][d0cut] = round_sigfigs(yieldAndError['error'],8)
             if arguments.includeSystematics:
-                sys_errors[dataset][d0cut] = formatNumber(str(round_sigfigs(systematic_error,1)).rstrip("0").rstrip("."))
+                sys_errors[dataset][d0cut] = round_sigfigs(systematic_error,8)
 
 
 #                print dataset,d0cut,bgMCSum[d0cut],"+-",bgMCErrSquared[d0cut],"^2"
 
 #print yields
+
+# subtract the contributions from the more exclusive signal region
+for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
+    currentD0Cut = d0cuts_list[cutIndex]
+    nextD0Cut = d0cuts_list[cutIndex+1]
+    for dataset in datasets:
+        currentError = stat_errors[dataset][currentD0Cut]
+        nextError = stat_errors[dataset][nextD0Cut]
+        yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
+        if yields[dataset][currentD0Cut] > 0.0:
+            stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
+        else:
+            stat_errors[dataset][currentD0Cut] = 0
+
+# for null background expectations, set them equal to the expectation from the previous regions
+for cutIndex in range(1,len(d0cuts_list)):
+    currentD0Cut = d0cuts_list[cutIndex]
+    previousD0Cut = d0cuts_list[cutIndex-1]
+    for dataset in datasets:
+        if types[dataset] is not "bgMC":
+            continue
+        if not yields[dataset][currentD0Cut] > 0.0:
+	    yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
+            stat_errors[dataset][currentD0Cut] = stat_errors[dataset][previousD0Cut]
+
+
+
 
 
 
@@ -380,12 +344,12 @@ for dataset in datasets:
     line = label + " & "
     
     for d0cut in d0cuts_list:
-        if yields[dataset][d0cut].find('$0$') is not -1:
-            line = line + yields[dataset][d0cut] + " & "
+        if str(yields[dataset][d0cut]).find('$0$') is not -1:
+            line = line + "$" + str(yields[dataset][d0cut]) + "$ & "
         else:
-            line = line + yields[dataset][d0cut] + " $\pm$ " + stat_errors[dataset][d0cut]
+            line = line + "$" + str(yields[dataset][d0cut]) + "$ " + " $\pm$ $" + str(stat_errors[dataset][d0cut]) + "$"
             if arguments.includeSystematics:
-                line = line + " $\pm$ " + sys_errors[dataset][d0cut]
+                line = line + " $\pm$ $" + str(sys_errors[dataset][d0cut]) + "$ "
             line = line + " & "
 
     line = line.rstrip("& ") + endLine + newLine
@@ -398,12 +362,12 @@ if bgMCcounter is not 0:
 
         for d0cut in d0cuts_list:
     
-            bgMCSum_ = formatNumber(str(round_sigfigs(bgMCSum[d0cut],4)).rstrip("0").rstrip("."))
-            bgMCStatErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
-            line = line + bgMCSum_ + " $\pm$ " + bgMCStatErr_
+            bgMCSum_ = round_sigfigs(bgMCSum[d0cut],8)
+            bgMCStatErr_ = round_sigfigs(math.sqrt(bgMCStatErrSquared[d0cut]),8)
+            line = line + " $" + str(bgMCSum_) + "$ $\pm$ $" + str(bgMCStatErr_) + "$ "
             if arguments.includeSystematics:
-                bgMCSysErr_ = formatNumber(str(round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),1)).rstrip("0").rstrip("."))
-                line = line + " $\pm$ " + bgMCSysErr_
+                bgMCSysErr_ = round_sigfigs(math.sqrt(bgMCSysErrSquared[d0cut]),8)
+                line = line + " $\pm$ $" + str(bgMCSysErr_) + "$ "
             line = line + " & "
                 
         line = line.rstrip("& ") + endLine + newLine + hLine

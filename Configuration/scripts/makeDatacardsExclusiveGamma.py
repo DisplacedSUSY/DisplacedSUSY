@@ -191,14 +191,20 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
             yieldAndErrorList['error'] = fracError
     else:
         if d0Cut == '0.02':
-            yieldAndErrorList['yield'] = 0.301
-            yieldAndErrorList['error'] = 1.609 
+            #yieldAndErrorList['yield'] = 0.301
+            #yieldAndErrorList['error'] = 1.609 
+            yieldAndErrorList['yield'] = 0.3617
+            yieldAndErrorList['error'] = 3.1052
         if d0Cut == '0.05':
-            yieldAndErrorList['yield'] = 0.017177
-            yieldAndErrorList['error'] = 0.09167 
+            #yieldAndErrorList['yield'] = 0.017177
+            #yieldAndErrorList['error'] = 0.09167 
+            yieldAndErrorList['yield'] = 0.0326
+            yieldAndErrorList['error'] = 0.2800 
         if d0Cut == '0.1':
-            yieldAndErrorList['yield'] = 0.000386
-            yieldAndErrorList['error'] = 0.00206
+            #yieldAndErrorList['yield'] = 0.000386
+            #yieldAndErrorList['error'] = 0.00206
+            yieldAndErrorList['yield'] = 0.0015
+            yieldAndErrorList['error'] = 0.0133 
             #yieldAndErrorList['yield'] = round(targetYield,4)
             #yieldAndErrorList['error'] = round(fracError,4)
     
@@ -237,8 +243,8 @@ def writeDatacard(mass,lifetime):
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
 
-    datacard.write('imax ' + str(len(arguments.d0Cuts)) + ' number of channels\n')
-    datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
+    datacard.write('imax ' + str(len(arguments.d0Cuts)*2) + ' number of channels\n')
+    datacard.write('jmax '+ str(len(backgrounds) + 1) + ' number of backgrounds\n')
     datacard.write('kmax * number of nuisance parameters\n')
     datacard.write('\n')
 
@@ -248,7 +254,10 @@ def writeDatacard(mass,lifetime):
     for d0Cut in arguments.d0Cuts:
         bin_row.append('d0min_'+str(d0Cut))
         observation_row.append(str(round(observation[d0Cut],0)))
-
+    ################# Hard coded to add control bins  #################
+        bin_row.append('control_' + 'd0min_'+str(d0Cut))
+        observation_row.append(str(1))
+    ###################################################################
     #################
     datacard.write('\n----------------------------------------\n')
     datacard.write(fancyTable([ bin_row, observation_row ]))
@@ -281,10 +290,25 @@ def writeDatacard(mass,lifetime):
             bin_row_2.append('d0min_'+str(d0Cut))
             process_name_row.append(background)
             process_index_row.append(str(process_index))
-            process_index = process_index + 1
             rate_row.append(str(round(background_yields[background][d0Cut],8)))
             empty_row.append('')
-        
+            if background is 'QCDFromData':
+                bin_row_2.append('control_' + 'd0min_'+str(d0Cut))
+                process_name_row.append('QCDFromData')
+                process_index_row.append(str(process_index))
+                rate_row.append('0.193')
+                empty_row.append('')
+                bin_row_2.append('control_' + 'd0min_'+str(d0Cut))
+                process_name_row.append('NonQCD')
+                process_index_row.append(str(process_index + 1))
+                rate_row.append('0.807')
+                empty_row.append('')
+                process_index = process_index + 2
+            else:
+                process_index = process_index + 1 
+                
+                 
+ 
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# STATISTICAL UNCERTAINTIES #"
@@ -308,8 +332,13 @@ def writeDatacard(mass,lifetime):
                 row.append('-') # for signal in other region
 
             for background in backgrounds:
-                row.append('-')
-
+                if background == 'QCDFromData': 
+                    row.append('-')
+                    row.append('-')
+                    row.append('-')
+                else:
+                    row.append('-')
+      
         datacard_data.append(row)
 
     #add a row for the statistical error of each background in each region
@@ -320,34 +349,29 @@ def writeDatacard(mass,lifetime):
             continue
         for d0Cut in arguments.d0Cuts:
             name = background+'_stat_' + 'd0min_' + str(d0Cut)
-            type = 'gmN'
-            row =  [name,type]
-            if background_yields[background][d0Cut] > 0.0:
-                original_events = 0.395
-                row.append(str(int(original_events)))
-            else:
-                row.append('0')
+            type = 'lnU'
+            row =  [name,type,'']
                 
             for d0CutInner in arguments.d0Cuts:
                 row.append('-') # for signal
                 for process_name in backgrounds:
-                    if background is process_name and d0Cut is d0CutInner:
-                        if background_yields[process_name][d0Cut] > 0.0:
-                            #row.append(str(round(background_yields[process_name][d0Cut]/original_events,7)))
-                            if d0Cut == '0.02':
-                                row.append(str(1.517))
-                            if d0Cut == '0.05':
-                                row.append(str(0.090))
-                            if d0Cut == '0.1':
-                                row.append(str(0.021))
-                        else:
-                            row.append("0")
-                            #row.append(str(dataset_weights[process_name]))
+                    if background is process_name:
+                        if d0Cut is d0CutInner:
+                            if background_yields[process_name][d0Cut] > 0.0:
+                                row.append(str(25))
+                                row.append(str(25))
+                                row.append('-')
+                            else:
+                                row.append("0")
+                                row.append("0")
+                                row.append("0")
+                        else:   
+                            row.append('-')
+                            row.append('-')
+                            row.append('-')
                     else:
-                        row.append('-') # for signal in other region 
-
+                        row.append('-')
             datacard_data.append(row)
-
 
 
     #add a row for the statistical error of each background
@@ -360,8 +384,13 @@ def writeDatacard(mass,lifetime):
             for process_name in backgrounds:
                 if background is process_name:
                     row.append(str(round(background_errors[process_name][d0Cut],8)))
+                elif process_name is 'QCDFromData':
+                    row.append('-')
+                    row.append('-')
+                    row.append('-')
                 else:
                     row.append('-')
+                 
         datacard_data.append(row)
 
 
@@ -382,7 +411,12 @@ def writeDatacard(mass,lifetime):
             row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
 
         for background in backgrounds:
-            row.append('-')
+            if background is 'QCDFromData':
+                row.append('-')
+            	row.append('-')
+            	row.append('-')
+            else:	
+		row.append('-')
     datacard_data.append(row)
 
     #add a row for the normalization error for each background
@@ -392,11 +426,33 @@ def writeDatacard(mass,lifetime):
             row.append('-') # for the signal
             for background in backgrounds:
                 if process_name is background:
-                    row.append(background_normalization_uncertainties[process_name]['value'])
-                else:
+                    if process_name != 'QCDFromData':
+                        row.append(background_normalization_uncertainties[process_name]['value'])
+                    else:
+                        row.append(background_normalization_uncertainties[process_name]['value'])
+                        row.append('-')
+                        row.append('-')
+                elif background == 'QCDFromData':
                     row.append('-')
+                    row.append('-')
+                    row.append('-')
+                else:    
+                   row.append('-')
         datacard_data.append(row)
 
+    row = ["NonQCD_norm",'lnN','']
+    for d0Cut in arguments.d0Cuts:
+        row.append('-') # for the signal
+        for background in backgrounds:
+            if background != 'QCDFromData':
+                row.append('-')
+            else:
+                row.append('-')
+                row.append('-')
+                row.append('1.08')
+    datacard_data.append(row)
+    
+    
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# SYSTEMATIC UNCERTAINTIES #"
@@ -416,8 +472,13 @@ def writeDatacard(mass,lifetime):
             for background in backgrounds:
                 if background in global_systematic_uncertainties[uncertainty]['applyList']:
                     row.append(global_systematic_uncertainties[uncertainty]['value'])
-                else:
+                elif background == 'QCDFromData':
                     row.append('-')
+                    row.append('-')
+                    row.append('-')
+                else:     
+		    row.append('-')
+             
         datacard_data.append(row)
 
 
@@ -431,11 +492,15 @@ def writeDatacard(mass,lifetime):
                 row.append('-')
             for background in backgrounds:
                 if background is unique_systematic_uncertainties[uncertainty]['dataset']:
-                    row.append(unique_systematic_uncertainties[uncertainty]['value'])
+                    if background != 'QCDFromData':
+                        row.append(unique_systematic_uncertainties[uncertainty]['value'])
+                    else: 
+                        row.append('-')
+                        row.append('-')
+                        row.append('-')
                 else:
                     row.append('-')
         datacard_data.append(row)
-
 
     #add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
@@ -447,11 +512,15 @@ def writeDatacard(mass,lifetime):
                 row.append('-')
             for background in backgrounds:
                 if background in systematics_dictionary[uncertainty][float(d0Cut)]:
-                    row.append(systematics_dictionary[uncertainty][(float(d0Cut))][background])
-                else:
+                        row.append(systematics_dictionary[uncertainty][(float(d0Cut))][background])
+                elif background == 'QCDFromData':
                     row.append('-')
+                    row.append('-')
+                    row.append('-')
+ 		else:
+                    row.append('-')
+ 
         datacard_data.append(row)
-
 
 
     #write all rows to the datacard
