@@ -47,6 +47,7 @@ miniAOD_collections = cms.PSet (
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
   beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
   superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
