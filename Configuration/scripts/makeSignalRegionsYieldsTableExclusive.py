@@ -90,7 +90,7 @@ def GetYieldAndError(process,d0cut):
            mud0CutBin = mud0Histogram.GetNbinsX ()
         if mud0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) > mud0Histogram.GetNbinsX ():
            muSF = mud0Histogram.GetBinContent(mud0CutBin)
-           muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutBin),2))
+           muSFErr = mud0Histogram.GetBinError(mud0CutBin)
         elif mud0Histogram.GetBinContent(mud0CutBin) == mud0Histogram.GetBinContent(mud0CutUpper):
            muSF = mud0Histogram.GetBinContent(mud0CutBin)
            muSFErr = sqrt(pow(mud0Histogram.GetBinError(mud0CutUpper),2) + pow(mud0Histogram.GetBinError(mud0CutBin),2))
@@ -102,7 +102,7 @@ def GetYieldAndError(process,d0cut):
         eled0CutBin  = eled0Histogram.GetXaxis ().FindBin (float(d0cut))
         eled0CutUpper  = eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut))
         if eled0Histogram.GetXaxis ().FindBin (float(d0cut)) > eled0Histogram.GetNbinsX ():
-            eled0CutBin = eled0Histogram.GetNbinsX ()
+           eled0CutBin = eled0Histogram.GetNbinsX ()
         if eled0Histogram.GetXaxis ().FindBin (float(d0UpperCut)) > eled0Histogram.GetNbinsX ():
            eleSF = eled0Histogram.GetBinContent(eled0CutBin)
            eleSFErr = sqrt(pow(eled0Histogram.GetBinError(eled0CutBin),2))
@@ -274,9 +274,17 @@ for cutIndex in range(len(d0cuts_list)-1): # -1 => don't include the most exclus
         yields[dataset][currentD0Cut] = yields[dataset][currentD0Cut] - yields[dataset][nextD0Cut]
         if yields[dataset][currentD0Cut] > 0.0:
             stat_errors[dataset][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError)
+            sys_errors[dataset][currentD0Cut] = math.sqrt(sys_errors[dataset][currentD0Cut]*sys_errors[dataset][currentD0Cut] - sys_errors[dataset][nextD0Cut]*sys_errors[dataset][nextD0Cut])
         else:
             stat_errors[dataset][currentD0Cut] = 0
-
+            sys_errors[dataset][currentD0Cut] = 0
+    bgMCSum[currentD0Cut] = bgMCSum[currentD0Cut] - bgMCSum[nextD0Cut]
+    if bgMCSum[currentD0Cut] > 0.0:
+        bgMCSysErrSquared[currentD0Cut] = bgMCSysErrSquared[currentD0Cut] - bgMCSysErrSquared[nextD0Cut]
+        bgMCStatErrSquared[currentD0Cut] = bgMCStatErrSquared[currentD0Cut] - bgMCStatErrSquared[nextD0Cut]
+    else:
+        bgMCSysErrSquared[currentD0Cut] = 0
+        bgMCStatErrSquared[currentD0Cut] = 0
 # for null background expectations, set them equal to the expectation from the previous regions
 for cutIndex in range(1,len(d0cuts_list)):
     currentD0Cut = d0cuts_list[cutIndex]
@@ -287,6 +295,11 @@ for cutIndex in range(1,len(d0cuts_list)):
         if not yields[dataset][currentD0Cut] > 0.0:
 	    yields[dataset][currentD0Cut] = yields[dataset][previousD0Cut]
             stat_errors[dataset][currentD0Cut] = stat_errors[dataset][previousD0Cut]
+            sys_errors[dataset][currentD0Cut] = sys_errors[dataset][previousD0Cut]
+    if not bgMCSum[currentD0Cut] > 0.0:
+        bgMCSum[currentD0Cut] = bgMCSum[previousD0Cut]
+        bgMCSysErrSquared[currentD0Cut] = bgMCSysErrSquared[previousD0Cut]
+        bgMCStatErrSquared[currentD0Cut] = bgMCStatErrSquared[previousD0Cut]
 
 
 
