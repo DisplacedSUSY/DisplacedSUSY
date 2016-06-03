@@ -62,6 +62,37 @@ ttbar_control_region_cuts = cms.VPSet(
         alias = cms.string('>= 1 medium b jets')
     )
 )
+ttbar_semileptonic_control_region_cuts = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("abs(eta) < 2.4"),
+        numberRequired = cms.string(">= 2")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pt > 30"),
+        numberRequired = cms.string(">= 2")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('>= 2 good jets')
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("muons", "jets"),
+        cutString = cms.string("deltaR(muon, jet) < 0.5"),
+        numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
+        alias = cms.string("muon near jet veto")
+    ),
+    cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 medium b jets')
+    )
+)
 ##########################################################################
 
 TTbarControlRegion = cms.PSet(
@@ -107,3 +138,12 @@ for cut in TTbarControlRegionMETTriggerPassEMuTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
+
+TTbarMuonControlRegion = cms.PSet(
+    name = cms.string("TTbarMuonControlRegion"),
+    triggers = cms.vstring("HLT_IsoMu27_v"),
+    cuts = cms.VPSet ()
+)
+TTbarMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
+TTbarMuonControlRegion.cuts.append(muon_iso_corr_cut)
+TTbarMuonControlRegion.cuts.extend(ttbar_semileptonic_control_region_cuts)

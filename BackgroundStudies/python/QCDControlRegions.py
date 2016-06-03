@@ -18,6 +18,7 @@ jet_basic_selection_cuts = cms.VPSet(
         cutString = cms.string("pt > 30"),
         numberRequired = cms.string(">= 1")
     ),
+    #Using tight lepton veto jet ID. https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID#Recommendations_for_13_TeV_data 
     cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
@@ -37,6 +38,7 @@ bjet_basic_selection_cuts = cms.VPSet(
         cutString = cms.string("pt > 30"),
         numberRequired = cms.string(">= 1")
     ),
+    #Using tight lepton veto jet ID. https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID#Recommendations_for_13_TeV_data 
     cms.PSet (
         inputCollection = cms.vstring("bjets"),
         cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
@@ -58,6 +60,7 @@ QCDMuonSkim = cms.PSet(
             cutString = cms.string("abs(eta) < 2.5"),
             numberRequired = cms.string(">= 1")
         ),
+        #Tight muon ID with dxy dz removed.
         cms.PSet (
             inputCollection = cms.vstring("muons"),
             cutString = cms.string("\
@@ -81,6 +84,7 @@ QCDMuonSkim = cms.PSet(
             cutString = cms.string("pt > 30"),
             numberRequired = cms.string(">= 2")
         ),
+        #Using tight lepton veto jet ID. https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID#Recommendations_for_13_TeV_data 
         cms.PSet (
             inputCollection = cms.vstring("jets"),
             cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
@@ -106,6 +110,7 @@ QCDElectronSkim = cms.PSet(
             cutString = cms.string("abs(eta) < 2.5"),
             numberRequired = cms.string(">= 1")
         ),
+        #Tight Electron ID with dxy dz removed.
         cms.PSet (
             inputCollection = cms.vstring("electrons"),
             cutString = cms.string("\
@@ -149,8 +154,9 @@ QCDElectronSkim = cms.PSet(
 
 
 ##############################################################
-# extra cuts for the control region
-
+############# extra cuts for the control region ##############
+##############################################################
+#Cuts on bjets
 # CSV L working point
 bjet_csvl_cut = cms.PSet (
     inputCollection = cms.vstring("bjets"),
@@ -164,23 +170,38 @@ bjet_csvm_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
 )
+# CSV T working point
 bjet_csvt_cut = cms.PSet (
     inputCollection = cms.vstring("bjets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
     numberRequired = cms.string(">= 1"),
     arbitration = cms.string("random"),
 )
+#Cuts on bjets
+# CSV L working point
 jet_csvl_cut = cms.PSet (
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.460"),
     numberRequired = cms.string(">= 1"),
 )
-jet_PuId_cut = cms.PSet (
+# CSV M working point
+jet_csvm_cut = cms.PSet (
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pileupJetId <= 0.9"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
     numberRequired = cms.string(">= 1"),
 )
-
+# CSV T working point
+jet_csvt_cut = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
+    numberRequired = cms.string(">= 1"),
+)
+#Extra CSV cuts on jets to select special type of events
+jet_csvl_inverted_cut = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags < 0.460"),
+    numberRequired = cms.string(">= 1"),
+)
 jet_light_flavor_veto_cut = cms.PSet (
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.200"),
@@ -192,17 +213,13 @@ jet_csvl_inverted_cut = cms.PSet (
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags < 0.460"),
     numberRequired = cms.string(">= 1"),
 )
-
-jet_csvm_cut = cms.PSet (
+#Pileup jets peak ar low end
+jet_PuId_cut = cms.PSet (
     inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
+    cutString = cms.string("pileupJetId >= 0.9"),
     numberRequired = cms.string(">= 1"),
 )
-jet_csvt_cut = cms.PSet (
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
-    numberRequired = cms.string(">= 1"),
-)
+#Topology cuts
 dijet_cut = cms.PSet (
     inputCollection = cms.vstring("jets","bjets"),
     cutString = cms.string("abs(deltaPhi(jet,bjet)) > 2.5"),
@@ -218,6 +235,7 @@ muonjet_veto_cut = cms.PSet (
     cutString = cms.string("deltaR(muon,jet) < 0.5"),
     numberRequired = cms.string("== 0"),
 )
+#Only select bjets not close to the muons
 muonbjet_cut = cms.PSet (
     inputCollection = cms.vstring("muons","bjets"),
     cutString = cms.string("deltaR(muon,bjet) > 0.5"),
@@ -233,11 +251,7 @@ electronjet_veto_cut = cms.PSet (
     cutString = cms.string("deltaR(electron,jet) < 0.5"),
     numberRequired = cms.string("== 0"),
 )
-electronjet_ptdiff_cut = cms.PSet (
-    inputCollection = cms.vstring("electrons","jets"),
-    cutString = cms.string("abs(electron.pt - jet.pt) > 10"),
-    numberRequired = cms.string(">= 1"),
-)
+
 electron_dxy_cut = cms.PSet (
     inputCollection = cms.vstring("electrons","beamspots"),
     cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) > 0.01 "),
@@ -250,11 +264,7 @@ muon_dxy_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon dxy > 0.01 cm")
 )
-muonjet_ptdiff_cut = cms.PSet (
-    inputCollection = cms.vstring("muons","jets"),
-    cutString = cms.string("abs(muon.pt - jet.pt) > 10"),
-    numberRequired = cms.string(">= 1"),
-)
+#Only select bjets not close to the electron
 electronbjet_cut = cms.PSet (
     inputCollection = cms.vstring("electrons","bjets"),
     cutString = cms.string("deltaR(electron,bjet) > 0.5"),
@@ -267,13 +277,13 @@ jet_csv_ranking_cut = cms.PSet (
     arbitration = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags"), 
     alias = cms.string("leading CSV jet"),
 )
+#Extra lepton veto
 muon_veto_cut = cms.PSet (
         inputCollection = cms.vstring("muons"),
         cutString = cms.string("pt > -1"),
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra muon veto"),
 )
-
 electron_veto_cut = cms.PSet (
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("pt > -1"),
@@ -281,14 +291,14 @@ electron_veto_cut = cms.PSet (
         alias = cms.string("extra electron veto"),
 )
 
-##############################################################
-
+######################################################################
+################  basic bb + non-iso muon selection   ################
+######################################################################
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
     cuts = cms.VPSet ()
 )
-
 QCDMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
 QCDMuonControlRegion.cuts.append(muon_inverted_iso_corr_cut)
 QCDMuonControlRegion.cuts.extend(jet_basic_selection_cuts)
@@ -301,6 +311,10 @@ for cut in QCDMuonControlRegion.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
+##########################################################################
+################   bb + non-iso displaced muon selection   ###############
+##########################################################################
+
 QCDMuonDisplacedControlRegion = cms.PSet(
     name = cms.string("QCDMuonDisplacedControlRegion"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
@@ -308,6 +322,10 @@ QCDMuonDisplacedControlRegion = cms.PSet(
 )
 QCDMuonDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonControlRegion.cuts))
 QCDMuonDisplacedControlRegion.cuts.insert(5,muon_dxy_cut)
+
+##########################################################################
+################     bb  +  iso displaced muon selection   ###############
+##########################################################################
 
 QCDMuonIsoControlRegion = cms.PSet(
     name = cms.string("QCDMuonIsoControlRegion"),
@@ -319,6 +337,10 @@ for cut in QCDMuonIsoControlRegion.cuts:
     if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pfdBetaIsoCorr <= 0.15")
         cut.alias = cms.string("muon isolation corrected")
+
+###################################################################################
+################bb + iso displaced muon selection with various B WP ###############
+###################################################################################
 
 QCDMuonIsoTightBControlRegion = cms.PSet(
     name = cms.string("QCDMuonIsoTightBControlRegion"),
@@ -344,6 +366,11 @@ QCDMuonIsoLooseBControlRegion = cms.PSet(
 QCDMuonIsoLooseBControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonIsoControlRegion.cuts))
 QCDMuonIsoLooseBControlRegion.cuts.insert(9,jet_csvl_cut)
 
+
+######################################################################
+################  basic bb + no-iso muon selection    ################
+######################################################################
+
 QCDMuonNoIsoDisplacedControlRegion = cms.PSet(
     name = cms.string("QCDMuonNoIsoDisplacedControlRegion"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
@@ -354,6 +381,9 @@ for cut in QCDMuonNoIsoDisplacedControlRegion.cuts:
     if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         QCDMuonNoIsoDisplacedControlRegion.cuts.remove(cut)
 
+#######################################################################################
+################bb + non-iso displaced muon selection with various B WP ###############
+#######################################################################################
 
 QCDMuonDisplacedControlRegionTightB = cms.PSet(
     name = cms.string("QCDMuonDisplacedControlRegionTightB"),
@@ -375,7 +405,10 @@ QCDMuonDisplacedControlRegionLooseB.cuts = cms.VPSet (copy.deepcopy(QCDMuonDispl
 for cut in QCDMuonDisplacedControlRegionLooseB.cuts:
     if "pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800" in str(cut.cutString) and "bjets" in str(cut.inputCollection):
         cut.cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.460")
-##############################################################
+
+######################################################################
+################  basic bb + non-iso ele selection    ################
+######################################################################
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
@@ -396,82 +429,10 @@ for cut in QCDElectronControlRegion.cuts:
         cut.cutString = cms.string("pt > 42")
     if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
         QCDElectronControlRegion.cuts.remove(cut)
-#QCDElectronControlRegion.cuts.insert(len(QCDElectronControlRegion.cuts) - 1, jet_light_flavor_veto_cut)
 
-
-QCDElectronNoTriggerControlRegion = cms.PSet(
-    name = cms.string("QCDElectronNoTriggerControlRegion"),
-# still need to choose an optimal trigger
-    #triggers = cms.vstring("HLT_Photon90_v","HLT_Photon120_v","HLT_Photon175_v","HLT_Photon165_HE10_v","HLT_Photon22_R9Id90_HE10_IsoM_v","HLT_Photon30_R9Id90_HE10_IsoM_v","HLT_Photon36_R9Id90_HE10_IsoM_v","HLT_Photon50_R9Id90_HE10_IsoM_v","HLT_Photon75_R9Id90_HE10_IsoM_v","HLT_Photon90_R9Id90_HE10_IsoM_v","HLT_Photon120_R9Id90_HE10_IsoM_v","HLT_Photon165_R9Id90_HE10_IsoM_v","HLT_Photon90_CaloIdL_PFHT500_v","HLT_Photon90_CaloIdL_PFHT600_v","HLT_Photon500_v","HLT_Photon600_v","HLT_Photon135_PFMET100_v","HLT_Photon250_NoHE_v","HLT_Photon300_NoHE_v","HLT_Photon22_v","HLT_Photon30_v","HLT_Photon36_v","HLT_Photon50_v","HLT_Photon75_v"),
-    triggers = cms.vstring(),
-    cuts = cms.VPSet ()
-)
-
-QCDElectronNoTriggerControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
-QCDElectronNoTriggerControlRegion.cuts.triggers = cms.vstring() 
-
-QCDElectronEBControlRegion = cms.PSet(
-    name = cms.string("QCDElectronEBControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
-    cuts = cms.VPSet ()
-)
-
-QCDElectronEBControlRegion.cuts.extend(electron_basic_selection_eb_cuts)
-QCDElectronEBControlRegion.cuts.append(electron_inverted_iso_corr_cut)
-QCDElectronEBControlRegion.cuts.extend(jet_basic_selection_cuts)
-QCDElectronEBControlRegion.cuts.extend(bjet_basic_selection_cuts)
-QCDElectronEBControlRegion.cuts.append(bjet_csvt_cut)
-QCDElectronEBControlRegion.cuts.append(dijet_cut)
-QCDElectronEBControlRegion.cuts.append(electronjet_cut)
-QCDElectronEBControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronEBControlRegion.cuts.append(electron_veto_cut)
-for cut in QCDElectronEBControlRegion.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-
-QCDElectronEEControlRegion = cms.PSet(
-    name = cms.string("QCDElectronEEControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
-    cuts = cms.VPSet ()
-)
-
-QCDElectronEEControlRegion.cuts.extend(electron_basic_selection_ee_cuts)
-QCDElectronEEControlRegion.cuts.append(electron_inverted_iso_corr_cut)
-QCDElectronEEControlRegion.cuts.extend(jet_basic_selection_cuts)
-QCDElectronEEControlRegion.cuts.extend(bjet_basic_selection_cuts)
-QCDElectronEEControlRegion.cuts.append(bjet_csvt_cut)
-QCDElectronEEControlRegion.cuts.append(dijet_cut)
-QCDElectronEEControlRegion.cuts.append(electronjet_cut)
-QCDElectronEEControlRegion.cuts.append(jet_csv_ranking_cut)
-QCDElectronEEControlRegion.cuts.append(electron_veto_cut)
-for cut in QCDElectronEEControlRegion.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-
-QCDElectronLFControlRegion = cms.PSet(
-    name = cms.string("QCDElectronLFControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
-    cuts = cms.VPSet ()
-)
-
-QCDElectronLFControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
-for cut in QCDElectronLFControlRegion.cuts:
-    if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
-        QCDElectronLFControlRegion.cuts.remove(cut)
-        QCDElectronLFControlRegion.cuts.append(jet_csvl_inverted_cut)
-
-QCDElectronHFControlRegion = cms.PSet(
-    name = cms.string("QCDElectronHFControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
-    cuts = cms.VPSet ()
-)
-
-QCDElectronHFControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
-for cut in QCDElectronHFControlRegion.cuts:
-    if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
-        QCDElectronHFControlRegion.cuts.remove(cut)
-        QCDElectronHFControlRegion.cuts.append(jet_csvl_cut)
-
+##################################################################################
+################  basic bb + non-iso displaced ele selection      ################
+##################################################################################
 
 QCDElectronDisplacedControlRegion = cms.PSet(
     name = cms.string("QCDElectronDisplacedControlRegion"),
@@ -481,19 +442,25 @@ QCDElectronDisplacedControlRegion = cms.PSet(
 QCDElectronDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
 QCDElectronDisplacedControlRegion.cuts.insert(5,electron_dxy_cut)
 
+###############################################################################
+################  basic bb + iso displaced ele selection      ################
+###############################################################################
 
 QCDElectronIsoControlRegion = cms.PSet(
     name = cms.string("QCDElectronIsoControlRegion"),
     triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
     cuts = cms.VPSet ()
 )
-
 QCDElectronIsoControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
 for cut in QCDElectronIsoControlRegion.cuts:
     if "pfdRhoIsoCorr" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
         cut.cutString = cms.string("(pfdRhoIsoCorr <= 0.0646 && isEE) | \
         (pfdRhoIsoCorr <= 0.0354  && isEB)")
         cut.alias = cms.string("electron isolation corrected")
+
+###############################################################################
+################  basic bb + iso displaced ele selection various B WP #########
+###############################################################################
 
 QCDElectronIsoTightBControlRegion = cms.PSet(
     name = cms.string("QCDElectronIsoTightBControlRegion"),
@@ -522,16 +489,9 @@ QCDElectronIsoLooseBControlRegion = cms.PSet(
 QCDElectronIsoLooseBControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronIsoControlRegion.cuts))
 QCDElectronIsoLooseBControlRegion.cuts.insert(9,jet_csvl_cut)
 
-QCDElectronLightFlavorVetoControlRegion = cms.PSet(
-    name = cms.string("QCDElectronLightFlavorVetoControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
-    cuts = cms.VPSet ()
-)
-QCDElectronLightFlavorVetoControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
-for cut in QCDElectronLightFlavorVetoControlRegion.cuts:
-    if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
-        QCDElectronLightFlavorVetoControlRegion.cuts.remove(cut)
-        QCDElectronLightFlavorVetoControlRegion.cuts.append(jet_light_flavor_veto_cut)
+###################################################################################
+################  basic bb + non-iso displaced ele selection various B WP #########
+###################################################################################
 
 QCDElectronDisplacedControlRegionMediumB = cms.PSet(
     name = cms.string("QCDElectronDisplacedControlRegionMediumB"),
@@ -555,6 +515,21 @@ for cut in QCDElectronDisplacedControlRegionLooseB.cuts:
     if "pfCombinedInclusiveSecondaryVertexV2BJetTags" in str(cut.cutString) and "bjets" in str(cut.inputCollection):
         cut.cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.460")
 
+##################################################################################
+################  basic bb + iso ele selection(no trigger)        ################
+##################################################################################
+
+QCDElectronNoTriggerControlRegion = cms.PSet(
+    name = cms.string("QCDElectronNoTriggerControlRegion"),
+    #triggers = cms.vstring("HLT_Photon90_v","HLT_Photon120_v","HLT_Photon175_v","HLT_Photon165_HE10_v","HLT_Photon22_R9Id90_HE10_IsoM_v","HLT_Photon30_R9Id90_HE10_IsoM_v","HLT_Photon36_R9Id90_HE10_IsoM_v","HLT_Photon50_R9Id90_HE10_IsoM_v","HLT_Photon75_R9Id90_HE10_IsoM_v","HLT_Photon90_R9Id90_HE10_IsoM_v","HLT_Photon120_R9Id90_HE10_IsoM_v","HLT_Photon165_R9Id90_HE10_IsoM_v","HLT_Photon90_CaloIdL_PFHT500_v","HLT_Photon90_CaloIdL_PFHT600_v","HLT_Photon500_v","HLT_Photon600_v","HLT_Photon135_PFMET100_v","HLT_Photon250_NoHE_v","HLT_Photon300_NoHE_v","HLT_Photon22_v","HLT_Photon30_v","HLT_Photon36_v","HLT_Photon50_v","HLT_Photon75_v"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet ()
+)
+
+QCDElectronNoTriggerControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
+QCDElectronNoTriggerControlRegion.cuts.triggers = cms.vstring() 
+
+
 QCDElectronDisplacedNoTriggerControlRegion = cms.PSet(
     name = cms.string("QCDElectronDisplacedNoTriggerControlRegion"),
     triggers = cms.vstring(),
@@ -563,6 +538,9 @@ QCDElectronDisplacedNoTriggerControlRegion = cms.PSet(
 QCDElectronDisplacedNoTriggerControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
 QCDElectronDisplacedNoTriggerControlRegion.triggers = cms.vstring()
 
+########################################################################################
+################  basic bb + no-iso displaced ele selection(no trigger) ################
+########################################################################################
 
 QCDElectronNoIsoDisplacedControlRegion = cms.PSet(
     name = cms.string("QCDElectronNoIsoDisplacedControlRegion"),
