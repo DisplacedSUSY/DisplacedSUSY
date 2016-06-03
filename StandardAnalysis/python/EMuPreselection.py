@@ -4,6 +4,8 @@ import string
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 ##########################################################################
+##############  e-mu preselection without triggers  ######################
+##########################################################################
 
 EMuPreselectionNoTrigger = cms.PSet(
     name = cms.string("EMuPreselectionNoTrigger"),
@@ -21,6 +23,8 @@ EMuPreselectionNoTrigger.cuts.extend(preselection_emu_cuts)
 EMuPreselectionNoTrigger.cuts.append(os_emu_cut)
 
 ##########################################################################
+##############  e-mu preselection with inclusive trigger  ################
+##########################################################################
 
 EMuPreselectionInclusiveTrigger = cms.PSet(
     name = cms.string("EMuPreselectionInclusiveTrigger"),
@@ -35,44 +39,30 @@ for cut in EMuPreselectionInclusiveTrigger.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
-
+##########################################################################
+##############  e-mu preselection with inclusive trigger EB/EE eles ######
+##########################################################################
 EMuPreselectionEBEleInclusiveTrigger = cms.PSet(
     name = cms.string("EMuPreselectionEBEleInclusiveTrigger"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
-EMuPreselectionEBEleInclusiveTrigger.cuts.extend(electron_basic_selection_eb_cuts)
-EMuPreselectionEBEleInclusiveTrigger.cuts.append(electron_iso_corr_cut)
-EMuPreselectionEBEleInclusiveTrigger.cuts.extend(muon_basic_selection_cuts)
-EMuPreselectionEBEleInclusiveTrigger.cuts.append(muon_iso_corr_cut)
-EMuPreselectionEBEleInclusiveTrigger.cuts.extend(preselection_emu_cuts)
-EMuPreselectionEBEleInclusiveTrigger.cuts.append(os_emu_cut)
-
+EMuPreselectionEBEleInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionInclusiveTrigger.cuts))
 for cut in EMuPreselectionEBEleInclusiveTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
+    if "abs(eta) < 2.4" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("abs(eta) < 1.5")
 
 EMuPreselectionEEEleInclusiveTrigger = cms.PSet(
     name = cms.string("EMuPreselectionEEEleInclusiveTrigger"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
     cuts = cms.VPSet ()
 )
-EMuPreselectionEEEleInclusiveTrigger.cuts.extend(electron_basic_selection_ee_cuts)
-EMuPreselectionEEEleInclusiveTrigger.cuts.append(electron_iso_corr_cut)
-EMuPreselectionEEEleInclusiveTrigger.cuts.extend(muon_basic_selection_cuts)
-EMuPreselectionEEEleInclusiveTrigger.cuts.append(muon_iso_corr_cut)
-EMuPreselectionEEEleInclusiveTrigger.cuts.extend(preselection_emu_cuts)
-EMuPreselectionEEEleInclusiveTrigger.cuts.append(os_emu_cut)
-
+EMuPreselectionEBEleInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionInclusiveTrigger.cuts))
 for cut in EMuPreselectionEEEleInclusiveTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
+    if "abs(eta) < 2.4" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("abs(eta) < 2.4 && abs(eta) > 1.5")
 ##########################################################################
-
+#Preselctions using the displaced trigger with lower thresholds.
 EMuPreselectionDisplacedTrigger = cms.PSet(
     name = cms.string("EMuPreselectionDisplacedTrigger"),
     triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
@@ -87,59 +77,7 @@ for cut in EMuPreselectionDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 30")
 
 ##########################################################################
-
-EMuPreselectionPrescaleInclusiveTrigger = cms.PSet(
-    name = cms.string("EMuPreselectionPrescaleInclusiveTrigger"),
-    triggers = cms.vstring("HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v"), # TRIGGER
-    cuts = cms.VPSet ()
-)
-EMuPreselectionPrescaleInclusiveTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionNoTrigger.cuts))
-
-BlindedEMuPreselectionNoTrigger = cms.PSet(
-    name = cms.string("BlindedEMuPreselectionNoTrigger"),
-    triggers = cms.vstring(), # TRIGGER
-    cuts = cms.VPSet (
-    )
-)
-
-BlindedEMuPreselectionNoTrigger.cuts.extend(electron_basic_selection_cuts)
-BlindedEMuPreselectionNoTrigger.cuts.append(electron_iso_corr_cut)
-BlindedEMuPreselectionNoTrigger.cuts.extend(muon_basic_selection_cuts)
-BlindedEMuPreselectionNoTrigger.cuts.append(muon_iso_corr_cut)
-BlindedEMuPreselectionNoTrigger.cuts.extend(blinded_control_region_cuts)
-BlindedEMuPreselectionNoTrigger.cuts.append(os_emu_cut)
-
-##########################################################################
-
-BlindedEMuPreselectionDisplacedTrigger = cms.PSet(
-    name = cms.string("BlindedEMuPreselectionDisplacedTrigger"),
-    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
-    cuts = cms.VPSet ()
-)
-BlindedEMuPreselectionDisplacedTrigger.cuts = cms.VPSet (copy.deepcopy(BlindedEMuPreselectionNoTrigger.cuts))
-
-for cut in BlindedEMuPreselectionDisplacedTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 32")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 30")
-
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger = cms.PSet(
-    name = cms.string("BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger"),
-    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"), # TRIGGER
-    cuts = cms.VPSet ()
-)
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts.append(electron_loose_iso_corr_cut)
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts.append(muon_loose_iso_corr_cut)
-BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts.extend(blinded_control_region_cuts)
-
-for cut in BlindedEMuPreselectionNoIsoNoOSDisplacedTrigger.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 32")
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 30")
+#Preselections using control triggers
 
 EMuPreselectionControlTrigger = cms.PSet(
     name = cms.string("EMuPreselectionControlTrigger"),
@@ -147,17 +85,10 @@ EMuPreselectionControlTrigger = cms.PSet(
     cuts = cms.VPSet (
     )
 )
-
-EMuPreselectionControlTrigger.cuts.extend(electron_basic_selection_cuts)
-EMuPreselectionControlTrigger.cuts.append(electron_iso_corr_cut)
-EMuPreselectionControlTrigger.cuts.extend(muon_basic_selection_cuts)
-EMuPreselectionControlTrigger.cuts.append(muon_iso_corr_cut)
-EMuPreselectionControlTrigger.cuts.extend(preselection_emu_cuts)
-EMuPreselectionControlTrigger.cuts.append(os_emu_cut)
-
+EMuPreselectionControlTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionNoTrigger.cuts))
 for cut in EMuPreselectionControlTrigger.cuts:
     if "pt >" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 25")
+        cut.cutString = cms.string("pt > 27")
     if "pt >" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 25")
 
@@ -168,11 +99,9 @@ EMuPreselectionControlTriggerPassSignalTrigger = cms.PSet(
     cuts = cms.VPSet (
     )
 )
-
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.extend(electron_basic_selection_cuts)
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.append(electron_iso_corr_cut)
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.extend(muon_basic_selection_cuts)
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.append(muon_iso_corr_cut)
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.extend(preselection_emu_cuts)
-EMuPreselectionControlTriggerPassSignalTrigger.cuts.append(os_emu_cut)
-
+EMuPreselectionControlTriggerPassSignalTrigger.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionNoTrigger.cuts))
+for cut in EMuPreselectionControlTrigger.cuts:
+    if "pt >" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 27")
+    if "pt >" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 25")
