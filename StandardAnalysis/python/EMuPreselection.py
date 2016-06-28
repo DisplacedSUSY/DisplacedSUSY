@@ -4,9 +4,47 @@ import string
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 ##########################################################################
+
+#Preselection cuts
+preselection_emu_cuts = cms.VPSet(
+    # ELECTRON AND MUON ARE NOT OVERLAPPING
+    cms.PSet (
+        inputCollection = cms.vstring("electrons", "muons"),
+        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string("well separated (DeltaR > 0.5) e-mu pair")
+    ),
+)
+
+os_emu_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("electron.charge * muon.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("oppositely-charged e-mu pair")
+)
+    #Extra Lepton Veto
+muon_veto_cut = cms.PSet (
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("extra muon veto")
+)
+    #Extra Lepton Veto
+electron_veto_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("extra electron veto")
+)
+
+preselection_emu_os_cuts = cms.VPSet()
+preselection_emu_os_cuts.extend(preselection_emu_cuts)
+preselection_emu_os_cuts.append(os_emu_cut)
+preselection_emu_os_cuts.append(muon_veto_cut)
+preselection_emu_os_cuts.append(electron_veto_cut)
+##########################################################################
 ##############  e-mu preselection without triggers  ######################
 ##########################################################################
-
 EMuPreselectionNoTrigger = cms.PSet(
     name = cms.string("EMuPreselectionNoTrigger"),
     triggers = cms.vstring(), # TRIGGER
@@ -19,8 +57,7 @@ EMuPreselectionNoTrigger.cuts.append(electron_iso_corr_cut)
 EMuPreselectionNoTrigger.cuts.extend(muon_basic_selection_cuts)
 EMuPreselectionNoTrigger.cuts.append(muon_iso_corr_cut)
 EMuPreselectionNoTrigger.cuts.extend(jet_basic_selection_cuts)
-EMuPreselectionNoTrigger.cuts.extend(preselection_emu_cuts)
-EMuPreselectionNoTrigger.cuts.append(os_emu_cut)
+EMuPreselectionNoTrigger.cuts.extend(preselection_emu_os_cuts)
 
 ##########################################################################
 ##############  e-mu preselection with inclusive trigger  ################
