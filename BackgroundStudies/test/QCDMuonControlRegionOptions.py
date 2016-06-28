@@ -15,13 +15,13 @@ intLumi = 28.67 # for HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v* path, 2015D
 
 # create list of datasets to process
 datasets = [
-    #'Diboson',
-    #'DYJetsToLL_50',
-    #'WJetsToLNu',
-    #'SingleTop',
-    #'TTJets_Lept',
+    'Diboson',
+    'DYJetsToLL_50',
+    'WJetsToLNu',
+    'SingleTop',
+    'TTJets_Lept',
     'SingleMu_2015D',
-    #'QCD_MuEnriched',
+    'QCD_MuEnriched',
     #'WG',
     #'ZZToLLLL',
     #'WWToLNuLNu',
@@ -31,5 +31,10 @@ datasets = [
     #'ZZToLLQQ',
     #'WZToLNuNuNu',
     #'ZZToNuNuQQ',
+    #'stop200_1mm',
+    #'stop200_10mm',
+    #'stop200_100mm',
+    #'stop200_1000mm'
 ]
-InputCondorArguments = {'hold': 'true'}
+InputCondorArguments = {'hold': 'true','request_memory':'2048MB'}
+secondaryCollections ={'bjets':'pat::Jet'}
