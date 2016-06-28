@@ -24,7 +24,7 @@ prompt_control_region_no_os_no_veto_cuts = cms.VPSet(
     # ELECTRON AND MUON ARE NOT OVERLAPPING
     cms.PSet (
         inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("deltaR(electron, muon) > 0.5"),
+       cutString = cms.string("deltaR(electron, muon) > 0.5"),
         numberRequired = cms.string(">= 1"),
         alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
     ),
@@ -35,13 +35,13 @@ e_mu_os_cut = cms.PSet (
         numberRequired = cms.string(">= 1"),
         alias = cms.string("oppositely charged e-mu pair")
 )
-extra_e_veto = cms.PSet (
+extra_mu_veto = cms.PSet (
         inputCollection = cms.vstring("muons"),
         cutString = cms.string("pt > -1"),
         numberRequired = cms.string("== 1"),
         alias = cms.string("extra muon veto")
 )
-extra_mu_veto = cms.PSet (
+extra_e_veto = cms.PSet (
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("pt > -1"),
         numberRequired = cms.string("== 1"),
@@ -51,13 +51,13 @@ extra_mu_veto = cms.PSet (
 prompt_control_region_cuts = cms.VPSet()
 prompt_control_region_cuts.extend(prompt_control_region_no_os_no_veto_cuts)
 prompt_control_region_cuts.append(e_mu_os_cut)
-prompt_control_region_cuts.append(extra_e_veto)
 prompt_control_region_cuts.append(extra_mu_veto)
+prompt_control_region_cuts.append(extra_e_veto)
 
 prompt_control_region_no_os_cuts = cms.VPSet()
 prompt_control_region_no_os_cuts.extend(prompt_control_region_no_os_no_veto_cuts)
-prompt_control_region_no_os_cuts.append(extra_e_veto)
 prompt_control_region_no_os_cuts.append(extra_mu_veto)
+prompt_control_region_no_os_cuts.append(extra_e_veto)
 
 
 ##########################################################################
