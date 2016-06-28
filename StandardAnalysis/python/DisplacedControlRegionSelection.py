@@ -172,3 +172,20 @@ for cut in DisplacedControlRegionNoOSInclusiveDisplacedTrigger.cuts:
         cut.cutString = cms.string("pt > 42")
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
+
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger = cms.PSet(
+    name = cms.string("DisplacedControlRegionNonIsoInclusiveDisplacedTrigger"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    cuts = cms.VPSet (
+    )
+)
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts.extend(electron_basic_selection_cuts)
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts.append(electron_inverted_iso_corr_cut)
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts.extend(muon_basic_selection_cuts)
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts.append(muon_inverted_iso_corr_cut)
+DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts.extend(displaced_control_region_cuts)
+for cut in DisplacedControlRegionNonIsoInclusiveDisplacedTrigger.cuts:
+    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 42")
+    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pt > 40")
