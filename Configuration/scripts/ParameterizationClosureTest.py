@@ -133,7 +133,7 @@ def GetYieldAndErrorPara(process,d0cut):
     nBinsY = d0Histogram.GetNbinsY()
 
     normIntErr = Double (0.0)
-    normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+    normIntegral = d0Histogram.IntegralAndError(0, nBinsX + 1, 0, nBinsY + 1, normIntErr)  
     targetYield = normIntegral*overalSF
     targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
             
