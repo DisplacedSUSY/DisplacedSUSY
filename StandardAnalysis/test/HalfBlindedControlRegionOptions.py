@@ -17,11 +17,11 @@ intLumi = 2613 # for 13 TeV 2015D Silver Json
 
 # create list of datasets to process
 datasets = [
-    #'Diboson',
-    #'WJetsToLNu',
-    #'DYJetsToLL_50',
-    #'SingleTop',
-    #'TTJets_Lept',
+    'Diboson',
+    'WJetsToLNu',
+    'DYJetsToLL_50',
+    'SingleTop',
+    'TTJets_Lept',
     #'QCD_MuEnriched',
     #'QCD_EMEnriched',
     #'QCD_bcToE'
