@@ -15,7 +15,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
     #'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
-    'file:/data/users/bing/condor/QCDMuonSkim76XWithPatCand/SingleMu_2015D/QCDMuonSkim/skim_1.root'
+    'file:/data/users/bing/condor/QCDMuonSkim76XWithPat/SingleMu_2015D/QCDMuonSkim/skim_1.root'
 
   )
 )
@@ -41,12 +41,12 @@ process.maxEvents = cms.untracked.PSet (
 miniAOD_collections = cms.PSet (
   electrons       =  cms.InputTag  ('slimmedElectrons',''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('objectSelector0','originalFormat','OSUAnalysisQCDMuonSkim1459725126'),
-  bjets           =  cms.InputTag  ('objectSelector0','originalFormat','OSUAnalysisQCDMuonSkim1459725126'),
+  jets            =  cms.InputTag  ('slimmedJets',     ''),
+  bjets           =  cms.InputTag  ('slimmedJets',     ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
-  muons           =  cms.InputTag  ('objectSelector1''originalFormat','OSUAnalysisQCDMuonSkim1459725126'),
+  muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
   pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
@@ -100,9 +100,12 @@ from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
 eventSelections = []
 eventSelections.append(QCDMuonDisplacedControlRegion)
 eventSelections.append(QCDMuonControlRegion)
+eventSelections.append(QCDMuonIsoControlRegion)
 #eventSelections.append(QCDMuonDisplacedControlRegionTightB)
 #eventSelections.append(QCDMuonDisplacedControlRegionLooseB)
-eventSelections.append(QCDMuonIsoControlRegion)
+#eventSelections.append(QCDMuonIsoTightBControlRegion)
+#eventSelections.append(QCDMuonIsoMediumBControlRegion)
+#eventSelections.append(QCDMuonIsoLooseBControlRegion)
 #eventSelections.append(QCDMuonNoIsoDisplacedControlRegion)
 
 ################################################################################

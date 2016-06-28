@@ -14,12 +14,12 @@ intLumi = 2613 # for 13 TeV Silver Json, 2015D
 
 # create list of datasets to process
 datasets = [
-    #'Diboson',
-    #'WJetsToLNu',
-    #'DYJetsToLL_50',
-    #'SingleTop',
-    #'TTJets_Lept',
+    'Diboson',
+    'WJetsToLNu',
+    'DYJetsToLL_50',
+    'SingleTop',
+    'TTJets_Lept',
     #'QCD_MuEnriched',
     'MuonEG_2015D',
 ]
-InputCondorArguments = {'hold': 'true'}
+InputCondorArguments = {'hold': 'true', 'request_memory' : '2048MB'}

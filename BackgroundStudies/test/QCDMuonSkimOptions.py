@@ -18,8 +18,10 @@ datasets = [
     #'DYJetsToLL_50',
     #'SingleTop',
     #'TTJets_Lept',
-    #'QCD_MuEnriched',
-    'ZZToLLNuNu',
+    'QCD_MuEnriched',
+    #'QCD_MuEnriched_170to300',
+    #'ZZToLLNuNu',
     #'SingleMu_2015D',
 ]
-InputCondorArguments = {}
+InputCondorArguments = {'request_memory':'2048MB'}
+secondaryCollections ={}

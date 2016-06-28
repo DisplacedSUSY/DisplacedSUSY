@@ -14,13 +14,13 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    #'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
-    'file:/data/users/bing/condor/QCDElectronSkim76XWithPatCand/SinglePhoton_2015D/QCDElectronSkim/skim_2.root'
+    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
+    #'file:/data/users/bing/condor/QCDElectronSkim76XWithPatCand/SinglePhoton_2015D/QCDElectronSkim/skim_2.root'
    )
 )
 
 
-#set_input(process, "/data/users/bing/condor/EMuSkim13TeV/TTJets_DiLept_MiniAOD/EMuSKim13TeV/")
+#set_input(process, "/data/users/bing/condor/QCDElectronSkim76XWithPatCand/SingleEle_2015D/QCDElectronSkim")
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
@@ -38,10 +38,10 @@ process.maxEvents = cms.untracked.PSet (
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('objectSelector0','originalFormat','OSUAnalysisQCDElectronSkim1460557862'),
+  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('objectSelector1','originalFormat','OSUAnalysisQCDElectronSkim1460557862'),
-  bjets           =  cms.InputTag  ('objectSelector1','originalFormat','OSUAnalysisQCDElectronSkim1460557862'),
+  jets            =  cms.InputTag  ('slimmedJets',                    ''),
+  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
@@ -98,10 +98,15 @@ eventSelections = []
 #eventSelections.append(QCDElectronNoIsoDisplacedControlRegion)
 eventSelections.append(QCDElectronDisplacedControlRegion)
 eventSelections.append(QCDElectronControlRegion)
-eventSelections.append(QCDElectronIsoControlRegion)
+#eventSelections.append(QCDElectronHFControlRegion)
+#eventSelections.append(QCDElectronLFControlRegion)
+#eventSelections.append(QCDElectronLightFlavorVetoControlRegion)
+#eventSelections.append(QCDElectronIsoLooseBControlRegion)
+#eventSelections.append(QCDElectronIsoMediumBControlRegion)
+#eventSelections.append(QCDElectronIsoTightBControlRegion)
 #eventSelections.append(QCDElectronDisplacedControlRegionMediumB)
 #eventSelections.append(QCDElectronDisplacedControlRegionLooseB)
-#eventSelections.append(QCDElectronIsoControlRegion)
+eventSelections.append(QCDElectronIsoControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
