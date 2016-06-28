@@ -19,12 +19,13 @@ datasets = [
     #'DYJetsToLL_50',
     #'SingleTop',
     #'TTJets_Lept',
-    #'DisplacedSUSYSignal',
-    'stop200_7mm'
+    'DisplacedSUSYSignal',
+    #'stop200_7mm'
 ]
+InputCondorArguments = {'hold': 'true','request_memory':'2048MB'}
 
-minus_channel = 'MuDown' 
-plus_channel = 'MuUp'
+minus_channel = 'EleDown' 
+plus_channel = 'EleUp'
 central_channel = 'CentralValue'
-systematic_name = 'muonSFSignal'
-condor_dir = 'LeptonSysSignal_April23th'
+systematic_name = 'electronSFSignal'
+condor_dir = 'LeptonSystematics_IsoCorr_Signal_June18th'

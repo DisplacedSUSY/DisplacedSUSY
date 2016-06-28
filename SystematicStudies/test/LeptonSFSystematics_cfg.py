@@ -14,13 +14,9 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-      'file:/data/users/bing/condor/EMuSkim76XSignal/stop200_1000mm/EMuSkimSelection/skim_1.root',
-#    'root://cms-xrd-global.cern.ch//store/mc/RunIISpring15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2_ext1-v1/10000/0036F7A6-CC6D-E511-8B5B-002590D60150.root',
-#  )
+    'root://cmsxrootd.fnal.gov//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/12086E80-62BC-E511-AED8-6CC2173CEC30.root',
 ))
-#set_input(process, "/data/users/bing/condor/EMuSkim76X/DYJetsToLL_50/EMuSkimSelection/")
 
-# output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
@@ -100,24 +96,24 @@ DefaultSFProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT
 DefaultSFProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
 DefaultSFProducer['doEleSF'] = cms.bool(True)
 DefaultSFProducer['doMuSF'] = cms.bool(True)
-DefaultSFProducer['muonWp'] = cms.string('TightID')
-DefaultSFProducer['electronWp'] = cms.string('TightID')
+DefaultSFProducer['muonWp'] = cms.string('TightIDIso')
+DefaultSFProducer['electronWp'] = cms.string('RecoTightID')
 
 ################################################################################
 
 MuUpSFProducer = copy.deepcopy(DefaultSFProducer)
-MuUpSFProducer['muonWp'] = cms.string('TightID_up')
+MuUpSFProducer['muonWp'] = cms.string('TightIDIso_up')
 
 MuDownSFProducer = copy.deepcopy(DefaultSFProducer)
-MuDownSFProducer['muonWp'] = cms.string('TightID_down')
+MuDownSFProducer['muonWp'] = cms.string('TightIDIso_down')
 
 ################################################################################
 
 EleUpSFProducer = copy.deepcopy(DefaultSFProducer)
-EleUpSFProducer['electronWp'] = cms.string('TightID_up')
+EleUpSFProducer['electronWp'] = cms.string('RecoTightID_up')
 
 EleDownSFProducer = copy.deepcopy(DefaultSFProducer)
-EleDownSFProducer['electronWp'] = cms.string('TightID_down')
+EleDownSFProducer['electronWp'] = cms.string('RecoTightID_down')
 
 ################################################################################
 ##### Import the channels to be run ############################################
