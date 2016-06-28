@@ -90,8 +90,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
-ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -102,7 +102,7 @@ from DisplacedSUSY.StandardAnalysis.DisplacedControlRegionSelection import *
 
 eventSelections = []
 eventSelections.append(DisplacedControlRegionInclusiveDisplacedTrigger)
-eventSelections.append(DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger)
+eventSelections.append(DisplacedControlRegionNonIsoInclusiveDisplacedTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

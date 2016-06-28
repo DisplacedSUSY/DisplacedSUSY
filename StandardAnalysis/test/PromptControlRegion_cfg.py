@@ -14,10 +14,9 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'root://cmsxrootd.fnal.gov//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/12086E80-62BC-E511-AED8-6CC2173CEC30.root',
+    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
   )
 )
-
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
@@ -26,7 +25,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (1000)
+    input = cms.untracked.int32 (-1)
 )
 
 ################################################################################
@@ -87,8 +86,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
-ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 

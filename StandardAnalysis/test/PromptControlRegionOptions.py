@@ -16,11 +16,11 @@ systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 # create list of datasets to process
 datasets = [
-    #'Diboson',
-    #'WJetsToLNu',
-    #'DYJetsToLL_50',
-    #'SingleTop',
-    #'TTJets_Lept',
+    'Diboson',
+    'WJetsToLNu',
+    'DYJetsToLL_50',
+    'SingleTop',
+    'TTJets_Lept',
     #'TTJets_DiLept',
     #'QCD_MuEnriched',
     'MuonEG_2015D',

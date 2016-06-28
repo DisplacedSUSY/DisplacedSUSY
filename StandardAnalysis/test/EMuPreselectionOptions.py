@@ -25,8 +25,12 @@ datasets = [
     #'QCD_MuEnriched',
     #'QCD_EMEnriched',
     #'QCD_bcToE'
-    'MuonEG_2015D',
+    #'MuonEG_2015D',
     #'DisplacedSUSYSignal',
+    'stop200_10mm',
+    'stop500_10mm',
+    'stop800_10mm',
+    'stop1100_10mm'
 ]
 InputCondorArguments = {'hold': 'true','request_memory':'2048MB'}
-
+secondaryCollections ={}

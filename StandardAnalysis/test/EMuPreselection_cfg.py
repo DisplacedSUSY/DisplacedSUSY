@@ -94,8 +94,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
-ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -108,7 +108,8 @@ from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 
 eventSelections = []
 #eventSelections.append(EMuPreselectionControlTrigger)
-eventSelections.append(EMuPreselectionDisplacedTrigger)
+#eventSelections.append(EMuPreselectionDisplacedTrigger)
+eventSelections.append(EMuPreselectionInclusiveTrigger)
 
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
@@ -121,7 +122,9 @@ histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
 histograms.append(ElectronD0Histograms)
 histograms.append(ElectronIPHistograms)
+histograms.append(ElectronJetHistograms)
 histograms.append(MuonHistograms)
+histograms.append(MuonJetHistograms)
 histograms.append(MuonD0Histograms)
 histograms.append(MuonIPHistograms)
 histograms.append(ElectronMuonD0Histograms)
