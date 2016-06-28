@@ -70,6 +70,16 @@ electron_inverted_iso_cut = cms.PSet (
     alias = cms.string("inverted electron isolation")
 )
 
+electron_inverted_dbeta_iso_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string('          \
+        ((pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - 0.5*pfIso_.sumPUPt))/pt >= 0.15 & \
+        (pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - 0.5*pfIso_.sumPUPt))/pt <= 1.5)'
+     ),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("inverted electron dbeta isolation")
+)
+
 electron_inverted_iso_corr_cut = cms.PSet (
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string('          \
@@ -251,7 +261,7 @@ electron_basic_selection_cuts = cms.VPSet(
         inputCollection = cms.vstring("electrons"),
         cutString = cms.string("                              \
           (isEB & \
-          missingInnerHits_ <= 2 & \
+          missingInnerHits <= 2 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
           full5x5_sigmaIetaIeta < 0.0101 & \
@@ -259,7 +269,7 @@ electron_basic_selection_cuts = cms.VPSet(
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
           passConversionVeto)|\
           (isEE & \
-          missingInnerHits_ <= 1 & \
+          missingInnerHits <= 1 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
           full5x5_sigmaIetaIeta < 0.0279 & \
@@ -278,7 +288,7 @@ electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("                              \
           (isEB & \
-          missingInnerHits_ <= 2 & \
+          missingInnerHits <= 2 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
           full5x5_sigmaIetaIeta < 0.0101 & \
@@ -286,7 +296,7 @@ electron_id_cut = cms.PSet(
           abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
           passConversionVeto)|\
           (isEE & \
-          missingInnerHits_ <= 1 & \
+          missingInnerHits <= 1 & \
           abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
           abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
           full5x5_sigmaIetaIeta < 0.0279 & \
@@ -360,45 +370,8 @@ muon_id_cut = cms.PSet (
     alias = cms.string("muon tight displaced ID")
 )
 
-##########################################################################
-
-#Preselection cuts
-preselection_emu_cuts = cms.VPSet(
-    # ELECTRON AND MUON ARE NOT OVERLAPPING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("deltaR(electron, muon) > 0.5"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("well separated (DeltaR > 0.5) e-mu pair")
-    ),
-    #Extra Lepton Veto
-    cms.PSet (
-        inputCollection = cms.vstring("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-    ),
-    #Extra Lepton Veto
-    cms.PSet (
-        inputCollection = cms.vstring("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-    ),
-)
 
 ##########################################################################
-
-# OPPOSITE SIGN E-MU PAIR
-os_emu_cut = cms.PSet (
-    inputCollection = cms.vstring("electrons", "muons"),
-    cutString = cms.string("electron.charge * muon.charge < 0"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("oppositely-charged e-mu pair")
-)
-
-##########################################################################
-
 # SAME SIGN E-MU PAIR
 ss_emu_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
