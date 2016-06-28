@@ -115,7 +115,7 @@ QCDElectronSkim = cms.PSet(
             inputCollection = cms.vstring("electrons"),
             cutString = cms.string("\
                                     (isEB & \
-                                    missingInnerHits_ <= 2 & \
+                                    missingInnerHits <= 2 & \
                                     abs(deltaEtaSuperClusterTrackAtVtx) < 0.00926 & \
                                     abs(deltaPhiSuperClusterTrackAtVtx) < 0.0336 & \
                                     full5x5_sigmaIetaIeta < 0.0101 & \
@@ -123,7 +123,7 @@ QCDElectronSkim = cms.PSet(
                                     abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.012 & \
                                     passConversionVeto)|\
                                     (isEE & \
-                                    missingInnerHits_ <= 1 & \
+                                    missingInnerHits <= 1 & \
                                     abs(deltaEtaSuperClusterTrackAtVtx) < 0.00724 & \
                                     abs(deltaPhiSuperClusterTrackAtVtx) < 0.0918 & \
                                     full5x5_sigmaIetaIeta < 0.0279 & \
