@@ -139,8 +139,8 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 #eventHistograms can only run over skims. 
-add_channels (process, [EMuPreselectionControlTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
-add_channels (process, [EMuPreselectionControlTriggerPassSignalTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
+add_channels (process, [EMuPreselectionNoTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
+add_channels (process, [EMuPreselectionInclusiveTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
 #add_channels (process, [TTbarControlRegionMETTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
 #add_channels (process, [TTbarControlRegionMETTriggerPassEMuTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
 
