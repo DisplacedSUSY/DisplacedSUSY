@@ -97,4 +97,3 @@ from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 EMuTriggerStudySkimSelection.cuts.append(electron_id_cut)
 EMuTriggerStudySkimSelection.cuts.append(muon_id_cut)
-EMuTriggerStudySkimSelection.cuts.extend(preselection_emu_cuts)
