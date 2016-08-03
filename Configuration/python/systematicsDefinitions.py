@@ -143,10 +143,12 @@ background_normalization_uncertainties = {
        'type' : 'lnN',
     },
     'QCDFromData' : {
-#       'value' : '1.3',
-       'value' : '1.26',
-       'type' : 'lnN',
+       'type': 'lnN',
+       '0.02':{'value' : '1.324'},
+       '0.05':{'value' : '1.800'},
+       '0.1':{'value' : '1.923'},
     },
+
 }
 
 ######################################################
@@ -179,7 +181,7 @@ global_systematic_uncertainties = {
     # taken as twice the 2% error quoted by ian
    'track_reco' :  {
         'value' : '1.17',
-   	'applyList' : mc_normalized_processes,
+   	'applyList' : ['signal'],
     },
    # 'dummy' :  {
    #      'value' : '1.5',
