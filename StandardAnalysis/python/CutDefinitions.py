@@ -442,69 +442,6 @@ displaced_control_region_cuts = cms.VPSet(
     ),
 )
 
-##########################################################################
-#Blinded control region specific cuts
-electron_blinded_control_region_cuts = cms.VPSet(
-    #ELECTRON DXY BLINDING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons","beamspots"),
-        cutString = cms.string("abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt) <= 0.02"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("electron blinding cuts")
-    ),
-    # ELECTRON AND MUON ARE NOT OVERLAPPING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("deltaR(electron, muon) > 0.5"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
-    ),
-    #Extra Lepton Veto
-    cms.PSet (
-        inputCollection = cms.vstring("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-    ),
-    # ELECTRON DXY BLINDING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-    ),
-)
-
-muon_blinded_control_region_cuts = cms.VPSet(
-    #MUON DXY BLINDING
-    cms.PSet (
-        inputCollection = cms.vstring("muons","beamspots"),
-        cutString = cms.string("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt) <= 0.02"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("muon blinding cuts")
-    ),
-    # ELECTRON AND MUON ARE NOT OVERLAPPING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("deltaR(electron, muon) > 0.5"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
-    ),
-    #Extra Lepton Veto
-    cms.PSet (
-        inputCollection = cms.vstring("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-    ),
-    # ELECTRON DXY BLINDING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-    ),
-)
 
 blinded_control_region_cuts = cms.VPSet(
     # DXY BLINDING
