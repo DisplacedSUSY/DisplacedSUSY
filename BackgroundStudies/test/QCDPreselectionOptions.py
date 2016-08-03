@@ -19,7 +19,9 @@ datasets = [
     'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    #'QCD_MuEnriched',
+    'QCD_MuEnriched',
+    #'QCD_EMEnriched',
+    #'QCD_bcToE',
     'MuonEG_2015D',
 ]
 InputCondorArguments = {'hold': 'true', 'request_memory' : '2048MB'}

@@ -45,6 +45,7 @@ miniAOD_collections = cms.PSet (
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
   pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
@@ -97,10 +98,14 @@ from DisplacedSUSY.StandardAnalysis.PromptControlRegionSelection import *
 from DisplacedSUSY.BackgroundStudies.QCDPreselections import *
 
 eventSelections = []
-#eventSelections.append(AntiIsoElectronBlinded)
-#eventSelections.append(AntiIsoMuonBlinded)
+eventSelections.append(AntiIsoElectronBlinded)
+eventSelections.append(AntiIsoMuonBlinded)
+eventSelections.append(AntiIsoElectronBlindedNoOS)
+eventSelections.append(AntiIsoMuonBlindedNoOS)
 eventSelections.append(AntiIsoElectronBlindedMuonDisplaced)
 eventSelections.append(AntiIsoMuonBlindedElectronDisplaced)
+eventSelections.append(AntiIsoElectronBlindedMuonDisplacedNoOS)
+eventSelections.append(AntiIsoMuonBlindedElectronDisplacedNoOS)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -134,6 +139,6 @@ process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")
-process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.9783)
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(0.975)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

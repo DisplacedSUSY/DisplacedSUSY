@@ -95,9 +95,11 @@ scalingfactorproducers = []
 from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
 
 eventSelections = []
-#eventSelections.append(QCDElectronNoIsoDisplacedControlRegion)
-eventSelections.append(QCDElectronDisplacedControlRegion)
-eventSelections.append(QCDElectronControlRegion)
+#eventSelections.append(QCDElectronNoIsoControlRegion)
+eventSelections.append(QCDPlot)
+#eventSelections.append(QCDElectronDisplacedNoTriggerControlRegion)
+#eventSelections.append(QCDElectronDisplacedControlRegion)
+#eventSelections.append(QCDElectronControlRegion)
 #eventSelections.append(QCDElectronHFControlRegion)
 #eventSelections.append(QCDElectronLFControlRegion)
 #eventSelections.append(QCDElectronLightFlavorVetoControlRegion)
@@ -106,7 +108,7 @@ eventSelections.append(QCDElectronControlRegion)
 #eventSelections.append(QCDElectronIsoTightBControlRegion)
 #eventSelections.append(QCDElectronDisplacedControlRegionMediumB)
 #eventSelections.append(QCDElectronDisplacedControlRegionLooseB)
-eventSelections.append(QCDElectronIsoControlRegion)
+#eventSelections.append(QCDElectronIsoControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -117,23 +119,23 @@ from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histogram
 from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
 
 histograms = cms.VPSet()
-histograms.append(ElectronHistograms)
-histograms.append(ElectronIPHistograms)
+#histograms.append(ElectronHistograms)
+#histograms.append(ElectronIPHistograms)
 histograms.append(ElectronD0Histograms)
-histograms.append(MetHistograms)
-histograms.append(JetHistograms)
-histograms.append(BjetHistograms)
-histograms.append(JetBjetHistograms)
-histograms.append(ElectronJetHistograms)
-histograms.append(ElectronMetHistograms)
-histograms.append(ElectronBjetHistograms)
-histograms.append(eventHistograms)
+#histograms.append(MetHistograms)
+#histograms.append(JetHistograms)
+#histograms.append(BjetHistograms)
+#histograms.append(JetBjetHistograms)
+#histograms.append(ElectronJetHistograms)
+#histograms.append(ElectronMetHistograms)
+#histograms.append(ElectronBjetHistograms)
+#histograms.append(eventHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
 process.PUScalingFactorProducer.dataset = cms.string("QCD_EMEnriched_170to300")
 process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
