@@ -168,14 +168,14 @@ bjet_csvm_cut = cms.PSet (
     inputCollection = cms.vstring("bjets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
     numberRequired = cms.string(">= 1"),
-    arbitration = cms.string("random"),
+    #arbitration = cms.string("random"),
 )
 # CSV T working point
 bjet_csvt_cut = cms.PSet (
     inputCollection = cms.vstring("bjets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
     numberRequired = cms.string(">= 1"),
-    arbitration = cms.string("random"),
+    #arbitration = cms.string("random"),
 )
 #Cuts on bjets
 # CSV L working point
@@ -205,12 +205,6 @@ jet_csvl_inverted_cut = cms.PSet (
 jet_light_flavor_veto_cut = cms.PSet (
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.200"),
-    numberRequired = cms.string(">= 1"),
-)
-
-jet_csvl_inverted_cut = cms.PSet (
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags < 0.460"),
     numberRequired = cms.string(">= 1"),
 )
 #Pileup jets peak ar low end
@@ -311,6 +305,17 @@ for cut in QCDMuonControlRegion.cuts:
     if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
         cut.cutString = cms.string("pt > 40")
 
+QCDMuonNoIsoControlRegion = cms.PSet(
+    name = cms.string("QCDMuonNoIsoControlRegion"),
+    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    cuts = cms.VPSet ()
+)
+QCDMuonNoIsoControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonControlRegion.cuts))
+for cut in QCDMuonNoIsoControlRegion.cuts:
+    if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdBetaIsoCorr <= 1.5")
+        cut.alias = cms.string("muon with pfdBetaIsoCorr <= 1.5 ")
+
 ##########################################################################
 ################   bb + non-iso displaced muon selection   ###############
 ##########################################################################
@@ -323,6 +328,31 @@ QCDMuonDisplacedControlRegion = cms.PSet(
 QCDMuonDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonControlRegion.cuts))
 QCDMuonDisplacedControlRegion.cuts.insert(5,muon_dxy_cut)
 
+######################################################################
+################  basic bb + no-iso muon selection    ################
+######################################################################
+
+QCDMuonNoIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDMuonNoIsoDisplacedControlRegion"),
+    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    cuts = cms.VPSet ()
+)
+QCDMuonNoIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonDisplacedControlRegion.cuts))
+for cut in QCDMuonNoIsoDisplacedControlRegion.cuts:
+    if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdBetaIsoCorr <= 1.5")
+        cut.alias = cms.string("muon with pfdBetaIsoCorr <= 1.5 ")
+
+QCDMuonInclusiveIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDMuonInclusiveIsoDisplacedControlRegion"),
+    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    cuts = cms.VPSet ()
+)
+QCDMuonInclusiveIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonDisplacedControlRegion.cuts))
+for cut in QCDMuonInclusiveIsoDisplacedControlRegion.cuts:
+    if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdBetaIsoCorr <= 6")
+        cut.alias = cms.string("muon with pfdBetaIsoCorr <= 6 ")
 ##########################################################################
 ################     bb  +  iso displaced muon selection   ###############
 ##########################################################################
@@ -367,19 +397,6 @@ QCDMuonIsoLooseBControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonIsoControlR
 QCDMuonIsoLooseBControlRegion.cuts.insert(9,jet_csvl_cut)
 
 
-######################################################################
-################  basic bb + no-iso muon selection    ################
-######################################################################
-
-QCDMuonNoIsoDisplacedControlRegion = cms.PSet(
-    name = cms.string("QCDMuonNoIsoDisplacedControlRegion"),
-    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
-    cuts = cms.VPSet ()
-)
-QCDMuonNoIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDMuonDisplacedControlRegion.cuts))
-for cut in QCDMuonNoIsoDisplacedControlRegion.cuts:
-    if "pfdBetaIsoCorr" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        QCDMuonNoIsoDisplacedControlRegion.cuts.remove(cut)
 
 #######################################################################################
 ################bb + non-iso displaced muon selection with various B WP ###############
@@ -430,6 +447,17 @@ for cut in QCDElectronControlRegion.cuts:
     if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
         QCDElectronControlRegion.cuts.remove(cut)
 
+QCDElectronNoIsoControlRegion = cms.PSet(
+    name = cms.string("QCDElectronNoIsoControlRegion"),
+    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+    cuts = cms.VPSet ()
+)
+QCDElectronNoIsoControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
+for cut in QCDElectronNoIsoControlRegion.cuts:
+    if "pfdRhoIsoCorr" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdRhoIsoCorr <= 1.5")
+        cut.alias = cms.string("electron with pfdRhoIsoCorr <= 1.5")
+
 ##################################################################################
 ################  basic bb + non-iso displaced ele selection      ################
 ##################################################################################
@@ -442,6 +470,31 @@ QCDElectronDisplacedControlRegion = cms.PSet(
 QCDElectronDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
 QCDElectronDisplacedControlRegion.cuts.insert(5,electron_dxy_cut)
 
+##################################################################################
+################  basic bb + displaced ele selection      ################
+##################################################################################
+
+QCDElectronNoIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDElectronNoIsoDisplacedControlRegion"),
+    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+    cuts = cms.VPSet ()
+)
+QCDElectronNoIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
+for cut in QCDElectronNoIsoDisplacedControlRegion.cuts:
+    if "pfdRhoIsoCorr" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdRhoIsoCorr <= 1.5")
+        cut.alias = cms.string("electron with pfdRhoIsoCorr <= 1.5")
+
+QCDElectronInclusiveIsoDisplacedControlRegion = cms.PSet(
+    name = cms.string("QCDElectronInclusiveIsoDisplacedControlRegion"),
+    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+    cuts = cms.VPSet ()
+)
+QCDElectronInclusiveIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
+for cut in QCDElectronInclusiveIsoDisplacedControlRegion.cuts:
+    if "pfdRhoIsoCorr" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
+        cut.cutString = cms.string("pfdRhoIsoCorr <= 6")
+        cut.alias = cms.string("electron with pfdRhoIsoCorr <= 6")
 ###############################################################################
 ################  basic bb + iso displaced ele selection      ################
 ###############################################################################
@@ -538,16 +591,8 @@ QCDElectronDisplacedNoTriggerControlRegion = cms.PSet(
 QCDElectronDisplacedNoTriggerControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
 QCDElectronDisplacedNoTriggerControlRegion.triggers = cms.vstring()
 
-########################################################################################
-################  basic bb + no-iso displaced ele selection(no trigger) ################
-########################################################################################
-
-QCDElectronNoIsoDisplacedControlRegion = cms.PSet(
-    name = cms.string("QCDElectronNoIsoDisplacedControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+QCDPlot = cms.PSet(
+    name = cms.string("QCDPlot"),
+    triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
-QCDElectronNoIsoDisplacedControlRegion.cuts = cms.VPSet (copy.deepcopy(QCDElectronDisplacedControlRegion.cuts))
-for cut in QCDElectronNoIsoDisplacedControlRegion.cuts:
-    if "pfdRhoIsoCorr" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        QCDElectronNoIsoDisplacedControlRegion.cuts.remove(cut)
