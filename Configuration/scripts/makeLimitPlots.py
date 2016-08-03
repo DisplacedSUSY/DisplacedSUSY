@@ -39,7 +39,7 @@ else:
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_8TeV, signal_cross_sections_13TeV
 signal_cross_sections = {}
 
-from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double
+from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -53,12 +53,22 @@ gStyle.SetTextFont(42)
 gStyle.SetOptTitle(0)
 gROOT.ForceStyle()
 
+topLeft_x_left    = 0.177333
+topLeft_y_bottom  = 0.850805
+topLeft_x_right   = 0.529333
+topLeft_y_top     = 0.910483
+topLeft_y_offset  = 0.04
+topLeft_x_left_extra    = 0.177333
+topLeft_y_bottom_extra  = 0.795724
+topLeft_x_right_extra  = 0.529333
+topLeft_y_top_extra     = 0.85599
+topLeft_y_offset_extra  = 0.04
 colorSchemes = {
     'brazilian' : {
         'obs' : 1,
-        'exp' : 1,
-        'oneSigma' : 410,
-        'twoSigma' : 393,
+        'exp' : 4,
+        'oneSigma' : 417,
+        'twoSigma' : 800,
     },
     'theory' : {
         'obs' : 1,
@@ -101,17 +111,18 @@ colorSchemes = {
 #set the text for the luminosity label
 if(intLumi < 1000.):
     LumiInPb = intLumi
-    LumiText = "L_{int} = " + str(intLumi) + " pb^{-1}"
-    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+    LumiText = str(intLumi) + " pb^{-1}"
+    LumiText = str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
 else:
     LumiInFb = intLumi/1000.
-    LumiText = "L_{int} = " + str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+    LumiText = str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
 
-HeaderText = "CMS Preliminary: " + LumiText + " at #sqrt{s} = " + energy + " TeV"
+HeaderText = LumiText + " (" + energy + " TeV)"
 
 
 def makeSignalName(mass,lifetime):
-    return "stop"+str(mass)+"_"+str(lifetime)+"mm_MiniAOD"
+    return "stop"+str(mass)+"_"+str(lifetime)+"mm"
+
 
 def makeSignalRootFileName(mass,lifetime,directory,limit_type):
     signal_name = makeSignalName(mass,lifetime)
@@ -314,10 +325,10 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             x3 = previous_mass
             x2 = first_allowed_mass
             x4 = first_allowed_mass
-            y1 = limit_dict[lifetime][previous_mass]['theory']
-            y3 = limit_dict[lifetime][previous_mass]['experiment']
-            y2 = limit_dict[lifetime][first_allowed_mass]['theory']
-            y4 = limit_dict[lifetime][first_allowed_mass]['experiment']
+            y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
+            y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
+            y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment']) 
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
@@ -568,8 +579,6 @@ def fetchLimits(mass,lifetime,directories):
 
         # for other methods, get the ranges from the log file
         else:
-
-
             file = open(makeSignalLogFileName(mass,lifetime,directory,"expected"))
             for line in file:
                 line = line.rstrip("\n").split(":")
@@ -582,13 +591,95 @@ def fetchLimits(mass,lifetime,directories):
                     tmp_limit['down2'] = float(line[1].split(" ")[1])
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
-
+            if len(tmp_limit) != 5:
+                file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
+                if not file.GetNkeys():
+                    return -1
+                limit_tree = file.Get('limit')
+                if not limit_tree:
+                    return -1        
+                hist = TH1F("limithist","limithist",200,0,200)
+                limit_tree.Draw("limit>>limithist")
+                xq = array('d',[0.0,0.0,0.0,0.0,0.0])
+                ql = array('d',[0.025,0.16,0.5,0.84,0.975])
+                hist.GetQuantiles(5,xq,ql)
+                tmp_limit['expected'] = float(xq[2])
+                tmp_limit['down1'] = float(xq[1])
+                tmp_limit['up1'] = float(xq[3])
+                tmp_limit['down2'] = float(xq[0])
+                tmp_limit['up2'] = float(xq[4])
+            file.close()
+ 
             file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
             for line in file:
                 line = line.rstrip("\n").split(":")
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
-            file.close()
+            file.close() 
+
+            #file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
+            #if not file.GetNkeys():
+            #    return -1
+            #file.Close()
+            
+            #os.chdir("/data/users/bing/limits/"+directory+"/"+ makeSignalName(mass,lifetime) + "_expected")
+            #os.sys.path.append("/data/users/bing/limits/" + directory+"/"+ makeSignalName(mass,lifetime) + "_expected")
+            #filename = "limits_"+makeSignalName(mass,lifetime)+".root"
+            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.50 > tmp0p5.log" 
+            #os.system(command)         
+            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.16 > tmp0p16.log" 
+            #os.system(command)         
+            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.84 > tmp0p84.log" 
+            #os.system(command)         
+            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.975 > tmp0p975.log" 
+            #os.system(command)         
+            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.025 > tmp0p025.log" 
+            #os.system(command)         
+            
+#            file = open('tmp0p5.log','r')
+#            #file = open('tmp0p025.log','r')
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['expected'] = float(line[1].split("<")[1].split("+")[0])
+#            file.close()
+#            
+#            file = open('tmp0p16.log','r')
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['down1'] = float(line[1].split("<")[1].split("+")[0])
+#            file.close()
+#
+#            file = open('tmp0p84.log','r')
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['up1'] = float(line[1].split("<")[1].split("+")[0])
+#            file.close()
+#            
+#            file = open('tmp0p025.log','r')
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['down2'] = float(line[1].split("<")[1].split("+")[0])
+#            file.close()
+#            
+#            file = open('tmp0p975.log','r')
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['up2'] = float(line[1].split("<")[1].split("+")[0])
+#            file.close()
+#            os.chdir("/home/bing/CMSSW_7_1_5/src/DisplacedSUSY/LimitsCalculation/test")
+#
+#            file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
+#            lines = file.readlines()
+#            line = lines[len(lines) - 2]
+#            line = line.rstrip("\n").split(":")
+#            tmp_limit['observed'] = float(line[1].split("<")[1].split("+")[0])
+#            print float(line[1].split("<")[1].split("+")[0])
+#            file.close()
 
         if len(tmp_limit) is not 6:
             return -1
@@ -617,6 +708,7 @@ def fetchLimits(mass,lifetime,directories):
         if method != "Asymptotic":
             signalSF = getSignalSF (mass, lifetime, directory, 'observed')
         tmp_limit['observed'] *= signalSF
+        print tmp_limit['observed']/xSection
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
@@ -720,7 +812,7 @@ def drawPlot(plot):
                                    else:
                                        tGraphs[-1].Draw('A3')
                                    plotDrawn = True
-                                   legendEntry = '#pm 2 #sigma'
+                                   legendEntry = '#pm 2 std. deviation'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -732,7 +824,7 @@ def drawPlot(plot):
                                        tGraphs[-1].Draw('A3')
                                    plotDrawn = True
 
-                                   legendEntry = '#pm 1 #sigma'
+                                   legendEntry = '#pm 1 std. deviation'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -744,7 +836,7 @@ def drawPlot(plot):
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
 
-                                   legendEntry = 'exp. limit'
+                                   legendEntry = 'Expected'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -756,7 +848,7 @@ def drawPlot(plot):
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
 
-                                   legendEntry = 'obs. limit'
+                                   legendEntry = 'Observed'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -770,7 +862,7 @@ def drawPlot(plot):
                                    else:
                                        tGraphs[-1].Draw('AF')
                                    plotDrawn = True
-                                   legendEntry = '#pm 2 #sigma_{experiment}'
+                                   legendEntry = '#pm 2 std. deviation'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -782,7 +874,7 @@ def drawPlot(plot):
                                    else:
                                        tGraphs[-1].Draw('AF')
                                    plotDrawn = True
-                                   legendEntry = '#pm 1 #sigma_{experiment}'
+                                   legendEntry = '#pm 1 std. deviation'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
@@ -794,7 +886,7 @@ def drawPlot(plot):
                                    else:
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
-                                   legendEntry = 'exp. limit'
+                                   legendEntry = 'Expected'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -842,7 +934,7 @@ def drawPlot(plot):
                                    else:
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
-                                   legendEntry = 'obs. limit'
+                                   legendEntry = 'Observed'
                                    if 'legendEntry' in graph:
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -920,12 +1012,30 @@ def drawPlot(plot):
 
 
         #draw the header label
-        HeaderLabel = TPaveLabel(0.1652299,0.9110169,0.9037356,0.9576271,HeaderText,"NDC")
+        HeaderLabel = TPaveLabel(0.602535,0.963134,0.928224,0.980535,HeaderText,"NDC")
         HeaderLabel.SetTextAlign(32)
+        HeaderLabel.SetTextFont(42)
+        HeaderLabel.SetTextSize(0.697674)
         HeaderLabel.SetBorderSize(0)
         HeaderLabel.SetFillColor(0)
         HeaderLabel.SetFillStyle(0)
         HeaderLabel.Draw()
+        LumiLabel = TPaveLabel(topLeft_x_left,topLeft_y_bottom,topLeft_x_right,topLeft_y_top,"CMS","NDC")
+        LumiLabel.SetTextFont(61)
+        LumiLabel.SetTextSize(0.75)
+        LumiLabel.SetTextAlign(12)
+        extraLabel = TPaveLabel(topLeft_x_left_extra,topLeft_y_bottom_extra,topLeft_x_right_extra,topLeft_y_top_extra,"Preliminary","NDC")
+        extraLabel.SetTextFont(52)
+        extraLabel.SetTextSize(0.57)
+        extraLabel.SetTextAlign(12)
+        LumiLabel.SetBorderSize(0)
+        LumiLabel.SetFillColor(0)
+        LumiLabel.SetFillStyle(0)
+        extraLabel.SetBorderSize(0)
+        extraLabel.SetFillColor(0)
+        extraLabel.SetFillStyle(0)
+        LumiLabel.Draw() 
+        extraLabel.Draw() 
         if 'massLabel' in plot:
             MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
             MassLabel.SetTextSize(0.5454546)

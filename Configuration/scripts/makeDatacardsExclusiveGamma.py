@@ -182,7 +182,7 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
             nBinsY = d0Histogram.GetNbinsY()
         
             normIntErr = Double (0.0)
-            normIntegral = d0Histogram.IntegralAndError(0, nBinsX, 0, nBinsY, normIntErr)  
+            normIntegral = d0Histogram.IntegralAndError(0, nBinsX + 1, 0, nBinsY + 1, normIntErr)  
             targetYield = normIntegral*overalSF
             targetYieldErr = getMulError(normIntegral, overalSF, normIntErr, overalSFErr)
             if targetYield:
@@ -191,20 +191,14 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
             yieldAndErrorList['error'] = fracError
     else:
         if d0Cut == '0.02':
-            #yieldAndErrorList['yield'] = 0.301
-            #yieldAndErrorList['error'] = 1.609 
-            yieldAndErrorList['yield'] = 0.3617
-            yieldAndErrorList['error'] = 3.1052
+            yieldAndErrorList['yield'] = 0.3992
+            yieldAndErrorList['error'] = 3.4832
         if d0Cut == '0.05':
-            #yieldAndErrorList['yield'] = 0.017177
-            #yieldAndErrorList['error'] = 0.09167 
-            yieldAndErrorList['yield'] = 0.0326
-            yieldAndErrorList['error'] = 0.2800 
+            yieldAndErrorList['yield'] = 0.0588
+            yieldAndErrorList['error'] = 0.5129
         if d0Cut == '0.1':
-            #yieldAndErrorList['yield'] = 0.000386
-            #yieldAndErrorList['error'] = 0.00206
-            yieldAndErrorList['yield'] = 0.0015
-            yieldAndErrorList['error'] = 0.0133 
+            yieldAndErrorList['yield'] = 0.0021
+            yieldAndErrorList['error'] = 0.0186 
             #yieldAndErrorList['yield'] = round(targetYield,4)
             #yieldAndErrorList['error'] = round(fracError,4)
     
@@ -238,7 +232,7 @@ def writeDatacard(mass,lifetime):
         else:
             signal_error[currentD0Cut] = 0
 
-
+   
     signal_dataset = "stop"+mass+"_"+lifetime.replace('p','.')+"mm" 
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
@@ -296,12 +290,12 @@ def writeDatacard(mass,lifetime):
                 bin_row_2.append('control_' + 'd0min_'+str(d0Cut))
                 process_name_row.append('QCDFromData')
                 process_index_row.append(str(process_index))
-                rate_row.append('0.193')
+                rate_row.append('0.2')
                 empty_row.append('')
                 bin_row_2.append('control_' + 'd0min_'+str(d0Cut))
                 process_name_row.append('NonQCD')
                 process_index_row.append(str(process_index + 1))
-                rate_row.append('0.807')
+                rate_row.append('1.109')
                 empty_row.append('')
                 process_index = process_index + 2
             else:
@@ -429,7 +423,7 @@ def writeDatacard(mass,lifetime):
                     if process_name != 'QCDFromData':
                         row.append(background_normalization_uncertainties[process_name]['value'])
                     else:
-                        row.append(background_normalization_uncertainties[process_name]['value'])
+                        row.append(background_normalization_uncertainties[process_name][str(d0Cut)]['value'])
                         row.append('-')
                         row.append('-')
                 elif background == 'QCDFromData':
@@ -449,7 +443,7 @@ def writeDatacard(mass,lifetime):
             else:
                 row.append('-')
                 row.append('-')
-                row.append('1.08')
+                row.append('1.1049')
     datacard_data.append(row)
     
     
@@ -630,7 +624,6 @@ for d0Cut in arguments.d0Cuts:
         observation[d0Cut] = background_sum
     else:
         observation[d0Cut] = GetYieldAndError(data_condor_dir, data_dataset, data_channel, d0Cut)['yield']
-
 
 
 

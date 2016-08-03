@@ -61,7 +61,7 @@ def output_condor(command, options):
         sub_file += "Executable              = "+command+"\n"
         sub_file += "Universe                = vanilla\n"
         sub_file += "Getenv                  = True\n"
-        sub_file += "Requirements            = Memory > 1900\n"
+        sub_file += "request_memory            = 2048MB\n"
         sub_file += "\n"
         sub_file += "Output                  = condor_$(Process).out\n"
         sub_file += "Error                   = condor_$(Process).err\n"
@@ -136,7 +136,7 @@ methodFile.close()
 ### looping over signal models and running a combine job for each one
 for mass in masses:
     for lifetime in lifetimes:
-            signal_name = "stop"+mass+"_"+lifetime.split(".0")[0]+"mm_MiniAOD"
+            signal_name = "stop"+mass+"_"+lifetime.split(".0")[0]+"mm"
 
 
             condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
@@ -149,8 +149,8 @@ for mass in masses:
             if arguments.method == "HybridNew":
                 combine_expected_options += "-M " + arguments.method + " "
                 combine_observed_options += "-M " + arguments.method + " "
-                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-                combine_observed_options = combine_observed_options + "--frequentist --testStat LHC" + " "
+                combine_expected_options = combine_expected_options + "-T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
+                combine_observed_options = combine_observed_options + " "
             elif arguments.method == "MarkovChainMC":
                 combine_expected_options += "-M " + arguments.method + " "
                 combine_observed_options += "-M " + arguments.method + " "
