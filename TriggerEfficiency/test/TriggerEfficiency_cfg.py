@@ -41,6 +41,7 @@ miniAOD_collections = cms.PSet (
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -65,6 +66,7 @@ variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 #DisplacedSUSYEventVariableProducer can only run over skims
 variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('LifetimeWeightProducer')
 
 weights = cms.VPSet (
     cms.PSet (
@@ -78,6 +80,10 @@ weights = cms.VPSet (
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
     ),
 )
 
@@ -98,6 +104,10 @@ weightsWithTrigger = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonScalingFactor")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
 )
 
 scalingfactorproducers = []
@@ -105,8 +115,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
-ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -139,10 +149,12 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 #eventHistograms can only run over skims. 
-add_channels (process, [EMuPreselectionNoTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
+add_channels (process, [EMuPreselection], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
 add_channels (process, [EMuPreselectionInclusiveTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
 #add_channels (process, [TTbarControlRegionMETTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
 #add_channels (process, [TTbarControlRegionMETTriggerPassEMuTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
+#add_channels (process, [TTbarLowPtControlRegionMETTrigger], histograms, weights, scalingfactorproducers, collections,variableProducers, False)
+#add_channels (process, [TTbarLowPtControlRegionMETTriggerPassEMuTrigger], histograms, weightsWithTrigger, scalingfactorproducers, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")

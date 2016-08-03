@@ -27,6 +27,10 @@ datasets = [
     'stop500_10mm',
     'stop500_100mm',
     'stop500_1000mm',
+    'stop800_1mm',
+    'stop800_10mm',
+    'stop800_100mm',
+    'stop800_1000mm',
 ]
 
-InputCondorArguments = {'hold':'true'}
+InputCondorArguments = {'hold':'true','request_memory':'2048MB'}
