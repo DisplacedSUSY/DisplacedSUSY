@@ -40,6 +40,7 @@ miniAOD_collections = cms.PSet (
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -61,6 +62,7 @@ collections = miniAOD_collections
 variableProducers = []
 variableProducers.append('PUScalingFactorProducer')
 variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('LifetimeWeightProducer')
 
 
 ################################################################################
@@ -84,6 +86,10 @@ weights = cms.VPSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonScalingFactor")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
 )
 scalingfactorproducers = []
 ObjectScalingFactorProducer = {}
@@ -102,7 +108,8 @@ from DisplacedSUSY.StandardAnalysis.DisplacedControlRegionSelection import *
 
 eventSelections = []
 eventSelections.append(DisplacedControlRegionInclusiveDisplacedTrigger)
-eventSelections.append(DisplacedControlRegionNonIsoInclusiveDisplacedTrigger)
+eventSelections.append(DisplacedControlRegionNoIsoInclusiveDisplacedTrigger)
+eventSelections.append(DisplacedControlRegionNoIsoNoOSInclusiveDisplacedTrigger)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

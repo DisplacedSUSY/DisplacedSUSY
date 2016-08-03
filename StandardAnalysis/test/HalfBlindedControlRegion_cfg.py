@@ -94,8 +94,8 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-ObjectScalingFactorProducer['muonWp'] = cms.string('TightID')
-ObjectScalingFactorProducer['electronWp'] = cms.string('TightID')
+ObjectScalingFactorProducer['muonWp'] = cms.string('TightIDIso')
+ObjectScalingFactorProducer['electronWp'] = cms.string('RecoTightID')
 ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
 ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
@@ -107,8 +107,12 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 from DisplacedSUSY.StandardAnalysis.HalfBlindedControlRegion import *
 
 eventSelections = []
-eventSelections.append(EBlindedInclusiveTrigger)
-eventSelections.append(MuBlindedInclusiveTrigger)
+#eventSelections.append(EBlindedInclusiveTrigger)
+eventSelections.append(EBlindedNoIsoInclusiveTrigger)
+eventSelections.append(MuBlindedNoIsoInclusiveTrigger)
+#eventSelections.append(MuBlindedInclusiveTrigger)
+#eventSelections.append(EBlindedMuDisplacedInclusiveTrigger)
+#eventSelections.append(MuBlindedEleDisplacedInclusiveTrigger)
 
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
@@ -131,7 +135,7 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")

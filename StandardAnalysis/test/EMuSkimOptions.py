@@ -14,14 +14,17 @@ intLumi = 2613 # for 13 TeV Silver Json
 datasets = [
     #'Diboson',
     #'WJetsToLNu',
+    #'TTJets_SingleLeptFromT',
     #'DYJetsToLL_50',
     #'SingleTop',
     #'TTJets_Lept',
-    #'TTJets_SingleLeptFromT',
-    'QCD_MuEnriched',
+    #'TTJets_DiLept',
+    #'QCD_MuEnriched',
     #'MuonEG_2015D',
     #'MET_2015D',
     #'DisplacedSUSYSignal'
+    'stop300_30mm',
+    'stop300_70mm'
     #'stop600_1mm',
     #'stop700_1mm',
     #'WZToLNu2QorQQ2L',
@@ -48,7 +51,7 @@ datasets = [
 #    'stop500_1mm', 
 #    'stop500_10mm',
 #    'stop500_100mm',
-#    'stop500_1000mm',
+     #'stop500_1000mm',
 #    'stop600_1mm', 
 #    'stop600_10mm',
 #    'stop600_100mm',
@@ -57,10 +60,10 @@ datasets = [
 #    'stop700_10mm', 
 #    'stop700_100mm',
 #    'stop700_1000mm',
-#    'stop800_1mm', 
+     #'stop800_1mm', 
 #    'stop800_10mm', 
 #    'stop800_100mm', 
-#    'stop800_1000mm',
+     #'stop800_1000mm',
 #    'stop900_1mm', 
 #    'stop900_10mm', 
 #    'stop900_100mm', 
@@ -75,8 +78,8 @@ datasets = [
 #    'stop1100_1000mm',
 #    'stop1200_1mm',  
 #    'stop1200_10mm',  
-#    'stop1200_100mm', 
+     #'stop1200_100mm', 
 #    'stop1200_1000mm',
 ]
 
-InputCondorArguments = {}
+InputCondorArguments = {'request_memory':'2048MB','hold':'true'}

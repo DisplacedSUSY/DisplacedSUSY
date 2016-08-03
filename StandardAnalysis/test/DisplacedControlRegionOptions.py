@@ -21,13 +21,13 @@ datasets = [
     'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    #'QCD_MuEnriched',
+    'QCD_MuEnriched',
     'MuonEG_2015D',
-    #'DisplacedSUSYSignal'
+    'DisplacedSUSYSignal'
+    #'stop200_0p1mm',
+    #'stop200_1mm',
     #'stop200_10mm',
-    #'stop500_10mm',
-    #'stop800_10mm',
     #'stop1100_10mm',
 ]
 
-InputCondorArguments = {'hold': 'true'}
+InputCondorArguments = {'hold': 'true','request_memory':'2048MB'}

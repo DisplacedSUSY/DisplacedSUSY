@@ -13,13 +13,9 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
-  fileNames = cms.untracked.vstring (
-    "root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/181E4D02-59BC-E511-A927-001EC9ADD8FD.root",
-  
-  )
+  fileNames = cms.untracked.vstring ("root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/181E4D02-59BC-E511-A927-001EC9ADD8FD.root"),
+  skipBadFiles = cms.untracked.bool (True),
 )
-
-
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
@@ -72,10 +68,9 @@ variableProducers = []
 from DisplacedSUSY.StandardAnalysis.EMuSkimSelection import *
 
 eventSelections = []
-eventSelections.append(EMuSkimSelection)
+eventSelections.append(EMuPreselectionSkim)
 
-weights = cms.VPSet (
-)
+weights = cms.VPSet ()
 
 scalingfactorproducers = []
 ################################################################################

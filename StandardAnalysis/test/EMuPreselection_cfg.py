@@ -109,7 +109,9 @@ from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 eventSelections = []
 #eventSelections.append(EMuPreselectionControlTrigger)
 #eventSelections.append(EMuPreselectionDisplacedTrigger)
-eventSelections.append(EMuPreselectionInclusiveTrigger)
+eventSelections.append(EMuPreselectionNoIsoInclusiveTrigger)
+#eventSelections.append(EMuPreselectionNoDeltaRInclusiveTrigger)
+#eventSelections.append(EMuPreselectionDiffPVInclusiveTrigger)
 
 from OSUT3Analysis.Configuration.histogramDefinitions import *
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
@@ -134,7 +136,7 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
