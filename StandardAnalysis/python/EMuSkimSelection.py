@@ -66,6 +66,19 @@ for cut in EMuPreselectionSkim.cuts:
         cut.cutString = cms.string("pt > 40")
 ##########################################################################
 
+EMuPreselectionWithTriggerSkim = cms.PSet(
+    name = cms.string("EMuPreselectionWithTriggerSkim"),
+#    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"), # TRIGGER
+    triggers = cms.vstring(""), # TRIGGER
+    cuts = cms.VPSet ()
+)
+EMuPreselectionWithTriggerSkim.cuts = cms.VPSet (copy.deepcopy(EMuPreselectionSkim.cuts))
+
+
+
+##########################################################################
+
+
 EMuTriggerStudySkimSelection = cms.PSet(
     name = cms.string("EMuTriggerStudySkimSelection"),
     triggers = cms.vstring(), # TRIGGER
