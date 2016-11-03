@@ -5,8 +5,8 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
-#config_file = "ZtoMuMuControlRegion_cfg.py"
-config_file = "MuMuSkim_cfg.py"
+#config_file = "ZtoEEControlRegion_cfg.py"
+config_file = "EESkim_cfg.py"
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -32,14 +32,13 @@ datasets = [
 #    'ZG',
 
     # QCD
-#    'QCD_MuEnriched',
-    
+#    'QCD_EMEnriched',
+#    'QCD_bcToE',
+#    'QCD_DoubleEMEnriched',
+
     # Data
-    'DoubleMu_2016_23Sep',
+    'DoubleEG_2016_23Sep',
 
 ]
-
-
-
 
 InputCondorArguments = {}
