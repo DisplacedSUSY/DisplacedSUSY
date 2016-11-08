@@ -68,7 +68,7 @@ variableProducers = []
 from DisplacedSUSY.StandardAnalysis.EMuSkimSelection import *
 
 eventSelections = []
-eventSelections.append(EMuPreselectionSkim)
+eventSelections.append(EMuSkimSelection)
 
 weights = cms.VPSet ()
 
