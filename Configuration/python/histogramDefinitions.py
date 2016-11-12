@@ -1,26 +1,13 @@
 import FWCore.ParameterSet.Config as cms
 
 
+# import definitions of d0/dz
+from DisplacedSUSY.Configuration.objectDefinitions import *
+
+
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
-
-# convert all d0 units to microns (cm -> mum => x 10000)
-
-electronD0 = "10000*((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"
-electronAbsD0 = "abs(" + electronD0 + ")"
-electronD0Sig = "((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)/hypot(electron.gsfTrack.d0Error, hypot(beamspot.x0Error, beamspot.y0Error))"
-electronAbsD0Sig = "abs(" + electronD0Sig + ")"
-electronDz = "1*((electron.vz - beamspot.z0) - ((electron.vx - beamspot.x0)*electron.px + (electron.vy - beamspot.y0)*electron.py)/electron.pt*(electron.pz/electron.pt))"
-electronAbsDz = "abs(" + electronDz + ")"
-
-muonD0 = "10000*((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)"
-muonAbsD0 = "abs(" + muonD0 + ")"
-muonD0Sig = "((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)/hypot(muon.innerTrack.d0Error, hypot(beamspot.x0Error, beamspot.y0Error))"
-muonAbsD0Sig = "abs(" + muonD0Sig + ")"
-muonDz = "1*((muon.vz - beamspot.z0) - ((muon.vx - beamspot.x0)*muon.px + (muon.vy - beamspot.y0)*muon.py)/muon.pt*(muon.pz/muon.pt))"
-muonAbsDz = "abs(" + muonDz + ")"
-
 
 ElectronD0Histograms = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
