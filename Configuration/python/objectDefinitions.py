@@ -64,11 +64,13 @@ jet_id_alias = cms.string("jet ID against leptons")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria
 
-# N.B.: abs(deltaEtaSuperClusterTrackAtVtx) may not be right...
+# N.B.: |deltaEta| cut removed since it wasn't working on data...
+
+#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00308 &\ 
+#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00605 & \
 
 electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
-                            abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00308 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
                             hadronicOverEm < 0.0597 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
@@ -76,7 +78,6 @@ electron_id_cutstring = cms.string("(isEB & \
                             passConversionVeto) | \
                             (isEE & \
                             full5x5_sigmaIetaIeta < 0.0292 & \
-                            abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00605 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
                             hadronicOverEm < 0.0641 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
