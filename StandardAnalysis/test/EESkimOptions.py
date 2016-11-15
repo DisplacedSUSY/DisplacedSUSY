@@ -18,10 +18,10 @@ intLumi = 12900 # don't know yet...
 datasets = [
 
     # DY
-#    'DYJetsToLL_50',
+    'DYJetsToLL_50',
 
     # TTbar
-#    'TTJets_DiLept',
+    'TTJets_DiLept',
 
     # tW
 #    'SingleTop_tbarW',
@@ -37,7 +37,7 @@ datasets = [
 #    'QCD_DoubleEMEnriched',
 
     # Data
-    'DoubleEG_2016_23Sep',
+#    'DoubleEG_2016_23Sep',
 
 ]
 
