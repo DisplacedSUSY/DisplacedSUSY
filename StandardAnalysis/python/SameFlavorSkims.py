@@ -3,7 +3,7 @@ import copy
 
 MuMuSkim = cms.PSet(
     name = cms.string("MuMuSkim"),
-    triggers = cms.vstring(""),
+    triggers = cms.vstring(),
     cuts = cms.VPSet (
         cms.PSet (
             inputCollection = cms.vstring("muons"),
