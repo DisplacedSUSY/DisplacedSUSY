@@ -17,10 +17,10 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 datasets = [
 
     ### DY
-    'DYJetsToLL_50',
+#    'DYJetsToLL_50',
 
     ### TTbar
-    'TTJets_DiLept',
+#    'TTJets_DiLept',
 
     ### tW
 #    'SingleTop_tbarW',
@@ -31,10 +31,10 @@ datasets = [
 #    'ZG',
 
     ### QCD (mu-enriched is bigger)
-    'QCD_MuEnriched',
+#    'QCD_MuEnriched',
 
     ### Data
-    'DoubleMu_2016_23Sep',
+    'DoubleMu_2016B_23Sep',
 ]
 
 InputCondorArguments = {}
