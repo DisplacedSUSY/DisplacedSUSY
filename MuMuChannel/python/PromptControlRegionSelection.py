@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
-from DisplacedSUSY.EMuChannel.CutDefinitions import *
+from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
 ##########################################################################
 ### Set up the prompt control region for the displaced SUSY analysis #####
