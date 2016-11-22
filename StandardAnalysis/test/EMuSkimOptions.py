@@ -11,7 +11,7 @@ systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 # choose luminosity used for MC normalization
-intLumi = 12900 # don't know yet...
+intLumi = 29820 # don't know yet...
 
 # create list of datasets to process
 datasets = [
@@ -20,13 +20,18 @@ datasets = [
     'DYJetsToLL_50',
 
     # TTbar
-    'TTJets_DiLept',
+#    'TTJets_DiLept',
+    'TTJets_Lept',
 
     # tW
+#    'SingleTop_tW',
 #    'SingleTop_tbarW',
-
+    'SingleTop',
+    
     # Diboson
+    'Diboson',
 #    'WWToLNuLNu',
+#    'WZToLNu2QorQQ2L',
 #    'ZZToLLNuNu',
 #    'ZG',
 
