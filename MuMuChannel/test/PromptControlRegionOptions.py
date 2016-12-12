@@ -8,7 +8,7 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "PromptControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 27660 # from 2016BCDEFG Prompt reco golden json
+intLumi = 27910 # from 2016BCDEFG Prompt reco golden json
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -16,25 +16,28 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 # create list of datasets to process
 datasets = [
 
-    ### DY
-#    'DYJetsToLL_50',
+    # DY
+    'DYJetsToLL_50',
 
-    ### TTbar
-#    'TTJets_DiLept',
+    # TTbar
+    'TTJets_DiLept',
 
-    ### tW
+    # tW
 #    'SingleTop_tbarW',
+    'SingleTop',
 
-    ### Diboson
+    # Diboson
+    'Diboson',
 #    'WWToLNuLNu',
 #    'ZZToLLNuNu',
 #    'ZG',
 
-    ### QCD (mu-enriched is bigger)
-#    'QCD_MuEnriched',
+    # QCD
+    'QCD_MuEnriched',
+    
+    # Data
+    'DoubleMu_2016_23Sep',
 
-    ### Data
-    'DoubleMu_2016B_23Sep',
 ]
 
 InputCondorArguments = {}
