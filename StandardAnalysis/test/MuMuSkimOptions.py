@@ -25,8 +25,10 @@ datasets = [
 
     # tW
 #    'SingleTop_tbarW',
+    'SingleTop',
 
     # Diboson
+    'Diboson',
 #    'WWToLNuLNu',
 #    'ZZToLLNuNu',
 #    'ZG',
@@ -35,7 +37,7 @@ datasets = [
     'QCD_MuEnriched',
     
     # Data
-#    'DoubleMu_2016_23Sep',
+    'DoubleMu_2016_23Sep',
 
 ]
 
