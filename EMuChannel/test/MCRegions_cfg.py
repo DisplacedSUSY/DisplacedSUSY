@@ -1,5 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
+import OSUT3Analysis.DBTools.osusub_cfg as osusub
+from OSUT3Analysis.Configuration.configurationOptions import *
 import math
 import os
 
@@ -13,9 +15,11 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
-  fileNames = cms.untracked.vstring ("file:/store/user/lantonel/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_0.root"),
-  skipBadFiles = cms.untracked.bool (True),
+  fileNames = cms.untracked.vstring (
+        'file:/store/user/lantonel/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_0.root'
+  )
 )
+
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
@@ -23,7 +27,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (6000)
+    input = cms.untracked.int32 (-1)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -45,20 +49,17 @@ else:
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
+  electrons       =  cms.InputTag  ('slimmedElectrons',''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
+  jets            =  cms.InputTag  ('slimmedJets',                    ''),
+  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
+  generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
-  jets            =  cms.InputTag  ('slimmedJets',                   ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                   ''),
-  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
-  generatorweights = cms.InputTag  ('generator', ''),
-  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  #please notice this inputTag is different in miniAODv1 and v2.
-  #pileupinfos     =  cms.InputTag  ("addPileupInfo",           ""),
-  pileupinfos     =  cms.InputTag  ("slimmedAddPileupInfo",           ""),
+  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
   beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
   superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
   taus            =  cms.InputTag  ('slimmedTaus',                    ''),
@@ -73,27 +74,38 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
+weights = cms.VPSet ()
+scalingfactorproducers = []
 
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.BackgroundStudies.QCDSkimSelections import *
+from DisplacedSUSY.EMuChannel.MCSelections import *
 
-eventSelections = []
-eventSelections.append(QCDMuonSkim)
+eventSelections = [Preselection,DisplacedControlRegion]
 
-weights = cms.VPSet ()
-
-scalingfactorproducers = []
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
-from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
+
+from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, MuonHistograms, ElectronMuonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, MuonD0Histograms, ElectronMuonD0Histograms
+from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms, MuonJetHistograms
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, cms.VPSet(), weights, scalingfactorproducers, collections, variableProducers, True)
-#outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
+histograms = cms.VPSet()
+histograms.append(ElectronHistograms)
+histograms.append(ElectronD0Histograms)
+histograms.append(MuonHistograms)
+histograms.append(MuonD0Histograms)
+histograms.append(ElectronMuonD0Histograms)
+histograms.append(ElectronMuonHistograms)
+histograms.append(JetHistograms)
+histograms.append(ElectronJetHistograms)
+histograms.append(MuonJetHistograms)
+
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)

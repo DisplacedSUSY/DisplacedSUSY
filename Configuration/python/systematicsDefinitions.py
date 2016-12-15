@@ -122,32 +122,36 @@ signal_cross_sections_8TeV = {
 
 background_normalization_uncertainties = {
     'DYJetsToLL_50' : {
-       'value' : '1.0379',
+#       'value' : '1.0379',
+       'value' : '1.2',
        'type' : 'lnN',
     },
     # use WW values
     'Diboson' : {
-       'value' : '1.025',
+#       'value' : '1.025',
+       'value' : '1.2',
        'type' : 'lnN',
     },
     'SingleTop' : {
-       'value' : '1.0423',
+#       'value' : '1.0423',
+       'value' : '1.2',
        'type' : 'lnN',
     },
     'TTJets_Lept' : {
-       'value' : '1.0614',
+#       'value' : '1.0614',
+       'value' : '1.2',
        'type' : 'lnN',
     },
-    'WJetsToLNu' : {
-       'value' : '1.0384',
-       'type' : 'lnN',
-    },
-    'QCDFromData' : {
-       'type': 'lnN',
-       '0.02':{'value' : '1.324'},
-       '0.05':{'value' : '1.800'},
-       '0.1':{'value' : '1.923'},
-    },
+    # 'QCD_MuEnriched' : {
+    #    'value' : '1.5',
+    #    'type' : 'lnN',
+    # },
+    # 'QCDFromData' : {
+    #    'type': 'lnN',
+    #    '0.02':{'value' : '1.324'},
+    #    '0.05':{'value' : '1.800'},
+    #    '0.1':{'value' : '1.923'},
+    # },
 
 }
 
@@ -161,7 +165,7 @@ mc_normalized_processes = [
     'Diboson',
     'SingleTop',
     'TTJets_Lept',
-    'WJetsToLNu',
+#    'QCD_MuEnriched',
     'signal'
 ]
 
@@ -173,11 +177,11 @@ global_systematic_uncertainties = {
         'value' : '1.027',
    	'applyList' : mc_normalized_processes,
     },
-    # taken from the error on the trigger effieciency scale factor
-   'trigger' :  {
-        'value' : '1.009',
-   	'applyList' : mc_normalized_processes,
-    },
+   #  # taken from the error on the trigger effieciency scale factor
+   # 'trigger' :  {
+   #      'value' : '1.009',
+   # 	'applyList' : mc_normalized_processes,
+   #  },
     # taken as twice the 2% error quoted by ian
    'track_reco' :  {
         'value' : '1.17',
@@ -213,10 +217,10 @@ unique_systematic_uncertainties = {
 
 # defined in external text files (located in DisplacedSUSY/Configuration/data)
 external_systematic_uncertainties = [
-    'electronSF',
-    'muonSF',
+#    'electronSF',
+#    'muonSF',
     # still need to produce these two
 #    'pdf', - might be already covered by theory expectation
-    'pileup',
+#    'pileup',
 
 ]

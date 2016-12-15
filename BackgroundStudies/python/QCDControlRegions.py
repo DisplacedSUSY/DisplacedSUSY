@@ -3,6 +3,7 @@ import copy
 import string
 
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
+from DisplacedSUSY.BackgroundStudies.CutDefinitions import *
 
 ##############################################################
 ##### EVENT SELECTIONS FOR OUR QCD B-BBAR CONTROL REGIONS ####
@@ -290,20 +291,26 @@ electron_veto_cut = cms.PSet (
 ######################################################################
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
-    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    triggers = cms.vstring(),
+#    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
     cuts = cms.VPSet ()
 )
-QCDMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
-QCDMuonControlRegion.cuts.append(muon_inverted_iso_corr_cut)
-QCDMuonControlRegion.cuts.extend(jet_basic_selection_cuts)
-QCDMuonControlRegion.cuts.extend(bjet_basic_selection_cuts)
+QCDMuonControlRegion.cuts.append(one_jet_eta_cut)
+QCDMuonControlRegion.cuts.append(one_jet_pt_30_cut)
+QCDMuonControlRegion.cuts.append(one_jet_id_cut)
+QCDMuonControlRegion.cuts.append(bjet_eta_cut)
+QCDMuonControlRegion.cuts.append(bjet_pt_30_cut)
+QCDMuonControlRegion.cuts.append(bjet_id_cut)
 QCDMuonControlRegion.cuts.append(bjet_csvm_cut)
-QCDMuonControlRegion.cuts.append(dijet_cut)
-QCDMuonControlRegion.cuts.append(muonjet_cut)
-QCDMuonControlRegion.cuts.append(muon_veto_cut)
-for cut in QCDMuonControlRegion.cuts:
-    if "pt > 25" in str(cut.cutString) and "muons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 40")
+QCDMuonControlRegion.cuts.append(muon_eta_cut)
+QCDMuonControlRegion.cuts.append(muon_pt_40_cut)
+QCDMuonControlRegion.cuts.append(muon_global_cut)
+QCDMuonControlRegion.cuts.append(muon_id_cut)
+QCDMuonControlRegion.cuts.append(extra_muon_veto)
+QCDMuonControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
+QCDMuonControlRegion.cuts.append(muon_jet_deltaR_cut)
+
+
 
 QCDMuonNoIsoControlRegion = cms.PSet(
     name = cms.string("QCDMuonNoIsoControlRegion"),
