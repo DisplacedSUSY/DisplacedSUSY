@@ -4,24 +4,22 @@
 
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions import *
-from OSUT3Analysis.Configuration.miniAODV2_76X_Samples import *
+from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
+
 # specify which config file to pass to cmsRun
 config_file = "QCDMuonSkim_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 2613.0 # for 13 TeV Silver Json, 2015D 
-
+intLumi = 36260 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 # create list of datasets to process
 datasets = [
-    #'Diboson',
-    #'WJetsToLNu',
-    #'DYJetsToLL_50',
+    'WJetsToLNu',
+    'Diboson',
+    'DYJetsToLL_50',
     'SingleTop',
     'TTJets_Lept',
-    #'QCD_MuEnriched',
-    #'QCD_MuEnriched_170to300',
-    #'ZZToLLNuNu',
-    #'SingleMu_2015D',
+    'QCD_MuEnriched',
+    'SingleMu_2016',
 ]
 InputCondorArguments = {'request_memory':'2048MB'}
 secondaryCollections ={}
