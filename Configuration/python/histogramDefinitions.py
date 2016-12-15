@@ -681,3 +681,124 @@ BeamspotHistograms = cms.PSet(
         ),
     )
 )
+
+
+eventHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("numPV"),
+            title = cms.string("Number of Primary Vertex; #PV"),
+            binsX = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("numPV"),
+        ),
+        cms.PSet (
+            name = cms.string("numTruePV"),
+            title = cms.string("Number of True PVs; #True PVs"),
+            binsX = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("numTruePV"),
+        ),
+        cms.PSet (
+            name = cms.string("puScalingFactor"),
+            title = cms.string("PU Scaling Factor; PU Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 50),
+            inputVariables = cms.vstring("puScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("sumJetPt"),
+            title = cms.string("Sum of Jet Transverse Momentum; #Sigma p_{T}_{jet}"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("sumJetPt"),
+        ),
+        cms.PSet (
+            name = cms.string("passTrigger"),
+            title = cms.string("Pass Trigger; Trigger Flag"),
+            binsX = cms.untracked.vdouble(4, -2, 2),
+            inputVariables = cms.vstring("passTrigger"),
+        ),
+        cms.PSet (
+            name = cms.string("triggerScalingFactor"),
+            title = cms.string("Trigger Scaling Factor; Trigger Scaling Factor"),
+            binsX = cms.untracked.vdouble(10, 0, 1),
+            inputVariables = cms.vstring("triggerScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("electronScalingFactor"),
+            title = cms.string("Electron Scaling Factor; Electron Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("electronScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("muonScalingFactor"),
+            title = cms.string("Muon Scaling Factor; Muon Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("muonScalingFactor"),
+        ),
+        cms.PSet (
+            name = cms.string("lifetimeWeight"),
+            title = cms.string("Lifetime Scaling Factor; Lifetime Scaling Factor"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("lifetimeWeight"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop0_100um"),
+            title = cms.string("Stop 0 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 0.01),
+            inputVariables = cms.vstring("cTau_1000006_0"),
+            ),
+        cms.PSet (
+            name = cms.string("ctauStop1_100um"),
+            title = cms.string("Stop 1 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 0.01),
+            inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop0_1mm"),
+            title = cms.string("Stop 0 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 0.1),
+            inputVariables = cms.vstring("cTau_1000006_0"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop1_1mm"),
+            title = cms.string("Stop 1 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 0.1),
+            inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop0_1cm"),
+            title = cms.string("Stop 0 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("cTau_1000006_0"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop1_1cm"),
+            title = cms.string("Stop 1 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 1),
+            inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop0_10cm"),
+            title = cms.string("Stop 0 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("cTau_1000006_0"),
+            ),
+        cms.PSet (
+            name = cms.string("ctauStop1_10cm"),
+            title = cms.string("Stop 1 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop0_100cm"),
+            title = cms.string("Stop 0 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("cTau_1000006_0"),
+        ),
+        cms.PSet (
+            name = cms.string("ctauStop1_100cm"),
+            title = cms.string("Stop 1 c#tau;c#tau [cm]"),
+            binsX = cms.untracked.vdouble(100, 0, 100),
+            inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+    )
+)
