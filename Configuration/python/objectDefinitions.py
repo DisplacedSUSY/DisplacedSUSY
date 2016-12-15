@@ -22,6 +22,24 @@ electron_iso_alias = cms.string("electron tight isolation")
 
 ##########################################################################
 
+# INVERTED TIGHT ELECTRON ISOLATION
+
+electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
+                                     (isEE & pfdRhoIsoCorr > 0.0571)")
+
+electron_antiiso_alias = cms.string("electron inverted tight isolation")
+
+##########################################################################
+
+# INVERTED VETO ELECTRON ISOLATION
+
+electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.175) | \
+                                     (isEE & pfdRhoIsoCorr > 0.159)")
+
+electron_veto_antiiso_alias = cms.string("electron inverted veto isolation")
+
+##########################################################################
+
 # TIGHT MUON ISOLATION
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
@@ -31,6 +49,22 @@ electron_iso_alias = cms.string("electron tight isolation")
 muon_iso_cutstring = cutString = cms.string("pfdBetaIsoCorr <= 0.15")
 
 muon_iso_alias = cms.string("muon tight isolation")
+
+##########################################################################
+
+# INVERTED TIGHT MUON ISOLATION
+
+muon_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.15")
+
+muon_antiiso_alias = cms.string("muon inverted tight isolation")
+
+##########################################################################
+
+# INVERTED LOOSE MUON ISOLATION
+
+muon_loose_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.25")
+
+muon_loose_antiiso_alias = cms.string("muon inverted loose isolation")
 
 ##########################################################################
 
