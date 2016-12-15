@@ -708,7 +708,7 @@ def fetchLimits(mass,lifetime,directories):
         if method != "Asymptotic":
             signalSF = getSignalSF (mass, lifetime, directory, 'observed')
         tmp_limit['observed'] *= signalSF
-        print tmp_limit['observed']/xSection
+#        print tmp_limit['observed']/xSection
         if tmp_limit['expected'] < limit['expected']:
             limit = tmp_limit
     return (limit if limit['expected'] < 9.9e11 else -1)
