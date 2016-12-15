@@ -123,7 +123,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms,
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, MuonD0Histograms, ElectronMuonD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms, MuonJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms, MuonMetHistograms
-from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
