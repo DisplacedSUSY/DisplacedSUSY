@@ -16,21 +16,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
-#        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
-        'file:/home/lantonel/CMSSW_8_0_21/src/DisplacedSUSY/EMuChannel/test/condor/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_43.root'
-#    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_0.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_2.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_3.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_4.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_5.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_6.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_7.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_8.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_9.root'
-
+        'file:/store/user/lantonel/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_0.root'
   )
 )
 
@@ -95,9 +81,9 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EMuChannel.MCSelections import *
 
-eventSelections = [PromptControlRegion]
+eventSelections = [Preselection,DisplacedControlRegion]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -106,6 +92,10 @@ eventSelections = [PromptControlRegion]
 from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, MuonHistograms, ElectronMuonHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, MuonD0Histograms, ElectronMuonD0Histograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms, MuonJetHistograms
+
+################################################################################
+##### Attach the channels and histograms to the process ########################
+################################################################################
 
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
@@ -117,10 +107,5 @@ histograms.append(ElectronMuonHistograms)
 histograms.append(JetHistograms)
 histograms.append(ElectronJetHistograms)
 histograms.append(MuonJetHistograms)
-
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
-
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
