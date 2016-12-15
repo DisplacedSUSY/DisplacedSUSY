@@ -80,8 +80,7 @@ def fancyTable(arrays):
 
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
     yieldAndErrorList = {}
-    inputFile = TFile("condor/"+condor_dir+"/"+process+".root")
-    print process, d0Cut
+    inputFile = TFile("condor/"+condor_dir+"/"+process.replace('.','p')+".root")
     d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
     if not d0HistogramTry:
         print "WARNING: input histogram not found"
@@ -152,7 +151,6 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
 
     yieldAndErrorList['yield'] = yield_
     yieldAndErrorList['error'] = fracError
-    print yieldAndErrorList
     return yieldAndErrorList
 
 
@@ -508,4 +506,4 @@ for d0Cut in arguments.d0Cuts:
 for mass in masses:
   for lifetime in lifetimes:
         print "making datacard_stop"+mass+"_"+lifetime+"mm.txt"
-writeDatacard(mass,lifetime)
+        writeDatacard(mass,lifetime)
