@@ -20,7 +20,7 @@ process.source = cms.Source ('PoolSource',
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
 #    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
      #'file:/store/user/bcardwell/MuMuSkim_23Sep/DYJetsToLL_10to50/MuMuSkim/skim_0.root',
-     'file:/store/user/bcardwell/EESkim_23Sep/DYJetsToLL_10to50/MuMuSkim/skim_1.root',
+     'file:/store/user/bcardwell/EESkim_23Sep/DoubleEG_2016B_23Sep/EESkim/skim_0.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_2.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_3.root',
@@ -95,7 +95,7 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-variableProducers.append('DisplacedSUSYEventVariableProducer')
+#variableProducers.append('DisplacedSUSYEventVariableProducer')
 weights = cms.VPSet ()
 scalingfactorproducers = []
 
@@ -115,7 +115,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms,
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
+#from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -130,8 +130,8 @@ histograms.append(JetHistograms)
 histograms.append(ElectronJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(ElectronMetHistograms)
-histograms.append(eventHistograms)
+#histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+#process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
