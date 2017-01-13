@@ -18,26 +18,30 @@ intLumi = 12900 # don't know yet...
 datasets = [
 
     # DY
-    'DYJetsToLL_50',
+    'DYJetsToLL_10to50',
 
     # TTbar
-    'TTJets_DiLept',
+    #'TTJets_DiLept',
 
     # tW
-#    'SingleTop_tbarW',
-    'SingleTop',
+    #'SingleTop_tbarW',
+    #'SingleTop',
 
     # Diboson
-    'Diboson',
-#    'WWToLNuLNu',
-#    'ZZToLLNuNu',
-#    'ZG',
+    #'Diboson',
+    #'WWToLNuLNu',
+    #'ZZToLLNuNu',
+    #'ZG',
 
     # QCD
-    'QCD_MuEnriched',
+    #'QCD_MuEnriched',
+
+    # Signal
+    'DisplacedSUSYSignal',
     
     # Data
-    'DoubleMu_2016_23Sep',
+    'DoubleMu_2016H',
+    #'DoubleMu_2016_23Sep',
 
 ]
 
