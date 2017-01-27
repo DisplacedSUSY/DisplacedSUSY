@@ -287,7 +287,7 @@ electron_veto_cut = cms.PSet (
 )
 
 ######################################################################
-################  basic bb + non-iso muon selection   ################
+####################  basic bb + muon selection   ####################
 ######################################################################
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
@@ -298,15 +298,20 @@ QCDMuonControlRegion = cms.PSet(
 QCDMuonControlRegion.cuts.append(one_jet_eta_cut)
 QCDMuonControlRegion.cuts.append(one_jet_pt_30_cut)
 QCDMuonControlRegion.cuts.append(one_jet_id_cut)
+
 QCDMuonControlRegion.cuts.append(bjet_eta_cut)
 QCDMuonControlRegion.cuts.append(bjet_pt_30_cut)
 QCDMuonControlRegion.cuts.append(bjet_id_cut)
 QCDMuonControlRegion.cuts.append(bjet_csvm_cut)
+
 QCDMuonControlRegion.cuts.append(muon_eta_cut)
-QCDMuonControlRegion.cuts.append(muon_pt_40_cut)
+#QCDMuonControlRegion.cuts.append(muon_pt_40_cut)
+# raise muon pt to get above single muon trigger threshold
+QCDMuonControlRegion.cuts.append(muon_pt_50_cut)
 QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.append(muon_id_cut)
 QCDMuonControlRegion.cuts.append(extra_muon_veto)
+
 QCDMuonControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
 QCDMuonControlRegion.cuts.append(muon_jet_deltaR_cut)
 
@@ -436,23 +441,31 @@ for cut in QCDMuonDisplacedControlRegionLooseB.cuts:
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
+    triggers = cms.vstring(),
+#    triggers = cms.vstring("HLT_Ele27_WPLoose_Gsf_v"),
     cuts = cms.VPSet ()
 )
+QCDElectronControlRegion.cuts.append(one_jet_eta_cut)
+QCDElectronControlRegion.cuts.append(one_jet_pt_30_cut)
+QCDElectronControlRegion.cuts.append(one_jet_id_cut)
 
-QCDElectronControlRegion.cuts.extend(electron_basic_selection_cuts)
-QCDElectronControlRegion.cuts.append(electron_inverted_iso_corr_cut)
-QCDElectronControlRegion.cuts.extend(jet_basic_selection_cuts)
-QCDElectronControlRegion.cuts.extend(bjet_basic_selection_cuts)
-QCDElectronControlRegion.cuts.append(bjet_csvt_cut)
-QCDElectronControlRegion.cuts.append(dijet_cut)
-QCDElectronControlRegion.cuts.append(electronjet_cut)
-QCDElectronControlRegion.cuts.append(electron_veto_cut)
-for cut in QCDElectronControlRegion.cuts:
-    if "pt > 25" in str(cut.cutString) and "electrons" in str(cut.inputCollection):
-        cut.cutString = cms.string("pt > 42")
-    if "pt > -1" in str(cut.cutString) and "jets" in str(cut.inputCollection):
-        QCDElectronControlRegion.cuts.remove(cut)
+QCDElectronControlRegion.cuts.append(bjet_eta_cut)
+QCDElectronControlRegion.cuts.append(bjet_pt_30_cut)
+QCDElectronControlRegion.cuts.append(bjet_id_cut)
+QCDElectronControlRegion.cuts.append(bjet_csvm_cut)
+
+QCDElectronControlRegion.cuts.append(electron_eta_cut)
+#QCDElectronControlRegion.cuts.append(electron_pt_42_cut)
+# raise electron pt to get above single electron trigger threshold
+QCDElectronControlRegion.cuts.append(electron_pt_100_cut)
+QCDElectronControlRegion.cuts.append(electron_gap_veto)
+QCDElectronControlRegion.cuts.append(electron_id_cut)
+QCDElectronControlRegion.cuts.append(extra_electron_veto)
+
+QCDElectronControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
+QCDElectronControlRegion.cuts.append(electron_jet_deltaR_cut)
+
+
 
 QCDElectronNoIsoControlRegion = cms.PSet(
     name = cms.string("QCDElectronNoIsoControlRegion"),
