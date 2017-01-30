@@ -4,7 +4,7 @@ import string
 from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
 ##########################################################################
-### Set up the Z control region for the displaced SUSY analysis #####
+###### Set up the Z control region for the displaced SUSY analysis #######
 ##########################################################################
 
 ##########################################################################
