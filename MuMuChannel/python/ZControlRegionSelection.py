@@ -26,4 +26,5 @@ ZControlRegion.cuts.append(muon_global_cut)
 ZControlRegion.cuts.append(muon_id_cut)
 ZControlRegion.cuts.append(muon_iso_cut)
 ### invMass in Z range
-ZControlRegion.cuts.append(diMuon_Z_mass_cut)
+ZControlRegion.cuts.append(diMuon_invMass_below101_cut)
+ZControlRegion.cuts.append(diMuon_invMass_above81_cut)

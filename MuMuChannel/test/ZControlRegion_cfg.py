@@ -47,7 +47,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (50)
+    input = cms.untracked.int32 (500)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
