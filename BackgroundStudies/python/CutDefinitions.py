@@ -115,6 +115,12 @@ electron_pt_42_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_100_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_id_cutstring,
@@ -129,6 +135,12 @@ electron_iso_cut = cms.PSet(
     alias = objectDefs.electron_iso_alias
     )
 
+extra_electron_veto = cms.PSet (
+        inputCollection = cms.vstring("electrons"),
+        cutString = cms.string("pt > -1"),
+        numberRequired = cms.string("== 1"),
+        alias = cms.string("extra electron veto"),
+)
 
 ##########################################################################
 
@@ -149,6 +161,12 @@ muon_pt_25_cut = cms.PSet(
 muon_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -198,5 +216,15 @@ jet_bjet_deltaPhi_cut = cms.PSet (
 muon_jet_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("muons","jets"),
     cutString = cms.string("deltaR(muon,jet) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+)
+
+##########################################################################
+
+# BEGIN ELECTRON - JET CUTS
+
+electron_jet_deltaR_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons","jets"),
+    cutString = cms.string("deltaR(electron,jet) < 0.5"),
     numberRequired = cms.string(">= 1"),
 )
