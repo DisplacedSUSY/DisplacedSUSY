@@ -83,7 +83,7 @@ diElectron_invMass_below101_cut = cms.PSet (
 # electron d0 < 100 microns
 electron_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0 + " < 100"),
+    cutString = cms.string(objectDefs.electronAbsD0_um + " < 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 100 mum")
     )
@@ -91,7 +91,7 @@ electron_d0_lt100_cut = cms.PSet(
 # electron d0 > 100 microns
 electron_d0_above100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0 + " > 100"),
+    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 > 100 mum")
     )
@@ -99,53 +99,8 @@ electron_d0_above100_cut = cms.PSet(
 # electron d0 < 200 microns
 electron_d0_below200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0 + " < 200"),
+    cutString = cms.string(objectDefs.electronAbsD0_um + " < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 200 mum")
     )
 
-
-##########################################################################
-
-# BEGIN MUON CUTS
-
-muon_eta_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(eta) < 2.4"),
-    numberRequired = cms.string(">= 2")
-    )
-
-muon_pt_40_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 40"),
-    numberRequired = cms.string(">= 2")
-    )
-
-muon_global_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = objectDefs.muon_global_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.muon_global_alias
-    )
-
-muon_id_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = objectDefs.muon_id_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.muon_id_alias
-    )
-
-muon_iso_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = objectDefs.muon_iso_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.muon_iso_alias
-    )
-
-# muon d0 < 100 microns
-muon_d0_lt100_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0 + " < 100"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("muon d0 < 100 mum")
-    )
