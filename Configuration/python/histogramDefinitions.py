@@ -545,7 +545,7 @@ MuonD0Histograms = cms.PSet(
             title = cms.string("Muon d_{0} vs. Muon p_{T};muon p_{T} [GeV];muon d_{0} [#mum];"),
             binsX = cms.untracked.vdouble(100, 0, 200),
             binsY = cms.untracked.vdouble(100, -500, 500),
-            inputVariables = cms.vstring("muon.pt", muonD0),
+            inputVariables = cms.vstring("muon.pt", muonD0_um),
         ),
         ###################################################################
         # 2D sig(d0) vs. pt
@@ -572,7 +572,7 @@ MuonD0Histograms = cms.PSet(
             title = cms.string("Muon d_{0} vs. Muon #eta;muon #eta;muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -3, 3),
             binsY = cms.untracked.vdouble(100, -500, 500),
-            inputVariables = cms.vstring("muon.eta", muonD0),
+            inputVariables = cms.vstring("muon.eta", muonD0_um),
         ),
         ###################################################################
         # 2D sig(d0) vs. eta
@@ -599,7 +599,7 @@ MuonD0Histograms = cms.PSet(
             title = cms.string("Muon d_{0} vs. Muon #phi;muon #phi;muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -3.14, 3.14),
             binsY = cms.untracked.vdouble(100, -500, 500),
-            inputVariables = cms.vstring("muon.phi", muonD0),
+            inputVariables = cms.vstring("muon.phi", muonD0_um),
         ),
         ###################################################################
         # 2D sig(d0) vs. phi
