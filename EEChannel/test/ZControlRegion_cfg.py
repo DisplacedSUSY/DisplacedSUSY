@@ -103,9 +103,9 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EEChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EEChannel.ZControlRegionSelection import *
 
-eventSelections = [PromptControlRegion]
+eventSelections = [ZControlRegion]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
