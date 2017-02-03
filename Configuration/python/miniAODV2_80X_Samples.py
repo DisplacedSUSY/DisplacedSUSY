@@ -26,7 +26,7 @@ dataset_names = {
 
     #ZZ
     'ZZToNuNuQQ' : '/ZZTo2Q2Nu_13TeV_amcatnloFXFX_madspin_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 30M
-    'ZZToLLQQ'   : '/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 15M 
+    'ZZToLLQQ'   : '/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 15M
     'ZZToLLNuNu' : '/ZZTo2L2Nu_13TeV_powheg_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 9M
     'ZZToLLLL'   : '/ZZTo4L_13TeV_powheg_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 6M
 
@@ -59,7 +59,7 @@ dataset_names = {
     'QCD_MuEnriched_80to120'   :   ['/QCD_Pt-80to120_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 14M
                                     '/QCD_Pt-80to120_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v3/MINIAODSIM'], # 10M
     'QCD_MuEnriched_120to170'  :  ['/QCD_Pt-120to170_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'], # 8M
-    'QCD_MuEnriched_170to300'  :  ['/QCD_Pt-170to300_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 8M 
+    'QCD_MuEnriched_170to300'  :  ['/QCD_Pt-170to300_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 8M
                                    '/QCD_Pt-170to300_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM'], # 9M
     'QCD_MuEnriched_300to470'  :  ['/QCD_Pt-300to470_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 8M
                                    '/QCD_Pt-300to470_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM', # 16M
@@ -83,7 +83,7 @@ dataset_names = {
     'QCD_EMEnriched_50to80'   :   '/QCD_Pt-50to80_EMEnriched_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM', # 23M
     'QCD_EMEnriched_80to120'  : ['/QCD_Pt-80to120_EMEnriched_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 36M
                                  '/QCD_Pt-80to120_EMEnriched_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM'], # 42M
-    # !!! No sample!!!    'QCD_EMEnriched_120to170' : 
+    # !!! No sample!!!    'QCD_EMEnriched_120to170' :
     'QCD_EMEnriched_170to300' : '/QCD_Pt-170to300_EMEnriched_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 12M
     'QCD_EMEnriched_300toInf' : '/QCD_Pt-300toInf_EMEnriched_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 7M
 
@@ -108,8 +108,8 @@ dataset_names = {
 
     ############################################################################
     # SingleMuon 23Sep rereco
-    'SingleMu_2016B'         : '/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 158M 
-    'SingleMu_2016C'         : '/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 67M 
+    'SingleMu_2016B'         : '/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 158M
+    'SingleMu_2016C'         : '/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 67M
     'SingleMu_2016D'         : '/SingleMuon/Run2016D-23Sep2016-v1/MINIAOD', # 98M
     'SingleMu_2016E'         : '/SingleMuon/Run2016E-23Sep2016-v1/MINIAOD', # 91M
     'SingleMu_2016F'         : '/SingleMuon/Run2016F-23Sep2016-v1/MINIAOD', # 65M
@@ -133,8 +133,8 @@ dataset_names = {
     ############################################################################
     # DoubleMuon 23Sep rereco
     'DoubleMu_2016B'         : '/DoubleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 83M
-    'DoubleMu_2016C'         : '/DoubleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 28M 
-    'DoubleMu_2016D'         : '/DoubleMuon/Run2016D-23Sep2016-v1/MINIAOD', # 34M  
+    'DoubleMu_2016C'         : '/DoubleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 28M
+    'DoubleMu_2016D'         : '/DoubleMuon/Run2016D-23Sep2016-v1/MINIAOD', # 34M
     'DoubleMu_2016E'         : '/DoubleMuon/Run2016E-23Sep2016-v1/MINIAOD', # 28M
     'DoubleMu_2016F'         : '/DoubleMuon/Run2016F-23Sep2016-v1/MINIAOD', # 20M
     'DoubleMu_2016G'         : '/DoubleMuon/Run2016G-23Sep2016-v1/MINIAOD', # 45M
