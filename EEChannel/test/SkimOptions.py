@@ -8,7 +8,7 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "Skim_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 36460
+intLumi = 35863.308
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -33,7 +33,7 @@ datasets = [
     'QCD_bcToE',
     
     # Signal
-    'DisplacedSUSYSignal',
+    #'DisplacedSUSYSignal',
     
     # Data
     'DoubleEG_2016',
