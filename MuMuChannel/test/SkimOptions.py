@@ -7,11 +7,11 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 # specify which config file to pass to cmsRun
 config_file = "Skim_cfg.py"
 
+# choose luminosity used for MC normalization
+intLumi = 35863.308
+
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
-
-# choose luminosity used for MC normalization
-intLumi = 36460
 
 # create list of datasets to process
 datasets = [
@@ -26,13 +26,13 @@ datasets = [
     'SingleTop',
 
     # Diboson
-    #'Diboson',
+    'Diboson',
 
     # QCD
     'QCD_MuEnriched',
 
     # Signal
-    'DisplacedSUSYSignal',
+    #'DisplacedSUSYSignal',
     
     # Data
     'DoubleMu_2016',
