@@ -752,20 +752,20 @@ eventHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("numPV"),
             title = cms.string("Number of Primary Vertex; #PV"),
-            binsX = cms.untracked.vdouble(50, 0, 50),
+            binsX = cms.untracked.vdouble(75, 0, 75),
             inputVariables = cms.vstring("numPV"),
         ),
         cms.PSet (
             name = cms.string("numTruePV"),
             title = cms.string("Number of True PVs; #True PVs"),
-            binsX = cms.untracked.vdouble(50, 0, 50),
+            binsX = cms.untracked.vdouble(75, 0, 75),
             inputVariables = cms.vstring("numTruePV"),
         ),
         cms.PSet (
             name = cms.string("puScalingFactor"),
-            title = cms.string("PU Scaling Factor; PU Scaling Factor"),
-            binsX = cms.untracked.vdouble(100, 0, 50),
-            inputVariables = cms.vstring("puScalingFactor"),
+            title = cms.string("PU Scaling Factor; log(PU Scaling Factor)"),
+            binsX = cms.untracked.vdouble(200, -4, 4),
+            inputVariables = cms.vstring("log10(puScalingFactor)"),
         ),
         cms.PSet (
             name = cms.string("sumJetPt"),
@@ -800,8 +800,8 @@ eventHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("lifetimeWeight"),
             title = cms.string("Lifetime Scaling Factor; Lifetime Scaling Factor"),
-            binsX = cms.untracked.vdouble(100, 0, 100),
-            inputVariables = cms.vstring("lifetimeWeight"),
+            binsX = cms.untracked.vdouble(200, -4, 4),
+            inputVariables = cms.vstring("log10(lifetimeWeight)"),
         ),
         cms.PSet (
             name = cms.string("ctauStop0_100um"),
