@@ -74,7 +74,7 @@ variableProducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.StandardAnalysis.SameFlavorSkims import *
+from DisplacedSUSY.EEChannel.SameFlavorSkims import *
 
 eventSelections = []
 eventSelections.append(EESkim)
