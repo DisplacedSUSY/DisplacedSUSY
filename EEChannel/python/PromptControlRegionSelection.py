@@ -8,11 +8,10 @@ from DisplacedSUSY.EEChannel.CutDefinitions import *
 ##########################################################################
 
 ##########################################################################
-#Selections without triggers
 
 PromptControlRegion = cms.PSet(
     name = cms.string("PromptControlRegion"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
