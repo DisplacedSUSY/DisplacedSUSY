@@ -82,6 +82,12 @@ muon_eta_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 
+muon_pt_20_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 2")
+    )
+
 muon_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 40"),
