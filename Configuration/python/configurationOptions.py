@@ -3,7 +3,7 @@
 config_file = "standardConfig_cfg.py"
 
 
-intLumi = 36773 #2016 final rereco
+intLumi = 36814 #2016 final rereco
 
 datasets = [
 
@@ -869,8 +869,8 @@ crossSections = {
     'SingleTop_s_channel'          :  3.36,
     'SingleTop_t_channel_top'      :  44.3151,
     'SingleTop_t_channel_antitop'  :  26.3734,
-    'SingleTop_tW'                 :  35.85, # ???
-    'SingleTop_tbarW'              :  35.85, # ???
+    'SingleTop_tW'                 :  19.56, # total cross-section times BR(W->leptons)^2 (non-fully hadronic samples)
+    'SingleTop_tbarW'              :  19.56, # total cross-section times BR(W->leptons)^2 (non-fully hadronic samples)
 
     'TTJets_DiLept'                :  87.31, # ??? 
     'TTJets_SingleLeptFromT'       :  182.7, # ???
