@@ -73,6 +73,12 @@ electron_gap_veto = cms.PSet(
     alias = cms.string("electron ECAL crack veto")
     )
 
+electron_pt_25_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 42"),
@@ -145,6 +151,12 @@ electron_mt_cut = cms.PSet (
 muon_eta_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(eta) < 2.4"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_25_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1")
     )
 
