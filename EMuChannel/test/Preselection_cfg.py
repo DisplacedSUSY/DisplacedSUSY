@@ -22,7 +22,7 @@ process.source = cms.Source ('PoolSource',
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
 #        'file:/home/lantonel/CMSSW_8_0_21/src/DisplacedSUSY/EMuChannel/test/condor/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_43.root'
 #        'file:/store/user/lantonel/EMuSkim_23Sep/DYJetsToLL_50/EMuSkimSelection/skim_0.root'
-        'file:/store/user/lantonel/EMuSkim_23Sep/stop200_1mm/EMuSkimSelection/skim_0.root'
+        'file:/store/user/lantonel/EMuSkim_Moriond17/stop200_1mm/EMuSkimSelection/skim_0.root'
 #    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_0.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
