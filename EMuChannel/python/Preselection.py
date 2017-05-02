@@ -3,16 +3,13 @@ import copy
 import string
 from DisplacedSUSY.EMuChannel.CutDefinitions import *
 
-##########################################################################
-### Set up the prompt control region for the displaced SUSY analysis #####
-##########################################################################
-
-##########################################################################
-#Selections without triggers
+#################################################################
+### Set up the preselection for the displaced SUSY analysis #####
+#################################################################
 
 Preselection = cms.PSet(
     name = cms.string("Preselection"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)

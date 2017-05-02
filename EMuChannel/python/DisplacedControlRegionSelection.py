@@ -3,9 +3,9 @@ import copy
 import string
 from DisplacedSUSY.EMuChannel.CutDefinitions import *
 
-##########################################################################
-### Set up the prompt control region for the displaced SUSY analysis #####
-##########################################################################
+#############################################################################
+### Set up the displaced control region for the displaced SUSY analysis #####
+#############################################################################
 
 PromptControlRegion = cms.PSet(
     name = cms.string("PromptControlRegion"),
@@ -29,6 +29,6 @@ PromptControlRegion.cuts.append(muon_global_cut)
 PromptControlRegion.cuts.append(muon_id_cut)
 PromptControlRegion.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegion.cuts.append(electron_d0_lt100_cut)
-PromptControlRegion.cuts.append(muon_d0_lt100_cut)
+PromptControlRegion.cuts.append(electron_d0_100to200_cut)
+PromptControlRegion.cuts.append(muon_d0_100to200_cut)
 
