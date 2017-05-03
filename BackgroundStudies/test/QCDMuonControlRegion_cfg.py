@@ -13,9 +13,7 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
-#  fileNames = cms.untracked.vstring ("file:/store/user/lantonel/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_0.root")
   fileNames = cms.untracked.vstring ("file:/store/user/lantonel/QCDMuonSkim/QCD_MuEnriched_50to80/QCDMuonSkim/skim_0.root")
-#  fileNames = cms.untracked.vstring ("file:/store/user/lantonel/QCDMuonSkim/SingleMu_2016B/QCDMuonSkim/skim_0.root")
 )
 
 
@@ -54,7 +52,7 @@ miniAOD_collections = cms.PSet (
   electrons       =  cms.InputTag  ('slimmedElectrons',''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
   jets            =  cms.InputTag  ('slimmedJets',     ''),
-  bjets           =  cms.InputTag  ('slimmedJets',     ''),
+  bjets           =  cms.InputTag  ("objectSelector0","originalFormat","OSUAnalysisQCDMuonSkim1480532030"), # needs to be fed the exact collection from the skim being used
   generatorweights=  cms.InputTag  ('generator', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
@@ -107,18 +105,10 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
+from DisplacedSUSY.BackgroundStudies.QCDMuonControlRegionSelections import *
 
 eventSelections = []
-#eventSelections.append(QCDMuonDisplacedControlRegion)
 eventSelections.append(QCDMuonControlRegion)
-#eventSelections.append(QCDMuonNoIsoControlRegion)
-#eventSelections.append(QCDMuonDisplacedControlRegionTightB)
-#eventSelections.append(QCDMuonDisplacedControlRegionLooseB)
-#eventSelections.append(QCDMuonIsoTightBControlRegion)
-#eventSelections.append(QCDMuonIsoMediumBControlRegion)
-#eventSelections.append(QCDMuonIsoLooseBControlRegion)
-#eventSelections.append(QCDMuonIsoControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -149,7 +139,9 @@ histograms.append(JetBjetHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, True)
+
+
 
 # process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
 # process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")

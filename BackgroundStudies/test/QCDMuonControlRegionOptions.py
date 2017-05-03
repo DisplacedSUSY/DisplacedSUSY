@@ -4,41 +4,22 @@
 
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions import *
-from OSUT3Analysis.Configuration.miniAODV2_76X_Samples import *
+from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
-#from OSUT3Analysis.Configuration.configurationOptions_13TeV_miniAODv2 import *
 # specify which config file to pass to cmsRun
 config_file = "QCDMuonControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 28.67 # for HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v* path, 2015D 
-
+intLumi = 36260 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 # create list of datasets to process
 datasets = [
-    'Diboson',
-    'DYJetsToLL_50',
     'WJetsToLNu',
+    'Diboson',
+    'DYJetsToLL',
     'SingleTop',
     'TTJets_Lept',
-    #'SingleMu_2015D',
-    'Data',
-    'QCD',
-    #'QCD_MuEnriched',
-    #'WG',
-    #'ZZToLLLL',
-    #'WWToLNuLNu',
-    #'ZG',
-    #'WZToLLLNu',
-    #'WZToLNu2QorQQ2L',
-    #'ZZToLLQQ',
-    #'WZToLNuNuNu',
-    #'ZZToNuNuQQ',
-    #'stop200_0p1mm',
-    #'stop200_0p5mm',
-    #'stop200_1mm',
-    #'stop200_10mm',
-    #'stop200_100mm',
-    #'stop200_1000mm'
+    'QCD_MuEnriched',
+    'SingleMu_2016',
 ]
-InputCondorArguments = {'hold': 'true','request_memory':'2048MB'}
-secondaryCollections ={'bjets':'pat::Jet'}
+InputCondorArguments = {'request_memory':'2048MB'}
+secondaryCollections ={'bjets':"objectSelector0"}

@@ -15,7 +15,7 @@ intLumi = 36260 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JS
 datasets = [
     'WJetsToLNu',
     'Diboson',
-    'DYJetsToLL_50',
+    'DYJetsToLL',
     'SingleTop',
     'TTJets_Lept',
     'QCD_MuEnriched',

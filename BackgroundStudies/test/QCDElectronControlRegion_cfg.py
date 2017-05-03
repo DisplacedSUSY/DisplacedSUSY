@@ -13,14 +13,17 @@ process = cms.Process ('OSUAnalysis')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
-  fileNames = cms.untracked.vstring (
-    'root://cms-xrd-global.cern.ch//store/mc/RunIIFall15MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/00000/18C19294-83BC-E511-9850-002590C192A8.root',
-    #'file:/data/users/bing/condor/QCDElectronSkim76XWithPatCand/SinglePhoton_2015D/QCDElectronSkim/skim_2.root'
-   )
+  fileNames = cms.untracked.vstring ("file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_0.root",
+                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_1.root",
+                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_2.root",
+                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_3.root",
+                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_4.root",
+
+
+
+)
 )
 
-
-#set_input(process, "/data/users/bing/condor/QCDElectronSkim76XWithPatCand/SingleEle_2015D/QCDElectronSkim")
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
@@ -32,17 +35,30 @@ process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (-1)
 )
 
+data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
+mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    print "using global tag " + data_global_tag + "..."
+    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+else:
+    print "using global tag " + mc_global_tag + "..."
+
+
 ################################################################################
 ##### Set up the 'collections' map #############################################
 ################################################################################
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
+  electrons       =  cms.InputTag  ('slimmedElectrons',''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('slimmedJets',                    ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''), 
+  jets            =  cms.InputTag  ('slimmedJets',     ''),
+  bjets           =  cms.InputTag  ("objectSelector1","originalFormat","OSUAnalysisQCDElectronSkim1483021621"), # needs to be fed the exact collection from the skim being used
+  generatorweights=  cms.InputTag  ('generator', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -64,82 +80,78 @@ collections = miniAOD_collections
 
 
 variableProducers = []
-variableProducers.append('PUScalingFactorProducer')
+#variableProducers.append('PUScalingFactorProducer')
 
 weights = cms.VPSet (
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor")
-    ),
+    # cms.PSet (
+    #     inputCollections = cms.vstring("eventvariables"),
+    #     inputVariable = cms.string("puScalingFactor")
+    # ),
     #cms.PSet (
     #    inputCollections = cms.vstring("eventvariables"),
-    #    inputVariable = cms.string("electronScalingFactor")
+    #    inputVariable = cms.string("muonScalingFactor")
     #),
 )
+
 
 scalingfactorproducers = []
 #ObjectScalingFactorProducer = {}
 #ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 #ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
 #ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-#ObjectScalingFactorProducer['muonWp'] = cms.string('NUM_TightIDandIPCut_DEN_genTracks_PAR_pt_spliteta_bin1/abseta_vs_pt')
-#ObjectScalingFactorProducer['electronWp'] = cms.string('GlobalSF')
-#ObjectScalingFactorProducer['doEleSF'] = cms.bool(True)
-#ObjectScalingFactorProducer['doMuSF'] = cms.bool(False)
+#ObjectScalingFactorProducer['muonWp'] = cms.string('TightID,1')
+#ObjectScalingFactorProducer['electronWp'] = cms.string('TightID,1')
+#ObjectScalingFactorProducer['doEleSF'] = cms.bool(False)
+#ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
 
 #scalingfactorproducers.append(ObjectScalingFactorProducer)
+
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.BackgroundStudies.QCDControlRegions import *
+from DisplacedSUSY.BackgroundStudies.QCDElectronControlRegionSelections import *
 
 eventSelections = []
-#eventSelections.append(QCDElectronNoIsoControlRegion)
-eventSelections.append(QCDPlot)
-#eventSelections.append(QCDElectronDisplacedNoTriggerControlRegion)
-#eventSelections.append(QCDElectronDisplacedControlRegion)
-#eventSelections.append(QCDElectronControlRegion)
-#eventSelections.append(QCDElectronHFControlRegion)
-#eventSelections.append(QCDElectronLFControlRegion)
-#eventSelections.append(QCDElectronLightFlavorVetoControlRegion)
-#eventSelections.append(QCDElectronIsoLooseBControlRegion)
-#eventSelections.append(QCDElectronIsoMediumBControlRegion)
-#eventSelections.append(QCDElectronIsoTightBControlRegion)
-#eventSelections.append(QCDElectronDisplacedControlRegionMediumB)
-#eventSelections.append(QCDElectronDisplacedControlRegionLooseB)
-#eventSelections.append(QCDElectronIsoControlRegion)
+
+eventSelections.append(QCDElectronControlRegion)
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-from OSUT3Analysis.Configuration.histogramDefinitions import *
+#from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
+
+from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms
-from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import BjetHistograms, ElectronBjetHistograms, JetBjetHistograms
 
 histograms = cms.VPSet()
-#histograms.append(ElectronHistograms)
-#histograms.append(ElectronIPHistograms)
+histograms.append(ElectronHistograms)
 histograms.append(ElectronD0Histograms)
-#histograms.append(MetHistograms)
-#histograms.append(JetHistograms)
-#histograms.append(BjetHistograms)
-#histograms.append(JetBjetHistograms)
-#histograms.append(ElectronJetHistograms)
-#histograms.append(ElectronMetHistograms)
-#histograms.append(ElectronBjetHistograms)
-#histograms.append(eventHistograms)
+histograms.append(JetHistograms)
+histograms.append(BjetHistograms)
+histograms.append(MetHistograms)
+histograms.append(ElectronJetHistograms)
+histograms.append(ElectronMetHistograms)
+histograms.append(ElectronBjetHistograms)
+histograms.append(JetBjetHistograms)
+
+# histograms.append(eventHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, False)
 
-process.PUScalingFactorProducer.dataset = cms.string("QCD_EMEnriched_170to300")
-process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
-process.PUScalingFactorProducer.type = cms.string("data")
+
+
+# process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
+# process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
+# process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+# process.PUScalingFactorProducer.type = cms.string("data")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
