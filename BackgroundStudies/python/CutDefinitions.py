@@ -46,6 +46,13 @@ one_jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+extra_jet_veto = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("<= 2")
+    )
+
+
 ##########################################################################
 
 # BEGIN B-JET CUTS
@@ -73,6 +80,12 @@ bjet_csvm_cut = cms.PSet (
     inputCollection = cms.vstring("bjets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
     numberRequired = cms.string(">= 1"),
+    )
+
+extra_bjet_veto = cms.PSet(
+    inputCollection = cms.vstring("bjets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("<= 2")
     )
 
 
