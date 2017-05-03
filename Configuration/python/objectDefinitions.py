@@ -134,6 +134,7 @@ muon_global_alias = cms.string("is global muon")
 ##########################################################################
 
 # MUON ID, part two
+# taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Tight_Muon
 # we don't include d0/dz inside the ID so that we can control it more explicitly
 
 muon_id_cutstring = cms.string("globalTrack.normalizedChi2 < 10 & \
