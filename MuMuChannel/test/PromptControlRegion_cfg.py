@@ -115,10 +115,6 @@ from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, Muon
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
 #from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
-
 histograms = cms.VPSet()
 histograms.append(MuonHistograms)
 histograms.append(DiMuonHistograms)
@@ -129,5 +125,9 @@ histograms.append(MuonJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(MuonMetHistograms)
 #histograms.append(eventHistograms)
+
+################################################################################
+##### Attach the channels and histograms to the process ########################
+################################################################################
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
