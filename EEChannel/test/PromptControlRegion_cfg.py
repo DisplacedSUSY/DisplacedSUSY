@@ -117,10 +117,6 @@ from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, Elec
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms
 #from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
-
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
 histograms.append(DiElectronHistograms)
@@ -131,6 +127,11 @@ histograms.append(ElectronJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(ElectronMetHistograms)
 #histograms.append(eventHistograms)
+
+################################################################################
+##### Attach the channels and histograms to the process ########################
+################################################################################
+
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
