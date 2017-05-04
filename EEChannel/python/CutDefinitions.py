@@ -64,6 +64,13 @@ electron_iso_cut = cms.PSet(
     alias = objectDefs.electron_iso_alias
     )
 
+electron_antiiso_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_antiiso_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.electron_antiiso_alias
+    )
+
 # diElectron Invariant Mass > 81.2GeV
 diElectron_invMass_above81_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
@@ -86,6 +93,14 @@ electron_d0_lt100_cut = cms.PSet(
     cutString = cms.string(objectDefs.electronAbsD0_um + " < 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 100 mum")
+    )
+
+# electron 100 < d0 < 200 microns
+electron_d0_100to200_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons", "beamspots"),
+    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100 & " + objectDefs.electronAbsD0_um + " < 200"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string("electron 100 < d0 < 200 mum")
     )
 
 # electron d0 > 100 microns
