@@ -13,6 +13,9 @@ intLumi = 35863.308
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
+
+composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_DiLept','SingleTop','Diboson','QCD_EMEnriched','QCD_bcToE']
+
 # create list of datasets to process
 datasets = [
 
@@ -46,5 +49,10 @@ datasets = [
     'DoubleEG_2016H',
 
 ]
+
+from ROOT import kRed
+colors['DisplacedSUSYSignal'] = kRed +1
+labels['DisplacedSUSYSignal'] = "Signal"
+types['DisplacedSUSYSignal'] = "bgMC"
 
 InputCondorArguments = {}
