@@ -27,7 +27,7 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
-# suppress gen-matching erros
+# suppress gen-matching errors
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
@@ -131,6 +131,6 @@ histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
 #process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
 #process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
