@@ -18,13 +18,20 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'file:/store/user/bcardwell/MuMuSkim_17_02_03/DYJetsToLL_50/MuMuSkim/skim_0.root'
+    'file:/store/user/bcardwell/MuMuSkim_17_02_03/DoubleMu_2016B/MuMuSkim/skim_0.root'
   )
 )
 
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
+)
+
+# suppress gen-matching erros
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
 )
 
 # number of events to process when running interactively
@@ -126,6 +133,6 @@ histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
 #process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
 #process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
