@@ -1,17 +1,20 @@
 #! /usr/bin/env python
 
 input_sources = [
-    { 'condor_dir' : 'EMuPreselection_MC_Dec9',
-      'dataset'    : 'DYJetsToLL_50.root',
-      'channel'    : 'Preselection',
-      'hist_dir'   : 'Electron-muon-beamspot Plots',
-      'hist'       : 'electronAbsD0_vs_muonAbsD0_500um',
+    {
+      'dataset'  : 'DYJetsToLL_50',
+      'histPath' : 'PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_500um',
     },
-
-    { 'condor_dir' : 'EMuPreselection_MC_Dec9',
-      'dataset'    : 'Diboson.root',
-      'channel'    : 'Preselection',
-      'hist_dir'   : 'Electron-muon-beamspot Plots',
-      'hist'       : 'electronAbsD0_vs_muonAbsD0_500um',
-    }
+    {
+      'dataset'  : 'Diboson',
+      'histPath' : 'PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_500um',
+    },
+    {
+      'dataset'  : 'SingleTop',
+      'histPath' : 'PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_500um',
+    },
+    {
+      'dataset'  : 'TTJets_DiLept',
+      'histPath' : 'PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_500um',
+    },
 ]
