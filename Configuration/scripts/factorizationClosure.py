@@ -3,7 +3,7 @@
 # factorizationClosure.py
 # Make plots to compare factorization-method yields with counting-method yields
 #
-# Usage: factorizationClosure.py -l sampleConfig.py
+# Usage: factorizationClosure.py -l configFile.py -w workingDirectory
 
 
 import os
@@ -20,6 +20,8 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
+parser.add_option("-w", "--workDirectory", dest="condorDir",
+                  help="condor working directory")
 
 (arguments, args) = parser.parse_args()
 
@@ -30,11 +32,55 @@ else:
     print "Please specify a local config file"
     sys.exit(0)
 
+if arguments.condorDir:
+    condorDir = arguments.condorDir
+else:
+    print "Please specify a working directory"
+    sys.exit(0)
 
-from ROOT import TString, TFile, TH2D, TGraphErrors, Double, TCanvas, TLegend
+
+from ROOT import (TString, TFile, TH2D, TGraphErrors, Double, TCanvas, TLegend,
+                  gROOT, gStyle, TDirectory, TMultiGraph)
+
+# Make plots look nice (copied from makePlots)
+gROOT.SetBatch()
+gStyle.SetOptStat(0)
+gStyle.SetCanvasBorderMode(0)
+gStyle.SetPadBorderMode(0)
+gStyle.SetPadColor(0)
+gStyle.SetCanvasColor(0)
+gStyle.SetCanvasDefH(600)
+gStyle.SetCanvasDefW(600)
+gStyle.SetCanvasDefX(0)
+gStyle.SetCanvasDefY(0)
+gStyle.SetPadTopMargin(0.056)
+gStyle.SetPadBottomMargin(0.13)
+gStyle.SetPadLeftMargin(0.1476)
+gStyle.SetPadRightMargin(0.05)
+gStyle.SetHistTopMargin(0)
+gStyle.SetTitleColor(1, "XYZ")
+gStyle.SetTitleFont(42, "XYZ")
+gStyle.SetTitleSize(0.05, "XYZ")
+gStyle.SetTitleXSize(0.04)
+gStyle.SetTitleXOffset(1.25)
+gStyle.SetTitleYSize(0.04)
+gStyle.SetTitleYOffset(1.5)
+#gStyle.SetTextFont(42)
+gStyle.SetTextAlign(12)
+gStyle.SetLabelColor(1, "XYZ")
+gStyle.SetLabelFont(42, "XYZ")
+gStyle.SetLabelOffset(0.005, "XYZ")
+gStyle.SetLabelSize(0.04, "XYZ")
+gStyle.SetAxisColor(1, "XYZ")
+gStyle.SetStripDecimals(True)
+gStyle.SetTickLength(0.03, "XYZ")
+gStyle.SetNdivisions(505, "XYZ")
+gStyle.SetPadTickX(1)
+gStyle.SetPadTickY(1)
+gROOT.ForceStyle()
 
 
-def getYieldsAndErrors(hist, datasetName):
+def makeYieldsAndErrorsPlots(hist, datasetName, outputFile):
 
     # Make everything arrays to please TGraph
     countYields  = array('d')
@@ -73,39 +119,53 @@ def getYieldsAndErrors(hist, datasetName):
 
         dZeroVals.append(hist.GetXaxis().GetBinLowEdge(bin))
         dZeroErrors.append(0)
-        
 
+    # Make Plots
     countPlot  = TGraphErrors(len(dZeroVals), dZeroVals, countYields,  dZeroErrors, countErrors)
     factorPlot = TGraphErrors(len(dZeroVals), dZeroVals, factorYields, dZeroErrors, factorErrors)
 
-
     # Draw, add legend, print - still need to make pretty
-    canvas = TCanvas("canvas", "ComparisonPlot", 200, 10, 700, 500)
-    countPlot.Draw("")
-    factorPlot.Draw("SAME")
-
-    countPlot.SetLineColor(3)
-    factorPlot.SetLineColor(1)
-    countPlot.GetXaxis().SetTitle
+    canvas = TCanvas(datasetName, datasetName)
+    canvas.SetLogy()
 
     legend = TLegend(0.6, 0.7, 0.8, 0.8)
     legend.AddEntry(countPlot, "Counting Method Yield", "l")
     legend.AddEntry(factorPlot, "Factorization Method Yield", "l")
+
+    countPlot.Draw()
+    factorPlot.Draw("SAME")
     legend.Draw()
 
-    canvas.SetLogy()
-    canvas.Update()
-    canvas.SaveAs("factorizationClosure_" + re.sub(r".root$", r".pdf", datasetName))
+    countPlot.SetLineColor(30)
+    factorPlot.SetLineColor(38)
+    countPlot.SetTitle(datasetName)
+    countPlot.GetXaxis().SetTitle("d0 [mum]")
+    countPlot.GetYaxis().SetTitle("Target Region Yield")
 
+    canvas.Update()
+
+    outputFile.cd()
+    dir = outputFile.mkdir(datasetName)
+    dir.cd()
+    canvas.Write()
+    
+
+#########################################################################################
+#########################################################################################
+
+
+outputFile = TFile("factorizationClosure_" + condorDir + ".root", "recreate")
 
 for s in input_sources:
-    inputFile = TFile("condor/" + s['condor_dir'] + "/" + s['dataset'])
-    inputHist = inputFile.Get(s['channel'] + "Plotter/" + s['hist_dir'] + "/" + s['hist'])
+    inputFile = TFile("condor/%s/%s.root" % (condorDir, s['dataset']))
+    if not inputFile:
+        print "Input file not found"
+        sys.exit(0)
+    inputHist = inputFile.Get(s['histPath'])
     if not inputHist:
         print "Input histogram not found"
         sys.exit(0)
-    getYieldsAndErrors(inputHist, s['dataset'])
 
-
+    makeYieldsAndErrorsPlots(inputHist, s['dataset'], outputFile)
 
 
