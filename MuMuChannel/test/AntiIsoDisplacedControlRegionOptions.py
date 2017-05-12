@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
-config_file = "PromptControlRegion_cfg.py"
+config_file = "AntiIsoDisplacedControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
 intLumi = 35863.308
@@ -14,39 +14,38 @@ systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 
-composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_DiLept','SingleTop','Diboson','QCD_EMEnriched','QCD_bcToE']
+composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_DiLept','SingleTop','Diboson','QCD_MuEnriched']
 
 # create list of datasets to process
 datasets = [
 
     # DY
-    #'DYJetsToLL',
+    'DYJetsToLL',
 
     # TTbar
-    #'TTJets_DiLept',
+    'TTJets_DiLept',
 
     # tW
-    #'SingleTop',
+    'SingleTop',
 
     # Diboson
-    #'Diboson',
+    'Diboson',
 
     # QCD
-    #'QCD_EMEnriched',
-    #'QCD_bcToE',
+    'QCD_MuEnriched',
     
     # Signal
     #'DisplacedSUSYSignal',
     
     # Data
-    #'DoubleEG_2016',
-    'DoubleEG_2016B',
-    'DoubleEG_2016C',
-    'DoubleEG_2016D',
-    'DoubleEG_2016E',
-    'DoubleEG_2016F',
-    'DoubleEG_2016G',
-    'DoubleEG_2016H',
+    'DoubleMu_2016',
+    #'DoubleMu_2016B',
+    #'DoubleMu_2016C',
+    #'DoubleMu_2016D',
+    #'DoubleMu_2016E',
+    #'DoubleMu_2016F',
+    #'DoubleMu_2016G',
+    #'DoubleMu_2016H',
 
 ]
 

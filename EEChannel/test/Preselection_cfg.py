@@ -27,16 +27,9 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
-# suppress gen-matching errors
-process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.categories.append ("osu_GenMatchable")
-process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
-    limit = cms.untracked.int32 (0)
-)
-
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (100)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -102,9 +95,9 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EEChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EEChannel.Preselection import *
 
-eventSelections = [PromptControlRegion]
+eventSelections = [Preselection]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -132,7 +125,7 @@ histograms.append(eventHistograms)
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 #process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")

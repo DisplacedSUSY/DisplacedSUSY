@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
-config_file = "PromptControlRegion_cfg.py"
+config_file = "DisplacedControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
 intLumi = 35863.308
@@ -20,33 +20,33 @@ composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_DiLept','Sin
 datasets = [
 
     # DY
-    #'DYJetsToLL',
+    'DYJetsToLL',
 
     # TTbar
-    #'TTJets_DiLept',
+    'TTJets_DiLept',
 
     # tW
-    #'SingleTop',
+    'SingleTop',
 
     # Diboson
-    #'Diboson',
+    'Diboson',
 
     # QCD
-    #'QCD_EMEnriched',
-    #'QCD_bcToE',
+    'QCD_EMEnriched',
+    'QCD_bcToE',
     
     # Signal
     #'DisplacedSUSYSignal',
     
     # Data
-    #'DoubleEG_2016',
-    'DoubleEG_2016B',
-    'DoubleEG_2016C',
-    'DoubleEG_2016D',
-    'DoubleEG_2016E',
-    'DoubleEG_2016F',
-    'DoubleEG_2016G',
-    'DoubleEG_2016H',
+    'DoubleEG_2016',
+    #'DoubleEG_2016B',
+    #'DoubleEG_2016C',
+    #'DoubleEG_2016D',
+    #'DoubleEG_2016E',
+    #'DoubleEG_2016F',
+    #'DoubleEG_2016G',
+    #'DoubleEG_2016H',
 
 ]
 

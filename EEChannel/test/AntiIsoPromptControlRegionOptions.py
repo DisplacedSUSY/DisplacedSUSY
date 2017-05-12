@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
-config_file = "PromptControlRegion_cfg.py"
+config_file = "AntiIsoPromptControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
 intLumi = 35863.308

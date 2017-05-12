@@ -103,8 +103,9 @@ scalingfactorproducers = []
 ################################################################################
 
 from DisplacedSUSY.EEChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EEChannel.DisplacedControlRegionSelection import *
 
-eventSelections = [PromptControlRegion]
+eventSelections = [PromptControlRegion, DisplacedControlRegion]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

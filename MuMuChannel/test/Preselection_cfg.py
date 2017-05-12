@@ -2,6 +2,8 @@ import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
+
 import math
 import os
 
@@ -16,21 +18,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
-#    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
-#    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
-    #'file:/store/user/bcardwell/MuMuSkim_23Sep/DYJetsToLL_10to50/MuMuSkim/skim_0.root',
-     'file:/store/user/bcardwell/MuMuSkim_23Sep/DoubleMu_2016B_23Sep/MuMuSkim/skim_0.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_2.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_3.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_4.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_5.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_6.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_7.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_8.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_9.root'
-
+    'file:/store/user/bcardwell/MuMuSkim_17_02_03/DoubleMu_2016B/MuMuSkim/skim_0.root'
   )
 )
 
@@ -48,7 +36,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (20)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -76,6 +64,7 @@ miniAOD_collections = cms.PSet (
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
@@ -95,16 +84,27 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-weights = cms.VPSet ()
+variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('LifetimeWeightProducer')
+
+weights = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+)
+
 scalingfactorproducers = []
+
+
 
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.MuMuChannel.ControlRegionIISelection import *
+from DisplacedSUSY.MuMuChannel.Preselection import *
 
-eventSelections = [ControlRegionII]
+eventSelections = [Preselection]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -114,11 +114,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiM
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
-#from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
-
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 histograms = cms.VPSet()
 histograms.append(MuonHistograms)
@@ -129,6 +125,14 @@ histograms.append(JetHistograms)
 histograms.append(MuonJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(MuonMetHistograms)
-#histograms.append(eventHistograms)
+histograms.append(eventHistograms)
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+################################################################################
+##### Attach the channels and histograms to the process ########################
+################################################################################
+
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
+
+process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
+#process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
+#process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)

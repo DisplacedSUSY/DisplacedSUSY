@@ -18,7 +18,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'file:/store/user/bcardwell/EESkim_17_02_03/ZZToLLLL/EESkim/skim_0.root'
+     'file:/store/user/bcardwell/MuMuSkim_17_02_03/DoubleMu_2016B/MuMuSkim/skim_0.root',
   )
 )
 
@@ -27,7 +27,7 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
-# suppress gen-matching errors
+# suppress gen-matching erros
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
@@ -36,7 +36,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (100)
+    input = cms.untracked.int32 (10000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -96,44 +96,42 @@ weights = cms.VPSet(
 
 scalingfactorproducers = []
 
-
-
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EEChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.MuMuChannel.AntiIsoPromptControlRegionSelection import *
+from DisplacedSUSY.MuMuChannel.AntiIsoDisplacedControlRegionSelection import *
 
-eventSelections = [PromptControlRegion]
+eventSelections = [AntiIsoPromptControlRegion, AntiIsoDisplacedControlRegion]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms 
-from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, BeamspotHistograms
-from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms
-from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms 
+from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, BeamspotHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 histograms = cms.VPSet()
-histograms.append(ElectronHistograms)
-histograms.append(DiElectronHistograms)
-histograms.append(ElectronD0Histograms)
+histograms.append(MuonHistograms)
+histograms.append(DiMuonHistograms)
+histograms.append(MuonD0Histograms)
 histograms.append(BeamspotHistograms)
 histograms.append(JetHistograms)
-histograms.append(ElectronJetHistograms)
+histograms.append(MuonJetHistograms)
 histograms.append(MetHistograms)
-histograms.append(ElectronMetHistograms)
+histograms.append(MuonMetHistograms)
 histograms.append(eventHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
 #process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
 #process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)

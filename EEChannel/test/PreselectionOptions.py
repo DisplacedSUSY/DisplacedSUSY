@@ -5,7 +5,7 @@ from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
-config_file = "PromptControlRegion_cfg.py"
+config_file = "Preselection_cfg.py"
 
 # choose luminosity used for MC normalization
 intLumi = 35863.308
@@ -40,13 +40,13 @@ datasets = [
     
     # Data
     #'DoubleEG_2016',
-    'DoubleEG_2016B',
-    'DoubleEG_2016C',
-    'DoubleEG_2016D',
-    'DoubleEG_2016E',
+    #'DoubleEG_2016B',
+    #'DoubleEG_2016C',
+    #'DoubleEG_2016D',
+    #'DoubleEG_2016E',
     'DoubleEG_2016F',
-    'DoubleEG_2016G',
-    'DoubleEG_2016H',
+    #'DoubleEG_2016G',
+    #'DoubleEG_2016H',
 
 ]
 
