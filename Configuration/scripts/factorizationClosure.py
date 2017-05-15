@@ -80,51 +80,29 @@ gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
 
 
-def makeYieldsAndErrorsPlots(hist, datasetName, outputFile):
+def getFactorError(xCount, yCount,totalCount, xError, yError, totalError):
+    factorError = 0.0;
+    if xCount > 0 and yCount > 0 and totalCount > 0:
+        factorError = ( math.pow(xError/xCount, 2) + math.pow(yError/yCount, 2)
+                      + math.pow(totalError/totalCount, 2) )
+        factorError = math.sqrt(factorError) * (xCount * yCount / totalCount)
+    return factorError
 
-    # Make everything arrays to please TGraph
-    countYields  = array('d')
-    factorYields = array('d')
-    dZeroVals    = array('d')
-    countErrors  = array('d')
-    factorErrors = array('d')
-    dZeroErrors  = array('d')
 
-    maxBinNum = hist.GetXaxis().GetNbins() # Assume xMax = yMax
+def makePlots(yieldsAndErrors, datasetName, outputFile):
 
-    # Get yields and errors
-    # Used Freya's 0s, 1s, and +2s. Need to check
-    for bin in range(1, maxBinNum + 1):
+    countPlot  = TGraphErrors(len(yieldsAndErrors['dZeroVals']),
+                              yieldsAndErrors['dZeroVals'],
+                              yieldsAndErrors['countYields'],
+                              yieldsAndErrors['dZeroErrors'],
+                              yieldsAndErrors['countErrors'])
 
-        totalError  = Double(0.0)
-        targetError = Double(0.0)
-        totalCount  = hist.IntegralAndError(1, maxBinNum + 2, 0, maxBinNum, totalError)
-        targetCount = hist.IntegralAndError(bin, maxBinNum + 2, bin, maxBinNum, targetError)
+    factorPlot = TGraphErrors(len(yieldsAndErrors['dZeroVals']),
+                              yieldsAndErrors['dZeroVals'],
+                              yieldsAndErrors['factorYields'],
+                              yieldsAndErrors['dZeroErrors'],
+                              yieldsAndErrors['factorErrors'])
 
-        xError = Double(0.0)
-        yError = Double(0.0)
-        xCount = hist.IntegralAndError(bin, maxBinNum + 2, 0, maxBinNum, xError)
-        yCount = hist.IntegralAndError(0, maxBinNum + 2, bin, maxBinNum, yError)
-
-        countYields.append(targetCount)
-        countErrors.append(targetError)
-
-        factorYields.append(xCount * yCount / totalCount)
-        factorError = Double(0.0)
-        if xCount > 0 and yCount > 0 and totalCount > 0:
-            factorError = ( math.pow(xError/xCount, 2) + math.pow(yError/yCount, 2)
-                          + math.pow(totalError/totalCount, 2) )
-            factorError = math.sqrt(factorError) * (xCount * yCount / totalCount)
-        factorErrors.append(factorError)
-
-        dZeroVals.append(hist.GetXaxis().GetBinLowEdge(bin))
-        dZeroErrors.append(0)
-
-    # Make Plots
-    countPlot  = TGraphErrors(len(dZeroVals), dZeroVals, countYields,  dZeroErrors, countErrors)
-    factorPlot = TGraphErrors(len(dZeroVals), dZeroVals, factorYields, dZeroErrors, factorErrors)
-
-    # Draw, add legend, print - still need to make pretty
     canvas = TCanvas(datasetName, datasetName)
     canvas.SetLogy()
 
@@ -148,10 +126,56 @@ def makeYieldsAndErrorsPlots(hist, datasetName, outputFile):
     dir = outputFile.mkdir(datasetName)
     dir.cd()
     canvas.Write()
-    
 
-#########################################################################################
-#########################################################################################
+
+def getYieldsAndErrors(hist):
+
+    # Make arrays to please TGraph
+    countYields  = array('d')
+    factorYields = array('d')
+    dZeroVals    = array('d')
+    countErrors  = array('d')
+    factorErrors = array('d')
+    dZeroErrors  = array('d')
+
+    maxBinNum = hist.GetXaxis().GetNbins() # Assume xMax = yMax
+
+    for bin in range(1, maxBinNum + 1):
+
+        totalError  = Double(0.0)
+        targetError = Double(0.0)
+        totalCount  = hist.IntegralAndError(1, maxBinNum + 1, 1, maxBinNum, totalError)
+        targetCount = hist.IntegralAndError(bin, maxBinNum + 2, bin, maxBinNum,
+                                            targetError)
+
+        xError = Double(0.0)
+        yError = Double(0.0)
+        xCount = hist.IntegralAndError(bin, maxBinNum + 1, 1, maxBinNum, xError)
+        yCount = hist.IntegralAndError(1, maxBinNum + 1, bin, maxBinNum, yError)
+
+        countYields.append(targetCount)
+        countErrors.append(targetError)
+
+        factorYields.append(xCount * yCount / totalCount)
+        factorErrors.append(getFactorError(xCount, yCount, totalCount,
+                                           xError, yError, totalError))
+
+        dZeroVals.append(hist.GetXaxis().GetBinLowEdge(bin))
+        dZeroErrors.append(0)
+
+    yieldsAndErrors = {}
+    yieldsAndErrors['dZeroVals'] = dZeroVals
+    yieldsAndErrors['dZeroErrors'] = dZeroErrors
+    yieldsAndErrors['countYields'] = countYields
+    yieldsAndErrors['countErrors'] = countErrors
+    yieldsAndErrors['factorYields'] = factorYields
+    yieldsAndErrors['factorErrors'] = factorErrors
+
+    return yieldsAndErrors
+
+
+##########################################################################################
+##########################################################################################
 
 
 outputFile = TFile("factorizationClosure_" + condorDir + ".root", "recreate")
@@ -166,6 +190,7 @@ for s in input_sources:
         print "Input histogram not found"
         sys.exit(0)
 
-    makeYieldsAndErrorsPlots(inputHist, s['dataset'], outputFile)
+    yieldsAndErrors = getYieldsAndErrors(inputHist)
+    makePlots(yieldsAndErrors, s['dataset'], outputFile)
 
 
