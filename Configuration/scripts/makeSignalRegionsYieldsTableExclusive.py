@@ -48,64 +48,43 @@ else:
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 
-def GetYieldAndError(process,d0cut):
+def GetYieldAndError(dataset,d0cut):
 
-    integrateOutwardX = True
-    integrateOutwardY = True
-    #integrateOutwardX = False
-    #integrateOutwardY = False
-
-    inputFile = TFile(condor_dir+"/"+process+".root")
-    if process is not "QCDFromData":
-        HistogramObj = inputFile.Get(channel+"/"+d0histogramName)
+    inputFile = TFile(condor_dir + "/" + dataset + ".root")
+    if dataset is not "QCDFromData":
+        HistogramObj = inputFile.Get(channel + "/" + d0histogramName)
     else:
-        HistogramObj = inputFile.Get("OSUAnalysis/Preselection_100um/"+d0histogramName)
+        HistogramObj = inputFile.Get("OSUAnalysis/Preselection_100um/" + d0histogramName)
     if not HistogramObj:
-        print "WARNING:  Could not find histogram " + "OSUAnalysis/"+channel+"/"+d0histogramName + " in file " + process+".root" + ".  Will skip it and continue."
+        print "WARNING:  Could not find histogram " + "OSUAnalysis/" + channel + "/" + d0histogramName + " in file " + dataset + ".root" + ".  Will skip it and continue."
         return
+
     d0Histogram = HistogramObj.Clone()
     d0Histogram.SetDirectory(0)
     inputFile.Close()
 
-
-    d0Histogram.SetDirectory(0)
-    inputFile.Close()
     yieldAndErrorList = {}
     nBinsX = d0Histogram.GetNbinsX()
     nBinsY = d0Histogram.GetNbinsY()
-    x0 = x1 = y0 = y1 = 0
 
-    d0CutBinX = d0Histogram.GetXaxis ().FindBin (float(d0cut))
-    d0CutBinY = d0Histogram.GetYaxis ().FindBin (float(d0cut))
-    xValue = d0Histogram.GetXaxis().GetBinCenter(d0CutBinX)
-    yValue = d0Histogram.GetYaxis().GetBinCenter(d0CutBinY)
+    d0CutBinX = d0Histogram.GetXaxis().FindBin(float(d0cut))
+    d0CutBinY = d0Histogram.GetYaxis().FindBin(float(d0cut))
 
-    if ((xValue >= 0) == integrateOutwardX):
-        x0 = d0CutBinX
-        x1 = nBinsX + 1
-    else:
-        x0 = 0
-        x1 = d0CutBinX
-    if ((yValue >= 0) == integrateOutwardY):
-        y0 = d0CutBinY
-        y1 = nBinsY + 1
-    else:
-        y0 = 0
-        y1 = d0CutBinY
+    x0 = d0CutBinX
+    x1 = nBinsX + 1
+    y0 = d0CutBinY
+    y1 = nBinsY + 1
 
-
-    intError = Double (0.0)
-
-
-    # just do normal 2D d0 cuts
-    if process.find("stop") is not -1 or types[process] is "data" or process is "QCDFromData":
+    # just do normal 2D d0 cuts for signal MC, qcd MC, and data
+    if dataset.find("stop") is not -1 or types[dataset] is "data" or dataset is "QCDFromData":
+        intError = Double (0.0)
         yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
         if yield_ > 0.0:
             error_ = intError
         else:
             error_ = 0
 
-    # do 2D factorized d0 cuts
+    # do 2D factorized d0 cuts for non-QCD background MC
     else:
         totalError =  Double (0.0)
         totalIntegral = d0Histogram.IntegralAndError(0,x1,0,y1,totalError)
@@ -118,11 +97,10 @@ def GetYieldAndError(process,d0cut):
         yIntegral = d0Histogram.IntegralAndError(0,x1,y0,y1,yError)
         yEfficiency = yIntegral/totalIntegral
 
-
         # for W jets, take the muon efficiency from TTbar (since there are low stats in WNjets and the curve looks like TTbar anyway for muons)
-        if process is "WNjets":
-            inputFile = TFile(condor_dir+"/"+"TTbar"+".root")
-            HistogramObj = inputFile.Get("OSUAnalysis/"+channel+"/"+d0histogramName)
+        if dataset is "WNjets":
+            inputFile = TFile(condor_dir + "/" + "TTbar" + ".root")
+            HistogramObj = inputFile.Get("OSUAnalysis/" + channel + "/" + d0histogramName)
             if not HistogramObj:
                 print "WARNING:  something wrong in TTbar file"
                 return
@@ -134,8 +112,6 @@ def GetYieldAndError(process,d0cut):
             xIntegral = ttbarD0Histogram.IntegralAndError(x0,x1,0,y1,xError)
             xEfficiency = xIntegral/ttbarIntegral
 
-
-
         factorizedEfficiency = xEfficiency * yEfficiency
         yield_ = factorizedEfficiency * totalIntegral
         factorizedYieldError = Double (0.0)
@@ -143,8 +119,6 @@ def GetYieldAndError(process,d0cut):
             factorizedYieldError = (xError/xIntegral)*(xError/xIntegral)+(yError/yIntegral)*(yError/yIntegral)+(totalError/totalIntegral)*(totalError/totalIntegral)
             factorizedYieldError = math.sqrt(factorizedYieldError)
         error_ = factorizedYieldError * yield_
-
-        # print dataset,":",d0cut,xEfficiency,yEfficiency,factorizedEfficiency,yield_
 
     yieldAndErrorList['yield'] = yield_
     yieldAndErrorList['error'] = error_
