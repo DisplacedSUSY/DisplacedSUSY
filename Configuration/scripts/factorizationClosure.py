@@ -80,6 +80,13 @@ gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
 
 
+def getFactorYield(xCount, yCount, totalCount):
+    factorYield = 0.0
+    if totalCount > 0:
+        factorYield = xCount * yCount / totalCount
+    return factorYield
+
+
 def getFactorError(xCount, yCount,totalCount, xError, yError, totalError):
     factorError = 0.0;
     if xCount > 0 and yCount > 0 and totalCount > 0:
@@ -156,7 +163,7 @@ def getYieldsAndErrors(hist):
         countYields.append(targetCount)
         countErrors.append(targetError)
 
-        factorYields.append(xCount * yCount / totalCount)
+        factorYields.append(getFactorYield(xCount, yCount, totalCount))
         factorErrors.append(getFactorError(xCount, yCount, totalCount,
                                            xError, yError, totalError))
 
@@ -180,17 +187,17 @@ def getYieldsAndErrors(hist):
 
 outputFile = TFile("factorizationClosure_" + condorDir + ".root", "recreate")
 
-for s in input_sources:
-    inputFile = TFile("condor/%s/%s.root" % (condorDir, s['dataset']))
+for dataset in datasets:
+    inputFile = TFile("condor/%s/%s.root" % (condorDir, dataset))
     if not inputFile:
         print "Input file not found"
         sys.exit(0)
-    inputHist = inputFile.Get(s['histPath'])
+    inputHist = inputFile.Get(histPath)
     if not inputHist:
         print "Input histogram not found"
         sys.exit(0)
 
     yieldsAndErrors = getYieldsAndErrors(inputHist)
-    makePlots(yieldsAndErrors, s['dataset'], outputFile)
+    makePlots(yieldsAndErrors, dataset, outputFile)
 
 
