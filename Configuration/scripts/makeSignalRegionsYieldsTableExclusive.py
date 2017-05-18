@@ -18,8 +18,8 @@ from OSUT3Analysis.Configuration.formattingUtilities import *
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
-parser.add_option("-c", "--condorDir", dest="condorDir",
-                  help="condor output directory")
+parser.add_option("-w", "--workDirectory", dest="condorDir",
+                  help="condor working directory")
 parser.add_option("-s", "--standAlone", action="store_true", dest="standAlone", default=False,
                                     help="adds the necessary header to be able to compile it")
 parser.add_option("-S", "--systematics", action="store_true", dest="includeSystematics", default=False,
@@ -51,9 +51,9 @@ from ROOT import (TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanv
 def GetYieldAndError(dataset,d0cut):
 
     inputFile = TFile(condor_dir + "/" + dataset + ".root")
-    HistogramObj = inputFile.Get(channel + "/" + d0histogramName)
+    HistogramObj = inputFile.Get(histDir + "/" + histName)
     if not HistogramObj:
-        print ("WARNING:  Could not find histogram " + channel + "/" + d0histogramName +
+        print ("WARNING:  Could not find histogram " + histDir + "/" + histName +
               " in file " + condor_dir + "/" + dataset + ".root" +
               ". Will skip it and continue.")
         return
@@ -155,7 +155,7 @@ def getSystematicError(sample,channel):
     for uncertainty in external_systematic_uncertainties:
         input_file_path = os.environ['CMSSW_BASE'] + "/src/" + external_systematics_directory + "systematic_values__" + uncertainty + ".txt"
         if not os.path.exists(input_file_path):
-            print "WARNING: didn't find ",input_file_path
+            print "WARNING: didn't find ", input_file_path
             print "   will skip this systematic for this channel"
             return 0
         input_file = open(input_file_path)
@@ -220,7 +220,7 @@ for dataset in datasets:
             yields[dataset][d0cut] = yieldAndError['yield']
             stat_errors[dataset][d0cut] = yieldAndError['error']
             #print dataset.rjust(15), str(d0cut).rjust(6), yields[dataset][d0cut], \
-                    #stat_errors[dataset][d0cut] #testing
+                    #stat_errors[dataset][d0cut] 
 
 # subtract the contributions from the more exclusive signal region
 for cutIndex in range(len(d0cuts)-1): # Don't inclue most exclusive region
@@ -295,7 +295,7 @@ newLine = " \n"
 
 
 
-outputFile = condor_dir + "/signalRegionYields_" + plainTextString(channel) + ".tex"
+outputFile = condor_dir + "/signalRegionYields_" + plainTextString(histDir) + ".tex"
 fout = open (outputFile, "w")
 if(arguments.standAlone):
     fout.write ("\\documentclass[a2paper,24pt]{article}"+newLine)
