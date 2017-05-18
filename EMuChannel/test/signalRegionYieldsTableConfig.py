@@ -2,14 +2,12 @@
 
 systematic_error = 0.0 # placeholder - should be irrelavent for now
 
-channel = "PreselectionPlotter"
-d0histogramName = "Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_10cm"
+histDir= "PreselectionPlotter"
+histName = "Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_10cm"
 
-d0cuts = [200.0, 500.0, 1000.0] #mum
+d0cuts = [ 0.02, 0.05, 0.1 ] # cm
 
-datasets = ['DYJetsToLL_50', 'TTJets_Lept',  'SingleTop', 'Diboson' ]
-
-
+datasets = [ 'DYJetsToLL', 'TTJets_Lept', 'SingleTop', 'Diboson' ]
 
 
 
