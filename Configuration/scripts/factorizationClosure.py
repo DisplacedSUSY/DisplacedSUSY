@@ -1,88 +1,203 @@
 #! /usr/bin/env python
 
-# compareFactorizationCounting.py
+# factorizationClosure.py
 # Make plots to compare factorization-method yields with counting-method yields
+#
+# Usage: factorizationClosure.py -l configFile.py -w workingDirectory
 
+
+import os
 import sys
 import random
 import math
+import re
 from array import array
+from optparse import OptionParser
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.processingUtilities import *
-from OSUT3Analysis.Configuration.formattingUtilities import *
 
-from ROOT import TString, TFile, TH2D, TGraphErrors, Double, TCanvas, TLegend
 
-inputFile = TFile("/data/users/bcardwell/condor/EMuPreselection_MC_Dec9/DYJetsToLL_50.root")
-inputHist = inputFile.Get("PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_500um")
-if not inputHist:
-    print "Input histogram not found"
+parser = OptionParser()
+parser.add_option("-l", "--localConfig", dest="localConfig",
+                  help="local configuration file")
+parser.add_option("-w", "--workDirectory", dest="condorDir",
+                  help="condor working directory")
+
+(arguments, args) = parser.parse_args()
+
+if arguments.localConfig:
+    sys.path.append(os.getcwd())
+    exec("from " + re.sub(r".py$", r"", arguments.localConfig) + " import *")
+else:
+    print "Please specify a local config file"
     sys.exit(0)
 
-# Testing
-#inputHist = TH2D("testHist", "testHist", 10, 0, 10, 10, 0, 10)
-#for i in range(1000):
-    #inputHist.Fill(random.randint(0, 9), random.randint(0, 9))
+if arguments.condorDir:
+    condorDir = arguments.condorDir
+else:
+    print "Please specify a working directory"
+    sys.exit(0)
 
-# Make everything arrays to please TGraph
-countYields  = array('d')
-factorYields = array('d')
-dZeroVals    = array('d')
-countErrors  = array('d')
-factorErrors = array('d')
-dZeroErrors  = array('d')
 
-maxBinNum = inputHist.GetXaxis().GetNbins() # Assume xMax = yMax
+from ROOT import (TString, TFile, TH2D, TGraphErrors, Double, TCanvas, TLegend,
+                  gROOT, gStyle, TDirectory, TMultiGraph)
 
-# Get yields and errors
-for bin in range(1, maxBinNum + 1): #arbitrary start point for testing
+# Make plots look nice (copied from makePlots)
+gROOT.SetBatch()
+gStyle.SetOptStat(0)
+gStyle.SetCanvasBorderMode(0)
+gStyle.SetPadBorderMode(0)
+gStyle.SetPadColor(0)
+gStyle.SetCanvasColor(0)
+gStyle.SetCanvasDefH(600)
+gStyle.SetCanvasDefW(600)
+gStyle.SetCanvasDefX(0)
+gStyle.SetCanvasDefY(0)
+gStyle.SetPadTopMargin(0.056)
+gStyle.SetPadBottomMargin(0.13)
+gStyle.SetPadLeftMargin(0.1476)
+gStyle.SetPadRightMargin(0.05)
+gStyle.SetHistTopMargin(0)
+gStyle.SetTitleColor(1, "XYZ")
+gStyle.SetTitleFont(42, "XYZ")
+gStyle.SetTitleSize(0.05, "XYZ")
+gStyle.SetTitleXSize(0.04)
+gStyle.SetTitleXOffset(1.25)
+gStyle.SetTitleYSize(0.04)
+gStyle.SetTitleYOffset(1.5)
+#gStyle.SetTextFont(42)
+gStyle.SetTextAlign(12)
+gStyle.SetLabelColor(1, "XYZ")
+gStyle.SetLabelFont(42, "XYZ")
+gStyle.SetLabelOffset(0.005, "XYZ")
+gStyle.SetLabelSize(0.04, "XYZ")
+gStyle.SetAxisColor(1, "XYZ")
+gStyle.SetStripDecimals(True)
+gStyle.SetTickLength(0.03, "XYZ")
+gStyle.SetNdivisions(505, "XYZ")
+gStyle.SetPadTickX(1)
+gStyle.SetPadTickY(1)
+gROOT.ForceStyle()
 
-    # Used Freya's 0s, 1s, and +2s. Need to check
-    totalError  = Double(0.0)
-    targetError = Double(0.0)
-    totalCount  = inputHist.IntegralAndError(1, maxBinNum + 2, 0, maxBinNum, totalError)
-    targetCount = inputHist.IntegralAndError(bin, maxBinNum + 2, bin, maxBinNum, targetError)
 
-    xError = Double(0.0)
-    yError = Double(0.0)
-    xCount = inputHist.IntegralAndError(bin, maxBinNum + 2, 0, maxBinNum, xError)
-    yCount = inputHist.IntegralAndError(0, maxBinNum + 2, bin, maxBinNum, yError)
+def getFactorYield(xCount, yCount, totalCount):
+    factorYield = 0.0
+    if totalCount > 0:
+        factorYield = xCount * yCount / totalCount
+    return factorYield
 
-    countYields.append(targetCount)
-    countErrors.append(targetError)
 
-    factorYields.append(xCount * yCount / totalCount)
-    factorError = Double(0.0)
+def getFactorError(xCount, yCount,totalCount, xError, yError, totalError):
+    factorError = 0.0;
     if xCount > 0 and yCount > 0 and totalCount > 0:
-        factorError = math.pow(xError/xCount, 2) + math.pow(yError/yCount, 2) + math.pow(totalError/totalCount, 2)
+        factorError = ( math.pow(xError/xCount, 2) + math.pow(yError/yCount, 2)
+                      + math.pow(totalError/totalCount, 2) )
         factorError = math.sqrt(factorError) * (xCount * yCount / totalCount)
-    factorErrors.append(factorError)
+    return factorError
 
-    dZeroVals.append(inputHist.GetXaxis().GetBinLowEdge(bin))
-    dZeroErrors.append(0)
-    
-# Hardcoded -2 is bad
-countPlot  = TGraphErrors(maxBinNum - 2, dZeroVals, countYields,  dZeroErrors, countErrors)
-factorPlot = TGraphErrors(maxBinNum - 2, dZeroVals, factorYields, dZeroErrors, factorErrors)
 
-#Testing
-print dZeroVals
-print countYields
-print factorYields
+def makePlots(yieldsAndErrors, datasetName, outputFile):
 
-# Draw stuff, add legend, print
-canvas = TCanvas("canvas", "ComparisonPlot", 200, 10, 700, 500)
-countPlot.Draw("")
-factorPlot.Draw("SAME")
+    countPlot  = TGraphErrors(len(yieldsAndErrors['dZeroVals']),
+                              yieldsAndErrors['dZeroVals'],
+                              yieldsAndErrors['countYields'],
+                              yieldsAndErrors['dZeroErrors'],
+                              yieldsAndErrors['countErrors'])
 
-countPlot.SetLineColor(3)
-factorPlot.SetLineColor(1)
+    factorPlot = TGraphErrors(len(yieldsAndErrors['dZeroVals']),
+                              yieldsAndErrors['dZeroVals'],
+                              yieldsAndErrors['factorYields'],
+                              yieldsAndErrors['dZeroErrors'],
+                              yieldsAndErrors['factorErrors'])
 
-legend = TLegend(0.6, 0.7, 0.8, 0.8)
-legend.AddEntry(countPlot, "Counting Method Yield", "l")
-legend.AddEntry(factorPlot, "Factorization Method Yield", "l")
-legend.Draw()
+    canvas = TCanvas(datasetName, datasetName)
+    canvas.SetLogy()
 
-canvas.SetLogy()
-canvas.Update()
-canvas.SaveAs("compareTest.pdf")
+    legend = TLegend(0.6, 0.7, 0.8, 0.8)
+    legend.AddEntry(countPlot, "Counting Method Yield", "l")
+    legend.AddEntry(factorPlot, "Factorization Method Yield", "l")
+
+    countPlot.Draw()
+    factorPlot.Draw("SAME")
+    legend.Draw()
+
+    countPlot.SetLineColor(30)
+    factorPlot.SetLineColor(38)
+    countPlot.SetTitle(datasetName)
+    countPlot.GetXaxis().SetTitle("d0 [mum]")
+    countPlot.GetYaxis().SetTitle("Target Region Yield")
+
+    canvas.Update()
+
+    outputFile.cd()
+    dir = outputFile.mkdir(datasetName)
+    dir.cd()
+    canvas.Write()
+
+
+def getYieldsAndErrors(hist):
+
+    # Make arrays to please TGraph
+    countYields  = array('d')
+    factorYields = array('d')
+    dZeroVals    = array('d')
+    countErrors  = array('d')
+    factorErrors = array('d')
+    dZeroErrors  = array('d')
+
+    maxBinNum = hist.GetXaxis().GetNbins() # Assume xMax = yMax
+
+    for bin in range(1, maxBinNum + 1):
+
+        totalError  = Double(0.0)
+        targetError = Double(0.0)
+        totalCount  = hist.IntegralAndError(1, maxBinNum + 1, 1, maxBinNum, totalError)
+        targetCount = hist.IntegralAndError(bin, maxBinNum + 2, bin, maxBinNum,
+                                            targetError)
+
+        xError = Double(0.0)
+        yError = Double(0.0)
+        xCount = hist.IntegralAndError(bin, maxBinNum + 1, 1, maxBinNum, xError)
+        yCount = hist.IntegralAndError(1, maxBinNum + 1, bin, maxBinNum, yError)
+
+        countYields.append(targetCount)
+        countErrors.append(targetError)
+
+        factorYields.append(getFactorYield(xCount, yCount, totalCount))
+        factorErrors.append(getFactorError(xCount, yCount, totalCount,
+                                           xError, yError, totalError))
+
+        dZeroVals.append(hist.GetXaxis().GetBinLowEdge(bin))
+        dZeroErrors.append(0)
+
+    yieldsAndErrors = {}
+    yieldsAndErrors['dZeroVals'] = dZeroVals
+    yieldsAndErrors['dZeroErrors'] = dZeroErrors
+    yieldsAndErrors['countYields'] = countYields
+    yieldsAndErrors['countErrors'] = countErrors
+    yieldsAndErrors['factorYields'] = factorYields
+    yieldsAndErrors['factorErrors'] = factorErrors
+
+    return yieldsAndErrors
+
+
+##########################################################################################
+##########################################################################################
+
+
+outputFile = TFile("factorizationClosure_" + condorDir + ".root", "recreate")
+
+for dataset in datasets:
+    inputFile = TFile("condor/%s/%s.root" % (condorDir, dataset))
+    if not inputFile:
+        print "Input file not found"
+        sys.exit(0)
+    inputHist = inputFile.Get(histPath)
+    if not inputHist:
+        print "Input histogram not found"
+        sys.exit(0)
+
+    yieldsAndErrors = getYieldsAndErrors(inputHist)
+    makePlots(yieldsAndErrors, dataset, outputFile)
+
+
