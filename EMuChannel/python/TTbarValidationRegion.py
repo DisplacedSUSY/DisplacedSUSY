@@ -4,7 +4,7 @@ import string
 from DisplacedSUSY.EMuChannel.CutDefinitions import *
 
 ##########################################################################
-### Set up the TTbar validation region
+### Set up the TTbar validation regions
 ##########################################################################
 
 # Prompt Control Region with at least one medium b-tag
@@ -14,7 +14,7 @@ from DisplacedSUSY.EMuChannel.CutDefinitions import *
 
 TTbarValidationRegion = cms.PSet(
     name = cms.string("TTbarValidationRegion"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
@@ -37,4 +37,5 @@ TTbarValidationRegion.cuts.append(muon_iso_cut)
 TTbarValidationRegion.cuts.append(electron_d0_lt100_cut)
 TTbarValidationRegion.cuts.append(muon_d0_lt100_cut)
 ### ttbar-enriching cuts
-TTbarValidationRegion.cuts.append(jet_btag_2_lwp_cut)
+#TTbarValidationRegion.cuts.append(jet_btag_2_lwp_cut)
+TTbarValidationRegion.cuts.append(jet_btag_mwp_cut)
