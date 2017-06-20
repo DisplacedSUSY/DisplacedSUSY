@@ -92,6 +92,15 @@ jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
 
 jet_id_alias = cms.string("jet ID against leptons")
 
+jet_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
+                                              chargedEmEnergyFraction < 0.99 & \
+                                              neutralEmEnergyFraction < 0.99 & \
+                                              numberOfDaughters > 1 & \
+                                              chargedHadronEnergyFraction > 0.0 & \
+                                              chargedMultiplicity > 0.0")
+
+jet_loose_id_alias = cms.string("loose Jet ID")
+
 ##########################################################################
 
 # ELECTRON ID
@@ -122,6 +131,28 @@ electron_id_cutstring = cms.string("(isEB & \
                             passConversionVeto)")
 
 electron_id_alias = cms.string("electron tight ID")
+
+# ELECTRON ID from ttbar cross section paper - uses d0 and dz
+electron_ttbar_paper_id_cutstring = cms.string("(isEB & \
+                            full5x5_sigmaIetaIeta < 0.00998 & \
+                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
+                            hadronicOverEm < 0.0414 & \
+                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
+                            missingInnerHits <= 1 & \
+                            electronAbsD0_cm < 0.05 & \
+                            electronAbsDz < 1000 & \
+                            passConversionVeto) | \
+                            (isEE & \
+                            full5x5_sigmaIetaIeta < 0.0292 & \
+                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
+                            hadronicOverEm < 0.0641 & \
+                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
+                            missingInnerHits <= 1 & \
+                            electronAbsD0_cm < 0.1 & \
+                            electronAbsDz < 2000 & \
+                            passConversionVeto)")
+
+electron_ttbar_paper_id_alias = cms.string("electron tight ID from ttbar paper")
 
 ##########################################################################
 
