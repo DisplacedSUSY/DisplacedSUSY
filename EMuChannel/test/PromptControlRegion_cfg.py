@@ -105,23 +105,23 @@ weights = cms.VPSet(
         inputVariable = cms.string("puScalingFactor")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("electronReco2016")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("electronID2016Tight")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonReco2016")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonID2016Tight")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonIso2016Tight")
     ),
 )
@@ -227,6 +227,7 @@ histograms.append(ElectronMuonHistograms)
 histograms.append(JetHistograms)
 histograms.append(ElectronJetHistograms)
 histograms.append(MuonJetHistograms)
+histograms.append(MetHistograms)
 histograms.append(ElectronMetHistograms)
 histograms.append(MuonMetHistograms)
 histograms.append(eventHistograms)
