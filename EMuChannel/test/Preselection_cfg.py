@@ -45,7 +45,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (50)
+    input = cms.untracked.int32 (10)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -71,7 +71,7 @@ miniAOD_collections = cms.PSet (
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''), 
+  generatorweights=  cms.InputTag  ('generator', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
@@ -94,16 +94,84 @@ collections = miniAOD_collections
 
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
-variableProducers.append('LifetimeWeightProducer')
+#variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('PUScalingFactorProducer')
+
 
 weights = cms.VPSet(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("lifetimeWeight")
     ),
+   cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronID2016Tight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonID2016Tight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonIso2016Tight")
+    ),
+)
+scalingfactorproducers = []
+
+ObjectScalingFactorProducer = {}
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
+ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root')
+
+ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    )
 )
 
-scalingfactorproducers = []
+scalingfactorproducers.append(ObjectScalingFactorProducer)
+
 
 
 
@@ -146,8 +214,12 @@ histograms.append(eventHistograms)
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
+
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
+process.PUScalingFactorProducer.target = cms.string("Data2016")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
+process.PUScalingFactorProducer.type = cms.string("bgMC")
+
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
-#process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
-#process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
