@@ -10,6 +10,7 @@ from DisplacedSUSY.EMuChannel.CutDefinitions import *
 PromptControlRegion = cms.PSet(
     name = cms.string("PromptControlRegion"),
     triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
+#    triggers = cms.vstring("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
