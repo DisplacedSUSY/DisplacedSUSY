@@ -2,6 +2,8 @@ import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
+
 import math
 import os
 
@@ -18,7 +20,7 @@ process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
-        'file:/home/lantonel/CMSSW_8_0_21/src/DisplacedSUSY/EMuChannel/test/condor/EMuSkim_Moriond17/TTJets_DiLept/EMuSkimSelection/skim_43.root'
+        'file:condor/EMuSkim_Moriond17/TTJets_DiLept/EMuSkimSelection/skim_0.root'
 #    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_0.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
@@ -39,10 +41,16 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
+# suppress gen-matching errors
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
+)
+
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
-#    input = cms.untracked.int32 (10000)
+    input = cms.untracked.int32 (10000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -100,32 +108,31 @@ weights = cms.VPSet(
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("lifetimeWeight")
     ),
-   cms.PSet (
+    cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("electronReco2016")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("electronID2016Tight")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonReco2016")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonID2016Tight")
     ),
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables")
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonIso2016Tight")
     ),
 )
-
 
 scalingfactorproducers = []
 ObjectScalingFactorProducer = {}
@@ -236,6 +243,7 @@ histograms.append(eventHistograms)
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
+
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
 
@@ -244,10 +252,10 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 ################################################################################
 
 # default values, altered automatically when using osusub.py
-process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("Data2016")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
-process.PUScalingFactorProducer.type = cms.string("bgMC")
+process.PUScalingFactorProducer.type = cms.string("bgmc")
 
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgmc")
