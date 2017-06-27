@@ -118,7 +118,7 @@ jet_loose_id_alias = cms.string("loose Jet ID")
 electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
-                            hadronicOverEm < 0.0597 & \
+                            hadronicOverEm < 0.0414 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
                             missingInnerHits <= 1 & \
                             passConversionVeto) | \
