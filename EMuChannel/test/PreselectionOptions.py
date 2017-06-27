@@ -8,19 +8,19 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "Preselection_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 36460 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+intLumi = 35863.308 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 
-composite_dataset_definitions['Background'] = ['DYJetsToLL_50','TTJets_Lept','SingleTop','Diboson','QCD_MuEnriched']
+#composite_dataset_definitions['Background'] = ['DYJetsToLL_50','TTJets_Lept','SingleTop','Diboson','QCD_MuEnriched']
 
 # create list of datasets to process
 datasets = [
 
     ### DY
-#    'DYJetsToLL_50',
+    'DYJetsToLL',
 
     ### TTbar
 
@@ -56,7 +56,7 @@ datasets = [
 #    'Background',
 
     ### Data
-#    'MuonEG_2016_23Sep',  !!! Don't run over while we're blinded !!!
+    'MuonEG_2016',  # !!! Don't run over while we're blinded !!!
 
 #    'stop200_1mm',
 #    'stop200_10mm',
@@ -64,13 +64,13 @@ datasets = [
 #    'stop200_1000mm',
 
     ### Signal MC
-    'DisplacedSUSYSignal',
+#    'DisplacedSUSYSignal',
 #    'DisplacedSUSYSignal_Unweighted',
 ]
 
-from ROOT import kRed
-colors['DisplacedSUSYSignal'] = kRed +1
-labels['DisplacedSUSYSignal'] = "Signal"
-types['DisplacedSUSYSignal'] = "bgMC"
+#from ROOT import kRed
+#colors['DisplacedSUSYSignal'] = kRed +1
+#labels['DisplacedSUSYSignal'] = "Signal"
+#types['DisplacedSUSYSignal'] = "bgMC"
 
 InputCondorArguments = {}
