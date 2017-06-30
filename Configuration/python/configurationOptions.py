@@ -57,6 +57,7 @@ datasets = [
    # background MC
 
    'DYJetsToLL',
+   'DYBBJetsToLL',
    'WJetsToLNu',
    'TTJets_Lept',
    'Diboson',
@@ -196,6 +197,9 @@ nJobs = {
     'DYJetsToLL_50'  :  630,
     'DYJetsToLL_10to50'    : 350,
 
+    #DYBBtoLL
+    'DYBBJetsToLL' : 30,
+
     #WJets
     'WJetsToLNu'  : 900,
 
@@ -316,6 +320,9 @@ maxEvents = {
     #DY
     'DYJetsToLL_50'  :  -1,
     'DYJetsToLL_10to50'        : -1,
+
+    #DYBBtoLL
+    'DYBBJetsToLL'  :  -1,
 
     #WJets
     'WJetsToLNu'  :  -1,
@@ -447,6 +454,9 @@ types = {
     'DYJetsToLL'  :  "bgMC",
     'DYJetsToLL_50'  :  "bgMC",
     'DYJetsToLL_10to50'      : "bgMC",
+
+    #DYBBtoLL
+    'DYBBJetsToLL'  :  "bgMC",
 
     #WJets
     'WJetsToLNu'  :  "bgMC",
@@ -584,6 +594,9 @@ colors = {
     'DYJetsToLL_10to50'   : 409,
     'DYJetsToLL_50'  :  411,
 
+    #DYBBtoLL
+    'DYBBJetsToLL' : 412,
+
     #WJets
     'WJetsToLNu'             :  852,
 
@@ -720,6 +733,9 @@ labels = {
     'DYJetsToLL_50'  :  "Z#rightarrowl^{+}l^{-} M(50+)",
     'DYJetsToLL_10to50'     :  "Z#rightarrowl^{+}l^{-} M(10-50)",
 
+    #DYBBtoLL
+    'DYBBJetsToLL' : "ZBB#rightarrowl^{+}l^{-}",
+
     #WJets
     'WJetsToLNu'            :  "W#rightarrowl#nu",
 
@@ -853,6 +869,8 @@ crossSections = {
     'DYJetsToLL_10to50'        : 18610.0,
     'DYJetsToLL_50'            : 5765.4,
     'WJetsToLNu'               : 61526.7,
+
+    'DYBBJetsToLL' : 11.37,
 
     'WWToLNuQQ'   :  49.997,
     'WWToLNuLNu'  :  12.178,
