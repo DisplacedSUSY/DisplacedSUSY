@@ -89,33 +89,43 @@ diElectron_invMass_below101_cut = cms.PSet (
 
 # electron d0 < 100 microns
 electron_d0_lt100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " < 100"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 100 mum")
     )
 
 # electron 100 < d0 < 200 microns
 electron_d0_100to200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons", "beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100 & " + objectDefs.electronAbsD0_um + " < 200"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 100 & " + "10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron 100 < d0 < 200 mum")
     )
 
 # electron d0 > 100 microns
 electron_d0_above100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 > 100 mum")
     )
 
 # electron d0 < 200 microns
 electron_d0_below200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " < 200"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 200 mum")
     )
 
+##########################################################################
+
+# BEGIN ELECTRON-JET CUTS
+
+electronjet_deltaR_veto = cms.PSet(
+    inputCollection = cms.vstring("electrons","jets"),
+    cutString = cms.string("deltaR(electron, jet) < 0.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
+    )

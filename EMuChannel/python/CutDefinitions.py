@@ -178,24 +178,24 @@ electron_veto_antiiso_cut = cms.PSet(
 
 # electron d0 < 100 microns
 electron_d0_lt100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " < 100"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron d0 < 100 mum")
     )
 
 # electron d0 > 100 microns
 electron_d0_gt100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron d0 > 100 mum")
     )
 
 # electron 100 < d0 < 200 microns
 electron_d0_100to200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " > 100 & " + objectDefs.electronAbsD0_um + " < 200"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("electron 100 < d0 < 200 mum")
     )
@@ -251,15 +251,15 @@ muon_id_cut = cms.PSet(
     )
 
 muon_d0_below2000_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_cm + " < 0.2"),
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(d0) < 0.2"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon d0 < 0.2 cm")
     )
 
 muon_dZ_below5000_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsDz + " < 5000"),
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(dz) < 0.5"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon dZ < 0.5 cm")
     )
@@ -287,24 +287,24 @@ muon_loose_antiiso_cut = cms.PSet(
 
 # muon d0 < 100 microns
 muon_d0_lt100_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " < 100"),
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon d0 < 100 mum")
     )
 
 # muon d0 > 100 microns
 muon_d0_gt100_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " > 100"),
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon d0 > 100 mum")
     )
 
 # muon 100 < d0 < 200 microns
 muon_d0_100to200_cut = cms.PSet(
-    inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " > 100 & " + objectDefs.muonAbsD0_um + " < 200"),
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon 100 < d0 < 200 mum")
     )
