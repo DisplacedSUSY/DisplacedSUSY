@@ -98,18 +98,20 @@ jet_2jet_veto = cms.PSet (
         alias = cms.string('< 2 jets')
     )
 
-jet_muon_deltaR_cut = cms.PSet (
+jet_muon_deltaR_veto = cms.PSet (
         inputCollection = cms.vstring("jets", "muons"),
-        cutString = cms.string("deltaR(jet, muon) > 0.4"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('separated jet-mu pair')
+        cutString = cms.string("deltaR(jet, muon) < 0.4"),
+        numberRequired = cms.string("== 0"),
+        alias = cms.string('jet-mu deltaR veto'),
+        isVeto = cms.bool(True)
     )
 
-jet_electron_deltaR_cut = cms.PSet (
+jet_electron_deltaR_veto = cms.PSet (
         inputCollection = cms.vstring("jets", "electrons"),
-        cutString = cms.string("deltaR(jet, electron) > 0.4"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('separated jet-e pair')
+        cutString = cms.string("deltaR(jet, electron) < 0.4"),
+        numberRequired = cms.string("== 0"),
+        alias = cms.string('jet-e deltaR veto'),
+        isVeto = cms.bool(True)
     )
 
 ##########################################################################
@@ -341,6 +343,14 @@ emu_opposite_charge_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string("oppositely-charged e-mu pair")
     )
+
+emu_pt_25_20_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("(electron.pt > 25 & muon.pt > 20) | (electron.pt > 20 & muon.pt > 25)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Leading lepton 25 pT, sub-leading 20 pT")
+    )
+
 
 emu_mass_lt100_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
