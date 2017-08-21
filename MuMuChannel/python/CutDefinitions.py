@@ -27,6 +27,21 @@ jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+# CSV WPs taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+jet_csvl_veto = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
+    )
+
+jet_csvm_veto = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.8484"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
+    )
+
 ##########################################################################
 
 # BEGIN MUON CUTS
@@ -77,6 +92,21 @@ muon_antiiso_cut = cms.PSet(
     alias = objectDefs.muon_antiiso_alias
     )
 
+muon_2muon_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("extra muon veto")
+    )
+
+diMuon_invMass_Z_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("abs(invMass(muon,muon) - 91.2) < 10"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("abs(mass_mumu - mass_Z) < 10")
+    )
+
+
 # diMuon Invariant Mass > 81.2GeV
 diMuon_invMass_above81_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
@@ -96,7 +126,7 @@ diMuon_invMass_below101_cut = cms.PSet (
 # muon d0 < 100 microns
 muon_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " < 100"),
+    cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("muon d0 < 100 mum")
     )
@@ -104,7 +134,7 @@ muon_d0_lt100_cut = cms.PSet(
 # muon 100 < d0 < 200 microns
 muon_d0_100to200_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " > 100 & " + objectDefs.muonAbsD0_um + " < 200"),
+    cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("muon 100 < d0 < 200 mum")
     )
@@ -112,7 +142,7 @@ muon_d0_100to200_cut = cms.PSet(
 # muon d0 > 100 microns
 muon_d0_above100_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " > 100"),
+    cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("muon d0 > 100 mum")
     )
@@ -120,7 +150,18 @@ muon_d0_above100_cut = cms.PSet(
 # muon d0 < 200 microns
 muon_d0_below200_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
-    cutString = cms.string(objectDefs.muonAbsD0_um + " < 200"),
+    cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("muon d0 < 200 mum")
+    )
+
+##########################################################################
+
+# BEGIN MUON-JET CUTS
+
+muonjet_deltaR_veto = cms.PSet(
+    inputCollection = cms.vstring("muons","jets"),
+    cutString = cms.string("deltaR(muon, jet) < 0.5"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
     )
