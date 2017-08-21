@@ -65,6 +65,18 @@ electron_gap_veto = cms.PSet(
     alias = cms.string("electron ECAL crack veto")
     )
 
+electron_pt_20_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 2")
+    )
+
+electron_pt_25_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 42"),
@@ -76,6 +88,13 @@ electron_id_cut = cms.PSet(
     cutString = objectDefs.electron_id_cutstring,
     numberRequired = cms.string(">= 2"),
     alias = objectDefs.electron_id_alias
+    )
+
+electron_id_TTpaper_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_id_TTpaper_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.electron_id_TTpaper_alias
     )
 
 electron_iso_cut = cms.PSet(
@@ -92,7 +111,20 @@ electron_antiiso_cut = cms.PSet(
     alias = objectDefs.electron_antiiso_alias
     )
 
-# diElectron Invariant Mass > 81.2GeV
+diElectron_invMass_above20_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("invMass (electron,electron) > 20.0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("diElectron invariant mass > 20.0 GeV")
+    )
+
+diElectron_invMass_OutsideZWindow_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("abs(invMass (electron,electron) - 91 > 15)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("diElectron invariant mass < 76 GeV OR > 106 GeV")
+    )
+
 diElectron_invMass_above81_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
     cutString = cms.string("invMass (electron,electron) > 81.2"),
@@ -100,7 +132,6 @@ diElectron_invMass_above81_cut = cms.PSet (
     alias = cms.string("diElectron invariant mass > 81.2GeV")
     )
 
-# diElectron Invariant Mass < 101.2GeV
 diElectron_invMass_below101_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
     cutString = cms.string("invMass (electron,electron) < 101.2"),
@@ -108,7 +139,6 @@ diElectron_invMass_below101_cut = cms.PSet (
     alias = cms.string("diElectron invariant mass < 101.2GeV")
     )
 
-# electron d0 < 100 microns
 electron_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 100"),
@@ -116,7 +146,6 @@ electron_d0_lt100_cut = cms.PSet(
     alias = cms.string("electron d0 < 100 mum")
     )
 
-# electron 100 < d0 < 200 microns
 electron_d0_100to200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100 & " + "10000*abs(d0) < 200"),
@@ -124,7 +153,6 @@ electron_d0_100to200_cut = cms.PSet(
     alias = cms.string("electron 100 < d0 < 200 mum")
     )
 
-# electron d0 > 100 microns
 electron_d0_above100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100"),
@@ -132,12 +160,25 @@ electron_d0_above100_cut = cms.PSet(
     alias = cms.string("electron d0 > 100 mum")
     )
 
-# electron d0 < 200 microns
 electron_d0_below200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 < 200 mum")
+    )
+
+electron_d0_above200_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string(objectDefs.electronAbsD0_um + " > 200"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string("electron d0 > 200 mum")
+    )
+
+electron_num_exactly2_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 0"),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string("Exactly 2 electrons")
     )
 
 ##########################################################################
