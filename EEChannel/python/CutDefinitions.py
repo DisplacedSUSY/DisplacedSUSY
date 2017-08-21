@@ -27,6 +27,27 @@ jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+jet_btag_twp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 tight b tags')
+    )
+
+jet_btag_mwp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 medium b tags')
+    )
+
+jet_btag_2_mwp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('>= 2 medium b tags')
+    )
+
 ##########################################################################
 
 # BEGIN ELECTRON CUTS
