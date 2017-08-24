@@ -898,8 +898,8 @@ crossSections = {
     'ZZToNuNuQQ'  :  4.04,
     'ZZToLLQQ'    :  3.22,
     'ZZToLLNuNu'  :  0.5644,
-    'ZZToLLLL'    :  1.256,
-    'WG'  :  405.271,
+    'ZZToLLLL'    :  1.212,
+    'WG'  :  489.0,
     'ZG'  :  117.864,
 
     'SingleTop_s_channel'          :  3.36,
