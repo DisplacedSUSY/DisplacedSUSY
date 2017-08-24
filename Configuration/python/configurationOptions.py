@@ -67,6 +67,9 @@ datasets = [
 
    #Sum of all backgrounds
    'Background',
+
+   # TTJets from AN2017_022
+   'TT_AN2017_022',
 ]
 
 composite_dataset_definitions = {
@@ -236,6 +239,9 @@ nJobs = {
     'TTJets_SingleLeptFromT'        : 620,
     'TTJets_SingleLeptFromTbar'     : 620,
 
+    #TT from AN2017_022
+    'TT_AN2017_022'                 : 770,
+
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : 40,
     'QCD_MuEnriched_20to30'         : 310,
@@ -357,6 +363,9 @@ maxEvents = {
     'TTJets_DiLept'              :  -1,
     'TTJets_SingleLeptFromT'     :  -1,
     'TTJets_SingleLeptFromTbar'  :  -1,
+
+    #TT from AN2017_022
+    'TT_AN2017_022'              : -1,
 
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : -1,
@@ -497,6 +506,9 @@ types = {
     'TTJets_SingleLeptFromT'     :  "bgMC",
     'TTJets_SingleLeptFromTbar'  :  "bgMC",
 
+    #TT from AN2017_022
+    'TT_AN2017_022'              :  "bgMC",
+
     ############################################################################
 
     #QCD MuEnriched
@@ -635,6 +647,9 @@ colors = {
     'TTJets_DiLept'              :  873,
     'TTJets_SingleLeptFromT'     :  874,
     'TTJets_SingleLeptFromTbar'  :  875,
+
+    #TT from AN2017_022
+    'TT_AN2017_022'              : 877,
 
     #QCD MuEnriched
     'QCD_MuEnriched'                : 623,
@@ -775,6 +790,9 @@ labels = {
     'TTJets_SingleLeptFromT'     :  "t#bar{t} (single lepton from t)",
     'TTJets_SingleLeptFromTbar'  :  "t#bar{t} (single lepton from #bar{t})",
 
+    #TT from AN2017_022
+    'TT_AN2017_022'              :  "t#bar{t} (from AN2017_022)",
+
     #QCD MuEnriched
     'QCD_MuEnriched'                : "QCD MuEnriched",
     'QCD_MuEnriched_15to20'         : "QCD MuEnriched Pt 15-20",
@@ -893,6 +911,9 @@ crossSections = {
     'TTJets_DiLept'                :  87.31, # ??? 
     'TTJets_SingleLeptFromT'       :  182.7, # ???
     'TTJets_SingleLeptFromTbar'    :  182.7, # ???
+
+    #TT from AN2017_022
+    'TT_AN2017_022'                :  831.76,
 
     ###########################################################################
 
