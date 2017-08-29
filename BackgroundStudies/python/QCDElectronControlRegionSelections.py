@@ -31,9 +31,9 @@ QCDElectronControlRegion.cuts.append(bjet_csvm_cut)
 QCDElectronControlRegion.cuts.append(extra_bjet_veto)
 
 QCDElectronControlRegion.cuts.append(electron_eta_cut)
-#QCDElectronControlRegion.cuts.append(electron_pt_42_cut)
+QCDElectronControlRegion.cuts.append(electron_pt_42_cut)
 # raise electron pt to get above single electron trigger threshold
-QCDElectronControlRegion.cuts.append(electron_pt_100_cut)
+#QCDElectronControlRegion.cuts.append(electron_pt_100_cut)
 QCDElectronControlRegion.cuts.append(electron_gap_veto)
 QCDElectronControlRegion.cuts.append(electron_id_cut)
 QCDElectronControlRegion.cuts.append(extra_electron_veto)
@@ -41,4 +41,40 @@ QCDElectronControlRegion.cuts.append(extra_electron_veto)
 QCDElectronControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
 QCDElectronControlRegion.cuts.append(electron_jet_deltaR_cut)
 
+prompt_electron_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
+    numberRequired = cms.string(">= 1")
+    )
+displaced_electron_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 200 & 10000*abs(d0) < 1000"),
+    numberRequired = cms.string(">= 1")
+    )
+very_displaced_electron_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 1000"),
+    numberRequired = cms.string(">= 1")
+    )
+
+QCDElectronControlRegionPrompt = cms.PSet(
+    name = cms.string("QCDElectronControlRegionPrompt"),
+    triggers = cms.vstring(),
+    cuts = copy.deepcopy(QCDElectronControlRegion.cuts)
+)
+QCDElectronControlRegionPrompt.cuts.append(prompt_electron_cut)
+
+QCDElectronControlRegionDisplaced = cms.PSet(
+    name = cms.string("QCDElectronControlRegionDisplaced"),
+    triggers = cms.vstring(),
+    cuts = copy.deepcopy(QCDElectronControlRegion.cuts)
+)
+QCDElectronControlRegionDisplaced.cuts.append(displaced_electron_cut)
+
+QCDElectronControlRegionVeryDisplaced = cms.PSet(
+    name = cms.string("QCDElectronControlRegionVeryDisplaced"),
+    triggers = cms.vstring(),
+    cuts = copy.deepcopy(QCDElectronControlRegion.cuts)
+)
+QCDElectronControlRegionVeryDisplaced.cuts.append(very_displaced_electron_cut)
 
