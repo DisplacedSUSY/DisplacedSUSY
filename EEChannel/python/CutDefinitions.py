@@ -86,9 +86,9 @@ electron_id_cut = cms.PSet(
 
 electron_id_TTpaper_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_id_TTpaper_cutstring,
+    cutString = objectDefs.electron_ttbar_paper_id_cutstring,
     numberRequired = cms.string(">= 2"),
-    alias = objectDefs.electron_id_TTpaper_alias
+    alias = objectDefs.electron_ttbar_paper_id_alias
     )
 
 electron_iso_cut = cms.PSet(
@@ -162,8 +162,8 @@ electron_d0_below200_cut = cms.PSet(
     )
 
 electron_d0_above200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons","beamspots"),
-    cutString = cms.string(objectDefs.electronAbsD0_um + " > 200"),
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 2"),
     alias = cms.string("electron d0 > 200 mum")
     )
