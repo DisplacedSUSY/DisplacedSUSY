@@ -68,8 +68,10 @@ datasets = [
    #Sum of all backgrounds
    'Background',
 
-   # TTJets from AN2017_022
+   # Samples from AN2017_022
    'TT_AN2017_022',
+   'SingleTop_tW_AN2017_022',
+   'SingleTop_tbarW_AN2017_022',
 ]
 
 composite_dataset_definitions = {
@@ -100,6 +102,10 @@ composite_dataset_definitions = {
         'SingleTop_t_channel_antitop',
         'SingleTop_tW',
         'SingleTop_tbarW',
+    ],
+    'SingleTop_AN2017_022' : [
+        'SingleTop_tW_AN2017_022',
+        'SingleTop_tbarW_AN2017_022',
     ],
     'TTJets_Lept' : [
         'TTJets_DiLept',
@@ -239,8 +245,10 @@ nJobs = {
     'TTJets_SingleLeptFromT'        : 620,
     'TTJets_SingleLeptFromTbar'     : 620,
 
-    #TT from AN2017_022
+    #Samples from AN2017_022
     'TT_AN2017_022'                 : 770,
+    'SingleTop_tW_AN2017_022'       : 10,
+    'SingleTop_tbarW_AN2017_022'    : 10,
 
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : 40,
@@ -364,8 +372,10 @@ maxEvents = {
     'TTJets_SingleLeptFromT'     :  -1,
     'TTJets_SingleLeptFromTbar'  :  -1,
 
-    #TT from AN2017_022
+    #Samples from AN2017_022
     'TT_AN2017_022'              : -1,
+    'SingleTop_tW_AN2017_022'    : -1,
+    'SingleTop_tbarW_AN2017_022' : -1,
 
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : -1,
@@ -506,8 +516,10 @@ types = {
     'TTJets_SingleLeptFromT'     :  "bgMC",
     'TTJets_SingleLeptFromTbar'  :  "bgMC",
 
-    #TT from AN2017_022
+    #Samples from AN2017_022
     'TT_AN2017_022'              :  "bgMC",
+    'SingleTop_tW_AN2017_022'    :  "bgMC",
+    'SingleTop_tbarW_AN2017_022' :  "bgMC",
 
     ############################################################################
 
@@ -648,8 +660,10 @@ colors = {
     'TTJets_SingleLeptFromT'     :  874,
     'TTJets_SingleLeptFromTbar'  :  875,
 
-    #TT from AN2017_022
+    #Samples from AN2017_022
     'TT_AN2017_022'              : 877,
+    'SingleTop_tW_AN2017_022'    : 911,
+    'SingleTop_tbarW_AN2017_022' : 911,
 
     #QCD MuEnriched
     'QCD_MuEnriched'                : 623,
@@ -790,8 +804,11 @@ labels = {
     'TTJets_SingleLeptFromT'     :  "t#bar{t} (single lepton from t)",
     'TTJets_SingleLeptFromTbar'  :  "t#bar{t} (single lepton from #bar{t})",
 
-    #TT from AN2017_022
-    'TT_AN2017_022'              :  "t#bar{t} (from AN2017_022)",
+    #Samples from AN2017_022
+    'TT_AN2017_022'              :  "t#bar{t} (from AN2017-022)",
+    'SingleTop_AN2017_022'       :  "Single top (tW and #bar{t}W) (from AN2017-022)",
+    'SingleTop_tW_AN2017_022'    :  "Single top (tW) (from AN2017-022)",
+    'SingleTop_tbarW_AN2017_022' :  "Single top (#bar{t}W) (from AN2017-022)",
 
     #QCD MuEnriched
     'QCD_MuEnriched'                : "QCD MuEnriched",
@@ -905,15 +922,17 @@ crossSections = {
     'SingleTop_s_channel'          :  3.36,
     'SingleTop_t_channel_top'      :  44.3151,
     'SingleTop_t_channel_antitop'  :  26.3734,
-    'SingleTop_tW'                 :  19.56, # total cross-section times BR(W->leptons)^2 (non-fully hadronic samples)
-    'SingleTop_tbarW'              :  19.56, # total cross-section times BR(W->leptons)^2 (non-fully hadronic samples)
+    'SingleTop_tW'                 :  19.56, # total cross-section times 1-BR(W->hadrons)^2 (non-fully hadronic samples)
+    'SingleTop_tbarW'              :  19.56, # total cross-section times 1-BR(W->hadrons)^2 (non-fully hadronic samples)
 
     'TTJets_DiLept'                :  87.31, # ??? 
     'TTJets_SingleLeptFromT'       :  182.7, # ???
     'TTJets_SingleLeptFromTbar'    :  182.7, # ???
 
-    #TT from AN2017_022
+    #Samples from AN2017_022
     'TT_AN2017_022'                :  831.76,
+    'SingleTop_tW_AN2017_022'      :  35.85,
+    'SingleTop_tbarW_AN2017_022'   :  35.85,
 
     ###########################################################################
 
