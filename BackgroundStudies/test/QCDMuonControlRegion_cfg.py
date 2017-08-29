@@ -54,6 +54,7 @@ miniAOD_collections = cms.PSet (
   jets            =  cms.InputTag  ('slimmedJets',     ''),
   bjets           =  cms.InputTag  ("objectSelector0","originalFormat","OSUAnalysisQCDMuonSkim1480532030"), # needs to be fed the exact collection from the skim being used
   generatorweights=  cms.InputTag  ('generator', ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -107,8 +108,10 @@ scalingfactorproducers = []
 
 from DisplacedSUSY.BackgroundStudies.QCDMuonControlRegionSelections import *
 
-eventSelections = []
-eventSelections.append(QCDMuonControlRegion)
+eventSelections = [QCDMuonControlRegion]
+#                   QCDMuonControlRegionPrompt,
+#                   QCDMuonControlRegionDisplaced,
+#                   QCDMuonControlRegionVeryDisplaced]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -133,13 +136,39 @@ histograms.append(MuonMetHistograms)
 histograms.append(MuonBjetHistograms)
 histograms.append(JetBjetHistograms)
 
-# histograms.append(eventHistograms)
+
+################################################################################
+##### Import the histograms to be plotted ######################################
+################################################################################
+
+from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import CosmicMuonHistograms, MuonD0Histograms, BeamspotHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
+from OSUT3Analysis.Configuration.histogramDefinitions import BjetHistograms, MuonBjetHistograms, JetBjetHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, True)
+histograms = cms.VPSet()
+histograms.append(MuonHistograms)
+histograms.append(CosmicMuonHistograms)
+histograms.append(MuonD0Histograms)
+histograms.append(BeamspotHistograms)
+histograms.append(JetHistograms)
+histograms.append(MuonJetHistograms)
+histograms.append(MetHistograms)
+histograms.append(MuonMetHistograms)
+histograms.append(eventHistograms)
+histograms.append(BjetHistograms)
+histograms.append(MuonBjetHistograms)
+histograms.append(JetBjetHistograms)
+
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+
+
 
 
 

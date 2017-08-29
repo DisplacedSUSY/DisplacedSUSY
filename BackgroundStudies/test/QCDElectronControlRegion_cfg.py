@@ -59,6 +59,7 @@ miniAOD_collections = cms.PSet (
   jets            =  cms.InputTag  ('slimmedJets',     ''),
   bjets           =  cms.InputTag  ("objectSelector1","originalFormat","OSUAnalysisQCDElectronSkim1483021621"), # needs to be fed the exact collection from the skim being used
   generatorweights=  cms.InputTag  ('generator', ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
@@ -112,9 +113,10 @@ scalingfactorproducers = []
 
 from DisplacedSUSY.BackgroundStudies.QCDElectronControlRegionSelections import *
 
-eventSelections = []
-
-eventSelections.append(QCDElectronControlRegion)
+eventSelections = [QCDElectronControlRegion]
+#                   QCDElectronControlRegionPrompt,
+#                   QCDElectronControlRegionDisplaced,
+#                   QCDElectronControlRegionVeryDisplaced]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
