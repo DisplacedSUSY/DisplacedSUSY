@@ -19,7 +19,10 @@ process.source = cms.Source ('PoolSource',
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
 #    'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
 #    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
-     'file:/store/user/bcardwell/MuMuSkim_23Sep/DYJetsToLL_50/MuMuSkim/skim_0.root',
+     'file:/store/user/bcardwell/MuMu_Preselection_17_05_04/DYJetsToLL_50/Preselection/skim_0.root',
+     'file:/store/user/bcardwell/MuMu_Preselection_17_05_04/DYJetsToLL_50/Preselection/skim_1.root',
+     'file:/store/user/bcardwell/MuMu_Preselection_17_05_04/DYJetsToLL_50/Preselection/skim_2.root',
+     'file:/store/user/bcardwell/MuMu_Preselection_17_05_04/DYJetsToLL_50/Preselection/skim_3.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_2.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_3.root',
@@ -47,7 +50,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (500)
+    input = cms.untracked.int32 (-1)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -75,6 +78,7 @@ miniAOD_collections = cms.PSet (
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
   generatorweights=  cms.InputTag  ('generator', ''), 
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
@@ -94,8 +98,60 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-weights = cms.VPSet ()
+variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('PUScalingFactorProducer')
+
+
+weights = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonID2016Tight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonIso2016Tight")
+    ),
+)
+
 scalingfactorproducers = []
+ObjectScalingFactorProducer = {}
+
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
+
+ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    )
+)
+
+scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -103,17 +159,20 @@ scalingfactorproducers = []
 
 from DisplacedSUSY.MuMuChannel.ZControlRegionSelection import *
 
-eventSelections = [ZControlRegion]
+eventSelections = [ZControlRegion],
+#                   ZControlRegionPrompt,
+#                   ZControlRegionDisplaced,
+#                   ZControlRegionVeryDisplaced]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
 from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms 
-from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, BeamspotHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import CosmicMuonHistograms, MuonD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
-#from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -121,6 +180,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, Muon
 
 histograms = cms.VPSet()
 histograms.append(MuonHistograms)
+histograms.append(CosmicMuonHistograms)
 histograms.append(DiMuonHistograms)
 histograms.append(MuonD0Histograms)
 histograms.append(BeamspotHistograms)
@@ -128,6 +188,15 @@ histograms.append(JetHistograms)
 histograms.append(MuonJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(MuonMetHistograms)
-#histograms.append(eventHistograms)
+histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+
+
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
+process.PUScalingFactorProducer.target = cms.string("Data2016")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
+process.PUScalingFactorProducer.type = cms.string("bgmc")
+
+
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgmc")

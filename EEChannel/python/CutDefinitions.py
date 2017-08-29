@@ -27,6 +27,21 @@ jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+# CSV WPs taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+jet_csvl_veto = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
+    )
+
+jet_csvm_veto = cms.PSet (
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.8484"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True)
+    )
+
 ##########################################################################
 
 # BEGIN ELECTRON CUTS
@@ -71,20 +86,18 @@ electron_antiiso_cut = cms.PSet(
     alias = objectDefs.electron_antiiso_alias
     )
 
-# diElectron Invariant Mass > 81.2GeV
-diElectron_invMass_above81_cut = cms.PSet (
-    inputCollection = cms.vstring("electrons", "electrons"),
-    cutString = cms.string("invMass (electron,electron) > 81.2"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("diElectron invariant mass > 81.2GeV")
+electron_2electron_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("extra electron veto")
     )
 
-# diElectron Invariant Mass < 101.2GeV
-diElectron_invMass_below101_cut = cms.PSet (
+diElectron_invMass_Z_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
-    cutString = cms.string("invMass (electron,electron) < 101.2"),
+    cutString = cms.string("abs(invMass(electron,electron) - 91.2) < 10"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("diElectron invariant mass < 101.2GeV")
+    alias = cms.string("abs(mass_ee - mass_Z) < 10")
     )
 
 # electron d0 < 100 microns

@@ -106,23 +106,6 @@ diMuon_invMass_Z_cut = cms.PSet (
     alias = cms.string("abs(mass_mumu - mass_Z) < 10")
     )
 
-
-# diMuon Invariant Mass > 81.2GeV
-diMuon_invMass_above81_cut = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon,muon) > 81.2"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("diMuon invariant mass > 81.2GeV")
-    )
-
-# diMuon Invariant Mass < 101.2GeV
-diMuon_invMass_below101_cut = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("invMass (muon,muon) < 101.2"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("diMuon invariant mass < 101.2GeV")
-    )
-
 # muon d0 < 100 microns
 muon_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
