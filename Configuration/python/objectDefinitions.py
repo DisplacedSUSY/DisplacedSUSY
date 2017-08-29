@@ -101,6 +101,13 @@ jet_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
 
 jet_loose_id_alias = cms.string("loose Jet ID")
 
+jet_ttbar_paper_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
+                                              chargedEmEnergyFraction < 0.99 & \
+                                              neutralEmEnergyFraction < 0.99 & \
+                                              chargedHadronEnergyFraction > 0.0") 
+
+jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
+
 ##########################################################################
 
 # ELECTRON ID

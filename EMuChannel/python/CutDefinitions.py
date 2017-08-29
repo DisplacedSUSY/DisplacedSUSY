@@ -48,6 +48,13 @@ jet_loose_id_cut = cms.PSet(
     alias = objectDefs.jet_loose_id_alias
     )
 
+jet_ttbar_paper_loose_id_cut = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = objectDefs.jet_ttbar_paper_loose_id_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.jet_ttbar_paper_loose_id_alias
+    )
+
 jet_btag_twp_cut = cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
@@ -98,20 +105,11 @@ jet_2jet_veto = cms.PSet (
         alias = cms.string('< 2 jets')
     )
 
-jet_muon_deltaR_veto = cms.PSet (
-        inputCollection = cms.vstring("jets", "muons"),
-        cutString = cms.string("deltaR(jet, muon) < 0.4"),
-        numberRequired = cms.string("== 0"),
-        alias = cms.string('jet-mu deltaR veto'),
-        isVeto = cms.bool(True)
-    )
-
-jet_electron_deltaR_veto = cms.PSet (
-        inputCollection = cms.vstring("jets", "electrons"),
-        cutString = cms.string("deltaR(jet, electron) < 0.4"),
-        numberRequired = cms.string("== 0"),
-        alias = cms.string('jet-e deltaR veto'),
-        isVeto = cms.bool(True)
+jet_lepton_cleaning_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton = 0"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('jet-lepton cleaning')
     )
 
 ##########################################################################
