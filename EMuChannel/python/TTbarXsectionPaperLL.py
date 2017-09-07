@@ -27,13 +27,11 @@ TTbarXsectionPaperLL.cuts.append(jet_id_cut)
 ### one good electron
 TTbarXsectionPaperLL.cuts.append(electron_eta_cut)
 TTbarXsectionPaperLL.cuts.append(electron_gap_veto)
-TTbarXsectionPaperLL.cuts.append(electron_pt_25_cut)
 TTbarXsectionPaperLL.cuts.append(electron_ttbar_paper_id_cut)
 TTbarXsectionPaperLL.cuts.append(electron_iso_cut)
 TTbarXsectionPaperLL.cuts.append(electron_num_exactly_1_cut)
 ### one good muon
 TTbarXsectionPaperLL.cuts.append(muon_eta_cut)
-TTbarXsectionPaperLL.cuts.append(muon_pt_25_cut)
 TTbarXsectionPaperLL.cuts.append(muon_global_cut)
 TTbarXsectionPaperLL.cuts.append(muon_id_cut)
 TTbarXsectionPaperLL.cuts.append(muon_d0_below2000_cut)
@@ -43,3 +41,5 @@ TTbarXsectionPaperLL.cuts.append(muon_num_exactly_1_cut)
 ### muon-electron pair
 TTbarXsectionPaperLL.cuts.append(emu_mass_20_cut)
 TTbarXsectionPaperLL.cuts.append(emu_opposite_charge_cut)
+TTbarXsectionPaperLL.cuts.append(emu_pt_25_20_cut)
+
