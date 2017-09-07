@@ -54,6 +54,15 @@ datasets = [
    'MuonEG_2016G',
    'MuonEG_2016H',
 
+   'MuonEG_2016_03Feb2017'
+   'MuonEG_2016B_03Feb2017'
+   'MuonEG_2016C_03Feb2017'
+   'MuonEG_2016D_03Feb2017'
+   'MuonEG_2016E_03Feb2017'
+   'MuonEG_2016F_03Feb2017'
+   'MuonEG_2016G_03Feb2017'
+   'MuonEG_2016H_03Feb2017'
+
    # background MC
 
    'DYJetsToLL',
@@ -188,6 +197,15 @@ composite_dataset_definitions = {
         'MuonEG_2016G',
         'MuonEG_2016H',
     ],
+    'MuonEG_2016_03Feb2017' : [
+        'MuonEG_2016B_03Feb2017',
+        'MuonEG_2016C_03Feb2017',
+        'MuonEG_2016D_03Feb2017',
+        'MuonEG_2016E_03Feb2017',
+        'MuonEG_2016F_03Feb2017',
+        'MuonEG_2016G_03Feb2017',
+        'MuonEG_2016H_03Feb2017',
+    ],
 }
 
 
@@ -321,6 +339,15 @@ nJobs = {
     'MuonEG_2016F'    : 160,
     'MuonEG_2016G'    : 340,
     'MuonEG_2016H'    : 300,
+
+    # Assume similar number of events in 03Feb as in 23Sep
+    'MuonEG_2016B_03Feb2017' : 330,
+    'MuonEG_2016C_03Feb2017' : 150,
+    'MuonEG_2016D_03Feb2017' : 230,
+    'MuonEG_2016E_03Feb2017' : 230,
+    'MuonEG_2016F_03Feb2017' : 160,
+    'MuonEG_2016G_03Feb2017' : 340,
+    'MuonEG_2016H_03Feb2017' : 300,
 
     ############################################################################
 
@@ -457,6 +484,14 @@ maxEvents = {
     'MuonEG_2016F'     : -1,
     'MuonEG_2016G'     : -1,
     'MuonEG_2016H'     : -1,
+
+    'MuonEG_2016B_03Feb2017' : -1,
+    'MuonEG_2016C_03Feb2017' : -1,
+    'MuonEG_2016D_03Feb2017' : -1,
+    'MuonEG_2016E_03Feb2017' : -1,
+    'MuonEG_2016F_03Feb2017' : -1,
+    'MuonEG_2016G_03Feb2017' : -1,
+    'MuonEG_2016H_03Feb2017' : -1,
 
     ############################################################################
 
@@ -605,6 +640,15 @@ types = {
     'MuonEG_2016G'   : "data",
     'MuonEG_2016H'   : "data",
 
+    'MuonEG_2016_03Feb2017'  : "data",
+    'MuonEG_2016B_03Feb2017' : "data",
+    'MuonEG_2016C_03Feb2017' : "data",
+    'MuonEG_2016D_03Feb2017' : "data",
+    'MuonEG_2016E_03Feb2017' : "data",
+    'MuonEG_2016F_03Feb2017' : "data",
+    'MuonEG_2016G_03Feb2017' : "data",
+    'MuonEG_2016H_03Feb2017' : "data",
+
     ###########################################################################
 
 }
@@ -747,6 +791,15 @@ colors = {
     'MuonEG_2016F'   : 1,
     'MuonEG_2016G'   : 1,
     'MuonEG_2016H'   : 1,
+
+    'MuonEG_2016_03Feb2017'  :  1,
+    'MuonEG_2016B_03Feb2017' :  1,
+    'MuonEG_2016C_03Feb2017' :  1,
+    'MuonEG_2016D_03Feb2017' :  1,
+    'MuonEG_2016E_03Feb2017' :  1,
+    'MuonEG_2016F_03Feb2017' :  1,
+    'MuonEG_2016G_03Feb2017' :  1,
+    'MuonEG_2016H_03Feb2017' :  1,
 
 
     ###########################################################################
@@ -891,6 +944,15 @@ labels = {
     'MuonEG_2016F'     : "MuonEG 2016F data",
     'MuonEG_2016G'     : "MuonEG 2016G data",
     'MuonEG_2016H'     : "MuonEG 2016H data",
+
+    'MuonEG_2016_03Feb2017'  :  "Electron Muon data (03Feb2017 ReReco)",
+    'MuonEG_2016B_03Feb2017' :  "MuonEG 2016B_03Feb data",
+    'MuonEG_2016C_03Feb2017' :  "MuonEG 2016C_03Feb data",
+    'MuonEG_2016D_03Feb2017' :  "MuonEG 2016D_03Feb data",
+    'MuonEG_2016E_03Feb2017' :  "MuonEG 2016E_03Feb data",
+    'MuonEG_2016F_03Feb2017' :  "MuonEG 2016F_03Feb data",
+    'MuonEG_2016G_03Feb2017' :  "MuonEG 2016G_03Feb data",
+    'MuonEG_2016H_03Feb2017' :  "MuonEG 2016H_03Feb data",
 
     ###########################################################################
 
