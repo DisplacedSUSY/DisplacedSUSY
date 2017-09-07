@@ -200,6 +200,13 @@ electron_d0_100to200_cut = cms.PSet(
     alias = cms.string("electron 100 < d0 < 200 mum")
     )
 
+electron_d0_below200_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("electron d0 < 200 mum")
+    )
+
 electron_mt_cut = cms.PSet (
     inputCollection = cms.vstring("electrons","mets"),
     cutString = cms.string("transMass(electron, met) < 50"),
@@ -307,6 +314,13 @@ muon_d0_100to200_cut = cms.PSet(
     cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("muon 100 < d0 < 200 mum")
+    )
+
+muon_d0_below200_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("muon d0 < 200 mum")
     )
 
 muon_mt_cut = cms.PSet (
