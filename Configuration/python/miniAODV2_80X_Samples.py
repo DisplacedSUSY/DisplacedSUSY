@@ -163,6 +163,17 @@ dataset_names = {
                               '/MuonEG/Run2016H-PromptReco-v3/MINIAOD'], # 1M
     ############################################################################
 
+    ############################################################################
+    # MuonEG 03Feb2017 rereco
+    'MuonEG_2016B_03Feb2017' : '/MuonEG/Run2016B-03Feb2017_ver2-v2/MINIAOD',   # 33M
+    'MuonEG_2016C_03Feb2017' : '/MuonEG/Run2016C-03Feb2017-v1/MINIAOD',        # 15M
+    'MuonEG_2016D_03Feb2017' : '/MuonEG/Run2016D-03Feb2017-v1/MINIAOD',        # 23M
+    'MuonEG_2016E_03Feb2017' : '/MuonEG/Run2016E-03Feb2017-v1/MINIAOD',        # 23M
+    'MuonEG_2016F_03Feb2017' : '/MuonEG/Run2016F-03Feb2017-v1/MINIAOD',        # 16M
+    'MuonEG_2016G_03Feb2017' : '/MuonEG/Run2016G-03Feb2017-v1/MINIAOD',        # 34M
+    'MuonEG_2016H_03Feb2017' : ['/MuonEG/Run2016H-03Feb2017_ver2-v1/MINIAOD',  # 29M
+                                '/MuonEG/Run2016H-03Feb2017_ver3-v1/MINIAOD'], # 1M
+    ############################################################################
 
     ############################################################################
     #DisplacedSUSY Signal MC MiniAOD - 90k events/sample
