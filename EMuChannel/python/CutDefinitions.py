@@ -148,13 +148,6 @@ electron_id_cut = cms.PSet(
     alias = objectDefs.electron_id_alias
     )
 
-electron_ttbar_paper_id_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_id_cutstring,
-    numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_ttbar_paper_id_alias
-    )
-
 electron_iso_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_iso_cutstring,
