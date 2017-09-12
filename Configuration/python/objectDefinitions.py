@@ -133,28 +133,6 @@ electron_id_cutstring = cms.string("(isEB & \
 
 electron_id_alias = cms.string("electron tight ID")
 
-# ELECTRON ID from ttbar cross section paper - uses d0 and dz
-electron_ttbar_paper_id_cutstring = cms.string("(isEB & \
-                            full5x5_sigmaIetaIeta < 0.00998 & \
-                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
-                            hadronicOverEm < 0.0414 & \
-                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
-                            electronAbsD0_cm < 0.05 & \
-                            electronAbsDz < 1000 & \
-                            passConversionVeto) | \
-                            (isEE & \
-                            full5x5_sigmaIetaIeta < 0.0292 & \
-                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
-                            hadronicOverEm < 0.0641 & \
-                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
-                            electronAbsD0_cm < 0.1 & \
-                            electronAbsDz < 2000 & \
-                            passConversionVeto)")
-
-electron_ttbar_paper_id_alias = cms.string("electron tight ID from ttbar paper")
-
 ##########################################################################
 
 # MUON ID, part one
