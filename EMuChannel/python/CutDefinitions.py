@@ -148,6 +148,13 @@ electron_id_cut = cms.PSet(
     alias = objectDefs.electron_id_alias
     )
 
+electron_id_impact_parameter_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_id_impact_parameter_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.electron_id_impact_parameter_alias
+    )
+
 electron_iso_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_iso_cutstring,
@@ -249,19 +256,11 @@ muon_id_cut = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = objectDefs.muon_id_alias
     )
-
-muon_d0_below2000_cut = cms.PSet(
+muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(d0) < 0.2"),
+    cutString = objectDefs.muon_id_impact_parameter_cutstring,
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 < 0.2 cm")
-    )
-
-muon_dZ_below5000_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(dz) < 0.5"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon dZ < 0.5 cm")
+    alias = objectDefs.muon_id_impact_parameter_alias
     )
 
 muon_iso_cut = cms.PSet(

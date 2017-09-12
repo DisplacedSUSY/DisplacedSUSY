@@ -111,7 +111,7 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 ##########################################################################
 
 # ELECTRON ID
-
+# without impact parameter cuts
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria
 
 electron_id_cutstring = cms.string("(isEB & \
@@ -132,6 +132,20 @@ electron_id_cutstring = cms.string("(isEB & \
                             passConversionVeto)")
 
 electron_id_alias = cms.string("electron tight ID")
+
+##########################################################################
+
+# ELECTRON ID IMPACT PARAMETER CUTS 
+
+electron_id_impact_parameter_cutstring = cms.string("(isEB & \
+                                             abs(d0) < 0.05 & \
+                                             abs(dz) < 0.10) | \
+                                             (isEE & \
+                                             abs(d0) < 0.10 & \
+                                             abs(dz) < 0.20)")
+
+electron_id_impact_parameter_alias = cms.string("electron tight ID impact parameter cuts")
+
 
 ##########################################################################
 
@@ -156,4 +170,12 @@ muon_id_cutstring = cms.string("globalTrack.normalizedChi2 < 10 & \
 
 muon_id_alias = cms.string("muon tight ID")
 
+##########################################################################
+
+# MUON ID IMPACT PARAMETER CUTS
+
+muon_id_impact_parameter_cutstring = cms.string("abs(d0) < 0.2 & \
+                                                 abs(dz) < 0.5")
+
+muon_id_impact_parameter_alias = cms.string("muon tight ID impact parameter cuts")
 
