@@ -104,7 +104,7 @@ jet_loose_id_alias = cms.string("loose Jet ID")
 jet_ttbar_paper_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
                                               chargedEmEnergyFraction < 0.99 & \
                                               neutralEmEnergyFraction < 0.99 & \
-                                              chargedHadronEnergyFraction > 0.0") 
+                                              chargedHadronEnergyFraction > 0.0")
 
 jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
@@ -114,17 +114,10 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria
 
-# N.B.: |deltaEta| cut removed since it wasn't working on data...
-
-#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00308 &\ 
-#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00605 & \
-
-#                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
-#                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00605 &\
-
 electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
                             hadronicOverEm < 0.0414 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
                             missingInnerHits <= 1 & \
@@ -132,6 +125,7 @@ electron_id_cutstring = cms.string("(isEB & \
                             (isEE & \
                             full5x5_sigmaIetaIeta < 0.0292 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00605 &\
                             hadronicOverEm < 0.0641 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
                             missingInnerHits <= 1 & \
