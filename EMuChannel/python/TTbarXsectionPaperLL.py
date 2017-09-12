@@ -27,7 +27,7 @@ TTbarXsectionPaperLL.cuts.append(jet_id_cut)
 ### one good electron
 TTbarXsectionPaperLL.cuts.append(electron_eta_cut)
 TTbarXsectionPaperLL.cuts.append(electron_gap_veto)
-TTbarXsectionPaperLL.cuts.append(electron_ttbar_paper_id_cut)
+TTbarXsectionPaperLL.cuts.append(electron_id_cut)
 TTbarXsectionPaperLL.cuts.append(electron_iso_cut)
 TTbarXsectionPaperLL.cuts.append(electron_num_exactly_1_cut)
 ### one good muon
