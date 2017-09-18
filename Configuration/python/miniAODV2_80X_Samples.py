@@ -7,7 +7,8 @@
 dataset_names = {
 
     #DY
-    'DYJetsToLL_50'     : '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM', # 63M
+    'DYJetsToLL_50'     : ['/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM', # 63M
+                           '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/MINIAODSIM'], # 63M
     'DYJetsToLL_10to50' : '/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 35M
 
     #DYBBJets
@@ -56,7 +57,7 @@ dataset_names = {
 
     #Samples used in AN2017_022
     'TT_AN2017_022'        :     ['/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM',
-                                      '/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_backup_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'],
+                                  '/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_backup_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'],
     'SingleTop_tW_AN2017_022' : '/ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM',
     'SingleTop_tbarW_AN2017_022' : '/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM',
 
@@ -116,6 +117,18 @@ dataset_names = {
     ############################################################################
 
     ############################################################################
+    # SingleElectron 03Feb2017 rereco
+    'SingleEle_2016B_03Feb2017' : '/SingleElectron/Run2016B-03Feb2017_ver2-v2/MINIAOD',
+    'SingleEle_2016C_03Feb2017' : '/SingleElectron/Run2016C-03Feb2017-v1/MINIAOD',
+    'SingleEle_2016D_03Feb2017' : '/SingleElectron/Run2016D-03Feb2017-v1/MINIAOD',
+    'SingleEle_2016E_03Feb2017' : '/SingleElectron/Run2016E-03Feb2017-v1/MINIAOD',
+    'SingleEle_2016F_03Feb2017' : '/SingleElectron/Run2016F-03Feb2017-v1/MINIAOD',
+    'SingleEle_2016G_03Feb2017' : '/SingleElectron/Run2016G-03Feb2017-v1/MINIAOD',
+    'SingleEle_2016H_03Feb2017' : ['/SingleElectron/Run2016H-03Feb2017_ver2-v1/MINIAOD',
+                                   '/SingleElectron/Run2016H-03Feb2017_ver3-v1/MINIAOD'],
+    ############################################################################
+
+    ############################################################################
     # SingleMuon 23Sep rereco
     'SingleMu_2016B'         : '/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 158M
     'SingleMu_2016C'         : '/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 67M
@@ -125,6 +138,18 @@ dataset_names = {
     'SingleMu_2016G'         : '/SingleMuon/Run2016G-23Sep2016-v1/MINIAOD', # 150M
     'SingleMu_2016H'         : ['/SingleMuon/Run2016H-PromptReco-v2/MINIAOD', # 171M
                                 '/SingleMuon/Run2016H-PromptReco-v3/MINIAOD'], # 4M
+    ############################################################################
+
+    ############################################################################
+    # SingleMuon 03Feb2017 rereco
+    'SingleMu_2016B_03Feb2017' : '/SingleMuon/Run2016B-03Feb2017_ver2-v2/MINIAOD',
+    'SingleMu_2016C_03Feb2017' : '/SingleMuon/Run2016C-03Feb2017-v1/MINIAOD',
+    'SingleMu_2016D_03Feb2017' : '/SingleMuon/Run2016D-03Feb2017-v1/MINIAOD',
+    'SingleMu_2016E_03Feb2017' : '/SingleMuon/Run2016E-03Feb2017-v1/MINIAOD',
+    'SingleMu_2016F_03Feb2017' : '/SingleMuon/Run2016F-03Feb2017-v1/MINIAOD',
+    'SingleMu_2016G_03Feb2017' : '/SingleMuon/Run2016G-03Feb2017-v1/MINIAOD',
+    'SingleMu_2016H_03Feb2017' : ['/SingleMuon/Run2016H-03Feb2017_ver2-v1/MINIAOD',
+                                  '/SingleMuon/Run2016H-03Feb2017_ver3-v1/MINIAOD'],
     ############################################################################
 
     ############################################################################
@@ -165,14 +190,14 @@ dataset_names = {
 
     ############################################################################
     # MuonEG 03Feb2017 rereco
-    'MuonEG_2016B_03Feb2017' : '/MuonEG/Run2016B-03Feb2017_ver2-v2/MINIAOD',   # 33M
-    'MuonEG_2016C_03Feb2017' : '/MuonEG/Run2016C-03Feb2017-v1/MINIAOD',        # 15M
-    'MuonEG_2016D_03Feb2017' : '/MuonEG/Run2016D-03Feb2017-v1/MINIAOD',        # 23M
-    'MuonEG_2016E_03Feb2017' : '/MuonEG/Run2016E-03Feb2017-v1/MINIAOD',        # 23M
-    'MuonEG_2016F_03Feb2017' : '/MuonEG/Run2016F-03Feb2017-v1/MINIAOD',        # 16M
-    'MuonEG_2016G_03Feb2017' : '/MuonEG/Run2016G-03Feb2017-v1/MINIAOD',        # 34M
-    'MuonEG_2016H_03Feb2017' : ['/MuonEG/Run2016H-03Feb2017_ver2-v1/MINIAOD',  # 29M
-                                '/MuonEG/Run2016H-03Feb2017_ver3-v1/MINIAOD'], # 1M
+    'MuonEG_2016B_03Feb2017' : '/MuonEG/Run2016B-03Feb2017_ver2-v2/MINIAOD',
+    'MuonEG_2016C_03Feb2017' : '/MuonEG/Run2016C-03Feb2017-v1/MINIAOD',
+    'MuonEG_2016D_03Feb2017' : '/MuonEG/Run2016D-03Feb2017-v1/MINIAOD',
+    'MuonEG_2016E_03Feb2017' : '/MuonEG/Run2016E-03Feb2017-v1/MINIAOD',
+    'MuonEG_2016F_03Feb2017' : '/MuonEG/Run2016F-03Feb2017-v1/MINIAOD',
+    'MuonEG_2016G_03Feb2017' : '/MuonEG/Run2016G-03Feb2017-v1/MINIAOD',
+    'MuonEG_2016H_03Feb2017' : ['/MuonEG/Run2016H-03Feb2017_ver2-v1/MINIAOD',
+                                '/MuonEG/Run2016H-03Feb2017_ver3-v1/MINIAOD'],
     ############################################################################
 
     ############################################################################

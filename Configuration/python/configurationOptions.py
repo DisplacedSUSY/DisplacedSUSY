@@ -18,6 +18,15 @@ datasets = [
    'SingleMu_2016G',
    'SingleMu_2016H',
 
+   'SingleMu_2016_03Feb2017',
+   'SingleMu_2016B_03Feb2017',
+   'SingleMu_2016C_03Feb2017',
+   'SingleMu_2016D_03Feb2017',
+   'SingleMu_2016E_03Feb2017',
+   'SingleMu_2016F_03Feb2017',
+   'SingleMu_2016G_03Feb2017',
+   'SingleMu_2016H_03Feb2017',
+
    'SingleEle_2016',
    'SingleEle_2016B',
    'SingleEle_2016C',
@@ -26,6 +35,15 @@ datasets = [
    'SingleEle_2016F',
    'SingleEle_2016G',
    'SingleEle_2016H',
+
+   'SingleEle_2016_03Feb2017',
+   'SingleEle_2016B_03Feb2017',
+   'SingleEle_2016C_03Feb2017',
+   'SingleEle_2016D_03Feb2017',
+   'SingleEle_2016E_03Feb2017',
+   'SingleEle_2016F_03Feb2017',
+   'SingleEle_2016G_03Feb2017',
+   'SingleEle_2016H_03Feb2017',
 
    'DoubleMu_2016',
    'DoubleMu_2016B',
@@ -54,14 +72,14 @@ datasets = [
    'MuonEG_2016G',
    'MuonEG_2016H',
 
-   'MuonEG_2016_03Feb2017'
-   'MuonEG_2016B_03Feb2017'
-   'MuonEG_2016C_03Feb2017'
-   'MuonEG_2016D_03Feb2017'
-   'MuonEG_2016E_03Feb2017'
-   'MuonEG_2016F_03Feb2017'
-   'MuonEG_2016G_03Feb2017'
-   'MuonEG_2016H_03Feb2017'
+   'MuonEG_2016_03Feb2017',
+   'MuonEG_2016B_03Feb2017',
+   'MuonEG_2016C_03Feb2017',
+   'MuonEG_2016D_03Feb2017',
+   'MuonEG_2016E_03Feb2017',
+   'MuonEG_2016F_03Feb2017',
+   'MuonEG_2016G_03Feb2017',
+   'MuonEG_2016H_03Feb2017',
 
    # background MC
 
@@ -161,6 +179,15 @@ composite_dataset_definitions = {
         'SingleMu_2016G',
         'SingleMu_2016H',
     ],
+    'SingleMu_2016_03Feb2017' : [
+        'SingleMu_2016B_03Feb2017',
+        'SingleMu_2016C_03Feb2017',
+        'SingleMu_2016D_03Feb2017',
+        'SingleMu_2016E_03Feb2017',
+        'SingleMu_2016F_03Feb2017',
+        'SingleMu_2016G_03Feb2017',
+        'SingleMu_2016H_03Feb2017',
+    ],
     'SingleEle_2016' : [
         'SingleEle_2016B',
         'SingleEle_2016C',
@@ -169,6 +196,15 @@ composite_dataset_definitions = {
         'SingleEle_2016F',
         'SingleEle_2016G',
         'SingleEle_2016H',
+    ],
+    'SingleEle_2016_03Feb2017' : [
+        'SingleEle_2016B_03Feb2017',
+        'SingleEle_2016C_03Feb2017',
+        'SingleEle_2016D_03Feb2017',
+        'SingleEle_2016E_03Feb2017',
+        'SingleEle_2016F_03Feb2017',
+        'SingleEle_2016G_03Feb2017',
+        'SingleEle_2016H_03Feb2017',
     ],
     'DoubleMu_2016' : [
         'DoubleMu_2016B',
@@ -308,6 +344,15 @@ nJobs = {
     'SingleEle_2016G' : 1530,
     'SingleEle_2016H' : 1300,
 
+    # Assume similar number of events in 03Feb as in 23Sep
+    'SingleEle_2016B_03Feb2017' : 2460,
+    'SingleEle_2016C_03Feb2017' : 970,
+    'SingleEle_2016D_03Feb2017' : 1480,
+    'SingleEle_2016E_03Feb2017' : 1170,
+    'SingleEle_2016F_03Feb2017' : 710,
+    'SingleEle_2016G_03Feb2017' : 1530,
+    'SingleEle_2016H_03Feb2017' : 1300,
+
     'SingleMu_2016B'  : 1580,
     'SingleMu_2016C'  : 670,
     'SingleMu_2016D'  : 980,
@@ -315,6 +360,15 @@ nJobs = {
     'SingleMu_2016F'  : 650,
     'SingleMu_2016G'  : 1500,
     'SingleMu_2016H'  : 1750,
+
+    # Assume similar number of events in 03Feb as in 23Sep
+    'SingleMu_2016B_03Feb2017' : 1580,
+    'SingleMu_2016C_03Feb2017' : 670,
+    'SingleMu_2016D_03Feb2017' : 980,
+    'SingleMu_2016E_03Feb2017' : 910,
+    'SingleMu_2016F_03Feb2017' : 650,
+    'SingleMu_2016G_03Feb2017' : 1500,
+    'SingleMu_2016H_03Feb2017' : 1750,
 
     'DoubleEG_2016B'  : 1430,
     'DoubleEG_2016C'  : 480,
@@ -452,6 +506,15 @@ maxEvents = {
     'SingleMu_2016H'       : -1,
     'SingleMu_2016'        : -1,
 
+    'SingleMu_2016B_03Feb2017'   : -1,
+    'SingleMu_2016C_03Feb2017'   : -1,
+    'SingleMu_2016D_03Feb2017'   : -1,
+    'SingleMu_2016E_03Feb2017'   : -1,
+    'SingleMu_2016F_03Feb2017'   : -1,
+    'SingleMu_2016G_03Feb2017'   : -1,
+    'SingleMu_2016H_03Feb2017'   : -1,
+    'SingleMu_2016_03Feb2017'    : -1,
+
     'SingleEle_2016B'       : -1,
     'SingleEle_2016C'       : -1,
     'SingleEle_2016D'       : -1,
@@ -460,6 +523,15 @@ maxEvents = {
     'SingleEle_2016G'       : -1,
     'SingleEle_2016H'       : -1,
     'SingleEle_2016'        : -1,
+
+    'SingleEle_2016B_03Feb2017'   : -1,
+    'SingleEle_2016C_03Feb2017'   : -1,
+    'SingleEle_2016D_03Feb2017'   : -1,
+    'SingleEle_2016E_03Feb2017'   : -1,
+    'SingleEle_2016F_03Feb2017'   : -1,
+    'SingleEle_2016G_03Feb2017'   : -1,
+    'SingleEle_2016H_03Feb2017'   : -1,
+    'SingleEle_2016_03Feb2017'    : -1,
 
     'DoubleEG_2016B'     : -1,
     'DoubleEG_2016C'     : -1,
@@ -613,6 +685,15 @@ types = {
     'SingleMu_2016G'    : "data",
     'SingleMu_2016H'    : "data",
 
+    'SingleMu_2016_03Feb2017'   : "data",
+    'SingleMu_2016B_03Feb2017'  : "data",
+    'SingleMu_2016C_03Feb2017'  : "data",
+    'SingleMu_2016D_03Feb2017'  : "data",
+    'SingleMu_2016E_03Feb2017'  : "data",
+    'SingleMu_2016F_03Feb2017'  : "data",
+    'SingleMu_2016G_03Feb2017'  : "data",
+    'SingleMu_2016H_03Feb2017'  : "data",
+
     'SingleEle_2016'    : "data",
     'SingleEle_2016B'   : "data",
     'SingleEle_2016C'   : "data",
@@ -621,6 +702,15 @@ types = {
     'SingleEle_2016F'   : "data",
     'SingleEle_2016G'   : "data",
     'SingleEle_2016H'   : "data",
+
+    'SingleEle_2016_03Feb2017'    : "data",
+    'SingleEle_2016B_03Feb2017'   : "data",
+    'SingleEle_2016C_03Feb2017'   : "data",
+    'SingleEle_2016D_03Feb2017'   : "data",
+    'SingleEle_2016E_03Feb2017'   : "data",
+    'SingleEle_2016F_03Feb2017'   : "data",
+    'SingleEle_2016G_03Feb2017'   : "data",
+    'SingleEle_2016H_03Feb2017'   : "data",
 
     'DoubleEG_2016'    : "data",
     'DoubleEG_2016B'   : "data",
@@ -764,6 +854,14 @@ colors = {
     'SingleMu_2016G'   : 1,
     'SingleMu_2016H'   : 1,
 
+    'SingleMu_2016_03Feb2017'    : 1,
+    'SingleMu_2016B_03Feb2017'   : 1,
+    'SingleMu_2016C_03Feb2017'   : 1,
+    'SingleMu_2016D_03Feb2017'   : 1,
+    'SingleMu_2016E_03Feb2017'   : 1,
+    'SingleMu_2016F_03Feb2017'   : 1,
+    'SingleMu_2016G_03Feb2017'   : 1,
+    'SingleMu_2016H_03Feb2017'   : 1,
 
     'SingleEle_2016'    : 1,
     'SingleEle_2016B'   : 1,
@@ -773,6 +871,15 @@ colors = {
     'SingleEle_2016F'   : 1,
     'SingleEle_2016G'   : 1,
     'SingleEle_2016H'   : 1,
+
+    'SingleEle_2016_03Feb2017'    : 1,
+    'SingleEle_2016B_03Feb2017'   : 1,
+    'SingleEle_2016C_03Feb2017'   : 1,
+    'SingleEle_2016D_03Feb2017'   : 1,
+    'SingleEle_2016E_03Feb2017'   : 1,
+    'SingleEle_2016F_03Feb2017'   : 1,
+    'SingleEle_2016G_03Feb2017'   : 1,
+    'SingleEle_2016H_03Feb2017'   : 1,
 
     'DoubleEG_2016'    : 1,
     'DoubleEG_2016B'   : 1,
@@ -918,6 +1025,15 @@ labels = {
     'SingleMu_2016G'     : "SingleMuon 2016G data",
     'SingleMu_2016H'     : "SingleMuon 2016H data",
 
+    'SingleMu_2016_03Feb2017'      : "Single Muon data (03Feb2017 ReReco)",
+    'SingleMu_2016B_03Feb2017'     : "SingleMuon 2016B_03Feb2017 data",
+    'SingleMu_2016C_03Feb2017'     : "SingleMuon 2016C_03Feb2017 data",
+    'SingleMu_2016D_03Feb2017'     : "SingleMuon 2016D_03Feb2017 data",
+    'SingleMu_2016E_03Feb2017'     : "SingleMuon 2016E_03Feb2017 data",
+    'SingleMu_2016F_03Feb2017'     : "SingleMuon 2016F_03Feb2017 data",
+    'SingleMu_2016G_03Feb2017'     : "SingleMuon 2016G_03Feb2017 data",
+    'SingleMu_2016H_03Feb2017'     : "SingleMuon 2016H_03Feb2017 data",
+
     'SingleEle_2016'      : "Single Electron data",
     'SingleEle_2016B'     : "SingleElectron 2016B data",
     'SingleEle_2016C'     : "SingleElectron 2016C data",
@@ -926,6 +1042,15 @@ labels = {
     'SingleEle_2016F'     : "SingleElectron 2016F data",
     'SingleEle_2016G'     : "SingleElectron 2016G data",
     'SingleEle_2016H'     : "SingleElectron 2016H data",
+
+    'SingleEle_2016_03Feb2017'    : "Single Electron data (03Feb2017 ReReco)",
+    'SingleEle_2016B_03Feb2017'   : "SingleElectron 2016B_03Feb017 data",
+    'SingleEle_2016C_03Feb2017'   : "SingleElectron 2016C_03Feb017 data",
+    'SingleEle_2016D_03Feb2017'   : "SingleElectron 2016D_03Feb017 data",
+    'SingleEle_2016E_03Feb2017'   : "SingleElectron 2016E_03Feb017 data",
+    'SingleEle_2016F_03Feb2017'   : "SingleElectron 2016F_03Feb017 data",
+    'SingleEle_2016G_03Feb2017'   : "SingleElectron 2016G_03Feb017 data",
+    'SingleEle_2016H_03Feb2017'   : "SingleElectron 2016H_03Feb017 data",
 
     'DoubleEG_2016'     : "Double Electron data",
     'DoubleEG_2016B'    : "DoubleEG 2016B data",
@@ -946,13 +1071,13 @@ labels = {
     'MuonEG_2016H'     : "MuonEG 2016H data",
 
     'MuonEG_2016_03Feb2017'  :  "Electron Muon data (03Feb2017 ReReco)",
-    'MuonEG_2016B_03Feb2017' :  "MuonEG 2016B_03Feb data",
-    'MuonEG_2016C_03Feb2017' :  "MuonEG 2016C_03Feb data",
-    'MuonEG_2016D_03Feb2017' :  "MuonEG 2016D_03Feb data",
-    'MuonEG_2016E_03Feb2017' :  "MuonEG 2016E_03Feb data",
-    'MuonEG_2016F_03Feb2017' :  "MuonEG 2016F_03Feb data",
-    'MuonEG_2016G_03Feb2017' :  "MuonEG 2016G_03Feb data",
-    'MuonEG_2016H_03Feb2017' :  "MuonEG 2016H_03Feb data",
+    'MuonEG_2016B_03Feb2017' :  "MuonEG 2016B_03Feb2017 data",
+    'MuonEG_2016C_03Feb2017' :  "MuonEG 2016C_03Feb2017 data",
+    'MuonEG_2016D_03Feb2017' :  "MuonEG 2016D_03Feb2017 data",
+    'MuonEG_2016E_03Feb2017' :  "MuonEG 2016E_03Feb2017 data",
+    'MuonEG_2016F_03Feb2017' :  "MuonEG 2016F_03Feb2017 data",
+    'MuonEG_2016G_03Feb2017' :  "MuonEG 2016G_03Feb2017 data",
+    'MuonEG_2016H_03Feb2017' :  "MuonEG 2016H_03Feb2017 data",
 
     ###########################################################################
 
@@ -963,8 +1088,11 @@ crossSections = {
 
     # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SummaryTable1G25ns
 
-    'DYJetsToLL_10to50'        : 18610.0,
-    'DYJetsToLL_50'            : 5765.4,
+    #'DYJetsToLL_10to50'        : 18610.0,
+    #'DYJetsToLL_50'            : 5765.4,
+    'DYJetsToLL_10to50'        : 22635.1, # to match AN2017_022
+    'DYJetsToLL_50'            : 6025.2,  # to match AN2017_022
+
     'WJetsToLNu'               : 61526.7,
 
     'DYBBJetsToLL' : 11.37,
