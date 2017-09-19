@@ -81,6 +81,11 @@ datasets = [
    'MuonEG_2016G_03Feb2017',
    'MuonEG_2016H_03Feb2017',
 
+   'MuonEG_2017',
+   'MuonEG_2017B',
+   'MuonEG_2017C',
+   'MuonEG_2017D',
+
    # background MC
 
    'DYJetsToLL',
@@ -241,6 +246,11 @@ composite_dataset_definitions = {
         'MuonEG_2016F_03Feb2017',
         'MuonEG_2016G_03Feb2017',
         'MuonEG_2016H_03Feb2017',
+    ],
+    'MuonEG_2017' : [
+        'MuonEG_2017B',
+        'MuonEG_2017C',
+        'MuonEG_2017D',
     ],
 }
 
@@ -403,6 +413,10 @@ nJobs = {
     'MuonEG_2016G_03Feb2017' : 340,
     'MuonEG_2016H_03Feb2017' : 300,
 
+    'MuonEG_2017B' : 45,
+    'MuonEG_2017C' : 156,
+    'MuonEG_2017D' : 92,
+
     ############################################################################
 
 
@@ -564,6 +578,10 @@ maxEvents = {
     'MuonEG_2016F_03Feb2017' : -1,
     'MuonEG_2016G_03Feb2017' : -1,
     'MuonEG_2016H_03Feb2017' : -1,
+
+    'MuonEG_2017B' : -1,
+    'MuonEG_2017C' : -1,
+    'MuonEG_2017D' : -1,
 
     ############################################################################
 
@@ -739,6 +757,11 @@ types = {
     'MuonEG_2016G_03Feb2017' : "data",
     'MuonEG_2016H_03Feb2017' : "data",
 
+    'MuonEG_2017'  : "data",
+    'MuonEG_2017B' : "data",
+    'MuonEG_2017C' : "data",
+    'MuonEG_2017D' : "data",
+
     ###########################################################################
 
 }
@@ -908,6 +931,10 @@ colors = {
     'MuonEG_2016G_03Feb2017' :  1,
     'MuonEG_2016H_03Feb2017' :  1,
 
+    'MuonEG_2017'  :  1,
+    'MuonEG_2017B' :  1,
+    'MuonEG_2017C' :  1,
+    'MuonEG_2017D' :  1,
 
     ###########################################################################
 
@@ -1078,6 +1105,11 @@ labels = {
     'MuonEG_2016F_03Feb2017' :  "MuonEG 2016F_03Feb2017 data",
     'MuonEG_2016G_03Feb2017' :  "MuonEG 2016G_03Feb2017 data",
     'MuonEG_2016H_03Feb2017' :  "MuonEG 2016H_03Feb2017 data",
+
+    'MuonEG_2017'  :  "Electron Muon data (2017 Prompt Reco)",
+    'MuonEG_2017B' :  "MuonEG 2017B data",
+    'MuonEG_2017C' :  "MuonEG 2017C data",
+    'MuonEG_2017D' :  "MuonEG 2017D data",
 
     ###########################################################################
 
