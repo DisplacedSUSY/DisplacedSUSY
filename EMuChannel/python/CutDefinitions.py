@@ -338,7 +338,7 @@ emu_mass_20_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("invMass(electron,muon) > 20"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("invariant mass < 20 GeV")
+    alias = cms.string("invariant mass > 20 GeV")
     )
 
 emu_opposite_charge_cut = cms.PSet (
