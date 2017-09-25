@@ -202,10 +202,11 @@ dataset_names = {
 
     ############################################################################
     # MuonEG 2017 prompt reco
-    'MuonEG_2017B' : ['/MuonEG/Run2017B-PromptReco-v1/MINIAOD',
+    # Need to check if every v1, v2, etc is necessary
+    'MuonEG_2017B' : ['/MuonEG/Run2017B-PromptReco-v1/MINIAOD'
                       '/MuonEG/Run2017B-PromptReco-v2/MINIAOD'],
-    'MuonEG_2017C' : ['/MuonEG/Run2017C-PromptReco-v3/MINIAOD',
-                      '/MuonEG/Run2017C-PromptReco-v3/MINIAOD',
+    'MuonEG_2017C' : ['/MuonEG/Run2017C-PromptReco-v1/MINIAOD',
+                      '/MuonEG/Run2017C-PromptReco-v2/MINIAOD',
                       '/MuonEG/Run2017C-PromptReco-v3/MINIAOD'],
     'MuonEG_2017D' : '/MuonEG/Run2017D-PromptReco-v1/MINIAOD',
     ############################################################################
