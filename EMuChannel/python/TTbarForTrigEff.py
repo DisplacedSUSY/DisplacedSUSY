@@ -43,8 +43,14 @@ TTbarForTrigEffNoTrig.cuts.append(electron_num_exactly_1_cut)
 TTbarForTrigEffNoTrig.cuts.append(muon_num_exactly_1_cut)
 
 
-TTbarForTrigEff = cms.PSet(
-    name = cms.string("TTbarForTrigEff"),
-    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
+TTbarForTrigEff43 = cms.PSet(
+    name = cms.string("TTbarForTrigEff43"),
+    triggers = cms.vstring("HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+
+TTbarForTrigEff48 = cms.PSet(
+    name = cms.string("TTbarForTrigEff48"),
+    triggers = cms.vstring("HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v"),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
 )
