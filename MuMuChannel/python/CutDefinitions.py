@@ -27,6 +27,13 @@ jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+jet_id_real_cut = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = objectDefs.jet_id_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.jet_id_alias
+    )
+
 jet_eta_real_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("abs(eta) < 2.4"),
@@ -91,6 +98,13 @@ jet_btag_2_mwp_cut = cms.PSet (
         alias = cms.string('>= 2 medium b tags')
     )
 
+jet_lepton_cleaning_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton = 0"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('jet-lepton cleaning')
+    )
+
 ##########################################################################
 
 # BEGIN MET CUTS
@@ -120,7 +134,7 @@ muon_pt_20_cut = cms.PSet(
 muon_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 25"),
-    numberRequired = cms.string(">= 1")
+    numberRequired = cms.string(">= 2")
     )
 
 muon_pt_40_cut = cms.PSet(
@@ -185,6 +199,19 @@ diMuon_invMass_above20_cut = cms.PSet (
     alias = cms.string("diMuon invariant mass > 20.0GeV")
     )
 
+diMuon_opposite_charge_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("muon.charge * muon.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("oppositely-charged mu-mu pair")
+    )
+
+diMuon_deltaR_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("deltaR(muon, muon) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("well-seperated mu-mu pair")
+    )
 
 # muon d0 < 100 microns
 muon_d0_lt100_cut = cms.PSet(
