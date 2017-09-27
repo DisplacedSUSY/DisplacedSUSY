@@ -212,6 +212,16 @@ dataset_names = {
     ############################################################################
 
     ############################################################################
+    # MET 2017 prompt reco
+    'MET_2017D' : '/MET/Run2017D-PromptReco-v1/MINIAOD',
+    ############################################################################
+
+    ############################################################################
+    # JetHT 2017 prompt reco
+    'JetHT_2017D' : '/JetHT/Run2017D-PromptReco-v1/MINIAOD',
+    ############################################################################
+
+    ############################################################################
     #DisplacedSUSY Signal MC MiniAOD - 90k events/sample
     'stop200_1mm'    : "/DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
     'stop200_10mm'   : "/DisplacedSUSY_StopToBL_M-200_CTau-10_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",

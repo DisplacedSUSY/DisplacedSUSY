@@ -7,103 +7,107 @@ intLumi = 36814 #2016 final rereco
 
 datasets = [
 
-   #data
+    #data
 
-   'SingleMu_2016',
-   'SingleMu_2016B',
-   'SingleMu_2016C',
-   'SingleMu_2016D',
-   'SingleMu_2016E',
-   'SingleMu_2016F',
-   'SingleMu_2016G',
-   'SingleMu_2016H',
+    'SingleMu_2016',
+    'SingleMu_2016B',
+    'SingleMu_2016C',
+    'SingleMu_2016D',
+    'SingleMu_2016E',
+    'SingleMu_2016F',
+    'SingleMu_2016G',
+    'SingleMu_2016H',
 
-   'SingleMu_2016_03Feb2017',
-   'SingleMu_2016B_03Feb2017',
-   'SingleMu_2016C_03Feb2017',
-   'SingleMu_2016D_03Feb2017',
-   'SingleMu_2016E_03Feb2017',
-   'SingleMu_2016F_03Feb2017',
-   'SingleMu_2016G_03Feb2017',
-   'SingleMu_2016H_03Feb2017',
+    'SingleMu_2016_03Feb2017',
+    'SingleMu_2016B_03Feb2017',
+    'SingleMu_2016C_03Feb2017',
+    'SingleMu_2016D_03Feb2017',
+    'SingleMu_2016E_03Feb2017',
+    'SingleMu_2016F_03Feb2017',
+    'SingleMu_2016G_03Feb2017',
+    'SingleMu_2016H_03Feb2017',
 
-   'SingleEle_2016',
-   'SingleEle_2016B',
-   'SingleEle_2016C',
-   'SingleEle_2016D',
-   'SingleEle_2016E',
-   'SingleEle_2016F',
-   'SingleEle_2016G',
-   'SingleEle_2016H',
+    'SingleEle_2016',
+    'SingleEle_2016B',
+    'SingleEle_2016C',
+    'SingleEle_2016D',
+    'SingleEle_2016E',
+    'SingleEle_2016F',
+    'SingleEle_2016G',
+    'SingleEle_2016H',
 
-   'SingleEle_2016_03Feb2017',
-   'SingleEle_2016B_03Feb2017',
-   'SingleEle_2016C_03Feb2017',
-   'SingleEle_2016D_03Feb2017',
-   'SingleEle_2016E_03Feb2017',
-   'SingleEle_2016F_03Feb2017',
-   'SingleEle_2016G_03Feb2017',
-   'SingleEle_2016H_03Feb2017',
+    'SingleEle_2016_03Feb2017',
+    'SingleEle_2016B_03Feb2017',
+    'SingleEle_2016C_03Feb2017',
+    'SingleEle_2016D_03Feb2017',
+    'SingleEle_2016E_03Feb2017',
+    'SingleEle_2016F_03Feb2017',
+    'SingleEle_2016G_03Feb2017',
+    'SingleEle_2016H_03Feb2017',
 
-   'DoubleMu_2016',
-   'DoubleMu_2016B',
-   'DoubleMu_2016C',
-   'DoubleMu_2016D',
-   'DoubleMu_2016E',
-   'DoubleMu_2016F',
-   'DoubleMu_2016G',
-   'DoubleMu_2016H',
+    'DoubleMu_2016',
+    'DoubleMu_2016B',
+    'DoubleMu_2016C',
+    'DoubleMu_2016D',
+    'DoubleMu_2016E',
+    'DoubleMu_2016F',
+    'DoubleMu_2016G',
+    'DoubleMu_2016H',
 
-   'DoubleEG_2016',
-   'DoubleEG_2016B',
-   'DoubleEG_2016C',
-   'DoubleEG_2016D',
-   'DoubleEG_2016E',
-   'DoubleEG_2016F',
-   'DoubleEG_2016G',
-   'DoubleEG_2016H',
+    'DoubleEG_2016',
+    'DoubleEG_2016B',
+    'DoubleEG_2016C',
+    'DoubleEG_2016D',
+    'DoubleEG_2016E',
+    'DoubleEG_2016F',
+    'DoubleEG_2016G',
+    'DoubleEG_2016H',
 
-   'MuonEG_2016',
-   'MuonEG_2016B',
-   'MuonEG_2016C',
-   'MuonEG_2016D',
-   'MuonEG_2016E',
-   'MuonEG_2016F',
-   'MuonEG_2016G',
-   'MuonEG_2016H',
+    'MuonEG_2016',
+    'MuonEG_2016B',
+    'MuonEG_2016C',
+    'MuonEG_2016D',
+    'MuonEG_2016E',
+    'MuonEG_2016F',
+    'MuonEG_2016G',
+    'MuonEG_2016H',
 
-   'MuonEG_2016_03Feb2017',
-   'MuonEG_2016B_03Feb2017',
-   'MuonEG_2016C_03Feb2017',
-   'MuonEG_2016D_03Feb2017',
-   'MuonEG_2016E_03Feb2017',
-   'MuonEG_2016F_03Feb2017',
-   'MuonEG_2016G_03Feb2017',
-   'MuonEG_2016H_03Feb2017',
+    'MuonEG_2016_03Feb2017',
+    'MuonEG_2016B_03Feb2017',
+    'MuonEG_2016C_03Feb2017',
+    'MuonEG_2016D_03Feb2017',
+    'MuonEG_2016E_03Feb2017',
+    'MuonEG_2016F_03Feb2017',
+    'MuonEG_2016G_03Feb2017',
+    'MuonEG_2016H_03Feb2017',
 
-   'MuonEG_2017',
-   'MuonEG_2017B',
-   'MuonEG_2017C',
-   'MuonEG_2017D',
+    'MuonEG_2017',
+    'MuonEG_2017B',
+    'MuonEG_2017C',
+    'MuonEG_2017D',
 
-   # background MC
+    'MET_2017D',
 
-   'DYJetsToLL',
-   'DYBBJetsToLL',
-   'WJetsToLNu',
-   'TTJets_Lept',
-   'Diboson',
-   'QCD_MuEnriched',
-   'QCD_EMEnriched',
-   'QCD_bcToE',
+    'JetHT_2017D',
 
-   #Sum of all backgrounds
-   'Background',
+    # background MC
 
-   # Samples from AN2017_022
-   'TT_AN2017_022',
-   'SingleTop_tW_AN2017_022',
-   'SingleTop_tbarW_AN2017_022',
+    'DYJetsToLL',
+    'DYBBJetsToLL',
+    'WJetsToLNu',
+    'TTJets_Lept',
+    'Diboson',
+    'QCD_MuEnriched',
+    'QCD_EMEnriched',
+    'QCD_bcToE',
+
+    #Sum of all backgrounds
+    'Background',
+
+    # Samples from AN2017_022
+    'TT_AN2017_022',
+    'SingleTop_tW_AN2017_022',
+    'SingleTop_tbarW_AN2017_022',
 ]
 
 composite_dataset_definitions = {
@@ -417,6 +421,10 @@ nJobs = {
     'MuonEG_2017C' : 156,
     'MuonEG_2017D' : 92,
 
+    'MET_2017D' : 200,
+
+    'JetHT_2017D' : 474,
+
     ############################################################################
 
 
@@ -582,6 +590,10 @@ maxEvents = {
     'MuonEG_2017B' : -1,
     'MuonEG_2017C' : -1,
     'MuonEG_2017D' : -1,
+
+    'MET_2017D' : -1,
+
+    'JetHT_2017D' : -1,
 
     ############################################################################
 
@@ -762,6 +774,10 @@ types = {
     'MuonEG_2017C' : "data",
     'MuonEG_2017D' : "data",
 
+    'MET_2017D' : "data",
+
+    'JetHT_2017D' : "data",
+
     ###########################################################################
 
 }
@@ -935,6 +951,10 @@ colors = {
     'MuonEG_2017B' :  1,
     'MuonEG_2017C' :  1,
     'MuonEG_2017D' :  1,
+
+    'MET_2017D' :  1,
+
+    'JetHT_2017D' :  1,
 
     ###########################################################################
 
@@ -1110,6 +1130,10 @@ labels = {
     'MuonEG_2017B' :  "MuonEG 2017B data",
     'MuonEG_2017C' :  "MuonEG 2017C data",
     'MuonEG_2017D' :  "MuonEG 2017D data",
+
+    'MET_2017D' :  "MET 2017D data",
+
+    'JetHT_2017D' :  "JetHT 2017D data",
 
     ###########################################################################
 
