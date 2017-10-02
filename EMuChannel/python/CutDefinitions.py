@@ -44,7 +44,7 @@ jet_id_cut = cms.PSet(
 jet_id_real_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = objectDefs.jet_id_cutstring,
-    numberRequired = cms.string(">= 0"),
+    numberRequired = cms.string(">= 2"),
     alias = objectDefs.jet_id_alias
     )
 
@@ -145,6 +145,12 @@ electron_pt_25_cut = cms.PSet(
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 42"),
+    numberRequired = cms.string(">= 1")
+    )
+
+electron_pt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 50"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -250,6 +256,12 @@ muon_pt_40_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_global_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_global_cutstring,
@@ -263,6 +275,7 @@ muon_id_cut = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = objectDefs.muon_id_alias
     )
+
 muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_id_impact_parameter_cutstring,
