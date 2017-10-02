@@ -42,7 +42,7 @@ TTbarForTrigEffNoTrig.cuts.append(jet_btag_mwp_cut)
 TTbarForTrigEffNoTrig.cuts.append(electron_num_exactly_1_cut)
 TTbarForTrigEffNoTrig.cuts.append(muon_num_exactly_1_cut)
 
-
+### Basic selection with triggers
 TTbarForTrigEff43 = cms.PSet(
     name = cms.string("TTbarForTrigEff43"),
     triggers = cms.vstring("HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"),
@@ -53,4 +53,44 @@ TTbarForTrigEff48 = cms.PSet(
     name = cms.string("TTbarForTrigEff48"),
     triggers = cms.vstring("HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v"),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+
+### Require high-pt electron
+TTbarForTrigEffNoTrigHighPtE = cms.PSet(
+    name = cms.string("TTbarForTrigEffNoTrigHighPtE"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+TTbarForTrigEffNoTrigHighPtE.cuts.append(electron_pt_50_cut)
+
+TTbarForTrigEff43HighPtE = cms.PSet(
+    name = cms.string("TTbarForTrigEff43HighPtE"),
+    triggers = cms.vstring("HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtE.cuts))
+)
+
+TTbarForTrigEff48HighPtE = cms.PSet(
+    name = cms.string("TTbarForTrigEff48HighPtE"),
+    triggers = cms.vstring("HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtE.cuts))
+)
+
+### Require high-pt muon
+TTbarForTrigEffNoTrigHighPtMu = cms.PSet(
+    name = cms.string("TTbarForTrigEffNoTrigHighPtMu"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+TTbarForTrigEffNoTrigHighPtMu.cuts.append(muon_pt_50_cut)
+
+TTbarForTrigEff43HighPtMu = cms.PSet(
+    name = cms.string("TTbarForTrigEff43HighPtMu"),
+    triggers = cms.vstring("HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtMu.cuts))
+)
+
+TTbarForTrigEff48HighPtMu = cms.PSet(
+    name = cms.string("TTbarForTrigEff48HighPtMu"),
+    triggers = cms.vstring("HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtMu.cuts))
 )
