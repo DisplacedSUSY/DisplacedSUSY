@@ -143,6 +143,12 @@ muon_pt_40_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 
+muon_pt_70_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 70"),
+    numberRequired = cms.string(">= 2")
+    )
+
 muon_global_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_global_cutstring,
@@ -268,4 +274,29 @@ muonjet_deltaR_veto = cms.PSet(
     cutString = cms.string("deltaR(muon, jet) < 0.5"),
     numberRequired = cms.string("== 0"),
     isVeto = cms.bool(True)
+    )
+
+##########################################################################
+
+# BEGIN EVENTVARIABLE CUTS
+
+muon_opposite_charge_from_tag_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "eventvariables"),
+    cutString = cms.string("muon.charge * eventvariable.tagMuonCharge < 0"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("oppositely-charged mu-tagmu pair")
+    )
+
+muon_deltaR_from_tag_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "eventvariables"),
+    cutString = cms.string("sqrt(pow((muon.eta-eventvariable.tagMuonEta), 2) + pow((muon.phi-eventvariable.tagMuonPhi), 2))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("well-seperated mu-tagmu pair")
+    )
+
+tagMuonExists_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("eventvariable.tagMuonExists"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("tag muon exists")
     )
