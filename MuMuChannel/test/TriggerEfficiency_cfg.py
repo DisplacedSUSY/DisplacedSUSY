@@ -28,6 +28,12 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
+# suppress jet producer errors
+process.MessageLogger.categories.append ("OSUJetProducer")
+process.MessageLogger.cerr.OSUJetProducer = cms.untracked.PSet(
+    limit = cms.untracked.int32(0),
+)
+
 # suppress gen-matching errors
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.categories.append ("osu_GenMatchable")
