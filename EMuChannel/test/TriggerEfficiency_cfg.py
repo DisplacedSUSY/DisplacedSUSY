@@ -18,21 +18,10 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-#        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
-#        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
-        'file:condor/EMuSkim_Moriond17/TTJets_DiLept/EMuSkimSelection/skim_0.root'
-    #    'file:condor/EMuSkim_Moriond17/MuonEG_2016H/EMuSkimSelection/skim_13.root'
-#    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_0.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_2.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_3.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_4.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_5.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_6.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_7.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_8.root',
-    # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_9.root'
+     #'root://cmsxrootd.fnal.gov//store/data/Run2017D/JetHT/MINIAOD/PromptReco-v1/000/302/031/00000/24C14AB9-488F-E711-A2D5-02163E019D41.root'
+     'root://cmsxrootd.fnal.gov//store/data/Run2016C/JetHT/MINIAOD/PromptReco-v2/000/275/420/00000/AA1A1B46-F439-E611-92AE-02163E0141C7.root'
+     #'file:condor/EMu_TrigEfficiency_Skim_17_10_03/JetHT_2017D/TTbarForTrigEffNoTrig/skim_0.root'
+     #'file:condor/EMuSkim_Moriond17/MuonEG_2016H/EMuSkimSelection/skim_13.root'
 
   )
 )
@@ -55,7 +44,8 @@ process.maxEvents = cms.untracked.PSet (
 )
 
 #mc_global_tag needs to be updated before MC is used
-data_global_tag = '92X_dataRun2_Prompt_v9'
+#data_global_tag = '92X_dataRun2_Prompt_v9'
+data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
 mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
@@ -90,7 +80,8 @@ miniAOD_collections = cms.PSet (
   superclusters               =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
   taus                        =  cms.InputTag  ('slimmedTaus',                       ''),
   triggers                    =  cms.InputTag  ('TriggerResults',             '', 'HLT'),
-  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                ''),
+  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                 ''),
+  #trigobjs                    =  cms.InputTag  ('slimmedPatTrigger',                 ''), # changed from selected to slimmed for 92X
 )
 
 collections = miniAOD_collections
