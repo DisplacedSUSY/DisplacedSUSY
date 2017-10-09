@@ -8,7 +8,8 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "TriggerEfficiency_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 35863.308 # Wrong. I haven't calculated lumi for 2017D yet
+#intLumi = 4407 # intersection of dcs-only json and 2017D
+intLumi = -1 # need to calculate for 2016
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -20,7 +21,7 @@ datasets = [
     #'DYJetsToLL',
 
     ### TTbar
-    #'TTJets_Lept',
+    'TTJets_Lept',
 
     ### single top
     #'SingleTop',
@@ -32,7 +33,12 @@ datasets = [
     #'QCD_MuEnriched',
 
     ### Data
-    'MuonEG_2017D',
+    #'JetHT_2017',
+    #'JetHT_2017C',
+    #'JetHT_2017D',
+    'JetHT_2016H',
+    #'MET_2017D',
+    #'MuonEG_2017D',
     #'MuonEG_2016',
     #'MuonEG_2016B',
     #'MuonEG_2016C',
