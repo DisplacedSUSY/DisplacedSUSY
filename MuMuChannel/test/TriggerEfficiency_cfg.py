@@ -212,7 +212,7 @@ from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiM
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms, eventMuonHistograms
 
 histograms = cms.VPSet()
 histograms.append(MuonHistograms)
@@ -224,6 +224,7 @@ histograms.append(MuonJetHistograms)
 histograms.append(MetHistograms)
 histograms.append(MuonMetHistograms)
 histograms.append(eventHistograms)
+histograms.append(eventMuonHistograms)
 
 
 ################################################################################
