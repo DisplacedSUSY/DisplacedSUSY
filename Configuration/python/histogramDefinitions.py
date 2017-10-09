@@ -1514,6 +1514,30 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("sumJetPt"),
         ),
         cms.PSet (
+            name = cms.string("tagMuonPt"),
+            title = cms.string("Tag Muon p_{T}; Muon p_{T}"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("tagMuonPt"),
+        ),
+        cms.PSet (
+            name = cms.string("tagMuonEta"),
+            title = cms.string("Tag Muon #eta; Muon #eta"),
+            binsX = cms.untracked.vdouble(100, -3, 3),
+            inputVariables = cms.vstring("tagMuonEta"),
+        ),
+        cms.PSet (
+            name = cms.string("tagMuonPhi"),
+            title = cms.string("Tag Muon #phi; Muon #phi"),
+            binsX = cms.untracked.vdouble(100, -3.14, 3.14),
+            inputVariables = cms.vstring("tagMuonPhi"),
+        ),
+        cms.PSet (
+            name = cms.string("tagMuonCharge"),
+            title = cms.string("Tag Muon Charge; Muon Charge"),
+            binsX = cms.untracked.vdouble(3, -1, 1),
+            inputVariables = cms.vstring("tagMuonCharge"),
+        ),
+        cms.PSet (
             name = cms.string("passTrigger"),
             title = cms.string("Pass Trigger; Trigger Flag"),
             binsX = cms.untracked.vdouble(4, -2, 2),
@@ -1620,6 +1644,19 @@ eventHistograms = cms.PSet(
             title = cms.string("Stop 1 c#tau;c#tau [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+    )
+)
+
+eventMuonHistograms = cms.PSet(
+    inputCollection = cms.vstring("eventvariables", "muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("muonPt_vs_tagMuonPt"),
+            title = cms.string("muon p_{T} vs tag muon p_{T}; tag muon p_{T} [GeV]; muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("eventvariable.tagMuonPt, muon.pt"),
         ),
     )
 )
