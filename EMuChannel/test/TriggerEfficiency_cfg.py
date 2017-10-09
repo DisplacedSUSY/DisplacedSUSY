@@ -46,7 +46,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (100)
+    input = cms.untracked.int32 (1000)
 )
 
 #mc_global_tag needs to be updated before MC is used
@@ -203,8 +203,19 @@ ObjectScalingFactorProducer = {}
 
 from DisplacedSUSY.EMuChannel.TTbarForTrigEff import *
 
-eventSelections = [TTbarForTrigEffNoTrig,
-                   TTbarForTrigEff]
+eventSelections = [
+                   TTbarForTrigEffNoTrig,
+                   #TTbarForTrigEff43,
+                   #TTbarForTrigEff48,
+                   #TTbarForTrigEffNoTrigHighPtE,
+                   #TTbarForTrigEff43HighPtE,
+                   #TTbarForTrigEff48HighPtE,
+                   #TTbarForTrigEffNoTrigHighPtMu,
+                   #TTbarForTrigEff43HighPtMu,
+                   #TTbarForTrigEff48HighPtMu,
+                   #TTbarForTrigEff43EFilter,
+                   #TTbarForTrigEff43MuFilter,
+                  ]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
