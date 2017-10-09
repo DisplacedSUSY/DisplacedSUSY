@@ -18,7 +18,8 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-        'root://cmsxrootd.fnal.gov//store/data/Run2017D/MET/MINIAOD/PromptReco-v1/000/302/031/00000/241ED3C4-3E8F-E711-8905-02163E01391F.root',
+        'root://cmsxrootd.fnal.gov//store/data/Run2017D/JetHT/MINIAOD/PromptReco-v1/000/302/031/00000/24C14AB9-488F-E711-A2D5-02163E019D41.root'
+        #'file:/store/user/bcardwell/MuMu_TrigEfficiency_TrigVeto_17_09_28/JetHT_2017D/TTbarForTrigEffNoTrig/skim_0.root'
   )
 )
 
@@ -40,17 +41,18 @@ process.maxEvents = cms.untracked.PSet (
 )
 
 #mc_global_tag needs to be updated before MC is used
-data_global_tag = '92X_dataRun2_Prompt_v9'
+#data_global_tag = '92X_dataRun2_Prompt_v9'
+data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
 mc_global_tag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '') # temporary hacky fix; Won't work for MC!!
-#if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
-#    print "using global tag " + data_global_tag + "..."
-#    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
-#else:
-#    print "using global tag " + mc_global_tag + "..."
+process.GlobalTag = GlobalTag(process.GlobalTag, mc_global_tag, '')
+if osusub.batchMode and (osusub.datasetLabel in types) and (types[osusub.datasetLabel] == "data"):
+    print "using global tag " + data_global_tag + "..."
+    process.GlobalTag = GlobalTag(process.GlobalTag, data_global_tag, '')
+else:
+    print "using global tag " + mc_global_tag + "..."
 
 
 ################################################################################
@@ -75,7 +77,8 @@ miniAOD_collections = cms.PSet (
   superclusters               =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
   taus                        =  cms.InputTag  ('slimmedTaus',                       ''),
   triggers                    =  cms.InputTag  ('TriggerResults',             '', 'HLT'),
-  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                ''),
+  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                 ''),
+  #trigobjs                    =  cms.InputTag  ('slimmedPatTrigger',                 ''), # changed from selected to slimmed for 92X
 )
 
 collections = miniAOD_collections
@@ -85,7 +88,7 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-#variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('DisplacedSUSYEventVariableProducer')
 #variableProducers.append('LifetimeWeightProducer')
 #variableProducers.append('PUScalingFactorProducer')
 
@@ -195,13 +198,17 @@ eventSelections = [
                    TTbarForTrigEffNoTrig,
                    TTbarForTrigEff43,
                    TTbarForTrigEff48,
+                   TTbarForTrigEffTagMuonNoTrig,
+                   TTbarForTrigEffTagMuon43,
+                   TTbarForTrigEffTagMuon48,
+                   #TTbarForTrigEffVeto43,
                   ]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms 
+from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, MuonJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, MuonMetHistograms
