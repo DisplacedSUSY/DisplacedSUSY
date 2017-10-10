@@ -3,6 +3,7 @@
 # import the definitions of all the datasets on the T3
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
+from OSUT3Analysis.Configuration.miniAODV2_92X_Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "TriggerEfficiency_cfg.py"
