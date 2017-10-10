@@ -230,7 +230,7 @@ electron_mt_cut = cms.PSet (
 electron_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),
-    numberRequired = cms.string(">= 1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 electron")
     )
 
@@ -345,7 +345,7 @@ muon_mt_cut = cms.PSet (
 muon_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > -1"),
-    numberRequired = cms.string(">= 1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 muon")
     )
 
