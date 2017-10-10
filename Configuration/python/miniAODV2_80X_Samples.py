@@ -201,27 +201,6 @@ dataset_names = {
     ############################################################################
 
     ############################################################################
-    # MuonEG 2017 prompt reco
-    # Need to check if every v1, v2, etc is necessary
-    'MuonEG_2017B' : ['/MuonEG/Run2017B-PromptReco-v1/MINIAOD'
-                      '/MuonEG/Run2017B-PromptReco-v2/MINIAOD'],
-    'MuonEG_2017C' : ['/MuonEG/Run2017C-PromptReco-v1/MINIAOD',
-                      '/MuonEG/Run2017C-PromptReco-v2/MINIAOD',
-                      '/MuonEG/Run2017C-PromptReco-v3/MINIAOD'],
-    'MuonEG_2017D' : '/MuonEG/Run2017D-PromptReco-v1/MINIAOD',
-    ############################################################################
-
-    ############################################################################
-    # MET 2017 prompt reco
-    'MET_2017D' : '/MET/Run2017D-PromptReco-v1/MINIAOD',
-    ############################################################################
-
-    ############################################################################
-    # JetHT 2017 prompt reco
-    'JetHT_2017D' : '/JetHT/Run2017D-PromptReco-v1/MINIAOD',
-    ############################################################################
-
-    ############################################################################
     #DisplacedSUSY Signal MC MiniAOD - 90k events/sample
     'stop200_1mm'    : "/DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
     'stop200_10mm'   : "/DisplacedSUSY_StopToBL_M-200_CTau-10_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
