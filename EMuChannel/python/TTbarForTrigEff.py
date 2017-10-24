@@ -42,6 +42,8 @@ TTbarForTrigEffNoTrig.cuts.append(jet_btag_mwp_cut)
 TTbarForTrigEffNoTrig.cuts.append(electron_num_exactly_1_cut)
 TTbarForTrigEffNoTrig.cuts.append(muon_num_exactly_1_cut)
 
+#############2017 Triggers#############
+
 ### Basic selection with triggers
 TTbarForTrigEff43 = cms.PSet(
     name = cms.string("TTbarForTrigEff43"),
@@ -94,3 +96,30 @@ TTbarForTrigEff48HighPtMu = cms.PSet(
     triggers = cms.vstring("HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v"),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtMu.cuts))
 )
+
+#############2016 Triggers#############
+
+### Require high-pt electron
+TTbarForTrigEff38HighPtE = cms.PSet(
+    name = cms.string("TTbarForTrigEff38HighPtE"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtE.cuts))
+)
+
+### Require high-pt muon
+TTbarForTrigEff38HighPtMu = cms.PSet(
+    name = cms.string("TTbarForTrigEff38HighPtMu"),
+    triggers = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtMu.cuts))
+)
+
+### Veto trigger
+TTbarForTrigEffVeto38 = cms.PSet(
+    name = cms.string("TTbarForTrigEffVeto38"),
+    triggers = cms.vstring(),
+    triggersToVeto = cms.vstring("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtE.cuts))
+)
+TTbarForTrigEffVeto38.cuts.append(muon_pt_150_cut)
+
+
