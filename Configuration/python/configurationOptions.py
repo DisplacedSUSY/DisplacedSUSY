@@ -88,6 +88,11 @@ datasets = [
 
     'MET_2017D',
 
+    'JetHT_2016B',
+    'JetHT_2016C',
+    'JetHT_2016D',
+    'JetHT_2016E',
+    'JetHT_2016G',
     'JetHT_2016H',
 
     'JetHT_2017C',
@@ -253,6 +258,24 @@ composite_dataset_definitions = {
         'MuonEG_2016F_03Feb2017',
         'MuonEG_2016G_03Feb2017',
         'MuonEG_2016H_03Feb2017',
+    ],
+    'JetHT_2016' : [
+        'JetHT_2016B',
+        'JetHT_2016C',
+        'JetHT_2016D',
+        'JetHT_2016E',
+        'JetHT_2016G',
+        'JetHT_2016H',
+    ],
+    'JetHT_2016_preHIP' : [
+        'JetHT_2016B',
+        'JetHT_2016C',
+        'JetHT_2016D',
+        'JetHT_2016E',
+    ],
+    'JetHT_2016_postHIP' : [
+        'JetHT_2016G',
+        'JetHT_2016H',
     ],
     'MuonEG_2017' : [
         'MuonEG_2017B',
@@ -430,6 +453,11 @@ nJobs = {
 
     'MET_2017D' : 200,
 
+    'JetHT_2016B' : 1435,
+    'JetHT_2016C' : 465,
+    'JetHT_2016D' : 733,
+    'JetHT_2016E' : 692,
+    'JetHT_2016G' : 1207,
     'JetHT_2016H' : 1241,
 
     'JetHT_2017C' : 967,
@@ -603,6 +631,11 @@ maxEvents = {
 
     'MET_2017D' : -1,
 
+    'JetHT_2016B' : -1,
+    'JetHT_2016C' : -1,
+    'JetHT_2016D' : -1,
+    'JetHT_2016E' : -1,
+    'JetHT_2016G' : -1,
     'JetHT_2016H' : -1,
 
     'JetHT_2017C' : -1,
@@ -789,8 +822,17 @@ types = {
 
     'MET_2017D' : "data",
 
+    'JetHT_2016'         : "data",
+    'JetHT_2016_preHIP'  : "data",
+    'JetHT_2016_postHIP' : "data",
+    'JetHT_2016B' : "data",
+    'JetHT_2016C' : "data",
+    'JetHT_2016D' : "data",
+    'JetHT_2016E' : "data",
+    'JetHT_2016G' : "data",
     'JetHT_2016H' : "data",
 
+    'JetHT_2017' : "data",
     'JetHT_2017C' : "data",
     'JetHT_2017D' : "data",
 
@@ -970,6 +1012,14 @@ colors = {
 
     'MET_2017D' :  1,
 
+    'JetHT_2016'         :  1,
+    'JetHT_2016_preHIP'  :  1,
+    'JetHT_2016_postHIP' :  1,
+    'JetHT_2016B' :  1,
+    'JetHT_2016C' :  1,
+    'JetHT_2016D' :  1,
+    'JetHT_2016E' :  1,
+    'JetHT_2016G' :  1,
     'JetHT_2016H' :  1,
 
     'JetHT_2017C' :  1,
@@ -1152,6 +1202,14 @@ labels = {
 
     'MET_2017D' :  "MET 2017D data",
 
+    'JetHT_2016'         :  "JetHT 2016 data (B, C, D, E, G, and H)",
+    'JetHT_2016_preHIP'  :  "JetHT 2016 data (before HIP mitigation)",
+    'JetHT_2016_postHIP' :  "JetHT 2016 data (after HIP mitigation)",
+    'JetHT_2016B' :  "JetHT 2016B data",
+    'JetHT_2016C' :  "JetHT 2016C data",
+    'JetHT_2016D' :  "JetHT 2016D data",
+    'JetHT_2016E' :  "JetHT 2016E data",
+    'JetHT_2016G' :  "JetHT 2016G data",
     'JetHT_2016H' :  "JetHT 2016H data",
 
     'JetHT_2017C' :  "JetHT 2017D data",
@@ -1166,10 +1224,10 @@ crossSections = {
 
     # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SummaryTable1G25ns
 
-    #'DYJetsToLL_10to50'        : 18610.0,
-    #'DYJetsToLL_50'            : 5765.4,
-    'DYJetsToLL_10to50'        : 22635.1, # to match AN2017_022
-    'DYJetsToLL_50'            : 6025.2,  # to match AN2017_022
+    'DYJetsToLL_10to50'        : 18610.0,
+    'DYJetsToLL_50'            : 5765.4,
+    #'DYJetsToLL_10to50'        : 22635.1, # to match AN2017_022
+    #'DYJetsToLL_50'            : 6025.2,  # to match AN2017_022
 
     'WJetsToLNu'               : 61526.7,
 
@@ -1193,7 +1251,7 @@ crossSections = {
     'SingleTop_tW'                 :  19.56, # total cross-section times 1-BR(W->hadrons)^2 (non-fully hadronic samples)
     'SingleTop_tbarW'              :  19.56, # total cross-section times 1-BR(W->hadrons)^2 (non-fully hadronic samples)
 
-    'TTJets_DiLept'                :  87.31, # ??? 
+    'TTJets_DiLept'                :  87.31,
     'TTJets_SingleLeptFromT'       :  182.7, # ???
     'TTJets_SingleLeptFromTbar'    :  182.7, # ???
 

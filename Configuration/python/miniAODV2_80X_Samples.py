@@ -201,6 +201,18 @@ dataset_names = {
     ############################################################################
 
     ############################################################################
+    # JetHT 2016 03Feb2017 reco
+    'JetHT_2016B' : ['/JetHT/Run2016B-03Feb2017_ver1-v1/MINIAOD',
+                     '/JetHT/Run2016B-03Feb2017_ver2-v2/MINIAOD'],
+    'JetHT_2016C' :  '/JetHT/Run2016C-03Feb2017-v1/MINIAOD',
+    'JetHT_2016D' :  '/JetHT/Run2016D-03Feb2017-v1/MINIAOD',
+    'JetHT_2016E' :  '/JetHT/Run2016E-03Feb2017-v1/MINIAOD',
+    'JetHT_2016G' :  '/JetHT/Run2016G-03Feb2017-v1/MINIAOD',
+    'JetHT_2016H' : ['/JetHT/Run2016H-03Feb2017_ver2-v1/MINIAOD',
+                     '/JetHT/Run2016H-03Feb2017_ver3-v1/MINIAOD'],
+    ############################################################################
+
+    ############################################################################
     #DisplacedSUSY Signal MC MiniAOD - 90k events/sample
     'stop200_1mm'    : "/DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
     'stop200_10mm'   : "/DisplacedSUSY_StopToBL_M-200_CTau-10_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
