@@ -55,6 +55,28 @@ DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
   //   if(name.find(triggerPath_) < name.length() && handles_.triggers->accept(i))
   //    passTrigger = 1.0;
   // }
+  // Identify tag muon to for trigger efficiency plotting
+  bool tagMuonExists = false;
+  double tagMuonPt = 0;
+  double tagMuonEta = 0;
+  double tagMuonPhi = -4; // -pi < phi < pi
+  double tagMuonCharge = 0;
+  for (const auto &muon1 : *handles_.muons) {
+    // Use subset of muon selection criteria that can be implemented here without significant hassle
+    // TagMuonPhi condition exists to pseudorandomly pick tag muon if multiple candidates exist
+    if (muon1.pt() > 55 && muon1.phi() > tagMuonPhi && abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
+      tagMuonExists = true;
+      tagMuonPt = muon1.pt();
+      tagMuonEta = muon1.eta();
+      tagMuonPhi = muon1.phi();
+      tagMuonCharge = muon1.charge();
+    }
+  }
+  (*eventvariables)["tagMuonExists"] = tagMuonExists;
+  (*eventvariables)["tagMuonPt"] = tagMuonPt;
+  (*eventvariables)["tagMuonEta"] = tagMuonEta;
+  (*eventvariables)["tagMuonPhi"] = tagMuonPhi;
+  (*eventvariables)["tagMuonCharge"] = tagMuonCharge;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;

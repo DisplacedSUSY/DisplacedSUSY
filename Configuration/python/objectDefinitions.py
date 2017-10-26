@@ -101,23 +101,23 @@ jet_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
 
 jet_loose_id_alias = cms.string("loose Jet ID")
 
+jet_ttbar_paper_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
+                                              chargedEmEnergyFraction < 0.99 & \
+                                              neutralEmEnergyFraction < 0.99 & \
+                                              chargedHadronEnergyFraction > 0.0")
+
+jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
+
 ##########################################################################
 
 # ELECTRON ID
-
+# without impact parameter cuts
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria
-
-# N.B.: |deltaEta| cut removed since it wasn't working on data...
-
-#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00308 &\ 
-#                             abs(deltaEtaSuperClusterTrackAtVtx - superCluster.eta + superCluster.seed_.eta) < 0.00605 & \
-
-#                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
-#                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00605 &\
 
 electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
                             hadronicOverEm < 0.0414 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
                             missingInnerHits <= 1 & \
@@ -125,6 +125,7 @@ electron_id_cutstring = cms.string("(isEB & \
                             (isEE & \
                             full5x5_sigmaIetaIeta < 0.0292 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00605 &\
                             hadronicOverEm < 0.0641 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
                             missingInnerHits <= 1 & \
@@ -132,27 +133,19 @@ electron_id_cutstring = cms.string("(isEB & \
 
 electron_id_alias = cms.string("electron tight ID")
 
-# ELECTRON ID from ttbar cross section paper - uses d0 and dz
-electron_ttbar_paper_id_cutstring = cms.string("(isEB & \
-                            full5x5_sigmaIetaIeta < 0.00998 & \
-                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
-                            hadronicOverEm < 0.0414 & \
-                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
-                            electronAbsD0_cm < 0.05 & \
-                            electronAbsDz < 1000 & \
-                            passConversionVeto) | \
-                            (isEE & \
-                            full5x5_sigmaIetaIeta < 0.0292 & \
-                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0394 & \
-                            hadronicOverEm < 0.0641 & \
-                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
-                            electronAbsD0_cm < 0.1 & \
-                            electronAbsDz < 2000 & \
-                            passConversionVeto)")
+##########################################################################
 
-electron_ttbar_paper_id_alias = cms.string("electron tight ID from ttbar paper")
+# ELECTRON ID IMPACT PARAMETER CUTS 
+
+electron_id_impact_parameter_cutstring = cms.string("(isEB & \
+                                             abs(d0) < 0.05 & \
+                                             abs(dz) < 0.10) | \
+                                             (isEE & \
+                                             abs(d0) < 0.10 & \
+                                             abs(dz) < 0.20)")
+
+electron_id_impact_parameter_alias = cms.string("electron tight ID impact parameter cuts")
+
 
 ##########################################################################
 
@@ -177,4 +170,12 @@ muon_id_cutstring = cms.string("globalTrack.normalizedChi2 < 10 & \
 
 muon_id_alias = cms.string("muon tight ID")
 
+##########################################################################
+
+# MUON ID IMPACT PARAMETER CUTS
+
+muon_id_impact_parameter_cutstring = cms.string("abs(d0) < 0.2 & \
+                                                 abs(dz) < 0.5")
+
+muon_id_impact_parameter_alias = cms.string("muon tight ID impact parameter cuts")
 

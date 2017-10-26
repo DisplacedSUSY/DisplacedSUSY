@@ -30,3 +30,21 @@ Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut)
 
 
+
+
+PreselectionPromptElectron = cms.PSet(
+    name = cms.string("PreselectionPromptElectron"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionPromptElectron.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionPromptElectron.cuts.append(electron_d0_below200_cut)
+
+
+PreselectionPromptMuon = cms.PSet(
+    name = cms.string("PreselectionPromptMuon"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionPromptMuon.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionPromptMuon.cuts.append(muon_d0_below200_cut)

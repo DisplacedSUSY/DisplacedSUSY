@@ -18,6 +18,7 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
+          #'root://eoscms.cern.ch//store/data/Run2016B/MuonEG/MINIAOD/23Sep2016-v3/60000/C2DC9E23-E797-E611-B550-001E677926F8.root',
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
 #        'file:/home/lantonel/CMSSW_8_0_21/src/DisplacedSUSY/EMuChannel/test/condor/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_43.root'
@@ -71,7 +72,7 @@ miniAOD_collections = cms.PSet (
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
   jets            =  cms.InputTag  ('slimmedJets',                    ''),
   bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''), 
+  generatorweights=  cms.InputTag  ('generator', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
@@ -95,17 +96,104 @@ collections = miniAOD_collections
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('PUScalingFactorProducer')
+
 
 weights = cms.VPSet(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("lifetimeWeight")
     ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronID2016Tight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonID2016Tight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("muonIso2016Tight")
+    ),
 )
 
 scalingfactorproducers = []
+ObjectScalingFactorProducer = {}
 
+# lepton SFs can exist for triggering, tracking/reco, ID, isolation
 
+# parameters:
+# input file for each lepton type
+# for each SF:
+# inputCollection {electron, muon, track}
+# sfType {Trigger, Reco, ID, Iso}
+# version: 2015, 2016 
+# optional: wp {Veto, Loose, Medium, Tight}
+# optional list: eras (e.g. [BCDEF, GH])
+# optional list: lumis (e.g. [19717, 16146])
+# input distribution is in a histogram called $inputCollection$sfType$version$wp$eras
+#    e.g. muonID2016TightBCDEF
+# output weight called $inputCollection$sfType$version$wp
+#    e.g. muonID2016Tight
+
+# inputs are generally TH2Fs of pt vs eta
+# sometimes they're |eta| or 1D plots
+
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
+ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root')
+#ObjectScalingFactorProducer['trackFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSFs.root')
+
+ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight")
+    ),
+
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("BCDEF","GH"),
+        lumis = cms.vdouble(19717, 16146),
+    )
+)
+
+scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -113,10 +201,13 @@ scalingfactorproducers = []
 
 from DisplacedSUSY.EMuChannel.TTbarXsectionPaperLL import *
 from DisplacedSUSY.EMuChannel.TTbarXsectionPaperJJ import *
-from DisplacedSUSY.EMuChannel.TTbarXsectionPaperMET import *
 from DisplacedSUSY.EMuChannel.TTbarXsectionPaperBJet import *
 
-eventSelections = [TTbarXsectionPaperLL, TTbarXsectionPaperJJ, TTbarXsectionPaperMET, TTbarXsectionPaperBJet]
+eventSelections = [
+    #TTbarXsectionPaperLL,
+    #TTbarXsectionPaperJJ,
+    TTbarXsectionPaperBJet,
+]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -150,8 +241,12 @@ histograms.append(eventHistograms)
 
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,
-              collections, variableProducers, True)
+              collections, variableProducers, False)
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
-#process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
-#process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
+process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
+process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
+process.PUScalingFactorProducer.target = cms.string("Data2016")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
+process.PUScalingFactorProducer.type = cms.string("bgmc")

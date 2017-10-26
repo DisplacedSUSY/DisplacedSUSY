@@ -41,11 +41,25 @@ jet_id_cut = cms.PSet(
     alias = objectDefs.jet_id_alias
     )
 
+jet_id_real_cut = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = objectDefs.jet_id_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.jet_id_alias
+    )
+
 jet_loose_id_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = objectDefs.jet_loose_id_cutstring,
     numberRequired = cms.string(">= 2"),
     alias = objectDefs.jet_loose_id_alias
+    )
+
+jet_ttbar_paper_loose_id_cut = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = objectDefs.jet_ttbar_paper_loose_id_cutstring,
+    numberRequired = cms.string(">= 2"),
+    alias = objectDefs.jet_ttbar_paper_loose_id_alias
     )
 
 jet_btag_twp_cut = cms.PSet (
@@ -98,20 +112,11 @@ jet_2jet_veto = cms.PSet (
         alias = cms.string('< 2 jets')
     )
 
-jet_muon_deltaR_veto = cms.PSet (
-        inputCollection = cms.vstring("jets", "muons"),
-        cutString = cms.string("deltaR(jet, muon) < 0.4"),
-        numberRequired = cms.string("== 0"),
-        alias = cms.string('jet-mu deltaR veto'),
-        isVeto = cms.bool(True)
-    )
-
-jet_electron_deltaR_veto = cms.PSet (
-        inputCollection = cms.vstring("jets", "electrons"),
-        cutString = cms.string("deltaR(jet, electron) < 0.4"),
-        numberRequired = cms.string("== 0"),
-        alias = cms.string('jet-e deltaR veto'),
-        isVeto = cms.bool(True)
+jet_lepton_cleaning_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton = 0"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('jet-lepton cleaning')
     )
 
 ##########################################################################
@@ -143,6 +148,12 @@ electron_pt_42_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_id_cutstring,
@@ -150,11 +161,11 @@ electron_id_cut = cms.PSet(
     alias = objectDefs.electron_id_alias
     )
 
-electron_ttbar_paper_id_cut = cms.PSet(
+electron_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_id_cutstring,
+    cutString = objectDefs.electron_id_impact_parameter_cutstring,
     numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_ttbar_paper_id_alias
+    alias = objectDefs.electron_id_impact_parameter_alias
     )
 
 electron_iso_cut = cms.PSet(
@@ -202,6 +213,13 @@ electron_d0_100to200_cut = cms.PSet(
     alias = cms.string("electron 100 < d0 < 200 mum")
     )
 
+electron_d0_below200_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("electron d0 < 200 mum")
+    )
+
 electron_mt_cut = cms.PSet (
     inputCollection = cms.vstring("electrons","mets"),
     cutString = cms.string("transMass(electron, met) < 50"),
@@ -211,8 +229,8 @@ electron_mt_cut = cms.PSet (
 
 electron_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 0"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 electron")
     )
 
@@ -238,6 +256,12 @@ muon_pt_40_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_global_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_global_cutstring,
@@ -252,18 +276,11 @@ muon_id_cut = cms.PSet(
     alias = objectDefs.muon_id_alias
     )
 
-muon_d0_below2000_cut = cms.PSet(
+muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(d0) < 0.2"),
+    cutString = objectDefs.muon_id_impact_parameter_cutstring,
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 < 0.2 cm")
-    )
-
-muon_dZ_below5000_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(dz) < 0.5"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon dZ < 0.5 cm")
+    alias = objectDefs.muon_id_impact_parameter_alias
     )
 
 muon_iso_cut = cms.PSet(
@@ -311,6 +328,13 @@ muon_d0_100to200_cut = cms.PSet(
     alias = cms.string("muon 100 < d0 < 200 mum")
     )
 
+muon_d0_below200_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("10000*abs(d0) < 200"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("muon d0 < 200 mum")
+    )
+
 muon_mt_cut = cms.PSet (
     inputCollection = cms.vstring("muons","mets"),
     cutString = cms.string("transMass(muon, met) < 50"),
@@ -320,8 +344,8 @@ muon_mt_cut = cms.PSet (
 
 muon_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 0"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 muon")
     )
 
@@ -334,7 +358,7 @@ emu_mass_20_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("invMass(electron,muon) > 20"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("invariant mass < 20 GeV")
+    alias = cms.string("invariant mass > 20 GeV")
     )
 
 emu_opposite_charge_cut = cms.PSet (
@@ -365,6 +389,14 @@ emu_pt_gt50_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string("pT(e,mu) > 50")
     )
+
+emu_deltaR_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("deltaR(electron,muon) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("well separated e-mu pair")
+    )
+
 
 
 ##########################################################################
