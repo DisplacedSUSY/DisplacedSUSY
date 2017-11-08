@@ -1812,8 +1812,6 @@ eventHistograms = cms.PSet(
     )
 )
 
-<<<<<<< HEAD
-
 
 CosmicMuonHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
