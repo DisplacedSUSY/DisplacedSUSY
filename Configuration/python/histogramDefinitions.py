@@ -1,8 +1,27 @@
 import FWCore.ParameterSet.Config as cms
 
+#####################################
+##### Define variable bin lists #####
+#####################################
+
+import math
+def variableBins(nBins,lower,upper):
+    original_bin_size = (upper - lower)/float(nBins)
+    number_of_sections = 4
+    bins_per_section = math.floor(nBins/number_of_sections)
+    multipliers = [2**n for n in range(number_of_sections)]
+    last = 0
+    variableBins = []
+    for multiplier in multipliers:
+        bins = [last + multiplier*original_bin_size*n for n in range(1,int(math.ceil(bins_per_section/multiplier))+1)]
+        last = bins[-1]
+        variableBins.extend(bins)
+    return variableBins
+
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
+
 
 ElectronD0Histograms = cms.PSet(
     inputCollection = cms.vstring("electrons"),
@@ -14,7 +33,13 @@ ElectronD0Histograms = cms.PSet(
             name = cms.string("electronTrackD0Error"),
             title = cms.string("Electron track #sigma(d_{0});electron track #sigma(d_{0}) [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("10000*electron.gsfTrack.d0Error"),
+            inputVariables = cms.vstring("10000*gsfTrack.d0Error"),
+            ),
+        cms.PSet (
+            name = cms.string("electronDz_500um"),
+            title = cms.string("Electron d_{z};electron d_{z} [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("10000*dz"),
             ),
 
         ###################################################################
@@ -95,9 +120,21 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_100um_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,100)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_200um"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 200),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_200um_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,200)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -107,9 +144,21 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_500um_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,500)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_1mm"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_1mm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,1000)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -119,9 +168,21 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_2mm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,2000)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_5mm"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 5000),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_5mm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,5000)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -131,9 +192,21 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_1cm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,1)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_2cm"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 2),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_2cm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,2)),
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
@@ -143,15 +216,33 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_5cm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,5)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_10cm"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("electronAbsD0_10cm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,10)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_20cm"),
             title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_20cm_variableBins"),
+            title = cms.string("Electron |d_{0}|;electron |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,20)),
             inputVariables = cms.vstring("abs(d0)"),
         ),
 
@@ -254,7 +345,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(electron.d0)", "10000*abs(electron.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_electronAbsD0[1]_200um"),
@@ -263,7 +354,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(electron.d0)", "10000*abs(electron.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_electronAbsD0[1]_500um"),
@@ -272,7 +363,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(electron.d0)", "10000*abs(electron.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         # When  used for limit-setting, make this plot with 100um bins !!!
         cms.PSet (
@@ -282,7 +373,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0)", "abs(electron.d0)"),
+            inputVariables = cms.vstring("abs(d0)", "abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_5"),
@@ -291,7 +382,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,5),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_10"),
@@ -300,7 +391,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_20"),
@@ -309,7 +400,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,20),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_50"),
@@ -318,7 +409,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,50),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_100"),
@@ -327,7 +418,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_200"),
@@ -336,7 +427,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_electronAbsD0Sig[1]_500"),
@@ -345,7 +436,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(electron.d0Sig)", "abs(electron.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
 
         ###################################################################
@@ -372,7 +463,7 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron |d_{0}| vs. Electron #sigma(d_{0});electron #sigma(d_{0}) [#mum];electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             binsY = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("10000*innerTrack.d0Error", "10000*abs(d0)"),
+            inputVariables = cms.vstring("10000*gsfTrack.d0Error", "10000*abs(d0)"),
         ),
 
         ###################################################################
@@ -400,7 +491,7 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron track #sigma(d_{0}) vs. Electron p_{T};electron p_{T} [GeV];electron track #sigma(d_{0}) [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             binsY = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("pt", "10000*innerTrack.d0Error"),
+            inputVariables = cms.vstring("pt", "10000*gsfTrack.d0Error"),
         ),
         ###################################################################
         # 2D d0 vs. eta
@@ -427,7 +518,7 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron track #sigma(d_{0}) vs. Electron #eta;electron #eta;electron track #sigma(d_{0}) [#mum]"),
             binsX = cms.untracked.vdouble(100, -3, 3),
             binsY = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("eta", "10000*innerTrack.d0Error"),
+            inputVariables = cms.vstring("eta", "10000*gsfTrack.d0Error"),
         ),
         ###################################################################
         # 2D d0 vs. phi
@@ -454,7 +545,7 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron track #sigma(d_{0}) vs. Electron #phi;electron #phi;electron track #sigma(d_{0}) [#mum]"),
             binsX = cms.untracked.vdouble(100, -3.14, 3.14),
             binsY = cms.untracked.vdouble(100, 0, 500),
-            inputVariables = cms.vstring("phi", "10000*innerTrack.d0Error"),
+            inputVariables = cms.vstring("phi", "10000*gsfTrack.d0Error"),
         ),
 
 
@@ -697,6 +788,13 @@ MuonD0Histograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 500),
             inputVariables = cms.vstring("10000*innerTrack.d0Error"),
         ),
+        cms.PSet (
+            name = cms.string("muonDz_500um"),
+            title = cms.string("Muon d_{z};muon d_{z} [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("10000*dz"),
+            ),
+
 
         ###################################################################
         # d0 histograms
@@ -776,9 +874,21 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_100um_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,100)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_200um"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 200),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_200um_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,200)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -788,9 +898,21 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_500um_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,500)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_1mm"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_1mm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,1000)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -800,9 +922,21 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_2mm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,2000)),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_5mm"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 5000),
+            inputVariables = cms.vstring("10000*abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_5mm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,5000)),
             inputVariables = cms.vstring("10000*abs(d0)"),
         ),
         cms.PSet (
@@ -812,9 +946,21 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_1cm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,1)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_2cm"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 2),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_2cm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,2)),
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
@@ -824,15 +970,33 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_5cm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,5)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_10cm"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 10),
             inputVariables = cms.vstring("abs(d0)"),
         ),
         cms.PSet (
+            name = cms.string("muonAbsD0_10cm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,10)),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_20cm"),
             title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("abs(d0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_20cm_variableBins"),
+            title = cms.string("Muon |d_{0}|;muon |d_{0}| [cm]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,20)),
             inputVariables = cms.vstring("abs(d0)"),
         ),
 
@@ -935,7 +1099,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(muon.d0)", "10000*abs(muon.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0[0]_vs_muonAbsD0[1]_200um"),
@@ -944,7 +1108,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(muon.d0)", "10000*abs(muon.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0[0]_vs_muonAbsD0[1]_500um"),
@@ -953,7 +1117,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(muon.d0)", "10000*abs(muon.d0)"),
+            inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
         # When  used for limit-setting, make this plot with 100um bins !!!
         cms.PSet (
@@ -963,7 +1127,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0)", "abs(muon.d0)"),
+            inputVariables = cms.vstring("abs(d0)", "abs(d0)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_5"),
@@ -972,7 +1136,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,5),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_10"),
@@ -981,7 +1145,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_20"),
@@ -990,7 +1154,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,20),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_50"),
@@ -999,7 +1163,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,50),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_100"),
@@ -1008,7 +1172,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_200"),
@@ -1017,7 +1181,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
         cms.PSet (
             name = cms.string("muonAbsD0Sig[0]_vs_muonAbsD0Sig[1]_500"),
@@ -1026,7 +1190,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("abs(muon.d0Sig)", "abs(muon.d0Sig)"),
+            inputVariables = cms.vstring("abs(d0Sig)", "abs(d0Sig)"),
         ),
 
         ###################################################################
@@ -1644,6 +1808,34 @@ eventHistograms = cms.PSet(
             title = cms.string("Stop 1 c#tau;c#tau [cm]"),
             binsX = cms.untracked.vdouble(100, 0, 100),
             inputVariables = cms.vstring("cTau_1000006_1"),
+        ),
+    )
+)
+
+<<<<<<< HEAD
+
+
+CosmicMuonHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("MuontimeAtIpInOut"),
+            title = cms.string("Muon timeAtIpInOut; timeAtIpInOut"),
+            binsX = cms.untracked.vdouble(100, -200, 200),
+            inputVariables = cms.vstring("time.timeAtIpInOut"),
+        ),
+        cms.PSet (
+            name = cms.string("MuontimeAtIpOutIn"),
+            title = cms.string("Muon timeAtIpOutIn; timeAtIpOutIn"),
+            binsX = cms.untracked.vdouble(100, -200, 200),
+            inputVariables = cms.vstring("time.timeAtIpOutIn"),
+        ),
+        cms.PSet (
+            name = cms.string("MuontimeAtIpInOut_vs_MuontimeAtIpOutIn"),
+            title = cms.string("Muon timeAtIpInOut vs. Muon timeAtIpOutIn;timeAtIpOutIn;timeAtIpInOut"),
+            binsX = cms.untracked.vdouble(100,-200,200),
+            binsY = cms.untracked.vdouble(100,-200,200),
+            inputVariables = cms.vstring("time.timeAtIpOutIn", "time.timeAtIpInOut"),
         ),
     )
 )
