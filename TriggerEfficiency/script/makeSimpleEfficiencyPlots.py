@@ -4,7 +4,7 @@ import os
 import re
 from array import array
 from optparse import OptionParser
-from ROOT import TFile, TCanvas, gPad, TH1, TGraphAsymmErrors, TMultiGraph, TLegend, Double
+from ROOT import TFile, TCanvas, gPad, gROOT, TH1, TGraphAsymmErrors, TMultiGraph, TLegend, Double
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -16,6 +16,7 @@ if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 
+gROOT.SetBatch()
 
 for plot in plots:
     combined_plot = TMultiGraph();
@@ -47,8 +48,8 @@ for plot in plots:
         combined_plot.Add(eff_plot)
         legend.AddEntry(eff_plot, pair["label"])
 
-    #print plot["channel"]
-    #print efficiencies[0]/efficiencies[1]
+    print plot["channel"]
+    print efficiencies[0]/efficiencies[1]
     canvas = TCanvas(plot["channel"], plot["channel"], 700, 700)
     combined_plot.Draw("ALP")
     combined_plot.SetMinimum(0.)
