@@ -13,9 +13,6 @@ from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 ZControlRegion = cms.PSet(
     name = cms.string("ZControlRegion"),
     triggers = cms.vstring(),
-#    triggers = cms.vstring("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"),
-#    triggers = cms.vstring("HLT_Mu30_TkMu11_v"),
-#    triggers = cms.vstring("HLT_IsoMu27_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
@@ -41,36 +38,6 @@ fiducial_phi_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 ZControlRegion.cuts.append(fiducial_phi_cut)
-
-#### the following are experimental cuts aimied at rejecting fake displaced muons
-# d0err_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("10000*innerTrack.d0Error < 20"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(d0err_cut)
-
-# missingmiddlehits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("missingMiddleHits < 2"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(missingmiddlehits_cut)
-
-# trackhits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("innerTrack.hitPattern_.trackerLayersWithMeasurement >= 10"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(trackhits_cut)
-
-# muonhits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("numberOfValidHits >= 12"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(muonhits_cut)
-
 
 
 prompt_cut = cms.PSet(
@@ -110,3 +77,32 @@ ZControlRegionVeryDisplaced = cms.PSet(
     cuts = copy.deepcopy(ZControlRegion.cuts)
 )
 ZControlRegionVeryDisplaced.cuts.append(very_displaced_cut)
+
+#### the following are experimental cuts aimied at rejecting fake displaced muons
+# d0err_cut = cms.PSet(
+#     inputCollection = cms.vstring("muons"),
+#     cutString = cms.string("10000*innerTrack.d0Error < 20"),
+#     numberRequired = cms.string(">= 2")
+#     )
+# ZControlRegion.cuts.append(d0err_cut)
+
+# missingmiddlehits_cut = cms.PSet(
+#     inputCollection = cms.vstring("muons"),
+#     cutString = cms.string("missingMiddleHits < 2"),
+#     numberRequired = cms.string(">= 2")
+#     )
+# ZControlRegion.cuts.append(missingmiddlehits_cut)
+
+# trackhits_cut = cms.PSet(
+#     inputCollection = cms.vstring("muons"),
+#     cutString = cms.string("innerTrack.hitPattern_.trackerLayersWithMeasurement >= 10"),
+#     numberRequired = cms.string(">= 2")
+#     )
+# ZControlRegion.cuts.append(trackhits_cut)
+
+# muonhits_cut = cms.PSet(
+#     inputCollection = cms.vstring("muons"),
+#     cutString = cms.string("numberOfValidHits >= 12"),
+#     numberRequired = cms.string(">= 2")
+#     )
+# ZControlRegion.cuts.append(muonhits_cut)

@@ -19,7 +19,7 @@ ZControlRegion = cms.PSet(
 ZControlRegion.cuts.append(jet_eta_cut)
 ZControlRegion.cuts.append(jet_pt_30_cut)
 ZControlRegion.cuts.append(jet_id_cut)
-### at least two good electrons
+### two good electrons
 ZControlRegion.cuts.append(electron_eta_cut)
 ZControlRegion.cuts.append(electron_gap_veto)
 ZControlRegion.cuts.append(electron_pt_42_cut)
@@ -38,11 +38,6 @@ fiducial_phi_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 ZControlRegion.cuts.append(fiducial_phi_cut)
-
-
-
-
-
 
 
 prompt_cut = cms.PSet(

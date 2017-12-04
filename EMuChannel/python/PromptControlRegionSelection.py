@@ -20,15 +20,15 @@ PromptControlRegion.cuts.append(jet_id_cut)
 ### at least one good electron
 PromptControlRegion.cuts.append(electron_eta_cut)
 PromptControlRegion.cuts.append(electron_gap_veto)
-PromptControlRegion.cuts.append(electron_pt_42_cut)
 PromptControlRegion.cuts.append(electron_id_cut)
 PromptControlRegion.cuts.append(electron_iso_cut)
+PromptControlRegion.cuts.append(electron_pt_42_cut)
 ### at least one good muon
 PromptControlRegion.cuts.append(muon_eta_cut)
-PromptControlRegion.cuts.append(muon_pt_40_cut)
 PromptControlRegion.cuts.append(muon_global_cut)
 PromptControlRegion.cuts.append(muon_id_cut)
 PromptControlRegion.cuts.append(muon_iso_cut)
+PromptControlRegion.cuts.append(muon_pt_40_cut)
 ### require prompt leptons
 PromptControlRegion.cuts.append(electron_d0_lt100_cut)
 PromptControlRegion.cuts.append(muon_d0_lt100_cut)
