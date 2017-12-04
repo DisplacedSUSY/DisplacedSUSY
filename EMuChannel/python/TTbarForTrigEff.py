@@ -122,4 +122,19 @@ TTbarForTrigEffVeto38 = cms.PSet(
 )
 TTbarForTrigEffVeto38.cuts.append(muon_pt_150_cut)
 
+#######Standard 2016 Trigger##########
+
+### Require high-pt electron
+TTbarForTrigEffStandardTrigHighPtE = cms.PSet(
+    name = cms.string("TTbarForTrigEffStandardTrigHighPtE"),
+    triggers = cms.vstring("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtE.cuts))
+)
+
+### Require high-pt muon
+TTbarForTrigEffStandardTrigHighPtMu = cms.PSet(
+    name = cms.string("TTbarForTrigEffStandardTrigHighPtMu"),
+    triggers = cms.vstring("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrigHighPtMu.cuts))
+)
 
