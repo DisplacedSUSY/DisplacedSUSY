@@ -145,7 +145,7 @@ for mass in masses:
             datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
             datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
             datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-            combine_expected_options = combine_observed_options = "-s -1 -H ProfileLikelihood "
+            combine_expected_options = combine_observed_options = "-s -1 -H AsymptoticLimits "
             if arguments.method == "HybridNew":
                 combine_expected_options += "-M " + arguments.method + " "
                 combine_observed_options += "-M " + arguments.method + " "
@@ -167,8 +167,8 @@ for mass in masses:
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
                 combine_observed_options = combine_observed_options + " "
             else:
-                combine_expected_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
-                combine_observed_options += "-M Asymptotic --minimizerStrategy 1 --picky --minosAlgo stepping "
+                combine_expected_options += "-M Asymptotic --picky --minosAlgo stepping " # removed --minimizerStrategy 1 
+                combine_observed_options += "-M Asymptotic --picky --minosAlgo stepping " # removed --minimizerStrategy 1 
 
             combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
             combine_command = combine_command.rstrip()
