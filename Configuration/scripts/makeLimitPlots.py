@@ -510,6 +510,7 @@ def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key
     if x_key is 'lifetime':
         borderGraph = getBorderGraph (graph, 'vertical')
     return borderGraph
+
 def getOneSigmaGraph(limits,xAxisType,colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up1', 'down1')
     graph.SetFillColor(colorSchemes[colorScheme]['oneSigma'])
@@ -616,7 +617,7 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                     return -1
                 limit_tree = file.Get('limit')
                 if not limit_tree:
-                    return -1        
+                    return -1
                 hist = TH1F("limithist","limithist",200,0,200)
                 limit_tree.Draw("limit>>limithist")
                 xq = array('d',[0.0,0.0,0.0,0.0,0.0])
@@ -627,8 +628,8 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                 tmp_limit['up1'] = float(xq[3])
                 tmp_limit['down2'] = float(xq[0])
                 tmp_limit['up2'] = float(xq[4])
-            file.close()
- 
+                file.Close()
+
             fname = makeSignalLogFileName(mass,lifetime,directory,"observed",use_miniAOD)
             if not fname:
                 continue
@@ -637,7 +638,7 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                 line = line.rstrip("\n").split(":")
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
-            file.close() 
+            file.close()
 
             #file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
             #if not file.GetNkeys():
@@ -743,7 +744,7 @@ def drawPlot(plot):
     generalCanvas = []
     generalCanvas.append(canvas)
     if plot.has_key('th2fs'):
- 	hasRatioTH2F = True
+        hasRatioTH2F = True
 	for source in plot['th2fs']:
             for th2f in source['th2fsToInclude']:
                 if th2f is 'obs':
@@ -1097,13 +1098,16 @@ for plot in plotDefinitions:
     if plot.has_key('th2fs'):
         for th2f in plot['th2fs']:
             setCrossSections(th2f)
+            use_miniAOD = False
+            if plot.has_key('add_MiniAOD'):
+                use_miniAOD = True
             th2f['limits'] = []
             if 'xAxisType' not in plot or 'yAxisType' not in plot:
-            	print "You want to draw a 2D plot but either X or Y axis is not defined."
+                print "You want to draw a 2D plot but either X or Y axis is not defined."
             else:
                 for mass in masses:
                     for lifetime in lifetimes:
-                        limit = fetchLimits(mass,lifetime,th2f['source'])
+                        limit = fetchLimits(mass,lifetime,th2f['source'],use_miniAOD)
                         if limit is not -1:
                             th2f['limits'].append(limit)
                         else:
