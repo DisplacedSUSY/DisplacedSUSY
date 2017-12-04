@@ -12,17 +12,17 @@ from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
 
-
-
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
                   help="output directory")
 parser.add_option("-d", "--d0Cut", action="append", dest="d0Cuts",
-                  help="include a channel with specified lepton impact parameter requirement in um, (the syntax for multiple channels is '-d STRING1 -d STRING2' etc.)")
+                  help="include a channel with specified lepton impact parameter in same units as input hist (the syntax for multiple channels is '-d STRING1 -d STRING2' etc.)")
 parser.add_option("-m", "--d0Max", dest="d0Max", default = 999999999.0,
                   help="specific a max d0 cut")
+parser.add_option("-f", "--fit", action="store_true", dest="use_fit", default = False,
+                  help="use background estimates obtained from sideband fit")
 
 
 (arguments, args) = parser.parse_args()
@@ -46,8 +46,6 @@ if not arguments.d0Cuts:
     sys.exit(0)
 
 
-
-    
 integrateOutwardX = True
 integrateOutwardY = True
 
@@ -75,7 +73,6 @@ def fancyTable(arrays):
         spacedLines.append(spacedLine)
 
     return '\n'.join(spacedLines)
-
 
 
 def GetYieldAndError(condor_dir, process, channel, d0Cut):
@@ -117,37 +114,12 @@ def GetYieldAndError(condor_dir, process, channel, d0Cut):
         y0 = 0
         y1 = d0CutBinY
 
-
     intError = Double (0.0)
     fracError = 0.0
 
-    # just do normal 2D d0 cuts
-#    if process.find("stop") is not -1 or types[process] is "data" or process is "QCDFromData":
-    if process.find("stop") is not -1 or types[process] is "data":
-        yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
-        if yield_ > 0.0:
-            fracError = 1.0 + (intError / yield_)
-
-    # do 2D factorized d0 cuts
-    else:
-        totalError =  Double (0.0)
-        totalIntegral = d0Histogram.IntegralAndError(0,x1,0,y1,totalError)
-
-        xError = Double (0.0)
-        xIntegral = d0Histogram.IntegralAndError(x0,x1,0,y1,xError)
-        xEfficiency = xIntegral/totalIntegral
-        
-        yError = Double (0.0)
-        yIntegral = d0Histogram.IntegralAndError(0,x1,y0,y1,yError)
-        yEfficiency = yIntegral/totalIntegral
-        
-        factorizedEfficiency = xEfficiency * yEfficiency
-        yield_ = factorizedEfficiency * totalIntegral
-        factorizedYieldError = Double (0.0)
-        if xIntegral > 0.0 and yIntegral > 0.0 and  totalIntegral > 0.0:
-            factorizedYieldError = (xError/xIntegral)*(xError/xIntegral)+(yError/yIntegral)*(yError/yIntegral)+(totalError/totalIntegral)*(totalError/totalIntegral)
-            factorizedYieldError = math.sqrt(factorizedYieldError)
-        fracError = 1.0 + factorizedYieldError
+    yield_ = d0Histogram.IntegralAndError(x0,x1,y0,y1,intError)
+    if yield_ > 0.0:
+        fracError = 1.0 + (intError / yield_)
 
     yieldAndErrorList['yield'] = yield_
     yieldAndErrorList['error'] = fracError
@@ -159,12 +131,12 @@ def writeDatacard(mass,lifetime):
     signal_dataset = "stop"+mass+"_"+lifetime+"mm"
 
     signal_yield = {}
-    signal_error = {}    
+    signal_error = {}
 
     for d0Cut in arguments.d0Cuts:
         signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel, d0Cut)
         signal_yield[d0Cut] = signalYieldAndError['yield']
-        signal_error[d0Cut] = signalYieldAndError['error']        
+        signal_error[d0Cut] = signalYieldAndError['error']
 
     # subtract the contributions from the more exclusive signal region - signal
     for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
@@ -180,7 +152,6 @@ def writeDatacard(mass,lifetime):
             signal_error[currentD0Cut] = 0
 
 
-    
     os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
     datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
 
@@ -224,7 +195,6 @@ def writeDatacard(mass,lifetime):
 
         #add background yields
         for background in backgrounds:
-            #print background
             bin_row_2.append('d0min_'+str(d0Cut))
             process_name_row.append(background)
             process_index_row.append(str(process_index))
@@ -401,9 +371,6 @@ def writeDatacard(mass,lifetime):
     datacard.write('\n')
 
 
-
-
-
 ########################################################################################
 ########################################################################################
 
@@ -414,42 +381,30 @@ background_yields = {}
 background_errors = {}
 
 backgrounds.sort()
-arguments.d0Cuts.sort(key=int)
+arguments.d0Cuts.sort(key=float)
 
 for background in backgrounds:
-
     background_yields[background] = {}
-    background_errors[background] = {}    
+    background_errors[background] = {}
 
     for d0Cut in arguments.d0Cuts:
-
         yieldAndError = {}
         yieldAndError = GetYieldAndError(background_sources[background]['condor_dir'], background, background_sources[background]['channel'], d0Cut)
-        #print background, d0Cut
-        #print yieldAndError
 
         background_yields[background][d0Cut] = yieldAndError['yield']
         background_errors[background][d0Cut] = yieldAndError['error']
-
-
-
-        #print "for d0 > "+d0Cut+":"
-        #print background+" yield = "+str(background_yields[background][d0Cut])+" +- "+str(100*(background_errors[background][d0Cut]-1))+"%"
-
 
 # subtract the contributions from the more exclusive signal region - backgrounds
 for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region, since it doesn't need anything subtracted from it
     currentD0Cut = arguments.d0Cuts[cutIndex]
     nextD0Cut = arguments.d0Cuts[cutIndex+1]
     for background in backgrounds:
-        if background is not "QCDFromData":
-            continue
         currentError = background_yields[background][currentD0Cut] * (background_errors[background][currentD0Cut]-1)
         nextError = background_yields[background][nextD0Cut] * (background_errors[background][nextD0Cut]-1)
         background_yields[background][currentD0Cut] = background_yields[background][currentD0Cut] - background_yields[background][nextD0Cut]
         if background_yields[background][currentD0Cut] > 0.0:
             background_errors[background][currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / background_yields[background][currentD0Cut] + 1
-        else: 
+        else:
             background_errors[background][currentD0Cut] = 0
 
 
@@ -461,8 +416,6 @@ for cutIndex in range(len(arguments.d0Cuts)):
         if not background_yields[background][currentD0Cut] > 0.0:
             background_yields[background][currentD0Cut] = background_yields[background][lastD0Cut]
             background_errors[background][currentD0Cut] = background_errors[background][lastD0Cut]
-
-    
 
 
 ###getting all the external systematic errors and putting them in a dictionary
@@ -483,8 +436,7 @@ for systematic in external_systematic_uncertainties:
             # turn off systematic when the central yield is zero
             if systematics_dictionary[systematic][d0Cut][dataset] == '0' or systematics_dictionary[systematic][d0Cut][dataset] == '0/0':
                 systematics_dictionary[systematic][d0Cut][dataset] = '-'
-            
-            
+
 
 ###setting up observed number of events
 observation = {}
