@@ -8,7 +8,8 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "PromptControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 36460 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+#intLumi = 35863.308
+intLumi = 16146.2 # 2016G,H only
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -17,40 +18,46 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 datasets = [
 
     ### DY
-    'DYJetsToLL_50',
+    'DYJetsToLL',
 
     ### TTbar
-
     'TTJets_Lept',
-    # 'TTJets_SingleLeptFromT',
-    # 'TTJets_SingleLeptFromTbar',
-    # 'TTJets_DiLept',
+    #'TTJets_SingleLeptFromT',
+    #'TTJets_SingleLeptFromTbar',
+    #'TTJets_DiLept',
 
     ### single top
     'SingleTop',
-    # 'SingleTop_s_channel',
-    # 'SingleTop_tW',
-    # 'SingleTop_tbarW',
-    # 'SingleTop_t_channel_antitop',
-    # 'SingleTop_t_channel_top',
-    
+    #'SingleTop_s_channel',
+    #'SingleTop_tW',
+    #'SingleTop_tbarW',
+    #'SingleTop_t_channel_antitop',
+    #'SingleTop_t_channel_top',
 
     ### Diboson
     'Diboson',
-    # 'WWToLNuLNu',
-    # 'WWToLNuQQ',
-    # 'WZToLLLNu',
-    # 'WZToLNuNuNu',
-    # 'ZZToLLLL',
-    # 'ZZToLLNuNu',
-    # 'ZZToLLQQ',
-    # 'ZZToNuNuQQ',
+    #'WWToLNuLNu',
+    #'WWToLNuQQ',
+    #'WZToLLLNu',
+    #'WZToLNuNuNu',
+    #'ZZToLLLL',
+    #'ZZToLLNuNu',
+    #'ZZToLLQQ',
+    #'ZZToNuNuQQ',
 
     ### QCD (mu-enriched is bigger)
     'QCD_MuEnriched',
 
     ### Data
-    'MuonEG_2016_23Sep',
+    #'MuonEG_2016',
+    'MuonEG_2016_postHIP',
+    #'MuonEG_2016B',
+    #'MuonEG_2016C',
+    #'MuonEG_2016D',
+    #'MuonEG_2016E',
+    #'MuonEG_2016F',
+    #'MuonEG_2016G',
+    #'MuonEG_2016H',
 ]
 
 
