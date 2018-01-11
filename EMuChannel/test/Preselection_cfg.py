@@ -218,7 +218,7 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
 process.PUScalingFactorProducer.target = cms.string("Data2016")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu2016.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
