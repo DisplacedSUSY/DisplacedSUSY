@@ -48,3 +48,13 @@ PreselectionPromptMuon = cms.PSet(
 )
 PreselectionPromptMuon.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 PreselectionPromptMuon.cuts.append(muon_d0_below200_cut)
+
+
+PreselectionSignalRegion = cms.PSet(
+    name = cms.string("PreselectionSignalRegion"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionSignalRegion.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionSignalRegion.cuts.append(electron_d0_above200_cut)
+PreselectionSignalRegion.cuts.append(muon_d0_above200_cut)
