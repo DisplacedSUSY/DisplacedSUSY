@@ -32,7 +32,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (-1)
+    input = cms.untracked.int32 (10)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -81,31 +81,51 @@ collections = miniAOD_collections
 
 
 variableProducers = []
-#variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('PUScalingFactorProducer')
 
-weights = cms.VPSet (
-    # cms.PSet (
-    #     inputCollections = cms.vstring("eventvariables"),
-    #     inputVariable = cms.string("puScalingFactor")
-    # ),
-    #cms.PSet (
-    #    inputCollections = cms.vstring("eventvariables"),
-    #    inputVariable = cms.string("muonScalingFactor")
-    #),
+
+weights = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronReco2016")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("electronID2016Tight")
+    ),
 )
 
-
 scalingfactorproducers = []
-#ObjectScalingFactorProducer = {}
-#ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
-#ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSF.root')
-#ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSF.root')
-#ObjectScalingFactorProducer['muonWp'] = cms.string('TightID,1')
-#ObjectScalingFactorProducer['electronWp'] = cms.string('TightID,1')
-#ObjectScalingFactorProducer['doEleSF'] = cms.bool(False)
-#ObjectScalingFactorProducer['doMuSF'] = cms.bool(True)
+ObjectScalingFactorProducer = {}
 
-#scalingfactorproducers.append(ObjectScalingFactorProducer)
+ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
+ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
+ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root')
+
+ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Reco"),
+        version = cms.string("2016")
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight")
+    ),
+)
+scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -122,8 +142,7 @@ eventSelections = [QCDElectronControlRegion]
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-#from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
-
+from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms
@@ -140,8 +159,7 @@ histograms.append(ElectronJetHistograms)
 histograms.append(ElectronMetHistograms)
 histograms.append(ElectronBjetHistograms)
 histograms.append(JetBjetHistograms)
-
-# histograms.append(eventHistograms)
+histograms.append(eventHistograms)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -150,10 +168,11 @@ histograms.append(JetBjetHistograms)
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers,collections, variableProducers, False)
 
 
-
-# process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
-# process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
-# process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
-# process.PUScalingFactorProducer.type = cms.string("data")
+# Default values for cmsRun
+process.PUScalingFactorProducer.dataset = cms.string("QCD_MuEnriched_170to300")
+process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
+process.PUScalingFactorProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

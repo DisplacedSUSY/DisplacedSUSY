@@ -127,7 +127,7 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("data")
 #DisplacedSUSYEventVariableProducer can only run over skims.

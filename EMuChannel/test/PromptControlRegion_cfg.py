@@ -20,7 +20,8 @@ process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14_ext1-v1/80000/4EF9F71C-0057-E611-A3FF-002590A831AA.root'
 #        'root://cmsxrootd.fnal.gov//store/mc/RunIISpring16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4/00000/7AADCC01-EC2B-E611-886E-02163E013F02.root'
-        'file:condor/EMuSkim_Moriond17/TTJets_DiLept/EMuSkimSelection/skim_0.root'
+        'file:condor/EMuSkim_Moriond17/DYJetsToLL_50/EMuSkimSelection/skim_13.root'
+    #    'file:condor/EMuSkim_Moriond17/MuonEG_2016H/EMuSkimSelection/skim_13.root'
 #    'root://cms-xrd-global.cern.ch//store/data/Run2015D/MuonEG/MINIAOD/16Dec2015-v1/60000/66DF7966-6AAB-E511-BE9D-002590747E40.root'
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_0.root',
     # 'file:/store/user/lantonel/EMuSkim_23Sep/MuonEG_2016D_23Sep/EMuSkimSelection/skim_1.root',
@@ -50,7 +51,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10000)
+    input = cms.untracked.int32 (100)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -99,7 +100,7 @@ collections = miniAOD_collections
 
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
-#variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('LifetimeWeightProducer')
 variableProducers.append('PUScalingFactorProducer')
 
 
@@ -159,7 +160,7 @@ ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
 ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
 ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root')
-#ObjectScalingFactorProducer['trackFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSFs.root')
+ObjectScalingFactorProducer['trackFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/trackSFs.root')
 
 ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
     cms.PSet (
@@ -173,7 +174,6 @@ ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
         version = cms.string("2016"),
         wp = cms.string("Tight")
     ),
-
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Reco"),
@@ -255,8 +255,8 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 # default values, altered automatically when using osusub.py
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
 process.PUScalingFactorProducer.target = cms.string("Data2016")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
-process.PUScalingFactorProducer.type = cms.string("bgmc")
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu2016.root')
+process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgmc")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
