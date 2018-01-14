@@ -121,27 +121,27 @@ signal_cross_sections_8TeV = {
 
 
 background_normalization_uncertainties = {
-    'DYJetsToLL_50' : {
-#       'value' : '1.0379',
-       'value' : '1.2',
-       'type' : 'lnN',
-    },
-    # use WW values
-    'Diboson' : {
-#       'value' : '1.025',
-       'value' : '1.2',
-       'type' : 'lnN',
-    },
-    'SingleTop' : {
-#       'value' : '1.0423',
-       'value' : '1.2',
-       'type' : 'lnN',
-    },
-    'TTJets_Lept' : {
-#       'value' : '1.0614',
-       'value' : '1.2',
-       'type' : 'lnN',
-    },
+    #'DYJetsToLL_50' : {
+    #   'value' : '1.0379',
+    #  'value' : '1.2',
+    #  'type' : 'lnN',
+    #},
+    ## use WW values
+    #'Diboson' : {
+    #   'value' : '1.025',
+    #  'value' : '1.2',
+    #  'type' : 'lnN',
+    #},
+    #'SingleTop' : {
+    #   'value' : '1.0423',
+    #  'value' : '1.2',
+    #  'type' : 'lnN',
+    #},
+    #'TTJets_Lept' : {
+    #   'value' : '1.0614',
+    #  'value' : '1.2',
+    #  'type' : 'lnN',
+    #},
     # 'QCD_MuEnriched' : {
     #    'value' : '1.5',
     #    'type' : 'lnN',
@@ -161,57 +161,29 @@ background_normalization_uncertainties = {
 
 # list of backgrounds for which we take the yield from MC in some way
 mc_normalized_processes = [
-    'DYJetsToLL_50',
-    'Diboson',
-    'SingleTop',
-    'TTJets_Lept',
-#    'QCD_MuEnriched',
     'signal'
 ]
 
 
 # uncertainties for which the same value applies to all datasets
 global_systematic_uncertainties = {
-    # ballpark estimate from LUM-15-001
     'lumi' :  {
-        'value' : '1.027',
-   	'applyList' : mc_normalized_processes,
+        'value' : '1.025',
+    'applyList' : mc_normalized_processes,
     },
-   #  # taken from the error on the trigger effieciency scale factor
-   # 'trigger' :  {
-   #      'value' : '1.009',
-   # 	'applyList' : mc_normalized_processes,
-   #  },
-    # taken as twice the 2% error quoted by ian
-   'track_reco' :  {
-        'value' : '1.17',
-   	'applyList' : ['signal'],
-    },
-   # 'dummy' :  {
-   #      'value' : '1.5',
-   # 	'applyList' : mc_normalized_processes,
-   #  },
-
+    # taken from the error on the trigger effieciency scale factor
+    'trigger' :  {
+        'value' : '1.011',
+        'applyList' : mc_normalized_processes,
+     },
+    #taken from Ian's study
+    'track_reco' :  {
+        'value' : '1.024',
+    'applyList' : ['signal'],
 }
 
 # uncertainties that have different values for each dataset
 unique_systematic_uncertainties = {
-    # 'TTbar_matching' : {
-    #     'value' : '1.004',
-    #     'dataset' : 'TTbar'
-    # },
-    # 'TTbar_scale' : {
-    #     'value' : '1.02',
-    #     'dataset' : 'TTbar'
-    # },
-    # 'WNjets_matching' : {
-    #     'value' : '1.08',
-    #     'dataset' : 'WNjets'
-    # },
-    # 'WNjets_scale' : {
-    #     'value' : '1.026',
-    #     'dataset' : 'WNjets'
-    # },
 }
 
 
@@ -219,8 +191,5 @@ unique_systematic_uncertainties = {
 external_systematic_uncertainties = [
 #    'electronSF',
 #    'muonSF',
-    # still need to produce these two
-#    'pdf', - might be already covered by theory expectation
 #    'pileup',
-
 ]
