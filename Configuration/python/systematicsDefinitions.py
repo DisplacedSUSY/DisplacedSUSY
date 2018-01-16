@@ -181,6 +181,7 @@ global_systematic_uncertainties = {
         'value' : '1.024',
     'applyList' : ['signal'],
 }
+}
 
 # uncertainties that have different values for each dataset
 unique_systematic_uncertainties = {
