@@ -77,7 +77,7 @@ def subtractSignalRegions(yields, errors):
         if yields[currentD0Cut] > 0.0:
             errors[currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / yields[currentD0Cut] + 1
         else:
-            signals[currentD0Cut] = 0
+            errors[currentD0Cut] = 0
     return (yields, errors)
 
 
