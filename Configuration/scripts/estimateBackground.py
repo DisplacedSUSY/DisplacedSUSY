@@ -62,8 +62,9 @@ def propagateError(func, a, a_err, b, b_err):
         print "Unrecognized function"
         return -1
 
+
 gROOT.SetBatch()
-output_file = TFile(output_path + "/SidebandFit.root", "recreate")
+output_file = TFile(output_path + "/BackgroundEstimate.root", "recreate")
 output_file.mkdir(channel)
 output_file.cd(channel)
 gDirectory.mkdir(emu_dir)
@@ -135,8 +136,9 @@ for s in sidebands:
             error_temp = propagateError("sum", scaled_prompt, scaled_prompt_err, scaled_displaced, scaled_displaced_err)
 
         else:
-            yield_temp = sideband_1ist.IntegralAndError(l_bin, h_bin, error)
+            yield_temp = sideband_hist.IntegralAndError(l_bin, h_bin, error)
             error_temp = error
+
         yields[s["name"]+" "+range_name] = yield_temp
         errors[s["name"]+" "+range_name] = error_temp
 
@@ -202,11 +204,12 @@ for mu_range, mu_bounds in regions.iteritems():
             yield_temp = float(num_yield)/prompt_avg
             error_temp = propagateError("quotient", num_yield, num_error, prompt_avg, prompt_error)
 
-        print mu_range, e_range, yield_temp, error_temp
         bg_2D_hist.SetBinContent(bin_num, yield_temp)
         bg_2D_hist.SetBinError(bin_num, error_temp)
 
 bg_2D_hist.SetOption("colz")
+bg_2D_hist.GetXaxis().SetTitle("muon |d0| [cm]")
+bg_2D_hist.GetYaxis().SetTitle("electron |d0| [cm]")
 bg_2D_hist.Draw()
 output_file.cd(channel)
 gDirectory.cd(emu_dir)
