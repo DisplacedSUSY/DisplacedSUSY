@@ -10,17 +10,19 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "QCDElectronControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 36260 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+intLumi = 16146.2 # only for 2016G, H
 # create list of datasets to process
 datasets = [
-    'WJetsToLNu',
-    'Diboson',
-    'DYJetsToLL',
-    'SingleTop',
-    'TTJets_Lept',
+    #'WJetsToLNu',
+    #'Diboson',
+    #'DYJetsToLL',
+    #'SingleTop',
+    #'TTJets_Lept',
     'QCD_EMEnriched',
     'QCD_bcToE',
-    'SingleEle_2016',
+    #'SingleEle_2016',
+    #'SingleEle_2016H',
+    'SingleEle_2016_postHIP',
 
 #    'QCD_EMEnriched_20to30',
 #    'QCD_EMEnriched_30to50',
