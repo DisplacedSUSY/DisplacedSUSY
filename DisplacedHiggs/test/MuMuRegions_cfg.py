@@ -150,7 +150,7 @@ process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default 
 process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
 process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
 process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu.root')
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
