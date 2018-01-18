@@ -183,9 +183,11 @@ add_channels (process, [EleDown], histograms, weights, [EleDownSFProducer], coll
 
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
-process.PUScalingFactorProducer.target = cms.string("MuonEG_2015D")
+process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
+process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
+process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
 #DisplacedSUSYEventVariableProducer can only run over skims.
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v")

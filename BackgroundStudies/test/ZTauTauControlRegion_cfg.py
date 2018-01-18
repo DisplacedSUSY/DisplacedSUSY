@@ -94,7 +94,10 @@ from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 add_channels (process, eventSelections, cms.VPSet (muonHistograms,electronHistograms,electronMuonHistograms,eventHistograms, metHistograms), weights, collections,variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept_MiniAOD")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu.root')
+process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
+process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
+process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
+process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
 #process.PUScalingFactorProducer.type = cms.string("data")
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 #DisplacedSUSYEventVariableProducer can only run over skims.

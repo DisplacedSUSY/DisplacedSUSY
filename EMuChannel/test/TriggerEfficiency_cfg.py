@@ -258,7 +258,9 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 # default values, altered automatically when using osusub.py
 #process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept")
-#process.PUScalingFactorProducer.target = cms.string("Data2016")
+#process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
+#process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
+#process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
 #process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/Configuration/data/pu2016.root')
 #process.PUScalingFactorProducer.type = cms.string("bgMC")
 
