@@ -94,7 +94,7 @@ collections = miniAOD_collections
 
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
-#variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('LifetimeWeightProducer')
 variableProducers.append('PUScalingFactorProducer')
 
 
@@ -181,7 +181,12 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 from DisplacedSUSY.EMuChannel.Preselection import *
 
-eventSelections = [Preselection]
+eventSelections = [
+    Preselection,
+    #PreselectionSignalRegion,
+    #PreselectionPromptElectron,
+    #PreselectionPromptMuon,
+]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -214,7 +219,7 @@ histograms.append(eventHistograms)
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
 process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
