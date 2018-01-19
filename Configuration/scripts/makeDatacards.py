@@ -217,25 +217,25 @@ def writeDatacard(mass,lifetime):
         datacard_data.append(row)
 
 
-    datacard_data.append(empty_row)
-    comment_row = empty_row[:]
-    comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
-    datacard_data.append(comment_row)
-    datacard_data.append(empty_row)
-
-    #add a row for the cross-section error for the signal
-    row = ['signal_cross_sec','lnN','']
-    for d0Cut in arguments.d0Cuts:
-        if energy == '13':
-            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
-        elif energy == '8':
-            row.append(str(round(float(signal_cross_sections_8TeV[mass]['error']),3)))
-        else:
-            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
-
-        for bg in backgrounds:
-            row.append('-')
-    datacard_data.append(row)
+#    datacard_data.append(empty_row)
+#    comment_row = empty_row[:]
+#    comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
+#    datacard_data.append(comment_row)
+#    datacard_data.append(empty_row)
+#
+#    #add a row for the cross-section error for the signal
+#    row = ['signal_cross_sec','lnN','']
+#    for d0Cut in arguments.d0Cuts:
+#        if energy == '13':
+#            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
+#        elif energy == '8':
+#            row.append(str(round(float(signal_cross_sections_8TeV[mass]['error']),3)))
+#        else:
+#            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
+#
+#        for bg in backgrounds:
+#            row.append('-')
+#    datacard_data.append(row)
 
     #add a row for the normalization error for each background
     for process_name in sorted(background_normalization_uncertainties):
