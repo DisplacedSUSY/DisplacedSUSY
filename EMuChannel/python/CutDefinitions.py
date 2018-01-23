@@ -142,6 +142,12 @@ electron_pt_25_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_25_dummy_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 0")
+    )
+
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 42"),
@@ -255,6 +261,12 @@ muon_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_25_dummy_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 25"),
+    numberRequired = cms.string(">= 0")
     )
 
 muon_pt_40_cut = cms.PSet(
