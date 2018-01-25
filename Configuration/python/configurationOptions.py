@@ -100,6 +100,9 @@ datasets = [
     'JetHT_2016G',
     'JetHT_2016H',
 
+    'MET_2016G',
+    'MET_2016H',
+
     'JetHT_2017C',
     'JetHT_2017D',
 
@@ -302,6 +305,10 @@ composite_dataset_definitions = {
         'JetHT_2016G',
         'JetHT_2016H',
     ],
+    'MET_2016_postHIP' : [
+        'MET_2016G',
+        'MET_2016H',
+    ],
     'MuonEG_2017' : [
         'MuonEG_2017B',
         'MuonEG_2017C',
@@ -485,6 +492,9 @@ nJobs = {
     'JetHT_2016G' : 1207,
     'JetHT_2016H' : 1241,
 
+    'MET_2016G' : 406,
+    'MET_2016H' : 269,
+
     'JetHT_2017C' : 967,
     'JetHT_2017D' : 474,
 
@@ -663,6 +673,9 @@ maxEvents = {
     'JetHT_2016E' : -1,
     'JetHT_2016G' : -1,
     'JetHT_2016H' : -1,
+
+    'MET_2016G' : -1,
+    'MET_2016H' : -1,
 
     'JetHT_2017C' : -1,
     'JetHT_2017D' : -1,
@@ -863,6 +876,9 @@ types = {
     'JetHT_2016G' : "data",
     'JetHT_2016H' : "data",
 
+    'MET_2016G' : "data",
+    'MET_2016H' : "data",
+
     'JetHT_2017' : "data",
     'JetHT_2017C' : "data",
     'JetHT_2017D' : "data",
@@ -1058,6 +1074,9 @@ colors = {
     'JetHT_2016G' :  1,
     'JetHT_2016H' :  1,
 
+    'MET_2016G' :  1,
+    'MET_2016H' :  1,
+
     'JetHT_2017C' :  1,
     'JetHT_2017D' :  1,
 
@@ -1252,6 +1271,9 @@ labels = {
     'JetHT_2016E' :  "JetHT 2016E data",
     'JetHT_2016G' :  "JetHT 2016G data",
     'JetHT_2016H' :  "JetHT 2016H data",
+
+    'MET_2016G' :  "MET 2016G data",
+    'MET_2016H' :  "MET 2016H data",
 
     'JetHT_2017C' :  "JetHT 2017D data",
     'JetHT_2017D' :  "JetHT 2017D data",
