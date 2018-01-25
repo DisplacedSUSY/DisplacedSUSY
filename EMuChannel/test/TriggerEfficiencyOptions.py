@@ -3,7 +3,6 @@
 # import the definitions of all the datasets on the T3
 from DisplacedSUSY.Configuration.configurationOptions import *
 from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
-from DisplacedSUSY.Configuration.miniAODV2_92X_Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "TriggerEfficiency_cfg.py"
@@ -24,8 +23,8 @@ datasets = [
     ### TTbar
     #'TTJets_Lept',
     'TTJets_DiLept',
-    'TTJets_SingleLeptFromT',
-    'TTJets_SingleLeptFromTbar',
+    #'TTJets_SingleLeptFromT',
+    #'TTJets_SingleLeptFromTbar',
 
     ### single top
     #'SingleTop',
@@ -42,7 +41,10 @@ datasets = [
     #'JetHT_2017D',
     #'JetHT_2016',
     #'JetHT_2016_preHIP',
-    'JetHT_2016_postHIP',
+    #'JetHT_2016_postHIP',
+    'MET_2016_postHIP',
+    #'MET_2016G',
+    #'MET_2016H',
     #'JetHT_2016D',
     #'JetHT_2016E',
     #'JetHT_2016G',
