@@ -19,7 +19,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
      #'root://cmsxrootd.fnal.gov//store/data/Run2017D/JetHT/MINIAOD/PromptReco-v1/000/302/031/00000/24C14AB9-488F-E711-A2D5-02163E019D41.root'
-     'root://cmsxrootd.fnal.gov//store/data/Run2016C/JetHT/MINIAOD/PromptReco-v2/000/275/420/00000/AA1A1B46-F439-E611-92AE-02163E0141C7.root'
+     #'root://cmsxrootd.fnal.gov//store/data/Run2016G/MET/MINIAOD/23Sep2016-v1/100000/0659060C-C595-E611-9DFF-002590796302.root'
+     'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/08D759B1-CBB6-E611-87B3-484D7E8DF0D3.root'
      #'file:condor/EMu_TrigEfficiency_Skim_17_10_03/JetHT_2017D/TTbarForTrigEffNoTrig/skim_0.root'
      #'file:condor/EMuSkim_Moriond17/MuonEG_2016H/EMuSkimSelection/skim_13.root'
 
@@ -97,7 +98,7 @@ collections = miniAOD_collections
 ################################################################################
 
 variableProducers = []
-#variableProducers.append('DisplacedSUSYEventVariableProducer')
+variableProducers.append('DisplacedSUSYEventVariableProducer')
 #variableProducers.append('LifetimeWeightProducer')
 #variableProducers.append('PUScalingFactorProducer')
 
@@ -204,13 +205,17 @@ ObjectScalingFactorProducer = {}
 from DisplacedSUSY.EMuChannel.TTbarForTrigEff import *
 
 eventSelections = [
-                   TTbarForTrigEffNoTrig,
+                   TTbarForTrigEff,
+                   #TTbarForTrigEffMet,
+                   TTbarForTrigEff38,
                    #TTbarForTrigEff43,
                    #TTbarForTrigEff48,
-                   #TTbarForTrigEffNoTrigHighPtE,
+                   TTbarForTrigEffHighPtE,
+                   TTbarForTrigEff38HighPtE,
                    #TTbarForTrigEff43HighPtE,
                    #TTbarForTrigEff48HighPtE,
-                   #TTbarForTrigEffNoTrigHighPtMu,
+                   TTbarForTrigEffHighPtMu,
+                   TTbarForTrigEff38HighPtMu,
                    #TTbarForTrigEff43HighPtMu,
                    #TTbarForTrigEff48HighPtMu,
                    #TTbarForTrigEff43EFilter,
@@ -265,4 +270,5 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 #process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
-#process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
