@@ -446,4 +446,19 @@ met_gt60_cut =  cms.PSet (
     cutString = cms.string("pt > 60"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("met > 60")
-)
+    )
+
+
+
+##########################################################################
+
+# BEGIN EVENTVARIABLE CUTS
+
+pass_trigger = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("eventvariable.passTrigger"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("pass trigger specified in config file")
+    )
+
+
