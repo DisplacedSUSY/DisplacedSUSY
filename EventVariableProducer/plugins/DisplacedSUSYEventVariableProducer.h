@@ -11,7 +11,7 @@ struct OriginalCollections
   edm::Handle<vector<pat::Muon> >           muons;
   edm::Handle<vector<reco::Vertex> >        primaryvertexs;
   edm::Handle<vector<PileupSummaryInfo>>    pileupinfos;
-  //  edm::Handle<edm::TriggerResults>          triggers;
+  edm::Handle<edm::TriggerResults>          triggers;
 };
 
 class DisplacedSUSYEventVariableProducer : public EventVariableProducer
@@ -26,13 +26,13 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
     private:
         void AddVariables(const edm::Event &);
         string type_;
-	//        string triggerPath_;
+	    string triggerPath_;
 	//        double triggerScalingFactor_;
         edm::EDGetTokenT<vector<TYPE(pileupinfos)> > pileUpInfosToken_;
         edm::EDGetTokenT<vector<TYPE(primaryvertexs)> > primaryVertexsToken_;
         edm::EDGetTokenT<vector<TYPE(muons)> > muonsToken_;
         edm::EDGetTokenT<vector<TYPE(electrons)> > electronsToken_;
         edm::EDGetTokenT<vector<TYPE(jets)> > jetsToken_;
-	//        edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
+	    edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
   };
 #endif

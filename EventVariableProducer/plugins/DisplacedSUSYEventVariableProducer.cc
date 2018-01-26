@@ -1,29 +1,29 @@
 #include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
 #include "DisplacedSUSY/EventVariableProducer/plugins/DisplacedSUSYEventVariableProducer.h"
 
-DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm::ParameterSet &cfg) :
-  EventVariableProducer(cfg),
-  type_             (cfg.getParameter<string>("type"))
-  //  triggerPath_      (cfg.getParameter<string>("triggerPath")),
-  //  triggerScalingFactor_      (cfg.getParameter<double>("triggerScalingFactor"))
-{
+DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm::ParameterSet &cfg) : EventVariableProducer(cfg) {
+
   pileUpInfosToken_ = consumes<vector<TYPE(pileupinfos)> > (collections_.getParameter<edm::InputTag> ("pileupinfos"));
   muonsToken_ = consumes<vector<TYPE(muons)> > (collections_.getParameter<edm::InputTag> ("muons"));
   electronsToken_ = consumes<vector<TYPE(electrons)> > (collections_.getParameter<edm::InputTag> ("electrons"));
   jetsToken_ = consumes<vector<TYPE(jets)> > (collections_.getParameter<edm::InputTag> ("jets"));
   primaryVertexsToken_ = consumes<vector<TYPE(primaryvertexs)> > (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
-  //  triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
+  triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
+
+  type_       = cfg.getParameter<string>("type");
+  triggerPath_= cfg.getParameter<string>("triggerPath");
+  //  triggerScalingFactor_      (cfg.getParameter<double>("triggerScalingFactor"))
 }
+
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
-void
-DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
+void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
 #if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
   objectsToGet_.insert ("primaryvertexs");
-  //  objectsToGet_.insert ("triggers");
+  objectsToGet_.insert ("triggers");
   if(type_.find("MC") < type_.length())
       objectsToGet_.insert ("pileupinfos");
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
@@ -48,13 +48,14 @@ DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
         numTruePV = pv1.getTrueNumInteractions();
       }
     }
-  //  const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
-  // double passTrigger = 0.0;
-  // for (unsigned int i = 0; i < names.size() - 1 ; ++i){
-  //   std::string name = names.triggerName(i);
-  //   if(name.find(triggerPath_) < name.length() && handles_.triggers->accept(i))
-  //    passTrigger = 1.0;
-  // }
+  // Pass trigger specified in config file
+  const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
+  bool passTrigger = false;
+  for (unsigned int i = 0; i < names.size() - 1 ; ++i) {
+    std::string name = names.triggerName(i);
+    if(name.find(triggerPath_) == 0 && handles_.triggers->accept(i))
+      passTrigger = true;
+  }
   // Identify tag muon to for trigger efficiency plotting
   bool tagMuonExists = false;
   double tagMuonPt = 0;
@@ -80,10 +81,10 @@ DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
-  //  (*eventvariables)["passTrigger"] = passTrigger;
+  (*eventvariables)["passTrigger"] = passTrigger;
   //  (*eventvariables)["triggerScalingFactor"] = triggerScalingFactor_;
- # endif
- }
+# endif
+}
 
 bool
 DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, OriginalCollections &handles)
@@ -128,7 +129,7 @@ DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<
   if  (VEC_CONTAINS  (objectsToGet,  "muons"))           event.getByToken  (muonsToken_, handles.muons);
   if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs"))  event.getByToken  (primaryVertexsToken_, handles.primaryvertexs);
   if  (VEC_CONTAINS  (objectsToGet,  "pileupinfos"))     event.getByToken  (pileUpInfosToken_, handles.pileupinfos);
-  //  if  (VEC_CONTAINS  (objectsToGet,  "triggers"))        event.getByToken  (triggersToken_, handles.triggers);
+  if  (VEC_CONTAINS  (objectsToGet,  "triggers"))        event.getByToken  (triggersToken_, handles.triggers);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
