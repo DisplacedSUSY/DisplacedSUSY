@@ -192,5 +192,5 @@ unique_systematic_uncertainties = {
 external_systematic_uncertainties = [
 #    'electronSF',
 #    'muonSF',
-#    'pileup',
+    'pileup',
 ]
