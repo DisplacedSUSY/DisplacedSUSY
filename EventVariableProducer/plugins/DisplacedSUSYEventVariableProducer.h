@@ -27,7 +27,7 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
         void AddVariables(const edm::Event &);
         string type_;
 	    string triggerPath_;
-	//        double triggerScalingFactor_;
+	    double triggerScaleFactor_;
         edm::EDGetTokenT<vector<TYPE(pileupinfos)> > pileUpInfosToken_;
         edm::EDGetTokenT<vector<TYPE(primaryvertexs)> > primaryVertexsToken_;
         edm::EDGetTokenT<vector<TYPE(muons)> > muonsToken_;

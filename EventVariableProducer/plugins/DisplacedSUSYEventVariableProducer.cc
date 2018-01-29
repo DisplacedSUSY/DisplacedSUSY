@@ -10,9 +10,9 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   primaryVertexsToken_ = consumes<vector<TYPE(primaryvertexs)> > (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
   triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
 
-  type_       = cfg.getParameter<string>("type");
-  triggerPath_= cfg.getParameter<string>("triggerPath");
-  //  triggerScalingFactor_      (cfg.getParameter<double>("triggerScalingFactor"))
+  type_ = cfg.getParameter<string>("type");
+  triggerPath_ = cfg.getParameter<string>("triggerPath");
+  triggerScaleFactor_ = cfg.getParameter<double>("triggerScaleFactor");
 }
 
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
@@ -82,7 +82,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
   (*eventvariables)["passTrigger"] = passTrigger;
-  //  (*eventvariables)["triggerScalingFactor"] = triggerScalingFactor_;
+  (*eventvariables)["triggerScaleFactor"] = triggerScaleFactor_;
 # endif
 }
 

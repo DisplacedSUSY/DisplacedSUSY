@@ -1793,10 +1793,10 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("passTrigger"),
         ),
         cms.PSet (
-            name = cms.string("triggerScalingFactor"),
-            title = cms.string("Trigger Scaling Factor; Trigger Scaling Factor"),
+            name = cms.string("triggerScaleFactor"),
+            title = cms.string("Trigger Scale Factor; Trigger Scale Factor"),
             binsX = cms.untracked.vdouble(10, 0, 1),
-            inputVariables = cms.vstring("triggerScalingFactor"),
+            inputVariables = cms.vstring("triggerScaleFactor"),
         ),
         cms.PSet (
             name = cms.string("electronReco2016"),
