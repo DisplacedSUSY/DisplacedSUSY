@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
-from OSUT3Analysis.Configuration.configurationOptions import *
+from DisplacedSUSY.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
 
 import math
@@ -51,7 +51,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (100)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -112,6 +112,10 @@ weights = cms.VPSet(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("puScalingFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("triggerScaleFactor")
     ),
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
@@ -262,3 +266,5 @@ process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)

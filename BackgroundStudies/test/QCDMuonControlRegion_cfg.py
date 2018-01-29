@@ -98,6 +98,10 @@ weights = cms.VPSet(
     ),
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("triggerScaleFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("muonReco2016")
     ),
     cms.PSet (
@@ -192,5 +196,7 @@ process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
 process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
 
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

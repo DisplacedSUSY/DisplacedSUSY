@@ -272,3 +272,4 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("data")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)

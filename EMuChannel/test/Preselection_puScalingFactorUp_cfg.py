@@ -109,6 +109,10 @@ weights = cms.VPSet(
     ),
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("triggerScaleFactor")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string("electronReco2016")
     ),
     cms.PSet (
@@ -230,3 +234,5 @@ process.PUScalingFactorProducer.type = cms.string("bgMC")
 
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
