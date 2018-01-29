@@ -173,7 +173,7 @@ global_systematic_uncertainties = {
     },
     # taken from the error on the trigger effieciency scale factor
     'trigger' :  {
-        'value' : '1.011',
+        'value' : '1.013',
         'applyList' : mc_normalized_processes,
      },
     #taken from Ian's study
