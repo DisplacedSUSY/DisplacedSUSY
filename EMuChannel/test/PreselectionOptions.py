@@ -6,6 +6,8 @@ from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "Preselection_cfg.py"
+#config_file = "Preselection_puScalingFactorUp_cfg.py"
+#config_file = "Preselection_puScalingFactorDown_cfg.py"
 
 # choose luminosity used for MC normalization
 #intLumi = 35863.308 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
