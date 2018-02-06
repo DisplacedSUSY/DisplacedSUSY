@@ -1,5 +1,5 @@
 #run with a command like this:
-#python getHistIntegralsForD0Hists.py -l options.py -w DisplacedLeptons2016/Preselection_D0CutOptimization
+#python SOverSqrtB_ForD0Hists_SignalRegion.py.py -l options.py -w DisplacedLeptons2016/Preselection_D0CutOptimization
 import time
 import os
 import sys
