@@ -40,7 +40,6 @@ PreselectionPromptElectron = cms.PSet(
 PreselectionPromptElectron.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 PreselectionPromptElectron.cuts.append(electron_d0_below200_cut)
 
-
 PreselectionPromptMuon = cms.PSet(
     name = cms.string("PreselectionPromptMuon"),
     triggers = copy.deepcopy(Preselection.triggers),
@@ -48,6 +47,40 @@ PreselectionPromptMuon = cms.PSet(
 )
 PreselectionPromptMuon.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 PreselectionPromptMuon.cuts.append(muon_d0_below200_cut)
+
+
+PreselectionVeryPromptElectron = cms.PSet(
+    name = cms.string("PreselectionVeryPromptElectron"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionVeryPromptElectron.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionVeryPromptElectron.cuts.append(electron_d0_lt100_cut)
+
+PreselectionVeryPromptMuon = cms.PSet(
+    name = cms.string("PreselectionVeryPromptMuon"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionVeryPromptMuon.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionVeryPromptMuon.cuts.append(muon_d0_lt100_cut)
+
+
+PreselectionIntermediateElectron = cms.PSet(
+    name = cms.string("PreselectionIntermediateElectron"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionIntermediateElectron.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionIntermediateElectron.cuts.append(electron_d0_100to200_cut)
+
+PreselectionIntermediateMuon = cms.PSet(
+    name = cms.string("PreselectionIntermediateMuon"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet ()
+)
+PreselectionIntermediateMuon.cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+PreselectionIntermediateMuon.cuts.append(muon_d0_100to200_cut)
 
 
 PreselectionSignalRegion = cms.PSet(
