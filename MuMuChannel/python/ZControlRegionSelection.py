@@ -12,7 +12,7 @@ from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
 ZControlRegion = cms.PSet(
     name = cms.string("ZControlRegion"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
@@ -29,8 +29,6 @@ ZControlRegion.cuts.append(muonjet_deltaR_veto)
 ZControlRegion.cuts.append(muon_2muon_cut)
 ### invMass in Z range
 ZControlRegion.cuts.append(diMuon_invMass_Z_cut)
-### we don't take kindly to b-jets around these parts
-#ZControlRegion.cuts.append(jet_csvm_veto)
 
 fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),

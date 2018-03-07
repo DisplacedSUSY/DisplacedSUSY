@@ -12,7 +12,7 @@ from DisplacedSUSY.EEChannel.CutDefinitions import *
 
 ZControlRegion = cms.PSet(
     name = cms.string("ZControlRegion"),
-    triggers = cms.vstring(),
+    triggers = cms.vstring("HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15_v"),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
@@ -29,8 +29,6 @@ ZControlRegion.cuts.append(electronjet_deltaR_veto)
 ZControlRegion.cuts.append(electron_2electron_cut)
 ### invMass in Z range
 ZControlRegion.cuts.append(diElectron_invMass_Z_cut)
-### we don't take kindly to b-jets around these parts
-#ZControlRegion.cuts.append(jet_csvm_veto)
 
 fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
