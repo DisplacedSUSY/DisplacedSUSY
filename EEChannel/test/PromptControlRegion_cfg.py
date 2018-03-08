@@ -18,7 +18,8 @@ process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-    'file:/store/user/bcardwell/EESkim_17_02_03/ZZToLLLL/EESkim/skim_0.root'
+    'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/120000/02A210D6-F5C3-E611-B570-008CFA197BD4.root',
+    #'file:/store/user/bcardwell/EESkim_17_02_03/ZZToLLLL/EESkim/skim_0.root'
   )
 )
 
@@ -36,7 +37,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (100)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -58,23 +59,23 @@ else:
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',''),
-  genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('slimmedJets',                    ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''), 
-  mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
-  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
-  mets            =  cms.InputTag  ('slimmedMETs',                    ''),
-  muons           =  cms.InputTag  ('slimmedMuons',                   ''),
-  photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
-  primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
-  beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
-  superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
-  taus            =  cms.InputTag  ('slimmedTaus',                    ''),
-  triggers        =  cms.InputTag  ('TriggerResults',                 '',  'HLT'),
-  trigobjs        =  cms.InputTag  ('selectedPatTrigger',             ''),
+  electrons                   =  cms.InputTag  ('slimmedElectrons',                  ''),
+  genjets                     =  cms.InputTag  ('slimmedGenJets',                    ''),
+  jets                        =  cms.InputTag  ('slimmedJets',                       ''),
+  bjets                       =  cms.InputTag  ('slimmedJets',                       ''),
+  generatorweights            =  cms.InputTag  ('generator',                         ''), 
+  mcparticles                 =  cms.InputTag  ('packedGenParticles',                ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',                ''),
+  mets                        =  cms.InputTag  ('slimmedMETs',                       ''),
+  muons                       =  cms.InputTag  ('slimmedMuons',                      ''),
+  photons                     =  cms.InputTag  ('slimmedPhotons',                    ''),
+  primaryvertexs              =  cms.InputTag  ('offlineSlimmedPrimaryVertices',     ''),
+  pileupinfos                 =  cms.InputTag  ('slimmedAddPileupInfo',              ''),
+  beamspots                   =  cms.InputTag  ('offlineBeamSpot',                   ''),
+  superclusters               =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
+  taus                        =  cms.InputTag  ('slimmedTaus',                       ''),
+  triggers                    =  cms.InputTag  ('TriggerResults',             '', 'HLT'),
+  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                ''),
 )
 
 collections = miniAOD_collections
@@ -110,11 +111,15 @@ eventSelections = [PromptControlRegion]
 ##### Import the histograms to be plotted ######################################
 ################################################################################
 
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms 
+from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, BeamspotHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms
 from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
+
+################################################################################
+##### Attach the channels and histograms to the process ########################
+################################################################################
 
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
@@ -127,13 +132,8 @@ histograms.append(MetHistograms)
 histograms.append(ElectronMetHistograms)
 histograms.append(eventHistograms)
 
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
-
-
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
-#process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("")
-#process.DisplacedSUSYEventVariableProducer.triggerScalingFactor = cms.double(1.0)
+process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
