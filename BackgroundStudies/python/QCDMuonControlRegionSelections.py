@@ -15,8 +15,7 @@ from DisplacedSUSY.BackgroundStudies.CutDefinitions import *
 
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
-    triggers = cms.vstring(),
-#    triggers = cms.vstring("HLT_Mu28NoFiltersNoVtx_CentralCaloJet40_v"),
+    triggers = cms.vstring("HLT_Mu50_v", "HLT_TkMu50_v"),
     cuts = cms.VPSet ()
 )
 QCDMuonControlRegion.cuts.append(one_jet_eta_cut)
@@ -31,9 +30,9 @@ QCDMuonControlRegion.cuts.append(bjet_csvm_cut)
 QCDMuonControlRegion.cuts.append(extra_bjet_veto)
 
 QCDMuonControlRegion.cuts.append(muon_eta_cut)
-QCDMuonControlRegion.cuts.append(muon_pt_40_cut)
-# raise muon pt to get above single muon trigger threshold
-#QCDMuonControlRegion.cuts.append(muon_pt_50_cut)
+#QCDMuonControlRegion.cuts.append(muon_pt_40_cut)
+# raise muon pt to be in plateau of single muon trig eff curve
+QCDMuonControlRegion.cuts.append(muon_pt_55_cut)
 QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.append(muon_id_cut)
 QCDMuonControlRegion.cuts.append(extra_muon_veto)
