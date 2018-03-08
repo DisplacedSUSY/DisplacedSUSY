@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
+from DisplacedSUSY.Configuration.cmsswVersion import *
 
 ### This file contains the official POG  object definitions, for use in object selection
 
@@ -11,11 +12,17 @@ import string
 
 # TIGHT ELECTRON ISOLATION
 
-# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
 # pfdRhoIsoCorr -> isolation variables recalculated wrt the closest PV to the electron
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUElectronProducer.cc#L134
 
-electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
+#taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_92X_and_later
+if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0361) | \
+                                     (isEE & pfdRhoIsoCorr <= 0.094)")
+
+# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
+else: #2016 data (80X)    
+    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
                                      (isEE & pfdRhoIsoCorr <= 0.0571)")
 
 electron_iso_alias = cms.string("electron tight isolation")
@@ -24,7 +31,11 @@ electron_iso_alias = cms.string("electron tight isolation")
 
 # INVERTED TIGHT ELECTRON ISOLATION
 
-electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
+if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+    electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0361) | \
+                                     (isEE & pfdRhoIsoCorr > 0.094)")
+else: #2016 data (80X)    
+    electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
                                      (isEE & pfdRhoIsoCorr > 0.0571)")
 
 electron_antiiso_alias = cms.string("electron inverted tight isolation")
@@ -33,7 +44,11 @@ electron_antiiso_alias = cms.string("electron inverted tight isolation")
 
 # INVERTED VETO ELECTRON ISOLATION
 
-electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.175) | \
+if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+    electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.168) | \
+                                     (isEE & pfdRhoIsoCorr > 0.185)")
+else: #2016 data (80X)
+    electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.175) | \
                                      (isEE & pfdRhoIsoCorr > 0.159)")
 
 electron_veto_antiiso_alias = cms.string("electron inverted veto isolation")
@@ -45,6 +60,7 @@ electron_veto_antiiso_alias = cms.string("electron inverted veto isolation")
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
 # pfdBetaIsoCorr -> isolation variables recalculated wrt the closest PV to the electron
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUMuonProducer.cc#L124
+# muon isolation is so far the same for 2016 and 2017 data
 
 muon_iso_cutstring = cutString = cms.string("pfdBetaIsoCorr <= 0.15")
 
@@ -77,12 +93,22 @@ muon_loose_antiiso_alias = cms.string("muon inverted loose isolation")
 
 ##########################################################################
 
-# JET ID AGAINST LEPTONS
+# JET ID AGAINST LEPTONS (tight lepton veto)
 
 # N.B.: JET ID VALID FOR ETA < 2.4
-# taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID#Recommendations_for_13_TeV_data
 
-jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
+if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+# taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2017
+    jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
+                                              chargedEmEnergyFraction < 0.80 & \
+                                              neutralEmEnergyFraction < 0.90 & \
+                                              numberOfDaughters > 1 & \
+                                              chargedHadronEnergyFraction > 0.0 & \
+                                              chargedMultiplicity > 0.0 & \
+                                              muonEnergyFraction < 0.8")
+else: #2016 data (80X)
+# taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2016
+    jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
                                               chargedEmEnergyFraction < 0.90 & \
                                               neutralEmEnergyFraction < 0.90 & \
                                               numberOfDaughters > 1 & \
@@ -110,11 +136,32 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 ##########################################################################
 
-# ELECTRON ID
+# TIGHT ELECTRON ID
 # without impact parameter cuts
-# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria
 
-electron_id_cutstring = cms.string("(isEB & \
+#taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_92X_and_later
+#FIXME: define rho
+if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X)
+    electron_id_cutstring = cms.string("(isEB & \
+                            full5x5_sigmaIetaIeta < 0.0104 & \
+                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0499 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00353 &\
+                            hadronicOverEm < 0.026 + 1.12/ecalEnergy + 0.0368*rho/ecalEnergy & \
+                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0278 & \
+                            missingInnerHits <= 1 & \
+                            passConversionVeto) | \
+                            (isEE & \
+                            full5x5_sigmaIetaIeta < 0.0305 & \
+                            abs(deltaPhiSuperClusterTrackAtVtx) < 0.0165 & \
+                            abs(deltaEtaSuperClusterTrackAtVtx) < 0.00567 &\
+                            hadronicOverEm < 0.026 + 0.5/ecalEnergy + 0.201*rho/ecalEnergy & \
+                            abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0158 & \
+                            missingInnerHits <= 1 & \
+                            passConversionVeto)")
+
+# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria_AN1
+else: #2016 data (80X)
+    electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
                             abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
@@ -136,6 +183,7 @@ electron_id_alias = cms.string("electron tight ID")
 ##########################################################################
 
 # ELECTRON ID IMPACT PARAMETER CUTS 
+# impact parameter cuts are the same in 2016 and 2017
 
 electron_id_impact_parameter_cutstring = cms.string("(isEB & \
                                              abs(d0) < 0.05 & \
@@ -149,16 +197,17 @@ electron_id_impact_parameter_alias = cms.string("electron tight ID impact parame
 
 ##########################################################################
 
-# MUON ID, part one
+# TIGHT MUON ID, part one
 # done separately because some other cuts access members that only exist for global muons
+# tight muon ID is so far the same for 2016 and 2017 data
 
 muon_global_cutstring = cms.string("isGlobalMuon & isPFMuon")
 
-muon_global_alias = cms.string("is global muon")
+muon_global_alias = cms.string("is global PF muon")
 
 ##########################################################################
 
-# MUON ID, part two
+# TIGHT MUON ID, part two
 # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Tight_Muon
 # we don't include d0/dz inside the ID so that we can control it more explicitly
 
