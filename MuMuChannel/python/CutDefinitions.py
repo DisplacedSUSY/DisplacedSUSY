@@ -6,6 +6,16 @@ import DisplacedSUSY.Configuration.objectDefinitions as objectDefs
 
 ##########################################################################
 
+# DUMMY CUT FOR PRODUCING FLOW CHART
+
+cutDummy = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">=0"),
+    alias = cms.string("No offline cuts")
+)
+
+
 # BEGIN JET CUTS
 
 jet_eta_cut = cms.PSet(
