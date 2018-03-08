@@ -16,6 +16,24 @@ dataset_names = {
     ############################################################################
 
     ############################################################################
+    # DoubleMuon 2017, 17Nov2017 rereco
+    'DoubleMuon_2017B' : '/DoubleMuon/Run2017B-17Nov2017-v1/MINIAOD',
+    'DoubleMuon_2017C' : '/DoubleMuon/Run2017C-17Nov2017-v1/MINIAOD',
+    'DoubleMuon_2017D' : '/DoubleMuon/Run2017D-17Nov2017-v1/MINIAOD',
+    'DoubleMuon_2017E' : '/DoubleMuon/Run2017E-17Nov2017-v1/MINIAOD',
+    'DoubleMuon_2017F' : '/DoubleMuon/Run2017F-17Nov2017-v1/MINIAOD',
+    ############################################################################
+
+    ############################################################################
+    # DoubleEG 2017, 17Nov2017 rereco
+    'DoubleEG_2017B' : '/DoubleEG/Run2017B-17Nov2017-v1/MINIAOD',
+    'DoubleEG_2017C' : '/DoubleEG/Run2017C-17Nov2017-v1/MINIAOD',
+    'DoubleEG_2017D' : '/DoubleEG/Run2017D-17Nov2017-v1/MINIAOD',
+    'DoubleEG_2017E' : '/DoubleEG/Run2017E-17Nov2017-v1/MINIAOD',
+    'DoubleEG_2017F' : '/DoubleEG/Run2017F-17Nov2017-v1/MINIAOD',
+    ############################################################################
+
+    ############################################################################
     # MET 2017, 17Nov2017 rereco
     'MET_2017B' : '/MET/Run2017B-17Nov2017-v1/MINIAOD',
     'MET_2017C' : '/MET/Run2017C-17Nov2017-v1/MINIAOD',
