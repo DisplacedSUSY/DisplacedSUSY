@@ -16,14 +16,17 @@ QCDElectronSkim = cms.PSet(
     cuts = cms.VPSet()
 )
 ### jet selections
-QCDElectronSkim.cuts.append(two_jets_eta_cut)
-QCDElectronSkim.cuts.append(two_jets_pt_30_cut)
-QCDElectronSkim.cuts.append(two_jets_id_cut)
+QCDElectronSkim.cuts.append(one_jet_eta_cut)
+QCDElectronSkim.cuts.append(one_jet_pt_30_cut)
+QCDElectronSkim.cuts.append(one_jet_id_cut)
+QCDElectronSkim.cuts.append(bjet_eta_cut)
+QCDElectronSkim.cuts.append(bjet_pt_30_cut)
+QCDElectronSkim.cuts.append(bjet_id_cut)
+QCDElectronSkim.cuts.append(bjet_csvm_cut)
 ### at least one good electron
 QCDElectronSkim.cuts.append(electron_eta_cut)
 QCDElectronSkim.cuts.append(electron_gap_veto)
 QCDElectronSkim.cuts.append(electron_pt_25_cut)
-#QCDElectronSkim.cuts.append(electron_id_cut)  # i'm suspicious of the low efficiency for this cut... JA 11/18
 
 
 
@@ -33,9 +36,13 @@ QCDMuonSkim = cms.PSet(
     cuts = cms.VPSet()
 )
 ### jet selections
-QCDMuonSkim.cuts.append(two_jets_eta_cut)
-QCDMuonSkim.cuts.append(two_jets_pt_30_cut)
-QCDMuonSkim.cuts.append(two_jets_id_cut)
+QCDMuonSkim.cuts.append(one_jet_eta_cut)
+QCDMuonSkim.cuts.append(one_jet_pt_30_cut)
+QCDMuonSkim.cuts.append(one_jet_id_cut)
+QCDMuonSkim.cuts.append(bjet_eta_cut)
+QCDMuonSkim.cuts.append(bjet_pt_30_cut)
+QCDMuonSkim.cuts.append(bjet_id_cut)
+QCDMuonSkim.cuts.append(bjet_csvm_cut)
 ### at least one good muon
 QCDMuonSkim.cuts.append(muon_eta_cut)
 QCDMuonSkim.cuts.append(muon_pt_25_cut)
