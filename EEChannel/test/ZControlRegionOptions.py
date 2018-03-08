@@ -8,7 +8,7 @@ from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 config_file = "ZControlRegion_cfg.py"
 
 # choose luminosity used for MC normalization
-intLumi = 35863.308
+intLumi = 16146.2 # 2016G,H only
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
@@ -29,13 +29,13 @@ datasets = [
     'Diboson',
 
     # QCD
-#    'QCD_MuEnriched',
-    
+    #'QCD_MuEnriched',
+
     # Signal
     #'DisplacedSUSYSignal',
-    
+
     # Data
-    'DoubleEG_2016',
+    'DoubleEG_2016_postHIP',
 
 ]
 

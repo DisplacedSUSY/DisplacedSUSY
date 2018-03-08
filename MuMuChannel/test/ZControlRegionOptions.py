@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 # import the definitions of all the datasets on the T3
-from DisplacedSUSY.Configuration.configurationOptions import *
-from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
+from OSUT3Analysis.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
 config_file = "ZControlRegion_cfg.py"
@@ -17,16 +17,16 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 datasets = [
 
     # DY
-    #'DYJetsToLL',
+    'DYJetsToLL',
 
     # TTbar
-    #'TTJets_DiLept',
+    'TTJets_Lept',
 
     # tW
-    #'SingleTop',
+    'SingleTop',
 
     # Diboson
-    #'Diboson',
+    'Diboson',
 
     # QCD
     #'QCD_MuEnriched',
@@ -35,10 +35,7 @@ datasets = [
     #'DisplacedSUSYSignal',
 
     # Data
-    #'DoubleMu_2016',
-    #'DoubleMu_2016_postHIP',
-    #'DoubleMu_2016G',
-    'DoubleMu_2016H',
+    'DoubleMu_2016_postHIP',
 
 ]
 
