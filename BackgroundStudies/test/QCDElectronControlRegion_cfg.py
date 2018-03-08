@@ -12,16 +12,15 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+
 process.source = cms.Source ('PoolSource',
-  fileNames = cms.untracked.vstring ("file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_0.root",
-                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_1.root",
-                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_2.root",
-                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_3.root",
-                                     "file:/store/user/lantonel/QCDElectronSkim/QCD_EMEnriched_50to80/QCDElectronSkim/skim_4.root",
-
-
-
-)
+  fileNames = cms.untracked.vstring (
+#     'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/120000/02A210D6-F5C3-E611-B570-008CFA197BD4.root',
+#     'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/00271851-3CC8-E611-AFB9-002590D0AFD8.root',
+#     'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/02F0F9B7-EFBA-E611-9AE6-842B2B76670F.root',
+     'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/QCD_Pt-80to120_EMEnriched_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/100000/003DABBD-7DD5-E611-A42E-0025904AC2C0.root',
+#     'root://cmsxrootd.fnal.gov//store/data/Run2016G/SingleElectron/MINIAOD/23Sep2016-v1/100000/004A7893-A990-E611-B29F-002590E7DE36.root',
+    )
 )
 
 
@@ -30,9 +29,16 @@ process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
+# suppress gen-matching erros
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
+)
+
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -54,22 +60,23 @@ else:
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',''),
+  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('slimmedJets',     ''),
-  bjets           =  cms.InputTag  ("objectSelector1","originalFormat","OSUAnalysisQCDElectronSkim1483021621"), # needs to be fed the exact collection from the skim being used
-  generatorweights=  cms.InputTag  ('generator', ''),
-  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
+  jets            =  cms.InputTag  ('slimmedJets',                    ''),
+  #bjets           =  cms.InputTag  ("objectSelector2","originalFormat","OSUAnalysisQCDElectronSkim1520366144"), # needs to be fed the exact collection from the skim being used when run interactively
+  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
+  generatorweights=  cms.InputTag  ('generator',                      ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
+  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',           ''),
   beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
-  superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
+  superclusters   =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
   taus            =  cms.InputTag  ('slimmedTaus',                    ''),
-  triggers        =  cms.InputTag  ('TriggerResults',                 '',  'HLT'),
+  triggers        =  cms.InputTag  ('TriggerResults',         '',  'HLT'),
   trigobjs        =  cms.InputTag  ('selectedPatTrigger',             ''),
 )
 
@@ -138,9 +145,6 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 from DisplacedSUSY.BackgroundStudies.QCDElectronControlRegionSelections import *
 
 eventSelections = [QCDElectronControlRegion]
-#                   QCDElectronControlRegionPrompt,
-#                   QCDElectronControlRegionDisplaced,
-#                   QCDElectronControlRegionVeryDisplaced]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

@@ -12,18 +12,26 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring ("file:/store/user/lantonel/EMuSkim_23Sep/TTJets_DiLept/EMuSkimSelection/skim_0.root"),
-  skipBadFiles = cms.untracked.bool (True),
 )
+
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
 )
 
+# suppress gen-matching erros
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
+)
+
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (6000)
+    input = cms.untracked.int32 (1000)
 )
 
 data_global_tag = '80X_dataRun2_2016SeptRepro_v3'
@@ -45,24 +53,22 @@ else:
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
+  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
+  jets            =  cms.InputTag  ('slimmedJets',                    ''),
+  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
+  generatorweights=  cms.InputTag  ('generator',                      ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles', ''),
   mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
   mets            =  cms.InputTag  ('slimmedMETs',                    ''),
   muons           =  cms.InputTag  ('slimmedMuons',                   ''),
-  jets            =  cms.InputTag  ('slimmedJets',                   ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                   ''),
-  electrons       =  cms.InputTag  ('slimmedElectrons',               ''),
   photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
-  generatorweights = cms.InputTag  ('generator', ''),
-  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
   primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  #please notice this inputTag is different in miniAODv1 and v2.
-  #pileupinfos     =  cms.InputTag  ("addPileupInfo",           ""),
-  pileupinfos     =  cms.InputTag  ("slimmedAddPileupInfo",           ""),
+  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',           ''),
   beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
-  superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
+  superclusters   =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
   taus            =  cms.InputTag  ('slimmedTaus',                    ''),
-  triggers        =  cms.InputTag  ('TriggerResults',                 '',  'HLT'),
+  triggers        =  cms.InputTag  ('TriggerResults',         '',  'HLT'),
   trigobjs        =  cms.InputTag  ('selectedPatTrigger',             ''),
 )
 
@@ -89,11 +95,12 @@ scalingfactorproducers = []
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
-from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
+#from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import *
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
 add_channels (process, eventSelections, cms.VPSet(), weights, scalingfactorproducers, collections, variableProducers, True)
+
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
