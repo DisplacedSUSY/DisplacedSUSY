@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
-from DisplacedSUSY.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
 
 import math
