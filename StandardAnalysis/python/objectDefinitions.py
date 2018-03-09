@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
-from DisplacedSUSY.Configuration.cmsswVersion import *
+import os
 
 ### This file contains the official POG  object definitions, for use in object selection
 
@@ -16,14 +16,17 @@ from DisplacedSUSY.Configuration.cmsswVersion import *
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUElectronProducer.cc#L134
 
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_92X_and_later
-if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"): #valid for 92X and 94X samples
     electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0361) | \
                                      (isEE & pfdRhoIsoCorr <= 0.094)")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
-else: #2016 data (80X)    
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
                                      (isEE & pfdRhoIsoCorr <= 0.0571)")
+
+else:
+    print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
 
 electron_iso_alias = cms.string("electron tight isolation")
 
@@ -31,10 +34,11 @@ electron_iso_alias = cms.string("electron tight isolation")
 
 # INVERTED TIGHT ELECTRON ISOLATION
 
-if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
     electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0361) | \
                                      (isEE & pfdRhoIsoCorr > 0.094)")
-else: #2016 data (80X)    
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
                                      (isEE & pfdRhoIsoCorr > 0.0571)")
 
@@ -44,10 +48,10 @@ electron_antiiso_alias = cms.string("electron inverted tight isolation")
 
 # INVERTED VETO ELECTRON ISOLATION
 
-if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
     electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.168) | \
                                      (isEE & pfdRhoIsoCorr > 0.185)")
-else: #2016 data (80X)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.175) | \
                                      (isEE & pfdRhoIsoCorr > 0.159)")
 
@@ -97,7 +101,7 @@ muon_loose_antiiso_alias = cms.string("muon inverted loose isolation")
 
 # N.B.: JET ID VALID FOR ETA < 2.4
 
-if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X) 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
 # taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2017
     jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
                                               chargedEmEnergyFraction < 0.80 & \
@@ -106,7 +110,7 @@ if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X)
                                               chargedHadronEnergyFraction > 0.0 & \
                                               chargedMultiplicity > 0.0 & \
                                               muonEnergyFraction < 0.8")
-else: #2016 data (80X)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 # taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2016
     jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
                                               chargedEmEnergyFraction < 0.90 & \
@@ -141,7 +145,7 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_92X_and_later
 #FIXME: define rho
-if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
     electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.0104 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0499 & \
@@ -160,7 +164,7 @@ if (cmssw_version()[0]>8 and cmssw_version()[1]>-1): #2017 data (94X)
                             passConversionVeto)")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria_AN1
-else: #2016 data (80X)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.00998 & \
                             abs(deltaPhiSuperClusterTrackAtVtx) < 0.0816 & \
