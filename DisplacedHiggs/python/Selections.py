@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import string
 
-import DisplacedSUSY.Configuration.objectDefinitions as objectDefs
+import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 
 ##########################################################################
 ### Set up various LLP (Z->ll)H -> aa -> bbbb control regions
