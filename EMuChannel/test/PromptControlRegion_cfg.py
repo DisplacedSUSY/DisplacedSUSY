@@ -89,7 +89,6 @@ miniAOD_collections = cms.PSet (
   superclusters               =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
   taus                        =  cms.InputTag  ('slimmedTaus',                       ''),
   triggers                    =  cms.InputTag  ('TriggerResults',             '', 'HLT'),
-  trigobjs                    =  cms.InputTag  ('selectedPatTrigger',                ''),
 )
 
 collections = miniAOD_collections
@@ -207,15 +206,10 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EMuChannel.Preselection import *
 
 eventSelections = [PromptControlRegion]
 
-#eventSelections = [PromptControlRegion,
-#                   PromptControlRegionNoElectronIso,
-#                   PromptControlRegionNoElectronID,
-#                   PromptControlRegionNoMuonIso,
-#                   PromptControlRegionNoMuonID]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################

@@ -63,22 +63,22 @@ else:
 
 # this PSet specifies which collections to get from the input files
 miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',''),
-  genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('slimmedJets',                    ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''), 
-  mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
-  mets            =  cms.InputTag  ('slimmedMETs',                    ''),
-  muons           =  cms.InputTag  ('slimmedMuons',                   ''),
-  photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
-  primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
-  beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
-  superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
-  taus            =  cms.InputTag  ('slimmedTaus',                    ''),
-  triggers        =  cms.InputTag  ('TriggerResults',                 '',  'HLT'),
-  trigobjs        =  cms.InputTag  ('selectedPatTrigger',             ''),
+  electrons                   =  cms.InputTag  ('slimmedElectrons',                  ''),
+  genjets                     =  cms.InputTag  ('slimmedGenJets',                    ''),
+  jets                        =  cms.InputTag  ('slimmedJets',                       ''),
+  bjets                       =  cms.InputTag  ('slimmedJets',                       ''),
+  generatorweights            =  cms.InputTag  ('generator',                         ''),
+  mcparticles                 =  cms.InputTag  ('packedGenParticles',                ''),
+  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',                ''),
+  mets                        =  cms.InputTag  ('slimmedMETs',                       ''),
+  muons                       =  cms.InputTag  ('slimmedMuons',                      ''),
+  photons                     =  cms.InputTag  ('slimmedPhotons',                    ''),
+  primaryvertexs              =  cms.InputTag  ('offlineSlimmedPrimaryVertices',     ''),
+  pileupinfos                 =  cms.InputTag  ('slimmedAddPileupInfo',              ''),
+  beamspots                   =  cms.InputTag  ('offlineBeamSpot',                   ''),
+  superclusters               =  cms.InputTag  ('reducedEgamma', 'reducedSuperClusters'),
+  taus                        =  cms.InputTag  ('slimmedTaus',                       ''),
+  triggers                    =  cms.InputTag  ('TriggerResults',             '', 'HLT'),
 )
 
 collections = miniAOD_collections
@@ -95,7 +95,7 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.DisplacedControlRegionSelection import *
+from DisplacedSUSY.EMuChannel.Preselection import *
 
 eventSelections = [DisplacedControlRegion]
 
