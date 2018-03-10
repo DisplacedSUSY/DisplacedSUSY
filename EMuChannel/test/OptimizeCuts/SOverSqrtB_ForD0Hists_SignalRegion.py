@@ -13,7 +13,7 @@ from optparse import OptionParser
 from operator import itemgetter
 #from ROOT import *
 
-from DisplacedSUSY.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
 from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *

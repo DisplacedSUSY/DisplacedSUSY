@@ -1,5 +1,5 @@
 # import the definitions of all the datasets on the T3
-from DisplacedSUSY.Configuration.configurationOptions import *
+from OSUT3Analysis.Configuration.configurationOptions import *
 from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
 
 # specify which config file to pass to cmsRun
