@@ -19,15 +19,6 @@ datasets = [
     'SingleMu_2016H',
     'SingleMu_2016_postHIP',
 
-    'SingleMu_2016_03Feb2017',
-    'SingleMu_2016B_03Feb2017',
-    'SingleMu_2016C_03Feb2017',
-    'SingleMu_2016D_03Feb2017',
-    'SingleMu_2016E_03Feb2017',
-    'SingleMu_2016F_03Feb2017',
-    'SingleMu_2016G_03Feb2017',
-    'SingleMu_2016H_03Feb2017',
-
     'SingleEle_2016',
     'SingleEle_2016B',
     'SingleEle_2016C',
@@ -37,15 +28,6 @@ datasets = [
     'SingleEle_2016G',
     'SingleEle_2016H',
     'SingleEle_2016_postHIP',
-
-    'SingleEle_2016_03Feb2017',
-    'SingleEle_2016B_03Feb2017',
-    'SingleEle_2016C_03Feb2017',
-    'SingleEle_2016D_03Feb2017',
-    'SingleEle_2016E_03Feb2017',
-    'SingleEle_2016F_03Feb2017',
-    'SingleEle_2016G_03Feb2017',
-    'SingleEle_2016H_03Feb2017',
 
     'DoubleMu_2016',
     'DoubleMu_2016B',
@@ -76,15 +58,6 @@ datasets = [
     'MuonEG_2016G',
     'MuonEG_2016H',
     'MuonEG_2016_postHIP',
-
-    'MuonEG_2016_03Feb2017',
-    'MuonEG_2016B_03Feb2017',
-    'MuonEG_2016C_03Feb2017',
-    'MuonEG_2016D_03Feb2017',
-    'MuonEG_2016E_03Feb2017',
-    'MuonEG_2016F_03Feb2017',
-    'MuonEG_2016G_03Feb2017',
-    'MuonEG_2016H_03Feb2017',
 
     'MuonEG_2017',
     'MuonEG_2017B',
@@ -119,11 +92,6 @@ datasets = [
 
     #Sum of all backgrounds
     'Background',
-
-    # Samples from AN2017_022
-    'TT_AN2017_022',
-    'SingleTop_tW_AN2017_022',
-    'SingleTop_tbarW_AN2017_022',
 ]
 
 composite_dataset_definitions = {
@@ -154,10 +122,6 @@ composite_dataset_definitions = {
         'SingleTop_t_channel_antitop',
         'SingleTop_tW',
         'SingleTop_tbarW',
-    ],
-    'SingleTop_AN2017_022' : [
-        'SingleTop_tW_AN2017_022',
-        'SingleTop_tbarW_AN2017_022',
     ],
     'TTJets_Lept' : [
         'TTJets_DiLept',
@@ -208,15 +172,6 @@ composite_dataset_definitions = {
         'SingleMu_2016G',
         'SingleMu_2016H',
     ],
-    'SingleMu_2016_03Feb2017' : [
-        'SingleMu_2016B_03Feb2017',
-        'SingleMu_2016C_03Feb2017',
-        'SingleMu_2016D_03Feb2017',
-        'SingleMu_2016E_03Feb2017',
-        'SingleMu_2016F_03Feb2017',
-        'SingleMu_2016G_03Feb2017',
-        'SingleMu_2016H_03Feb2017',
-    ],
     'SingleEle_2016' : [
         'SingleEle_2016B',
         'SingleEle_2016C',
@@ -229,15 +184,6 @@ composite_dataset_definitions = {
     'SingleEle_2016_postHIP' : [
         'SingleEle_2016G',
         'SingleEle_2016H',
-    ],
-    'SingleEle_2016_03Feb2017' : [
-        'SingleEle_2016B_03Feb2017',
-        'SingleEle_2016C_03Feb2017',
-        'SingleEle_2016D_03Feb2017',
-        'SingleEle_2016E_03Feb2017',
-        'SingleEle_2016F_03Feb2017',
-        'SingleEle_2016G_03Feb2017',
-        'SingleEle_2016H_03Feb2017',
     ],
     'DoubleMu_2016' : [
         'DoubleMu_2016B',
@@ -277,15 +223,6 @@ composite_dataset_definitions = {
     'MuonEG_2016_postHIP' : [
         'MuonEG_2016G',
         'MuonEG_2016H',
-    ],
-    'MuonEG_2016_03Feb2017' : [
-        'MuonEG_2016B_03Feb2017',
-        'MuonEG_2016C_03Feb2017',
-        'MuonEG_2016D_03Feb2017',
-        'MuonEG_2016E_03Feb2017',
-        'MuonEG_2016F_03Feb2017',
-        'MuonEG_2016G_03Feb2017',
-        'MuonEG_2016H_03Feb2017',
     ],
     'JetHT_2016' : [
         'JetHT_2016B',
@@ -351,7 +288,6 @@ nJobs = {
     'WZToLNuNuNu'     : 20,
     'WZToLLLNu'       : 20,
 
-
     #ZZ
     'ZZToNuNuQQ'  : 300,
     'ZZToLLQQ'    : 150,
@@ -370,15 +306,10 @@ nJobs = {
     'SingleTop_tW'                  : 80,
 
 
-    #TTJet s
+    #TTJets
     'TTJets_DiLept'                 : 300,
     'TTJets_SingleLeptFromT'        : 620,
     'TTJets_SingleLeptFromTbar'     : 620,
-
-    #Samples from AN2017_022
-    'TT_AN2017_022'                 : 770,
-    'SingleTop_tW_AN2017_022'       : 10,
-    'SingleTop_tbarW_AN2017_022'    : 10,
 
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : 40,
@@ -420,15 +351,6 @@ nJobs = {
     'SingleEle_2016G' : 1530,
     'SingleEle_2016H' : 1300,
 
-    # Assume similar number of events in 03Feb as in 23Sep
-    'SingleEle_2016B_03Feb2017' : 2460,
-    'SingleEle_2016C_03Feb2017' : 970,
-    'SingleEle_2016D_03Feb2017' : 1480,
-    'SingleEle_2016E_03Feb2017' : 1170,
-    'SingleEle_2016F_03Feb2017' : 710,
-    'SingleEle_2016G_03Feb2017' : 1530,
-    'SingleEle_2016H_03Feb2017' : 1300,
-
     'SingleMu_2016B'  : 1580,
     'SingleMu_2016C'  : 670,
     'SingleMu_2016D'  : 980,
@@ -436,15 +358,6 @@ nJobs = {
     'SingleMu_2016F'  : 650,
     'SingleMu_2016G'  : 1500,
     'SingleMu_2016H'  : 1750,
-
-    # Assume similar number of events in 03Feb as in 23Sep
-    'SingleMu_2016B_03Feb2017' : 1580,
-    'SingleMu_2016C_03Feb2017' : 670,
-    'SingleMu_2016D_03Feb2017' : 980,
-    'SingleMu_2016E_03Feb2017' : 910,
-    'SingleMu_2016F_03Feb2017' : 650,
-    'SingleMu_2016G_03Feb2017' : 1500,
-    'SingleMu_2016H_03Feb2017' : 1750,
 
     'DoubleEG_2016B'  : 1430,
     'DoubleEG_2016C'  : 480,
@@ -469,15 +382,6 @@ nJobs = {
     'MuonEG_2016F'    : 160,
     'MuonEG_2016G'    : 340,
     'MuonEG_2016H'    : 300,
-
-    # Assume similar number of events in 03Feb as in 23Sep
-    'MuonEG_2016B_03Feb2017' : 330,
-    'MuonEG_2016C_03Feb2017' : 150,
-    'MuonEG_2016D_03Feb2017' : 230,
-    'MuonEG_2016E_03Feb2017' : 230,
-    'MuonEG_2016F_03Feb2017' : 160,
-    'MuonEG_2016G_03Feb2017' : 340,
-    'MuonEG_2016H_03Feb2017' : 300,
 
     'MuonEG_2017B' : 45,
     'MuonEG_2017C' : 156,
@@ -548,11 +452,6 @@ maxEvents = {
     'TTJets_SingleLeptFromT'     :  -1,
     'TTJets_SingleLeptFromTbar'  :  -1,
 
-    #Samples from AN2017_022
-    'TT_AN2017_022'              : -1,
-    'SingleTop_tW_AN2017_022'    : -1,
-    'SingleTop_tbarW_AN2017_022' : -1,
-
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'         : -1,
     'QCD_MuEnriched_20to30'         : -1,
@@ -605,15 +504,6 @@ maxEvents = {
     'SingleMu_2016'         : -1,
     'SingleMu_2016_postHIP' : -1,
 
-    'SingleMu_2016B_03Feb2017'   : -1,
-    'SingleMu_2016C_03Feb2017'   : -1,
-    'SingleMu_2016D_03Feb2017'   : -1,
-    'SingleMu_2016E_03Feb2017'   : -1,
-    'SingleMu_2016F_03Feb2017'   : -1,
-    'SingleMu_2016G_03Feb2017'   : -1,
-    'SingleMu_2016H_03Feb2017'   : -1,
-    'SingleMu_2016_03Feb2017'    : -1,
-
     'SingleEle_2016B'        : -1,
     'SingleEle_2016C'        : -1,
     'SingleEle_2016D'        : -1,
@@ -623,15 +513,6 @@ maxEvents = {
     'SingleEle_2016H'        : -1,
     'SingleEle_2016'         : -1,
     'SingleEle_2016_postHIP' : -1,
-
-    'SingleEle_2016B_03Feb2017'   : -1,
-    'SingleEle_2016C_03Feb2017'   : -1,
-    'SingleEle_2016D_03Feb2017'   : -1,
-    'SingleEle_2016E_03Feb2017'   : -1,
-    'SingleEle_2016F_03Feb2017'   : -1,
-    'SingleEle_2016G_03Feb2017'   : -1,
-    'SingleEle_2016H_03Feb2017'   : -1,
-    'SingleEle_2016_03Feb2017'    : -1,
 
     'DoubleEG_2016B'        : -1,
     'DoubleEG_2016C'        : -1,
@@ -652,14 +533,6 @@ maxEvents = {
     'MuonEG_2016H'        : -1,
     'MuonEG_2016'         : -1,
     'MuonEG_2016_postHIP' : -1,
-
-    'MuonEG_2016B_03Feb2017' : -1,
-    'MuonEG_2016C_03Feb2017' : -1,
-    'MuonEG_2016D_03Feb2017' : -1,
-    'MuonEG_2016E_03Feb2017' : -1,
-    'MuonEG_2016F_03Feb2017' : -1,
-    'MuonEG_2016G_03Feb2017' : -1,
-    'MuonEG_2016H_03Feb2017' : -1,
 
     'MuonEG_2017B' : -1,
     'MuonEG_2017C' : -1,
@@ -738,11 +611,6 @@ types = {
     'TTJets_SingleLeptFromT'     :  "bgMC",
     'TTJets_SingleLeptFromTbar'  :  "bgMC",
 
-    #Samples from AN2017_022
-    'TT_AN2017_022'              :  "bgMC",
-    'SingleTop_tW_AN2017_022'    :  "bgMC",
-    'SingleTop_tbarW_AN2017_022' :  "bgMC",
-
     ############################################################################
 
     #QCD MuEnriched
@@ -802,15 +670,6 @@ types = {
     'SingleMu_2016G'        : "data",
     'SingleMu_2016H'        : "data",
 
-    'SingleMu_2016_03Feb2017'   : "data",
-    'SingleMu_2016B_03Feb2017'  : "data",
-    'SingleMu_2016C_03Feb2017'  : "data",
-    'SingleMu_2016D_03Feb2017'  : "data",
-    'SingleMu_2016E_03Feb2017'  : "data",
-    'SingleMu_2016F_03Feb2017'  : "data",
-    'SingleMu_2016G_03Feb2017'  : "data",
-    'SingleMu_2016H_03Feb2017'  : "data",
-
     'SingleEle_2016'         : "data",
     'SingleEle_2016_postHIP' : "data",
     'SingleEle_2016B'        : "data",
@@ -820,15 +679,6 @@ types = {
     'SingleEle_2016F'        : "data",
     'SingleEle_2016G'        : "data",
     'SingleEle_2016H'        : "data",
-
-    'SingleEle_2016_03Feb2017'    : "data",
-    'SingleEle_2016B_03Feb2017'   : "data",
-    'SingleEle_2016C_03Feb2017'   : "data",
-    'SingleEle_2016D_03Feb2017'   : "data",
-    'SingleEle_2016E_03Feb2017'   : "data",
-    'SingleEle_2016F_03Feb2017'   : "data",
-    'SingleEle_2016G_03Feb2017'   : "data",
-    'SingleEle_2016H_03Feb2017'   : "data",
 
     'DoubleEG_2016'         : "data",
     'DoubleEG_2016_postHIP' : "data",
@@ -849,15 +699,6 @@ types = {
     'MuonEG_2016F'        : "data",
     'MuonEG_2016G'        : "data",
     'MuonEG_2016H'        : "data",
-
-    'MuonEG_2016_03Feb2017'  : "data",
-    'MuonEG_2016B_03Feb2017' : "data",
-    'MuonEG_2016C_03Feb2017' : "data",
-    'MuonEG_2016D_03Feb2017' : "data",
-    'MuonEG_2016E_03Feb2017' : "data",
-    'MuonEG_2016F_03Feb2017' : "data",
-    'MuonEG_2016G_03Feb2017' : "data",
-    'MuonEG_2016H_03Feb2017' : "data",
 
     'MuonEG_2017'  : "data",
     'MuonEG_2017B' : "data",
@@ -938,11 +779,6 @@ colors = {
     'TTJets_SingleLeptFromT'     :  874,
     'TTJets_SingleLeptFromTbar'  :  875,
 
-    #Samples from AN2017_022
-    'TT_AN2017_022'              : 877,
-    'SingleTop_tW_AN2017_022'    : 911,
-    'SingleTop_tbarW_AN2017_022' : 911,
-
     #QCD MuEnriched
     'QCD_MuEnriched'                : 623,
     'QCD_MuEnriched_15to20'         : 623,
@@ -1000,15 +836,6 @@ colors = {
     'SingleMu_2016G'        : 1,
     'SingleMu_2016H'        : 1,
 
-    'SingleMu_2016_03Feb2017'    : 1,
-    'SingleMu_2016B_03Feb2017'   : 1,
-    'SingleMu_2016C_03Feb2017'   : 1,
-    'SingleMu_2016D_03Feb2017'   : 1,
-    'SingleMu_2016E_03Feb2017'   : 1,
-    'SingleMu_2016F_03Feb2017'   : 1,
-    'SingleMu_2016G_03Feb2017'   : 1,
-    'SingleMu_2016H_03Feb2017'   : 1,
-
     'SingleEle_2016'         : 1,
     'SingleEle_2016_postHIP' : 1,
     'SingleEle_2016B'        : 1,
@@ -1018,15 +845,6 @@ colors = {
     'SingleEle_2016F'        : 1,
     'SingleEle_2016G'        : 1,
     'SingleEle_2016H'        : 1,
-
-    'SingleEle_2016_03Feb2017'    : 1,
-    'SingleEle_2016B_03Feb2017'   : 1,
-    'SingleEle_2016C_03Feb2017'   : 1,
-    'SingleEle_2016D_03Feb2017'   : 1,
-    'SingleEle_2016E_03Feb2017'   : 1,
-    'SingleEle_2016F_03Feb2017'   : 1,
-    'SingleEle_2016G_03Feb2017'   : 1,
-    'SingleEle_2016H_03Feb2017'   : 1,
 
     'DoubleEG_2016'         : 1,
     'DoubleEG_2016_postHIP' : 1,
@@ -1047,15 +865,6 @@ colors = {
     'MuonEG_2016F'        : 1,
     'MuonEG_2016G'        : 1,
     'MuonEG_2016H'        : 1,
-
-    'MuonEG_2016_03Feb2017'  :  1,
-    'MuonEG_2016B_03Feb2017' :  1,
-    'MuonEG_2016C_03Feb2017' :  1,
-    'MuonEG_2016D_03Feb2017' :  1,
-    'MuonEG_2016E_03Feb2017' :  1,
-    'MuonEG_2016F_03Feb2017' :  1,
-    'MuonEG_2016G_03Feb2017' :  1,
-    'MuonEG_2016H_03Feb2017' :  1,
 
     'MuonEG_2017'  :  1,
     'MuonEG_2017B' :  1,
@@ -1135,12 +944,6 @@ labels = {
     'TTJets_SingleLeptFromT'     :  "t#bar{t} (single lepton from t)",
     'TTJets_SingleLeptFromTbar'  :  "t#bar{t} (single lepton from #bar{t})",
 
-    #Samples from AN2017_022
-    'TT_AN2017_022'              :  "t#bar{t} (from AN2017-022)",
-    'SingleTop_AN2017_022'       :  "Single top (tW and #bar{t}W) (from AN2017-022)",
-    'SingleTop_tW_AN2017_022'    :  "Single top (tW) (from AN2017-022)",
-    'SingleTop_tbarW_AN2017_022' :  "Single top (#bar{t}W) (from AN2017-022)",
-
     #QCD MuEnriched
     'QCD_MuEnriched'                : "QCD MuEnriched",
     'QCD_MuEnriched_15to20'         : "QCD MuEnriched Pt 15-20",
@@ -1198,15 +1001,6 @@ labels = {
     'SingleMu_2016G'        : "SingleMuon 2016G data",
     'SingleMu_2016H'        : "SingleMuon 2016H data",
 
-    'SingleMu_2016_03Feb2017'      : "Single Muon data (03Feb2017 ReReco)",
-    'SingleMu_2016B_03Feb2017'     : "Single Muon 2016B_03Feb2017 data",
-    'SingleMu_2016C_03Feb2017'     : "SingleMuon 2016C_03Feb2017 data",
-    'SingleMu_2016D_03Feb2017'     : "SingleMuon 2016D_03Feb2017 data",
-    'SingleMu_2016E_03Feb2017'     : "SingleMuon 2016E_03Feb2017 data",
-    'SingleMu_2016F_03Feb2017'     : "SingleMuon 2016F_03Feb2017 data",
-    'SingleMu_2016G_03Feb2017'     : "SingleMuon 2016G_03Feb2017 data",
-    'SingleMu_2016H_03Feb2017'     : "SingleMuon 2016H_03Feb2017 data",
-
     'SingleEle_2016'         : "Single Electron data",
     'SingleEle_2016_postHIP' : "Single Electron G+H data",
     'SingleEle_2016B'        : "SingleElectron 2016B data",
@@ -1216,15 +1010,6 @@ labels = {
     'SingleEle_2016F'        : "SingleElectron 2016F data",
     'SingleEle_2016G'        : "SingleElectron 2016G data",
     'SingleEle_2016H'        : "SingleElectron 2016H data",
-
-    'SingleEle_2016_03Feb2017'    : "Single Electron data (03Feb2017 ReReco)",
-    'SingleEle_2016B_03Feb2017'   : "SingleElectron 2016B_03Feb017 data",
-    'SingleEle_2016C_03Feb2017'   : "SingleElectron 2016C_03Feb017 data",
-    'SingleEle_2016D_03Feb2017'   : "SingleElectron 2016D_03Feb017 data",
-    'SingleEle_2016E_03Feb2017'   : "SingleElectron 2016E_03Feb017 data",
-    'SingleEle_2016F_03Feb2017'   : "SingleElectron 2016F_03Feb017 data",
-    'SingleEle_2016G_03Feb2017'   : "SingleElectron 2016G_03Feb017 data",
-    'SingleEle_2016H_03Feb2017'   : "SingleElectron 2016H_03Feb017 data",
 
     'DoubleEG_2016'         : "Double Electron data",
     'DoubleEG_2016_postHIP' : "Double Electron G+H data",
@@ -1245,15 +1030,6 @@ labels = {
     'MuonEG_2016F'        : "MuonEG 2016F data",
     'MuonEG_2016G'        : "MuonEG 2016G data",
     'MuonEG_2016H'        : "MuonEG 2016H data",
-
-    'MuonEG_2016_03Feb2017'  :  "Electron Muon data (03Feb2017 ReReco)",
-    'MuonEG_2016B_03Feb2017' :  "MuonEG 2016B_03Feb2017 data",
-    'MuonEG_2016C_03Feb2017' :  "MuonEG 2016C_03Feb2017 data",
-    'MuonEG_2016D_03Feb2017' :  "MuonEG 2016D_03Feb2017 data",
-    'MuonEG_2016E_03Feb2017' :  "MuonEG 2016E_03Feb2017 data",
-    'MuonEG_2016F_03Feb2017' :  "MuonEG 2016F_03Feb2017 data",
-    'MuonEG_2016G_03Feb2017' :  "MuonEG 2016G_03Feb2017 data",
-    'MuonEG_2016H_03Feb2017' :  "MuonEG 2016H_03Feb2017 data",
 
     'MuonEG_2017'  :  "Electron Muon data (2017 Prompt Reco)",
     'MuonEG_2017B' :  "MuonEG 2017B data",
@@ -1289,8 +1065,6 @@ crossSections = {
 
     'DYJetsToLL_10to50'        : 18610.0,
     'DYJetsToLL_50'            : 5765.4,
-    #'DYJetsToLL_10to50'        : 22635.1, # to match AN2017_022
-    #'DYJetsToLL_50'            : 6025.2,  # to match AN2017_022
 
     'WJetsToLNu'               : 61526.7,
 
@@ -1317,11 +1091,6 @@ crossSections = {
     'TTJets_DiLept'                :  87.31,
     'TTJets_SingleLeptFromT'       :  182.7, # ???
     'TTJets_SingleLeptFromTbar'    :  182.7, # ???
-
-    #Samples from AN2017_022
-    'TT_AN2017_022'                :  831.76,
-    'SingleTop_tW_AN2017_022'      :  35.85,
-    'SingleTop_tbarW_AN2017_022'   :  35.85,
 
     ###########################################################################
 
