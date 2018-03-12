@@ -28,7 +28,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 else:
     print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
 
-electron_iso_alias = cms.string("electron tight isolation")
+electron_iso_alias = cms.string(">=1 electrons with tight isolation")
 
 ##########################################################################
 
@@ -42,7 +42,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
                                      (isEE & pfdRhoIsoCorr > 0.0571)")
 
-electron_antiiso_alias = cms.string("electron inverted tight isolation")
+electron_antiiso_alias = cms.string(">=1 electrons with inverted tight isolation")
 
 ##########################################################################
 
@@ -55,7 +55,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_veto_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.175) | \
                                      (isEE & pfdRhoIsoCorr > 0.159)")
 
-electron_veto_antiiso_alias = cms.string("electron inverted veto isolation")
+electron_veto_antiiso_alias = cms.string(">=1 electrons with inverted veto isolation")
 
 ##########################################################################
 
@@ -68,7 +68,7 @@ electron_veto_antiiso_alias = cms.string("electron inverted veto isolation")
 
 muon_iso_cutstring = cutString = cms.string("pfdBetaIsoCorr <= 0.15")
 
-muon_iso_alias = cms.string("muon tight isolation")
+muon_iso_alias = cms.string(">=1 muons with tight isolation")
 
 ##########################################################################
 
@@ -76,7 +76,7 @@ muon_iso_alias = cms.string("muon tight isolation")
 
 muon_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.15")
 
-muon_antiiso_alias = cms.string("muon inverted tight isolation")
+muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
 
 ##########################################################################
 
@@ -84,7 +84,7 @@ muon_antiiso_alias = cms.string("muon inverted tight isolation")
 
 muon_loose_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.25")
 
-muon_loose_antiiso_alias = cms.string("muon inverted loose isolation")
+muon_loose_antiiso_alias = cms.string(">=1 muons with inverted loose isolation")
 
 ##########################################################################
 
@@ -182,7 +182,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
                             missingInnerHits <= 1 & \
                             passConversionVeto)")
 
-electron_id_alias = cms.string("electron tight ID")
+electron_id_alias = cms.string(">=1 electrons with tight ID")
 
 ##########################################################################
 
@@ -196,7 +196,7 @@ electron_id_impact_parameter_cutstring = cms.string("(isEB & \
                                              abs(d0) < 0.10 & \
                                              abs(dz) < 0.20)")
 
-electron_id_impact_parameter_alias = cms.string("electron tight ID impact parameter cuts")
+electron_id_impact_parameter_alias = cms.string(">=1 electrons with tight ID impact parameter cuts")
 
 
 ##########################################################################
@@ -207,7 +207,7 @@ electron_id_impact_parameter_alias = cms.string("electron tight ID impact parame
 
 muon_global_cutstring = cms.string("isGlobalMuon & isPFMuon")
 
-muon_global_alias = cms.string("is global PF muon")
+muon_global_alias = cms.string(">=1 global PF muons")
 
 ##########################################################################
 
@@ -221,7 +221,7 @@ muon_id_cutstring = cms.string("globalTrack.normalizedChi2 < 10 & \
                                 innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
                                 innerTrack.hitPattern_.trackerLayersWithMeasurement > 5")
 
-muon_id_alias = cms.string("muon tight ID")
+muon_id_alias = cms.string(">=1 muons with tight ID")
 
 ##########################################################################
 
@@ -230,5 +230,5 @@ muon_id_alias = cms.string("muon tight ID")
 muon_id_impact_parameter_cutstring = cms.string("abs(d0) < 0.2 & \
                                                  abs(dz) < 0.5")
 
-muon_id_impact_parameter_alias = cms.string("muon tight ID impact parameter cuts")
+muon_id_impact_parameter_alias = cms.string(">=1 muons with tight ID impact parameter cuts")
 

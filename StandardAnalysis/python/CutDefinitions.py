@@ -64,13 +64,13 @@ jet_ttbar_paper_loose_id_cut = cms.PSet(
     )
 
 bjet_eta_cut = copy.deepcopy(jet_eta_cut)
-bjet_eta_cut.inputCollectio = cms.vstring("bjets")
+bjet_eta_cut.inputCollection = cms.vstring("bjets")
 
 bjet_pt_30_cut = copy.deepcopy(jet_pt_30_cut)
-bjet_pt_30_cut.inputCollectio = cms.vstring("bjets")
+bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
 
 bjet_id_cut = copy.deepcopy(jet_id_cut)
-bjet_id_cut.inputCollectio = cms.vstring("bjets")
+bjet_id_cut.inputCollection = cms.vstring("bjets")
 
 jet_btag_twp_cut = cms.PSet (
         inputCollection = cms.vstring("jets"),
@@ -146,6 +146,12 @@ electron_gap_veto = cms.PSet(
     alias = cms.string("electron ECAL crack veto")
     )
 
+electron_pt_20_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 25"),
@@ -210,7 +216,7 @@ electron_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron d0 < 100 mum")
+    alias = cms.string(">= 1 electrons with d0 < 100 mum")
     )
 
 # electron d0 > 100 microns
@@ -218,7 +224,7 @@ electron_d0_gt100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron d0 > 100 mum")
+    alias = cms.string(">=1 electrons with d0 > 100 mum")
     )
 
 # electron 100 < d0 < 200 microns
@@ -226,21 +232,28 @@ electron_d0_100to200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron 100 < d0 < 200 mum")
+    alias = cms.string(">=1 electrons with 100 < d0 < 200 mum")
     )
 
 electron_d0_below200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron d0 < 200 mum")
+    alias = cms.string(">=1 electrons with d0 < 200 mum")
+    )
+
+electron_d0_above100_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("10000*abs(d0) > 100"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons with d0 > 100 mum")
     )
 
 electron_d0_above200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron d0 > 200 mum")
+    alias = cms.string(">=1 electrons with d0 > 200 mum")
     )
 
 electron_mt_cut = cms.PSet (
@@ -344,7 +357,7 @@ muon_d0_lt100_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 < 100 mum")
+    alias = cms.string(">=1 muons with d0 < 100 mum")
     )
 
 # muon d0 > 100 microns
@@ -352,7 +365,7 @@ muon_d0_gt100_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 > 100 mum")
+    alias = cms.string(">=1 muons with d0 > 100 mum")
     )
 
 # muon 100 < d0 < 200 microns
@@ -360,21 +373,21 @@ muon_d0_100to200_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) > 100 & 10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon 100 < d0 < 200 mum")
+    alias = cms.string(">=1 muons with 100 < d0 < 200 mum")
     )
 
 muon_d0_below200_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 < 200 mum")
+    alias = cms.string(">=1 muons with d0 < 200 mum")
     )
 
 muon_d0_above200_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("muon d0 > 200 mum")
+    alias = cms.string(">=1 muons with d0 > 200 mum")
     )
 
 muon_mt_cut = cms.PSet (
@@ -400,21 +413,21 @@ emu_mass_20_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("invMass(electron,muon) > 20"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("invariant mass > 20 GeV")
+    alias = cms.string(">=1 electron-muon pair with invariant mass > 20 GeV")
     )
 
 emu_opposite_charge_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("electron.charge * muon.charge < 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("oppositely-charged e-mu pair")
+    alias = cms.string(">=1 oppositely-charged e-mu pair")
     )
 
 emu_samesign_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("electron.charge * muon.charge > 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("like-charged e-mu pair")
+    alias = cms.string(">=1 like-charged e-mu pair")
 )
 
 emu_pt_25_20_cut = cms.PSet (
@@ -429,7 +442,7 @@ emu_mass_lt100_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("invMass(electron,muon) < 100"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("invariant mass < 100GeV")
+    alias = cms.string(">=1 electron-muon pair with invariant mass < 100GeV")
     )
 
 emu_pt_gt50_cut = cms.PSet (
@@ -443,7 +456,7 @@ emu_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("deltaR(electron,muon) > 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("well separated e-mu pair")
+    alias = cms.string(">=1 well separated e-mu pair")
     )
 
 ##########################################################################                                                                                 
