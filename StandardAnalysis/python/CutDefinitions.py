@@ -222,7 +222,7 @@ electron_veto_antiiso_cut = cms.PSet(
     )
 
 # electron d0 < 100 microns
-electron_d0_lt100_cut = cms.PSet(
+electron_d0_lessThan100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
@@ -230,7 +230,7 @@ electron_d0_lt100_cut = cms.PSet(
     )
 
 # electron d0 > 100 microns
-electron_d0_gt100_cut = cms.PSet(
+electron_d0_greaterThan100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
@@ -245,21 +245,21 @@ electron_d0_100to200_cut = cms.PSet(
     alias = cms.string(">=1 electrons with 100 < d0 < 200 mum")
     )
 
-electron_d0_below200_cut = cms.PSet(
+electron_d0_lessThan200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons with d0 < 200 mum")
     )
 
-electron_d0_above100_cut = cms.PSet(
+electron_d0_greaterThan100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons with d0 > 100 mum")
     )
 
-electron_d0_above200_cut = cms.PSet(
+electron_d0_greaterThan200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 1"),
@@ -375,7 +375,7 @@ muon_loose_antiiso_cut = cms.PSet(
     )
 
 # muon d0 < 100 microns
-muon_d0_lt100_cut = cms.PSet(
+muon_d0_lessThan100_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) < 100"),
     numberRequired = cms.string(">= 1"),
@@ -383,7 +383,7 @@ muon_d0_lt100_cut = cms.PSet(
     )
 
 # muon d0 > 100 microns
-muon_d0_gt100_cut = cms.PSet(
+muon_d0_greaterThan100_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) > 100"),
     numberRequired = cms.string(">= 1"),
@@ -398,28 +398,28 @@ muon_d0_100to200_cut = cms.PSet(
     alias = cms.string(">=1 muons with 100 < d0 < 200 mum")
     )
 
-muon_d0_below200_cut = cms.PSet(
+muon_d0_lessThan200_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) < 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with d0 < 200 mum")
     )
 
-muon_d0_above200_cut = cms.PSet(
+muon_d0_greaterThan200_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with d0 > 200 mum")
     )
 
-muon_d0_below2000_cut = cms.PSet(
+muon_d0_lessThan2000_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(d0) < 0.2"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with d0 < 0.2 cm")
     )
 
-muon_dZ_below5000_cut = cms.PSet(
+muon_dZ_lessThan5000_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(dz) < 0.5"),
     numberRequired = cms.string(">= 1"),
@@ -474,14 +474,14 @@ emu_pt_25_20_cut = cms.PSet (
     )
 
 
-emu_mass_lt100_cut = cms.PSet (
+emu_mass_lessThan100_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("invMass(electron,muon) < 100"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electron-muon pair with invariant mass < 100GeV")
     )
 
-emu_pt_gt50_cut = cms.PSet (
+emu_pt_greaterThan50_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("pT(electron,muon) > 50"),
     numberRequired = cms.string(">= 1"),
@@ -522,10 +522,11 @@ muon_jet_deltaR_cut = cms.PSet (
 met_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("pt > 40"),
-    numberRequired = cms.string(">= 1")
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("met > 40")
     )
 
-met_gt60_cut =  cms.PSet (
+met_pt_60_cut =  cms.PSet (
     inputCollection = cms.vstring("mets"),
     cutString = cms.string("pt > 60"),
     numberRequired = cms.string(">= 1"),
