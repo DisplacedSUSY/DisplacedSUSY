@@ -103,7 +103,7 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EEChannel.PromptControlRegionSelection import *
+from DisplacedSUSY.EEChannel.Preselection import *
 
 eventSelections = [PromptControlRegion]
 
