@@ -4,7 +4,18 @@ import string
 
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 
+#WE USE ETA 2.4 OFTEN
 absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
+
+##########################################################################
+# DUMMY CUT FOR PRODUCING FLOW CHART
+
+cutDummy = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">=0"),
+    alias = cms.string("No offline cuts")
+)
 ##########################################################################
 
 # BEGIN JET CUTS
@@ -279,6 +290,12 @@ muon_eta_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_20_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 20"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 25"),
@@ -300,6 +317,12 @@ muon_pt_40_cut = cms.PSet(
 muon_pt_50_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_70_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 70"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -387,6 +410,20 @@ muon_d0_above200_cut = cms.PSet(
     cutString = cms.string("10000*abs(d0) > 200"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with d0 > 200 mum")
+    )
+
+muon_d0_below2000_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(d0) < 0.2"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with d0 < 0.2 cm")
+    )
+
+muon_dZ_below5000_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(dz) < 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with dZ < 0.5 cm")
     )
 
 muon_mt_cut = cms.PSet (
