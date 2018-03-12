@@ -75,32 +75,3 @@ ZControlRegionVeryDisplaced = cms.PSet(
     cuts = copy.deepcopy(ZControlRegion.cuts)
 )
 ZControlRegionVeryDisplaced.cuts.append(very_displaced_cut)
-
-#### the following are experimental cuts aimied at rejecting fake displaced muons
-# d0err_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("10000*innerTrack.d0Error < 20"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(d0err_cut)
-
-# missingmiddlehits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("missingMiddleHits < 2"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(missingmiddlehits_cut)
-
-# trackhits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("innerTrack.hitPattern_.trackerLayersWithMeasurement >= 10"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(trackhits_cut)
-
-# muonhits_cut = cms.PSet(
-#     inputCollection = cms.vstring("muons"),
-#     cutString = cms.string("numberOfValidHits >= 12"),
-#     numberRequired = cms.string(">= 2")
-#     )
-# ZControlRegion.cuts.append(muonhits_cut)
