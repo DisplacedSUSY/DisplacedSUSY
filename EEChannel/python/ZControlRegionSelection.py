@@ -25,7 +25,7 @@ ZControlRegion.cuts.append(electron_gap_veto)
 ZControlRegion.cuts.append(electron_pt_42_cut)
 ZControlRegion.cuts.append(electron_id_cut)
 ZControlRegion.cuts.append(electron_iso_cut)
-ZControlRegion.cuts.append(electronjet_deltaR_veto)
+ZControlRegion.cuts.append(electron_jet_deltaR_cut)
 ZControlRegion.cuts.append(electron_2electron_cut)
 ### invMass in Z range
 ZControlRegion.cuts.append(diElectron_invMass_Z_cut)

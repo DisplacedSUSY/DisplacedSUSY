@@ -2,32 +2,14 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import string
 
-import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
+from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 ##########################################################################
 
-# BEGIN JET CUTS
-
-jet_eta_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("abs(eta) < 2.4"),
-    numberRequired = cms.string(">= 0")
-    )
-
-jet_pt_30_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pt > 30"),
-    numberRequired = cms.string(">= 0")
-    )
-
-jet_id_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = objectDefs.jet_id_cutstring,
-    numberRequired = cms.string(">= 0"),
-    alias = objectDefs.jet_id_alias
-    )
-
-# CSV WPs taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+# CSV WPs taken from here: 
+#https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
 jet_csvl_veto = cms.PSet (
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426"),
@@ -44,59 +26,38 @@ jet_csvm_veto = cms.PSet (
 
 ##########################################################################
 
-# BEGIN ELECTRON CUTS
+# CHANGE ELECTRON CUTS TO >=2 ELECTRONS
 
-electron_eta_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(eta) < 2.4"),
-    numberRequired = cms.string(">= 2")
-    )
+electron_eta_cut.numberRequired = cms.string(">= 2")
 
-electron_gap_veto = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("isEBEEGap = 0"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron ECAL crack veto")
-    )
+electron_gap_veto.numberRequired = cms.string(">= 2")
+electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
 
-electron_pt_20_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 20"),
-    numberRequired = cms.string(">= 2")
-    )
+electron_pt_42_cut.numberRequired = cms.string(">= 2")
 
-electron_pt_25_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 25"),
-    numberRequired = cms.string(">= 1")
-    )
+electron_id_cut.numberRequired = cms.string(">= 2")
+electron_id_cut.alias = cms.string(">=2 electrons with tight ID")
 
-electron_pt_42_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 42"),
-    numberRequired = cms.string(">= 2")
-    )
+electron_iso_cut.numberRequired = cms.string(">= 2")
+electron_iso_cut.alias = cms.string(">=2 electrons with tight isolation")
 
-electron_id_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_id_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.electron_id_alias
-    )
+electron_antiiso_cut.numberRequired = cms.string(">= 2")
+electron_antiiso_cut.alias = cms.string(">=2 electrons with inverted tight isolation")
 
-electron_iso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_iso_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.electron_iso_alias
-    )
+electron_d0_lt100_cut.numberRequired = cms.string(">= 2")
+electron_d0_lt100_cut.alias = cms.string(">=2 electrons with d0 < 100 mum")
 
-electron_antiiso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_antiiso_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.electron_antiiso_alias
-    )
+electron_d0_100to200_cut.numberRequired = cms.string(">= 2")
+electron_d0_100to200_cut.alias = cms.string(">=2 electrons with 100 < d0 < 200 mum")
+
+electron_d0_above100_cut.numberRequired = cms.string(">= 2")
+electron_d0_above100_cut.alias = cms.string(">=2 electrons with d0 > 100 mum")
+
+electron_d0_below200_cut.numberRequired = cms.string(">= 2")
+electron_d0_below200_cut.alias = cms.string(">=2 electrons with d0 < 200 mum")
+
+electron_d0_above200_cut.numberRequired = cms.string(">= 2")
+electron_d0_above200_cut.alias = cms.string("electron d0 > 200 mum")
 
 electron_2electron_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
@@ -126,55 +87,4 @@ diElectron_invMass_Z_cut = cms.PSet (
     alias = cms.string("abs(mass_ee - mass_Z) < 10")
     )
 
-electron_d0_lt100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("10000*abs(d0) < 100"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron d0 < 100 mum")
-    )
-
-electron_d0_100to200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("10000*abs(d0) > 100 & " + "10000*abs(d0) < 200"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron 100 < d0 < 200 mum")
-    )
-
-electron_d0_above100_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("10000*abs(d0) > 100"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron d0 > 100 mum")
-    )
-
-electron_d0_below200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("10000*abs(d0) < 200"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron d0 < 200 mum")
-    )
-
-electron_d0_above200_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("10000*abs(d0) > 200"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("electron d0 > 200 mum")
-    )
-
-electron_num_exactly2_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 0"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string("Exactly 2 electrons")
-    )
-
 ##########################################################################
-
-# BEGIN ELECTRON-JET CUTS
-
-electronjet_deltaR_veto = cms.PSet(
-    inputCollection = cms.vstring("electrons","jets"),
-    cutString = cms.string("deltaR(electron, jet) < 0.5"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True)
-    )
