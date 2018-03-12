@@ -100,8 +100,7 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.MuMuChannel.PromptControlRegionSelection import *
-from DisplacedSUSY.MuMuChannel.DisplacedControlRegionSelection import *
+from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [PromptControlRegion, DisplacedControlRegion]
 
