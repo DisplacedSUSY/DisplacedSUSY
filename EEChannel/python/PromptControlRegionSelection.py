@@ -23,4 +23,4 @@ PromptControlRegion.cuts.append(electron_pt_42_cut)
 PromptControlRegion.cuts.append(electron_id_cut)
 PromptControlRegion.cuts.append(electron_iso_cut)
 ### require prompt leptons
-PromptControlRegion.cuts.append(electron_d0_lt100_cut)
+PromptControlRegion.cuts.append(electron_d0_lessThan100_cut)

@@ -23,4 +23,4 @@ AntiIsoPromptControlRegion.cuts.append(electron_pt_42_cut)
 AntiIsoPromptControlRegion.cuts.append(electron_id_cut)
 AntiIsoPromptControlRegion.cuts.append(electron_antiiso_cut)
 ### require prompt leptons
-AntiIsoPromptControlRegion.cuts.append(electron_d0_lt100_cut)
+AntiIsoPromptControlRegion.cuts.append(electron_d0_lessThan100_cut)

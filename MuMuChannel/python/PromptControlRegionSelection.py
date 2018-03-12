@@ -23,5 +23,5 @@ PromptControlRegion.cuts.append(muon_global_cut)
 PromptControlRegion.cuts.append(muon_id_cut)
 PromptControlRegion.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegion.cuts.append(muon_d0_lt100_cut)
+PromptControlRegion.cuts.append(muon_d0_lessThan100_cut)
 

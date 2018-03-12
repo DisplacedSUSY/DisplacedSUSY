@@ -34,6 +34,6 @@ QCDValidationRegion.cuts.append(muon_global_cut)
 QCDValidationRegion.cuts.append(muon_id_cut)
 QCDValidationRegion.cuts.append(muon_loose_antiiso_cut)
 ### require prompt leptons
-QCDValidationRegion.cuts.append(electron_d0_lt100_cut)
-QCDValidationRegion.cuts.append(muon_d0_lt100_cut)
+QCDValidationRegion.cuts.append(electron_d0_lessThan100_cut)
+QCDValidationRegion.cuts.append(muon_d0_lessThan100_cut)
 

@@ -23,4 +23,4 @@ AntiIsoPromptControlRegion.cuts.append(muon_global_cut)
 AntiIsoPromptControlRegion.cuts.append(muon_id_cut)
 AntiIsoPromptControlRegion.cuts.append(muon_antiiso_cut)
 ### require prompt leptons
-AntiIsoPromptControlRegion.cuts.append(muon_d0_lt100_cut)
+AntiIsoPromptControlRegion.cuts.append(muon_d0_lessThan100_cut)

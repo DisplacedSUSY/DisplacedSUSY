@@ -24,20 +24,20 @@ electron_iso_cut.alias = cms.string(">=2 electrons with tight isolation")
 electron_antiiso_cut.numberRequired = cms.string(">= 2")
 electron_antiiso_cut.alias = cms.string(">=2 electrons with inverted tight isolation")
 
-electron_d0_lt100_cut.numberRequired = cms.string(">= 2")
-electron_d0_lt100_cut.alias = cms.string(">=2 electrons with d0 < 100 mum")
+electron_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
+electron_d0_lessThan100_cut.alias = cms.string(">=2 electrons with d0 < 100 mum")
 
 electron_d0_100to200_cut.numberRequired = cms.string(">= 2")
 electron_d0_100to200_cut.alias = cms.string(">=2 electrons with 100 < d0 < 200 mum")
 
-electron_d0_above100_cut.numberRequired = cms.string(">= 2")
-electron_d0_above100_cut.alias = cms.string(">=2 electrons with d0 > 100 mum")
+electron_d0_greaterThan100_cut.numberRequired = cms.string(">= 2")
+electron_d0_greaterThan100_cut.alias = cms.string(">=2 electrons with d0 > 100 mum")
 
-electron_d0_below200_cut.numberRequired = cms.string(">= 2")
-electron_d0_below200_cut.alias = cms.string(">=2 electrons with d0 < 200 mum")
+electron_d0_lessThan200_cut.numberRequired = cms.string(">= 2")
+electron_d0_lessThan200_cut.alias = cms.string(">=2 electrons with d0 < 200 mum")
 
-electron_d0_above200_cut.numberRequired = cms.string(">= 2")
-electron_d0_above200_cut.alias = cms.string("electron d0 > 200 mum")
+electron_d0_greaterThan200_cut.numberRequired = cms.string(">= 2")
+electron_d0_greaterThan200_cut.alias = cms.string("electron d0 > 200 mum")
 
 electron_2electron_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
@@ -46,7 +46,7 @@ electron_2electron_cut = cms.PSet(
     alias = cms.string("extra electron veto")
     )
 
-diElectron_invMass_above20_cut = cms.PSet (
+diElectron_invMass_greaterThan20_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
     cutString = cms.string("invMass (electron,electron) > 20.0"),
     numberRequired = cms.string(">= 1"),

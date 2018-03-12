@@ -35,8 +35,8 @@ PromptControlRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PromptControlRegion.cuts.append(electron_d0_lt100_cut)
-PromptControlRegion.cuts.append(muon_d0_lt100_cut)
+PromptControlRegion.cuts.append(electron_d0_lessThan100_cut)
+PromptControlRegion.cuts.append(muon_d0_lessThan100_cut)
 
 
 DisplacedControlRegion = cms.PSet(
@@ -53,8 +53,8 @@ InclusiveSignalRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-InclusiveSignalRegion.cuts.append(electron_d0_above200_cut)
-InclusiveSignalRegion.cuts.append(muon_d0_above200_cut)
+InclusiveSignalRegion.cuts.append(electron_d0_greaterThan200_cut)
+InclusiveSignalRegion.cuts.append(muon_d0_greaterThan200_cut)
 
 
 PreselectionPromptElectron = cms.PSet(
@@ -62,7 +62,7 @@ PreselectionPromptElectron = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PreselectionPromptElectron.cuts.append(electron_d0_below200_cut)
+PreselectionPromptElectron.cuts.append(electron_d0_lessThan200_cut)
 
 
 PreselectionPromptMuon = cms.PSet(
@@ -70,7 +70,7 @@ PreselectionPromptMuon = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PreselectionPromptMuon.cuts.append(muon_d0_below200_cut)
+PreselectionPromptMuon.cuts.append(muon_d0_lessThan200_cut)
 
 
 PreselectionVeryPromptElectron = cms.PSet(
@@ -78,7 +78,7 @@ PreselectionVeryPromptElectron = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PreselectionVeryPromptElectron.cuts.append(electron_d0_lt100_cut)
+PreselectionVeryPromptElectron.cuts.append(electron_d0_lessThan100_cut)
 
 
 PreselectionVeryPromptMuon = cms.PSet(
@@ -86,7 +86,7 @@ PreselectionVeryPromptMuon = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PreselectionVeryPromptMuon.cuts.append(muon_d0_lt100_cut)
+PreselectionVeryPromptMuon.cuts.append(muon_d0_lessThan100_cut)
 
 
 PreselectionIntermediateElectron = cms.PSet(

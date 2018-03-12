@@ -30,24 +30,24 @@ muon_iso_cut.alias = cms.string(">=2 muons with tight isolation")
 muon_antiiso_cut.numberRequired = cms.string(">= 2")
 muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight isolation")
 
-muon_d0_lt100_cut.numberRequired = cms.string(">= 2")
-muon_d0_lt100_cut.alias = cms.string(">=2 muons with d0 < 100 mum")
+muon_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
+muon_d0_lessThan100_cut.alias = cms.string(">=2 muons with d0 < 100 mum")
 
 muon_d0_100to200_cut.numberRequired = cms.string(">= 2")
 muon_d0_100to200_cut.alias = cms.string(">=2 muons with 100 < d0 < 200 mum")
 
-muon_d0_gt100_cut.numberRequired = cms.string(">= 2")
-muon_d0_gt100_cut.alias = cms.string(">=2 muons with d0 > 100 mum")
+muon_d0_greaterThan100_cut.numberRequired = cms.string(">= 2")
+muon_d0_greaterThan100_cut.alias = cms.string(">=2 muons with d0 > 100 mum")
 
-muon_d0_below200_cut.numberRequired = cms.string(">= 2")
-muon_d0_below200_cut.alias = cms.string(">=2 muons with d0 < 200 mum")
+muon_d0_lessThan200_cut.numberRequired = cms.string(">= 2")
+muon_d0_lessThan200_cut.alias = cms.string(">=2 muons with d0 < 200 mum")
 
-muon_d0_below2000_cut.numberRequired = cms.string(">= 2")
-muon_d0_below2000_cut.alias = cms.string(">=2 muons with d0 < 0.2 cm")
+muon_d0_lessThan2000_cut.numberRequired = cms.string(">= 2")
+muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with d0 < 0.2 cm")
 
 #dZ cut
-muon_dZ_below5000_cut.numberRequired = cms.string(">= 2")
-muon_dZ_below5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
+muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
+muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
 
 muon_2muon_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -70,7 +70,7 @@ diMuon_invMass_OutsideZWindow_cut = cms.PSet (
     alias = cms.string("dimuon invariant mass < 76 GeV OR > 106 GeV")
     )
 
-diMuon_invMass_above20_cut = cms.PSet (
+diMuon_invMass_greaterThan20_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
     cutString = cms.string("invMass (muon,muon) > 20.0"),
     numberRequired = cms.string(">= 1"),

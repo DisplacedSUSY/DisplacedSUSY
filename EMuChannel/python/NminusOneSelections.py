@@ -31,8 +31,8 @@ PromptControlRegionNoElectronIso.cuts.append(muon_global_cut)
 PromptControlRegionNoElectronIso.cuts.append(muon_id_cut)
 PromptControlRegionNoElectronIso.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegionNoElectronIso.cuts.append(electron_d0_lt100_cut)
-PromptControlRegionNoElectronIso.cuts.append(muon_d0_lt100_cut)
+PromptControlRegionNoElectronIso.cuts.append(electron_d0_lessThan100_cut)
+PromptControlRegionNoElectronIso.cuts.append(muon_d0_lessThan100_cut)
 
 ##########################################################################
 
@@ -58,8 +58,8 @@ PromptControlRegionNoElectronID.cuts.append(muon_global_cut)
 PromptControlRegionNoElectronID.cuts.append(muon_id_cut)
 PromptControlRegionNoElectronID.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegionNoElectronID.cuts.append(electron_d0_lt100_cut)
-PromptControlRegionNoElectronID.cuts.append(muon_d0_lt100_cut)
+PromptControlRegionNoElectronID.cuts.append(electron_d0_lessThan100_cut)
+PromptControlRegionNoElectronID.cuts.append(muon_d0_lessThan100_cut)
 
 ##########################################################################
 ##########################################################################
@@ -86,8 +86,8 @@ PromptControlRegionNoMuonIso.cuts.append(muon_global_cut)
 PromptControlRegionNoMuonIso.cuts.append(muon_id_cut)
 #PromptControlRegionNoMuonIso.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegionNoMuonIso.cuts.append(electron_d0_lt100_cut)
-PromptControlRegionNoMuonIso.cuts.append(muon_d0_lt100_cut)
+PromptControlRegionNoMuonIso.cuts.append(electron_d0_lessThan100_cut)
+PromptControlRegionNoMuonIso.cuts.append(muon_d0_lessThan100_cut)
 
 
 PromptControlRegionNoMuonID = cms.PSet(
@@ -112,6 +112,6 @@ PromptControlRegionNoMuonID.cuts.append(muon_global_cut)
 #PromptControlRegionNoMuonID.cuts.append(muon_id_cut)
 PromptControlRegionNoMuonID.cuts.append(muon_iso_cut)
 ### require prompt leptons
-PromptControlRegionNoMuonID.cuts.append(electron_d0_lt100_cut)
-PromptControlRegionNoMuonID.cuts.append(muon_d0_lt100_cut)
+PromptControlRegionNoMuonID.cuts.append(electron_d0_lessThan100_cut)
+PromptControlRegionNoMuonID.cuts.append(muon_d0_lessThan100_cut)
 
