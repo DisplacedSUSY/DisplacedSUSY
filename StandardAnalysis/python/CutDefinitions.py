@@ -3,6 +3,7 @@ import copy
 import string
 
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
+from OSUT3Analysis.Configuration.cutUtilities import *
 
 #WE USE ETA 2.4 OFTEN
 absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
