@@ -139,6 +139,27 @@ jet_ttbar_paper_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0
 jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 ##########################################################################
+#B-JET CombinedSecondaryVertexv2 
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+    btag_tightCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.9693")
+
+    btag_mediumCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.8838")
+
+    btag_looseCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5803")
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+    btag_tightCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.9535")
+
+    btag_mediumCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.8484")
+
+    btag_looseCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426")
+
+
+##########################################################################
 
 # TIGHT ELECTRON ID
 # without impact parameter cuts

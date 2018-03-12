@@ -6,26 +6,6 @@ from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 ##########################################################################
 
-# CSV WPs taken from here: 
-#https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation
-#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
-#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-jet_csvl_veto = cms.PSet (
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True)
-    )
-
-jet_csvm_veto = cms.PSet (
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.8484"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True)
-    )
-
-##########################################################################
-
 # CHANGE ELECTRON CUTS TO >=2 ELECTRONS
 
 electron_eta_cut.numberRequired = cms.string(">= 2")

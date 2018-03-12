@@ -63,58 +63,6 @@ jet_ttbar_paper_loose_id_cut = cms.PSet(
     alias = objectDefs.jet_ttbar_paper_loose_id_alias
     )
 
-bjet_eta_cut = copy.deepcopy(jet_eta_cut)
-bjet_eta_cut.inputCollection = cms.vstring("bjets")
-
-bjet_pt_30_cut = copy.deepcopy(jet_pt_30_cut)
-bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
-
-bjet_id_cut = copy.deepcopy(jet_id_cut)
-bjet_id_cut.inputCollection = cms.vstring("bjets")
-
-jet_btag_twp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.935"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string('>= 1 tight b tags')
-    )
-
-jet_btag_mwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string('>= 1 medium b tags')
-    )
-
-jet_btag_2_mwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('>= 2 medium b tags')
-    )
-
-jet_btag_lwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.5426"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string('>= 1 loose b tags')
-    )
-
-jet_btag_2_lwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.460"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('>= 2 loose b tags')
-    )
-
-jet_btag_lwp_veto = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.460"),
-        numberRequired = cms.string("== 0"),
-        alias = cms.string('no loose b tags'),
-        isVeto = cms.bool(True)
-    )
-
 jet_2jet_veto = cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("pt > -1"),
@@ -128,6 +76,57 @@ jet_lepton_cleaning_cut = cms.PSet (
         numberRequired = cms.string(">= 2"),
         alias = cms.string('jet-lepton cleaning')
     )
+
+#BEGIN B-JET CUTS
+bjet_eta_cut = copy.deepcopy(jet_eta_cut)
+bjet_eta_cut.inputCollection = cms.vstring("bjets")
+
+bjet_pt_30_cut = copy.deepcopy(jet_pt_30_cut)
+bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
+
+bjet_id_cut = copy.deepcopy(jet_id_cut)
+bjet_id_cut.inputCollection = cms.vstring("bjets")
+
+#BEGIN B-JET CombinedSecondaryVertexv2 CUTS
+jet_btag_twp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = objectDefs.btag_tightCSVv2_cutstring,
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 tight b tags (CSVv2)')
+    )
+
+jet_btag_mwp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = objectDefs.btag_mediumCSVv2_cutstring,
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 medium b tags (CSVv2)')
+    )
+
+jet_btag_2_mwp_cut = copy.deepcopy(jet_btag_mwp_cut)
+jet_btag_2_mwp_cut.numberRequired = cms.string(">= 2")
+jet_btag_2_mwp_cut.alias = cms.string('>= 2 medium b tags (CSVv2)')
+
+jet_btag_mwp_veto = copy.deepcopy(jet_btag_mwp_cut)
+jet_btag_mwp_veto.numberRequired = cms.string("== 0")
+jet_btag_mwp_veto.alias = cms.string('no medium b tags (CSVv2)')
+jet_btag_mwp_veto.isVeto = cms.bool(True)
+
+jet_btag_lwp_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = objectDefs.btag_looseCSVv2_cutstring,
+        numberRequired = cms.string(">= 1"),
+        alias = cms.string('>= 1 loose b tags (CSVv2)')
+    )
+
+jet_btag_2_lwp_cut = copy.deepcopy(jet_btag_lwp_cut)
+jet_btag_2_lwp_cut.numberRequired = cms.string(">= 2")
+jet_btag_2_lwp_cut.alias = cms.string('>= 2 loose b tags (CSVv2)')
+
+jet_btag_lwp_veto = copy.deepcopy(jet_btag_lwp_cut)
+jet_btag_lwp_veto.numberRequired = cms.string("== 0")
+jet_btag_lwp_veto.alias = cms.string('no loose b tags (CSVv2)')
+jet_btag_lwp_veto.isVeto = cms.bool(True)
+
 
 ##########################################################################
 
