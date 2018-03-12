@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import string
 
-import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
+from DisplacedSUSY.StandardAnalysis.CutDefinitions import * 
 
 ##########################################################################
 ### Set up various LLP (Z->ll)H -> aa -> bbbb control regions
@@ -216,25 +216,6 @@ dimuon_highPt_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
-##########################################################################
-# lepton-jet cuts
-
-electronjet_deltaR_veto = cms.PSet(
-    inputCollection = cms.vstring("electrons","jets"),
-    cutString = cms.string("deltaR(electron, jet) < 0.5"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True)
-    )
-
-muonjet_deltaR_veto = cms.PSet(
-    inputCollection = cms.vstring("muons","jets"),
-    cutString = cms.string("deltaR(muon, jet) < 0.5"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True)
-    )
-
-
-
 
 ##########################################################################
 ##########################################################################
@@ -263,7 +244,7 @@ EEBaseline.cuts.append(electron_id_cut)
 EEBaseline.cuts.append(electron_iso_cut)
 EEBaseline.cuts.append(electron_extra_veto)
 ### leptons not near jets
-EEBaseline.cuts.append(electronjet_deltaR_veto)
+EEBaseline.cuts.append(electron_jet_deltaR_cut)
 ### good Z candidate
 EEBaseline.cuts.append(dielectron_os_cut)
 EEBaseline.cuts.append(dielectron_deltaR_cut)
@@ -319,7 +300,7 @@ MuMuBaseline.cuts.append(muon_id_cut)
 MuMuBaseline.cuts.append(muon_iso_cut)
 MuMuBaseline.cuts.append(muon_extra_veto)
 ### leptons not near jets
-MuMuBaseline.cuts.append(muonjet_deltaR_veto)
+MuMuBaseline.cuts.append(muon_jet_deltaR_cut)
 ### good Z candidate
 MuMuBaseline.cuts.append(dimuon_os_cut)
 MuMuBaseline.cuts.append(dimuon_deltaR_cut)
