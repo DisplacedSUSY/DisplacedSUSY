@@ -63,10 +63,10 @@ variableProducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.SkimSelection import *
+from DisplacedSUSY.EMuChannel.EMuSkim import *
 
 eventSelections = []
-eventSelections.append(SkimSelection)
+eventSelections.append(EMuSkim)
 
 weights = cms.VPSet ()
 

@@ -75,7 +75,7 @@ variableProducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.MuMuChannel.SameFlavorSkims import *
+from DisplacedSUSY.MuMuChannel.MuMuSkim import *
 
 eventSelections = []
 eventSelections.append(MuMuSkim)
