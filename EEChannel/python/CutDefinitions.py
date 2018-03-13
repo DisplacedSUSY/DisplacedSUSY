@@ -39,6 +39,12 @@ electron_d0_lessThan200_cut.alias = cms.string(">=2 electrons with d0 < 200 mum"
 electron_d0_greaterThan200_cut.numberRequired = cms.string(">= 2")
 electron_d0_greaterThan200_cut.alias = cms.string("electron d0 > 200 mum")
 
+electron_fiducial_phi_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
+    numberRequired = cms.string(">= 2")
+    )
+
 electron_2electron_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),

@@ -49,6 +49,12 @@ muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with d0 < 0.2 cm")
 muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
 muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
 
+muon_fiducial_phi_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
+    numberRequired = cms.string(">= 2")
+    )
+
 muon_2muon_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > -1"),

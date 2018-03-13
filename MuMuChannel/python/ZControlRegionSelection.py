@@ -1,41 +1,23 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
-from DisplacedSUSY.MuMuChannel.CutDefinitions import *
+from DisplacedSUSY.MuMuChannel.Preselection import *
 
 ##########################################################################
 ###### Set up the Z control region for the displaced SUSY analysis #######
 ##########################################################################
 
 ##########################################################################
-#Selections without triggers
 
-ZControlRegion = cms.PSet(
-    name = cms.string("ZControlRegion"),
-    triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx_v"),
-    cuts = cms.VPSet()
-)
-### jet selection (just for plotting purposes, doesn't make event cuts)
-ZControlRegion.cuts.append(jet_eta_cut)
-ZControlRegion.cuts.append(jet_pt_30_cut)
-ZControlRegion.cuts.append(jet_id_cut)
-### at least two good muons
-ZControlRegion.cuts.append(muon_eta_cut)
-ZControlRegion.cuts.append(muon_pt_40_cut)
-ZControlRegion.cuts.append(muon_global_cut)
-ZControlRegion.cuts.append(muon_id_cut)
-ZControlRegion.cuts.append(muon_iso_cut)
+ZControlRegion = copy.deepcopy(Preselection)
+ZControlRegion.name = cms.string("ZControlRegion")
+
 ZControlRegion.cuts.append(muon_jet_deltaR_cut)
 ZControlRegion.cuts.append(muon_2muon_cut)
 ### invMass in Z range
 ZControlRegion.cuts.append(diMuon_invMass_Z_cut)
 
-fiducial_phi_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
-    numberRequired = cms.string(">= 2")
-    )
-ZControlRegion.cuts.append(fiducial_phi_cut)
+ZControlRegion.cuts.append(muon_fiducial_phi_cut)
 
 
 prompt_cut = cms.PSet(
