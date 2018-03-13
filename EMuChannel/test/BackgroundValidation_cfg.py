@@ -95,7 +95,7 @@ scalingfactorproducers = []
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.QCDValidationRegion import *
+from DisplacedSUSY.EMuChannel.Preselection import *
 from DisplacedSUSY.EMuChannel.TTbarValidationRegion import *
 from DisplacedSUSY.EMuChannel.WWValidationRegion import *
 from DisplacedSUSY.EMuChannel.ZTauTauValidationRegion import *

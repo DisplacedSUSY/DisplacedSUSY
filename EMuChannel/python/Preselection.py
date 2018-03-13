@@ -103,3 +103,15 @@ PreselectionIntermediateMuon = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionIntermediateMuon.cuts.append(muon_d0_100to200_cut)
+
+
+##########################################################################
+### Set up the QCD validation region                                                                                                                                
+# Prompt Control Region with lepton isolation inverted
+# Selection without triggers
+
+QCDValidationRegion = copy.deepcopy(PromptControlRegion)
+QCDValidationRegion.name = cms.string("QCDValidationRegion")
+QCDValidationRegion.triggers = cms.vstring()
+replaceSingleCut(QCDValidationRegion.cuts,electron_veto_antiiso_cut,electron_iso_cut)
+replaceSingleCut(QCDValidationRegion.cuts,muon_loose_antiiso_cut,muon_iso_cut)
