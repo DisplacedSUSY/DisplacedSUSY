@@ -120,7 +120,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
                                               chargedMultiplicity > 0.0 & \
                                               muonEnergyFraction < 0.8")
 
-jet_id_alias = cms.string("jet ID against leptons")
+jet_id_alias = cms.string(">=0 jets with ID against leptons")
 
 jet_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.99 & \
                                               chargedEmEnergyFraction < 0.99 & \

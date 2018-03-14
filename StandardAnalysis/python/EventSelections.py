@@ -8,17 +8,17 @@ from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 
 #Basic jet selections
 jet_basic_selection_cuts = cms.VPSet()
-jet_basic_selection_cuts.append(jet_eta_cut)
-jet_basic_selection_cuts.append(jet_pt_30_cut)
-jet_basic_selection_cuts.append(jet_id_cut)
+jet_basic_selection_cuts.append(atLeastZero_jet_eta_cut)
+jet_basic_selection_cuts.append(atLeastZero_jet_pt_30_cut)
+jet_basic_selection_cuts.append(atLeastZero_jet_id_cut)
 
 ##########################################################################
 
 #Basic bjet selections
 bjet_basic_selection_cuts = cms.VPSet()
-bjet_basic_selection_cuts.append(bjet_eta_cut)
-bjet_basic_selection_cuts.append(bjet_pt_30_cut)
-bjet_basic_selection_cuts.append(bjet_id_cut)
+bjet_basic_selection_cuts.append(atLeastZero_bjet_eta_cut)
+bjet_basic_selection_cuts.append(atLeastZero_bjet_pt_30_cut)
+bjet_basic_selection_cuts.append(atLeastZero_bjet_id_cut)
 
 ##########################################################################
 

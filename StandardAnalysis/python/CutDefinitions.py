@@ -19,87 +19,113 @@ cutDummy = cms.PSet(
 )
 ##########################################################################
 
-# BEGIN JET CUTS
+# BEGIN JET CUTS                                                                                                                                                    
 
-jet_eta_cut = cms.PSet(
+atLeastZero_jet_eta_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = absEta_2p4_cutstring,
     numberRequired = cms.string(">= 0")
     )
 
-jet_pt_30_cut = cms.PSet(
+atLeastZero_jet_pt_30_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > 30"),
     numberRequired = cms.string(">= 0")
     )
 
-jet_eta_real_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = absEta_2p4_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string('>= 2 jets w/ eta < 2.4')
-    )
-
-jet_pt_30_real_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = cms.string("pt > 30"),
-    numberRequired = cms.string(">= 2"),
-    alias = cms.string('>= 2 jets w/ pT > 30GeV')
-    )
-
-jet_id_cut = cms.PSet(
+atLeastZero_jet_id_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = objectDefs.jet_id_cutstring,
     numberRequired = cms.string(">= 0"),
     alias = objectDefs.jet_id_alias
-    )
+    ) 
 
-jet_id_real_cut = cms.PSet(
-    inputCollection = cms.vstring("jets"),
-    cutString = objectDefs.jet_id_cutstring,
-    numberRequired = cms.string(">= 2"),
-    alias = objectDefs.jet_id_alias
-    )
 
-jet_loose_id_cut = cms.PSet(
+atLeastOne_jet_eta_cut = copy.deepcopy(atLeastZero_jet_eta_cut)
+atLeastOne_jet_eta_cut.numberRequired = cms.string(">= 1")
+
+atLeastOne_jet_pt_30_cut = copy.deepcopy(atLeastZero_jet_pt_30_cut)
+atLeastOne_jet_pt_30_cut.numberRequired = cms.string(">= 1")
+
+atLeastOne_jet_id_cut = copy.deepcopy(atLeastZero_jet_id_cut)
+atLeastOne_jet_id_cut.numberRequired = cms.string(">= 1")
+atLeastOne_jet_id_cut.alias = cms.string(">=1 jets with ID against leptons")
+
+
+atLeastTwo_jet_eta_cut = copy.deepcopy(atLeastZero_jet_eta_cut)
+atLeastTwo_jet_eta_cut.numberRequired = cms.string(">= 2")
+
+atLeastTwo_jet_pt_30_cut = copy.deepcopy(atLeastZero_jet_pt_30_cut)
+atLeastTwo_jet_pt_30_cut.numberRequired = cms.string(">= 2")
+
+atLeastTwo_jet_id_cut = copy.deepcopy(atLeastZero_jet_id_cut)
+atLeastTwo_jet_id_cut.numberRequired = cms.string(">= 2")
+atLeastTwo_jet_id_cut.alias = cms.string(">=2 jets with ID against leptons")
+
+atLeastTwo_jet_loose_id_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = objectDefs.jet_loose_id_cutstring,
     numberRequired = cms.string(">= 2"),
     alias = objectDefs.jet_loose_id_alias
     )
 
-jet_ttbar_paper_loose_id_cut = cms.PSet(
+atLeastTwo_jet_ttbar_paper_loose_id_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = objectDefs.jet_ttbar_paper_loose_id_cutstring,
     numberRequired = cms.string(">= 2"),
     alias = objectDefs.jet_ttbar_paper_loose_id_alias
     )
 
-jet_2jet_veto = cms.PSet (
+atLeastTwo_jet_lepton_cleaning_cut = cms.PSet (
+        inputCollection = cms.vstring("jets"),
+        cutString = cms.string("matchedToLepton = 0"),
+        numberRequired = cms.string(">= 2"),
+        alias = cms.string('>=2 jets not matched to leptons')
+    )
+
+veto_2orMore_jets = cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = cms.string("pt > -1"),
         numberRequired = cms.string("< 2"),
         alias = cms.string('< 2 jets')
     )
 
-jet_lepton_cleaning_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("matchedToLepton = 0"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('jet-lepton cleaning')
+veto_3orMore_jets = cms.PSet(
+    inputCollection = cms.vstring("jets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("<= 2")
     )
 
+
 #BEGIN B-JET CUTS
-bjet_eta_cut = copy.deepcopy(jet_eta_cut)
-bjet_eta_cut.inputCollection = cms.vstring("bjets")
+atLeastZero_bjet_eta_cut = copy.deepcopy(atLeastZero_jet_eta_cut)
+atLeastZero_bjet_eta_cut.inputCollection = cms.vstring("bjets")
 
-bjet_pt_30_cut = copy.deepcopy(jet_pt_30_cut)
-bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
+atLeastZero_bjet_pt_30_cut = copy.deepcopy(atLeastZero_jet_pt_30_cut)
+atLeastZero_bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
 
-bjet_id_cut = copy.deepcopy(jet_id_cut)
-bjet_id_cut.inputCollection = cms.vstring("bjets")
+atLeastZero_bjet_id_cut = copy.deepcopy(atLeastZero_jet_id_cut)
+atLeastZero_bjet_id_cut.inputCollection = cms.vstring("bjets")
+atLeastZero_bjet_id_cut.alias = cms.string(">=0 b-jets with ID against leptons")
+
+atLeastOne_bjet_eta_cut = copy.deepcopy(atLeastOne_jet_eta_cut)
+atLeastOne_bjet_eta_cut.inputCollection = cms.vstring("bjets")
+
+atLeastOne_bjet_pt_30_cut = copy.deepcopy(atLeastOne_jet_pt_30_cut)
+atLeastOne_bjet_pt_30_cut.inputCollection = cms.vstring("bjets")
+
+atLeastOne_bjet_id_cut = copy.deepcopy(atLeastOne_jet_id_cut)
+atLeastOne_bjet_id_cut.inputCollection = cms.vstring("bjets")
+atLeastOne_bjet_id_cut.alias = cms.string(">=1 b-jets with ID against leptons")
+
+veto_3orMore_bjets = cms.PSet(
+    inputCollection = cms.vstring("bjets"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string("<= 2")
+    )
 
 #BEGIN B-JET CombinedSecondaryVertexv2 CUTS
+#FIXME: should be applied to "bjets" instead of "jets" ?
 jet_btag_twp_cut = cms.PSet (
         inputCollection = cms.vstring("jets"),
         cutString = objectDefs.btag_tightCSVv2_cutstring,
@@ -321,6 +347,12 @@ muon_pt_50_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_55_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 55"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_pt_70_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 70"),
@@ -498,7 +530,7 @@ emu_deltaR_cut = cms.PSet (
 
 ##########################################################################                                                                                 
 # ELECTRON-JET OVERLAP VETO                                                                                                                                
-electron_jet_deltaR_cut = cms.PSet (
+electron_jet_deltaR_overlap_veto = cms.PSet (
         inputCollection = cms.vstring("electrons", "jets"),
         cutString = cms.string("deltaR(electron, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
@@ -508,7 +540,7 @@ electron_jet_deltaR_cut = cms.PSet (
 
 ##########################################################################                                                                                 
 # MUON-JET OVERLAP VETO                                                                                                                                    
-muon_jet_deltaR_cut = cms.PSet (
+muon_jet_deltaR_overlap_veto = cms.PSet (
         inputCollection = cms.vstring("muons", "jets"),
         cutString = cms.string("deltaR(muon, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
