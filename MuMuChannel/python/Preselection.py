@@ -31,6 +31,8 @@ AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)
 AntiIsoPromptControlRegion.name = cms.string("AntiIsoPromptControlRegion")
 replaceSingleCut(AntiIsoPromptControlRegion.cuts, muon_antiiso_cut, muon_iso_cut) #replace muon_iso_cut with muon_antiiso_cut in the same place
 
+#################################################################
+
 DisplacedControlRegion = copy.deepcopy(Preselection)
 DisplacedControlRegion.name = cms.string("DisplacedControlRegion")
 DisplacedControlRegion.cuts.append(muon_d0_100to200_cut)
@@ -39,3 +41,11 @@ AntiIsoDisplacedControlRegion = copy.deepcopy(DisplacedControlRegion)
 AntiIsoDisplacedControlRegion.name = cms.string("AntiIsoDisplacedControlRegion")
 replaceSingleCut(AntiIsoDisplacedControlRegion.cuts, muon_antiiso_cut, muon_iso_cut) #replace muon_iso_cut with muon_antiiso_cut in the same place
 
+#################################################################
+
+ZControlRegion = copy.deepcopy(Preselection)
+ZControlRegion.name = cms.string("ZControlRegion")
+ZControlRegion.cuts.append(muon_jet_deltaR_overlap_veto)
+ZControlRegion.cuts.append(muon_2muon_cut)
+ZControlRegion.cuts.append(diMuon_invMass_Z_cut) ### invMass in Z range 
+ZControlRegion.cuts.append(muon_fiducial_phi_cut)

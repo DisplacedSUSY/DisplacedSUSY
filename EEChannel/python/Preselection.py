@@ -32,6 +32,7 @@ AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)
 AntiIsoPromptControlRegion.name = cms.string("AntiIsoPromptControlRegion")
 replaceSingleCut(AntiIsoPromptControlRegion.cuts,electron_antiiso_cut,electron_iso_cut) #replace electron_iso_cut with electron_antiiso_cut in the same place 
 
+#################################################################
 
 DisplacedControlRegion = copy.deepcopy(Preselection)
 DisplacedControlRegion.name = cms.string("DisplacedControlRegion") 
@@ -40,3 +41,12 @@ DisplacedControlRegion.cuts.append(electron_d0_100to200_cut)
 AntiIsoDisplacedControlRegion = copy.deepcopy(DisplacedControlRegion)
 AntiIsoDisplacedControlRegion.name = cms.string("AntiIsoDisplacedControlRegion")
 replaceSingleCut(AntiIsoDisplacedControlRegion.cuts,electron_antiiso_cut,electron_iso_cut) #replace electron_iso_cut with electron_antiiso_cut in the same place 
+
+#################################################################
+
+ZControlRegion = copy.deepcopy(Preselection)
+ZControlRegion.name = cms.string("ZControlRegion")
+ZControlRegion.cuts.append(electron_jet_deltaR_overlap_veto)
+ZControlRegion.cuts.append(electron_2electron_cut)
+ZControlRegion.cuts.append(diElectron_invMass_Z_cut) ### invMass in Z range 
+ZControlRegion.cuts.append(electron_fiducial_phi_cut)

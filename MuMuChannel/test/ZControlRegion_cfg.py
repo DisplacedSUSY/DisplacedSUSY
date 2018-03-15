@@ -151,12 +151,9 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.MuMuChannel.ZControlRegionSelection import *
+from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [ZControlRegion]
-#                   ZControlRegionPrompt,
-#                   ZControlRegionDisplaced,
-#                   ZControlRegionVeryDisplaced]
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
