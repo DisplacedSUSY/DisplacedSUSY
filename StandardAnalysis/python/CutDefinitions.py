@@ -525,7 +525,7 @@ emu_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("deltaR(electron,muon) > 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well separated e-mu pair")
+    alias = cms.string(">=1 well separated e-mu pair (#DeltaR > 0.5)")
     )
 
 ##########################################################################                                                                                 
@@ -535,7 +535,7 @@ electron_jet_deltaR_overlap_veto = cms.PSet (
         cutString = cms.string("deltaR(electron, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
         isVeto = cms.bool(True),
-        alias = cms.string("electron near jet veto")
+        alias = cms.string("electron near jet veto (#DeltaR < 0.5))")
 )
 
 ##########################################################################                                                                                 
@@ -545,7 +545,7 @@ muon_jet_deltaR_overlap_veto = cms.PSet (
         cutString = cms.string("deltaR(muon, jet) < 0.5"),
         numberRequired = cms.string("== 0"),
         isVeto = cms.bool(True),
-        alias = cms.string("muon near jet veto")
+        alias = cms.string("muon near jet veto (#DeltaR < 0.5)")
 )
 
 ##########################################################################
