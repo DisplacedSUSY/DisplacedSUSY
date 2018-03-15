@@ -1,105 +1,29 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
+from DisplacedSUSY.StandardAnalysis.EventSelections import *
 
 #tt->emu
 
 ttbar_control_region_cuts = cms.VPSet(
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("electron.charge * muon.charge < 0"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("oppositely charged e-mu pair")
-    ),
-    # ELECTRON AND MUON ARE NOT OVERLAPPING
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "muons"),
-        cutString = cms.string("deltaR(electron, muon) > 0.5"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string("well separated(DeltaR > 0.5) e-mu pair")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("abs(eta) < 2.4"),
-        numberRequired = cms.string(">= 2")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pt > 30"),
-        numberRequired = cms.string(">= 2")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('>= 2 good jets')
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("muons", "jets"),
-        cutString = cms.string("deltaR(muon, jet) < 0.5"),
-        numberRequired = cms.string("== 0"),
-        isVeto = cms.bool(True),
-        alias = cms.string("muon near jet veto")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("electrons", "jets"),
-        cutString = cms.string("deltaR(electron, jet) < 0.5"),
-        numberRequired = cms.string("== 0"),
-        isVeto = cms.bool(True),
-        alias = cms.string("electron near jet veto")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("muons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra muon veto")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("electrons"),
-        cutString = cms.string("pt > -1"),
-        numberRequired = cms.string("== 1"),
-        alias = cms.string("extra electron veto")
-    ),
-
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string('>= 1 medium b jets')
-    ),
+    emu_opposite_charge_cut,
+    emu_deltaR_cut, # ELECTRON AND MUON ARE NOT OVERLAPPING (Delta R> 0.5)
+    atLeastTwo_jet_eta_cut,
+    atLeastTwo_jet_pt_30_cut,
+    atLeastTwo_jet_id_cut,
+    muon_jet_deltaR_overlap_veto, #if deltaR(muon,jet) < 0.5, veto
+    electron_jet_deltaR_overlap_veto, #if deltaR(electron,jet) < 0.5, veto
+    muon_num_exactly_1_cut,
+    electron_num_exactly_1_cut,
+    jet_btag_mwp_cut,
 )
 
 ttbar_semileptonic_control_region_cuts = cms.VPSet(
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("abs(eta) < 2.4"),
-        numberRequired = cms.string(">= 2")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pt > 30"),
-        numberRequired = cms.string(">= 2")
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("neutralHadronEnergyFraction < 0.90 & chargedEmEnergyFraction < 0.90 & neutralEmEnergyFraction < 0.90 & numberOfDaughters > 1 & chargedHadronEnergyFraction > 0.0 & chargedMultiplicity > 0.0 & muonEnergyFraction < 0.8"),
-        numberRequired = cms.string(">= 2"),
-        alias = cms.string('>= 2 good jets')
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("jets"),
-        cutString = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.800"),
-        numberRequired = cms.string(">= 1"),
-        alias = cms.string('>= 1 medium b jets')
-    ),
-    cms.PSet (
-        inputCollection = cms.vstring("muons", "jets"),
-        cutString = cms.string("deltaR(muon, jet) < 0.5"),
-        numberRequired = cms.string("== 0"),
-        isVeto = cms.bool(True),
-        alias = cms.string("muon near jet veto")
-    ),
+    atLeastTwo_jet_eta_cut,
+    atLeastTwo_jet_pt_30_cut,
+    atLeastTwo_jet_id_cut,
+    jet_btag_mwp_cut,
+    muon_jet_deltaR_overlap_veto, #if deltaR(muon,jet) < 0.5, veto
 )
 ##########################################################################
 
@@ -109,9 +33,9 @@ TTbarControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 TTbarControlRegion.cuts.extend(electron_basic_selection_cuts)
-TTbarControlRegion.cuts.append(electron_iso_corr_cut)
+TTbarControlRegion.cuts.append(electron_iso_cut)
 TTbarControlRegion.cuts.extend(muon_basic_selection_cuts)
-TTbarControlRegion.cuts.append(muon_iso_corr_cut)
+TTbarControlRegion.cuts.append(muon_iso_cut)
 TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)
 
 ##########################################################################
@@ -169,5 +93,5 @@ TTbarMuonControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 TTbarMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
-TTbarMuonControlRegion.cuts.append(muon_iso_corr_cut)
+TTbarMuonControlRegion.cuts.append(muon_iso_cut)
 TTbarMuonControlRegion.cuts.extend(ttbar_semileptonic_control_region_cuts)
