@@ -14,7 +14,7 @@ from DisplacedSUSY.BackgroundStudies.CutDefinitions import *
 
 QCDMuonControlRegion = cms.PSet(
     name = cms.string("QCDMuonControlRegion"),
-    triggers = cms.vstring("HLT_Mu50_v", "HLT_TkMu50_v"),
+    triggers = triggersSingleMuon,
     cuts = cms.VPSet ()
 )
 QCDMuonControlRegion.cuts.extend(atLeastOne_jet_basic_selection_cuts)

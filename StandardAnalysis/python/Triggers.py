@@ -19,6 +19,15 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v"
         )
 
+    triggersSingleElectron = cms.vstring(
+        "HLT_Ele27_WPTight_Gsf_v"
+        )
+
+    triggersSingleMuon = cms.vstring(
+        "HLT_Mu50_v", 
+        "HLT_TkMu50_v"
+        )
+
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Using 2017 triggers"
 
@@ -32,6 +41,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
     triggersMuonPhoton = cms.vstring(
         "HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"
+        )
+
+    triggersSingleElectron = cms.vstring(
+        "HLT_Ele27_WPTight_Gsf_v"
+        )
+
+    triggersSingleMuon = cms.vstring(
+        "HLT_Mu50_v", 
         )
 
 else:

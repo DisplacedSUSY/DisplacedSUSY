@@ -14,7 +14,7 @@ from DisplacedSUSY.BackgroundStudies.CutDefinitions import *
 
 QCDElectronControlRegion = cms.PSet(
     name = cms.string("QCDElectronControlRegion"),
-    triggers = cms.vstring("HLT_Ele27_WPTight_Gsf_v"),
+    triggers = triggersSingleElectron,
     cuts = cms.VPSet ()
 )
 QCDElectronControlRegion.cuts.extend(atLeastOne_jet_basic_selection_cuts)
