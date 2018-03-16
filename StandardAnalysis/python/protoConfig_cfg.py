@@ -32,6 +32,10 @@ process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (10)
 )
 
+################################################################################
+##### Set up the global tags ###################################################
+################################################################################
+
 #from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
@@ -56,7 +60,7 @@ else:
 ##### Set up the 'collections' map #############################################
 ################################################################################
 
-#MiniAOD collection map
+# Import MiniAOD collection map from OSUT3Analysis
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
 
 ################################################################################
@@ -103,7 +107,7 @@ weights = cms.VPSet(
         inputVariable = cms.string("muonIso2016Tight")
     ),
 )
-scalingfactorproducers = []
+
 
 ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
@@ -145,6 +149,7 @@ ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
     )
 )
 
+scalingfactorproducers = []
 scalingfactorproducers.append(ObjectScalingFactorProducer)
 
 
@@ -191,14 +196,39 @@ histograms.append(eventHistograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
+
+################################################################################
+##### Apply PU reweighting #####################################################
+################################################################################
+
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
-process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
-process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
-process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
-process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
 process.PUScalingFactorProducer.type = cms.string("bgMC")
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
+    process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
+    process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
+    process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
+
+#FIXME: need to update for 2017
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
+    process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
+    process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
+    process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
+
+
+################################################################################
+##### Apply trigger scale factor ###############################################
+################################################################################
+
+#FIXME: need to derive trigger scale factors for ee and mumu channels as well
 
 process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
 process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
-process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
+#FIXME: need to update for 2017
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
