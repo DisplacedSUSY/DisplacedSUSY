@@ -3,6 +3,8 @@ import copy
 
 from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
+#at least two good muons
+#no triggers required
 MuMuSkim = cms.PSet(
     name = cms.string("MuMuSkim"),
     triggers = cms.vstring(),

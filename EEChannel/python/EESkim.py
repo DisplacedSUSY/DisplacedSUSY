@@ -3,6 +3,8 @@ import copy
 
 from DisplacedSUSY.EEChannel.CutDefinitions import *
 
+#no triggers required
+#at least two good electrons
 EESkim = cms.PSet(
     name = cms.string("EESkim"),
     triggers = cms.vstring(),
