@@ -9,7 +9,7 @@ from DisplacedSUSY.EEChannel.CutDefinitions import *
 
 Preselection = cms.PSet(
     name = cms.string("Preselection"),
-    triggers = cms.vstring("HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15_v"),
+    triggers = triggersDoublePhoton,
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)

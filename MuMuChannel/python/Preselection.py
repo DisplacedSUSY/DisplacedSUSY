@@ -9,7 +9,7 @@ from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
 Preselection = cms.PSet(
     name = cms.string("Preselection"),
-    triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx_v"),
+    triggers = triggersDoubleMuon,
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)

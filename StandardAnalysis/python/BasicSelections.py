@@ -3,6 +3,7 @@ import copy
 import string
 
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
+from DisplacedSUSY.StandardAnalysis.Triggers import *
 
 ##########################################################################
 
