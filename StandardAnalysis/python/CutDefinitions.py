@@ -335,6 +335,12 @@ muon_pt_25_dummy_cut = cms.PSet(
     numberRequired = cms.string(">= 0")
     )
 
+muon_pt_35_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 35"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 40"),
@@ -485,6 +491,13 @@ emu_mass_20_cut = cms.PSet (
     alias = cms.string(">=1 electron-muon pair with invariant mass > 20 GeV")
     )
 
+emu_mass_lessThan100_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("invMass(electron,muon) < 100"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electron-muon pair with invariant mass < 100GeV")
+    )
+
 emu_opposite_charge_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
     cutString = cms.string("electron.charge * muon.charge < 0"),
@@ -504,14 +517,6 @@ emu_pt_25_20_cut = cms.PSet (
     cutString = cms.string("(electron.pt > 25 & muon.pt > 20) | (electron.pt > 20 & muon.pt > 25)"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("Leading lepton 25 pT, sub-leading 20 pT")
-    )
-
-
-emu_mass_lessThan100_cut = cms.PSet (
-    inputCollection = cms.vstring("electrons", "muons"),
-    cutString = cms.string("invMass(electron,muon) < 100"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 electron-muon pair with invariant mass < 100GeV")
     )
 
 emu_pt_greaterThan50_cut = cms.PSet (

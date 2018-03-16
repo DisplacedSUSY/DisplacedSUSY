@@ -35,3 +35,17 @@ electron_jet_deltaR_cut = cms.PSet (
 )
 
 ##########################################################################
+
+FilterOutScraping_cut = cms.PSet (
+    inputCollection = cms.string("events"),
+    cutString = cms.string("FilterOutScraping > 0"),
+    numberRequired = cms.string(">= 1")
+    )
+
+##########################################################################
+
+atLeastOne_goodPV_cut = cms.PSet (
+    inputCollection = cms.string("primaryvertexs"),
+    cutString = cms.string("isGood > 0"),
+    numberRequired = cms.string(">= 1")
+    )
