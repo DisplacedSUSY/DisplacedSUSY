@@ -17,14 +17,10 @@ QCDMuonControlRegion = cms.PSet(
     triggers = cms.vstring("HLT_Mu50_v", "HLT_TkMu50_v"),
     cuts = cms.VPSet ()
 )
-QCDMuonControlRegion.cuts.append(atLeastOne_jet_eta_cut)
-QCDMuonControlRegion.cuts.append(atLeastOne_jet_pt_30_cut)
-QCDMuonControlRegion.cuts.append(atLeastOne_jet_id_cut)
+QCDMuonControlRegion.cuts.extend(atLeastOne_jet_basic_selection_cuts)
 QCDMuonControlRegion.cuts.append(veto_3orMore_jets)
 
-QCDMuonControlRegion.cuts.append(atLeastOne_bjet_eta_cut)
-QCDMuonControlRegion.cuts.append(atLeastOne_bjet_pt_30_cut)
-QCDMuonControlRegion.cuts.append(atLeastOne_bjet_id_cut)
+QCDMuonControlRegion.cuts.extend(atLeastOne_bjet_basic_selection_cuts)
 QCDMuonControlRegion.cuts.append(jet_btag_mwp_cut)
 QCDMuonControlRegion.cuts.append(veto_3orMore_bjets)
 
