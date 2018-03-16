@@ -59,7 +59,7 @@ muon_2muon_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string("== 2"),
-    alias = cms.string("extra muon veto")
+    alias = cms.string("exactly 2 muons")
     )
 
 diMuon_invMass_Z_cut = cms.PSet (

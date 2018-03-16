@@ -49,7 +49,7 @@ electron_2electron_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string("== 2"),
-    alias = cms.string("extra electron veto")
+    alias = cms.string("exactly 2 electrons")
     )
 
 diElectron_invMass_greaterThan20_cut = cms.PSet (
