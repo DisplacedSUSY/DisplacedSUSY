@@ -56,28 +56,8 @@ else:
 ##### Set up the 'collections' map #############################################
 ################################################################################
 
-# this PSet specifies which collections to get from the input files
-miniAOD_collections = cms.PSet (
-  electrons       =  cms.InputTag  ('slimmedElectrons',''),
-  genjets         =  cms.InputTag  ('slimmedGenJets',                 ''),
-  jets            =  cms.InputTag  ('slimmedJets',                    ''),
-  bjets           =  cms.InputTag  ('slimmedJets',                    ''),
-  generatorweights=  cms.InputTag  ('generator', ''),
-  mcparticles     =  cms.InputTag  ('packedGenParticles',             ''),
-  hardInteractionMcparticles  =  cms.InputTag  ('prunedGenParticles',             ''),
-  mets            =  cms.InputTag  ('slimmedMETs',                    ''),
-  muons           =  cms.InputTag  ('slimmedMuons',                   ''),
-  photons         =  cms.InputTag  ('slimmedPhotons',                 ''),
-  primaryvertexs  =  cms.InputTag  ('offlineSlimmedPrimaryVertices',  ''),
-  pileupinfos     =  cms.InputTag  ('slimmedAddPileupInfo',  ''),
-  beamspots       =  cms.InputTag  ('offlineBeamSpot',                ''),
-  superclusters   =  cms.InputTag  ('reducedEgamma',                  'reducedSuperClusters'),
-  taus            =  cms.InputTag  ('slimmedTaus',                    ''),
-  triggers        =  cms.InputTag  ('TriggerResults',                 '',  'HLT'),
-  trigobjs        =  cms.InputTag  ('selectedPatTrigger',             ''),
-)
-
-collections = miniAOD_collections
+#MiniAOD collection map
+from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
 
 ################################################################################
 ##### Set up any user-defined variable producers ###############################
@@ -173,7 +153,9 @@ scalingfactorproducers.append(ObjectScalingFactorProducer)
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
-from DisplacedSUSY.StandardAnalysis.Preselection import *
+from DisplacedSUSY.EMuChannel.Preselection import *
+from DisplacedSUSY.MuMuChannel.Preselection import *
+from DisplacedSUSY.EEChannel.Preselection import *
 #others
 
 ################################################################################
@@ -207,7 +189,7 @@ histograms.append(eventHistograms)
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
 process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
 process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
