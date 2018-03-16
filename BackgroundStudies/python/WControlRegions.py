@@ -10,7 +10,7 @@ from DisplacedSUSY.BackgroundStudies.CutDefinitions import *
 
 Wjets_Muon_Selection = cms.PSet(
     name = cms.string("Wjets_Muon_Selection"),
-    triggers = cms.vstring("HLT_IsoMu24_v"),
+    triggers = triggersIsoSingleMuon,
     cuts = cms.VPSet (
         FilterOutScraping_cut,
         atLeastOne_goodPV_cut,
@@ -38,7 +38,7 @@ Wjets_Muon_Selection_NearJetVeto.cuts.append(muon_jet_deltaR_overlap_veto)
 
 Wjets_Electron_Selection = cms.PSet(
     name = cms.string("Wjets_Electron_Selection"),
-    triggers = cms.vstring(""),
+    triggers = cms.vstring(), #??
     cuts = cms.VPSet (
         FilterOutScraping_cut,
         atLeastOne_goodPV_cut,
