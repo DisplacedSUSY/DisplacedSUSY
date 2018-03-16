@@ -45,8 +45,13 @@ datasets = [
     #'ZZToLLQQ',
     #'ZZToNuNuQQ',
 
+    ### WJets
+    'WJetsToLNu',
+
     ### QCD (mu-enriched is bigger)
     'QCD_MuEnriched',
+    'QCD_EMEnriched',
+    'QCD_bcToE',
 
     ### Sum of background
     #'Background',

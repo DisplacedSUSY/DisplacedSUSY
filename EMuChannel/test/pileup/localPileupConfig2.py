@@ -14,45 +14,60 @@ intLumi = 16146.2 # 2016G,H only
 # create list of datasets to process
 datasets = [
 
-    'DYJetsToLL_10to50',          
-    'DYJetsToLL_50',            
-  
-    'QCD_MuEnriched_1000toInf',   
-    'QCD_MuEnriched_120to170',    
-    'QCD_MuEnriched_15to20',      
-    'QCD_MuEnriched_170to300',    
-    'QCD_MuEnriched_20to30',      
-    'QCD_MuEnriched_300to470',    
-    'QCD_MuEnriched_30to50',      
-    'QCD_MuEnriched_470to600',    
-    'QCD_MuEnriched_50to80',      
-    'QCD_MuEnriched_600to800',    
-    'QCD_MuEnriched_800to1000',   
-    'QCD_MuEnriched_80to120',     
+    'DYJetsToLL_10to50',
+    'DYJetsToLL_50',
 
-    'SingleTop_s_channel',        
-    'SingleTop_tW',               
+    'QCD_MuEnriched_1000toInf',
+    'QCD_MuEnriched_120to170',
+    'QCD_MuEnriched_15to20',
+    'QCD_MuEnriched_170to300',
+    'QCD_MuEnriched_20to30',
+    'QCD_MuEnriched_300to470',
+    'QCD_MuEnriched_30to50',
+    'QCD_MuEnriched_470to600',
+    'QCD_MuEnriched_50to80',
+    'QCD_MuEnriched_600to800',
+    'QCD_MuEnriched_800to1000',
+    'QCD_MuEnriched_80to120',
+
+    'QCD_EMEnriched_20to30',
+    'QCD_EMEnriched_30to50',
+    'QCD_EMEnriched_50to80',
+    'QCD_EMEnriched_80to120',
+    'QCD_EMEnriched_120to170',
+    'QCD_EMEnriched_170to300',
+    'QCD_EMEnriched_300toInf',
+
+    'QCD_bcToE_15to20'
+    'QCD_bcToE_20to30'
+    'QCD_bcToE_30to80'
+    'QCD_bcToE_80to170'
+    'QCD_bcToE_170to250'
+    'QCD_bcToE_250toInf'
+
+    'SingleTop_s_channel',
+    'SingleTop_tW',
     'SingleTop_t_channel_antitop',
-    'SingleTop_t_channel_top',    
-    'SingleTop_tbarW',      
-      
-    'TTJets_DiLept',              
-    'TTJets_SingleLeptFromT',     
-    'TTJets_SingleLeptFromTbar',  
+    'SingleTop_t_channel_top',
+    'SingleTop_tbarW',
 
-    'WG',                         
-    'WWToLNuLNu',                 
-    'WWToLNuQQ',                  
-    'WZToLLLNu',                  
-    'WZToLNu2QorQQ2L',            
-    'WZToLNuNuNu',          
-      
-    'ZG',                         
-    'ZZToLLLL',                   
-    'ZZToLLNuNu',                 
-    'ZZToLLQQ',   
-    'ZZToNuNuQQ', 
-   
+    'TTJets_DiLept',
+    'TTJets_SingleLeptFromT',
+    'TTJets_SingleLeptFromTbar',
+
+    'WG',
+    'WWToLNuLNu',
+    'WWToLNuQQ',
+    'WZToLLLNu',
+    'WZToLNu2QorQQ2L',
+    'WZToLNuNuNu',
+
+    'ZG',
+    'ZZToLLLL',
+    'ZZToLLNuNu',
+    'ZZToNuNuQQ',
+
+
     ### Signal MC
     #'DisplacedSUSYSignal',
     'stop200_1mm',
