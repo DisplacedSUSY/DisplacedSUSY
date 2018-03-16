@@ -17,25 +17,17 @@ TTbarForTrigEff = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
-### at least one good electron
-TTbarForTrigEff.cuts.append(electron_eta_cut)
-TTbarForTrigEff.cuts.append(electron_gap_veto)
-TTbarForTrigEff.cuts.append(electron_pt_25_cut)
-TTbarForTrigEff.cuts.append(electron_id_cut)
+### at least one good, isolated electron
+TTbarForTrigEff.cuts.extend(atLeastOne_electron_basic_selection_cuts)
 TTbarForTrigEff.cuts.append(electron_iso_cut)
-### at least one good muon
-TTbarForTrigEff.cuts.append(muon_eta_cut)
-TTbarForTrigEff.cuts.append(muon_pt_25_cut)
-TTbarForTrigEff.cuts.append(muon_global_cut)
-TTbarForTrigEff.cuts.append(muon_id_cut)
+### at least one good, isolated muon
+TTbarForTrigEff.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 TTbarForTrigEff.cuts.append(muon_iso_cut)
-### good electron, muon pair
+### at least one good electron-muon pair
 TTbarForTrigEff.cuts.append(emu_opposite_charge_cut)
 TTbarForTrigEff.cuts.append(emu_deltaR_cut)
-### two good jets, one medium b jet
-TTbarForTrigEff.cuts.append(atLeastTwo_jet_eta_cut)
-TTbarForTrigEff.cuts.append(atLeastTwo_jet_pt_30_cut)
-TTbarForTrigEff.cuts.append(atLeastTwo_jet_id_cut)
+### at least two good jets, one medium b jet
+TTbarForTrigEff.cuts.extend(atLeastTwo_jet_basic_selection_cuts)
 TTbarForTrigEff.cuts.append(atLeastTwo_jet_lepton_cleaning_cut)
 TTbarForTrigEff.cuts.append(jet_btag_mwp_cut)
 ### extra lepton vetoes

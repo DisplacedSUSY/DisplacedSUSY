@@ -17,6 +17,11 @@ atLeastOne_jet_basic_selection_cuts.append(atLeastOne_jet_eta_cut)
 atLeastOne_jet_basic_selection_cuts.append(atLeastOne_jet_pt_30_cut)
 atLeastOne_jet_basic_selection_cuts.append(atLeastOne_jet_id_cut)
 
+atLeastTwo_jet_basic_selection_cuts = cms.VPSet()
+atLeastTwo_jet_basic_selection_cuts.append(atLeastTwo_jet_eta_cut)
+atLeastTwo_jet_basic_selection_cuts.append(atLeastTwo_jet_pt_30_cut)
+atLeastTwo_jet_basic_selection_cuts.append(atLeastTwo_jet_id_cut)
+
 ##########################################################################
 
 #Basic bjet selections
