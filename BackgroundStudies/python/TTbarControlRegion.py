@@ -89,7 +89,7 @@ TTbarLowPtControlRegionMETTriggerPassEMuTrigger.cuts = cms.VPSet (copy.deepcopy(
 
 TTbarMuonControlRegion = cms.PSet(
     name = cms.string("TTbarMuonControlRegion"),
-    triggers = cms.vstring("HLT_IsoMu27_v"),
+    triggers = triggersIsoSingleMuon,
     cuts = cms.VPSet ()
 )
 TTbarMuonControlRegion.cuts.extend(atLeastOne_muon_basic_selection_cuts)
