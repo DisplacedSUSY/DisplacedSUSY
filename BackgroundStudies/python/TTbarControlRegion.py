@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 
-from DisplacedSUSY.StandardAnalysis.EventSelections import *
+from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 #tt->emu
 
@@ -32,9 +32,9 @@ TTbarControlRegion = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet ()
 )
-TTbarControlRegion.cuts.extend(electron_basic_selection_cuts)
+TTbarControlRegion.cuts.extend(atLeastOne_electron_basic_selection_cuts)
 TTbarControlRegion.cuts.append(electron_iso_cut)
-TTbarControlRegion.cuts.extend(muon_basic_selection_cuts)
+TTbarControlRegion.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 TTbarControlRegion.cuts.append(muon_iso_cut)
 TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)
 
@@ -92,6 +92,6 @@ TTbarMuonControlRegion = cms.PSet(
     triggers = cms.vstring("HLT_IsoMu27_v"),
     cuts = cms.VPSet ()
 )
-TTbarMuonControlRegion.cuts.extend(muon_basic_selection_cuts)
+TTbarMuonControlRegion.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 TTbarMuonControlRegion.cuts.append(muon_iso_cut)
 TTbarMuonControlRegion.cuts.extend(ttbar_semileptonic_control_region_cuts)
