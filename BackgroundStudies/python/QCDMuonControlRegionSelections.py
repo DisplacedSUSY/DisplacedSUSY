@@ -38,39 +38,3 @@ QCDMuonControlRegion.cuts.append(muon_num_exactly_1_cut)
 QCDMuonControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
 QCDMuonControlRegion.cuts.append(muon_jet_deltaR_cut)
 
-prompt_muon_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("10000*abs(d0) < 200"),
-    numberRequired = cms.string(">= 1")
-    )
-displaced_muon_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("10000*abs(d0) > 200 & 10000*abs(d0) < 1000"),
-    numberRequired = cms.string(">= 1")
-    )
-very_displaced_muon_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("10000*abs(d0) > 1000"),
-    numberRequired = cms.string(">= 1")
-    )
-
-QCDMuonControlRegionPrompt = cms.PSet(
-    name = cms.string("QCDMuonControlRegionPrompt"),
-    triggers = cms.vstring(),
-    cuts = copy.deepcopy(QCDMuonControlRegion.cuts)
-)
-QCDMuonControlRegionPrompt.cuts.append(prompt_muon_cut)
-
-QCDMuonControlRegionDisplaced = cms.PSet(
-    name = cms.string("QCDMuonControlRegionDisplaced"),
-    triggers = cms.vstring(),
-    cuts = copy.deepcopy(QCDMuonControlRegion.cuts)
-)
-QCDMuonControlRegionDisplaced.cuts.append(displaced_muon_cut)
-
-QCDMuonControlRegionVeryDisplaced = cms.PSet(
-    name = cms.string("QCDMuonControlRegionVeryDisplaced"),
-    triggers = cms.vstring(),
-    cuts = copy.deepcopy(QCDMuonControlRegion.cuts)
-)
-QCDMuonControlRegionVeryDisplaced.cuts.append(very_displaced_muon_cut)
