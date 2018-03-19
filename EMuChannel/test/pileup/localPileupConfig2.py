@@ -17,6 +17,8 @@ datasets = [
     'DYJetsToLL_10to50',
     'DYJetsToLL_50',
 
+    'WJetsToLNu',
+
     'QCD_MuEnriched_1000toInf',
     'QCD_MuEnriched_120to170',
     'QCD_MuEnriched_15to20',
