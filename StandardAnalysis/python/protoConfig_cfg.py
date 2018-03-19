@@ -82,51 +82,14 @@ from DisplacedSUSY.StandardAnalysis.EventWeights import *
 ##### Set up scale factors #####################################################
 ################################################################################
 
-ObjectScalingFactorProducer = {}
-ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
-ObjectScalingFactorProducer['muonFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root')
-ObjectScalingFactorProducer['electronFile'] = cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root')
+from DisplacedSUSY.StandardAnalysis.LeptonScaleFactors import *
 
-ObjectScalingFactorProducer['scaleFactors'] = cms.VPSet(
-    cms.PSet (
-        inputCollection = cms.string("electrons"),
-        sfType = cms.string("Reco"),
-        version = cms.string("2016")
-    ),
-    cms.PSet (
-        inputCollection = cms.string("electrons"),
-        sfType = cms.string("ID"),
-        version = cms.string("2016"),
-        wp = cms.string("Tight")
-    ),
-    cms.PSet (
-        inputCollection = cms.string("muons"),
-        sfType = cms.string("Reco"),
-        version = cms.string("2016")
-    ),
-    cms.PSet (
-        inputCollection = cms.string("muons"),
-        sfType = cms.string("ID"),
-        version = cms.string("2016"),
-        wp = cms.string("Tight"),
-        eras = cms.vstring("BCDEF","GH"),
-        lumis = cms.vdouble(19717, 16146),
-    ),
-    cms.PSet (
-        inputCollection = cms.string("muons"),
-        sfType = cms.string("Iso"),
-        version = cms.string("2016"),
-        wp = cms.string("Tight"),
-        eras = cms.vstring("BCDEF","GH"),
-        lumis = cms.vdouble(19717, 16146),
-    )
-)
-
+# These will look for framework object producers, meaning if you don't apply any 
+# cuts on say electrons it will throw a product-not-found error for osu::electrons
+# Meaning, only use these if they make sense to use
 scalingfactorproducers = []
-scalingfactorproducers.append(ObjectScalingFactorProducer)
-
-
-
+scalingfactorproducers.append(ElectronScaleFactorProducer)
+scalingfactorproducers.append(MuonScaleFactorProducer)
 
 ################################################################################
 ##### Import the channels to be run ############################################
