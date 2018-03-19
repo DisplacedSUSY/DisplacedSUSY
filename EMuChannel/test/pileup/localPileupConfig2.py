@@ -17,6 +17,8 @@ datasets = [
     'DYJetsToLL_10to50',
     'DYJetsToLL_50',
 
+    'WJetsToLNu',
+
     'QCD_MuEnriched_1000toInf',
     'QCD_MuEnriched_120to170',
     'QCD_MuEnriched_15to20',
@@ -38,12 +40,12 @@ datasets = [
     'QCD_EMEnriched_170to300',
     'QCD_EMEnriched_300toInf',
 
-    'QCD_bcToE_15to20'
-    'QCD_bcToE_20to30'
-    'QCD_bcToE_30to80'
-    'QCD_bcToE_80to170'
-    'QCD_bcToE_170to250'
-    'QCD_bcToE_250toInf'
+    'QCD_bcToE_15to20',
+    'QCD_bcToE_20to30',
+    'QCD_bcToE_30to80',
+    'QCD_bcToE_80to170',
+    'QCD_bcToE_170to250',
+    'QCD_bcToE_250toInf',
 
     'SingleTop_s_channel',
     'SingleTop_tW',
