@@ -15,10 +15,10 @@ process = cms.Process ('OSUAnalysis')
 
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 10
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
-        'file:/data/users/bcardwell/condor/EMuSkim_Moriond17/DYJetsToLL_50/EMuSkimSelection/skim_13.root'
+        '/store/data/Run2017B/MuonEG/MINIAOD/17Nov2017-v1/50000/021C1D6D-88E5-E711-9349-002590207C28.root'
   )
 )
 
@@ -29,7 +29,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (10)
+    input = cms.untracked.int32 (100)
 )
 
 ################################################################################
@@ -94,10 +94,6 @@ scalingfactorproducers.append(MuonScaleFactorProducer)
 ################################################################################
 ##### Import the channels to be run ############################################
 ################################################################################
-from DisplacedSUSY.EMuChannel.Preselection import *
-from DisplacedSUSY.MuMuChannel.Preselection import *
-from DisplacedSUSY.EEChannel.Preselection import *
-#others
 
 ################################################################################
 ##### Import the histograms to be plotted ######################################
@@ -125,46 +121,3 @@ histograms.append(MuonMetHistograms)
 histograms.append(BeamspotHistograms)
 histograms.append(eventHistograms)
 
-################################################################################
-##### Attach the channels and histograms to the process ########################
-################################################################################
-
-
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
-
-
-################################################################################
-##### Apply PU reweighting #####################################################
-################################################################################
-
-process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
-process.PUScalingFactorProducer.type = cms.string("bgMC")
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
-    process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
-    process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
-    process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
-
-#FIXME: need to update for 2017
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
-    process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
-    process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
-    process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
-
-
-################################################################################
-##### Apply trigger scale factor ###############################################
-################################################################################
-
-#FIXME: need to derive trigger scale factors for ee and mumu channels as well
-
-process.DisplacedSUSYEventVariableProducer.type = cms.string("bgMC")
-process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
-
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
-#FIXME: need to update for 2017
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
