@@ -20,13 +20,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
     #main signal triggers for the EE channel
     triggersDoublePhoton = cms.vstring(
-        "HLT_Photon36_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon22_AND_HE10_R9Id65_Eta2_Mass15",
+        "HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15" #Photon36_Photon22_Mass15 was prescaled sometime during 2016
         )
 
     #backup triggers for the EE channel
-    triggersDoublePhotonBackup = cms.vstring(
-        "HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15"
-        )
+    triggersDoublePhotonBackup = cms.vstring()
 
     #main signal triggers for the EMu channel
     triggersMuonPhoton = cms.vstring(
