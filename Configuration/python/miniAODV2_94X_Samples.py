@@ -17,11 +17,11 @@ dataset_names = {
 
     ############################################################################
     # DoubleMuon 2017, 17Nov2017 rereco
-    'DoubleMuon_2017B' : '/DoubleMuon/Run2017B-17Nov2017-v1/MINIAOD',
-    'DoubleMuon_2017C' : '/DoubleMuon/Run2017C-17Nov2017-v1/MINIAOD',
-    'DoubleMuon_2017D' : '/DoubleMuon/Run2017D-17Nov2017-v1/MINIAOD',
-    'DoubleMuon_2017E' : '/DoubleMuon/Run2017E-17Nov2017-v1/MINIAOD',
-    'DoubleMuon_2017F' : '/DoubleMuon/Run2017F-17Nov2017-v1/MINIAOD',
+    'DoubleMu_2017B' : '/DoubleMuon/Run2017B-17Nov2017-v1/MINIAOD',
+    'DoubleMu_2017C' : '/DoubleMuon/Run2017C-17Nov2017-v1/MINIAOD',
+    'DoubleMu_2017D' : '/DoubleMuon/Run2017D-17Nov2017-v1/MINIAOD',
+    'DoubleMu_2017E' : '/DoubleMuon/Run2017E-17Nov2017-v1/MINIAOD',
+    'DoubleMu_2017F' : '/DoubleMuon/Run2017F-17Nov2017-v1/MINIAOD',
     ############################################################################
 
     ############################################################################
