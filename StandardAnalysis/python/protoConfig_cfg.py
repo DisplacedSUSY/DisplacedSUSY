@@ -72,42 +72,15 @@ variableProducers.append('DisplacedSUSYEventVariableProducer')
 variableProducers.append('LifetimeWeightProducer')
 variableProducers.append('PUScalingFactorProducer')
 
+################################################################################
+##### Set up event weights #####################################################
+################################################################################
 
-weights = cms.VPSet(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("lifetimeWeight")
-    ),
-   cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("puScalingFactor")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("triggerScaleFactor")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronReco2016")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("electronID2016Tight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonReco2016")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonID2016Tight")
-    ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string("muonIso2016Tight")
-    ),
-)
+from DisplacedSUSY.StandardAnalysis.EventWeights import *
 
+################################################################################
+##### Set up scale factors #####################################################
+################################################################################
 
 ObjectScalingFactorProducer = {}
 ObjectScalingFactorProducer['name'] = 'ObjectScalingFactorProducer'
