@@ -1,18 +1,8 @@
 #!/usr/bin/env python
-
-# import the definitions of all the datasets on the T3
-from OSUT3Analysis.Configuration.configurationOptions import *
-from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 # specify which config file to pass to cmsRun
 config_file = "Preselection_cfg.py"
-
-# choose luminosity used for MC normalization
-intLumi = 35863.308
-
-systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
-external_systematics_directory = "DisplacedSUSY/Configuration/data/"
-
 
 composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_DiLept','SingleTop','Diboson','QCD_EMEnriched','QCD_bcToE']
 
@@ -37,22 +27,30 @@ datasets = [
     
     # Signal
     #'DisplacedSUSYSignal',
-    
-    # Data
-    #'DoubleEG_2016',
-    #'DoubleEG_2016B',
-    #'DoubleEG_2016C',
-    #'DoubleEG_2016D',
-    #'DoubleEG_2016E',
-    'DoubleEG_2016F',
-    #'DoubleEG_2016G',
-    #'DoubleEG_2016H',
-
 ]
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    datasets.append(    
+        # Data
+        #'DoubleEG_2016',
+        #'DoubleEG_2016B',
+        #'DoubleEG_2016C',
+        #'DoubleEG_2016D',
+        #'DoubleEG_2016E',
+        'DoubleEG_2016F',
+        #'DoubleEG_2016G',
+        #'DoubleEG_2016H',
+        )
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    datasets.append(
+        # Data 
+        'DoubleEG_2017',
+        )
+
 
 from ROOT import kRed
 colors['DisplacedSUSYSignal'] = kRed +1
 labels['DisplacedSUSYSignal'] = "Signal"
 types['DisplacedSUSYSignal'] = "bgMC"
 
-InputCondorArguments = {}
+
