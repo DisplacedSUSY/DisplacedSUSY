@@ -13,9 +13,24 @@ import os
 
 process = cms.Process ('OSUAnalysis')
 
+################################################################################
+##### Set up the Message Logger ################################################
+################################################################################
+
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 10
+# suppress gen-matching erros
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
+)
+
+################################################################################
+##### Set up the input files, output files, ####################################
+##### max number of events (when run interactively) ############################
+################################################################################
+
 process.source = cms.Source ('PoolSource',
   fileNames = cms.untracked.vstring (
         '/store/data/Run2017B/MuonEG/MINIAOD/17Nov2017-v1/50000/021C1D6D-88E5-E711-9349-002590207C28.root'
@@ -30,13 +45,6 @@ process.TFileService = cms.Service ('TFileService',
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (100)
-)
-
-# suppress gen-matching erros
-process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.categories.append ("osu_GenMatchable")
-process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
-    limit = cms.untracked.int32 (0)
 )
 
 ################################################################################
