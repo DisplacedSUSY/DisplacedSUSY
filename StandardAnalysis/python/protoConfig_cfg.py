@@ -32,6 +32,13 @@ process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (100)
 )
 
+# suppress gen-matching erros
+process.load ('FWCore.MessageService.MessageLogger_cfi')
+process.MessageLogger.categories.append ("osu_GenMatchable")
+process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
+    limit = cms.untracked.int32 (0)
+)
+
 ################################################################################
 ##### Set up the global tags ###################################################
 ################################################################################
