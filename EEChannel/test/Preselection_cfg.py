@@ -8,7 +8,14 @@ from DisplacedSUSY.EEChannel.EEHistograms import *
 
 from DisplacedSUSY.EEChannel.Preselection import *
 
-eventSelections = [Preselection]
+eventSelections = [
+    Preselection,
+    #PromptControlRegion,
+    #AntiIsoPromptControlRegion,
+    #DisplacedControlRegion,
+    #AntiIsoDisplacedControlRegion,
+    #ZControlRegion
+    ]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
