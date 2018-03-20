@@ -105,34 +105,3 @@ from DisplacedSUSY.StandardAnalysis.LeptonScaleFactors import *
 scalingfactorproducers = []
 scalingfactorproducers.append(ElectronScaleFactorProducer)
 scalingfactorproducers.append(MuonScaleFactorProducer)
-
-################################################################################
-##### Import the channels to be run ############################################
-################################################################################
-
-################################################################################
-##### Import the histograms to be plotted ######################################
-################################################################################
-
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, MuonHistograms, ElectronMuonHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, MuonD0Histograms, ElectronMuonD0Histograms, BeamspotHistograms
-from OSUT3Analysis.Configuration.histogramDefinitions import JetHistograms, ElectronJetHistograms, MuonJetHistograms
-from OSUT3Analysis.Configuration.histogramDefinitions import MetHistograms, ElectronMetHistograms, MuonMetHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import eventHistograms
-
-histograms = cms.VPSet()
-histograms.append(ElectronHistograms)
-histograms.append(ElectronD0Histograms)
-histograms.append(MuonHistograms)
-histograms.append(MuonD0Histograms)
-histograms.append(ElectronMuonD0Histograms)
-histograms.append(ElectronMuonHistograms)
-histograms.append(JetHistograms)
-histograms.append(ElectronJetHistograms)
-histograms.append(MuonJetHistograms)
-histograms.append(MetHistograms)
-histograms.append(ElectronMetHistograms)
-histograms.append(MuonMetHistograms)
-histograms.append(BeamspotHistograms)
-histograms.append(eventHistograms)
-
