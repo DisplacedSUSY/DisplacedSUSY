@@ -8,7 +8,14 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
-eventSelections = [Preselection]
+eventSelections = [
+    Preselection,
+    #PromptControlRegion,
+    #AntiIsoPromptControlRegion,
+    #DisplacedControlRegion,
+    #AntiIsoDisplacedControlRegion,
+    #ZControlRegion,
+    ]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
