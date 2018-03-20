@@ -28,14 +28,14 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
     #main signal triggers for the EMu channel
     triggersMuonPhoton = cms.vstring(
-        "HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v",
-        #"HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v" # don't need to use this one since it has a higher pt thresholds than HLT_Mu23NoFiltersNoVtx_Photon23_CaloIdL_v, and also the displaced requirement
+        "HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v",
+        "HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v" 
         )
 
     #backup triggers for the EMu channel
     triggersMuonPhotonBackup = cms.vstring(
-        "HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v",
-        "HLT_Mu33NoFiltersNoVtxDisplaced_Photon33_CaloIdL"
+        "HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL",
+        "HLT_Mu33NoFiltersNoVtxDisplaced_Photon33_CaloIdL_v" 
         )
 
     triggersSingleElectron = cms.vstring(
