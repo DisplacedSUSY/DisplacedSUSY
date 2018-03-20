@@ -50,6 +50,18 @@ weights = cms.VPSet(
     ),
 )
 
+weightsFluctuatePileup = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("lifetimeWeight")
+    ),
+   cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string("puScalingFactor"),
+        fluctuations = cms.vstring("puScalingFactorUp", "puScalingFactorDown")
+    ),
+)
+
 #################################################################
 
 #OFFLINE ELECTRON WEIGHTS

@@ -21,6 +21,9 @@ eventSelections = [
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
 
+#FIXME: fluctuate PU weights properly
+#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, True)
+
 # customize the process:
 # usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
 customize (process, True, True)
