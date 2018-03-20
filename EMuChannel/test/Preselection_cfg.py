@@ -10,9 +10,15 @@ from DisplacedSUSY.EMuChannel.Preselection import *
 
 eventSelections = [
     Preselection,
-    #InclusiveSignalRegion, 
-    #PreselectionPromptElectron, 
-    #PreselectionPromptMuon, 
+    #PromptControlRegion,
+    #DisplacedControlRegion,
+    #InclusiveSignalRegion,
+    #PreselectionPromptElectron,
+    #PreselectionPromptMuon,
+    #PreselectionVeryPromptElectron,
+    #PreselectionVeryPromptMuon,
+    #PreselectionIntermediateElectron,
+    #PreselectionIntermediateMuon,
 ]
 
 ################################################################################
