@@ -97,5 +97,51 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         "HLT_IsoMu27_v"
         )
 
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_0_"):
+    print "# Using 2018 triggers"
+    #http://fwyzard.web.cern.ch/fwyzard/hlt/2018/summary
+
+    #main signal triggers for the MuMu channel
+    triggersDoubleMuon = cms.vstring(
+        "HLT_DoubleMu43NoFiltersNoVtx"
+        )
+
+    #backup triggers for the MuMu channel
+    triggersDoubleMuonBackup = cms.vstring(
+        "HLT_DoubleMu48NoFiltersNoVtx",
+        )
+
+    #main signal triggers for the EE channel
+    triggersDoublePhoton = cms.vstring(
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90"
+        )
+
+    #backup triggers for the EE channel
+    triggersDoublePhotonBackup = cms.vstring(
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95"
+        )
+
+    #main signal triggers for the EMu channel
+    triggersMuonPhoton = cms.vstring(
+        "HLT_Mu43NoFiltersNoVtx_Photon43_CaloIdL_v"
+        )
+
+    #backup triggers for the EMu channel
+    triggersMuonPhotonBackup = cms.vstring(
+        "HLT_Mu48NoFiltersNoVtx_Photon48_CaloIdL_v",
+        )
+
+    triggersSingleElectron = cms.vstring(
+        "HLT_Ele27_WPTight_Gsf_v"
+        )
+
+    triggersSingleMuon = cms.vstring(
+        "HLT_Mu50_v", 
+        )
+
+    triggersIsoSingleMuon = cms.vstring(
+        "HLT_IsoMu27_v"
+        )
+
 else:
     print "# You're using a CMSSW version we don't expect, so the triggers are not defined"
