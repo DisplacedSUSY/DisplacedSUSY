@@ -31,5 +31,5 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 #add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, True)
 
 # customize the process:
-# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
+# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC") 
 customize (process, True, True, "data")
