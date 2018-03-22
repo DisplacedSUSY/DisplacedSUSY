@@ -202,20 +202,23 @@ ObjectScalingFactorProducer = {}
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.TTbarForTrigEff import *
+from DisplacedSUSY.EMuChannel.TrigEfficiency import *
 
 eventSelections = [
-                   TTbarForTrigEff,
+                   TriggerMuonPhoton38,
+                   TriggerDisplacedMuonPhoton28,
+                   TriggerMuonPhoton38orDisplacedMuonPhoton28,
+                   #TTbarForTrigEff,
                    #TTbarForTrigEffMet,
-                   TTbarForTrigEff38,
+                   #TTbarForTrigEff38,
                    #TTbarForTrigEff43,
                    #TTbarForTrigEff48,
-                   TTbarForTrigEffHighPtE,
-                   TTbarForTrigEff38HighPtE,
+                   #TTbarForTrigEffHighPtE,
+                   #TTbarForTrigEff38HighPtE,
                    #TTbarForTrigEff43HighPtE,
                    #TTbarForTrigEff48HighPtE,
-                   TTbarForTrigEffHighPtMu,
-                   TTbarForTrigEff38HighPtMu,
+                   #TTbarForTrigEffHighPtMu,
+                   #TTbarForTrigEff38HighPtMu,
                    #TTbarForTrigEff43HighPtMu,
                    #TTbarForTrigEff48HighPtMu,
                    #TTbarForTrigEff43EFilter,
