@@ -9,9 +9,10 @@ def customize (process, applyPUReweighting = True, applyTriggerReweighting = Tru
 ##### Set variables needed for DisplacedSUSYEventVariableProducer ##############
 ################################################################################
 
-    process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
-    process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
-    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
+    if hasattr(process, "DisplacedSUSYEventVariableProducer"):
+        process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
+        process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+        process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
 ################################################################################
 ##### Apply PU reweighting #####################################################
