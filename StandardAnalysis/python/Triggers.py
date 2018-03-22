@@ -29,13 +29,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     #main signal triggers for the EMu channel
     triggersMuonPhoton = cms.vstring(
         "HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL_v",
-        "HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v" 
+        "HLT_Mu28NoFiltersNoVtxDisplaced_Photon28_CaloIdL_v"
         )
 
     #backup triggers for the EMu channel
     triggersMuonPhotonBackup = cms.vstring(
         "HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL",
-        "HLT_Mu33NoFiltersNoVtxDisplaced_Photon33_CaloIdL_v" 
+        "HLT_Mu33NoFiltersNoVtxDisplaced_Photon33_CaloIdL_v"
         )
 
     triggersSingleElectron = cms.vstring(
@@ -43,7 +43,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         )
 
     triggersSingleMuon = cms.vstring(
-        "HLT_Mu50_v", 
+        "HLT_Mu50_v",
         "HLT_TkMu50_v"
         )
 
@@ -90,7 +90,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         )
 
     triggersSingleMuon = cms.vstring(
-        "HLT_Mu50_v", 
+        "HLT_Mu50_v",
         )
 
     triggersIsoSingleMuon = cms.vstring(
@@ -136,7 +136,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_0_"):
         )
 
     triggersSingleMuon = cms.vstring(
-        "HLT_Mu50_v", 
+        "HLT_Mu50_v",
         )
 
     triggersIsoSingleMuon = cms.vstring(
