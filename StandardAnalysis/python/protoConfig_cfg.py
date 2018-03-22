@@ -20,7 +20,7 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 10
-# suppress gen-matching erros
+# suppress gen-matching errors
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
     limit = cms.untracked.int32 (0)
