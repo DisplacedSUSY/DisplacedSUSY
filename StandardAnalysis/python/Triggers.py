@@ -20,11 +20,17 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
     #main signal triggers for the EE channel
     triggersDoublePhoton = cms.vstring(
-        "HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15" #Photon36_Photon22_Mass15 was prescaled sometime during 2016
+        #Photon36_Photon22_Mass15 was prescaled sometime during 2016
+        #"HLT_Photon42_R9Id85_OR_CaloId24b40e_Iso50T80L_Photon25_AND_HE10_R9Id65_Eta2_Mass15" #Bing's trigger, less efficient than others
+        "HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90", #Hgammagamma trigger, most efficient at low stop mass
+        "HLT_DoublePhoton60" # high mass gamma gamma, backup for exo Z'-->ee, most efficient at high stop mass and large lifetime
         )
 
     #backup triggers for the EE channel
-    triggersDoublePhotonBackup = cms.vstring()
+    triggersDoublePhotonBackup = cms.vstring(
+        "HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95",
+        "HLT_DoublePhoton70"
+        )
 
     #main signal triggers for the EMu channel
     triggersMuonPhoton = cms.vstring(
@@ -67,12 +73,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
     #main signal triggers for the EE channel
     triggersDoublePhoton = cms.vstring(
-        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90"
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90",
+        "HLT_DoublePhoton70"
         )
 
     #backup triggers for the EE channel
     triggersDoublePhotonBackup = cms.vstring(
-        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95"
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95",
+        "HLT_DoublePhoton85"
         )
 
     #main signal triggers for the EMu channel
@@ -113,12 +121,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_0_"):
 
     #main signal triggers for the EE channel
     triggersDoublePhoton = cms.vstring(
-        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90"
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90",
+        "HLT_DoublePhoton70"
         )
 
     #backup triggers for the EE channel
     triggersDoublePhotonBackup = cms.vstring(
-        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95"
+        "HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95",
+        "HLT_DoublePhoton85"
         )
 
     #main signal triggers for the EMu channel
