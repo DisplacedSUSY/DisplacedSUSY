@@ -13,9 +13,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     muonRecoPayload = "muonReco2016"
     muonIdPayload = "muonID2016Tight"
     muonIsoPayload = "muonIso2016Tight"
-    triggerScaleFactorEEChannel = "triggerScaleFactorEEChannel2016"
-    triggerScaleFactorMuMuChannel = "triggerScaleFactorMuMuChannel2016"
-    triggerScaleFactorEMuChannel = "triggerScaleFactorEMuChannel2016"
+    triggerScaleFactorEEChannelPayload  = "triggerScaleFactorEEChannel2016"
+    triggerScaleFactorMuMuChannelPayload  = "triggerScaleFactorMuMuChannel2016"
+    triggerScaleFactorEMuChannelPayload  = "triggerScaleFactorEMuChannel2016"
 
 #FIXME: needs to be updated for 2017
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -67,7 +67,7 @@ weightsFluctuatePileup = cms.VPSet(
 #OFFLINE ELECTRON WEIGHTS
 electronWeights = cms.VPSet(
     cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),            
+        inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string(electronRecoPayload)
         ),
     cms.PSet (
@@ -120,7 +120,7 @@ weightsMuMuChannel.append(
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string(triggerScaleFactorMuMuChannelPayload)
         ),
-    )    
+    )
 
 #################################################################
 
