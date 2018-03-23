@@ -1,17 +1,12 @@
 #!/usr/bin/env python
-
-# import the definitions of all the datasets on the T3
-from OSUT3Analysis.Configuration.configurationOptions import *
-from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
+import os
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 # specify which config file to pass to cmsRun
 config_file = "TriggerEfficiency_cfg.py"
 
 # choose luminosity used for MC normalization
 intLumi = 4407 # intersection of 2017D and DCS-only JSON
-
-systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
-external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 # create list of datasets to process
 datasets = [
@@ -47,5 +42,3 @@ datasets = [
     #'MuonEG_2016H',
 ]
 
-
-InputCondorArguments = {}
