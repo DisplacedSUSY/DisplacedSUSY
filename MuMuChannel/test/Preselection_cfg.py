@@ -25,4 +25,4 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 # customize the process:
 # usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
-customize (process, True, True)
+customize (process, True, True, "data")
