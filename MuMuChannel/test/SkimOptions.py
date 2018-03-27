@@ -8,7 +8,7 @@ config_file = "Skim_cfg.py"
 # create list of datasets to process
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets = [
-        'DoubleMu_2016',
+        'DoubleMu_2016_postHIP',
         ]
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = [

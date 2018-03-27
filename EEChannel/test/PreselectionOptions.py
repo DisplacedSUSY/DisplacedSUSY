@@ -32,12 +32,12 @@ datasets = [
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets.append(    
         # Data
-        #'DoubleEG_2016',
+        'DoubleEG_2016_postHIP',
         #'DoubleEG_2016B',
         #'DoubleEG_2016C',
         #'DoubleEG_2016D',
         #'DoubleEG_2016E',
-        'DoubleEG_2016F',
+        #'DoubleEG_2016F',
         #'DoubleEG_2016G',
         #'DoubleEG_2016H',
         )
