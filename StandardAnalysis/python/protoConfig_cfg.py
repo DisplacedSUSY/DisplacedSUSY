@@ -35,12 +35,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
             '/store/data/Run2016G/MuonEG/MINIAOD/23Sep2016-v1/100000/005AB7E9-0B93-E611-AC81-848F69FD2925.root'
+            #'/store/data/Run2016G/DoubleEG/MINIAOD/23Sep2016-v1/100000/0608426D-3F8E-E611-A52D-00237DF28460.root'
+            #'/store/data/Run2016G/DoubleMuon/MINIAOD/23Sep2016-v1/100000/00993A51-DF90-E611-A4EE-7845C4FC3650.root'
       )
     )
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
-            '/store/data/Run2017B/MuonEG/MINIAOD/17Nov2017-v1/50000/021C1D6D-88E5-E711-9349-002590207C28.root'
+            '/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/0C144772-16E5-E711-B272-001E673971CA.root'
+            #'/store/data/Run2017D/DoubleMuon/MINIAOD/17Nov2017-v1/20000/0287B2B9-B7D2-E711-9994-0025905C542C.root'
+            #'/store/data/Run2017D/DoubleEG/MINIAOD/17Nov2017-v1/30000/007FE641-E7D7-E711-8291-0025905C53D0.root'
       )
     )
 else:
