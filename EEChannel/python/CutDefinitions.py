@@ -8,42 +8,42 @@ from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 # CHANGE ELECTRON CUTS TO >=2 ELECTRONS
 
-electron_eta_cut.numberRequired = cms.string(">=2")
+electron_eta_cut.numberRequired = cms.string(">= 2")
 
-electron_gap_veto.numberRequired = cms.string(">=2")
+electron_gap_veto.numberRequired = cms.string(">= 2")
 electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
 
-electron_pt_42_cut.numberRequired = cms.string(">=2")
-electron_pt_25_cut.numberRequired = cms.string(">=2")
+electron_pt_42_cut.numberRequired = cms.string(">= 2")
+electron_pt_25_cut.numberRequired = cms.string(">= 2")
 
-electron_id_cut.numberRequired = cms.string(">=2")
+electron_id_cut.numberRequired = cms.string(">= 2")
 electron_id_cut.alias = cms.string(">=2 electrons with tight ID")
 
-electron_iso_cut.numberRequired = cms.string(">=2")
+electron_iso_cut.numberRequired = cms.string(">= 2")
 electron_iso_cut.alias = cms.string(">=2 electrons with tight isolation")
 
-electron_antiiso_cut.numberRequired = cms.string(">=2")
+electron_antiiso_cut.numberRequired = cms.string(">= 2")
 electron_antiiso_cut.alias = cms.string(">=2 electrons with inverted tight isolation")
 
-electron_d0_lessThan100_cut.numberRequired = cms.string(">=2")
+electron_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan100_cut.alias = cms.string(">=2 electrons with d0 < 100 mum")
 
-electron_d0_100to200_cut.numberRequired = cms.string(">=2")
+electron_d0_100to200_cut.numberRequired = cms.string(">= 2")
 electron_d0_100to200_cut.alias = cms.string(">=2 electrons with 100 < d0 < 200 mum")
 
-electron_d0_greaterThan100_cut.numberRequired = cms.string(">=2")
+electron_d0_greaterThan100_cut.numberRequired = cms.string(">= 2")
 electron_d0_greaterThan100_cut.alias = cms.string(">=2 electrons with d0 > 100 mum")
 
-electron_d0_lessThan200_cut.numberRequired = cms.string(">=2")
+electron_d0_lessThan200_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan200_cut.alias = cms.string(">=2 electrons with d0 < 200 mum")
 
-electron_d0_greaterThan200_cut.numberRequired = cms.string(">=2")
+electron_d0_greaterThan200_cut.numberRequired = cms.string(">= 2")
 electron_d0_greaterThan200_cut.alias = cms.string("electron d0 > 200 mum")
 
 electron_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
-    numberRequired = cms.string(">=2")
+    numberRequired = cms.string(">= 2")
     )
 
 electron_2electron_cut = cms.PSet(
