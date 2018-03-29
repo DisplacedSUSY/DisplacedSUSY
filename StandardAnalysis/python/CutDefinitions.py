@@ -180,7 +180,7 @@ electron_gap_veto = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("isEBEEGap = 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("electron ECAL crack veto")
+    alias = cms.string(">= 1 electrons not in ECAL crack")
     )
 
 electron_pt_20_cut = cms.PSet(
