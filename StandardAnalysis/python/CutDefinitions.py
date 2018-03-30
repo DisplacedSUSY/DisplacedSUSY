@@ -14,7 +14,7 @@ absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 cutDummy = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > -1"),
-    numberRequired = cms.string(">=0"),
+    numberRequired = cms.string(">= 0"),
     alias = cms.string("No offline cuts")
 )
 ##########################################################################
