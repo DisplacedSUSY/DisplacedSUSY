@@ -42,4 +42,20 @@ triggerDoublePhoton30orDoublePhoton60 = cms.PSet(
 
 
 
+trigMETandEEtrig = cms.PSet(
+    name = cms.string("trigMETandEEtrig"),
+    triggers = cms.vstring("HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90","HLT_DoublePhoton60"),
+    cuts = cms.VPSet()
+)
+trigMETandEEtrig.cuts.append(cutDummy)
+trigMETandEEtrig.cuts.append(pass_trigger)
+
+
+trigMET = cms.PSet(
+    name = cms.string("trigMET"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet()
+)
+trigMET.cuts.append(cutDummy)
+trigMET.cuts.append(pass_trigger)
 

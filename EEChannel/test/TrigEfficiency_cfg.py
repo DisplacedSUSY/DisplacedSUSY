@@ -1,5 +1,6 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
+from DisplacedSUSY.EEChannel.EEHistograms import *
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -7,17 +8,22 @@ from DisplacedSUSY.StandardAnalysis.customize import *
 
 from DisplacedSUSY.EEChannel.TrigEfficiency import *
 
-eventSelections = [triggerDoublePhoton30orDoublePhoton60]
+eventSelections = [
+		   # triggerDoublePhoton30orDoublePhoton60, # EE trigger
+                   trigMETandEEtrig, 
+                   trigMET
+                  ]
 
 ################################################################################
 
 # REDEFINE variableProducers, weights, scalingfactorproducers, histograms 
 # to all to be empty for the trigger efficiency calculation in signal
 
-histograms = cms.VPSet()
+# histograms = cms.VPSet()
 weights = cms.VPSet()
 scalingfactorproducers = []
 variableProducers = []
+variableProducers.append('DisplacedSUSYEventVariableProducer')
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
