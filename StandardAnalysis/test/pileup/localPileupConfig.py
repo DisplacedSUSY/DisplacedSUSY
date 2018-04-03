@@ -1,16 +1,8 @@
-from OSUT3Analysis.Configuration.configurationOptions import *
-from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
+import os
+from DisplacedSUSY.StandardAnalysis.Options import *
 
+# specify which config file to pass to cmsRun
 config_file = "pu_cfg.py"
-
-
-InputCondorArguments = {}
-
-
-# choose luminosity used for MC normalization
-#intLumi = 35863.308 # from  Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
-intLumi = 16146.2 # 2016G,H only
-
 
 composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_Lept','SingleTop','Diboson','QCD_MuEnriched']
 
