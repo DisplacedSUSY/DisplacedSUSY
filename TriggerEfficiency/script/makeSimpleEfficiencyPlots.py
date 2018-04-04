@@ -5,6 +5,7 @@ import re
 import math
 from array import array
 from optparse import OptionParser
+from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from ROOT import TFile, TCanvas, gPad, gROOT, TH1, TGraphAsymmErrors, TMultiGraph, TLegend, Double
 
 parser = OptionParser()
@@ -20,20 +21,6 @@ if arguments.localConfig:
     exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 
 gROOT.SetBatch()
-
-# copypasta from fitSidebands
-def propagateError(func, a, a_err, b, b_err):
-    a = float(a)
-    b = float(b)
-    if func is "sum":
-        return (a + b, math.sqrt(a_err**2 + b_err**2))
-    elif func is "product":
-        return (a*b, a*b * math.sqrt((a_err/a)**2 + (b_err/b)**2))
-    elif func is "quotient":
-        return (a/b, a/b * math.sqrt((a_err/a)**2 + (b_err/b)**2))
-    else:
-        print "Unrecognized function"
-        return -1
 
 out_file = TFile(output_file_name, "recreate")
 
