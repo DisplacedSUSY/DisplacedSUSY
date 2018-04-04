@@ -16,6 +16,7 @@ electronScaleFactors2016 = cms.VPSet (
     ),
 )
 
+#additional systematics already added in, no need to do so here
 muonScaleFactors2016 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("muons"),
@@ -29,7 +30,6 @@ muonScaleFactors2016 = cms.VPSet (
         wp = cms.string("Tight"),
         eras = cms.vstring("GH"),
         lumis = cms.vdouble(16146),
-        additionalSystematic = cms.double(0.01), #check
     ),
     cms.PSet (
         inputCollection = cms.string("muons"),
@@ -38,8 +38,6 @@ muonScaleFactors2016 = cms.VPSet (
         wp = cms.string("Tight"),
         eras = cms.vstring("GH"),
         lumis = cms.vdouble(16146),
-        additionalSystematic = cms.double(0.005), #check
-
     ),
 )
 
