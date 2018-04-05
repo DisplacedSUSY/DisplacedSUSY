@@ -64,6 +64,21 @@ TTbarForTrigEffNoTrig.cuts.append(jet_btag_mwp_cut)
 ### extra electron veto
 TTbarForTrigEffNoTrig.cuts.append(electron_2electron_cut)
 
+TTbarForHLTDiphoton30 = cms.PSet(
+    name = cms.string("TTbarForHLTDiphoton30"),
+    triggers = cms.vstring("HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+TTbarForHLTDiphoton30.cuts.append(pass_trigger)
+
+
+TTbarForHLTDoublePhoton60 = cms.PSet(
+    name = cms.string("TTbarForHLTDoublePhoton60"),
+    triggers = cms.vstring("HLT_DoublePhoton60"),
+    cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
+)
+TTbarForHLTDoublePhoton60.cuts.append(pass_trigger)
+
 # EE trigger and MET trigger
 trigMETandEEtrig = cms.PSet(
     name = cms.string("trigMETandEEtrig"),
@@ -80,7 +95,6 @@ trigMET = cms.PSet(
 )
 trigMET.cuts.append(pass_trigger)
 
-
 ### use electron tag variable
 trigMETandEEtrigTagElectron = cms.PSet(
     name = cms.string("trigMETandEEtrigTagElectron"),
@@ -95,7 +109,7 @@ for cut in trigMETandEEtrigTagElectron.cuts:
 trigMETandEEtrigTagElectron.cuts.append(tagElectronExists_cut)
 trigMETandEEtrigTagElectron.cuts.append(electron_opposite_charge_from_tag_cut)
 trigMETandEEtrigTagElectron.cuts.append(electron_deltaR_from_tag_cut)
-
+trigMETandEEtrigTagElectron.cuts.append(pass_trigger)
 
 trigMETTagElectron = cms.PSet(
     name = cms.string("trigMETTagElectron"),
@@ -103,3 +117,5 @@ trigMETTagElectron = cms.PSet(
     cuts = cms.VPSet(copy.deepcopy(trigMETandEEtrigTagElectron.cuts))
 )
 trigMETTagElectron.cuts.append(pass_trigger)
+
+

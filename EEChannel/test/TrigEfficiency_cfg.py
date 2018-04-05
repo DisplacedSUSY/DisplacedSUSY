@@ -14,7 +14,9 @@ eventSelections = [
                    trigMET,
 		   TTbarForTrigEffNoTrig,
                    trigMETandEEtrigTagElectron,
-                   trigMETTagElectron 
+                   trigMETTagElectron,
+	           TTbarForHLTDiphoton30,
+	           TTbarForHLTDoublePhoton60,
                   ]
 
 ################################################################################
