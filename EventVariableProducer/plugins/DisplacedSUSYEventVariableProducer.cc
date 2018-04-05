@@ -18,7 +18,7 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
-#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD || DATA_FORMAT == MINI_AOD_2017
+#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
@@ -73,11 +73,48 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagMuonCharge = muon1.charge();
     }
   }
+  // Identify tag electron for trigger efficiency plotting
+  bool tagElectronExists = false;
+  double tagElectronPt = -999;
+  double tagElectronEta = 0;
+  double tagElectronPhi = -4;
+  double tagElectronCharge = -999;
+  for (const auto &electron1 : *handles_.electrons) {
+    // electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) <= 1.479 && 
+        electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 && 
+        abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
+        abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
+        electron1.passConversionVeto()) {
+      tagElectronExists = true;
+      tagElectronPt = electron1.pt();
+      tagElectronEta = electron1.eta();
+      tagElectronPhi = electron1.phi();
+      tagElectronCharge = electron1.charge();
+    } 
+    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) > 1.479 && 
+        electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 && 
+        abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00605 && electron1.hadronicOverEm() < 0.0641 &&
+        abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
+        electron1.passConversionVeto()) {
+      tagElectronExists = true;
+      tagElectronPt = electron1.pt();
+      tagElectronEta = electron1.eta();
+      tagElectronPhi = electron1.phi();
+      tagElectronCharge = electron1.charge();
+    } 
+  }  
+
   (*eventvariables)["tagMuonExists"] = tagMuonExists;
   (*eventvariables)["tagMuonPt"] = tagMuonPt;
   (*eventvariables)["tagMuonEta"] = tagMuonEta;
   (*eventvariables)["tagMuonPhi"] = tagMuonPhi;
   (*eventvariables)["tagMuonCharge"] = tagMuonCharge;
+  (*eventvariables)["tagElectronExists"] = tagElectronExists;
+  (*eventvariables)["tagElectronPt"] = tagElectronPt;
+  (*eventvariables)["tagElectronEta"] = tagElectronEta;
+  (*eventvariables)["tagElectronPhi"] = tagElectronPhi;
+  (*eventvariables)["tagElectronCharge"] = tagElectronCharge;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;

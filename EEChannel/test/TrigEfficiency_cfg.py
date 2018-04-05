@@ -11,7 +11,10 @@ from DisplacedSUSY.EEChannel.TrigEfficiency import *
 eventSelections = [
 		   # triggerDoublePhoton30orDoublePhoton60, # EE trigger
                    trigMETandEEtrig, 
-                   trigMET
+                   trigMET,
+		   TTbarForTrigEffNoTrig,
+                   trigMETandEEtrigTagElectron,
+                   trigMETTagElectron 
                   ]
 
 ################################################################################
@@ -29,7 +32,7 @@ variableProducers.append('DisplacedSUSYEventVariableProducer')
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
 # customize the process:
 # usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True)

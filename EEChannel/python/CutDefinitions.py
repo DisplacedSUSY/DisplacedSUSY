@@ -74,4 +74,38 @@ diElectron_invMass_Z_cut = cms.PSet (
     alias = cms.string("abs(mass_ee - mass_Z) < 10")
     )
 
+diElectron_opposite_charge_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("electron.charge * electron.charge < 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 oppositely-charged e-e pair")
+)
+
+diElectron_deltaR_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "electrons"),
+    cutString = cms.string("deltaR(electron, electron) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 well-seperated e-e pair")
+)
+
+tagElectronExists_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("eventvariable.tagElectronExists"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("tag electron exists")
+)
+
+electron_opposite_charge_from_tag_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("electron.charge * eventvariable.tagElectronCharge < 0"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("oppositely-charged e-tage pair")
+)
+
+electron_deltaR_from_tag_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "eventvariables"),
+    cutString = cms.string("sqrt(pow((electron.eta-eventvariable.tagElectronEta), 2) + pow((electron.phi-eventvariable.tagElectronPhi), 2))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("well-seperated e-tage pair")
+)
 ##########################################################################
