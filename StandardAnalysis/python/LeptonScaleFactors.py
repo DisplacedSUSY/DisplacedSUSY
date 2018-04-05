@@ -16,28 +16,38 @@ electronScaleFactors2016 = cms.VPSet (
     ),
 )
 
-#additional systematics already added in, no need to do so here
-muonScaleFactors2016 = cms.VPSet (
+electronScaleFactors2017 = cms.VPSet (
+    #only "ID" SFs in 2017, no "Reco"
     cms.PSet (
-        inputCollection = cms.string("muons"),
-        sfType = cms.string("Reco"),
-        version = cms.string("2016")
-    ),
-    cms.PSet (
-        inputCollection = cms.string("muons"),
+        inputCollection = cms.string("electrons"),
         sfType = cms.string("ID"),
-        version = cms.string("2016"),
+        version = cms.string("2017"),
         wp = cms.string("Tight"),
-        eras = cms.vstring("GH"),
-        lumis = cms.vdouble(16146),
     ),
+)
+
+muonScaleFactors2016 = cms.VPSet (
+    #the pset below has both tight isolation and tight ID SFs
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2016"),
-        wp = cms.string("Tight"),
+        wp = cms.string("TightTightID"),
         eras = cms.vstring("GH"),
         lumis = cms.vdouble(16146),
+        additionalSystematic = cms.double(0.011),#1% ID syst + 0.5% iso syst, added in quadrature
+    ),
+)
+
+muonScaleFactors2017 = cms.VPSet (
+    #the pset below has both tight isolation and tight ID SFs
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2017"),
+        wp = cms.string("TightTightID"),
+        additionalSystematic = cms.double(0.011),#1% ID syst + 0.5% iso syst, added in quadrature
+        #additional systematic to be updated when muon POG makes this update
     ),
 )
 
@@ -56,6 +66,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# Lepton SFs: 2017 (really 2016, should be updated!)"
-    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2016
-    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2016
+    print "# Lepton SFs: 2017"
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2017
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2017
