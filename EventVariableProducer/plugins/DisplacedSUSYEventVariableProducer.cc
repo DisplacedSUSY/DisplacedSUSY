@@ -18,7 +18,7 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
-#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD
+#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD || DATA_FORMAT == MINI_AOD_2017
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
