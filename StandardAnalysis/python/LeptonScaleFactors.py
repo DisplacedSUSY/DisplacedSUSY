@@ -27,7 +27,6 @@ electronScaleFactors2017 = cms.VPSet (
 )
 
 muonScaleFactors2016 = cms.VPSet (
-    #the pset below has both tight isolation and tight ID SFs
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
@@ -35,19 +34,33 @@ muonScaleFactors2016 = cms.VPSet (
         wp = cms.string("TightTightID"),
         eras = cms.vstring("GH"),
         lumis = cms.vdouble(16146),
-        additionalSystematic = cms.double(0.011),#1% ID syst + 0.5% iso syst, added in quadrature
+        additionalSystematic = cms.double(0.005),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2016"),
+        wp = cms.string("Tight"),
+        eras = cms.vstring("GH"),
+        lumis = cms.vdouble(16146),
+        additionalSystematic = cms.double(0.01),
     ),
 )
 
 muonScaleFactors2017 = cms.VPSet (
-    #the pset below has both tight isolation and tight ID SFs
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
         version = cms.string("2017"),
         wp = cms.string("TightTightID"),
-        additionalSystematic = cms.double(0.011),#1% ID syst + 0.5% iso syst, added in quadrature
-        #additional systematic to be updated when muon POG makes this update
+        additionalSystematic = cms.double(0.005), #to be updated when muon POG makes this update
+    ),    
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2017"),
+        wp = cms.string("Tight"),
+        additionalSystematic = cms.double(0.01),#additional systematic to be updated when muon POG makes this update
     ),
 )
 
