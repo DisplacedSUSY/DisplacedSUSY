@@ -94,7 +94,7 @@ diMuon_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
     cutString = cms.string("deltaR(muon, muon) > 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well-seperated mu-mu pair")
+    alias = cms.string(">=1 well-seperated mu-mu pair (#DeltaR > 0.5)")
     )
 
 ##########################################################################

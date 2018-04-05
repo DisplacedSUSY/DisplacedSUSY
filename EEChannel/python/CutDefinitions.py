@@ -85,7 +85,7 @@ diElectron_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
     cutString = cms.string("deltaR(electron, electron) > 0.5"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well-seperated e-e pair")
+    alias = cms.string(">=1 well-seperated e-e pair (#DeltaR > 0.5)")
 )
 
 tagElectronExists_cut = cms.PSet (
