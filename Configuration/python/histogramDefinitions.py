@@ -1776,8 +1776,8 @@ ElectronMuonD0Histograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronAbsD0_vs_muonAbsD0_2mm"),
             title = cms.string("Electron |d_{0}| vs. Muon |d_{0}|;Muon |d_{0}| [#mum];Electron |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(100,0,2000),
-            binsY = cms.untracked.vdouble(100,0,2000),
+            binsX = cms.untracked.vdouble(2000,0,2000),
+            binsY = cms.untracked.vdouble(2000,0,2000),
             inputVariables = cms.vstring("10000*abs(muon.d0)", "10000*abs(electron.d0)"),
         ),
         # When  used for limit-setting, make this plot with 100um bins !!!
