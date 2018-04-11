@@ -2,9 +2,9 @@
 import sys
 import os
 import re
-from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from array import array
 from optparse import OptionParser
+from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from ROOT import TFile, TCanvas, TH2F, gROOT, Double
 
 parser = OptionParser()
@@ -37,67 +37,69 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi):
 
 
 gROOT.SetBatch()
-e_yields_and_errors = {}
-mu_yields_and_errors = {}
+x_yields_and_errors = {}
+y_yields_and_errors = {}
 
 in_file = TFile(input_file)
-e_hist  = in_file.Get(electron_hist).Clone()
-mu_hist = in_file.Get(muon_hist).Clone()
+x_hist = in_file.Get(hist_x).Clone()
+y_hist = in_file.Get(hist_y).Clone()
 
-# get electron sideband yields and errors
-for edge_low, edge_high in zip(bin_edges_e[:-1], bin_edges_e[1:]):
-    e_yields_and_errors[edge_low] = get_yields_and_errors(
-                            e_hist,
+# get x-axis sideband yields and errors
+for edge_low, edge_high in zip(bin_edges_x[:-1], bin_edges_x[1:]):
+    x_yields_and_errors[edge_low] = get_yields_and_errors(
+                            x_hist,
+                            x_hist.GetXaxis().FindBin(edge_low),
+                            x_hist.GetXaxis().FindBin(edge_high)-1,
                             0,
-                            e_hist.GetXaxis().FindBin(bin_edges_mu[1])-1,
-                            e_hist.GetYaxis().FindBin(edge_low),
-                            e_hist.GetYaxis().FindBin(edge_high)-1 )
+                            x_hist.GetYaxis().FindBin(bin_edges_y[1])-1 )
 
-# get muon sideband yields and errors
-for edge_low, edge_high in zip(bin_edges_mu[:-1], bin_edges_mu[1:]):
-    mu_yields_and_errors[edge_low] = get_yields_and_errors(
-                            mu_hist,
-                            mu_hist.GetXaxis().FindBin(edge_low),
-                            mu_hist.GetXaxis().FindBin(edge_high)-1,
+# get y-axis sideband yields and errors
+for edge_low, edge_high in zip(bin_edges_y[:-1], bin_edges_y[1:]):
+    y_yields_and_errors[edge_low] = get_yields_and_errors(
+                            y_hist,
                             0,
-                            mu_hist.GetYaxis().FindBin(bin_edges_e[1])-1 )
+                            y_hist.GetXaxis().FindBin(bin_edges_x[1])-1,
+                            y_hist.GetYaxis().FindBin(edge_low),
+                            y_hist.GetYaxis().FindBin(edge_high)-1 )
 
-out_hist = TH2F(out_hist, out_hist,len(bin_edges_mu)-1, array('d',bin_edges_mu),
-                len(bin_edges_e)-1, array('d',bin_edges_e))
+out_hist = TH2F(out_hist, out_hist,len(bin_edges_x)-1, array('d',bin_edges_x),
+                len(bin_edges_y)-1, array('d',bin_edges_y))
 
 # get yield in prompt region
-if e_yields_and_errors[bin_edges_e[0]] is not mu_yields_and_errors[bin_edges_mu[0]]:
-    print "e and mu sideband yields don't match in 'a' (prompt) region"
-    print "using e yield in 'a' region, but you should make sure this is expected"
-(a_yield, a_error) = e_yields_and_errors[bin_edges_e[0]]
+if y_yields_and_errors[bin_edges_y[0]] is not x_yields_and_errors[bin_edges_x[0]]:
+    print "x and y sideband yields don't match in 'a' (prompt) region"
+    print "using x yield in 'a' region, but you should make sure this behavior is expected"
+(a_yield, a_error) = x_yields_and_errors[bin_edges_y[0]]
 
 # fill TH2 using abcd method
-for e_d0, (e_yield, e_error) in e_yields_and_errors.iteritems():
-    for mu_d0, (mu_yield, mu_error) in mu_yields_and_errors.iteritems():
-        bin_num = out_hist.FindBin(mu_d0, e_d0)
+for x_d0, (x_yield, x_error) in x_yields_and_errors.iteritems():
+    for y_d0, (y_yield, y_error) in y_yields_and_errors.iteritems():
+        bin_num = out_hist.FindBin(x_d0, y_d0)
 
-        if mu_d0 is bin_edges_mu[0] and e_d0 is bin_edges_e[0]: # prompt region; use input yield
+        if x_d0 is bin_edges_x[0] and y_d0 is bin_edges_y[0]: # prompt region; use input yield
             yield_temp = a_yield
             error_temp = a_error
-        elif e_d0 is bin_edges_e[0]: # muon sideband; use input yield
-            yield_temp = mu_yield
-            error_temp = mu_error
-        elif mu_d0 is bin_edges_mu[0]: # electron sideband; use input yield
-            yield_temp = e_yield
-            error_temp = e_error
+        elif y_d0 is bin_edges_y[0]: # x-axis sideband; use input yield
+            yield_temp = x_yield
+            error_temp = x_error
+        elif x_d0 is bin_edges_x[0]: # y-axis sideband; use input yield
+            yield_temp = y_yield
+            error_temp = y_error
         else: # signal region; use d = c*b/a
-            (cb_yield, cb_error) = propagateError("product", mu_yield, mu_error,
-                                                    e_yield, e_error)
-            (yield_temp, error_temp) = propagateError("quotient", cb_yield, cb_error,
-                                                      a_yield, a_error)
+            if x_yield == 0 or y_yield == 0:
+                yield_temp = 0
+                error_temp = 0
+            else:
+                (cb_yield, cb_error) = propagateError("product", x_yield, x_error, y_yield, y_error)
+                (yield_temp, error_temp) = propagateError("quotient", cb_yield, cb_error, a_yield, a_error)
 
         out_hist.SetBinContent(bin_num, yield_temp)
         out_hist.SetBinError(bin_num, error_temp)
 
 out_file = TFile(output_path + out_file, "recreate")
 out_hist.SetOption("colz texte")
-out_hist.GetXaxis().SetTitle("muon |d0| [cm]")
-out_hist.GetYaxis().SetTitle("electron |d0| [cm]")
+out_hist.GetXaxis().SetTitle(x_axis_title)
+out_hist.GetYaxis().SetTitle(y_axis_title)
 out_hist.Draw()
 out_hist.Write()
 out_file.Close()
