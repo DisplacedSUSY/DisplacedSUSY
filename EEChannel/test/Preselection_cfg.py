@@ -17,6 +17,10 @@ eventSelections = [
     #ZControlRegion
     ]
 
+# Redefine scalingfactorproducers to not include muon scale factors
+scalingfactorproducers = []
+scalingfactorproducers.append(ElectronScaleFactorProducer)
+
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################

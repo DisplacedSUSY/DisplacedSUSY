@@ -17,11 +17,15 @@ eventSelections = [
     #ZControlRegion,
     ]
 
+# Redefine scalingfactorproducers to not include electron scale factors
+scalingfactorproducers = []
+scalingfactorproducers.append(MuonScaleFactorProducer)
+
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
 # customize the process:
 # usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
