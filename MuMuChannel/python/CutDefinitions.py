@@ -31,19 +31,19 @@ muon_antiiso_cut.numberRequired = cms.string(">= 2")
 muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight isolation")
 
 muon_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
-muon_d0_lessThan100_cut.alias = cms.string(">=2 muons with d0 < 100 mum")
+muon_d0_lessThan100_cut.alias = cms.string(">=2 muons with |d_0| < 100 mum")
 
 muon_d0_100to200_cut.numberRequired = cms.string(">= 2")
-muon_d0_100to200_cut.alias = cms.string(">=2 muons with 100 < d0 < 200 mum")
+muon_d0_100to200_cut.alias = cms.string(">=2 muons with 100 < |d_0| < 200 mum")
 
 muon_d0_greaterThan100_cut.numberRequired = cms.string(">= 2")
-muon_d0_greaterThan100_cut.alias = cms.string(">=2 muons with d0 > 100 mum")
+muon_d0_greaterThan100_cut.alias = cms.string(">=2 muons with |d_0| > 100 mum")
 
 muon_d0_lessThan200_cut.numberRequired = cms.string(">= 2")
-muon_d0_lessThan200_cut.alias = cms.string(">=2 muons with d0 < 200 mum")
+muon_d0_lessThan200_cut.alias = cms.string(">=2 muons with |d_0| < 200 mum")
 
 muon_d0_lessThan2000_cut.numberRequired = cms.string(">= 2")
-muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with d0 < 0.2 cm")
+muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with |d_0| < 0.2 cm")
 
 #dZ cut
 muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
