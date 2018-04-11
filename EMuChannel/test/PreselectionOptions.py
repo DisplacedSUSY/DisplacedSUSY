@@ -5,6 +5,8 @@ from DisplacedSUSY.StandardAnalysis.Options import *
 # specify which config file to pass to cmsRun
 config_file = "Preselection_cfg.py"
 
+composite_dataset_definitions['Background'] = ['DYJetsToLL','TTJets_Lept','SingleTop','Diboson','QCD_MuEnriched']
+
 # create list of datasets to process
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets = [
