@@ -18,6 +18,10 @@ def variableBins(nBins,lower,upper):
         variableBins.extend(bins)
     return variableBins
 
+# create list of bin edges for 10cm d0 TH2s
+# 10um bins from 0-2mm, then 100um bins from 2mm to 10cm so TH2 isn't too large
+fine_10cm_bins = [x/1000. for x in range(200)] + [x/100. for x in range(20, 1001)]
+
 ###############################################
 ##### Set up the histograms to be plotted #####
 ###############################################
@@ -445,12 +449,11 @@ ElectronD0Histograms = cms.PSet(
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
-        # When  used for limit-setting, make this plot with 100um bins !!!
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_electronAbsD0[1]_10cm"),
             title = cms.string("Leading Electron |d_{0}| vs. Subleading Electron |d_{0}|;subleading Electron |d_{0}| [#mum];leading Electron |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(1000,0,10),
-            binsY = cms.untracked.vdouble(1000,0,10),
+            binsX = cms.untracked.vdouble(fine_10cm_bins),
+            binsY = cms.untracked.vdouble(fine_10cm_bins),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("abs(d0)", "abs(d0)"),
@@ -1305,12 +1308,11 @@ MuonD0Histograms = cms.PSet(
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs(d0)", "10000*abs(d0)"),
         ),
-        # When  used for limit-setting, make this plot with 100um bins !!!
         cms.PSet (
             name = cms.string("muonAbsD0[0]_vs_muonAbsD0[1]_10cm"),
             title = cms.string("Leading Muon |d_{0}| vs. Subleading Muon |d_{0}|;subleading Muon |d_{0}| [#mum];leading Muon |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(1000,0,10),
-            binsY = cms.untracked.vdouble(1000,0,10),
+            binsX = cms.untracked.vdouble(fine_10cm_bins),
+            binsY = cms.untracked.vdouble(fine_10cm_bins),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("abs(d0)", "abs(d0)"),
@@ -1780,19 +1782,18 @@ ElectronMuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(2000,0,2000),
             inputVariables = cms.vstring("10000*abs(muon.d0)", "10000*abs(electron.d0)"),
         ),
-        # When  used for limit-setting, make this plot with 100um bins !!!
         cms.PSet (
             name = cms.string("electronAbsD0_vs_muonAbsD0_10cm"),
             title = cms.string("Electron |d_{0}| vs. Muon |d_{0}|;Muon |d_{0}| [cm];Electron |d_{0}| [cm]"),
-            binsX = cms.untracked.vdouble(1000,0,10),
-            binsY = cms.untracked.vdouble(1000,0,10),
+            binsX = cms.untracked.vdouble(fine_10cm_bins),
+            binsY = cms.untracked.vdouble(fine_10cm_bins),
             inputVariables = cms.vstring("abs(muon.d0)", "abs(electron.d0)"),
         ),
         cms.PSet (
             name = cms.string("electronLeadingAbsD0_vs_muonLeadingAbsD0_10cm"),
             title = cms.string("Electron |d_{0}| vs. Muon |d_{0}|;Muon |d_{0}| [cm];Electron |d_{0}| [cm]"),
-            binsX = cms.untracked.vdouble(1000,0,10),
-            binsY = cms.untracked.vdouble(1000,0,10),
+            binsX = cms.untracked.vdouble(fine_10cm_bins),
+            binsY = cms.untracked.vdouble(fine_10cm_bins),
             indexX = cms.untracked.int32(0),
             indexy = cms.untracked.int32(0),
             inputVariables = cms.vstring("abs(muon.d0)", "abs(electron.d0)"),
