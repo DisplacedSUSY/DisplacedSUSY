@@ -14,7 +14,8 @@ eventSelections = [
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
     #AntiIsoDisplacedControlRegion,
-    #ZControlRegion
+    #ZControlRegion,
+    #InclusiveSignalRegion
     ]
 
 # Redefine scalingfactorproducers to not include muon scale factors

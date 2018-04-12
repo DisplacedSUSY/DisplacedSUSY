@@ -15,6 +15,7 @@ eventSelections = [
     #DisplacedControlRegion,
     #AntiIsoDisplacedControlRegion,
     #ZControlRegion,
+    #InclusiveSignalRegion
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors
