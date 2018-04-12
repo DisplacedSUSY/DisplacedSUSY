@@ -8,8 +8,8 @@ hist_y     = "PreselectionPlotter/Electron-muon Plots/electronLeadingAbsD0_vs_mu
 # output info
 out_file = "BackgroundEstimate.root"
 out_hist = "electronLeadingAbsD0_vs_muonLeadingAbsD0_10cm"
-x_axis_title = "leading muon |d0| [cm]"
-y_axis_title = "leading electron |d0| [cm]"
+x_axis_title = "Leading muon |d_{0}| [cm]"
+y_axis_title = "Leading electron |d_{0}| [cm]"
 
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data

@@ -8,8 +8,8 @@ hist_y     = "PreselectionPlotter/Electron Plots/electronAbsD0[0]_vs_electronAbs
 # output info
 out_file = "BackgroundEstimate.root"
 out_hist = "electronLeadingAbsD0_vs_electronSubleadingAbsD0_10cm"
-x_axis_title = "subleading electron |d0| [cm]"
-y_axis_title = "leading electron |d0| [cm]"
+x_axis_title = "Subleading electron |d_{0}| [cm]"
+y_axis_title = "Leading electron |d_{0}| [cm]"
 
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data
