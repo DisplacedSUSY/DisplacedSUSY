@@ -4,7 +4,7 @@
 input_file = "/data/users/bcardwell/condor/EMu_Preselection_18_04_10/Background.root"
 input_hist = "PreselectionPlotter/Electron-muon Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_10cm"
 
-# Was the histogram constructed with the variable bin constructor? i.e. TH1(name,title,nbins,xbins)   
+# Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)   
 variable_bins = True
 
 # output info
