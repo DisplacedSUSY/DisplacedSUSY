@@ -30,9 +30,17 @@ else:
     sys.exit(1)
 
 
-def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi):
+def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins):
     error = Double(0.0)
     integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, error)
+    # multiply by area of last bin if histogram was made with variable-width bins
+    # assume input histograms have symmetric binning 
+    if variable_bins:
+        nBins = h.GetXaxis().GetNbins()
+        lastBin = h.GetXaxis().FindBin(nBins)
+        area = h.GetXaxis().GetBinWidth(lastBin) ** 2
+        integral *= area
+        error *= area
     return (integral, error)
 
 
@@ -51,7 +59,8 @@ for edge_low, edge_high in zip(bin_edges_x[:-1], bin_edges_x[1:]):
                             x_hist.GetXaxis().FindBin(edge_low),
                             x_hist.GetXaxis().FindBin(edge_high)-1,
                             0,
-                            x_hist.GetYaxis().FindBin(bin_edges_y[1])-1 )
+                            x_hist.GetYaxis().FindBin(bin_edges_y[1])-1,
+                            x_variable_bins )
 
 # get y-axis sideband yields and errors
 for edge_low, edge_high in zip(bin_edges_y[:-1], bin_edges_y[1:]):
@@ -60,16 +69,17 @@ for edge_low, edge_high in zip(bin_edges_y[:-1], bin_edges_y[1:]):
                             0,
                             y_hist.GetXaxis().FindBin(bin_edges_x[1])-1,
                             y_hist.GetYaxis().FindBin(edge_low),
-                            y_hist.GetYaxis().FindBin(edge_high)-1 )
+                            y_hist.GetYaxis().FindBin(edge_high)-1,
+                            y_variable_bins )
 
 out_hist = TH2F(out_hist, out_hist,len(bin_edges_x)-1, array('d',bin_edges_x),
                 len(bin_edges_y)-1, array('d',bin_edges_y))
 
 # get yield in prompt region
-if y_yields_and_errors[bin_edges_y[0]] is not x_yields_and_errors[bin_edges_x[0]]:
+if y_yields_and_errors[bin_edges_y[0]] != x_yields_and_errors[bin_edges_x[0]]:
     print "x and y sideband yields don't match in 'a' (prompt) region"
     print "using x yield in 'a' region, but you should make sure this behavior is expected"
-(a_yield, a_error) = x_yields_and_errors[bin_edges_y[0]]
+(a_yield, a_error) = x_yields_and_errors[bin_edges_x[0]]
 
 # fill TH2 using abcd method
 for x_d0, (x_yield, x_error) in x_yields_and_errors.iteritems():

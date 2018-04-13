@@ -4,6 +4,9 @@
 input_file = "/data/users/bcardwell/condor/EE_Preselection_18_04_10/Background.root"
 hist_x     = "PreselectionPlotter/Electron Plots/electronAbsD0[0]_vs_electronAbsD0[1]_10cm"
 hist_y     = "PreselectionPlotter/Electron Plots/electronAbsD0[0]_vs_electronAbsD0[1]_10cm"
+# Were the histograms constructed with the variable bin constructor? i.e. TH1(name,title,nbins,xbins)   
+x_variable_bins = True
+y_variable_bins = True
 
 # output info
 out_file = "BackgroundEstimate.root"
