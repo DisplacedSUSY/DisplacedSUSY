@@ -12,6 +12,8 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
+parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest",
+                  default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -45,72 +47,74 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bi
 
 
 gROOT.SetBatch()
-x_yields_and_errors = {}
-y_yields_and_errors = {}
-
 in_file = TFile(input_file)
-x_hist = in_file.Get(hist_x).Clone()
-y_hist = in_file.Get(hist_y).Clone()
+in_hist = in_file.Get(input_hist).Clone()
+abcd_hist  = TH2F("abcd", "abcd", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+count_hist = TH2F("count", "count", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+comp_hist  = TH2F("diff", "diff",  len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 
-# get x-axis sideband yields and errors
-for edge_low, edge_high in zip(bin_edges_x[:-1], bin_edges_x[1:]):
-    x_yields_and_errors[edge_low] = get_yields_and_errors(
-                            x_hist,
-                            x_hist.GetXaxis().FindBin(edge_low),
-                            x_hist.GetXaxis().FindBin(edge_high)-1,
-                            0,
-                            x_hist.GetYaxis().FindBin(bin_edges_y[1])-1,
-                            x_variable_bins )
+# Get yield and error in prompt region
+prompt_bin_x_lo = in_hist.GetXaxis().FindBin(bins_x[0])
+prompt_bin_x_hi = in_hist.GetXaxis().FindBin(bins_x[1])-1
+prompt_bin_y_lo = in_hist.GetYaxis().FindBin(bins_y[0])
+prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 
-# get y-axis sideband yields and errors
-for edge_low, edge_high in zip(bin_edges_y[:-1], bin_edges_y[1:]):
-    y_yields_and_errors[edge_low] = get_yields_and_errors(
-                            y_hist,
-                            0,
-                            y_hist.GetXaxis().FindBin(bin_edges_x[1])-1,
-                            y_hist.GetYaxis().FindBin(edge_low),
-                            y_hist.GetYaxis().FindBin(edge_high)-1,
-                            y_variable_bins )
+(prompt_yield, prompt_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
+                                                     prompt_bin_y_lo, prompt_bin_y_hi, variable_bins)
 
-out_hist = TH2F(out_hist, out_hist,len(bin_edges_x)-1, array('d',bin_edges_x),
-                len(bin_edges_y)-1, array('d',bin_edges_y))
+for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
+    x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
+    x_bin_hi = in_hist.GetXaxis().FindBin(x_hi)-1
 
-# get yield in prompt region
-if y_yields_and_errors[bin_edges_y[0]] != x_yields_and_errors[bin_edges_x[0]]:
-    print "x and y sideband yields don't match in 'a' (prompt) region"
-    print "using x yield in 'a' region, but you should make sure this behavior is expected"
-(a_yield, a_error) = x_yields_and_errors[bin_edges_x[0]]
+    # Get yield and error in x sideband
+    (x_yield, x_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi, prompt_bin_y_lo,
+                                               prompt_bin_y_hi, variable_bins)
 
-# fill TH2 using abcd method
-for x_d0, (x_yield, x_error) in x_yields_and_errors.iteritems():
-    for y_d0, (y_yield, y_error) in y_yields_and_errors.iteritems():
-        bin_num = out_hist.FindBin(x_d0, y_d0)
+    for y_lo, y_hi in zip(bins_y[:-1], bins_y[1:]):
+        y_bin_lo = in_hist.GetYaxis().FindBin(y_lo)
+        y_bin_hi = in_hist.GetYaxis().FindBin(y_hi)-1
+        out_bin = count_hist.FindBin(x_lo, y_lo)
 
-        if x_d0 is bin_edges_x[0] and y_d0 is bin_edges_y[0]: # prompt region; use input yield
-            yield_temp = a_yield
-            error_temp = a_error
-        elif y_d0 is bin_edges_y[0]: # x-axis sideband; use input yield
-            yield_temp = x_yield
-            error_temp = x_error
-        elif x_d0 is bin_edges_x[0]: # y-axis sideband; use input yield
-            yield_temp = y_yield
-            error_temp = y_error
-        else: # signal region; use d = c*b/a
-            if x_yield == 0 or y_yield == 0:
-                yield_temp = 0
-                error_temp = 0
-            else:
-                (cb_yield, cb_error) = propagateError("product", x_yield, x_error, y_yield, y_error)
-                (yield_temp, error_temp) = propagateError("quotient", cb_yield, cb_error, a_yield, a_error)
+        # Get yield and error in y sideband
+        (y_yield, y_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
+                                                   y_bin_lo, y_bin_hi, variable_bins)
 
-        out_hist.SetBinContent(bin_num, yield_temp)
-        out_hist.SetBinError(bin_num, error_temp)
+        # calculate abcd yield as d = c * b / a
+        if x_yield == 0 or y_yield == 0:
+            abcd_yield = 0
+            abcd_error = 0
+        else:
+            (cb_yield, cb_error) = propagateError("product", x_yield, x_error, y_yield, y_error)
+            (abcd_yield, abcd_error) = propagateError("quotient", cb_yield, cb_error, prompt_yield, prompt_error)
+        abcd_hist.SetBinContent(out_bin, abcd_yield)
+        abcd_hist.SetBinError(out_bin, abcd_error)
+
+        # get couting yields in signal region and calculate consistency between abcd and counting
+        if arguments.doClosureTest:
+            (count_yield, count_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi,
+                                                               y_bin_lo, y_bin_hi, variable_bins)
+            count_hist.SetBinContent(out_bin, count_yield)
+            count_hist.SetBinError(out_bin, count_error)
+
+            yield_diff = round(abs(abcd_yield - count_yield), 5)
+            total_error  = abcd_error + count_error
+            consistency = yield_diff / total_error
+            comp_hist.SetBinContent(out_bin, consistency)
 
 out_file = TFile(output_path + out_file, "recreate")
-out_hist.SetOption("colz texte")
-out_hist.GetXaxis().SetTitle(x_axis_title)
-out_hist.GetYaxis().SetTitle(y_axis_title)
-out_hist.SetTitle("")
-out_hist.Draw()
-out_hist.Write()
+count_hist.SetMarkerSize(0.75)
+count_hist.SetOption("colz text45 e")
+count_hist.GetXaxis().SetTitle(x_axis_title)
+count_hist.GetYaxis().SetTitle(y_axis_title)
+count_hist.Write()
+abcd_hist.SetMarkerSize(0.75)
+abcd_hist.SetOption("colz text45 e")
+abcd_hist.GetXaxis().SetTitle(x_axis_title)
+abcd_hist.GetYaxis().SetTitle(y_axis_title)
+abcd_hist.Write()
+comp_hist.SetMarkerSize(0.75)
+comp_hist.SetOption("colz text45")
+comp_hist.GetXaxis().SetTitle(x_axis_title)
+comp_hist.GetYaxis().SetTitle(y_axis_title)
+comp_hist.Write()
 out_file.Close()
