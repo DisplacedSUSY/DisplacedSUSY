@@ -15,5 +15,8 @@ y_axis_title = "Leading electron |d_{0}| [cm]"
 
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data
-bins_x = [0.000, 0.002, 0.004, 0.006, 0.014, 0.118, 10.000]
-bins_y = [0.000, 0.002, 0.008, 0.020, 0.072, 10.000]
+#bins_x = [0.000, 0.002, 0.004, 0.006, 0.014, 0.118, 10.000] #S/sqrt(S+B) |d0| optimization
+#bins_y = [0.000, 0.002, 0.008, 0.020, 0.072, 10.000]
+
+bins_x = [0.000, 0.006, 0.010, 0.076, 0.186, 10.000] #Bartsch and Quast |d0| optimization
+bins_y = [0.000, 0.006, 0.022, 0.048, 0.160, 10.000]
