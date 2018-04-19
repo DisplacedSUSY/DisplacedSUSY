@@ -5,7 +5,7 @@ import re
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TH2F, gROOT, Double
+from ROOT import TFile, TCanvas, TH2F, gROOT, Double, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -32,6 +32,17 @@ else:
     sys.exit(1)
 
 
+gROOT.SetBatch()
+gStyle.SetOptStat(0)
+gStyle.SetCanvasBorderMode(0)
+gStyle.SetPadBorderMode(0)
+gStyle.SetPadColor(0)
+gStyle.SetCanvasColor(0)
+gStyle.SetTextFont(42)
+gStyle.SetPaintTextFormat('1.1f')
+gROOT.ForceStyle()
+
+
 def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins):
     error = Double(0.0)
     integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, error)
@@ -46,7 +57,6 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bi
     return (integral, error)
 
 
-gROOT.SetBatch()
 in_file = TFile(input_file)
 in_hist = in_file.Get(input_hist).Clone()
 abcd_hist  = TH2F("abcd", "abcd", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
@@ -102,19 +112,53 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             comp_hist.SetBinContent(out_bin, consistency)
 
 out_file = TFile(output_path + out_file, "recreate")
+
 count_hist.SetMarkerSize(0.75)
 count_hist.SetOption("colz text45 e")
 count_hist.GetXaxis().SetTitle(x_axis_title)
 count_hist.GetYaxis().SetTitle(y_axis_title)
+count_hist.GetXaxis().SetTitleOffset(1.2)
+count_hist.GetYaxis().SetTitleOffset(1.1)
 count_hist.Write()
+CanvasCount = TCanvas( "CanvasCount", "CanvasCount", 100, 100, 700, 600 )
+CanvasCount.SetLogx()
+CanvasCount.SetLogy()
+CanvasCount.SetLogz()
+CanvasCount.cd()
+count_hist.Draw("colz text45 e")
+CanvasCount.SaveAs(output_path+"count.pdf")
+CanvasCount.SaveAs(output_path+"count.png")
+
 abcd_hist.SetMarkerSize(0.75)
 abcd_hist.SetOption("colz text45 e")
 abcd_hist.GetXaxis().SetTitle(x_axis_title)
 abcd_hist.GetYaxis().SetTitle(y_axis_title)
+abcd_hist.GetXaxis().SetTitleOffset(1.2)
+abcd_hist.GetYaxis().SetTitleOffset(1.1)
 abcd_hist.Write()
+CanvasAbcd = TCanvas( "CanvasAbcd", "CanvasAbcd", 100, 100, 700, 600 )
+CanvasAbcd.SetLogx()
+CanvasAbcd.SetLogy()
+CanvasAbcd.SetLogz()
+CanvasAbcd.cd()
+abcd_hist.Draw("colz text45 e")
+CanvasAbcd.SaveAs(output_path+"abcd.pdf")
+CanvasAbcd.SaveAs(output_path+"abcd.png")
+
 comp_hist.SetMarkerSize(0.75)
 comp_hist.SetOption("colz text45")
 comp_hist.GetXaxis().SetTitle(x_axis_title)
 comp_hist.GetYaxis().SetTitle(y_axis_title)
+comp_hist.GetXaxis().SetTitleOffset(1.2)
+comp_hist.GetYaxis().SetTitleOffset(1.1)
 comp_hist.Write()
+CanvasComp = TCanvas( "CanvasComp", "CanvasComp", 100, 100, 700, 600 )
+CanvasComp.SetLogx()
+CanvasComp.SetLogy()
+CanvasComp.SetLogz()
+CanvasComp.cd()
+comp_hist.Draw("colz text45")
+CanvasComp.SaveAs(output_path+"comp.pdf")
+CanvasComp.SaveAs(output_path+"comp.png")
+
 out_file.Close()
