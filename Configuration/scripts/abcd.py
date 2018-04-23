@@ -99,7 +99,7 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
         abcd_hist.SetBinContent(out_bin, abcd_yield)
         abcd_hist.SetBinError(out_bin, abcd_error)
 
-        # get couting yields in signal region and calculate consistency between abcd and counting
+        # get counting yields in signal region and calculate consistency between abcd and counting
         if arguments.doClosureTest:
             (count_yield, count_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi,
                                                                y_bin_lo, y_bin_hi, variable_bins)
@@ -108,7 +108,13 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
 
             yield_diff = round(abs(abcd_yield - count_yield), 5)
             total_error  = abcd_error + count_error
-            consistency = yield_diff / total_error
+            try:
+                consistency = yield_diff / total_error
+            except ZeroDivisionError:
+                if yield_diff == 0:
+                    consistency = 0
+                else:
+                    print "Total error is 0 while yields are > 0. Something is wrong with your input histogram"
             comp_hist.SetBinContent(out_bin, consistency)
 
 out_file = TFile(output_path + out_file, "recreate")
