@@ -150,7 +150,7 @@ legMu.SetTextSize(0.04)
 legMu.SetFillColor(0)
 CanvasMu = TCanvas( "CanvasMu", "CanvasMu", 100, 100, 700, 600 )
 FrameMu = CanvasMu.DrawFrame(0,0,xloValues[99],600) #linear
-FrameMu.GetXaxis().SetTitle("Minimum euon |d_{0}| [#mum]")
+FrameMu.GetXaxis().SetTitle("Minimum muon |d_{0}| [#mum]")
 FrameMu.GetYaxis().SetTitle("Q = 2(#sqrt{S+B}-#sqrt{B})")
 FrameMu.GetXaxis().SetTitleOffset(1.2)
 FrameMu.GetYaxis().SetTitleOffset(1.2) #linear

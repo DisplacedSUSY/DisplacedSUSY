@@ -132,7 +132,7 @@ legEle.SetFillColor(0)
 
 CanvasEle = TCanvas( "CanvasEle", "CanvasEle", 100, 100, 700, 600 )
 FrameEle = CanvasEle.DrawFrame(0,0,xloValues[99], 350)
-FrameEle.GetXaxis().SetTitle("Minimum Electron |d_{0}| [#mum]")
+FrameEle.GetXaxis().SetTitle("Minimum electron |d_{0}| [#mum]")
 FrameEle.GetYaxis().SetTitle("S/#sqrt{S+B}")
 FrameEle.GetXaxis().SetTitleOffset(1.2)
 FrameEle.GetYaxis().SetTitleOffset(1.2) #linear
@@ -150,7 +150,7 @@ legMu.SetTextSize(0.04)
 legMu.SetFillColor(0)
 CanvasMu = TCanvas( "CanvasMu", "CanvasMu", 100, 100, 700, 600 )
 FrameMu = CanvasMu.DrawFrame(0,0,xloValues[99],350) #linear
-FrameMu.GetXaxis().SetTitle("Minimum Muon |d_{0}| [#mum]")
+FrameMu.GetXaxis().SetTitle("Minimum muon |d_{0}| [#mum]")
 FrameMu.GetYaxis().SetTitle("S/#sqrt{S+B}")
 FrameMu.GetXaxis().SetTitleOffset(1.2)
 FrameMu.GetYaxis().SetTitleOffset(1.2) #linear

@@ -135,7 +135,7 @@ CanvasEle = TCanvas( "CanvasEle", "CanvasEle", 100, 100, 700, 600 )
 #FrameEle = CanvasEle.DrawFrame(0,1,xloValues[99],700000) #logy
 #FrameEle = CanvasEle.DrawFrame(0,0,xloValues[99], 2500) #linear, 1mm and 1000mm
 FrameEle = CanvasEle.DrawFrame(0,0,xloValues[99], 15000) #linear, 10mm and 100mm
-FrameEle.GetXaxis().SetTitle("Minimum Electron |d_{0}| [cm]")
+FrameEle.GetXaxis().SetTitle("Minimum electron |d_{0}| [cm]")
 FrameEle.GetYaxis().SetTitle("S/#sqrt{B}")
 FrameEle.GetXaxis().SetTitleOffset(1.2) 
 FrameEle.GetYaxis().SetTitleOffset(1.4) #linear
@@ -162,7 +162,7 @@ CanvasMu = TCanvas( "CanvasMu", "CanvasMu", 100, 100, 700, 600 )
 #FrameMu = CanvasMu.DrawFrame(0,1,xloValues[99],700000)#logy
 #FrameMu = CanvasMu.DrawFrame(0,0,xloValues[99],2500) #linear, 1mm and 1000mm
 FrameMu = CanvasMu.DrawFrame(0,0,xloValues[99],25000) #linear, 10mm and 100 mm
-FrameMu.GetXaxis().SetTitle("Minimum Muon |d_{0}| [cm]")
+FrameMu.GetXaxis().SetTitle("Minimum muon |d_{0}| [cm]")
 FrameMu.GetYaxis().SetTitle("S/#sqrt{B}")
 FrameMu.GetXaxis().SetTitleOffset(1.2)
 FrameMu.GetYaxis().SetTitleOffset(1.4) #linear
