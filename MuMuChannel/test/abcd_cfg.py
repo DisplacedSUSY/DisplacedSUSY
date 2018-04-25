@@ -8,8 +8,8 @@ input_hist = "PreselectionPlotter/Muon Plots/muonAbsD0[0]_vs_muonAbsD0[1]_10cm"
 variable_bins = True
 
 # output info
-out_file = "BackgroundEstimate.root"
-out_hist = "muonLeadingAbsD0_vs_muonSubleadingAbsD0_10cm"
+output_file = "BackgroundEstimate.root"
+output_hist = "muonLeadingAbsD0_vs_muonSubleadingAbsD0_10cm"
 x_axis_title = "Subleading muon |d_{0}| [cm]"
 y_axis_title = "Leading muon |d_{0}| [cm]"
 
