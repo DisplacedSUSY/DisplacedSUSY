@@ -8,8 +8,7 @@ input_hist = "PreselectionPlotter/Electron Plots/electronAbsD0[0]_vs_electronAbs
 variable_bins = True
 
 # output info
-output_file = "BackgroundEstimate.root"
-output_hist = "electronLeadingAbsD0_vs_electronSubleadingAbsD0_10cm"
+output_file  = "BackgroundEstimate.root"
 x_axis_title = "Subleading electron |d_{0}| [cm]"
 y_axis_title = "Leading electron |d_{0}| [cm]"
 
