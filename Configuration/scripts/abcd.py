@@ -14,6 +14,8 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest",
                   default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-t", "--makeTable", action="store_true", dest="makeTable",
+                  default=False, help="print table of abcd and counting yields; table is formatted for elog; must be used with '-c'")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -75,6 +77,11 @@ prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 
 (prompt_yield, prompt_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
                                                      prompt_bin_y_lo, prompt_bin_y_hi, variable_bins)
+if arguments.makeTable:
+    print "[B]", title(""), "[/B]"
+    print '[TABLE border="1"]'
+    print "mu d0 range (cm)|e d0 range (cm)|A|B|C|D Estimate|D Actual"
+
 
 for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
     x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
@@ -120,6 +127,17 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
                 else:
                     print "Total error is 0 while yields are > 0. Something is wrong with your input histogram"
             comp_hist.SetBinContent(out_bin, consistency)
+
+            if arguments.makeTable:
+                if x_lo != 0 and y_lo != 0:
+                    print "|-"
+                    print "{:.3f} - {:.3f} | {:.3f} - {:.3f} | {}+-{} | {}+-{} | {}+-{} | {}+-{} | {}+-{}".format(
+                        x_lo, x_hi, y_lo, y_hi, round(prompt_yield,2), round(prompt_error,2),
+                        round(x_yield,2), round(x_error,2), round(y_yield,2), round(y_error,2),
+                        round(abcd_yield,2), round(abcd_error,2), round(count_yield,2), round(count_error,2) )
+
+if arguments.makeTable:
+    print "[/TABLE]"
 
 out_file = TFile(output_path + output_file, "recreate")
 
