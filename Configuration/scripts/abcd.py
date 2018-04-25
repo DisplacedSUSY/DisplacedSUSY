@@ -59,9 +59,13 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bi
 
 in_file = TFile(input_file)
 in_hist = in_file.Get(input_hist).Clone()
-abcd_hist  = TH2F("abcd", "abcd", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-count_hist = TH2F("count", "count", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-comp_hist  = TH2F("diff", "diff",  len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+title = lambda x: output_file.replace(".root", " "+x)
+abcd_hist  = TH2F(title("ABCD Estimates"), title("ABCD Estimates"), len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+count_hist = TH2F(title("Counting Yields"), title("Counting Yields"), len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+comp_hist  = TH2F(title("Consistency"), title("Consistency"),  len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 
 # Get yield and error in prompt region
 prompt_bin_x_lo = in_hist.GetXaxis().FindBin(bins_x[0])
