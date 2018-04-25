@@ -166,7 +166,6 @@ if arguments.doClosureTest:
     CanvasComp = TCanvas( "CanvasComp", "CanvasComp", 100, 100, 700, 600 )
     CanvasComp.SetLogx()
     CanvasComp.SetLogy()
-    CanvasComp.SetLogz()
     CanvasComp.cd()
     comp_hist.Draw("colz text45")
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
