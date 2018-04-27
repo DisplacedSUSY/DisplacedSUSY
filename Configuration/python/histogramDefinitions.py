@@ -11,7 +11,7 @@ def variableBins(nBins,lower,upper):
     bins_per_section = math.floor(nBins/number_of_sections)
     multipliers = [2**n for n in range(number_of_sections)]
     last = 0
-    variableBins = []
+    variableBins = [0]
     for multiplier in multipliers:
         bins = [last + multiplier*original_bin_size*n for n in range(1,int(math.ceil(bins_per_section/multiplier))+1)]
         last = bins[-1]
