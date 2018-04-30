@@ -20,5 +20,8 @@ y_axis_title = "Leading electron |d_{0}| [cm]"
 #bins_x = [0.000, 0.002, 0.004, 0.006, 0.014, 0.118, 10.000] #S/sqrt(S+B) |d0| optimization
 #bins_y = [0.000, 0.002, 0.008, 0.020, 0.072, 10.000]
 
-bins_x = [0.000, 0.006, 0.010, 0.076, 0.186, 10.000] #Bartsch and Quast |d0| optimization
-bins_y = [0.000, 0.006, 0.022, 0.048, 0.160, 10.000]
+#bins_x = [0.000, 0.006, 0.010, 0.076, 0.186, 10.000] #Bartsch and Quast |d0| optimization
+#bins_y = [0.000, 0.006, 0.022, 0.048, 0.160, 10.000]
+
+bins_x = [0.005, 0.006, 0.010, 0.076, 0.186, 10.000] #Bartsch and Quast |d0| optimization, starting at 50 microns
+bins_y = [0.005, 0.006, 0.022, 0.048, 0.160, 10.000]
