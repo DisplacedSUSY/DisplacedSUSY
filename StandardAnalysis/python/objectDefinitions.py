@@ -173,7 +173,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
                             abs(deltaEtaSuperClusterTrackAtVtx) < 0.00353 &\
                             hadronicOverEm < 0.026 + 1.12/ecalEnergy + 0.0368*rho/ecalEnergy & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0278 & \
-                            missingInnerHits <= 1 & \
+                            missingInnerHitsFromAllHits <= 1 & \
                             passConversionVeto) | \
                             (isEE & \
                             full5x5_sigmaIetaIeta < 0.0305 & \
@@ -181,7 +181,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
                             abs(deltaEtaSuperClusterTrackAtVtx) < 0.00567 &\
                             hadronicOverEm < 0.026 + 0.5/ecalEnergy + 0.201*rho/ecalEnergy & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0158 & \
-                            missingInnerHits <= 1 & \
+                            missingInnerHitsFromAllHits <= 1 & \
                             passConversionVeto)")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Offline_selection_criteria_AN1
@@ -192,7 +192,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
                             abs(deltaEtaSuperClusterTrackAtVtx) < 0.00308 &\
                             hadronicOverEm < 0.0414 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
+                            missingInnerHitsFromAllHits <= 1 & \
                             passConversionVeto) | \
                             (isEE & \
                             full5x5_sigmaIetaIeta < 0.0292 & \
@@ -200,7 +200,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
                             abs(deltaEtaSuperClusterTrackAtVtx) < 0.00605 &\
                             hadronicOverEm < 0.0641 & \
                             abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy) < 0.0129 & \
-                            missingInnerHits <= 1 & \
+                            missingInnerHitsFromAllHits <= 1 & \
                             passConversionVeto)")
 
 electron_id_alias = cms.string(">=1 electrons with tight ID")

@@ -142,9 +142,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
 #same for EB and EE
 electron_missingInnerHits_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("missingInnerHits <= 1"),
+    cutString = cms.string("missingInnerHitsFromAllHits <= 1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 electrons with missingInnerHits <= 1")
+    alias = cms.string(">= 1 electrons with missing inner hits <= 1")
     )
 
 ##########################################################################################
