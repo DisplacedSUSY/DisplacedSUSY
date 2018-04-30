@@ -74,4 +74,3 @@ for plot in plots:
 
 in_file.Close()
 out_file.Close()
-

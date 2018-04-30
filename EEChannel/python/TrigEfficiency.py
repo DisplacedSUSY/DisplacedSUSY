@@ -119,3 +119,17 @@ trigMETTagElectron = cms.PSet(
 trigMETTagElectron.cuts.append(pass_trigger)
 
 
+TTbarForHLTDiphoton30eTag = cms.PSet(
+    name = cms.string("TTbarForHLTDiphoton30eTag"),
+    triggers = cms.vstring("HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90"),
+    cuts = cms.VPSet(copy.deepcopy(trigMETandEEtrigTagElectron.cuts))
+)
+TTbarForHLTDiphoton30eTag.cuts.append(pass_trigger)
+
+
+TTbarForHLTDoublePhoton60eTag = cms.PSet(
+    name = cms.string("TTbarForHLTDoublePhoton60eTag"),
+    triggers = cms.vstring("HLT_DoublePhoton60"),
+    cuts = cms.VPSet(copy.deepcopy(trigMETandEEtrigTagElectron.cuts))
+)
+TTbarForHLTDoublePhoton60eTag.cuts.append(pass_trigger)
