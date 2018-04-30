@@ -7,6 +7,7 @@ from DisplacedSUSY.EMuChannel.EMuHistograms import *
 ################################################################################
 
 from DisplacedSUSY.EMuChannel.NewPreselection import *
+from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
     Preselection,
@@ -29,6 +30,9 @@ eventSelections = [
     #NewPreselectionVeryPromptMuon,
     #NewPreselectionIntermediateElectron,
     #NewPreselectionIntermediateMuon,
+
+    #PreselectionWithExplicitEleIdBarrel,
+    #PreselectionWithExplicitEleIdEndcap,
 ]
 
 ################################################################################

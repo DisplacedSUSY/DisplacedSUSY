@@ -5,7 +5,7 @@ import re
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TH2F, gROOT, Double
+from ROOT import TFile, TCanvas, TH2F, gROOT, Double, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -14,6 +14,8 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest",
                   default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-t", "--makeTable", action="store_true", dest="makeTable",
+                  default=False, help="print table of abcd and counting yields; table is formatted for elog; must be used with '-c'")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -32,6 +34,17 @@ else:
     sys.exit(1)
 
 
+gROOT.SetBatch()
+gStyle.SetOptStat(0)
+gStyle.SetCanvasBorderMode(0)
+gStyle.SetPadBorderMode(0)
+gStyle.SetPadColor(0)
+gStyle.SetCanvasColor(0)
+gStyle.SetTextFont(42)
+gStyle.SetPaintTextFormat('1.1f')
+gROOT.ForceStyle()
+
+
 def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins):
     error = Double(0.0)
     integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, error)
@@ -46,12 +59,15 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bi
     return (integral, error)
 
 
-gROOT.SetBatch()
 in_file = TFile(input_file)
 in_hist = in_file.Get(input_hist).Clone()
-abcd_hist  = TH2F("abcd", "abcd", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-count_hist = TH2F("count", "count", len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-comp_hist  = TH2F("diff", "diff",  len(bins_x)-1, array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+title = lambda x: output_file.replace(".root", " "+x)
+abcd_hist  = TH2F(title("ABCD Estimates"), title("ABCD Estimates"), len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+count_hist = TH2F(title("Counting Yields"), title("Counting Yields"), len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+comp_hist  = TH2F(title("Consistency"), title("Consistency"),  len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 
 # Get yield and error in prompt region
 prompt_bin_x_lo = in_hist.GetXaxis().FindBin(bins_x[0])
@@ -61,6 +77,11 @@ prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 
 (prompt_yield, prompt_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
                                                      prompt_bin_y_lo, prompt_bin_y_hi, variable_bins)
+if arguments.makeTable:
+    print "[B]", title(""), "[/B]"
+    print '[TABLE border="1"]'
+    print "mu d0 range (cm)|e d0 range (cm)|A|B|C|D Estimate|D Actual"
+
 
 for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
     x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
@@ -89,7 +110,7 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
         abcd_hist.SetBinContent(out_bin, abcd_yield)
         abcd_hist.SetBinError(out_bin, abcd_error)
 
-        # get couting yields in signal region and calculate consistency between abcd and counting
+        # get counting yields in signal region and calculate consistency between abcd and counting
         if arguments.doClosureTest:
             (count_yield, count_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi,
                                                                y_bin_lo, y_bin_hi, variable_bins)
@@ -98,23 +119,74 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
 
             yield_diff = round(abs(abcd_yield - count_yield), 5)
             total_error  = abcd_error + count_error
-            consistency = yield_diff / total_error
+            try:
+                consistency = yield_diff / total_error
+            except ZeroDivisionError:
+                if yield_diff == 0:
+                    consistency = 0
+                else:
+                    print "Total error is 0 while yields are > 0. Something is wrong with your input histogram"
             comp_hist.SetBinContent(out_bin, consistency)
 
-out_file = TFile(output_path + out_file, "recreate")
-count_hist.SetMarkerSize(0.75)
-count_hist.SetOption("colz text45 e")
-count_hist.GetXaxis().SetTitle(x_axis_title)
-count_hist.GetYaxis().SetTitle(y_axis_title)
-count_hist.Write()
+            if arguments.makeTable:
+                if x_lo != 0 and y_lo != 0:
+                    print "|-"
+                    print "{:.3f} - {:.3f} | {:.3f} - {:.3f} | {}+-{} | {}+-{} | {}+-{} | {}+-{} | {}+-{}".format(
+                        x_lo, x_hi, y_lo, y_hi, round(prompt_yield,2), round(prompt_error,2),
+                        round(x_yield,2), round(x_error,2), round(y_yield,2), round(y_error,2),
+                        round(abcd_yield,2), round(abcd_error,2), round(count_yield,2), round(count_error,2) )
+
+if arguments.makeTable:
+    print "[/TABLE]"
+
+out_file = TFile(output_path + output_file, "recreate")
+
 abcd_hist.SetMarkerSize(0.75)
 abcd_hist.SetOption("colz text45 e")
 abcd_hist.GetXaxis().SetTitle(x_axis_title)
 abcd_hist.GetYaxis().SetTitle(y_axis_title)
+abcd_hist.GetXaxis().SetTitleOffset(1.2)
+abcd_hist.GetYaxis().SetTitleOffset(1.1)
 abcd_hist.Write()
-comp_hist.SetMarkerSize(0.75)
-comp_hist.SetOption("colz text45")
-comp_hist.GetXaxis().SetTitle(x_axis_title)
-comp_hist.GetYaxis().SetTitle(y_axis_title)
-comp_hist.Write()
+CanvasAbcd = TCanvas( "CanvasAbcd", "CanvasAbcd", 100, 100, 700, 600 )
+CanvasAbcd.SetLogx()
+CanvasAbcd.SetLogy()
+CanvasAbcd.SetLogz()
+CanvasAbcd.cd()
+abcd_hist.Draw("colz text45 e")
+CanvasAbcd.SaveAs(output_path+output_file.replace(".root", "_abcd.pdf"))
+CanvasAbcd.SaveAs(output_path+output_file.replace(".root", "_abcd.png"))
+
+if arguments.doClosureTest:
+    count_hist.SetMarkerSize(0.75)
+    count_hist.SetOption("colz text45 e")
+    count_hist.GetXaxis().SetTitle(x_axis_title)
+    count_hist.GetYaxis().SetTitle(y_axis_title)
+    count_hist.GetXaxis().SetTitleOffset(1.2)
+    count_hist.GetYaxis().SetTitleOffset(1.1)
+    count_hist.Write()
+    CanvasCount = TCanvas( "CanvasCount", "CanvasCount", 100, 100, 700, 600 )
+    CanvasCount.SetLogx()
+    CanvasCount.SetLogy()
+    CanvasCount.SetLogz()
+    CanvasCount.cd()
+    count_hist.Draw("colz text45 e")
+    CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.pdf"))
+    CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.png"))
+
+    comp_hist.SetMarkerSize(0.75)
+    comp_hist.SetOption("colz text45")
+    comp_hist.GetXaxis().SetTitle(x_axis_title)
+    comp_hist.GetYaxis().SetTitle(y_axis_title)
+    comp_hist.GetXaxis().SetTitleOffset(1.2)
+    comp_hist.GetYaxis().SetTitleOffset(1.1)
+    comp_hist.Write()
+    CanvasComp = TCanvas( "CanvasComp", "CanvasComp", 100, 100, 700, 600 )
+    CanvasComp.SetLogx()
+    CanvasComp.SetLogy()
+    CanvasComp.cd()
+    comp_hist.Draw("colz text45")
+    CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
+    CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.png"))
+
 out_file.Close()
