@@ -16,7 +16,46 @@ process.source = cms.Source("PoolSource",
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/SingleTop_tW/Preselection/skim_0.root',
 
         #80X diboson, e-mu preselection skim
-        'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/WG/Preselection/skim_1.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/WG/Preselection/skim_1.root',
+
+        #80X ttbar, e-mu preselection skim
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/TTJets_DiLept/Preselection/skim_0.root',
+
+        #80X drell-yan, e-mu preselection skim
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/DYJetsToLL_50/Preselection/skim_0.root',
+
+        #80X qcd 170to300, e-mu preselection skim
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_104.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_105.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_107.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_12.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_122.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_14.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_147.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_39.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_46.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_49.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_52.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_83.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_84.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_88.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_170to300/Preselection/skim_9.root',
+
+        #80X qcd 800to1000, e-mu preselection skim
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_101.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_117.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_12.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_123.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_124.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_127.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_129.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_142.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_167.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_178.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_180.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_183.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_19.root',
+        #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_28.root',
         )
 )
 
