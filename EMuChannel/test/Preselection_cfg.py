@@ -33,17 +33,22 @@ eventSelections = [
 
     #PreselectionWithExplicitEleIdBarrel,
     #PreselectionWithExplicitEleIdEndcap,
+
+    #PreselectionCorrelatedD0,
+    #PreselectionUncorrelatedD0,
+    #PreselectionCorrelatedGenD0,
+    #PreselectionUncorrelatedGenD0,
 ]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
 #FIXME: fluctuate PU weights properly
 #add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, True)
 
 # customize the process:
 # usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC") 
-customize (process, True, True, "data")
+customize (process, True, True, "bgMC")

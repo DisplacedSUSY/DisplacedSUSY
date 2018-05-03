@@ -107,3 +107,31 @@ PreselectionIntermediateMuon = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionIntermediateMuon.cuts.append(muon_d0_100to200_cut)
+
+PreselectionCorrelatedD0 = cms.PSet(
+    name = cms.string("PreselectionCorrelatedD0"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionCorrelatedD0.cuts.append(emu_correlated_d0_cut)
+
+PreselectionUncorrelatedD0 = cms.PSet(
+    name = cms.string("PreselectionUncorrelatedD0"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionUncorrelatedD0.cuts.append(emu_uncorrelated_d0_cut)
+
+PreselectionCorrelatedGenD0 = cms.PSet(
+    name = cms.string("PreselectionCorrelatedGenD0"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionCorrelatedGenD0.cuts.append(emu_correlated_genD0_cut)
+
+PreselectionUncorrelatedGenD0 = cms.PSet(
+    name = cms.string("PreselectionUncorrelatedGenD0"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionUncorrelatedGenD0.cuts.append(emu_uncorrelated_genD0_cut)

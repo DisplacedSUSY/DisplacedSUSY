@@ -38,7 +38,7 @@ atLeastZero_jet_id_cut = cms.PSet(
     cutString = objectDefs.jet_id_cutstring,
     numberRequired = cms.string(">= 0"),
     alias = objectDefs.jet_id_alias
-    ) 
+    )
 
 
 atLeastOne_jet_eta_cut = copy.deepcopy(atLeastZero_jet_eta_cut)
@@ -596,6 +596,35 @@ emu_deltaR_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 well separated e-mu pair (#DeltaR > 0.5)")
     )
+
+emu_correlated_d0_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("abs(abs(10000*electron.d0) - abs(10000*muon.d0)) <= 3"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 e-mu pair w/ correlated |d0|")
+    )
+
+emu_uncorrelated_d0_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("abs(abs(10000*electron.d0) - abs(10000*muon.d0)) > 3"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 e-mu pair w/ uncorrelated |d0|")
+    )
+
+emu_correlated_genD0_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("abs(abs(10000*electron.genD0) - abs(10000*muon.genD0)) <= 3"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 e-mu pair w/ correlated |genD0|")
+    )
+
+emu_uncorrelated_genD0_cut = cms.PSet (
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("abs(abs(10000*electron.genD0) - abs(10000*muon.genD0)) > 3"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 e-mu pair w/ uncorrelated |genD0|")
+    )
+
 
 ##########################################################################                                                                                 
 # ELECTRON-JET OVERLAP VETO                                                                                                                                
