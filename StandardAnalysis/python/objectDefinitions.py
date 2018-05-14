@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import string
 import os
+from OSUT3Analysis.Configuration.cutUtilities import *
 
 ### This file contains the official POG  object definitions, for use in object selection
 
@@ -211,11 +212,11 @@ electron_id_alias = cms.string(">=1 electrons with tight ID")
 # impact parameter cuts are the same in 2016 and 2017
 
 electron_id_impact_parameter_cutstring = cms.string("(isEB & \
-                                             abs(d0) < 0.05 & \
-                                             abs(dz) < 0.10) | \
+                                             abs("+electronD0WRTPV+") < 0.05 & \
+                                             abs("+electronDZWRTPV+") < 0.10) | \
                                              (isEE & \
-                                             abs(d0) < 0.10 & \
-                                             abs(dz) < 0.20)")
+                                             abs("+electronD0WRTPV+") < 0.10 & \
+                                             abs("+electronDZWRTPV+") < 0.20)")
 
 electron_id_impact_parameter_alias = cms.string(">=1 electrons with tight ID impact parameter cuts")
 
@@ -248,8 +249,8 @@ muon_id_alias = cms.string(">=1 muons with tight ID")
 
 # MUON ID IMPACT PARAMETER CUTS
 
-muon_id_impact_parameter_cutstring = cms.string("abs(d0) < 0.2 & \
-                                                 abs(dz) < 0.5")
+muon_id_impact_parameter_cutstring = cms.string("abs("+muonD0WRTPV+") < 0.2 & \
+                                                 abs("+muonDZWRTPV+") < 0.5")
 
 muon_id_impact_parameter_alias = cms.string(">=1 muons with tight ID impact parameter cuts")
 
