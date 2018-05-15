@@ -46,6 +46,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             '/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/0C144772-16E5-E711-B272-001E673971CA.root'
             #'/store/data/Run2017D/DoubleMuon/MINIAOD/17Nov2017-v1/20000/0287B2B9-B7D2-E711-9994-0025905C542C.root'
             #'/store/data/Run2017D/DoubleEG/MINIAOD/17Nov2017-v1/30000/007FE641-E7D7-E711-8291-0025905C53D0.root'
+            #'/store/mc/RunIIFall17MiniAOD/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/9A55E3AC-E8F8-E711-9214-0CC47AB58BE4.root'
       )
     )
 else:
