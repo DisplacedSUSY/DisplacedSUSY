@@ -17,7 +17,7 @@ Preselection.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least two good electrons
 Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
-Preselection.cuts.append(electron_pt_42_cut)
+Preselection.cuts.append(electron_pt_65_cut)
 Preselection.cuts.append(electron_id_cut)
 Preselection.cuts.append(electron_iso_cut)
 

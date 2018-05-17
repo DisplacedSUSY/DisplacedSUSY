@@ -213,6 +213,12 @@ electron_pt_50_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_65_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 65"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_id_cutstring,
