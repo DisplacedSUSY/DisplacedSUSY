@@ -43,8 +43,8 @@ def customize (process, applyPUReweighting = True, applyTriggerReweighting = Tru
 
         if applyTriggerReweighting:
             if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
+                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
 #FIXME: need to update for 2017
             elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.9645)
+                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
 
