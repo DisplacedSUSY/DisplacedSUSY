@@ -1,5 +1,5 @@
  #!/usr/bin/env python
-
+import os
 #################################################################################
 #################################################################################
 ### this file contains all information pertaining to systematic uncertainties ###
@@ -166,22 +166,40 @@ mc_normalized_processes = [
 
 
 # uncertainties for which the same value applies to all datasets
-global_systematic_uncertainties = {
-    'lumi' :  {
-        'value' : '1.025',
-    'applyList' : mc_normalized_processes,
-    },
-    # taken from the error on the trigger effieciency scale factor
-    'trigger' :  {
-        'value' : '1.013',
-        'applyList' : mc_normalized_processes,
-     },
-    #taken from Ian's study
-    'track_reco' :  {
-        'value' : '1.024',
-    'applyList' : ['signal'],
-}
-}
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    global_systematic_uncertainties = {
+        'lumi' :  {
+            'value' : '1.025',
+            'applyList' : mc_normalized_processes,
+            },
+        # taken from the error on the trigger effieciency scale factor
+        'trigger' :  {
+            'value' : '1.013', #needs to be updated for same flavor channels
+            'applyList' : mc_normalized_processes,
+            },
+        #taken from Ian's study
+        'track_reco' :  {
+            'value' : '1.024',
+            'applyList' : ['signal'],
+            }
+        }
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    global_systematic_uncertainties = {
+        'lumi' :  {
+            'value' : '1.023',
+            'applyList' : mc_normalized_processes,
+            },
+        # taken from the error on the trigger effieciency scale factor
+        'trigger' :  {
+            'value' : '1.013', #needs to be updated for 2017 and for same flavor channels
+            'applyList' : mc_normalized_processes,
+            },
+        #taken from Ian's study
+        'track_reco' :  {
+            'value' : '1.024', #needs to be updated for 2017
+            'applyList' : ['signal'],
+            }
+        }
 
 # uncertainties that have different values for each dataset
 unique_systematic_uncertainties = {
