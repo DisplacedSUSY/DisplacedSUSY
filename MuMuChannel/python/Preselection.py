@@ -56,3 +56,12 @@ ZControlRegion.cuts.append(muon_fiducial_phi_cut)
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
 InclusiveSignalRegion.cuts.append(muon_d0_greaterThan40_cut)
+
+
+
+PreselectionLeptonsFromW = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromW"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)

@@ -345,6 +345,16 @@ electron_num_exactly_1_cut = cms.PSet(
     alias = cms.string("exactly 1 electron")
     )
 
+#####################
+#BEGIN GEN ELECTRON CUTS
+
+electron_gen_motherIsW_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("abs(genMatchedParticle.bestMatch.mother_.pdgId) == 24"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons from W (electron matched to gen particle whose mother has PDG ID of 24)")
+)
+
 ##########################################################################
 
 # BEGIN MUON CUTS
@@ -549,6 +559,15 @@ muon_num_exactly_1_cut = cms.PSet(
     alias = cms.string("exactly 1 muon")
     )
 
+#####################
+#BEGIN GEN MUON CUTS
+
+muon_gen_motherIsW_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.bestMatch.mother_.pdgId) == 24"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons from W (muon matched to gen particle whose mother has PDG ID of 24)")
+)
 
 ##########################################################################
 

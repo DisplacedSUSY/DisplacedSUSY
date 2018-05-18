@@ -56,3 +56,12 @@ ZControlRegion.cuts.append(electron_fiducial_phi_cut)
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion") 
 InclusiveSignalRegion.cuts.append(electron_d0_greaterThan20_cut)
+
+
+
+PreselectionLeptonsFromW = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromW"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromW.cuts.append(electron_gen_motherIsW_cut)

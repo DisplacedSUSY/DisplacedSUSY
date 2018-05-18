@@ -15,7 +15,8 @@ eventSelections = [
     #DisplacedControlRegion,
     #AntiIsoDisplacedControlRegion,
     #ZControlRegion,
-    #InclusiveSignalRegion
+    #InclusiveSignalRegion,
+    #PreselectionLeptonsFromW,
     ]
 
 # Redefine scalingfactorproducers to not include muon scale factors

@@ -38,6 +38,8 @@ eventSelections = [
     #PreselectionUncorrelatedD0,
     #PreselectionCorrelatedGenD0,
     #PreselectionUncorrelatedGenD0,
+
+    #PreselectionLeptonsFromW,
 ]
 
 ################################################################################

@@ -135,3 +135,13 @@ PreselectionUncorrelatedGenD0 = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionUncorrelatedGenD0.cuts.append(emu_uncorrelated_genD0_cut)
+
+
+
+PreselectionLeptonsFromW = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromW"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromW.cuts.append(electron_gen_motherIsW_cut)
+PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
