@@ -54,13 +54,15 @@ for plot in plots:
         eff_plot.GetPoint(eff_plot.GetN()-1, x, y)
         y_err = eff_plot.GetErrorY(eff_plot.GetN()-1)
         eff_and_err[pair["type"]] = {"eff" : y, "err" : y_err}
-
+	
+        # eff_plot.Fit("pol1","","",65,500)
         combined_plot.Add(eff_plot)
         legend.AddEntry(eff_plot, pair["label"])
 
     (sf, sf_err) = propagateError("quotient", eff_and_err['data']["eff"], eff_and_err['data']["err"],
                                               eff_and_err['mc']["eff"], eff_and_err['mc']["err"])
-    print plot["channel"], sf, sf_err
+    print plot["channel"], "-- scaleFactor: ", sf, "-- scaleFactorError: ", sf_err
+
 
     canvas = TCanvas(plot["channel"], plot["channel"], 700, 700)
     combined_plot.Draw("ALP")
