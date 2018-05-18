@@ -29,5 +29,5 @@ scalingfactorproducers.append(ElectronScaleFactorProducer)
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
 
 # customize the process:
-# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
-customize (process, True, True, "data")
+# usage: customize(process, analysisChannel = "ee", applyPUReweighting = True, applyTriggerReweighting = True)
+customize (process, "ee", True, True, "data")

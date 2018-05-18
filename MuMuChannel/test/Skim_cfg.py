@@ -31,5 +31,5 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
 
 # customize the process:
-# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC") 
-customize (process, False, False, "data")
+# usage: customize(process, analyisChannel = "mumu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC")
+customize (process, "mumu", False, False, "data")

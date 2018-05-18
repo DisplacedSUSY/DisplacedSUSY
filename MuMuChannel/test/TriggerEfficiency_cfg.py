@@ -41,5 +41,5 @@ scalingfactorproducers = []
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, True)
 
 # customize the process:
-# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True) 
-customize (process, False, False, "data")
+# usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, applyTriggerReweighting = True)
+customize (process, "mumu", False, False, "data")

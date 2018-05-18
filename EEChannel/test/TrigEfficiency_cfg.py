@@ -39,5 +39,5 @@ variableProducers.append('DisplacedSUSYEventVariableProducer')
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
 
 # customize the process:
-# usage: customize(process, applyPUReweighting = True, applyTriggerReweighting = True)
-customize (process, False, False, "data")
+# usage: customize(process, analysisChannel = "ee", applyPUReweighting = True, applyTriggerReweighting = True)
+customize (process, "ee", False, False, "data")

@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 import math
 import os
 
-def customize (process, applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC"):
+def customize (process, analysisChannel = "emu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC"):
 
 ################################################################################
 ##### Set variables needed for DisplacedSUSYEventVariableProducer ##############
@@ -42,9 +42,25 @@ def customize (process, applyPUReweighting = True, applyTriggerReweighting = Tru
 #FIXME: need to derive trigger scale factors for ee and mumu channels as well
 
         if applyTriggerReweighting:
-            if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
+
+            if analysisChannel=="emu":
+                if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
 #FIXME: need to update for 2017
-            elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-                process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
+                elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.965)
+
+            if analysisChannel=="ee":
+                if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.962)
+#FIXME: need to update for 2017
+                elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(0.962)
+
+#FIXME: need to update for mumu channel, for 2016 and 2017
+            if analysisChannel=="mumu":
+                if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
+                elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+                    process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
