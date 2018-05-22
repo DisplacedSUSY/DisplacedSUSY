@@ -672,19 +672,19 @@ ElectronD0Histograms = cms.PSet(
             name = cms.string("electronGenD0_50000um"),
             title = cms.string("Generated electron d_{0};Generated electron d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -50000, 50000),
-            inputVariables = cms.vstring(genElectronD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genElectronD0WRTBeamspot),
         ),
         cms.PSet (
             name = cms.string("electronGenD0_100000um"),
             title = cms.string("Generated electron d_{0};Generated electron d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(1000, -100000, 100000),
-            inputVariables = cms.vstring(genElectronD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genElectronD0WRTBeamspot),
         ),
         cms.PSet (
             name = cms.string("electronGenD0_200000um"),
             title = cms.string("Generated electron d_{0};Generated electron d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -200000, 200000),
-            inputVariables = cms.vstring(genElectronD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genElectronD0WRTBeamspot),
         ),
 
         ###################################################################
@@ -1578,19 +1578,19 @@ MuonD0Histograms = cms.PSet(
             name = cms.string("muonGenD0_50000um"),
             title = cms.string("Generated muon d_{0};Generated muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -50000, 50000),
-            inputVariables = cms.vstring(genMuonD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genMuonD0WRTBeamspot),
         ),
         cms.PSet (
             name = cms.string("muonGenD0_100000um"),
             title = cms.string("Generated muon d_{0};Generated muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(1000, -100000, 100000),
-            inputVariables = cms.vstring(genMuonD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genMuonD0WRTBeamspot),
         ),
         cms.PSet (
             name = cms.string("muonGenD0_200000um"),
             title = cms.string("Generated muon d_{0};Generated muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -200000, 200000),
-            inputVariables = cms.vstring(genMuonD0WRTBeamspot),
+            inputVariables = cms.vstring("10000*"+genMuonD0WRTBeamspot),
         ),
 
         ###################################################################
