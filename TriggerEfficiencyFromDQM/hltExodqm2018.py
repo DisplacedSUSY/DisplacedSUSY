@@ -26,25 +26,13 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        #'/store/data/Run2017E/NoBPTX/AOD/PromptReco-v1/000/303/442/00000/4885B5DE-F69F-E711-A9F6-02163E0134CA.root'
         '/store/data/Run2018A/DoubleMuon/AOD/PromptReco-v2/000/316/239/00000/00175E6D-1B59-E811-B38A-FA163EECA815.root'
         ),
     secondaryFileNames = cms.untracked.vstring()
 )
 
 process.options = cms.untracked.PSet(
-
 )
-process.load('HLTrigger.HLTfilters.hltHighLevel_cfi')
-process.hltHighLevel.TriggerResultsTag = cms.InputTag("TriggerResults","","HLT")
-process.hltHighLevel.throw = cms.bool(False)
-process.hltHighLevel.HLTPaths = cms.vstring(
-    #"HLT_UncorrectedJetE60_NoBPTX3BX_*",
-    #"HLT_UncorrectedJetE70_NoBPTX3BX_*",
-    "HLT_DoubleMu43NoFiltersNoVtx"
-)
-
-process.filter_step = cms.Path(process.hltHighLevel)
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
@@ -63,9 +51,6 @@ process.DQMoutput = cms.OutputModule("DQMRootOutputModule",
                                      fileName = cms.untracked.string('DQM_onlyEXOHLT.root'),
     outputCommands = process.DQMEventContent.outputCommands,
                                      splitLevel = cms.untracked.int32(0),
-                                     #SelectEvents = cms.untracked.PSet(
-        #SelectEvents = cms.vstring('filter_step')
-        #)
                                      )
 
 # Additional output definition
@@ -80,7 +65,6 @@ process.dqmofflineOnPAT_step = cms.EndPath(process.exoticaMonitorHLT*process.exo
 process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
 # Schedule definition
-#process.schedule = cms.Schedule(process.filter_step,process.dqmoffline_step,process.dqmofflineOnPAT_step,process.DQMoutput_step)
 process.schedule = cms.Schedule(process.dqmoffline_step,process.DQMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
