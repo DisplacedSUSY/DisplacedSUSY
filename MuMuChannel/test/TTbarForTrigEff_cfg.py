@@ -39,7 +39,7 @@ variableProducers.append('DisplacedSUSYEventVariableProducer')
 ##### Attach the channels to the process #######################################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
 
 # customize the process:

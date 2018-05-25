@@ -198,7 +198,7 @@ histograms.append(eventHistograms)
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers, False)
+add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collections, variableProducers)
 
 #process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
 #process.PUScalingFactorProducer.target = cms.string("Data2016")
