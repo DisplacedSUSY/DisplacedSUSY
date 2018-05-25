@@ -14,6 +14,6 @@ LifetimeWeightCheckSelection = cms.PSet(
 )
 
 ### Dummy cuts
-LifetimeWeightCheckSelection.cuts.append(jet_pt_30_cut)
+LifetimeWeightCheckSelection.cuts.append(atLeastZero_jet_pt_30_cut)
 LifetimeWeightCheckSelection.cuts.append(electron_pt_25_dummy_cut)
 LifetimeWeightCheckSelection.cuts.append(muon_pt_25_dummy_cut)
