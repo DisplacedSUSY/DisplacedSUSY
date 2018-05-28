@@ -166,7 +166,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 # without impact parameter cuts
 
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_92X_and_later
-#FIXME: define rho
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
     electron_id_cutstring = cms.string("(isEB & \
                             full5x5_sigmaIetaIeta < 0.0104 & \
