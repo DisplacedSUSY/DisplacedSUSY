@@ -638,14 +638,14 @@ emu_uncorrelated_d0_cut = cms.PSet (
 
 emu_correlated_genD0_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons","beamspots"),
-    cutString = cms.string("abs(abs(10000*"+genElectronD0WRTBeamspot+") - abs(10000*"+genMuonD0WRTBeamspot+")) <= 3"),
+    cutString = cms.string("abs(abs(10000*electron.genD0) - abs(10000*muon.genD0)) <= 3"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 e-mu pair w/ correlated |genD0|")
     )
 
 emu_uncorrelated_genD0_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons","beamspots"),
-    cutString = cms.string("abs(abs(10000*"+genElectronD0WRTBeamspot+") - abs(10000*"+genMuonD0WRTBeamspot+")) > 3"),
+    cutString = cms.string("abs(abs(10000*electron.genD0) - abs(10000*muon.genD0)) > 3"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 e-mu pair w/ uncorrelated |genD0|")
     )
