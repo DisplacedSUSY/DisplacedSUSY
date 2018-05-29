@@ -30,6 +30,9 @@ muon_iso_cut.alias = cms.string(">=2 muons with tight isolation")
 muon_antiiso_cut.numberRequired = cms.string(">= 2")
 muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight isolation")
 
+muon_d0_lessThan10_cut.numberRequired = cms.string(">= 2")
+muon_d0_lessThan10_cut.alias = cms.string(">=2 muons with |d_0| < 10 mum")
+
 muon_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan100_cut.alias = cms.string(">=2 muons with |d_0| < 100 mum")
 
