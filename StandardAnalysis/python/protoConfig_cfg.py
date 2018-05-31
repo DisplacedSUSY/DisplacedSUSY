@@ -31,7 +31,7 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 ##### max number of events (when run interactively) ############################
 ################################################################################
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
             '/store/data/Run2016G/MuonEG/MINIAOD/23Sep2016-v1/100000/005AB7E9-0B93-E611-AC81-848F69FD2925.root'
@@ -40,7 +40,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             #'/store/mc/RunIISummer16MiniAODv2/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/04F61242-90BA-E611-B842-001E67DFF7CB.root'
       )
     )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
             '/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/0C144772-16E5-E711-B272-001E673971CA.root'
