@@ -23,7 +23,6 @@ Preselection.cuts.append(muon_iso_cut)
 
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
-#PromptControlRegion.cuts.append(muon_d0_lessThan100_cut)
 PromptControlRegion.cuts.append(muon_d0_lessThan10_cut)
 
 AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)

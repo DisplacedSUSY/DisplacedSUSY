@@ -39,8 +39,8 @@ PromptControlRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PromptControlRegion.cuts.append(electron_d0_lessThan100_cut)
-PromptControlRegion.cuts.append(muon_d0_lessThan100_cut)
+PromptControlRegion.cuts.append(electron_d0_lessThan10_cut)
+PromptControlRegion.cuts.append(muon_d0_lessThan10_cut)
 
 
 DisplacedControlRegion = cms.PSet(
