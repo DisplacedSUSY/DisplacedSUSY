@@ -33,7 +33,6 @@ TTbarControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 TTbarControlRegion.cuts.extend(atLeastOne_electron_basic_selection_cuts)
-TTbarControlRegion.cuts.append(electron_iso_cut)
 TTbarControlRegion.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 TTbarControlRegion.cuts.append(muon_iso_cut)
 TTbarControlRegion.cuts.extend(ttbar_control_region_cuts)

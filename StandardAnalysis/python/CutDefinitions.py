@@ -221,9 +221,9 @@ electron_pt_65_cut = cms.PSet(
 
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_id_cutstring,
+    cutString = cms.string("passesVID_tightID"),
     numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_id_alias
+    alias = cms.string(">=1 electrons with versioned tight ID and isolation") #versioned tight ID includes tight isolation
     )
 
 electron_id_impact_parameter_cut = cms.PSet(
@@ -231,27 +231,6 @@ electron_id_impact_parameter_cut = cms.PSet(
     cutString = objectDefs.electron_id_impact_parameter_cutstring,
     numberRequired = cms.string(">= 1"),
     alias = objectDefs.electron_id_impact_parameter_alias
-    )
-
-electron_iso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_iso_cutstring,
-    numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_iso_alias
-    )
-
-electron_antiiso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_antiiso_cutstring,
-    numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_antiiso_alias
-    )
-
-electron_veto_antiiso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_veto_antiiso_cutstring,
-    numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_veto_antiiso_alias
     )
 
 # electron d0 < 10 microns

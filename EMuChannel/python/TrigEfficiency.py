@@ -47,7 +47,6 @@ TTbarForTrigEff = cms.PSet(
 )
 ### at least one good, isolated electron
 TTbarForTrigEff.cuts.extend(atLeastOne_electron_basic_selection_cuts)
-TTbarForTrigEff.cuts.append(electron_iso_cut)
 ### at least one good, isolated muon
 TTbarForTrigEff.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 TTbarForTrigEff.cuts.append(muon_iso_cut)

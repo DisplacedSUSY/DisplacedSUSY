@@ -50,8 +50,7 @@ TTbarForTrigEffNoTrig = cms.PSet(
 )
 TTbarForTrigEffNoTrig.cuts.append(electron_eta_cut)
 TTbarForTrigEffNoTrig.cuts.append(electron_pt_25_cut)
-TTbarForTrigEffNoTrig.cuts.append(electron_id_cut)
-TTbarForTrigEffNoTrig.cuts.append(electron_iso_cut)
+TTbarForTrigEffNoTrig.cuts.append(electron_id_cut) ##versioned tight ID includes tight isolation
 ### good electron, electron pair
 TTbarForTrigEffNoTrig.cuts.append(diElectron_opposite_charge_cut)
 TTbarForTrigEffNoTrig.cuts.append(diElectron_deltaR_cut)

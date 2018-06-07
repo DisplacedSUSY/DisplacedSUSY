@@ -11,9 +11,7 @@ from DisplacedSUSY.EEChannel.Preselection import *
 eventSelections = [
     Preselection,
     #PromptControlRegion,
-    #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
-    #AntiIsoDisplacedControlRegion,
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,

@@ -45,8 +45,7 @@ Wjets_Electron_Selection = cms.PSet(
         electron_eta_cut,
         electron_gap_veto,
         electron_pt_25_cut,
-        electron_iso_cut,
-        electron_id_cut,
+        electron_id_cut, #electron vid includes isolation
         electron_id_impact_parameter_cut,
         electron_num_exactly_1_cut,
         met_pt_40_cut,

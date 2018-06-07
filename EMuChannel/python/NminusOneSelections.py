@@ -7,10 +7,6 @@ from DisplacedSUSY.EMuChannel.Preselection import *
 ### Set up the prompt control region, N-1 cuts for the displaced SUSY analysis #####
 ##########################################################################
 
-PromptControlRegionNoElectronIso = copy.deepcopy(PromptControlRegion)
-PromptControlRegionNoElectronIso.name = cms.string("PromptControlRegionNoElectronIso")
-removeCuts(PromptControlRegionNoElectronIso.cuts,[electron_iso_cut])
-
 PromptControlRegionNoElectronID = copy.deepcopy(PromptControlRegion)
 PromptControlRegionNoElectronID.name = cms.string("PromptControlRegionNoElectronID")
 removeCuts(PromptControlRegionNoElectronID.cuts,[electron_id_cut])

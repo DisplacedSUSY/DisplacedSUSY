@@ -33,7 +33,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     PreselectionWithExplicitEleIdBarrel.cuts.append(electron_abs_1overE_1overP_EB_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_missingInnerHits_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_passConversionVeto_cut)
-PreselectionWithExplicitEleIdBarrel.cuts.append(electron_iso_cut)
 ### at least one good muon
 PreselectionWithExplicitEleIdBarrel.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -69,7 +68,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     PreselectionWithExplicitEleIdEndcap.cuts.append(electron_abs_1overE_1overP_EE_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_missingInnerHits_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_passConversionVeto_cut)
-PreselectionWithExplicitEleIdEndcap.cuts.append(electron_iso_cut)
 ### at least one good muon
 PreselectionWithExplicitEleIdEndcap.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):

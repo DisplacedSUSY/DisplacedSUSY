@@ -18,17 +18,12 @@ Preselection.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
 Preselection.cuts.append(electron_pt_65_cut)
-Preselection.cuts.append(electron_id_cut)
-Preselection.cuts.append(electron_iso_cut)
+Preselection.cuts.append(electron_id_cut) #versioned tight ID includes tight isolation
 
 
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
 PromptControlRegion.cuts.append(electron_d0_lessThan10_cut)
-
-AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)
-AntiIsoPromptControlRegion.name = cms.string("AntiIsoPromptControlRegion")
-replaceSingleCut(AntiIsoPromptControlRegion.cuts,electron_antiiso_cut,electron_iso_cut) #replace electron_iso_cut with electron_antiiso_cut in the same place 
 
 #################################################################
 
@@ -36,10 +31,6 @@ DisplacedControlRegion = copy.deepcopy(Preselection)
 DisplacedControlRegion.name = cms.string("DisplacedControlRegion") 
 #DisplacedControlRegion.cuts.append(electron_d0_100to200_cut)
 DisplacedControlRegion.cuts.append(electron_d0_10to20_cut)
-
-AntiIsoDisplacedControlRegion = copy.deepcopy(DisplacedControlRegion)
-AntiIsoDisplacedControlRegion.name = cms.string("AntiIsoDisplacedControlRegion")
-replaceSingleCut(AntiIsoDisplacedControlRegion.cuts,electron_antiiso_cut,electron_iso_cut) #replace electron_iso_cut with electron_antiiso_cut in the same place 
 
 #################################################################
 

@@ -19,7 +19,6 @@ ZTauTautoEMuControlRegion = cms.PSet(
     cuts = cms.VPSet ()
 )
 ZTauTautoEMuControlRegion.cuts.extend(atLeastOne_electron_basic_selection_cuts)
-ZTauTautoEMuControlRegion.cuts.append(electron_iso_cut)
 ZTauTautoEMuControlRegion.cuts.extend(atLeastOne_muon_basic_selection_cuts)
 ZTauTautoEMuControlRegion.cuts.append(muon_iso_cut)
 ZTauTautoEMuControlRegion.cuts.extend(ztautau_control_region_cuts)
