@@ -25,18 +25,13 @@ datasets = [
     'QCD_MuEnriched',
 
     # Signal
-    'DisplacedSUSYSignal',
+    #'DisplacedSUSYSignal',
 ]
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets.append(
         # Data
-        'DoubleMu_2016',
-        #'DoubleMu_2016B',
-        #'DoubleMu_2016C',
-        #'DoubleMu_2016D',
-        #'DoubleMu_2016E',
-        #'DoubleMu_2016F',
+        'DoubleMu_2016_postHIP',
         #'DoubleMu_2016G',
         #'DoubleMu_2016H',
         )
