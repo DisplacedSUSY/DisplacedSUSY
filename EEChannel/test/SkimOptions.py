@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from DisplacedSUSY.StandardAnalysis.Options import *
+from DisplacedSUSY.EEChannel.localOptions import *
 
 # specify which config file to pass to cmsRun
 config_file = "Skim_cfg.py"

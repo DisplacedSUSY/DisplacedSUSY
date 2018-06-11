@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from DisplacedSUSY.StandardAnalysis.Options import *
+from DisplacedSUSY.EMuChannel.localOptions import *
 
 # specify which config file to pass to cmsRun
 config_file = "Skim_cfg.py"
@@ -12,5 +12,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         ]
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = [
-        'MuonEG_2017'
+        'MuonEG_2017',
+        'DYJetsToLL',
+        'SingleTop',
+        'QCD_MuEnriched',
         ]

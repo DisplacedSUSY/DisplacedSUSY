@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from DisplacedSUSY.StandardAnalysis.Options import *
+from DisplacedSUSY.MuMuChannel.localOptions import *
 
 # specify which config file to pass to cmsRun
 config_file = "Preselection_cfg.py"
