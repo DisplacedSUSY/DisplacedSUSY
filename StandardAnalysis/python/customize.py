@@ -11,7 +11,10 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
 
     if hasattr(process, "DisplacedSUSYEventVariableProducer"):
         process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
-        process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+            process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+            process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_PFMET200_HBHECleaned")
         process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
 ################################################################################
