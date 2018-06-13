@@ -54,7 +54,7 @@ muonScaleFactors2017 = cms.VPSet (
         version = cms.string("2017"),
         wp = cms.string("TightTightID"),
         additionalSystematic = cms.double(0.005), #to be updated when muon POG makes this update
-    ),    
+    ),
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("ID"),
