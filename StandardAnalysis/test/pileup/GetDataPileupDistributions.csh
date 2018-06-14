@@ -1,3 +1,4 @@
+#!/bin/csh
 
 # https://twiki.cern.ch/twiki/bin/view/CMS/PileupJSONFileforData#Pileup_JSON_Files_For_Run_II
 
