@@ -1,10 +1,25 @@
-TString inputFiles[6] = {"puData_2016_central", "puData_2016_up", "puData_2016_down",
-                          "puData_2016GH_central", "puData_2016GH_up", "puData_2016GH_down"};
-
-TString histNames[6] = {"data2016", "data2016Up", "data2016Down",
-                         "data2016_GH", "data2016_GHUp", "data2016_GHDown"};
 
 void CombineDataFiles() {
+
+  TString inputFiles[6] = {"puData_central", "puData_up", "puData_down",
+                            "puData_filtered_central", "puData_filtered_up", "puData_filtered_down"};
+  TString histNames[6];
+  if (strcmp(getenv("CMSSW_VERSION"), "CMSSW_8_0_21") == 0) {
+      histNames[0] = "data2016";
+      histNames[1] = "data2016Up";
+      histNames[2] = "data2016Down";
+      histNames[3] = "data2016_GH";
+      histNames[4] = "data2016_GHUp";
+      histNames[5] = "data2016_GHDown";
+  }
+  else if (strcmp(getenv("CMSSW_VERSION"), "CMSSW_9_4_8") == 0) {
+      histNames[0] = "data2017";
+      histNames[1] = "data2017Up";
+      histNames[2] = "data2017Down";
+      histNames[3] = "data2017_CDEF";
+      histNames[4] = "data2017_CDEFUp";
+      histNames[5] = "data2017_CDEFDown";
+  }
 
   TFile * output = new TFile("puData.root", "RECREATE");
 
