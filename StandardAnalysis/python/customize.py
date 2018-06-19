@@ -33,10 +33,10 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
 
 #FIXME: need to update for 2017
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-            process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
-            process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
-            process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
-            process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
+            process.PUScalingFactorProducer.target = cms.string ("data2017_CDEF")
+            process.PUScalingFactorProducer.targetUp = cms.string ("data2017_CDEFUp")
+            process.PUScalingFactorProducer.targetDown = cms.string ("data2017_CDEFDown")
+            process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2017.root')
 
 ################################################################################
 ##### Apply trigger scale factor ###############################################
