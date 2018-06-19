@@ -22,7 +22,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
 ################################################################################
 
     if applyPUReweighting:
-        process.PUScalingFactorProducer.dataset = cms.string("TTJets_DiLept") # default value, only used when running interactively
+        process.PUScalingFactorProducer.dataset = cms.string("SingleTop_tW") # default value, only used when running interactively
         process.PUScalingFactorProducer.type = cms.string(sampleType)
 
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
