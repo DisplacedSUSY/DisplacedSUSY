@@ -17,14 +17,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     triggerScaleFactorMuMuChannelPayload  = "triggerScaleFactorMuMuChannel2016"
     triggerScaleFactorEMuChannelPayload  = "triggerScaleFactorEMuChannel2016"
 
-#FIXME: needs to be updated for 2017
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    print "# EventWeights applied: 2017 (really 2016, should be updated!)"
-    electronRecoPayload = "electronReco2016"
-    electronIdPayload = "electronID2016Tight"
-    muonRecoPayload = "muonReco2016"
-    muonIdPayload = "muonID2016Tight"
-    muonIsoPayload = "muonIso2016Tight"
+    print "# EventWeights applied: 2017"
+    electronIdPayload = "electronID2017Tight"
+    muonIsoPayload = "muonIso2017TightTightID"
     triggerScaleFactorEEChannelPayload = "triggerScaleFactorEEChannel2017"
     triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2017"
     triggerScaleFactorEMuChannelPayload = "triggerScaleFactorEMuChannel2017"
@@ -65,34 +61,50 @@ weightsFluctuatePileup = cms.VPSet(
 #################################################################
 
 #OFFLINE ELECTRON WEIGHTS
-electronWeights = cms.VPSet(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronRecoPayload)
-        ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(electronIdPayload)
-        ),
-    )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    electronWeights = cms.VPSet(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronRecoPayload)
+            ),
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronIdPayload)
+            ),
+        )
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    electronWeights = cms.VPSet(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(electronIdPayload)
+            ),
+        )
 
 #################################################################
 
 #OFFLINE MUON WEIGHTS
-muonWeights = cms.VPSet(
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonRecoPayload)
-        ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonIdPayload)
-        ),
-    cms.PSet (
-        inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(muonIsoPayload)
-        ),
-    )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    muonWeights = cms.VPSet(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonRecoPayload)
+            ),
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIdPayload)
+            ),
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIsoPayload)
+            ),
+        )
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    muonWeights = cms.VPSet(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIsoPayload)
+            ),
+        )
 
 #################################################################
 ####### #START OF WEIGHTS PER CHANNEL ###########################
