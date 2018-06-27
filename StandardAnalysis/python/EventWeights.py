@@ -20,6 +20,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# EventWeights applied: 2017"
     electronIdPayload = "electronID2017Tight"
+    muonIdPayload = "muonID2017Tight"
     muonIsoPayload = "muonIso2017TightTightID"
     triggerScaleFactorEEChannelPayload = "triggerScaleFactorEEChannel2017"
     triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2017"
@@ -100,6 +101,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         )
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     muonWeights = cms.VPSet(
+        cms.PSet (
+            inputCollections = cms.vstring("eventvariables"),
+            inputVariable = cms.string(muonIdPayload)
+            ),
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
             inputVariable = cms.string(muonIsoPayload)
