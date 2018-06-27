@@ -10,9 +10,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# EventWeights applied: 2016"
     electronRecoPayload = "electronReco2016"
     electronIdPayload = "electronID2016Tight"
-    muonRecoPayload = "muonReco2016"
-    muonIdPayload = "muonID2016Tight"
-    muonIsoPayload = "muonIso2016Tight"
+    muonTrackingPayload = "muonTracking2016GH"
+    muonIdPayload = "muonID2016TightGH"
+    muonIsoPayload = "muonIso2016TightTightIDGH"
     triggerScaleFactorEEChannelPayload  = "triggerScaleFactorEEChannel2016"
     triggerScaleFactorMuMuChannelPayload  = "triggerScaleFactorMuMuChannel2016"
     triggerScaleFactorEMuChannelPayload  = "triggerScaleFactorEMuChannel2016"
@@ -88,7 +88,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     muonWeights = cms.VPSet(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(muonRecoPayload)
+            inputVariable = cms.string(muonTrackingPayload)
             ),
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
