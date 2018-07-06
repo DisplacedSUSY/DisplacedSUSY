@@ -17,6 +17,7 @@ TTbarForTrigEffNoTrig = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
+TTbarForTrigEffNoTrig.cuts.append(cutDummyMet)
 ### at least two good muons
 TTbarForTrigEffNoTrig.cuts.append(muon_eta_cut)
 TTbarForTrigEffNoTrig.cuts.append(muon_pt_25_cut)
@@ -70,6 +71,7 @@ TriggerDoubleMu33 = cms.PSet(
     triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx"),
     cuts = cms.VPSet()
 )
+TriggerDoubleMu33.cuts.append(cutDummyMet)
 TriggerDoubleMu33.cuts.append(pass_trigger)
 
 TriggerDoubleMu23Displaced = cms.PSet(
@@ -77,6 +79,7 @@ TriggerDoubleMu23Displaced = cms.PSet(
     triggers = cms.vstring("HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
     cuts = cms.VPSet()
 )
+TriggerDoubleMu23Displaced.cuts.append(cutDummyMet)
 TriggerDoubleMu23Displaced.cuts.append(pass_trigger)
 
 # Trigger to be used for 2016 MuMu channel
@@ -85,6 +88,7 @@ TriggerDoubleMu33ORDoubleMu23Displaced = cms.PSet(
     triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx","HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
     cuts = cms.VPSet()
 )
+TriggerDoubleMu33ORDoubleMu23Displaced.cuts.append(cutDummyMet)
 TriggerDoubleMu33ORDoubleMu23Displaced.cuts.append(pass_trigger)
 
 TrigMET = cms.PSet(
@@ -92,6 +96,7 @@ TrigMET = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
+TrigMET.cuts.append(cutDummyMet)
 TrigMET.cuts.append(pass_trigger)
 
 ### TTbar for triggers without tag muon eventvariable ###
@@ -100,6 +105,7 @@ MuMuTrigTTbarMET = cms.PSet(
     triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx","HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
 )
+MuMuTrigTTbarMET.cuts.append(cutDummyMet)
 MuMuTrigTTbarMET.cuts.append(pass_trigger)
 
 TrigTTbarMET = cms.PSet(
@@ -107,6 +113,7 @@ TrigTTbarMET = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
 )
+TrigTTbarMET.cuts.append(cutDummyMet)
 TrigTTbarMET.cuts.append(pass_trigger)
 
 DoubleMu33TTbar = cms.PSet(
@@ -114,6 +121,7 @@ DoubleMu33TTbar = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
 )
+DoubleMu33TTbar.cuts.append(cutDummyMet)
 DoubleMu33TTbar.cuts.append(pass_trigger)
 
 DoubleMu23DisplacedTTbar = cms.PSet(
@@ -121,6 +129,7 @@ DoubleMu23DisplacedTTbar = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffNoTrig.cuts))
 )
+DoubleMu23DisplacedTTbar.cuts.append(cutDummyMet)
 DoubleMu23DisplacedTTbar.cuts.append(pass_trigger)
 
 ### Use tag muon eventvariable
@@ -134,6 +143,7 @@ for cut in TTbarForTrigEffTagMuonNoTrig.cuts:
         TTbarForTrigEffTagMuonNoTrig.cuts.remove(cut)
     if "deltaR(muon, muon) > 0.5" in str(cut.cutString):
         TTbarForTrigEffTagMuonNoTrig.cuts.remove(cut)
+TTbarForTrigEffTagMuonNoTrig.cuts.append(cutDummyMet)
 TTbarForTrigEffTagMuonNoTrig.cuts.append(tagMuonExists_cut)
 TTbarForTrigEffTagMuonNoTrig.cuts.append(muon_opposite_charge_from_tag_cut)
 TTbarForTrigEffTagMuonNoTrig.cuts.append(muon_deltaR_from_tag_cut)
@@ -156,6 +166,7 @@ TriggerDoubleMu33ORDoubleMu23DisplacedTagMuon = cms.PSet(
     triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx","HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffTagMuonNoTrig.cuts))
 )
+TriggerDoubleMu33ORDoubleMu23DisplacedTagMuon.cuts.append(cutDummyMet)
 TriggerDoubleMu33ORDoubleMu23DisplacedTagMuon.cuts.append(pass_trigger)
 
 
@@ -164,6 +175,7 @@ TTbarTagMuonTrigMET = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffTagMuonNoTrig.cuts))
 )
+TTbarTagMuonTrigMET.cuts.append(cutDummyMet)
 TTbarTagMuonTrigMET.cuts.append(pass_trigger)
 
 DoubleMu33TTbarTagMuon = cms.PSet(
@@ -171,6 +183,7 @@ DoubleMu33TTbarTagMuon = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffTagMuonNoTrig.cuts))
 )
+DoubleMu33TTbarTagMuon.cuts.append(cutDummyMet)
 DoubleMu33TTbarTagMuon.cuts.append(pass_trigger)
 
 DoubleMu23DisplacedTTbarTagMuon = cms.PSet(
@@ -178,6 +191,7 @@ DoubleMu23DisplacedTTbarTagMuon = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TTbarForTrigEffTagMuonNoTrig.cuts))
 )
+DoubleMu23DisplacedTTbarTagMuon.cuts.append(cutDummyMet)
 DoubleMu23DisplacedTTbarTagMuon.cuts.append(pass_trigger)
 
 

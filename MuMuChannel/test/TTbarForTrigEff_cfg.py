@@ -9,19 +9,20 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.TTbarForTrigEff import *
 
 eventSelections = [
-                   TriggerDoubleMu33,
-                   TriggerDoubleMu23Displaced,
-                   TriggerDoubleMu33ORDoubleMu23Displaced,
-                   TrigMET,                   
-                   TriggerDoubleMu33ORDoubleMu23DisplacedTagMuon,
-                   DoubleMu33TTbar,
-                   DoubleMu23DisplacedTTbar,
-                   TTbarTagMuonTrigMET,
-                   MuMuTrigTTbarMET,
-                   TrigTTbarMET,
-                   DoubleMu33TTbarTagMuon,
-                   DoubleMu23DisplacedTTbarTagMuon,                  
-                  ]
+                   #TriggerDoubleMu33,
+                   #TriggerDoubleMu23Displaced,
+                   #TriggerDoubleMu33ORDoubleMu23Displaced,
+                   #TrigMET,
+                   #TriggerDoubleMu33ORDoubleMu23DisplacedTagMuon,
+                   #DoubleMu33TTbar,
+                   #DoubleMu23DisplacedTTbar,
+                   #TTbarTagMuonTrigMET,
+                   #MuMuTrigTTbarMET,
+                   #TrigTTbarMET,
+                   #DoubleMu33TTbarTagMuon,
+                   #DoubleMu23DisplacedTTbarTagMuon,
+                   TTbarForTrigEffTagMuonNoTrig,
+                 ]
 
 
 ################################################################################
@@ -29,7 +30,6 @@ eventSelections = [
 # REDEFINE variableProducers, weights, scalingfactorproducers, histograms 
 # to all to be empty for the trigger efficiency calculation on signal
 
-histograms = cms.VPSet()
 weights = cms.VPSet()
 scalingfactorproducers = []
 variableProducers = []
