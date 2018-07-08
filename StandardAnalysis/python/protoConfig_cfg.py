@@ -34,9 +34,9 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
-            #'/store/data/Run2016G/MuonEG/MINIAOD/23Sep2016-v1/100000/005AB7E9-0B93-E611-AC81-848F69FD2925.root'
-            #'/store/data/Run2016G/DoubleEG/MINIAOD/23Sep2016-v1/100000/0608426D-3F8E-E611-A52D-00237DF28460.root'
-            #'/store/data/Run2016G/DoubleMuon/MINIAOD/23Sep2016-v1/100000/00993A51-DF90-E611-A4EE-7845C4FC3650.root'
+            #'/store/data/Run2016G/MuonEG/MINIAOD/07Aug17-v1/10000/04360562-9C92-E711-A8A3-4C79BA180B5D.root'
+            #'/store/data/Run2016G/DoubleEG/MINIAOD/07Aug17-v1/00000/1EF72C1E-DFB3-E711-A459-0242AC110005.root'
+            #'/store/data/Run2016G/DoubleMuon/MINIAOD/07Aug17-v1/10000/00448C94-C19A-E711-BC4C-A4BF01125660.root'
             '/store/mc/RunIISummer16MiniAODv2/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/04F61242-90BA-E611-B842-001E67DFF7CB.root'
       )
     )
@@ -70,7 +70,7 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 
 #from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
+    data_global_tag = '80X_dataRun2_2016LegacyRepro_v4'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_v6'

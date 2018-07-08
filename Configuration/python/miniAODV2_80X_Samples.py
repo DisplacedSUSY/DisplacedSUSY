@@ -100,70 +100,69 @@ dataset_names = {
     'QCD_bcToE_250toInf' :  '/QCD_Pt_250toInf_bcToE_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 10M
 
     ############################################################################
-    # SingleElectron 23Sep rereco
-    'SingleEle_2016B'         : '/SingleElectron/Run2016B-23Sep2016-v3/MINIAOD', # 246M
-    'SingleEle_2016C'         : '/SingleElectron/Run2016C-23Sep2016-v1/MINIAOD', # 97M
-    'SingleEle_2016D'         : '/SingleElectron/Run2016D-23Sep2016-v1/MINIAOD', # 148M
-    'SingleEle_2016E'         : '/SingleElectron/Run2016E-23Sep2016-v1/MINIAOD', # 117M
-    'SingleEle_2016F'         : '/SingleElectron/Run2016F-23Sep2016-v1/MINIAOD', # 71M
-    'SingleEle_2016G'         : '/SingleElectron/Run2016G-23Sep2016-v1/MINIAOD', # 153M
-    'SingleEle_2016H'         : ['/SingleElectron/Run2016H-PromptReco-v2/MINIAOD', # 127M
-                                 '/SingleElectron/Run2016H-PromptReco-v3/MINIAOD'], # 3M
+    # SingleElectron 07Aug17 rereco
+    'SingleEle_2016B'         : ['/SingleElectron/Run2016B-07Aug17_ver1-v1/MINIAOD',
+                                 '/SingleElectron/Run2016B-07Aug17_ver2-v1/MINIAOD'], # 246M
+    'SingleEle_2016C'         : '/SingleElectron/Run2016C-07Aug17-v1/MINIAOD', # 97M
+    'SingleEle_2016D'         : '/SingleElectron/Run2016D-07Aug17-v1/MINIAOD', # 148M
+    'SingleEle_2016E'         : '/SingleElectron/Run2016E-07Aug17-v1/MINIAOD', # 117M
+    'SingleEle_2016F'         : '/SingleElectron/Run2016F-07Aug17-v1/MINIAOD', # 71M
+    'SingleEle_2016G'         : '/SingleElectron/Run2016G-07Aug17-v1/MINIAOD', # 153M
+    'SingleEle_2016H'         : '/SingleElectron/Run2016H-07Aug17-v1/MINIAOD', # 127M
     ############################################################################
 
     ############################################################################
-    # SingleMuon 23Sep rereco
-    'SingleMu_2016B'         : '/SingleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 158M
-    'SingleMu_2016C'         : '/SingleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 67M
-    'SingleMu_2016D'         : '/SingleMuon/Run2016D-23Sep2016-v1/MINIAOD', # 98M
-    'SingleMu_2016E'         : '/SingleMuon/Run2016E-23Sep2016-v1/MINIAOD', # 91M
-    'SingleMu_2016F'         : '/SingleMuon/Run2016F-23Sep2016-v1/MINIAOD', # 65M
-    'SingleMu_2016G'         : '/SingleMuon/Run2016G-23Sep2016-v1/MINIAOD', # 150M
-    'SingleMu_2016H'         : ['/SingleMuon/Run2016H-PromptReco-v2/MINIAOD', # 171M
-                                '/SingleMuon/Run2016H-PromptReco-v3/MINIAOD'], # 4M
+    # SingleMuon 07Aug17 rereco
+    'SingleMu_2016B'         : ['/SingleMuon/Run2016B-07Aug17_ver1-v1/MINIAOD',
+                                '/SingleMuon/Run2016B-07Aug17_ver2-v1/MINIAOD'], # 158M
+    'SingleMu_2016C'         : '/SingleMuon/Run2016C-07Aug17-v1/MINIAOD', # 67M
+    'SingleMu_2016D'         : '/SingleMuon/Run2016D-07Aug17-v1/MINIAOD', # 98M
+    'SingleMu_2016E'         : '/SingleMuon/Run2016E-07Aug17-v1/MINIAOD', # 91M
+    'SingleMu_2016F'         : '/SingleMuon/Run2016F-07Aug17-v1/MINIAOD', # 65M
+    'SingleMu_2016G'         : '/SingleMuon/Run2016G-07Aug17-v1/MINIAOD', # 150M
+    'SingleMu_2016H'         : '/SingleMuon/Run2016H-07Aug17-v1/MINIAOD', # 171M
     ############################################################################
 
     ############################################################################
-    # DoubleEG 23Sep rereco
-    'DoubleEG_2016B'         : '/DoubleEG/Run2016B-23Sep2016-v3/MINIAOD', # 143M
-    'DoubleEG_2016C'         : '/DoubleEG/Run2016C-23Sep2016-v1/MINIAOD', # 48M
-    'DoubleEG_2016D'         : '/DoubleEG/Run2016D-23Sep2016-v1/MINIAOD', # 53M
-    'DoubleEG_2016E'         : '/DoubleEG/Run2016E-23Sep2016-v1/MINIAOD', # 50M
-    'DoubleEG_2016F'         : '/DoubleEG/Run2016F-23Sep2016-v1/MINIAOD', # 35M
-    'DoubleEG_2016G'         : '/DoubleEG/Run2016G-23Sep2016-v1/MINIAOD', # 79M
-    'DoubleEG_2016H'         : ['/DoubleEG/Run2016H-PromptReco-v2/MINIAOD', # 84M
-                                '/DoubleEG/Run2016H-PromptReco-v3/MINIAOD'], # 2M
+    # DoubleEG 07Aug17 rereco
+    'DoubleEG_2016B'         :  ['/DoubleEG/Run2016B-07Aug17_ver1-v1/MINIAOD',
+                                 '/DoubleEG/Run2016B-07Aug17_ver2-v1/MINIAOD'],# 143M
+    'DoubleEG_2016C'         :  '/DoubleEG/Run2016C-07Aug17-v1/MINIAOD',# 48M
+    'DoubleEG_2016D'         :  '/DoubleEG/Run2016D-07Aug17-v1/MINIAOD',# 53M
+    'DoubleEG_2016E'         :  '/DoubleEG/Run2016E-07Aug17-v1/MINIAOD',# 50M
+    'DoubleEG_2016F'         :  '/DoubleEG/Run2016F-07Aug17-v1/MINIAOD',# 35M
+    'DoubleEG_2016G'         :  '/DoubleEG/Run2016G-07Aug17-v1/MINIAOD',# 79M
+    'DoubleEG_2016H'         :  '/DoubleEG/Run2016H-07Aug17-v1/MINIAOD',# 84M
     ############################################################################
 
     ############################################################################
-    # DoubleMuon 23Sep rereco
-    'DoubleMu_2016B'         : '/DoubleMuon/Run2016B-23Sep2016-v3/MINIAOD', # 83M
-    'DoubleMu_2016C'         : '/DoubleMuon/Run2016C-23Sep2016-v1/MINIAOD', # 28M
-    'DoubleMu_2016D'         : '/DoubleMuon/Run2016D-23Sep2016-v1/MINIAOD', # 34M
-    'DoubleMu_2016E'         : '/DoubleMuon/Run2016E-23Sep2016-v1/MINIAOD', # 28M
-    'DoubleMu_2016F'         : '/DoubleMuon/Run2016F-23Sep2016-v1/MINIAOD', # 20M
-    'DoubleMu_2016G'         : '/DoubleMuon/Run2016G-23Sep2016-v1/MINIAOD', # 45M
-    'DoubleMu_2016H'         : ['/DoubleMuon/Run2016H-PromptReco-v2/MINIAOD', # 48M
-                                '/DoubleMuon/Run2016H-PromptReco-v3/MINIAOD'], # 1M
+    # DoubleMuon 07Aug17 rereco
+    'DoubleMu_2016B'         : ['/DoubleMuon/Run2016B-07Aug17_ver1-v1/MINIAOD',
+                                '/DoubleMuon/Run2016B-07Aug17_ver2-v1/MINIAOD'], # 83M
+    'DoubleMu_2016C'         :  '/DoubleMuon/Run2016C-07Aug17-v1/MINIAOD',# 28M
+    'DoubleMu_2016D'         :  '/DoubleMuon/Run2016D-07Aug17-v1/MINIAOD',# 34M
+    'DoubleMu_2016E'         :  '/DoubleMuon/Run2016E-07Aug17-v1/MINIAOD',# 28M
+    'DoubleMu_2016F'         :  '/DoubleMuon/Run2016F-07Aug17-v1/MINIAOD',# 20M
+    'DoubleMu_2016G'         :  '/DoubleMuon/Run2016G-07Aug17-v1/MINIAOD',# 45M
+    'DoubleMu_2016H'         :  '/DoubleMuon/Run2016H-07Aug17-v1/MINIAOD',# 48M
     ############################################################################
 
     ############################################################################
-    # MuonEG 23Sep rereco
-    'MuonEG_2016B'         : '/MuonEG/Run2016B-23Sep2016-v3/MINIAOD',    # 33M
-    'MuonEG_2016C'         : '/MuonEG/Run2016C-23Sep2016-v1/MINIAOD',    # 15M
-    'MuonEG_2016D'         : '/MuonEG/Run2016D-23Sep2016-v1/MINIAOD',    # 23M
-    'MuonEG_2016E'         : '/MuonEG/Run2016E-23Sep2016-v1/MINIAOD',    # 23M
-    'MuonEG_2016F'         : '/MuonEG/Run2016F-23Sep2016-v1/MINIAOD',    # 16M
-    'MuonEG_2016G'         : '/MuonEG/Run2016G-23Sep2016-v1/MINIAOD',    # 34M
-    'MuonEG_2016H'         : ['/MuonEG/Run2016H-PromptReco-v2/MINIAOD',  # 29M
-                              '/MuonEG/Run2016H-PromptReco-v3/MINIAOD'], # 1M
+    # MuonEG 07Aug17 rereco
+    'MuonEG_2016B'         : ['/MuonEG/Run2016B-07Aug17_ver1-v1/MINIAOD', #225k
+                              '/MuonEG/Run2016B-07Aug17_ver2-v1/MINIAOD'],#33M
+    'MuonEG_2016C'         : '/MuonEG/Run2016C-07Aug17-v1/MINIAOD', # 15M
+    'MuonEG_2016D'         : '/MuonEG/Run2016D-07Aug17-v1/MINIAOD', # 23M
+    'MuonEG_2016E'         : '/MuonEG/Run2016E-07Aug17-v1/MINIAOD', # 23M
+    'MuonEG_2016F'         : '/MuonEG/Run2016F-07Aug17-v1/MINIAOD', # 16M
+    'MuonEG_2016G'         : '/MuonEG/Run2016G-07Aug17-v1/MINIAOD', # 34M
+    'MuonEG_2016H'         : '/MuonEG/Run2016H-07Aug17-v1/MINIAOD', # 29M
     ############################################################################
 
     ############################################################################
-    # MET 23Sep rereco
-    'MET_2016G' :  '/MET/Run2016G-23Sep2016-v1/MINIAOD',
-    'MET_2016H' : ['/MET/Run2016H-PromptReco-v2/MINIAOD',
-                   '/MET/Run2016H-PromptReco-v3/MINIAOD'],
+    # MET 07Aug17 rereco
+    'MET_2016G' :  '/MET/Run2016G-17Aug17-v1/MINIAOD',
+    'MET_2016H' :  '/MET/Run2016H-17Aug17-v1/MINIAOD',
     ############################################################################
 
     ############################################################################
