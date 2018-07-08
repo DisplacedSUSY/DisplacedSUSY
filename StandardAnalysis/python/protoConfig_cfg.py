@@ -43,10 +43,10 @@ if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
-            '/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/0C144772-16E5-E711-B272-001E673971CA.root'
-            #'/store/data/Run2017D/DoubleMuon/MINIAOD/17Nov2017-v1/20000/0287B2B9-B7D2-E711-9994-0025905C542C.root'
-            #'/store/data/Run2017D/DoubleEG/MINIAOD/17Nov2017-v1/30000/007FE641-E7D7-E711-8291-0025905C53D0.root'
-            #'/store/mc/RunIIFall17MiniAOD/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/9A55E3AC-E8F8-E711-9214-0CC47AB58BE4.root'
+            '/store/data/Run2017D/MuonEG/MINIAOD/31Mar2018-v1/100000/CC4BAF57-C437-E811-81E1-B496910A9A9C.root'
+            #'/store/data/Run2017D/DoubleMuon/MINIAOD/31Mar2018-v1/100000/00915A1A-C937-E811-B03A-009C02AAB484.root'
+            #'/store/data/Run2017D/DoubleEG/MINIAOD/31Mar2018-v1/00000/002F7CD1-9D37-E811-A03E-B499BAABCF1A.root'
+            #'/store/mc/RunIIFall17MiniAODv2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/143D9394-AF60-E811-96DC-0025904C641E.root'
       )
     )
 else:
@@ -73,8 +73,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016SeptRepro_v6'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    data_global_tag = '94X_dataRun2_ReReco_EOY17_v2'
-    mc_global_tag = '94X_mc2017_realistic_v12'
+    data_global_tag = '94X_dataRun2_v6'
+    mc_global_tag = '94X_mc2017_realistic_v14'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
