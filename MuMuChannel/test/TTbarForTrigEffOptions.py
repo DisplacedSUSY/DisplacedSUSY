@@ -2,7 +2,7 @@ import os
 from DisplacedSUSY.MuMuChannel.localOptions import *
 
 # specify which config file to pass to cmsRun
-config_file = "TTbarForTrigEfficiency_cfg.py"
+config_file = "TTbarForTrigEff_cfg.py"
 
 # create list of datasets to process
 datasets = [

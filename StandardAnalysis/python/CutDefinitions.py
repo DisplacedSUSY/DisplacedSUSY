@@ -11,6 +11,13 @@ absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 ##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
 
+
+cutDummyMet = cms.PSet(
+    inputCollection = cms.vstring("mets"),
+    cutString = cms.string("noMuPt > -1"),
+    numberRequired = cms.string(">= 1"),
+)
+
 cutDummy = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > -1"),
