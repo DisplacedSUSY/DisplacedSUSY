@@ -19,7 +19,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         ]
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = [
-        'DoubleEG_2017'
+        'DoubleEG_2017',
         'DYJetsToLL',
         'TTJets_Lept',
         'TTJets_inclusive',
