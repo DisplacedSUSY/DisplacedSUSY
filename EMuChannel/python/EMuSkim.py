@@ -9,13 +9,13 @@ from DisplacedSUSY.EMuChannel.CutDefinitions import *
 
 EMuSkim = cms.PSet(
     name = cms.string("EMuSkim"),
-    triggers = cms.vstring(), # TRIGGER
+    triggers = triggersMuonPhoton,
     cuts = cms.VPSet()
 )
 ### at least one good electron
 EMuSkim.cuts.append(electron_eta_cut)
-EMuSkim.cuts.append(electron_pt_25_cut)
+EMuSkim.cuts.append(electron_pt_20_cut)
 ### at least one good muon
 EMuSkim.cuts.append(muon_eta_cut)
-EMuSkim.cuts.append(muon_pt_25_cut)
+EMuSkim.cuts.append(muon_pt_20_cut)
 EMuSkim.cuts.append(muon_global_cut)

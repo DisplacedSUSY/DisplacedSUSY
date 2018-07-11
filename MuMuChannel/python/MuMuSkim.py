@@ -7,10 +7,10 @@ from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 #no triggers required
 MuMuSkim = cms.PSet(
     name = cms.string("MuMuSkim"),
-    triggers = cms.vstring(),
+    triggers = triggersDoubleMuon,
     cuts = cms.VPSet (
         muon_eta_cut,
-        muon_pt_25_cut,
+        muon_pt_20_cut,
         muon_global_cut
         ),
     )

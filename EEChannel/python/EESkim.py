@@ -7,7 +7,7 @@ from DisplacedSUSY.EEChannel.CutDefinitions import *
 #at least two good electrons
 EESkim = cms.PSet(
     name = cms.string("EESkim"),
-    triggers = cms.vstring(),
+    triggers = triggersDoublePhoton,
     cuts = cms.VPSet (
         electron_eta_cut,
         electron_pt_25_cut,
