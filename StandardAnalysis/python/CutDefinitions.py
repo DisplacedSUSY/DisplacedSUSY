@@ -26,7 +26,7 @@ cutDummy = cms.PSet(
 )
 ##########################################################################
 
-# BEGIN JET CUTS                                                                                                                                                    
+# BEGIN JET CUTS
 
 atLeastZero_jet_eta_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
@@ -208,6 +208,12 @@ electron_pt_25_dummy_cut = cms.PSet(
     numberRequired = cms.string(">= 0")
     )
 
+electron_pt_30_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 42"),
@@ -367,6 +373,12 @@ muon_pt_25_dummy_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 25"),
     numberRequired = cms.string(">= 0")
+    )
+
+muon_pt_30_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 30"),
+    numberRequired = cms.string(">= 1")
     )
 
 muon_pt_35_cut = cms.PSet(
@@ -637,8 +649,8 @@ emu_uncorrelated_genD0_cut = cms.PSet (
     )
 
 
-##########################################################################                                                                                 
-# ELECTRON-JET OVERLAP VETO                                                                                                                                
+##########################################################################
+# ELECTRON-JET OVERLAP VETO
 electron_jet_deltaR_overlap_veto = cms.PSet (
         inputCollection = cms.vstring("electrons", "jets"),
         cutString = cms.string("deltaR(electron, jet) < 0.5"),
@@ -647,8 +659,8 @@ electron_jet_deltaR_overlap_veto = cms.PSet (
         alias = cms.string("electron near jet veto (#DeltaR < 0.5))")
 )
 
-##########################################################################                                                                                 
-# MUON-JET OVERLAP VETO                                                                                                                                    
+##########################################################################
+# MUON-JET OVERLAP VETO
 muon_jet_deltaR_overlap_veto = cms.PSet (
         inputCollection = cms.vstring("muons", "jets"),
         cutString = cms.string("deltaR(muon, jet) < 0.5"),

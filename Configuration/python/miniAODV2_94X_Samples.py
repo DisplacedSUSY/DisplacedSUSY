@@ -30,19 +30,19 @@ dataset_names = {
     #WZ
     'WZToLNu2QorQQ2L' : ['/WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM',#19M
                          '/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM'],#28M
-    #'WZToLNuNuNu'     : #doesn't exist for 2017 MC yet
+    'WZToLNuNuNu'     : '',#doesn't exist for 2017 MC yet
     'WZToLLLNu'       : '/WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#11M
 
     #ZZ
-    #'ZZToNuNuQQ' : #doesn't exist for 2017 MC yet
+    'ZZToNuNuQQ' : '',#doesn't exist for 2017 MC yet
     'ZZToLLQQ'   : '/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#28M
     'ZZToLLNuNu' : '/ZZTo2L2Nu_13TeV_powheg_pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM',#8M #need to update to MiniAODv2 when available
     'ZZToLLLL'   : ['/ZZTo4L_13TeV_powheg_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#7M
                     '/ZZTo4L_13TeV_powheg_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/MINIAODSIM'],#98M
 
     #VG
-    #'WG' : #doesn't exist for 2017 MC yet
-    #'ZG' : #doesn't exist for 2017 MC yet
+    'WG' : '',#doesn't exist for 2017 MC yet
+    'ZG' : '',#doesn't exist for 2017 MC yet
 
     #SingleTop
     'SingleTop_s_channel'         : '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#9M
@@ -54,8 +54,8 @@ dataset_names = {
     #TTJets
     'TTJets_inclusive'          : '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#153M
     'TTJets_SingleLeptFromT'    : '/TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#62M
-    #'TTJets_DiLept'             : #doesn't exist for 2017 MC yet
-    #'TTJets_SingleLeptFromTbar' : #doesn't exist for 2017 MC yet
+    'TTJets_DiLept'             : '',#doesn't exist for 2017 MC yet
+    'TTJets_SingleLeptFromTbar' : '',#doesn't exist for 2017 MC yet
 
     #QCD MuEnriched
     'QCD_MuEnriched_15to20'    : '/QCD_Pt-15to20_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#6M
