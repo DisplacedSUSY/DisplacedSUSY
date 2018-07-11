@@ -10,7 +10,7 @@ MuMuSkim = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet (
         muon_eta_cut,
-        muon_pt_25_cut,
+        muon_pt_30_cut,
         muon_global_cut
         ),
     )

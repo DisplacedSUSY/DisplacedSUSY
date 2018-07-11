@@ -10,7 +10,7 @@ EESkim = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet (
         electron_eta_cut,
-        electron_pt_25_cut,
+        electron_pt_30_cut,
         electron_gap_veto
         )
 )

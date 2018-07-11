@@ -14,8 +14,8 @@ EMuSkim = cms.PSet(
 )
 ### at least one good electron
 EMuSkim.cuts.append(electron_eta_cut)
-EMuSkim.cuts.append(electron_pt_25_cut)
+EMuSkim.cuts.append(electron_pt_30_cut)
 ### at least one good muon
 EMuSkim.cuts.append(muon_eta_cut)
-EMuSkim.cuts.append(muon_pt_25_cut)
+EMuSkim.cuts.append(muon_pt_30_cut)
 EMuSkim.cuts.append(muon_global_cut)
