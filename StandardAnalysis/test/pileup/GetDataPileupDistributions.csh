@@ -35,8 +35,8 @@ switch ( $CMSSW_VERSION )
         # made filter json from (2017 golden rereco) OR (C OR D OR E OR F)
         # min and max from https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis
         set filter_json=Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_CDEF.txt
-        set min_run=299337
-        set max_run=306462
+        set min_run=299338
+        set max_run=306460
 
         breaksw
 
