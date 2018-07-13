@@ -2,7 +2,8 @@
 import os
 from DisplacedSUSY.StandardAnalysis.Options import *
 
-# choose luminosity used for MC normalization
+# choose luminosity used for MC normalization and set default samples to run over
+# lumi and samples vary from channel to channel, so define locally
 # units: 1/pb
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
@@ -15,7 +16,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         'SingleTop',
         'Diboson',
         'QCD_MuEnriched',
-        'DisplacedSUSYSignal', #ready for stop-->l+b, m=200 to 1300 GeV; NOT ready for stop-->l+b, m=1400 to 1800 GeV and NOT ready for stop-->l+d, m=200 to 1800 GeV
+        'DisplacedSUSYSignal',
         ]
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -30,7 +31,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'SingleTop',
         'Diboson',
         'QCD_MuEnriched',
-        'DisplacedSUSYSignal', #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+        'DisplacedSUSYSignal',
         ]
 
 # Define background MC composite dataset for plotting
