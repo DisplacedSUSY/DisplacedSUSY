@@ -22,10 +22,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
-    intLumi = 36733.6 #Nov17 rereco 2017 golden json AND mu-mu trigger
+    intLumi = 36733.6 #Nov17 rereco 2017 golden json AND e-mu trigger
 
     default_datasets = [
-        'MuonEG_2017',
+        'MuonEG_2017_withoutB',
         'DYJetsToLL',
         'TTJets_Lept',
         'TTJets_inclusive',
