@@ -43,10 +43,15 @@ if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
+            #input MINIAOD files
             '/store/data/Run2017D/MuonEG/MINIAOD/31Mar2018-v1/100000/CC4BAF57-C437-E811-81E1-B496910A9A9C.root'
             #'/store/data/Run2017D/DoubleMuon/MINIAOD/31Mar2018-v1/100000/00915A1A-C937-E811-B03A-009C02AAB484.root'
             #'/store/data/Run2017D/DoubleEG/MINIAOD/31Mar2018-v1/00000/002F7CD1-9D37-E811-A03E-B499BAABCF1A.root'
             #'/store/mc/RunIIFall17MiniAODv2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/143D9394-AF60-E811-96DC-0025904C641E.root'
+
+            #initial skim files
+            #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2017Analysis_11July2018/MuonEG_2017C/EMuSkim/skim_0.root'
+            #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2017Analysis_11July2018/DYJetsToLL_50/EMuSkim/skim_0.root'
       )
     )
 else:
@@ -114,7 +119,7 @@ from DisplacedSUSY.StandardAnalysis.EventWeights import *
 
 from DisplacedSUSY.StandardAnalysis.LeptonScaleFactors import *
 
-# These will look for framework object producers, meaning if you don't apply any 
+# These will look for framework object producers, meaning if you don't apply any
 # cuts on say electrons it will throw a product-not-found error for osu::electrons
 # Meaning, only use these if they make sense to use
 scalingfactorproducers = []
