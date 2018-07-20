@@ -232,6 +232,12 @@ electron_pt_65_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_75_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 75"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("passesVID_tightID"),

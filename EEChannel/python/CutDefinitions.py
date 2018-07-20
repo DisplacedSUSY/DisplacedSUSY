@@ -13,6 +13,7 @@ electron_eta_cut.numberRequired = cms.string(">= 2")
 electron_gap_veto.numberRequired = cms.string(">= 2")
 electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
 
+electron_pt_75_cut.numberRequired = cms.string(">= 2")
 electron_pt_65_cut.numberRequired = cms.string(">= 2")
 electron_pt_42_cut.numberRequired = cms.string(">= 2")
 electron_pt_30_cut.numberRequired = cms.string(">= 2")

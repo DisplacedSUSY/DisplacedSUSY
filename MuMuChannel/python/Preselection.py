@@ -16,7 +16,10 @@ Preselection = cms.PSet(
 Preselection.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least two good muons
 Preselection.cuts.append(muon_eta_cut)
-Preselection.cuts.append(muon_pt_40_cut)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    Preselection.cuts.append(muon_pt_40_cut)
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    Preselection.cuts.append(muon_pt_50_cut)
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut)
@@ -46,7 +49,7 @@ ZControlRegion = copy.deepcopy(Preselection)
 ZControlRegion.name = cms.string("ZControlRegion")
 ZControlRegion.cuts.append(muon_jet_deltaR_overlap_veto)
 ZControlRegion.cuts.append(muon_2muon_cut)
-ZControlRegion.cuts.append(diMuon_invMass_Z_cut) ### invMass in Z range 
+ZControlRegion.cuts.append(diMuon_invMass_Z_cut) ### invMass in Z range
 ZControlRegion.cuts.append(muon_fiducial_phi_cut)
 
 
