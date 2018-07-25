@@ -43,6 +43,7 @@ datasets = [
     ### QCD (mu-enriched is bigger)
     'QCD_MuEnriched',
     'QCD_EMEnriched',
+    'QCD_DoubleEMEnriched',
     'QCD_bcToE',
 
     ### Sum of background

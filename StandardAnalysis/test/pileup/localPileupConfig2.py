@@ -34,6 +34,10 @@ datasets = [
     'QCD_EMEnriched_170to300',
     'QCD_EMEnriched_300toInf',
 
+    'QCD_DoubleEMEnriched_HighMass_30to40',
+    'QCD_DoubleEMEnriched_LowMass_30toInf',
+    'QCD_DoubleEMEnriched_HighMass_40toInf',
+
     'QCD_bcToE_15to20',
     'QCD_bcToE_20to30',
     'QCD_bcToE_30to80',
