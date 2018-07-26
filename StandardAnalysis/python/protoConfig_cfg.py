@@ -34,10 +34,15 @@ process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
 if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
+            #input MINIAOD files
             #'/store/data/Run2016G/MuonEG/MINIAOD/07Aug17-v1/10000/04360562-9C92-E711-A8A3-4C79BA180B5D.root'
             #'/store/data/Run2016G/DoubleEG/MINIAOD/07Aug17-v1/00000/1EF72C1E-DFB3-E711-A459-0242AC110005.root'
             #'/store/data/Run2016G/DoubleMuon/MINIAOD/07Aug17-v1/10000/00448C94-C19A-E711-BC4C-A4BF01125660.root'
             '/store/mc/RunIISummer16MiniAODv2/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/04F61242-90BA-E611-B842-001E67DFF7CB.root'
+
+            #initial skim files
+            #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2016Analysis_11July2018/MuonEG_2016G/EMuSkim/skim_0.root'
+            #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2016Analysis_11July2018/DYJetsToLL_50/EMuSkim/skim_0.root'
       )
     )
 elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
