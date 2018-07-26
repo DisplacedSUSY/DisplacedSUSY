@@ -17,3 +17,23 @@ systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 InputCondorArguments = {}
+
+# Define composite datasets of all samples
+composite_dataset_definitions['all_bg_mc']     = bg_mc_samples.keys()
+composite_dataset_definitions['all_data']      = data_samples.keys()
+composite_dataset_definitions['all_signal_mc'] = signal_mc_samples.keys()
+
+# Redefine composite datasets that differ from those in OSUT3Analysis/Configuration/ConfigurationOptions.py
+composite_dataset_definitions['QCD_MuEnriched'] = [
+    'QCD_MuEnriched_20to30',
+    'QCD_MuEnriched_30to50',
+    'QCD_MuEnriched_50to80',
+    'QCD_MuEnriched_80to120',
+    'QCD_MuEnriched_120to170',
+    'QCD_MuEnriched_170to300',
+    'QCD_MuEnriched_300to470',
+    'QCD_MuEnriched_470to600',
+    'QCD_MuEnriched_600to800',
+    'QCD_MuEnriched_800to1000',
+    'QCD_MuEnriched_1000toInf',
+]
