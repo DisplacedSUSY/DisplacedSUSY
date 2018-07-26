@@ -284,6 +284,14 @@ electron_d0_greaterThan20_cut = cms.PSet(
     alias = cms.string(">=1 electrons with |d_0| > 20 mum")
     )
 
+# electron d0 < 50 microns
+electron_d0_lessThan50_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("10000*abs("+electronD0WRTBeamspot+") < 50"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons with |d_0| < 50 mum")
+    )
+
 # electron d0 < 100 microns
 electron_d0_lessThan100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
@@ -495,6 +503,14 @@ muon_d0_greaterThan40_cut = cms.PSet(
     cutString = cms.string("10000*abs("+muonD0WRTBeamspot+") > 40"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with |d_0| > 40 mum")
+    )
+
+# muon d0 < 10 microns
+muon_d0_lessThan50_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonD0WRTBeamspot+") < 50"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| < 50 mum")
     )
 
 # muon d0 < 100 microns

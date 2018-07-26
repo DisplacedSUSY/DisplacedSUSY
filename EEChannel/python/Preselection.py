@@ -26,7 +26,7 @@ Preselection.cuts.append(electron_id_cut) #versioned tight ID includes tight iso
 
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
-PromptControlRegion.cuts.append(electron_d0_lessThan10_cut)
+PromptControlRegion.cuts.append(electron_d0_lessThan50_cut)
 
 #################################################################
 
