@@ -4,7 +4,7 @@
 #########  LIST OF MINIAOD V2 DATASETS  ####################################################################
 ############################################################################################################
 
-dataset_names = {
+bg_mc_samples = {
     #DY
     'DYJetsToLL_50'     : ['/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#49M
                            '/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017RECOSIMstep_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/MINIAODSIM'],#49M
@@ -12,7 +12,7 @@ dataset_names = {
     'DYJetsToLL_10to50' : '/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v2/MINIAODSIM',# 39M
 
     #DYBBJets
-    'DYBBJetsToLL' : '/DYBBJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',# 3M
+    #'DYBBJetsToLL' : '/DYBBJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',# 3M
 
     #WJets
     'WJetsToLNu' : ['/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#21M
@@ -93,54 +93,46 @@ dataset_names = {
     'QCD_bcToE_80to170'  : '/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#16M
     'QCD_bcToE_170to250' : '/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#10M
     'QCD_bcToE_250toInf' : '/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM',#10M
+}
 
-    ############################################################################
-
-    ############################################################################
+data_samples = {
     # MuonEG 2017,31Mar2018 rereco
     'MuonEG_2017B' : '/MuonEG/Run2017B-31Mar2018-v1/MINIAOD',
     'MuonEG_2017C' : '/MuonEG/Run2017C-31Mar2018-v1/MINIAOD',
     'MuonEG_2017D' : '/MuonEG/Run2017D-31Mar2018-v1/MINIAOD',
     'MuonEG_2017E' : '/MuonEG/Run2017E-31Mar2018-v1/MINIAOD',
     'MuonEG_2017F' : '/MuonEG/Run2017F-31Mar2018-v1/MINIAOD',
-    ############################################################################
 
-    ############################################################################
     # DoubleMuon 2017,31Mar2018 rereco
     'DoubleMu_2017B' : '/DoubleMuon/Run2017B-31Mar2018-v1/MINIAOD',
     'DoubleMu_2017C' : '/DoubleMuon/Run2017C-31Mar2018-v1/MINIAOD',
     'DoubleMu_2017D' : '/DoubleMuon/Run2017D-31Mar2018-v1/MINIAOD',
     'DoubleMu_2017E' : '/DoubleMuon/Run2017E-31Mar2018-v1/MINIAOD',
     'DoubleMu_2017F' : '/DoubleMuon/Run2017F-31Mar2018-v1/MINIAOD',
-    ############################################################################
 
-    ############################################################################
     # DoubleEG 2017,31Mar2018 rereco
     'DoubleEG_2017B' : '/DoubleEG/Run2017B-31Mar2018-v1/MINIAOD',
     'DoubleEG_2017C' : '/DoubleEG/Run2017C-31Mar2018-v1/MINIAOD',
     'DoubleEG_2017D' : '/DoubleEG/Run2017D-31Mar2018-v1/MINIAOD',
     'DoubleEG_2017E' : '/DoubleEG/Run2017E-31Mar2018-v1/MINIAOD',
     'DoubleEG_2017F' : '/DoubleEG/Run2017F-31Mar2018-v1/MINIAOD',
-    ############################################################################
 
-    ############################################################################
     # MET 2017,31Mar2018 rereco
     'MET_2017B' : '/MET/Run2017B-31Mar2018-v1/MINIAOD',
     'MET_2017C' : '/MET/Run2017C-31Mar2018-v1/MINIAOD',
     'MET_2017D' : '/MET/Run2017D-31Mar2018-v1/MINIAOD',
     'MET_2017E' : '/MET/Run2017E-31Mar2018-v1/MINIAOD',
     'MET_2017F' : '/MET/Run2017F-31Mar2018-v1/MINIAOD',
-    ############################################################################
 
-    ############################################################################
     # JetHT 2017,31Mar2018 rereco
     'JetHT_2017B' : '/JetHT/Run2017B-31Mar2018-v1/MINIAOD',
     'JetHT_2017C' : '/JetHT/Run2017C-31Mar2018-v1/MINIAOD',
     'JetHT_2017D' : '/JetHT/Run2017D-31Mar2018-v1/MINIAOD',
     'JetHT_2017E' : '/JetHT/Run2017E-31Mar2018-v1/MINIAOD',
     'JetHT_2017F' : '/JetHT/Run2017F-31Mar2018-v1/MINIAOD',
-    ############################################################################
+}
 
+signal_mc_samples = {
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
     'stop400_1000mm' : "/DisplacedSUSY_stopToBottom_M_400_1000mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop400_100mm'  : "/DisplacedSUSY_stopToBottom_M_400_100mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
@@ -200,9 +192,10 @@ dataset_names = {
     'stop1700_100mm' : "/DisplacedSUSY_stopToBottom_M_1700_100mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop1700_10mm'  : "/DisplacedSUSY_stopToBottom_M_1700_10mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop1700_1mm'   : "/DisplacedSUSY_stopToBottom_M_1700_1mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
-
-    ############################################################################
-
-    #DisplacedSUSY Signal (stop --> l+d) MC MiniAOD - 100k events/sample
-
 }
+
+# create composite dictionary of all samples
+dataset_names = {}
+dataset_names.update(bg_mc_samples)
+dataset_names.update(data_samples)
+dataset_names.update(signal_mc_samples)
