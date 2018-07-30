@@ -62,6 +62,9 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
 else:
     print "What CMSSW release are you in? We expect to be in 80X or 94X"
 
+#drop collections that we don't need, and only screw things up
+process.source.inputCommands = cms.untracked.vstring(["keep *", "drop osu*_*_originalFormat_*"])
+
 # output histogram file name when running interactively
 process.TFileService = cms.Service ('TFileService',
     fileName = cms.string ('hist.root')
