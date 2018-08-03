@@ -57,6 +57,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             #initial skim files
             #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2017Analysis_11July2018/MuonEG_2017C/EMuSkim/skim_0.root'
             #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2017Analysis_11July2018/DYJetsToLL_50/EMuSkim/skim_0.root'
+            #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EEInitialSkim_2016Analysis_17July2018/DoubleEG_2016G/EESkim/skim_0.root'
       )
     )
 else:
