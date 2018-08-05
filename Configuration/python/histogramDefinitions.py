@@ -1670,7 +1670,7 @@ MuonD0Histograms = cms.PSet(
             name = cms.string("muonD0_50um_vs_muonPhi"),
             title = cms.string("Muon d_{0} vs. Muon #phi;Muon #phi;Muon d_{0} [#mum]"),
             binsX = cms.untracked.vdouble(100, -3.14, 3.14),
-            binsY = cms.untracked.vdouble(100, -50, 500),
+            binsY = cms.untracked.vdouble(100, -50, 50),
             inputVariables = cms.vstring("muon.phi", "10000*"+muonD0WRTBeamspot),
         ),
         cms.PSet (
