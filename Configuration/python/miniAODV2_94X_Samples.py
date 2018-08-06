@@ -199,3 +199,19 @@ dataset_names = {}
 dataset_names.update(bg_mc_samples)
 dataset_names.update(data_samples)
 dataset_names.update(signal_mc_samples)
+
+########################################################################################
+### code to propagate displaced SUSY sample names to the lifetime-reweighted samples ###
+########################################################################################
+
+def mass(sample):
+    start = sample.find('stop')+4
+    end = sample.find('_')
+    return sample[start:end]
+
+from OSUT3Analysis.Configuration.configurationOptions import signal_datasets, srcCTauForLifetimeReweighting
+
+for sample in signal_datasets:
+    dataset_names[sample] = dataset_names['stop'+mass(sample)+'_'+'%g' % (10*srcCTauForLifetimeReweighting[sample])+'mm']
+
+########################################################################################
