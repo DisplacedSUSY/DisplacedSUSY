@@ -8,4 +8,4 @@ config_file = "pu_cfg.py"
 # add datasets as lists instead of the usual dict keys so mergeOutputHadd.py can handle them
 datasets = []
 datasets.extend(composite_dataset_definitions['all_bg_mc'])
-datasets.extend(composite_dataset_definitions['all_signal_mc'])
+datasets.extend(composite_dataset_definitions['DisplacedSUSYSignal'])
