@@ -24,38 +24,46 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   objectsToGet_.insert ("muons");
   objectsToGet_.insert ("primaryvertexs");
   objectsToGet_.insert ("triggers");
-  if(type_.find("MC") < type_.length())
-      objectsToGet_.insert ("pileupinfos");
+  if(type_.find("MC") < type_.length()) {
+    objectsToGet_.insert ("pileupinfos");
+  }
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
+
   double sumJetPt = -1;
-  double numPV = 0;
-  double numTruePV = 0;
   for (const auto &jet1 : *handles_.jets) {
-    if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0)
-    {
-      if(passCleaning(jet1.eta(),jet1.phi(), handles_) )
+    if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0) {
+      if(passCleaning(jet1.eta(),jet1.phi(), handles_) ) {
         sumJetPt = sumJetPt + jet1.pt();
       }
     }
-  for (const auto &pv1 : *handles_.primaryvertexs) {
-    if(pv1.isValid())
-      numPV = numPV + 1;
   }
-  if(type_.find("MC") < type_.length())
-    {
-      for (const auto &pv1 : *handles_.pileupinfos) {
-      if(pv1.getBunchCrossing() == 0)
-        numTruePV = pv1.getTrueNumInteractions();
+
+  double numPV = 0;
+  for (const auto &pv1 : *handles_.primaryvertexs) {
+    if(pv1.isValid()) {
+      numPV = numPV + 1;
+    }
+  }
+
+  double numTruePV = 0;
+  if(type_.find("MC") < type_.length()) {
+    for (const auto &pv1 : *handles_.pileupinfos) {
+      if(pv1.getBunchCrossing() == 0) {
+          numTruePV = pv1.getTrueNumInteractions();
       }
     }
+  }
+
   // Pass trigger specified in config file
   const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
   bool passTrigger = false;
   for (unsigned int i = 0; i < names.size() - 1 ; ++i) {
     std::string name = names.triggerName(i);
-    if(name.find(triggerPath_) == 0 && handles_.triggers->accept(i))
+    if(name.find(triggerPath_) == 0 && handles_.triggers->accept(i)) {
       passTrigger = true;
+    }
   }
+
   // Identify tag muon to for trigger efficiency plotting
   bool tagMuonExists = false;
   double tagMuonPt = 0;
@@ -64,6 +72,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   double tagMuonCharge = 0;
   for (const auto &muon1 : *handles_.muons) {
     // Use subset of muon selection criteria that can be implemented here without significant hassle
+    // This is a hideous approach. These magic numbers should be replaced by a better approach
     // TagMuonPhi condition exists to pseudorandomly pick tag muon if multiple candidates exist
     if (muon1.pt() > 55 && muon1.phi() > tagMuonPhi && abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
       tagMuonExists = true;
@@ -73,6 +82,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagMuonCharge = muon1.charge();
     }
   }
+
   // Identify tag electron for trigger efficiency plotting
   bool tagElectronExists = false;
   double tagElectronPt = -999;
@@ -81,6 +91,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   double tagElectronCharge = -999;
   for (const auto &electron1 : *handles_.electrons) {
     // electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+    // These magic numbers should be replaced by a better approach
     if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) <= 1.479 && 
         electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 && 
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
@@ -123,61 +134,55 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
 # endif
 }
 
-bool
-DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, OriginalCollections &handles)
-{
+bool DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, OriginalCollections &handles) {
   bool muonClean = true;
   bool eleClean = true;
-  for (const auto &muon1 : *handles_.muons)
-    {
-      if(deltaR(eta,phi,muon1.eta(),muon1.phi()) < 0.5)
-        {
-          if(muon1.isPFMuon() && muon1.isGlobalMuon() && muon1.pt() > 25)
-            {
-              muonClean = false;
-              break;
-            }
-        }
+  for (const auto &muon1 : *handles_.muons) {
+    if(deltaR(eta,phi,muon1.eta(),muon1.phi()) < 0.5) {
+      if(muon1.isPFMuon() && muon1.isGlobalMuon() && muon1.pt() > 25) {
+        muonClean = false;
+        break;
+      }
     }
- for (const auto &electron1 : *handles_.electrons)
-   {
-     if(deltaR(eta,phi,electron1.eta(),electron1.phi()) < 0.5)
-       {
-         if(electron1.pt() > 25 && 
-	    ((electron1.isEB() && 
+  }
+  // These magic numbers should be replaced by a better approach
+  for (const auto &electron1 : *handles_.electrons) {
+    if(deltaR(eta,phi,electron1.eta(),electron1.phi()) < 0.5) {
+      if(electron1.pt() > 25 &&
+      ((electron1.isEB() &&
 #if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
-	      electron1.gsfTrack()->hitPattern ().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) <= 2 && 
+	  electron1.gsfTrack()->hitPattern ().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) <= 2 &&
 #else
-	      electron1.gsfTrack()->hitPattern ().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) <= 2 && 
+	  electron1.gsfTrack()->hitPattern ().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) <= 2 &&
 #endif
-	      abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.0105 && 
-	      abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.115 && 
-	      electron1.full5x5_sigmaIetaIeta() < 0.0103 && 
-	      electron1.hadronicOverEm() < 0.104 && 
-	      abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.102 )|| 
-	     (electron1.isEE() && 
+	  abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.0105 &&
+	  abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.115 &&
+	  electron1.full5x5_sigmaIetaIeta() < 0.0103 &&
+	  electron1.hadronicOverEm() < 0.104 &&
+	  abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.102 )||
+	  (electron1.isEE() &&
 #if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
-	      electron1.gsfTrack()->hitPattern ().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) <= 1 && 
+	  electron1.gsfTrack()->hitPattern ().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) <= 1 &&
 #else
-	      electron1.gsfTrack()->hitPattern ().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) <= 1 && 
+	  electron1.gsfTrack()->hitPattern ().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) <= 1 &&
 #endif
-	      abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00814 && 
-	      abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.182 && 
-	      electron1.full5x5_sigmaIetaIeta() < 0.0301 && 
-	      electron1.hadronicOverEm() < 0.0897 && 
-	      abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.126)))
-           {
-             eleClean = false;
-             break;
-           }
-       }
-   }
+	  abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00814 &&
+	  abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.182 &&
+	  electron1.full5x5_sigmaIetaIeta() < 0.0301 &&
+	  electron1.hadronicOverEm() < 0.0897 &&
+	  abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.126))) {
+        eleClean = false;
+        break;
+      }
+    }
+  }
   return muonClean && eleClean;
 }
 
-void
-DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<string> &objectsToGet, const edm::ParameterSet &collections, OriginalCollections &handles, const edm::Event &event)
-{
+void DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<string> &objectsToGet,
+                                                                 const edm::ParameterSet &collections,
+                                                                 OriginalCollections &handles,
+                                                                 const edm::Event &event) {
 
   //////////////////////////////////////////////////////////////////////////////
   // Retrieve each object collection which we need and print a warning if it is
