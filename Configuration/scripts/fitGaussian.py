@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 # Written to fit data and MC d0 distributions in the prompt control region to extract the
-# d0 resolutions so that the MC d0 can be smeared to match the data, but can be used to
+# d0 resolutions so that the MC d0 can be smeared to match the data d0. Can be used to
 # fit any set of distributions with gaussians. Takes in an arbitrary number of plots, fits
 # them, and plots the distributions, fits, and fit parameters on individual canvases.
 
 # usage: fitGaussian.py -l CONFIG
-# example config:
+# sample config: EEChannel/test/fitGaussian_cfg.py
 
 import sys
 import re
@@ -49,7 +49,7 @@ for d in distributions:
     fit_range = d['fit_range'] if 'fit_range' in d else (var_range_lo, var_range_hi)
     gauss.fitTo(hist, RooFit.Range(fit_range[0], fit_range[1]))
 
-    # todo need some minor plotting clean up
+    # plot everything
     out_file.cd()
     c = TCanvas(d['name'], d['name'], 800, 700)
     c.SetLeftMargin(0.13)
