@@ -129,6 +129,21 @@ ElectronD0Histograms = cms.PSet(
         ),
 
         ###################################################################
+        # smeared d0 histograms
+        cms.PSet (
+            name = cms.string("electronD0Smeared_50um"),
+            title = cms.string("Smeared Electron d_{0};Smeared Electron d_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(100, -50, 50),
+            inputVariables = cms.vstring("10000*("+electronD0WRTBeamspot+"+electron.d0SmearingVal)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronD0SmearingVal"),
+            title = cms.string("Electron d_{0} Smearing Value;Electron d_{0} Smearing Value [#mum]"),
+            binsX = cms.untracked.vdouble(100, -50, 50),
+            inputVariables = cms.vstring("10000*electron.d0SmearingVal"),
+        ),
+
+        ###################################################################
         # abs(d0) histograms
         cms.PSet (
             name = cms.string("electronAbsD0_10um"),
