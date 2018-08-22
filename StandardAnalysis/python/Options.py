@@ -19,7 +19,7 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 InputCondorArguments = {}
 
 # Define composite datasets of all samples
-composite_dataset_definitions['all_bg_mc']     = bg_mc_samples.keys()
+composite_dataset_definitions['all_bg_mc'] = bg_mc_samples.keys()
 composite_dataset_definitions['non_interpolated_signal_mc'] = signal_mc_samples.keys()
 
 # Redefine composite datasets that differ from those in OSUT3Analysis/Configuration/ConfigurationOptions.py
