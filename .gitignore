@@ -10,3 +10,4 @@ mergeOutput.py.out*
 *.root
 *.pdf
 *.png
+crab/*
