@@ -12,7 +12,7 @@ config.JobType.psetName = 'step3_RAW2DIGI_RECO_RECOSIM_EI.py'
 config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 
-config.Data.inputDataset = ''
+config.Data.inputDataset = '/StopToLD_M_1000_100mm_13TeV_2017MC/jalimena-DigiRawHlt-424e4485a07f26f554e82f829d793003/USER'
 config.Data.outputDatasetTag = 'Reco'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'

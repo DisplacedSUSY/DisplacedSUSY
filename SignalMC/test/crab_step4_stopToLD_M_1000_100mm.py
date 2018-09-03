@@ -12,7 +12,7 @@ config.JobType.psetName = 'step4_PAT.py'
 config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 4
 
-config.Data.inputDataset = ''
+config.Data.inputDataset = '/StopToLD_M_1000_100mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
 config.Data.outputDatasetTag = 'MiniAod'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
