@@ -111,7 +111,7 @@ signal_cross_sections_8TeV = {
 # For things taken from MC, this should be the uncertainty on the calculated cross-section
 # or the uncertainty on the measured CMS cross-section
 #
-#   The measured cross-sections have similar errors to the theory ones, 
+#   The measured cross-sections have similar errors to the theory ones,
 #   and are often in different mass windows than our signals
 #   so we'll use the theory uncertainties from this twiki:
 #   https://twiki.cern.ch/twiki/bin/view/CMS/StandardModelCrossSectionsat13TeV
@@ -173,8 +173,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             'applyList' : mc_normalized_processes,
             },
         # taken from the error on the trigger effieciency scale factor
-        'trigger' :  {
-            'value' : '1.013', #needs to be updated for same flavor channels
+        'trigger_emu' :  {
+            'value' : '1.013',
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_ee' :  {
+            'value' : '1.044',
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_mumu' :  {
+            'value' : '1.017',
             'applyList' : mc_normalized_processes,
             },
         #taken from Ian's study
@@ -190,8 +198,16 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             'applyList' : mc_normalized_processes,
             },
         # taken from the error on the trigger effieciency scale factor
-        'trigger' :  {
-            'value' : '1.013', #needs to be updated for 2017 and for same flavor channels
+        'trigger_emu' :  {
+            'value' : '1.013', #needs to be updated for 2017
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_ee' :  {
+            'value' : '1.044', #needs to be updated for 2017
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_mumu' :  {
+            'value' : '1.017', #needs to be updated for 2017
             'applyList' : mc_normalized_processes,
             },
         #taken from Ian's study
