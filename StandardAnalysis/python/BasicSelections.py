@@ -5,6 +5,12 @@ import string
 from DisplacedSUSY.StandardAnalysis.CutDefinitions import *
 from DisplacedSUSY.StandardAnalysis.Triggers import *
 
+NoSelection = cms.PSet(
+    name = cms.string("NoSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+
 ##########################################################################
 
 #Basic jet selections
