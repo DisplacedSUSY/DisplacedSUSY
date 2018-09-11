@@ -18,6 +18,18 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
         process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
 ################################################################################
+##### Set variables needed for OSUElectronProducer #############################
+################################################################################
+
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        for a in dir(process):
+            x = getattr(process, a)
+            if not hasattr(x, "type_"):
+                continue
+            if x.type_() == "OSUElectronProducer":
+                setattr(x, "d0SmearingWidth", 0.00142)
+
+################################################################################
 ##### Apply PU reweighting #####################################################
 ################################################################################
 
