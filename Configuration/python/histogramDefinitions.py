@@ -1178,6 +1178,21 @@ MuonD0Histograms = cms.PSet(
         ),
 
         ###################################################################
+        # smeared d0 histograms
+        cms.PSet (
+            name = cms.string("muonD0Smeared_50um"),
+            title = cms.string("Smeared Muon d_{0};Smeared Muon d_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(100, -50, 50),
+            inputVariables = cms.vstring("10000*("+muonD0WRTBeamspot+"+muon.d0SmearingVal)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonD0SmearingVal"),
+            title = cms.string("Muon d_{0} Smearing Value;Muon d_{0} Smearing Value [#mum]"),
+            binsX = cms.untracked.vdouble(100, -50, 50),
+            inputVariables = cms.vstring("10000*muon.d0SmearingVal"),
+        ),
+
+        ###################################################################
         # abs(d0) histograms
         cms.PSet (
             name = cms.string("muonAbsD0_10um"),
