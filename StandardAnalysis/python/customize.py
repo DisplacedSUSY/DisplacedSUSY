@@ -28,6 +28,8 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
                 continue
             if x.type_() == "OSUElectronProducer":
                 setattr(x, "d0SmearingWidth", 0.00142)
+            elif x.type_() == "OSUMuonProducer":
+                setattr(x, "d0SmearingWidth", 0.00130) # temporary testing value
 
 ################################################################################
 ##### Apply PU reweighting #####################################################
