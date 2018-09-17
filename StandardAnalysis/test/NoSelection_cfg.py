@@ -9,7 +9,9 @@ from DisplacedSUSY.EMuChannel.EMuHistograms import *
 from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 eventSelections = []
-eventSelections.append(NoSelection)
+#eventSelections.append(NoSelection)
+eventSelections.append(GenElectronsFromStopsSelection)
+eventSelections.append(GenMuonsFromStopsSelection)
 
 ################################################################################
 ##### Attach the channels to the process #######################################

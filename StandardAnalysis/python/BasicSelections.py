@@ -13,6 +13,25 @@ NoSelection = cms.PSet(
 
 ##########################################################################
 
+#Gen particles selections (just for signal checks, not in analysis event selection)
+GenElectronsFromStopsSelection = cms.PSet(
+    name = cms.string("GenElectronsFromStopsSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet([genEleId_cut,
+                      gen_motherIsStopId_cut
+                      ])
+    )
+
+GenMuonsFromStopsSelection = cms.PSet(
+    name = cms.string("GenMuonsFromStopsSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet([genMuId_cut,
+                      gen_motherIsStopId_cut
+                      ])
+    )
+
+##########################################################################
+
 #Basic jet selections
 atLeastZero_jet_basic_selection_cuts = cms.VPSet()
 atLeastZero_jet_basic_selection_cuts.append(atLeastZero_jet_eta_cut)

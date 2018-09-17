@@ -56,6 +56,8 @@ process.source = cms.Source("PoolSource",
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_183.root',
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_19.root',
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_28.root',
+
+        'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
         )
 )
 

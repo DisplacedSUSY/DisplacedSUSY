@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.cutUtilities import *
+from OSUT3Analysis.Configuration.pdgIdBins import *
 
 #####################################
 ##### Define variable bin lists #####
@@ -2498,3 +2499,52 @@ eventMuonHistograms = cms.PSet(
         ),
     )
 )
+
+
+GenParticleHistograms = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("GenPdgId"),
+            title = cms.string("Gen PdgId;|PDG ID|"),
+            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            inputVariables = cms.vstring("abs (pdgId)"),
+            ),
+        cms.PSet (
+            name = cms.string("GenStatus"),
+            title = cms.string("Gen Status;Status"),
+            binsX = cms.untracked.vdouble(5, 0, 5),
+            inputVariables = cms.vstring("status"),
+            ),
+        cms.PSet (
+            name = cms.string("GenPt"),
+            title = cms.string("Gen Transverse Momentum;Gen p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("pt"),
+        ),
+        cms.PSet (
+            name = cms.string("GenEta"),
+            title = cms.string("Gen Eta;Gen #eta"),
+            binsX = cms.untracked.vdouble(80, -4, 4),
+            inputVariables = cms.vstring("eta"),
+        ),
+        cms.PSet (
+            name = cms.string("GenPhi"),
+            title = cms.string("Gen Phi;Gen #phi"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            inputVariables = cms.vstring("phi"),
+        ),
+        cms.PSet (
+            name = cms.string("GenMotherPdgId"),
+            title = cms.string("Gen Mother PdgId;Mother |PDG ID|"),
+            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            inputVariables = cms.vstring("abs (motherPdgId)"),
+            ),
+        cms.PSet (
+            name = cms.string("GenMotherStatus"),
+            title = cms.string("Gen Mother Status;Mother Status"),
+            binsX = cms.untracked.vdouble(5, 0, 5),
+            inputVariables = cms.vstring("motherStatus"),
+            ),
+        )
+    )

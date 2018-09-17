@@ -218,6 +218,10 @@ signal_mc_samples = {
     'stop1800_100mm' : "",#doesn't exist for 2017 MC yet
     'stop1800_10mm'  : "",#doesn't exist for 2017 MC yet
     'stop1800_1mm'   : "",#doesn't exist for 2017 MC yet
+
+    'stopToLD1000_1mm'    : "/StopToLD_M_1000_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLD1000_100mm'  : "/StopToLD_M_1000_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+
 }
 
 # create composite dictionary of all samples

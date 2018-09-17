@@ -13,4 +13,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = default_datasets
     #datasets.append()
+    #datasets = [
+        #'Background'
+        #'stopToLD1000_1mm',
+        #'stopToLD1000_100mm',
+        #'stop1000_1mm',
+        #'stop1000_100mm',
+        #]
     datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d

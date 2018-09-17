@@ -9,6 +9,28 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 
 ##########################################################################
+
+# BEGIN GEN PARTICLE CUTS
+#just for checking signal, not used in analysis event selection
+genEleId_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 11"),
+    numberRequired = cms.string(">= 1"),
+)
+
+genMuId_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 13"),
+    numberRequired = cms.string(">= 1"),
+)
+
+gen_motherIsStopId_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs (motherPdgId) == 1000006"),
+    numberRequired = cms.string(">= 1"),
+)
+
+##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
 
 
@@ -719,5 +741,4 @@ pass_trigger = cms.PSet(
     numberRequired = cms.string("== 1"),
     alias = cms.string("pass trigger specified in config file")
     )
-
 
