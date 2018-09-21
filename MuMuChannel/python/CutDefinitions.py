@@ -18,6 +18,8 @@ muon_pt_30_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_40_cut.numberRequired = cms.string(">= 2")
 
+muon_pt_50_cut.numberRequired = cms.string(">= 2")
+
 muon_pt_70_cut.numberRequired = cms.string(">= 2")
 
 muon_global_cut.numberRequired = cms.string(">= 2")
