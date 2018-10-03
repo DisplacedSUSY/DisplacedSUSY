@@ -2327,6 +2327,13 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("numTruePV"),
         ),
         cms.PSet (
+            name = cms.string("numPV_vs_numTruePV"),
+            title = cms.string("Number of Primary Vertex; #True PVs; #PV"),
+            binsX = cms.untracked.vdouble(75, 0, 75),
+            binsY = cms.untracked.vdouble(75, 0, 75),
+            inputVariables = cms.vstring("numTruePV", "numPV"),
+        ),
+        cms.PSet (
             name = cms.string("puScalingFactor"),
             title = cms.string("PU Scaling Factor; log(PU Scaling Factor)"),
             binsX = cms.untracked.vdouble(200, -4, 4),
