@@ -1,0 +1,12 @@
+#CMSSW_10_1_8
+
+nohup cmsDriver.py DisplacedSUSY_stopToBottom_M_1000_100mm_TuneCP5_13TeV_pythia8_cff  --conditions 101X_upgrade2018_realistic_v7 -n 10 --era Run2_2018 --eventcontent FEVTDEBUG --relval 25000,100 -s GEN,SIM --datatier GEN-SIM --beamspot Realistic25ns13TeVEarly2017Collision --geometry DB:Extended --fileout file:step1.root  > & out_step1 & 
+
+
+nohup cmsDriver.py step2  --conditions auto:phase1_2018_realistic -s DIGI:pdigi_valid,L1,DIGI2RAW,HLT:@relval2018 --datatier GEN-SIM-DIGI-RAW -n 10 --geometry DB:Extended --era Run2_2018 --eventcontent FEVTDEBUGHLT --filein file:step1.root  --fileout file:step2.root  --beamspot Realistic25ns13TeVEarly2017Collision --pileup 2018_25ns_ProjectedPileup_PoissonOOTPU --pileup_input "dbs:/MinBias_TuneCP5_inelasticON_13TeV-pythia8/RunIIFall17GS-93X_mc2017_realistic_v3-v1/GEN-SIM" > & out_step2 &
+
+
+nohup cmsDriver.py step3 --conditions 101X_upgrade2018_realistic_v7 -n 10 --era Run2_2018 --eventcontent RAWRECO --runUnscheduled -s RAW2DIGI,L1Reco,RECO --datatier GEN-SIM-RECO --geometry DB:Extended --filein file:step2.root --fileout file:step3_RAWRECO.root > & out_step3 &
+
+
+
