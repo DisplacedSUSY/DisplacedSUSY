@@ -11,7 +11,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'step2_DIGI_L1_DIGI2RAW_HLT_PU.py'
 config.JobType.maxMemoryMB = 8000
 
-config.Data.inputDataset = ''
+config.Data.inputDataset = '/StopToLB_M_1000_100mm_13TeV_2018MC/jalimena-GenSim-36e0bfddb8f38127005ede0adea7aec5/USER'
 config.Data.outputDatasetTag = 'DigiRawHlt'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
