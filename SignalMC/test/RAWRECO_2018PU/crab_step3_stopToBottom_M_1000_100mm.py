@@ -11,7 +11,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'step3_RAW2DIGI_L1Reco_RECO.py'
 config.JobType.maxMemoryMB = 8000
 
-config.Data.inputDataset = ''
+config.Data.inputDataset = '/StopToLB_M_1000_100mm_13TeV_2018MC/jalimena-DigiRawHlt-1ab5d763e6d9fe77c873408b3fd013b1/USER'
 config.Data.outputDatasetTag = 'RawReco'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
