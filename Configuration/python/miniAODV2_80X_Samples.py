@@ -247,6 +247,93 @@ signal_mc_samples = {
     'stop1800_100mm' : "",#doesn't exist for 2016 MC yet
     'stop1800_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1800_1mm'   : "",#doesn't exist for 2016 MC yet
+
+
+    'stopToLD200_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD200_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD200_10mm'    : "/DisplacedSUSY_stopToLD_M_200_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD200_1mm'     : "/DisplacedSUSY_stopToLD_M_200_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+
+    'stopToLD300_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD300_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD300_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD300_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD400_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD400_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD400_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD400_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD500_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD500_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD500_10mm'    : "/DisplacedSUSY_stopToLD_M_500_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD500_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD600_1000mm'  : "/DisplacedSUSY_stopToLD_M_600_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD600_100mm'   : "/DisplacedSUSY_stopToLD_M_600_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD600_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD600_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD700_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD700_100mm'   : "/DisplacedSUSY_stopToLD_M_700_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD700_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD700_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD800_1000mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD800_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD800_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD800_1mm'     : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD900_1000mm'  : "/DisplacedSUSY_stopToLD_M_900_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD900_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD900_10mm'    : "/DisplacedSUSY_stopToLD_M_900_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD900_1mm'     : "/DisplacedSUSY_stopToLD_M_900_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+
+    'stopToLD1000_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1000_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1000_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1000_1mm'    : "/DisplacedSUSY_stopToLD_M_1000_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+
+    'stopToLD1100_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1100_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1100_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1100_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1200_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1200_100mm'  : "/DisplacedSUSY_stopToLD_M_1200_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD1200_10mm'   : "/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD1200_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1300_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1300_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1300_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1300_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1400_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1400_100mm'  : "/DisplacedSUSY_stopToLD_M_1400_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD1400_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1400_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1500_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1500_100mm'  : "/DisplacedSUSY_stopToLD_M_1500_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stopToLD1500_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1500_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1600_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1600_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1600_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1600_1mm'    : "/DisplacedSUSY_stopToLD_M_1600_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+
+    'stopToLD1700_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1700_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1700_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1700_1mm'    : "",#doesn't exist for 2016 MC yet
+
+    'stopToLD1800_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1800_100mm'  : "",#doesn't exist for 2016 MC yet
+    'stopToLD1800_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1800_1mm'    : "",#doesn't exist for 2016 MC yet
+
 }
 
 # create composite dictionary of all samples
