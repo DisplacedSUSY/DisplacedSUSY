@@ -132,9 +132,9 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
                 if x_lo != 0 and y_lo != 0:
                     print "|-"
                     print "{:.3f} - {:.3f} | {:.3f} - {:.3f} | {}+-{} | {}+-{} | {}+-{} | {}+-{} | {}+-{}".format(
-                        x_lo, x_hi, y_lo, y_hi, round(prompt_yield,2), round(prompt_error,2),
-                        round(x_yield,2), round(x_error,2), round(y_yield,2), round(y_error,2),
-                        round(abcd_yield,2), round(abcd_error,2), round(count_yield,2), round(count_error,2) )
+                        x_lo, x_hi, y_lo, y_hi, round(prompt_yield,3), round(prompt_error,3),
+                        round(x_yield,3), round(x_error,3), round(y_yield,3), round(y_error,3),
+                        round(abcd_yield,3), round(abcd_error,3), round(count_yield,3), round(count_error,3) )
 
 if arguments.makeTable:
     print "[/TABLE]"
