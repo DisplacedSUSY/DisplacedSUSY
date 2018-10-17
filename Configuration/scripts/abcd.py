@@ -41,7 +41,7 @@ gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
 gStyle.SetTextFont(42)
-gStyle.SetPaintTextFormat('1.1f')
+gStyle.SetPaintTextFormat('1.1e')
 gROOT.ForceStyle()
 
 
@@ -128,12 +128,11 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             comp_hist.SetBinContent(out_bin, consistency)
 
             if arguments.makeTables:
-                if x_lo != 0 and y_lo != 0:
-                    print "|-"
-                    print "{:d} - {:d} | {:d} - {:d} | {}+-{} | {}+-{} | {}+-{} | {}+-{} | {}+-{}".format(
-                        x_lo, x_hi, y_lo, y_hi, round(prompt_yield,3), round(prompt_error,3),
-                        round(x_yield,3), round(x_error,3), round(y_yield,3), round(y_error,3),
-                        round(abcd_yield,3), round(abcd_error,3), round(count_yield,3), round(count_error,3) )
+                format_string = "{:d}-{:d} | {:d}-{:d}" + 5 * " | {:.1e}+-{:.1e}"
+                print "|-"
+                print format_string.format( x_lo, x_hi, y_lo, y_hi, prompt_yield, prompt_error,
+                                           x_yield, x_error, y_yield, y_error, abcd_yield,
+                                           abcd_error, count_yield, count_error)
 
 if arguments.makeTables:
     print "[/TABLE]"
@@ -163,8 +162,8 @@ if arguments.makeTables:
     for region, (abcd_yield, abcd_error), (count_yield, count_error) in zip(
         range(1, len(abcd_yields_and_errors)+1), abcd_yields_and_errors, count_yields_and_errors):
         print "|-"
-        print "Region {} | {}+-{} | {}+-{}".format(
-            region, round(abcd_yield,3), round(abcd_error,3), round(count_yield,3), round(count_error,3))
+        print "Region {} | {:.1e}+-{:.1e} | {:.1e}+-{:.1e}".format(
+            region, abcd_yield, abcd_error, count_yield, count_error)
     print "[/TABLE]"
 
 
