@@ -52,8 +52,7 @@ def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bi
     # assume input histograms have symmetric binning
     if variable_bins:
         nBins = h.GetXaxis().GetNbins()
-        lastBin = h.GetXaxis().FindBin(nBins)
-        area = h.GetXaxis().GetBinWidth(lastBin) ** 2
+        area = h.GetXaxis().GetBinWidth(nBins) ** 2
         integral *= area
         error *= area
     return (integral, error)
@@ -77,11 +76,11 @@ prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 
 (prompt_yield, prompt_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
                                                      prompt_bin_y_lo, prompt_bin_y_hi, variable_bins)
+
 if arguments.makeTable:
     print "[B]", title(""), "[/B]"
     print '[TABLE border="1"]'
     print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual"
-
 
 for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
     x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
