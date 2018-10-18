@@ -159,6 +159,7 @@ if arguments.makeTables:
 
     # print summary table
     print '[TABLE border="1"]'
+    print "Signal Region|Estimate|Actual"
     for region, (abcd_yield, abcd_error), (count_yield, count_error) in zip(
         range(1, len(abcd_yields_and_errors)+1), abcd_yields_and_errors, count_yields_and_errors):
         print "|-"
