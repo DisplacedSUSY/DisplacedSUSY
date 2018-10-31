@@ -8,6 +8,22 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 #WE USE ETA 2.4 OFTEN
 absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 
+#########################################################################
+# weight selections to determine if they contribute to negative
+# weighted event
+
+lifetimeWeight_negative = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("lifetimeWeight < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
+puScalingFactor_negative = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("puScalingFactor < 0"),
+    numberRequired = cms.string(">= 1"),
+)
+
 ##########################################################################
 
 # BEGIN GEN PARTICLE CUTS
@@ -32,7 +48,6 @@ gen_motherIsStopId_cut = cms.PSet(
 
 ##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
-
 
 cutDummyMet = cms.PSet(
     inputCollection = cms.vstring("mets"),

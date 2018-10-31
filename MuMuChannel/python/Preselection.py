@@ -23,6 +23,15 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut)
+### to find negative valued bins in abcd method closure test
+
+lifetimeWeightNegative = copy.deepcopy(Preselection)
+lifetimeWeightNegative.name = cms.string("lifetimeWeightNegative")
+lifetimeWeightNegative.cuts.append(lifetimeWeight_negative)
+
+puScalingFactorNegative = copy.deepcopy(Preselection)
+puScalingFactorNegative.name = cms.string("puScalingFactorNegative")
+puScalingFactorNegative.cuts.append(puScalingFactor_negative)
 
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
