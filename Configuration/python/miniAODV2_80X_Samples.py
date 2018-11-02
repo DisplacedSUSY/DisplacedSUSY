@@ -219,7 +219,7 @@ signal_mc_samples = {
     'stop1200_1000mm': "/DisplacedSUSY_StopToBL_M-1200_CTau-1000_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
 
     'stop1300_1000mm': "",#doesn't exist for 2016 MC yet
-    'stop1300_100mm' : "",#doesn't exist for 2016 MC yet
+    'stop1300_100mm' : "/DisplacedSUSY_stopToBottom_M_1300_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1300_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1300_1mm'   : "",#doesn't exist for 2016 MC yet
 
@@ -228,7 +228,7 @@ signal_mc_samples = {
     'stop1400_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1400_1mm'   : "",#doesn't exist for 2016 MC yet
 
-    'stop1500_1000mm': "",#doesn't exist for 2016 MC yet
+    'stop1500_1000mm': "/DisplacedSUSY_stopToBottom_M_1500_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1500_100mm' : "",#doesn't exist for 2016 MC yet
     'stop1500_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1500_1mm'   : "",#doesn't exist for 2016 MC yet
@@ -243,8 +243,8 @@ signal_mc_samples = {
     'stop1700_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1700_1mm'   : "",#doesn't exist for 2016 MC yet
 
-    'stop1800_1000mm': "",#doesn't exist for 2016 MC yet
-    'stop1800_100mm' : "",#doesn't exist for 2016 MC yet
+    'stop1800_1000mm': "/DisplacedSUSY_stopToBottom_M_1800_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
+    'stop1800_100mm' : "/DisplacedSUSY_stopToBottom_M_1800_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1800_10mm'  : "",#doesn't exist for 2016 MC yet
     'stop1800_1mm'   : "",#doesn't exist for 2016 MC yet
 
@@ -255,17 +255,17 @@ signal_mc_samples = {
     'stopToLD200_1mm'     : "/DisplacedSUSY_stopToLD_M_200_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
 
     'stopToLD300_1000mm'  : "/DisplacedSUSY_stopToLD_M_300_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
-    'stopToLD300_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD300_100mm'   : "/DisplacedSUSY_stopToLD_M_300_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD300_10mm'    : "",#doesn't exist for 2016 MC yet
     'stopToLD300_1mm'     : "",#doesn't exist for 2016 MC yet
 
     'stopToLD400_1000mm'  : "/DisplacedSUSY_stopToLD_M_400_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD400_100mm'   : "/DisplacedSUSY_stopToLD_M_400_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
-    'stopToLD400_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD400_10mm'    : "/DisplacedSUSY_stopToLD_M_400_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD400_1mm'     : "",#doesn't exist for 2016 MC yet
 
     'stopToLD500_1000mm'  : "/DisplacedSUSY_stopToLD_M_500_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
-    'stopToLD500_100mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD500_100mm'   : "/DisplacedSUSY_stopToLD_M_500_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD500_10mm'    : "/DisplacedSUSY_stopToLD_M_500_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD500_1mm'     : "/DisplacedSUSY_stopToLD_M_500_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
 
@@ -309,9 +309,9 @@ signal_mc_samples = {
     'stopToLD1300_10mm'   : "/DisplacedSUSY_stopToLD_M_1300_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD1300_1mm'    : "/DisplacedSUSY_stopToLD_M_1300_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
 
-    'stopToLD1400_1000mm' : "",#doesn't exist for 2016 MC yet
+    'stopToLD1400_1000mm' : "/DisplacedSUSY_stopToLD_M_1400_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD1400_100mm'  : "/DisplacedSUSY_stopToLD_M_1400_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
-    'stopToLD1400_10mm'   : "",#doesn't exist for 2016 MC yet
+    'stopToLD1400_10mm'   : "/DisplacedSUSY_stopToLD_M_1400_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD1400_1mm'    : "",#doesn't exist for 2016 MC yet
 
     'stopToLD1500_1000mm' : "",#doesn't exist for 2016 MC yet
