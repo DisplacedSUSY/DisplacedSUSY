@@ -1,31 +1,35 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
+
 from DisplacedSUSY.EMuChannel.Preselection import Preselection as EMuPreselection
+EMuTriggers = copy.deepcopy(EMuPreselection.triggers)
+EMuCuts = cms.VPSet (copy.deepcopy(EMuPreselection.cuts))
+
 from DisplacedSUSY.EEChannel.Preselection import Preselection as EEPreselection
+EETriggers = copy.deepcopy(EEPreselection.triggers)
+EECuts = cms.VPSet (copy.deepcopy(EEPreselection.cuts))
+
 from DisplacedSUSY.MuMuChannel.Preselection import Preselection as MuMuPreselection
+MuMuTriggers = copy.deepcopy(MuMuPreselection.triggers)
+MuMuCuts = cms.VPSet (copy.deepcopy(MuMuPreselection.cuts))
+
 
 EMuEEPreselectionOverlap = cms.PSet(
     name = cms.string("EMuEEPreselectionOverlap"),
-    triggers = copy.deepcopy(EMuPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(EMuPreselection.cuts))
+    triggers = EMuTriggers + EETriggers,
+    cuts = EMuCuts + EECuts,
 )
-EMuEEPreselectionOverlap.triggers.extend(copy.deepcopy(EEPreselection.triggers))
-EMuEEPreselectionOverlap.cuts.extend(copy.deepcopy(EEPreselection.cuts))
 
 EMuMuMuPreselectionOverlap = cms.PSet(
     name = cms.string("EMuMuMuPreselectionOverlap"),
-    triggers = copy.deepcopy(EMuPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(EMuPreselection.cuts))
+    triggers = EMuTriggers + MuMuTriggers,
+    cuts = EMuCuts + MuMuCuts,
 )
-EMuMuMuPreselectionOverlap.triggers.extend(copy.deepcopy(MuMuPreselection.triggers))
-EMuMuMuPreselectionOverlap.cuts.extend(copy.deepcopy(MuMuPreselection.cuts))
 
 MuMuEEPreselectionOverlap = cms.PSet(
     name = cms.string("MuMuEEPreselectionOverlap"),
-    triggers = copy.deepcopy(MuMuPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(MuMuPreselection.cuts))
+    triggers = MuMuTriggers + EETriggers,
+    cuts = MuMuCuts + EECuts
 )
-MuMuEEPreselectionOverlap.triggers.extend(copy.deepcopy(EEPreselection.triggers))
-MuMuEEPreselectionOverlap.cuts.extend(copy.deepcopy(EEPreselection.cuts))
 
