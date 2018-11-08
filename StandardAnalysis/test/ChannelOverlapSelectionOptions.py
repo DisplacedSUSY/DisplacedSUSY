@@ -21,7 +21,11 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
                 'stop1500_1mm',
                 'stop1500_100mm',
                 ]
-    #colors['stop1000_1mm'] = 4
-    #colors['stop1000_100mm'] = 8
+    colors['stop500_1mm'] = 1
+    colors['stop500_100mm'] = 2
+    colors['stop1000_1mm'] = 3
+    colors['stop1000_100mm'] = 4
+    colors['stop1500_1mm'] = 5
+    colors['stop1500_100mm'] = 8
     #datasets.append()
     #datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
