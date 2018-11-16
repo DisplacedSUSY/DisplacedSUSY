@@ -54,7 +54,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         )
 
     triggersIsoSingleMuon = cms.vstring(
-        "HLT_IsoMu24_v"
+        "HLT_IsoMu24_v",
+        "HLT_IsoTkMu24_v"
         )
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -94,11 +95,14 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         )
 
     triggersSingleElectron = cms.vstring(
-        "HLT_Ele27_WPTight_Gsf_v"
+        "HLT_Ele32_WPTight_Gsf_L1DoubleEG_v",
+        "HLT_Ele35_WPTight_Gsf_v"
         )
 
     triggersSingleMuon = cms.vstring(
         "HLT_Mu50_v",
+        "HLT_OldMu100_v",
+        "HLT_TkMu100_v"
         )
 
     triggersIsoSingleMuon = cms.vstring(
@@ -142,15 +146,17 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_0_"):
         )
 
     triggersSingleElectron = cms.vstring(
-        "HLT_Ele27_WPTight_Gsf_v"
+        "HLT_Ele32_WPTight_Gsf_v"
         )
 
     triggersSingleMuon = cms.vstring(
         "HLT_Mu50_v",
+        "HLT_OldMu100_v",
+        "HLT_TkMu100_v"
         )
 
     triggersIsoSingleMuon = cms.vstring(
-        "HLT_IsoMu27_v"
+        "HLT_IsoMu24_v"
         )
 
 else:
