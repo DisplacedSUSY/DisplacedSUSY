@@ -6,7 +6,7 @@ from DisplacedSUSY.EMuChannel.EMuHistograms import *
 ##### Import the channels to be run ############################################
 ################################################################################
 
-from DisplacedSUSY.EMuChannel.NewPreselection import *
+from DisplacedSUSY.EMuChannel.Preselection import *
 from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
@@ -14,22 +14,8 @@ eventSelections = [
     #PromptControlRegion,
     #DisplacedControlRegion,
     #InclusiveSignalRegion,
-    #PreselectionPromptElectron,
-    #PreselectionPromptMuon,
-    #PreselectionVeryPromptElectron,
-    #PreselectionVeryPromptMuon,
-    #PreselectionIntermediateElectron,
-    #PreselectionIntermediateMuon,
-
-    #NewPromptControlRegion,
-    #NewDisplacedControlRegion,
-    #NewInclusiveSignalRegion,
-    #NewPreselectionPromptElectron,
-    #NewPreselectionPromptMuon,
-    #NewPreselectionVeryPromptElectron,
-    #NewPreselectionVeryPromptMuon,
-    #NewPreselectionIntermediateElectron,
-    #NewPreselectionIntermediateMuon,
+    #PromptElectronDisplacedMuonRegion,
+    #PromptMuonDisplacedElectronRegion,
 
     #PreselectionWithExplicitEleIdBarrel,
     #PreselectionWithExplicitEleIdEndcap,
