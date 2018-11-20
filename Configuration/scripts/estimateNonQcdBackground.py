@@ -41,7 +41,7 @@ def makeEfficiencyHist(in_hist):
     total_hist = in_hist.Clone()
     pass_hist  = in_hist.Clone()
 
-    for d0_bin in range(0, last_bin):
+    for d0_bin in range(0, last_bin+1):
         total_hist.SetBinContent(d0_bin, n_total)
         total_hist.SetBinError(d0_bin, total_error)
 
