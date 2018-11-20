@@ -44,8 +44,6 @@ def makeEfficiencyHist(in_hist):
         pass_hist.SetBinContent(d0_bin, n_pass)
         pass_hist.SetBinError(d0_bin, pass_error)
 
-    eff_hist = TGraphAsymmErrors(pass_hist, total_hist)
-
     return TGraphAsymmErrors(pass_hist, total_hist)
 
 ###############################################################################
@@ -74,6 +72,9 @@ for sample in samples:
 
     x_legend.AddEntry(x_eff_hist, sample, "elp")
     y_legend.AddEntry(y_eff_hist, sample, "elp")
+
+    x_multigraph.SetTitle(";"+in_hist.GetXaxis().GetTitle()+";Efficiency")
+    y_multigraph.SetTitle(";"+in_hist.GetYaxis().GetTitle()+";Efficiency")
 
 out_file = TFile("nonQcdBgEstimate.root", "recreate")
 x_canvas = TCanvas("x", "x", 100, 100, 700, 700)
