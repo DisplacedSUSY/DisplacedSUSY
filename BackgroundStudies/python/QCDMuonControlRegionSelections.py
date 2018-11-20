@@ -29,6 +29,7 @@ QCDMuonControlRegion.cuts.append(muon_eta_cut)
 QCDMuonControlRegion.cuts.append(muon_pt_55_cut)
 QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.append(muon_id_cut)
+QCDMuonControlRegion.cuts.append(muon_iso_cut)
 QCDMuonControlRegion.cuts.append(muon_num_exactly_1_cut)
 
 QCDMuonControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
