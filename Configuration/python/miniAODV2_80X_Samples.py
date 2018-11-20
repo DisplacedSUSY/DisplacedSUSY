@@ -233,7 +233,7 @@ signal_mc_samples = {
     'stop1500_10mm'  : "/DisplacedSUSY_stopToBottom_M_1500_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1500_1mm'   : "",#doesn't exist for 2016 MC yet
 
-    'stop1600_1000mm': "",#doesn't exist for 2016 MC yet
+    'stop1600_1000mm': "/DisplacedSUSY_stopToBottom_M_1600_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1600_100mm' : "/DisplacedSUSY_stopToBottom_M_1600_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1600_10mm'  : "/DisplacedSUSY_stopToBottom_M_1600_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stop1600_1mm'   : "",#doesn't exist for 2016 MC yet
@@ -281,7 +281,7 @@ signal_mc_samples = {
 
     'stopToLD800_1000mm'  : "/DisplacedSUSY_stopToLD_M_800_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD800_100mm'   : "/DisplacedSUSY_stopToLD_M_800_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
-    'stopToLD800_10mm'    : "",#doesn't exist for 2016 MC yet
+    'stopToLD800_10mm'    : "/DisplacedSUSY_stopToLD_M_800_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD800_1mm'     : "/DisplacedSUSY_stopToLD_M_800_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
 
     'stopToLD900_1000mm'  : "/DisplacedSUSY_stopToLD_M_900_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
