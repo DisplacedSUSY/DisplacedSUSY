@@ -3,6 +3,7 @@ import sys
 import os
 import re
 from optparse import OptionParser
+from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from ROOT import TFile, TCanvas, TGraphAsymmErrors, TMultiGraph, TLegend, Double, gROOT
 
 parser = OptionParser()
@@ -35,15 +36,15 @@ color_ix = 0
 
 def makeEfficiencyHist(in_hist):
     last_bin = in_hist.GetXaxis().GetLast()
-    total_error = Double(0.0)
-    n_total = in_hist.IntegralAndError(0, last_bin, total_error)
+    total_err = Double(0.0)
+    n_total = in_hist.IntegralAndError(0, last_bin, total_err)
 
     total_hist = in_hist.Clone()
     pass_hist  = in_hist.Clone()
 
     for d0_bin in range(0, last_bin+1):
         total_hist.SetBinContent(d0_bin, n_total)
-        total_hist.SetBinError(d0_bin, total_error)
+        total_hist.SetBinError(d0_bin, total_err)
 
         pass_error = Double(0.0)
         n_pass = in_hist.IntegralAndError(d0_bin, last_bin, pass_error)
@@ -90,8 +91,8 @@ for sample in samples:
     # use efficiencies to estimate background
     last_x_bin = in_hist.GetXaxis().GetLast()
     last_y_bin = in_hist.GetYaxis().GetLast()
-    total_error = Double(0.0)
-    total_yield = in_hist.IntegralAndError(0, last_x_bin, 0, last_y_bin, total_error)
+    total_err = Double(0.0)
+    total_yield = in_hist.IntegralAndError(0, last_x_bin, 0, last_y_bin, total_err)
     bin_width = in_hist.GetXaxis().GetBinWidth(0)
 
     print sample
@@ -108,12 +109,20 @@ for sample in samples:
         x_eff_hist.GetPoint(hi_bin, _, x_eff_hi)
         y_eff_hist.GetPoint(lo_bin, _, y_eff_lo)
         y_eff_hist.GetPoint(hi_bin, _, y_eff_hi)
+        # gloss over asymmetric uncertainty for now for ease of comparison
+        x_eff_lo_err = x_eff_hist.GetErrorY(lo_bin)
+        x_eff_hi_err = x_eff_hist.GetErrorY(hi_bin)
+        y_eff_lo_err = y_eff_hist.GetErrorY(lo_bin)
+        y_eff_hi_err = y_eff_hist.GetErrorY(hi_bin)
 
-        overall_eff = (x_eff_lo - x_eff_hi) * (y_eff_lo - y_eff_hi)
+        (x_eff, x_err) = propagateError("sum", -1*x_eff_hi, x_eff_hi_err, x_eff_lo, x_eff_lo_err)
+        (y_eff, y_err) = propagateError("sum", -1*y_eff_hi, y_eff_hi_err, y_eff_lo, y_eff_lo_err)
+        (overall_eff, overall_eff_err) = propagateError("product", x_eff, x_err, y_eff, y_err)
+        (estimate, estimate_err) = propagateError("product", overall_eff, overall_eff_err, total_yield, total_err)
 
         # print bg estimate from parameterization method and from direct counting
         print lo, hi
-        print "Estimate:", overall_eff * total_yield, overall_eff * total_error # haven't accounted for error on efficiency values yet
+        print "Estimate:", estimate, estimate_err
         err = Double(0.0)
         print "Actual:", in_hist.IntegralAndError(lo_bin, hi_bin, lo_bin, hi_bin, err), err
 
