@@ -31,7 +31,6 @@ else:
     sys.exit(1)
 
 gROOT.SetBatch()
-gStyle.SetPaintTextFormat('1.1e')
 
 # pick good TColors
 colors = [1,2,3,4,6,7,8,9,11,29,33,36,38,40,45,48]
@@ -130,7 +129,7 @@ for sample in samples:
 
         # elog table content
         if arguments.makeTables:
-            format_string = "{:d}-{:d} | {:.1e}+-{:.1e} | {:.1e}+-{:.1e}"
+            format_string = "{:d}-{:d} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}"
             print '|-'
             err = Double(0.0)
             print format_string.format(lo, hi, estimate, estimate_err, in_hist.IntegralAndError(lo_bin, hi_bin, lo_bin, hi_bin, err), err)
