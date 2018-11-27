@@ -4,13 +4,15 @@ import os
 import re
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TGraphAsymmErrors, TMultiGraph, TLegend, Double, gROOT
+from ROOT import TFile, TCanvas, TGraphAsymmErrors, TMultiGraph, TLegend, Double, gROOT, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
+parser.add_option("-t", "--makeTables", action="store_true", dest="makeTables",
+                  default=False, help="print tables of non-qcd background estimations and direct counting yields; table is formatted for elog")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -29,6 +31,7 @@ else:
     sys.exit(1)
 
 gROOT.SetBatch()
+gStyle.SetPaintTextFormat('1.1e')
 
 # pick good TColors
 colors = [1,2,3,4,6,7,8,9,11,29,33,36,38,40,45,48]
@@ -95,13 +98,18 @@ for sample in samples:
     total_yield = in_hist.IntegralAndError(0, last_x_bin, 0, last_y_bin, total_err)
     bin_width = in_hist.GetXaxis().GetBinWidth(0)
 
-    print sample
-
     x_eff_lo = Double(0.0)
     x_eff_hi = Double(0.0)
     y_eff_lo = Double(0.0)
     y_eff_hi = Double(0.0)
     _ = Double(0.0) # dummy variable for GetPoint method
+
+    # start elog table
+    if arguments.makeTables:
+        print "[B]", sample, "[/B]"
+        print '[TABLE border="1"]'
+        print "d0 region | Estimate | Direct Counting"
+
     for lo, hi in closure_test_bins:
         lo_bin = int(lo / bin_width)
         hi_bin = int(hi / bin_width)
@@ -120,11 +128,16 @@ for sample in samples:
         (overall_eff, overall_eff_err) = propagateError("product", x_eff, x_err, y_eff, y_err)
         (estimate, estimate_err) = propagateError("product", overall_eff, overall_eff_err, total_yield, total_err)
 
-        # print bg estimate from parameterization method and from direct counting
-        print lo, hi
-        print "Estimate:", estimate, estimate_err
-        err = Double(0.0)
-        print "Actual:", in_hist.IntegralAndError(lo_bin, hi_bin, lo_bin, hi_bin, err), err
+        # elog table content
+        if arguments.makeTables:
+            format_string = "{:d}-{:d} | {:.1e}+-{:.1e} | {:.1e}+-{:.1e}"
+            print '|-'
+            err = Double(0.0)
+            print format_string.format(lo, hi, estimate, estimate_err, in_hist.IntegralAndError(lo_bin, hi_bin, lo_bin, hi_bin, err), err)
+
+    # end elog table
+    if arguments.makeTables:
+        print "[/TABLE]"
 
 # plot everything and make output file
 out_file = TFile("nonQcdBgEstimate.root", "recreate")
