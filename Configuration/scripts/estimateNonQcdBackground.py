@@ -73,7 +73,11 @@ y_legend = TLegend(0.6, 0.6, 0.8, 0.8)
 
 for sample in samples:
     in_file = TFile(output_path+sample+".root")
-    in_hist = in_file.Get(plot).Clone()
+    try:
+        in_hist = in_file.Get(plot).Clone()
+    except ReferenceError:
+        print "Could not find input histogram for", sample
+        continue
 
     # make efficiency plots
     x_eff_hist = makeEfficiencyHist(in_hist.ProjectionX().Clone())
