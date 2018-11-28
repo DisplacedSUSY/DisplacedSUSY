@@ -99,7 +99,9 @@ for sample in samples:
     last_y_bin = in_hist.GetYaxis().GetLast()
     total_err = Double(0.0)
     total_yield = in_hist.IntegralAndError(0, last_x_bin, 0, last_y_bin, total_err)
-    bin_width = in_hist.GetXaxis().GetBinWidth(0)
+    if variable_bins:
+        total_yield *= in_hist.GetXaxis().GetBinWidth(last_x_bin) ** 2
+        total_err *= in_hist.GetXaxis().GetBinWidth(last_x_bin) ** 2
 
     x_eff_lo = Double(0.0)
     x_eff_hi = Double(0.0)
@@ -114,12 +116,12 @@ for sample in samples:
         print "d0 region | Estimate | Direct Counting"
 
     for lo, hi in closure_test_bins:
-        lo_bin = int(lo / bin_width)
-        hi_bin = int(hi / bin_width)
-        x_eff_hist.GetPoint(lo_bin, _, x_eff_lo)
-        x_eff_hist.GetPoint(hi_bin, _, x_eff_hi)
-        y_eff_hist.GetPoint(lo_bin, _, y_eff_lo)
-        y_eff_hist.GetPoint(hi_bin, _, y_eff_hi)
+        lo_bin = in_hist.GetXaxis().FindBin(lo)
+        hi_bin = in_hist.GetXaxis().FindBin(hi)
+        x_eff_hist.GetPoint(lo_bin-1, _, x_eff_lo)
+        x_eff_hist.GetPoint(hi_bin-1, _, x_eff_hi)
+        y_eff_hist.GetPoint(lo_bin-1, _, y_eff_lo)
+        y_eff_hist.GetPoint(hi_bin-1, _, y_eff_hi)
         # gloss over asymmetric uncertainty for now for ease of comparison
         x_eff_lo_err = x_eff_hist.GetErrorY(lo_bin)
         x_eff_hi_err = x_eff_hist.GetErrorY(hi_bin)
@@ -131,12 +133,18 @@ for sample in samples:
         (overall_eff, overall_eff_err) = propagateError("product", x_eff, x_err, y_eff, y_err)
         (estimate, estimate_err) = propagateError("product", overall_eff, overall_eff_err, total_yield, total_err)
 
+        count_err = Double(0.0)
+        count_yield = in_hist.IntegralAndError(lo_bin, hi_bin-1, lo_bin, hi_bin-1, count_err)
+        if variable_bins:
+            count_yield *= in_hist.GetXaxis().GetBinWidth(last_x_bin) ** 2
+            count_err *= in_hist.GetXaxis().GetBinWidth(last_x_bin) ** 2
+
+
         # elog table content
         if arguments.makeTables:
             format_string = "{:d}-{:d} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}"
             print '|-'
-            err = Double(0.0)
-            print format_string.format(lo, hi, estimate, estimate_err, in_hist.IntegralAndError(lo_bin, hi_bin, lo_bin, hi_bin, err), err)
+            print format_string.format(lo, hi, estimate, estimate_err, count_yield, count_err)
 
     # end elog table
     if arguments.makeTables:
