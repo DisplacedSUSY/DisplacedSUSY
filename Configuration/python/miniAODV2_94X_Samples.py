@@ -140,6 +140,21 @@ data_samples = {
     'JetHT_2017D' : '/JetHT/Run2017D-31Mar2018-v1/MINIAOD',
     'JetHT_2017E' : '/JetHT/Run2017E-31Mar2018-v1/MINIAOD',
     'JetHT_2017F' : '/JetHT/Run2017F-31Mar2018-v1/MINIAOD',
+
+    # SingleEle 2017,31Mar2018 rereco
+    'SingleEle_2017B' : '/SingleElectron/Run2017B-31Mar2018-v1/MINIAOD',
+    'SingleEle_2017C' : '/SingleElectron/Run2017C-31Mar2018-v1/MINIAOD',
+    'SingleEle_2017D' : '/SingleElectron/Run2017D-31Mar2018-v1/MINIAOD',
+    'SingleEle_2017E' : '/SingleElectron/Run2017E-31Mar2018-v1/MINIAOD',
+    'SingleEle_2017F' : '/SingleElectron/Run2017F-31Mar2018-v1/MINIAOD',
+
+    # SingleMu 2017,31Mar2018 rereco
+    'SingleMu_2017B' : '/SingleMuon/Run2017B-31Mar2018-v1/MINIAOD',
+    'SingleMu_2017C' : '/SingleMuon/Run2017C-31Mar2018-v1/MINIAOD',
+    'SingleMu_2017D' : '/SingleMuon/Run2017D-31Mar2018-v1/MINIAOD',
+    'SingleMu_2017E' : '/SingleMuon/Run2017E-31Mar2018-v1/MINIAOD',
+    'SingleMu_2017F' : '/SingleMuon/Run2017F-31Mar2018-v1/MINIAOD',
+
 }
 
 signal_mc_samples = {
