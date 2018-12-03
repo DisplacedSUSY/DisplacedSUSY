@@ -279,7 +279,21 @@ electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("passesVID_tightID"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 electrons with versioned tight ID and isolation") #versioned tight ID includes tight isolation
+    alias = cms.string(">=1 electrons with versioned tight ID") #versioned tight ID normally includes tight isolation, but we remove it in customize.py so we can use the inverted isolation at times
+    )
+
+electron_iso_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_iso_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.electron_iso_alias
+    )
+
+electron_antiiso_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_antiiso_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.electron_antiiso_alias
     )
 
 electron_id_impact_parameter_cut = cms.PSet(

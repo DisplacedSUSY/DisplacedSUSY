@@ -21,7 +21,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_42_cut)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     Preselection.cuts.append(electron_pt_50_cut)
-Preselection.cuts.append(electron_id_cut) #electron vid includes isolation
+Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
+Preselection.cuts.append(electron_iso_cut)
 ### at least one good muon
 Preselection.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
