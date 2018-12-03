@@ -10,6 +10,8 @@ from DisplacedSUSY.BackgroundStudies.QCDElectronControlRegionSelections import *
 
 eventSelections = [
     QCDElectronControlRegion,
+    #QCDIsoElectronControlRegion,
+    #QCDAntiIsoElectronControlRegion,
 ]
 
 ################################################################################

@@ -28,9 +28,21 @@ QCDElectronControlRegion.cuts.append(electron_eta_cut)
 QCDElectronControlRegion.cuts.append(electron_pt_42_cut)
 QCDElectronControlRegion.cuts.append(electron_gap_veto)
 QCDElectronControlRegion.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
-QCDElectronControlRegion.cuts.append(electron_iso_cut)
 QCDElectronControlRegion.cuts.append(electron_num_exactly_1_cut)
 
 QCDElectronControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
 QCDElectronControlRegion.cuts.append(electron_jet_deltaR_cut)
 
+QCDIsoElectronControlRegion = cms.PSet(
+    name = cms.string("QCDIsoElectronControlRegion"),
+    triggers = copy.deepcopy(QCDElectronControlRegion.triggers),
+    cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
+)
+QCDIsoElectronControlRegion.cuts.append(electron_iso_cut)
+
+QCDAntiIsoElectronControlRegion = cms.PSet(
+    name = cms.string("QCDAntiIsoElectronControlRegion"),
+    triggers = copy.deepcopy(QCDElectronControlRegion.triggers),
+    cuts = cms.VPSet (copy.deepcopy(QCDElectronControlRegion.cuts))
+)
+QCDAntiIsoElectronControlRegion.cuts.append(electron_antiiso_cut)

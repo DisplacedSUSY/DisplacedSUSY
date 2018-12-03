@@ -10,6 +10,8 @@ from DisplacedSUSY.BackgroundStudies.QCDMuonControlRegionSelections import *
 
 eventSelections = [
     QCDMuonControlRegion,
+    #QCDIsoMuonControlRegion,
+    #QCDAntiIsoMuonControlRegion,
 ]
 
 ################################################################################
