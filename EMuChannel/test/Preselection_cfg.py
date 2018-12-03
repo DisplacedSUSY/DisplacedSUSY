@@ -14,8 +14,8 @@ eventSelections = [
     #PromptControlRegion,
     #DisplacedControlRegion,
     #InclusiveSignalRegion,
-    #PromptElectronDisplacedMuonRegion,
-    #PromptMuonDisplacedElectronRegion,
+    #AntiIsoPromptElectronDisplacedMuonRegion,
+    #AntiIsoPromptMuonDisplacedElectronRegion,
 
     #PreselectionWithExplicitEleIdBarrel,
     #PreselectionWithExplicitEleIdEndcap,

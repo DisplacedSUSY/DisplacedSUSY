@@ -61,22 +61,26 @@ InclusiveSignalRegion.cuts.append(electron_d0_greaterThan200_cut)
 InclusiveSignalRegion.cuts.append(muon_d0_greaterThan200_cut)
 
 
-PromptElectronDisplacedMuonRegion = cms.PSet(
-    name = cms.string("PromptElectronDisplacedMuonRegion"),
+AntiIsoPromptElectronDisplacedMuonRegion = cms.PSet(
+    name = cms.string("AntiIsoPromptElectronDisplacedMuonRegion"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PromptElectronDisplacedMuonRegion.cuts.append(electron_d0_lessThan200_cut)
-PromptElectronDisplacedMuonRegion.cuts.append(muon_d0_greaterThan100_cut)
+replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, muon_antiiso_cut, muon_iso_cut)
+AntiIsoPromptElectronDisplacedMuonRegion.cuts.append(electron_d0_lessThan200_cut)
+AntiIsoPromptElectronDisplacedMuonRegion.cuts.append(muon_d0_greaterThan100_cut)
 
 
-PromptMuonDisplacedElectronRegion = cms.PSet(
-    name = cms.string("PromptMuonDisplacedElectronRegion"),
+AntiIsoPromptMuonDisplacedElectronRegion = cms.PSet(
+    name = cms.string("AntiIsoPromptMuonDisplacedElectronRegion"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PromptMuonDisplacedElectronRegion.cuts.append(muon_d0_lessThan200_cut)
-PromptMuonDisplacedElectronRegion.cuts.append(electron_d0_greaterThan100_cut)
+replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, muon_antiiso_cut, muon_iso_cut)
+AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(muon_d0_lessThan200_cut)
+AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(electron_d0_greaterThan100_cut)
 
 
 
