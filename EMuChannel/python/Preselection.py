@@ -61,6 +61,17 @@ InclusiveSignalRegion.cuts.append(electron_d0_greaterThan200_cut)
 InclusiveSignalRegion.cuts.append(muon_d0_greaterThan200_cut)
 
 
+
+
+AntiIsoPreselection = cms.PSet(
+    name = cms.string("AntiIsoPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, muon_antiiso_cut, muon_iso_cut)
+
+
 AntiIsoPromptElectronDisplacedMuonRegion = cms.PSet(
     name = cms.string("AntiIsoPromptElectronDisplacedMuonRegion"),
     triggers = copy.deepcopy(Preselection.triggers),
