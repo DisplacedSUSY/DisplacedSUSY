@@ -68,8 +68,8 @@ AntiIsoPreselection = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, electron_antiiso_cut, electron_iso_cut)
-replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, muon_antiiso_cut, muon_iso_cut)
+replaceSingleCut(AntiIsoPreselection.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPreselection.cuts, muon_antiiso_cut, muon_iso_cut)
 
 
 AntiIsoPromptElectronDisplacedMuonRegion = cms.PSet(
