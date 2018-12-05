@@ -1,9 +1,16 @@
 import FWCore.ParameterSet.Config as cms
+from OSUT3Analysis.Configuration.processingUtilities import *
 
 import math
 import os
 
 def customize (process, analysisChannel = "emu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC"):
+
+################################################################################
+##### remove isolation cut from electron VID  ##################################
+################################################################################
+
+    removeVIDCut(process, str(collectionProducer.electrons.vidTightIdMap), 'GsfEleEffAreaPFIsoCut')
 
 ################################################################################
 ##### Set variables needed for DisplacedSUSYEventVariableProducer ##############
@@ -18,7 +25,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
         process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
 ################################################################################
-##### Set variables needed for OSUElectronProducer #############################
+##### Set variables needed for OSUElectron and Muon Producer ###################
 ################################################################################
 
     if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):

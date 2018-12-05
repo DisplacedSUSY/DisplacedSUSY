@@ -29,9 +29,21 @@ QCDMuonControlRegion.cuts.append(muon_eta_cut)
 QCDMuonControlRegion.cuts.append(muon_pt_55_cut)
 QCDMuonControlRegion.cuts.append(muon_global_cut)
 QCDMuonControlRegion.cuts.append(muon_id_cut)
-QCDMuonControlRegion.cuts.append(muon_iso_cut)
 QCDMuonControlRegion.cuts.append(muon_num_exactly_1_cut)
 
 QCDMuonControlRegion.cuts.append(jet_bjet_deltaPhi_cut)
 QCDMuonControlRegion.cuts.append(muon_jet_deltaR_cut)
 
+QCDIsoMuonControlRegion = cms.PSet(
+    name = cms.string("QCDIsoMuonControlRegion"),
+    triggers = copy.deepcopy(QCDMuonControlRegion.triggers),
+    cuts = cms.VPSet (copy.deepcopy(QCDMuonControlRegion.cuts))
+)
+QCDIsoMuonControlRegion.cuts.append(muon_iso_cut)
+
+QCDAntiIsoMuonControlRegion = cms.PSet(
+    name = cms.string("QCDAntiIsoMuonControlRegion"),
+    triggers = copy.deepcopy(QCDMuonControlRegion.triggers),
+    cuts = cms.VPSet (copy.deepcopy(QCDMuonControlRegion.cuts))
+)
+QCDAntiIsoMuonControlRegion.cuts.append(muon_antiiso_cut)

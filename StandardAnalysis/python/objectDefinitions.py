@@ -11,12 +11,6 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 
 ##########################################################################
 
-# TIGHT ELECTRON ISOLATION
-# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
-# now included in versioned ID in OSUT3Analysis
-
-##########################################################################
-
 # TIGHT MUON ISOLATION
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
@@ -24,7 +18,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUMuonProducer.cc#L124
 # muon isolation is so far the same for 2016 and 2017 data
 
-muon_iso_cutstring = cutString = cms.string("pfdBetaIsoCorr <= 0.15")
+muon_iso_cutstring = cms.string("pfdBetaIsoCorr <= 0.15")
 
 muon_iso_alias = cms.string(">=1 muons with tight isolation")
 
@@ -32,7 +26,7 @@ muon_iso_alias = cms.string(">=1 muons with tight isolation")
 
 # INVERTED TIGHT MUON ISOLATION
 
-muon_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.15")
+muon_antiiso_cutstring = cms.string("pfdBetaIsoCorr > 0.15")
 
 muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
 
@@ -40,7 +34,7 @@ muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
 
 # INVERTED LOOSE MUON ISOLATION
 
-muon_loose_antiiso_cutstring = cutString = cms.string("pfdBetaIsoCorr > 0.25")
+muon_loose_antiiso_cutstring = cms.string("pfdBetaIsoCorr > 0.25")
 
 muon_loose_antiiso_alias = cms.string(">=1 muons with inverted loose isolation")
 
@@ -97,7 +91,7 @@ jet_ttbar_paper_loose_id_cutstring = cms.string("neutralHadronEnergyFraction < 0
 jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 ##########################################################################
-#B-JET CombinedSecondaryVertexv2 
+#B-JET CombinedSecondaryVertexv2
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
@@ -123,10 +117,40 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 # without impact parameter cuts
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 # now included in versioned ID
+# HOWEVER, we are removing the isolation from the VID (see customize.py), so that then we can
+# add it back in where we want and invert it as necessary
+##########################################################################
+
+# TIGHT ELECTRON ISOLATION
+# pfdRhoIsoCorr -> isolation variables recalculated wrt the closest PV to the electron
+# calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUElectronProducer.cc#L134
+#taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working%20points%20for%2094X%20and%20later
+
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"): #valid for 94X samples
+    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= (0.0287+0.506/pt)) | \
+                                     (isEE & pfdRhoIsoCorr <= (0.0445+0.963/pt))")
+
+# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
+                                     (isEE & pfdRhoIsoCorr <= 0.0571)")
+else:
+    print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
+electron_iso_alias = cms.string(">=1 electrons with tight isolation")
+
+##########################################################################
+# INVERTED TIGHT ELECTRON ISOLATION
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > (0.0287+0.506/pt)) | \
+                                     (isEE & pfdRhoIsoCorr > (0.0445+0.963/pt))")
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
+                                     (isEE & pfdRhoIsoCorr > 0.0571)")
+electron_antiiso_alias = cms.string(">=1 electrons with inverted tight isolation")
 
 ##########################################################################
 
-# ELECTRON ID IMPACT PARAMETER CUTS 
+# ELECTRON ID IMPACT PARAMETER CUTS
 # impact parameter cuts are the same in 2016 and 2017
 
 electron_id_impact_parameter_cutstring = cms.string("(isEB & \

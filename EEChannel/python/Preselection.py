@@ -21,8 +21,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_65_cut)
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     Preselection.cuts.append(electron_pt_75_cut)
-Preselection.cuts.append(electron_id_cut) #versioned tight ID includes tight isolation
-
+Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
+Preselection.cuts.append(electron_iso_cut)
 
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
