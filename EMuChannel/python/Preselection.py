@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import copy
 import string
 from DisplacedSUSY.EMuChannel.CutDefinitions import *
+from DisplacedSUSY.StandardAnalysis.ElectronIdCutDefinitions import *
 
 #################################################################
 ### Set up the preselection for the displaced SUSY analysis #####
@@ -93,6 +94,23 @@ replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, muon_antiiso_cut
 AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(muon_d0_lessThan200_cut)
 AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(electron_d0_greaterThan100_cut)
 
+
+
+
+PreselectionElectronBarrel = cms.PSet(
+    name = cms.string("PreselectionElectronBarrel"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionElectronBarrel.cuts.append(electron_isEB_cut)
+
+
+PreselectionElectronEndcap = cms.PSet(
+    name = cms.string("PreselectionElectronEndcap"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionElectronEndcap.cuts.append(electron_isEE_cut)
 
 
 

@@ -17,6 +17,8 @@ eventSelections = [
     #AntiIsoPreselection,
     #AntiIsoPromptElectronDisplacedMuonRegion,
     #AntiIsoPromptMuonDisplacedElectronRegion,
+    #PreselectionElectronBarrel,
+    #PreselectionElectronEndcap,
 
     #PreselectionWithExplicitEleIdBarrel,
     #PreselectionWithExplicitEleIdEndcap,
