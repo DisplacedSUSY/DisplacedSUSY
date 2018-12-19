@@ -21,7 +21,7 @@ electron_isEE_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("isEE"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 electrons in the endcaps (|eta supercluster| < 1.479)")
+    alias = cms.string(">= 1 electrons in the endcaps (|eta supercluster| > 1.479)")
     )
 
 ##########################################################################################
