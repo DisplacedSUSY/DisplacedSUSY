@@ -1,6 +1,6 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
-from DisplacedSUSY.EMuChannel.EMuHistograms import *
+from DisplacedSUSY.BackgroundStudies.QCDHistograms import *
 
 ################################################################################
 ##### Import the channels to be run ############################################
