@@ -685,6 +685,50 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("electron.pt", "10000*"+electronSmearedD0WRTBeamspot),
         ),
         ###################################################################
+        # 2D abs(d0) vs. pt
+        cms.PSet (
+            name = cms.string("electronAbsD0_500um_vs_electronPt_200"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 200),
+            binsY = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_1000um_vs_electronPt_500"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_10000um_vs_electronPt_1000"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            binsY = cms.untracked.vdouble(100, 0, 10000),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_500um_vs_electronPt_200_coarse"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 200),
+            binsY = cms.untracked.vdouble(20, 0, 500),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_1000um_vs_electronPt_500_coarse"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 500),
+            binsY = cms.untracked.vdouble(20, 0, 1000),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronAbsD0_10000um_vs_electronPt_1000_coarse"),
+            title = cms.string("Electron d_{0} vs. Electron p_{T};Electron p_{T} [GeV];Electron d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 1000),
+            binsY = cms.untracked.vdouble(20, 0, 10000),
+            inputVariables = cms.vstring("electron.pt", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        ###################################################################
         # 2D sig(d0) vs. pt
         cms.PSet (
             name = cms.string("electronD0Sig_vs_electronPt"),
@@ -1898,6 +1942,50 @@ MuonD0Histograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 200),
             binsY = cms.untracked.vdouble(100, -500, 500),
             inputVariables = cms.vstring("muon.pt", "10000*"+muonSmearedD0WRTBeamspot),
+        ),
+        ###################################################################
+        # 2D abs(d0) vs. pt
+        cms.PSet (
+            name = cms.string("muonAbsD0_500um_vs_muonPt_200"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 200),
+            binsY = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_1000um_vs_muonPt_500"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_10000um_vs_muonPt_1000"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            binsY = cms.untracked.vdouble(100, 0, 10000),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_500um_vs_muonPt_200_coarse"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 200),
+            binsY = cms.untracked.vdouble(20, 0, 500),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_1000um_vs_muonPt_500_coarse"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 500),
+            binsY = cms.untracked.vdouble(20, 0, 1000),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonAbsD0_10000um_vs_muonPt_1000_coarse"),
+            title = cms.string("Muon d_{0} vs. Muon p_{T};Muon p_{T} [GeV];Muon d_{0} [#mum];"),
+            binsX = cms.untracked.vdouble(20, 0, 1000),
+            binsY = cms.untracked.vdouble(20, 0, 10000),
+            inputVariables = cms.vstring("muon.pt", "10000*abs("+muonSmearedD0WRTBeamspot+")"),
         ),
         ###################################################################
         # 2D sig(d0) vs. pt
