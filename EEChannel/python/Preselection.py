@@ -48,9 +48,33 @@ ZControlRegion.cuts.append(electron_fiducial_phi_cut)
 
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
-InclusiveSignalRegion.cuts.append(electron_d0_greaterThan20_cut)
+InclusiveSignalRegion.cuts.append(electron_d0_greaterThan50_cut)
 
+#################################################################
 
+PromptLowPtControlRegion = copy.deepcopy(PromptControlRegion)
+PromptLowPtControlRegion.name = cms.string("PromptLowPtControlRegion")
+PromptLowPtControlRegion.cuts.append(electron_pt_100_veto)
+
+#################################################################
+
+PromptHighPtControlRegion = copy.deepcopy(PromptControlRegion)
+PromptHighPtControlRegion.name = cms.string("PromptHighPtControlRegion")
+PromptHighPtControlRegion.cuts.append(electron_pt_100_cut)
+
+#################################################################
+
+DisplacedLowPtControlRegion = copy.deepcopy(InclusiveSignalRegion)
+DisplacedLowPtControlRegion.name = cms.string("DisplacedLowPtControlRegion")
+DisplacedLowPtControlRegion.cuts.append(electron_pt_100_veto)
+
+#################################################################
+
+DisplacedHighPtControlRegion = copy.deepcopy(InclusiveSignalRegion)
+DisplacedHighPtControlRegion.name = cms.string("DisplacedHighPtControlRegion")
+DisplacedHighPtControlRegion.cuts.append(electron_pt_100_cut)
+
+#################################################################
 
 PreselectionLeptonsFromW = cms.PSet(
     name = cms.string("PreselectionLeptonsFromW"),

@@ -275,6 +275,20 @@ electron_pt_75_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_100_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string(">= 1")
+    )
+
+electron_pt_100_veto = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("electron pT > 100 GeV veto")
+    )
+
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("passesVID_tightID"),
@@ -341,6 +355,14 @@ electron_d0_lessThan50_cut = cms.PSet(
     cutString = cms.string("10000*abs("+electronSmearedD0WRTBeamspot+") < 50"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons with |d_0| < 50 mum")
+    )
+
+# electron d0 > 50 microns
+electron_d0_greaterThan50_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("10000*abs("+electronSmearedD0WRTBeamspot+") > 50"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons with |d_0| > 50 mum")
     )
 
 # electron d0 < 100 microns

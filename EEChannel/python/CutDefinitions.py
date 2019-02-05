@@ -19,6 +19,9 @@ electron_pt_42_cut.numberRequired = cms.string(">= 2")
 electron_pt_30_cut.numberRequired = cms.string(">= 2")
 electron_pt_25_cut.numberRequired = cms.string(">= 2")
 
+# only require >= 1 electron to cut on leading electron
+electron_pt_100_cut.alias = cms.string(">=1 electrons with pT > 100")
+
 electron_id_cut.numberRequired = cms.string(">= 2")
 electron_id_cut.alias = cms.string(">=2 electrons with versioned tight ID")
 
@@ -33,6 +36,9 @@ electron_d0_lessThan10_cut.alias = cms.string(">=2 electrons with |d_0| < 10 mum
 
 electron_d0_lessThan50_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan50_cut.alias = cms.string(">=2 electrons with |d_0| < 50 mum")
+
+electron_d0_greaterThan50_cut.numberRequired = cms.string(">= 2")
+electron_d0_greaterThan50_cut.alias = cms.string(">=2 electrons with |d_0| > 50 mum")
 
 electron_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan100_cut.alias = cms.string(">=2 electrons with |d_0| < 100 mum")
