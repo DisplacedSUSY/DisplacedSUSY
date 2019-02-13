@@ -65,8 +65,14 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
       )
     )
+elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+    process.source = cms.Source ('PoolSource',
+      fileNames = cms.untracked.vstring (
+            #input MINIAOD files
+      )
+                             )
 else:
-    print "What CMSSW release are you in? We expect to be in 80X or 94X"
+    print "What CMSSW release are you in? We expect to be in 80X or 94X or 102X"
 
 #drop collections that we don't need, and only screw things up
 process.source.inputCommands = cms.untracked.vstring(["keep *", "drop osu*_*_originalFormat_*"])
@@ -88,12 +94,16 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 ################################################################################
 
 #from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions
+#and https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVAnalysisSummaryTable
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     data_global_tag = '80X_dataRun2_2016LegacyRepro_v4'
     mc_global_tag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_v6'
     mc_global_tag = '94X_mc2017_realistic_v14'
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    data_global_tag = '102X_dataRun2_Sep2018Rereco_v1'
+    mc_global_tag = '102X_upgrade2018_realistic_v12'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
