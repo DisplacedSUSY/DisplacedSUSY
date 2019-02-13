@@ -10,8 +10,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     from DisplacedSUSY.Configuration.miniAODV2_94X_Samples import *
     print "using 94X samples"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    from DisplacedSUSY.Configuration.miniAODV2_102X_Samples import *
+    print "using 102X samples"
 else:
-    print "What CMSSW release are you in? We expect the samples to be imported from the 80X or 94X list"
+    print "What CMSSW release are you in? We expect the samples to be imported from the 80X or 94X or 102X list"
 
 systematics_file = "DisplacedSUSY.Configuration.systematicsDefinitions"
 external_systematics_directory = "DisplacedSUSY/Configuration/data/"

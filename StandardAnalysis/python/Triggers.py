@@ -109,7 +109,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         "HLT_IsoMu27_v"
         )
 
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# Using 2018 triggers"
     #http://fwyzard.web.cern.ch/fwyzard/hlt/2018/summary
 
