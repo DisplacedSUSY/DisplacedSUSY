@@ -6,7 +6,7 @@
 # them, and plots the distributions, fits, and fit parameters on individual canvases.
 
 # usage: fitGaussian.py -l CONFIG
-# sample config: EEChannel/test/fitGaussian_cfg.py
+# sample config: StandardAnalysis/test/fitGaussian_cfg.py
 
 import sys
 import re
