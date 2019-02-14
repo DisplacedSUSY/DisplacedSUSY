@@ -35,6 +35,20 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     'SingleMu_2017'
         ]
 
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+
+    intLumi = 59970 #prompt reco 2018 golden json, with normtag
+
+    default_datasets = [
+    'WJetsToLNu',
+    'Diboson',
+    'DYJetsToLL',
+    'SingleTop',
+    'TTJets_DiLept',
+    'QCD_MuEnriched',
+    'SingleMu_2018'
+        ]
+
 # Redefine composite datasets that differ from those in OSUT3Analysis/Configuration/ConfigurationOptions.py
 composite_dataset_definitions['Diboson'] = [
     'WWToLNuLNu',

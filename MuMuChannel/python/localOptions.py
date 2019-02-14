@@ -33,6 +33,20 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'DisplacedSUSYSignal',
         ]
 
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+
+    intLumi = 59970 #prompt reco 2018 golden json, with normtag
+
+    default_datasets = [
+        'DoubleMu_2018',
+        'DYJetsToLL',
+        'TTJets_inclusive',
+        'SingleTop',
+        'Diboson',
+        'QCD_MuEnriched',
+        'DisplacedSUSYSignal',
+        ]
+
 # Define background MC composite dataset for plotting
 composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('DoubleMu') or x.startswith('DisplacedSUSYSignal'))]
 
