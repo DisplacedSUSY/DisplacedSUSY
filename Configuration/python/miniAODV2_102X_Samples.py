@@ -112,13 +112,13 @@ data_samples = {
     'MuonEG_2018D' : '/MuonEG/Run2018D-PromptReco-v2/MINIAOD',
 
     # DoubleMuon 2018,17Sep2018 rereco
-    'DoubleMu_2018A' : '/DoubleMuon/Run2018A-17Sep2018-v1/MINIAOD',
+    'DoubleMu_2018A' : '/DoubleMuon/Run2018A-17Sep2018-v2/MINIAOD',
     'DoubleMu_2018B' : '/DoubleMuon/Run2018B-17Sep2018-v1/MINIAOD',
     'DoubleMu_2018C' : '/DoubleMuon/Run2018C-17Sep2018-v1/MINIAOD',
     'DoubleMu_2018D' : '/DoubleMuon/Run2018D-PromptReco-v2/MINIAOD',
 
     # EGamma 2018,17Sep2018 rereco
-    'EGamma_2018A' : '/EGamma/Run2018A-17Sep2018-v1/MINIAOD',
+    'EGamma_2018A' : '/EGamma/Run2018A-17Sep2018-v2/MINIAOD',
     'EGamma_2018B' : '/EGamma/Run2018B-17Sep2018-v1/MINIAOD',
     'EGamma_2018C' : '/EGamma/Run2018C-17Sep2018-v1/MINIAOD',
     'EGamma_2018D' : ['/EGamma/Run2018D-PromptReco-v1/MINIAOD',
@@ -139,7 +139,7 @@ data_samples = {
                      '/JetHT/Run2018D-PromptReco-v2/MINIAOD'],
 
     # SingleMu 2018,17Sep2018 rereco
-    'SingleMu_2018A' : '/SingleMuon/Run2018A-17Sep2018-v1/MINIAOD',
+    'SingleMu_2018A' : '/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD',
     'SingleMu_2018B' : '/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD',
     'SingleMu_2018C' : '/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD',
     'SingleMu_2018D' : '/SingleMuon/Run2018D-PromptReco-v2/MINIAOD',
