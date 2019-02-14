@@ -20,6 +20,11 @@ void CombineDataFiles() {
       histNames[4] = "data2017_CDEFUp";
       histNames[5] = "data2017_CDEFDown";
   }
+  else if (strncmp(getenv("CMSSW_VERSION"), "CMSSW_10_2", strlen("CMSSW_10_2")) == 0) {
+      histNames[0] = "data2018";
+      histNames[1] = "data2018Up";
+      histNames[2] = "data2018Down";
+  }
 
   TFile * output = new TFile("puData.root", "RECREATE");
 

@@ -7,7 +7,7 @@
 #####################################################################
 
 switch ( $CMSSW_VERSION )
-    case "CMSSW_8_0*":
+    case "CMSSW_8_0_*":
         echo "Detected CMSSW 80X. Calculating 2016 PU"
 
         set json_dir=https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final
@@ -23,7 +23,7 @@ switch ( $CMSSW_VERSION )
 
         breaksw
 
-    case "CMSSW_9_4*":
+    case "CMSSW_9_4_*":
         echo "Detected CMSSW 94X. Calculating 2017 PU"
 
         set json_dir=https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions17/13TeV/ReReco
@@ -38,6 +38,16 @@ switch ( $CMSSW_VERSION )
         set min_run=299338
         set max_run=306460
 
+    case "CMSSW_10_2_*":
+        echo "Detected CMSSW 102X. Calculating 2018 PU"
+
+        set json_dir=https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PromptReco
+        set json=Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt
+        set pu_json_dir=https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PileUp
+        set pu_json=pileup_latest.txt
+
+	# No splitting in 2018 necessary
+
         breaksw
 
     default:
@@ -45,7 +55,7 @@ switch ( $CMSSW_VERSION )
         exit 1
 endsw
 
-# use 2016 minBias for 2016 and 2017 until official 2017 values appear
+# same minbias cross section recommendation for 2016-2018
 set minBias=69200
 set minBiasUncertainty=0.046
 set nBinsX=100
@@ -66,9 +76,12 @@ wget $json_dir/$json
 ########################################################
 # Split given year into subsets used in analysis
 ########################################################
-
-filterJSON.py --min $min_run --max $max_run $json --output $filter_json
-
+switch ( $CMSSW_VERSION )
+    case "CMSSW_10_2_*":
+        breaksw
+    default:
+	filterJSON.py --min $min_run --max $max_run $json --output $filter_json
+endsw
 ########################################################
 # Get data distributions using JSONs as masks
 ########################################################
@@ -80,13 +93,17 @@ echo "finished pileupcalc 2/6"
 pileupCalc.py -i $json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBiasDown --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_down.root
 echo "finished pileupcalc 3/6"
 
-pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBias --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_central.root
-echo "finished pileupcalc 4/6"
-pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBiasUp --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_up.root
-echo "finished pileupcalc 5/6"
-pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBiasDown --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_down.root
-echo "finished pileupcalc 6/6"
-
+switch ( $CMSSW_VERSION )
+    case "CMSSW_10_2_*":
+        breaksw
+    default:
+	pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBias --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_central.root
+	echo "finished pileupcalc 4/6"
+	pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBiasUp --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_up.root
+	echo "finished pileupcalc 5/6"
+	pileupCalc.py -i $filter_json --inputLumiJSON pileup.txt --calcMode true --minBiasXsec $minBiasDown --maxPileupBin $nBinsX --numPileupBins $nBinsX puData_filtered_down.root
+	echo "finished pileupcalc 6/6"
+endsw
 ########################################################
 # Combine ROOT files and clean up
 ########################################################
