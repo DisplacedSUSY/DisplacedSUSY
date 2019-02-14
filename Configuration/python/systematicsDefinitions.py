@@ -168,6 +168,7 @@ mc_normalized_processes = [
 # uncertainties for which the same value applies to all datasets
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     global_systematic_uncertainties = {
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {
             'value' : '1.025',
             'applyList' : mc_normalized_processes,
@@ -187,12 +188,13 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             },
         #taken from Ian's study
         'track_reco' :  {
-            'value' : '1.024',
+            'value' : '1.135',
             'applyList' : ['signal'],
             }
         }
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     global_systematic_uncertainties = {
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {
             'value' : '1.023',
             'applyList' : mc_normalized_processes,
@@ -212,7 +214,34 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             },
         #taken from Ian's study
         'track_reco' :  {
-            'value' : '1.024', #needs to be updated for 2017
+            'value' : '1.047', #needs to be updated for 2017
+            'applyList' : ['signal'],
+            }
+        }
+
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    global_systematic_uncertainties = {
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
+        'lumi' :  {
+            'value' : '1.05',
+            'applyList' : mc_normalized_processes,
+            },
+        # taken from the error on the trigger effieciency scale factor
+        'trigger_emu' :  {
+            'value' : '1.', #needs to be updated for 2018
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_ee' :  {
+            'value' : '1.', #needs to be updated for 2018
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_mumu' :  {
+            'value' : '1.', #needs to be updated for 2018
+            'applyList' : mc_normalized_processes,
+            },
+        #taken from Ian's study
+        'track_reco' :  {
+            'value' : '1.', #needs to be updated for 2018
             'applyList' : ['signal'],
             }
         }
