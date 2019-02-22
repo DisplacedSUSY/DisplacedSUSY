@@ -68,9 +68,15 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
-            #input MINIAOD files
+          #input MINIAOD files
+          #"/store/data/Run2018D/MuonEG/MINIAOD/PromptReco-v2/000/325/172/00000/C31B5583-B5A6-034D-A38C-66D11A21D9A9.root"
+          #"/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/325/175/00000/ACD8ED9B-F9B0-AE44-B0FD-E20DAB363018.root"
+          #"/store/data/Run2018D/EGamma/MINIAOD/PromptReco-v1/000/320/434/00000/1858FF04-BD93-E811-A4C8-FA163E472C72.root"
+          "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6391FD45-7256-EC45-B6D4-3DEF9DDCCF90.root"
+
+          #initial skim files
       )
-                             )
+    )
 else:
     print "What CMSSW release are you in? We expect to be in 80X or 94X or 102X"
 
