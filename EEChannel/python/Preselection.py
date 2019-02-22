@@ -19,7 +19,7 @@ Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_65_cut)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(electron_pt_75_cut)
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
 Preselection.cuts.append(electron_iso_cut)

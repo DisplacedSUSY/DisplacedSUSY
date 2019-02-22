@@ -4,23 +4,23 @@ import string
 from DisplacedSUSY.EMuChannel.CutDefinitions import *
 from DisplacedSUSY.StandardAnalysis.ElectronIdCutDefinitions import *
 
-########################################################################################## 
-#USE THIS CONFIG ONLY FOR ELECTRON TIGHT ID TESTS! 
-########################################################################################## 
+##########################################################################################
+#USE THIS CONFIG ONLY FOR ELECTRON TIGHT ID TESTS!
+##########################################################################################
 
 PreselectionWithExplicitEleIdBarrel = cms.PSet(
     name = cms.string("PreselectionWithExplicitEleIdBarrel"),
     triggers = triggersMuonPhoton,
     cuts = cms.VPSet()
 )
-### jet selection (just for plotting purposes, doesn't make event cuts) 
+### jet selection (just for plotting purposes, doesn't make event cuts)
 PreselectionWithExplicitEleIdBarrel.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least one good electron
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_eta_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_gap_veto)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     PreselectionWithExplicitEleIdBarrel.cuts.append(electron_pt_42_cut)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     PreselectionWithExplicitEleIdBarrel.cuts.append(electron_pt_50_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_isEB_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(electron_sigmaIetaIetaEB_cut)
@@ -37,7 +37,7 @@ PreselectionWithExplicitEleIdBarrel.cuts.append(electron_passConversionVeto_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     PreselectionWithExplicitEleIdBarrel.cuts.append(muon_pt_40_cut)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     PreselectionWithExplicitEleIdBarrel.cuts.append(muon_pt_50_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(muon_global_cut)
 PreselectionWithExplicitEleIdBarrel.cuts.append(muon_id_cut)
@@ -48,14 +48,14 @@ PreselectionWithExplicitEleIdEndcap = cms.PSet(
     triggers = triggersMuonPhoton,
     cuts = cms.VPSet()
 )
-### jet selection (just for plotting purposes, doesn't make event cuts) 
+### jet selection (just for plotting purposes, doesn't make event cuts)
 PreselectionWithExplicitEleIdEndcap.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least one good electron
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_eta_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_gap_veto)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     PreselectionWithExplicitEleIdEndcap.cuts.append(electron_pt_42_cut)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     PreselectionWithExplicitEleIdEndcap.cuts.append(electron_pt_50_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_isEE_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(electron_sigmaIetaIetaEE_cut)
@@ -72,7 +72,7 @@ PreselectionWithExplicitEleIdEndcap.cuts.append(electron_passConversionVeto_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     PreselectionWithExplicitEleIdEndcap.cuts.append(muon_pt_40_cut)
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     PreselectionWithExplicitEleIdEndcap.cuts.append(muon_pt_50_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(muon_global_cut)
 PreselectionWithExplicitEleIdEndcap.cuts.append(muon_id_cut)
