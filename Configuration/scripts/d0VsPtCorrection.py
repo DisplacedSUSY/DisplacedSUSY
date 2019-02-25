@@ -78,9 +78,9 @@ for d in distributions:
 
     # build linear model and fit hist
     # poly(x) = c0 + c1*x
-    c0 = RooRealVar("c0", "c0", 0, -100, 100)
-    c1 = RooRealVar("c1", "c1", 0, -100, 100)
-    poly = RooPolynomial("poly", "poly", x, RooArgList(c0, c1), 1)
+    c0 = RooRealVar("c0", "c0", 50, 0, 100)
+    c1 = RooRealVar("c1", "c1", -0.05, -2, 1)
+    poly = RooPolynomial("poly", "poly", x, RooArgList(c0, c1), 0)
 
     fit_range = d['fit_range'] if 'fit_range' in d else (var_range_lo, var_range_hi)
     poly.fitTo(hist, RooFit.Range(fit_range[0], fit_range[1]))
