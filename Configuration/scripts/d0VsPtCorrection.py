@@ -78,12 +78,17 @@ for d in distributions:
 
     # build linear model and fit hist
     # poly(x) = c0 + c1*x
-    c0 = RooRealVar("c0", "c0", 50, 0, 100)
-    c1 = RooRealVar("c1", "c1", -0.05, -2, 1)
-    poly = RooPolynomial("poly", "poly", x, RooArgList(c0, c1), 0)
+    A0 = RooRealVar("A0", "A0", 50, 40, 100)
+    A1 = RooRealVar("A1", "A1", -0.05, -0.1, 0.1)
+    B0 = RooRealVar("B0", "B0", 50, 40, 100)
+    B1 = RooRealVar("B1", "B1", -0.05, -0.1, 0.1)
+    polyA = RooPolynomial("polyA", "polyA", x, RooArgList(A0, A1), 0)
+    polyB = RooPolynomial("polyB", "polyB", x, RooArgList(B0, B1), 0)
 
-    fit_range = d['fit_range'] if 'fit_range' in d else (var_range_lo, var_range_hi)
-    poly.fitTo(hist, RooFit.Range(fit_range[0], fit_range[1]))
+    fit_rangeA = d['fit_rangeA'] if 'fit_rangeA' in d else (var_range_lo, var_range_hi)
+    fit_rangeB = d['fit_rangeB'] if 'fit_rangeB' in d else (var_range_lo, var_range_hi)
+    polyA.fitTo(hist, RooFit.Range(fit_rangeA[0], fit_rangeA[1]))
+    polyB.fitTo(hist, RooFit.Range(fit_rangeB[0], fit_rangeB[1]))
 
     # plot everything
     out_file.cd()
@@ -93,8 +98,10 @@ for d in distributions:
     f.SetName(d['name'])
     f.SetTitle(d['name'])
     hist.plotOn(f)
-    poly.plotOn(f)
-    poly.paramOn(f, RooFit.Layout(.62, 0.99, .87))
+    polyA.plotOn(f)
+    polyB.plotOn(f)
+    polyA.paramOn(f, RooFit.Layout(.3, 0.6, .87))
+    polyB.paramOn(f, RooFit.Layout(.6, 0.9, .87))
     f.Draw()
     c.Write()
     if arguments.savePDFs:
