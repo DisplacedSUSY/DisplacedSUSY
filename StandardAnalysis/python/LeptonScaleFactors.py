@@ -26,6 +26,16 @@ electronScaleFactors2017 = cms.VPSet (
     ),
 )
 
+electronScaleFactors2018 = cms.VPSet (
+    #needs to be updated/checked
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2018"),
+        wp = cms.string("Tight"),
+    ),
+)
+
 muonScaleFactors2016 = cms.VPSet (
     cms.PSet (
         inputCollection = cms.string("muons"),
@@ -64,6 +74,24 @@ muonScaleFactors2017 = cms.VPSet (
     ),
 )
 
+muonScaleFactors2018 = cms.VPSet (
+    #needs to be updated/checked
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Iso"),
+        version = cms.string("2018"),
+        wp = cms.string("TightTightID"),
+        additionalSystematic = cms.double(0.005), #to be updated when muon POG makes this update
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("ID"),
+        version = cms.string("2018"),
+        wp = cms.string("Tight"),
+        additionalSystematic = cms.double(0.01),#additional systematic to be updated when muon POG makes this update
+    ),
+)
+
 ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
     'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
@@ -82,3 +110,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Lepton SFs: 2017"
     ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2017
     MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2017
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# Lepton SFs: 2018"
+    ElectronScaleFactorProducer['scaleFactors'] = electronScaleFactors2018
+    MuonScaleFactorProducer['scaleFactors'] = muonScaleFactors2018
