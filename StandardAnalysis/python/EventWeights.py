@@ -3,7 +3,7 @@ import copy
 import os
 
 #################################################################
-##### 2016/2017 PAYLOADS ##################################
+##### 2016/2017/2018 PAYLOADS ###################################
 #################################################################
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -26,8 +26,17 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2017"
     triggerScaleFactorEMuChannelPayload = "triggerScaleFactorEMuChannel2017"
 
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    print "# EventWeights applied: 2018"
+    electronIdPayload = "electronID2018Tight"
+    muonIdPayload = ""#not yet defined for 2018
+    muonIsoPayload = ""#not yet defined for 2018
+    triggerScaleFactorEEChannelPayload = "triggerScaleFactorEEChannel2018"
+    triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2018"
+    triggerScaleFactorEMuChannelPayload = "triggerScaleFactorEMuChannel2018"
+
 else:
-    print "what release are you in? We expect to be in 80X or 94X for the event weights"
+    print "what release are you in? We expect to be in 80X or 94X or 102X for the event weights"
 
 
 
@@ -73,7 +82,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             inputVariable = cms.string(electronIdPayload)
             ),
         )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electronWeights = cms.VPSet(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
@@ -99,7 +108,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             inputVariable = cms.string(muonIsoPayload)
             ),
         )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     muonWeights = cms.VPSet(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
@@ -131,7 +140,9 @@ weightsEEChannel.append(
 
 # MU-MU CHANNEL
 weightsMuMuChannel = copy.deepcopy(weights)
-weightsMuMuChannel.extend(muonWeights)
+#muonWeights (muon id and iso SFs) are currently not yet defined for 2018
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_")):
+    weightsMuMuChannel.extend(muonWeights)
 weightsMuMuChannel.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
@@ -144,7 +155,9 @@ weightsMuMuChannel.append(
 # E-MU CHANNEL
 weightsEMuChannel = copy.deepcopy(weights)
 weightsEMuChannel.extend(electronWeights)
-weightsEMuChannel.extend(muonWeights)
+#muonWeights (muon id and iso SFs) are currently not yet defined for 2018
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_")):
+    weightsEMuChannel.extend(muonWeights)
 weightsEMuChannel.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),

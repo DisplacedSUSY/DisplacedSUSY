@@ -53,8 +53,9 @@ muon_loose_antiiso_alias = cms.string(">=1 muons with inverted loose isolation")
 
 # N.B.: JET ID VALID FOR ETA < 2.4
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
 # taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2017
+# and https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2018
     jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
                                               chargedEmEnergyFraction < 0.80 & \
                                               neutralEmEnergyFraction < 0.90 & \
@@ -94,7 +95,9 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 #B-JET CombinedSecondaryVertexv2
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+#keeping 102X the same as 94X for now. in 102X, should move to DeepCSV:
+#https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     btag_tightCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.9693")
 
@@ -125,8 +128,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 # pfdRhoIsoCorr -> isolation variables recalculated wrt the closest PV to the electron
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUElectronProducer.cc#L134
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working%20points%20for%2094X%20and%20later
+# Since you should use Fall17v2 VID for 94X and 102X, the isolation cuts are the same in the two releases
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"): #valid for 94X samples
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= (0.0287+0.506/pt)) | \
                                      (isEE & pfdRhoIsoCorr <= (0.0445+0.963/pt))")
 
@@ -140,7 +144,7 @@ electron_iso_alias = cms.string(">=1 electrons with tight isolation")
 
 ##########################################################################
 # INVERTED TIGHT ELECTRON ISOLATION
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > (0.0287+0.506/pt)) | \
                                      (isEE & pfdRhoIsoCorr > (0.0445+0.963/pt))")
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -151,7 +155,7 @@ electron_antiiso_alias = cms.string(">=1 electrons with inverted tight isolation
 ##########################################################################
 
 # ELECTRON ID IMPACT PARAMETER CUTS
-# impact parameter cuts are the same in 2016 and 2017
+# impact parameter cuts are the same in 2016 and 2017 and 2018
 
 electron_id_impact_parameter_cutstring = cms.string("(isEB & \
                                              abs("+electronD0WRTPV+") < 0.05 & \
@@ -167,7 +171,7 @@ electron_id_impact_parameter_alias = cms.string(">=1 electrons with tight ID imp
 
 # TIGHT MUON ID, part one
 # done separately because some other cuts access members that only exist for global muons
-# tight muon ID is so far the same for 2016 and 2017 data
+# tight muon ID is the same for 2016 and 2017 and 2018 data
 
 muon_global_cutstring = cms.string("isGlobalMuon & isPFMuon")
 
@@ -195,4 +199,3 @@ muon_id_impact_parameter_cutstring = cms.string("abs("+muonD0WRTPV+") < 0.2 & \
                                                  abs("+muonDZWRTPV+") < 0.5")
 
 muon_id_impact_parameter_alias = cms.string(">=1 muons with tight ID impact parameter cuts")
-
