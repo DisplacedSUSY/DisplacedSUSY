@@ -28,7 +28,9 @@ void CombineDataFiles() {
 
   TFile * output = new TFile("puData.root", "RECREATE");
 
-  for(int i = 0; i < 6; i++) {
+  int iMax = 6;
+  if (strncmp(getenv("CMSSW_VERSION"), "CMSSW_10_2", strlen("CMSSW_10_2")) == 0) iMax = 3;
+  for(int i = 0; i < iMax; i++) {
     TFile * input = new TFile(inputFiles[i] + ".root");
 
     cout << "working on " << inputFiles[i] << ".root" << endl;
