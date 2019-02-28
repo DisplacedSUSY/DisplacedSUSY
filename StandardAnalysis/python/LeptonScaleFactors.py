@@ -75,7 +75,6 @@ muonScaleFactors2017 = cms.VPSet (
 )
 
 muonScaleFactors2018 = cms.VPSet (
-    #needs to be updated/checked
     cms.PSet (
         inputCollection = cms.string("muons"),
         sfType = cms.string("Iso"),
