@@ -38,3 +38,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'stop1400_10mm',
         #'stop1700_10mm',
         #]
+
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    datasets = default_datasets
+    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    #datasets = ['MuonEG_2018']

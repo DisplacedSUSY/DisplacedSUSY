@@ -21,3 +21,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'stop1000_100mm',
         #]
     datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    datasets = default_datasets
+    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
