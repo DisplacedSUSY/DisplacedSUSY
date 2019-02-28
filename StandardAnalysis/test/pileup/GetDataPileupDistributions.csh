@@ -112,11 +112,17 @@ endsw
 
 root -b -q -l CombineDataFiles.C
 
+switch ( $CMSSW_VERSION )
+    case "CMSSW_10_2_*":
+        breaksw
+    default:
+	rm puData_filtered_central.root
+	rm puData_filtered_up.root
+	rm puData_filtered_down.root
+endsw
+
 rm puData_central.root
 rm puData_up.root
 rm puData_down.root
-rm puData_filtered_central.root
-rm puData_filtered_up.root
-rm puData_filtered_down.root
 
 echo "Created combined file puData.root"
