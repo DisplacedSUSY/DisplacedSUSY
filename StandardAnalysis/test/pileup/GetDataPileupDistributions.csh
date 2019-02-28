@@ -38,6 +38,8 @@ switch ( $CMSSW_VERSION )
         set min_run=299338
         set max_run=306460
 
+        breaksw
+
     case "CMSSW_10_2_*":
         echo "Detected CMSSW 102X. Calculating 2018 PU"
 
