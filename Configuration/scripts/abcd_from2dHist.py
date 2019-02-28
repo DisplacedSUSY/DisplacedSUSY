@@ -3,8 +3,8 @@
 # Given a 2D histogram and a set of x and y bin edges, this script will estimate
 # the number of events in the given target regions using an abcd method.
 #
-# usage: abcd.py -l CONFIG -w CONDOR_DIR
-# sample config: EEChannel/test/abcd_cfg.py
+# usage: abcd_from2dHist.py -l CONFIG -w CONDOR_DIR
+# sample config: EEChannel/test/abcd_from2dHist_cfg.py
 
 import sys
 import os
