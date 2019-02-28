@@ -22,6 +22,9 @@ muon_pt_50_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_70_cut.numberRequired = cms.string(">= 2")
 
+# only require >= 1 muon to cut on leading muon
+muon_pt_100_cut.alias = cms.string(">=1 muons with pT > 100")
+
 muon_global_cut.numberRequired = cms.string(">= 2")
 muon_global_cut.alias = cms.string(">=2 global PF muons")
 
@@ -39,6 +42,9 @@ muon_d0_lessThan10_cut.alias = cms.string(">=2 muons with |d_0| < 10 mum")
 
 muon_d0_lessThan50_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan50_cut.alias = cms.string(">=2 muons with |d_0| < 50 mum")
+
+muon_d0_greaterThan50_cut.numberRequired = cms.string(">= 2")
+muon_d0_greaterThan50_cut.alias = cms.string(">=2 muons with |d_0| > 50 mum")
 
 muon_d0_lessThan100_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan100_cut.alias = cms.string(">=2 muons with |d_0| < 100 mum")

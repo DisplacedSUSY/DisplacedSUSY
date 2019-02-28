@@ -498,6 +498,20 @@ muon_pt_70_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_100_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_100_veto = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 100"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("muon pT > 100 GeV veto")
+    )
+
 muon_pt_150_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 150"),
@@ -578,12 +592,20 @@ muon_d0_greaterThan40_cut = cms.PSet(
     alias = cms.string(">=1 muons with |d_0| > 40 mum")
     )
 
-# muon d0 < 10 microns
+# muon d0 < 50 microns
 muon_d0_lessThan50_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
     cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") < 50"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons with |d_0| < 50 mum")
+    )
+
+# muon d0 > 50 microns
+muon_d0_greaterThan50_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") > 50"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| > 50 mum")
     )
 
 # muon d0 < 100 microns

@@ -9,16 +9,20 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    #Preselection,
+    Preselection,
     #PromptControlRegion,
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
     #AntiIsoDisplacedControlRegion,
+    #PromptLowPtControlRegion,
+    #PromptHighPtControlRegion,
+    #DisplacedLowPtControlRegion,
+    #DisplacedHighPtControlRegion,
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
-    puScalingFactorNegative,
-    lifetimeWeightNegative,
+    #puScalingFactorNegative,
+    #lifetimeWeightNegative,
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors
