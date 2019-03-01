@@ -35,7 +35,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
-    intLumi = 59970 #prompt reco 2018 golden json, with normtag
+    intLumi = 59610 #prompt reco 2018 golden json, with normtag
 
     default_datasets = [
         'DoubleMu_2018',

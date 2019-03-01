@@ -223,7 +223,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     global_systematic_uncertainties = {
         # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {
-            'value' : '1.05',
+            'value' : '1.025',
             'applyList' : mc_normalized_processes,
             },
         # taken from the error on the trigger effieciency scale factor
