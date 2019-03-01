@@ -9,7 +9,7 @@ input_hist = "PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_el
 variable_bins = True
 
 # output info
-output_file  = "BackgroundEstimate.root"
+output_file  = "BackgroundABCDEstimate.root"
 x_axis_title = "Subleading electron |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
