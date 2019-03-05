@@ -31,6 +31,18 @@ else:
     print "you forgot to specify a condor directory with -w"
     sys.exit(1)
 
+# estimate yield as d = c * b / a
+def abcd(yields, errors):
+    if yields['b'] == 0 or yields['c'] == 0:
+        abcd_yield = abcd_error = 0
+    else:
+        cb_yield, cb_error = propagateError("product", yields['c'], errors['c'],
+                                            yields['b'], errors['b'])
+        abcd_yield, abcd_error = propagateError("quotient", cb_yield, cb_error,
+                                                yields['a'], errors['a'])
+    return (abcd_yield, abcd_error)
+
+
 for sample in samples:
     yields = {}
     errors = {}
@@ -42,22 +54,12 @@ for sample in samples:
         in_hist = in_file.Get(channel + "Plotter/Eventvariable Plots/numPV")
         if not in_hist:
             print "Warning: did not find input hist " + channel + "Plotter/Eventvariable Plots/numPV"
-        error = Double(0.0)
-        events = in_hist.IntegralAndError(0, in_hist.GetNbinsX()+1, error)
-        yields[region] = events
-        errors[region] = error
+        errors[region] = Double(0.0)
+        yields[region] = in_hist.IntegralAndError(0, in_hist.GetNbinsX()+1, errors[region])
 
-    # estimate yield as d = c * b / a
-    if yields['b'] == 0 or yields['c'] == 0:
-        abcd_yield = abcd_error = 0
-        ratio = ratio_error = 0
-    else:
-        cb_yield, cb_error = propagateError("product", yields['c'], errors['c'],
-                                            yields['b'], errors['b'])
-        abcd_yield, abcd_error = propagateError("quotient", cb_yield, cb_error,
-                                                yields['a'], errors['a'])
-        ratio, ratio_error = propagateError("quotient", abcd_yield, abcd_error,
-                                                yields['d'], errors['d'])
+    abcd_yield, abcd_error = abcd(yields, errors)
+    ratio, ratio_error = propagateError("quotient", abcd_yield, abcd_error, yields['d'], errors['d'])
+
 
     print sample
     print 'estimate: {:.3g} +- {:.3g}'.format(abcd_yield, abcd_error)
