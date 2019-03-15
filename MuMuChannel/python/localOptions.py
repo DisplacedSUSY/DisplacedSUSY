@@ -35,7 +35,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
-    intLumi = 60020 #17Sept early rereco 2018 golden json, with normtag
+    intLumi = 59740 #17Sept early rereco 2018 golden json, with approved PHYSICS normtag
 
     default_datasets = [
         'DoubleMu_2018',
