@@ -109,8 +109,8 @@ for sample in samples:
     line.SetLineWidth(2)
     line.SetLineColor(4)
     line.SetLineStyle(9)
-    line.DrawLine(40, 0, 40, 0.005)
-    line.DrawLine(100, 0, 100, 0.005)
+    line.DrawLine(fit_range[0], 0, fit_range[0], 0.005)
+    line.DrawLine(fit_range[1], 0, fit_range[1], 0.005)
     fit_canvas.Write()
 
 out_file.Close()
