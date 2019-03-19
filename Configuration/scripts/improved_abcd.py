@@ -60,7 +60,7 @@ for sample in samples:
     gStyle.SetOptFit(1111)
     fit = b_over_a_hist.GetFunction("fit")
 
-    # calculate d = c(m0+m1*x)
+    # calculate d(pT) = c(pT) * fit_function(pT)
     transfer_factor_hist = in_hists['c'].Clone()
     for b in range(1, in_hists["c"].GetNbinsX()+1):
         transfer_factor_hist.SetBinContent(b, fit.Eval(transfer_factor_hist.GetBinCenter(b)))
