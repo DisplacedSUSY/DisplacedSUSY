@@ -34,6 +34,16 @@ else:
 ###################################################################################################
 
 gROOT.SetBatch(True)
+gStyle.SetOptStat(1)
+gStyle.SetCanvasBorderMode(0)
+gStyle.SetPadBorderMode(0)
+gStyle.SetPadColor(0)
+gStyle.SetCanvasColor(0)
+gStyle.SetTextFont(42)
+gStyle.SetPaintTextFormat('6.4f')
+gStyle.SetStatFormat('6.4f')
+gStyle.SetFitFormat('6.4f')
+gROOT.ForceStyle()
 out_file = TFile(output_path + "improved_abcd_results.root", "recreate")
 
 for sample in samples:
@@ -71,9 +81,9 @@ for sample in samples:
     # print closure test results
     # fixme: need to account for overflow bin
     error = Double()
-    print "estimate:", d_estimate_hist.IntegralAndError(0, d_estimate_hist.GetNbinsX(), error), "+-", error
+    print "estimate:", round(d_estimate_hist.IntegralAndError(0, d_estimate_hist.GetNbinsX(), error),2), "+-", round(error,2)
     if arguments.unblind:
-        print "actual:", in_hists["d"].IntegralAndError(0, in_hists["c"].GetNbinsX(), error), "+-", error
+        print "actual:", round(in_hists["d"].IntegralAndError(0, in_hists["c"].GetNbinsX(), error),2), "+-", round(error,2)
     else:
         print "actual: BLINDED"
 
