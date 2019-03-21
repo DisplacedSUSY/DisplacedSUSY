@@ -108,8 +108,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     data_global_tag = '94X_dataRun2_v6'
     mc_global_tag = '94X_mc2017_realistic_v14'
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    data_global_tag = '102X_dataRun2_Sep2018Rereco_v1'
-    mc_global_tag = '102X_upgrade2018_realistic_v12'
+    data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
+    mc_global_tag = '102X_upgrade2018_realistic_v18'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
