@@ -22,8 +22,14 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             '/store/mc/RunIIFall17MiniAOD/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/9A55E3AC-E8F8-E711-9214-0CC47AB58BE4.root'
         )
     )
+elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+    process.source = cms.Source ('PoolSource',
+        fileNames = cms.untracked.vstring (
+            '/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6391FD45-7256-EC45-B6D4-3DEF9DDCCF90.root'
+        )
+    )
 else:
-    print "What CMSSW release are you in? We expect to be in 80X or 94X"
+    print "What CMSSW release are you in? We expect to be in 80X or 94X or 102X"
 
 process.TFileService = cms.Service ("TFileService",
     fileName = cms.string ('hist.root')

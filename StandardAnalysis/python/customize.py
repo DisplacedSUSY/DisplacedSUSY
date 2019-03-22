@@ -69,8 +69,8 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2018.root')
             process.PUScalingFactorProducer.target = cms.string ("data2018")
-            process.PUScalingFactorProducer.targetUp = cms.string ("data2018")
-            process.PUScalingFactorProducer.targetDown = cms.string ("data2018")
+            process.PUScalingFactorProducer.targetUp = cms.string ("data2018Up")
+            process.PUScalingFactorProducer.targetDown = cms.string ("data2018Down")
 
 
 
