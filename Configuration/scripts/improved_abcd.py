@@ -55,6 +55,7 @@ for sample in samples:
     for region, channel in channels.iteritems():
         # fixme: set plot in cfg
         in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
+        #in_hists[region].Rebin(2)
         if not in_hists[region]:
             print "Warning: could not load histogram"
 
