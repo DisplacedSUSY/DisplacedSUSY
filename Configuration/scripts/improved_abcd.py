@@ -35,6 +35,7 @@ else:
 
 gROOT.SetBatch(True)
 gStyle.SetOptStat(1)
+gStyle.SetOptFit(1)
 gStyle.SetCanvasBorderMode(0)
 gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
@@ -44,7 +45,10 @@ gStyle.SetPaintTextFormat('6.4f')
 gStyle.SetStatFormat('6.4f')
 gStyle.SetFitFormat('6.4f')
 gROOT.ForceStyle()
+
 out_file = TFile(output_path + "improved_abcd_results.root", "recreate")
+fit_results = {}
+c_yields = {}
 
 for sample in samples:
     print "\n" + sample
@@ -53,25 +57,46 @@ for sample in samples:
 
     # get histograms and statistical uncertainties for all regions
     for region, channel in channels.iteritems():
-        # fixme: set plot in cfg
         in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
-        #in_hists[region].Rebin(2)
+        in_hists[region].Rebin(2)
         if not in_hists[region]:
             print "Warning: could not load histogram"
 
-    # plot A/B and perform fit
-    fit_func = TF1("fit", fit_function, 0, in_hists['a'].GetXaxis().GetXmax())
-    fit_func.SetParLimits(0, 0, 1)
-    fit_func.SetParLimits(1, -1, 1)
+    # plot A/B
+    # fixme: probably foolish to save ratio as a histogram; maybe tgraphasymmerrors?
     b_over_a_hist = in_hists['b'].Clone()
     d_over_c_hist = in_hists['d'].Clone()
     b_over_a_hist.Divide(in_hists['a'])
     d_over_c_hist.Divide(in_hists['c'])
-    b_over_a_hist.Fit(fit_func, "WL", "", fit_range[0], fit_range[1])
-    gStyle.SetOptFit(1111)
-    fit = b_over_a_hist.GetFunction("fit")
 
-    # calculate d(pT) = c(pT) * fit_function(pT)
+    # fit A/B
+    composite = sample in composite_samples
+    model = composite_model if composite else component_model
+    fit_func = TF1(sample + "_fit", model, 0, in_hists['a'].GetXaxis().GetXmax())
+    if composite:
+        components = composite_samples[sample]
+        print "Fitting composite dataset:"
+        print "model:", model
+        print "[1] and [2] correspond to " + components[0]
+        print "[3] and [4] correspond to " + components[1]
+        #fit_func.SetParLimits(0, 0, 1) # let weights float
+        fit_func.FixParameter(0, c_yields[components[0]] / (c_yields[components[0]]+c_yields[components[1]])) # fix weights to ratio of events in region c
+        fit_func.FixParameter(1, fit_results[components[0]].GetParameter(0))
+        fit_func.FixParameter(2, fit_results[components[0]].GetParameter(1))
+        fit_func.FixParameter(3, fit_results[components[1]].GetParameter(0))
+        fit_func.FixParameter(4, fit_results[components[1]].GetParameter(1))
+    else:
+        print "Fitting component dataset:"
+        print "model:", model
+        fit_func.SetParLimits(0, 0, 100)
+        fit_func.SetParLimits(1, 0, 100)
+
+    b_over_a_hist.Fit(fit_func, "WL", "", fit_range[0], fit_range[1])
+    fit = b_over_a_hist.GetFunction(sample+"_fit")
+    fit_results[sample] = fit.Clone()
+    c_yields[sample] = in_hists["c"].Integral()
+
+    # calculate d(pT) = c(pT) * model(pT)
     transfer_factor_hist = in_hists['c'].Clone()
     for b in range(1, in_hists["c"].GetNbinsX()+1):
         transfer_factor_hist.SetBinContent(b, fit.Eval(transfer_factor_hist.GetBinCenter(b)))
@@ -84,7 +109,7 @@ for sample in samples:
     error = Double()
     print "estimate:", round(d_estimate_hist.IntegralAndError(0, d_estimate_hist.GetNbinsX(), error),2), "+-", round(error,2)
     if arguments.unblind:
-        print "actual:", round(in_hists["d"].IntegralAndError(0, in_hists["c"].GetNbinsX(), error),2), "+-", round(error,2)
+        print "actual:", round(in_hists["d"].IntegralAndError(0, in_hists["d"].GetNbinsX(), error),2), "+-", round(error,2)
     else:
         print "actual: BLINDED"
 
