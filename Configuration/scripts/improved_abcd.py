@@ -3,9 +3,10 @@
 import sys
 import os
 import re
+from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TH1F, TF1, TCanvas, Double, gStyle, gROOT, TLine
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gROOT, TLine
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -58,7 +59,7 @@ for sample in samples:
     # get histograms and statistical uncertainties for all regions
     for region, channel in channels.iteritems():
         in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
-        in_hists[region].Rebin(2)
+        in_hists[region] = in_hists[region].Rebin(len(bin_edges)-1, in_hists[region].GetName(), array('d', bin_edges))
         if not in_hists[region]:
             print "Warning: could not load histogram"
 
