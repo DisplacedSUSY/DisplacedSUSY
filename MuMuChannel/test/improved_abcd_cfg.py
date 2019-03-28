@@ -25,7 +25,7 @@ channels = {
 }
 
 input_hist = "Muon Plots/muonLeadingPt"
-bin_edges = [0,40,50,60,70,80,90,100,150,200,300,400,500]
+bin_edges = [0,40,50,60,70,80,90,100,125,150,200,250,500]
 component_model = "[0] + [1]/x" # |d0| resolution as a function of pT
 composite_model = "[0] * ([1] + [2]/x) + (1 - [0]) * ([3] + [4]/x)"
 fit_range = (40, 100)
