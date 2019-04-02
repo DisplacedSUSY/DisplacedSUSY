@@ -6,7 +6,7 @@ config_file = "Preselection_cfg.py"
 
 # create list of datasets to process
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    datasets = []
+    #datasets = []
     datasets = default_datasets
     #datasets.append()
     #datasets.append('Background')
@@ -25,9 +25,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     #    ]
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    datasets = []
-    datasets.append('TTJets_inclusive')
-    #datasets = default_datasets
+    datasets = default_datasets
+    #datasets = []
+    #datasets.append('TTJets_inclusive')
     #datasets.append('Background')
     #datasets = [
         #DisplacedSUSYSignal',
@@ -45,7 +45,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'stop1000_1mm',
         #'stop1000_100mm',
         #]
-    #datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets = default_datasets
