@@ -27,6 +27,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     default_datasets = [
         'DoubleEG_2017',
         'DYJetsToLL',
+        'TTJets_Lept',
         'TTJets_inclusive',
         'SingleTop',
         'Diboson',
