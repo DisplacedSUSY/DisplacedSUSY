@@ -6,7 +6,7 @@ import re
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TF1, TCanvas, Double, gStyle, gROOT, TLine
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gROOT, TLine, TGraphAsymmErrors, TMultiGraph
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -63,12 +63,9 @@ for sample in samples:
         if not in_hists[region]:
             print "Warning: could not load histogram"
 
-    # plot A/B
-    # fixme: probably foolish to save ratio as a histogram; maybe tgraphasymmerrors?
-    b_over_a_hist = in_hists['b'].Clone()
-    d_over_c_hist = in_hists['d'].Clone()
-    b_over_a_hist.Divide(in_hists['a'])
-    d_over_c_hist.Divide(in_hists['c'])
+    # plot A/B and C/D
+    b_over_a_hist = TGraphAsymmErrors(in_hists['b'], in_hists['a'], "pois")
+    d_over_c_hist = TGraphAsymmErrors(in_hists['d'], in_hists['c'], "pois")
 
     # fit A/B
     composite = sample in composite_samples
@@ -92,7 +89,7 @@ for sample in samples:
         fit_func.SetParLimits(0, 0, 100)
         fit_func.SetParLimits(1, 0, 100)
 
-    b_over_a_hist.Fit(fit_func, "WL", "", fit_range[0], fit_range[1])
+    b_over_a_hist.Fit(fit_func, "", "", fit_range[0], fit_range[1])
     fit = b_over_a_hist.GetFunction(sample+"_fit")
     fit_results[sample] = fit.Clone()
     c_yields[sample] = in_hists["c"].Integral()
@@ -120,8 +117,18 @@ for sample in samples:
     transfer_factor_hist.SetTitle(sample + "_tf")
     transfer_factor_hist.SetName(sample + "_tf")
     transfer_factor_hist.Write()
+    # input hists
+    a_canvas = TCanvas(sample+"_a", sample+"_a", 100, 100, 700, 600)
+    in_hists['a'].Draw()
+    a_canvas.Write()
+    b_canvas = TCanvas(sample+"_b", sample+"_b", 100, 100, 700, 600)
+    in_hists['b'].Draw()
+    b_canvas.Write()
+    c_canvas = TCanvas(sample+"_c", sample+"_c", 100, 100, 700, 600)
+    in_hists['c'].Draw()
+    c_canvas.Write()
     # estimated and actual pT distributions in region D
-    d_canvas = TCanvas(sample+"_d", sample+"_d", 100, 100, 700, 600 )
+    d_canvas = TCanvas(sample+"_d", sample+"_d", 100, 100, 700, 600)
     d_estimate_hist.SetTitle(sample + " d estimate and actual")
     d_estimate_hist.SetName(sample + " d estimate and actual")
     d_estimate_hist.SetLineColor(2)
@@ -130,24 +137,31 @@ for sample in samples:
         in_hists['d'].Draw("sames")
     d_canvas.Write()
     # fits and combined B/A and D/C plots
-    fit_canvas = TCanvas(sample + " fit", sample + " fit", 100, 100, 700, 600 )
-    b_over_a_hist.Draw()
-    b_over_a_hist.SetTitle(sample + " fit")
-    b_over_a_hist.SetName(sample + " fit")
-    b_over_a_hist.GetYaxis().SetRangeUser(0, 0.005)
-    b_over_a_hist.GetYaxis().SetTitle("B/A or D/C")
-    b_over_a_hist.GetYaxis().SetTitleOffset(1.4)
-    b_over_a_hist.GetYaxis().SetLabelSize(0.025)
+    fit_canvas = TCanvas(sample + " fit", sample + " fit", 100, 100, 700, 600)
+    b_over_a_hist.PaintStats(fit)
+    badc_mg = TMultiGraph()
+    badc_mg.Add(b_over_a_hist)
     if arguments.unblind:
-        d_over_c_hist.Draw("same")
+        badc_mg.Add(d_over_c_hist)
+    badc_mg.Draw("AP")
+    badc_mg.SetTitle(sample + " fit")
+    badc_mg.SetName(sample + " fit")
+    if "QCD" in sample:
+        y_range = 0.5
+    else:
+        y_range = 0.005
+    badc_mg.GetYaxis().SetRangeUser(0, y_range)
+    badc_mg.GetYaxis().SetTitle("B/A or D/C")
+    badc_mg.GetYaxis().SetTitleOffset(1.4)
+    badc_mg.GetYaxis().SetLabelSize(0.025)
     fit.SetRange(0, 500)
-    fit.Draw("same")
     line = TLine()
     line.SetLineWidth(2)
     line.SetLineColor(4)
     line.SetLineStyle(9)
-    line.DrawLine(fit_range[0], 0, fit_range[0], 0.005)
-    line.DrawLine(fit_range[1], 0, fit_range[1], 0.005)
+    line.DrawLine(fit_range[0], 0, fit_range[0], y_range)
+    line.DrawLine(fit_range[1], 0, fit_range[1], y_range)
     fit_canvas.Write()
+    #fit_canvas.SaveAs(sample+"_fit.pdf")
 
 out_file.Close()
