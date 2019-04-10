@@ -23,8 +23,10 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut)
-### to find negative valued bins in abcd method closure test
 
+#################################################################
+
+### to find negative valued bins in abcd method closure test
 lifetimeWeightNegative = copy.deepcopy(Preselection)
 lifetimeWeightNegative.name = cms.string("lifetimeWeightNegative")
 lifetimeWeightNegative.cuts.append(lifetimeWeight_negative)
@@ -33,15 +35,23 @@ puScalingFactorNegative = copy.deepcopy(Preselection)
 puScalingFactorNegative.name = cms.string("puScalingFactorNegative")
 puScalingFactorNegative.cuts.append(puScalingFactor_negative)
 
+#################################################################
+
+PreselectionNoIsoCut = copy.deepcopy(Preselection)
+PreselectionNoIsoCut.name = cms.string("PreselectionNoIsoCut")
+removeCuts(PreselectionNoIsoCut.cuts, [muon_iso_cut])
+
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
 PromptControlRegion.cuts.append(muon_d0_lessThan50_cut)
 
+PromptControlRegionNoIsoCut = copy.deepcopy(PromptControlRegion)
+PromptControlRegionNoIsoCut.name = cms.string("PromptControlRegionNoIsoCut")
+PromptControlRegionNoIsoCut.cuts.append(muon_d0_lessThan50_cut)
+
 AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)
 AntiIsoPromptControlRegion.name = cms.string("AntiIsoPromptControlRegion")
 replaceSingleCut(AntiIsoPromptControlRegion.cuts, muon_antiiso_cut, muon_iso_cut) #replace muon_iso_cut with muon_antiiso_cut in the same place
-
-#################################################################
 
 DisplacedControlRegion = copy.deepcopy(Preselection)
 DisplacedControlRegion.name = cms.string("DisplacedControlRegion")
@@ -52,6 +62,14 @@ AntiIsoDisplacedControlRegion = copy.deepcopy(DisplacedControlRegion)
 AntiIsoDisplacedControlRegion.name = cms.string("AntiIsoDisplacedControlRegion")
 replaceSingleCut(AntiIsoDisplacedControlRegion.cuts, muon_antiiso_cut, muon_iso_cut) #replace muon_iso_cut with muon_antiiso_cut in the same place
 
+InclusiveSignalRegion = copy.deepcopy(Preselection)
+InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
+InclusiveSignalRegion.cuts.append(muon_d0_greaterThan50_cut)
+
+InclusiveSignalRegionNoIsoCut = copy.deepcopy(PreselectionNoIsoCut)
+InclusiveSignalRegionNoIsoCut.name = cms.string("InclusiveSignalRegionNoIsoCut")
+InclusiveSignalRegionNoIsoCut.cuts.append(muon_d0_greaterThan50_cut)
+
 #################################################################
 
 ZControlRegion = copy.deepcopy(Preselection)
@@ -61,36 +79,39 @@ ZControlRegion.cuts.append(muon_2muon_cut)
 ZControlRegion.cuts.append(diMuon_invMass_Z_cut) ### invMass in Z range
 ZControlRegion.cuts.append(muon_fiducial_phi_cut)
 
-
-#################################################################
-
-InclusiveSignalRegion = copy.deepcopy(Preselection)
-InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
-InclusiveSignalRegion.cuts.append(muon_d0_greaterThan50_cut)
-
 #################################################################
 
 PromptLowPtControlRegion = copy.deepcopy(PromptControlRegion)
 PromptLowPtControlRegion.name = cms.string("PromptLowPtControlRegion")
 PromptLowPtControlRegion.cuts.append(muon_pt_100_veto)
 
-#################################################################
-
 PromptHighPtControlRegion = copy.deepcopy(PromptControlRegion)
 PromptHighPtControlRegion.name = cms.string("PromptHighPtControlRegion")
 PromptHighPtControlRegion.cuts.append(muon_pt_100_cut)
-
-#################################################################
 
 DisplacedLowPtControlRegion = copy.deepcopy(InclusiveSignalRegion)
 DisplacedLowPtControlRegion.name = cms.string("DisplacedLowPtControlRegion")
 DisplacedLowPtControlRegion.cuts.append(muon_pt_100_veto)
 
-#################################################################
-
 DisplacedHighPtControlRegion = copy.deepcopy(InclusiveSignalRegion)
 DisplacedHighPtControlRegion.name = cms.string("DisplacedHighPtControlRegion")
 DisplacedHighPtControlRegion.cuts.append(muon_pt_100_cut)
+
+PromptLowPtControlRegionNoIsoCut = copy.deepcopy(PromptControlRegionNoIsoCut)
+PromptLowPtControlRegionNoIsoCut.name = cms.string("PromptLowPtControlRegionNoIsoCut")
+PromptLowPtControlRegionNoIsoCut.cuts.append(muon_pt_100_veto)
+
+PromptHighPtControlRegionNoIsoCut = copy.deepcopy(PromptControlRegionNoIsoCut)
+PromptHighPtControlRegionNoIsoCut.name = cms.string("PromptHighPtControlRegionNoIsoCut")
+PromptHighPtControlRegionNoIsoCut.cuts.append(muon_pt_100_cut)
+
+DisplacedLowPtControlRegionNoIsoCut = copy.deepcopy(InclusiveSignalRegionNoIsoCut)
+DisplacedLowPtControlRegionNoIsoCut.name = cms.string("DisplacedLowPtControlRegionNoIsoCut")
+DisplacedLowPtControlRegionNoIsoCut.cuts.append(muon_pt_100_veto)
+
+DisplacedHighPtControlRegionNoIsoCut = copy.deepcopy(InclusiveSignalRegionNoIsoCut)
+DisplacedHighPtControlRegionNoIsoCut.name = cms.string("DisplacedHighPtControlRegionNoIsoCut")
+DisplacedHighPtControlRegionNoIsoCut.cuts.append(muon_pt_100_cut)
 
 #################################################################
 
