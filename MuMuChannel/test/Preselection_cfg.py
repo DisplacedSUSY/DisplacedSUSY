@@ -10,6 +10,7 @@ from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
     Preselection,
+    #PreselectionNoIsoCut,
     #PromptControlRegion,
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
@@ -18,6 +19,10 @@ eventSelections = [
     #PromptHighPtControlRegion,
     #DisplacedLowPtControlRegion,
     #DisplacedHighPtControlRegion,
+    #PromptLowPtControlRegionNoIsoCut,
+    #PromptHighPtControlRegionNoIsoCut,
+    #DisplacedLowPtControlRegionNoIsoCut,
+    #DisplacedHighPtControlRegionNoIsoCut,
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
