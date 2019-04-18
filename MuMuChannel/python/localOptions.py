@@ -27,7 +27,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         'DoubleMu_2017_withoutB',
         'DYJetsToLL',
         'TTJets_Lept',
-        'TTJets_inclusive',
+        #'TTJets_inclusive',
         'SingleTop',
         'Diboson',
         'QCD_MuEnriched',
