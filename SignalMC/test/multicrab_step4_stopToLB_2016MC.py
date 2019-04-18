@@ -8,7 +8,7 @@ config.General.transferLogs = True
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'step4_PAT_2016MC_miniAODv3.py'
 config.JobType.maxMemoryMB = 8000
-config.JobType.numCores = 4
+config.JobType.numCores = 8
 
 config.Data.outputDatasetTag = 'MiniAOD'
 config.Data.inputDBS = 'phys03'
