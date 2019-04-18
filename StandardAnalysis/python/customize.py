@@ -36,9 +36,9 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
             if not hasattr(x, "type_"):
                 continue
             if x.type_() == "OSUElectronProducer":
-                setattr(x, "d0SmearingWidth", 0.00142) # from e-e pcr
+                setattr(x, "d0SmearingWidth", 0.001475) #in cm; ave of values from e-e and e-mu pcr (elog 1281)
             elif x.type_() == "OSUMuonProducer":
-                setattr(x, "d0SmearingWidth", 0.00073) # from e-mu pcr
+                setattr(x, "d0SmearingWidth", 0.000757) #in cm; ave of values from from e-mu and mu-mu pcr (elog 1281)
 
 ################################################################################
 ##### Apply PU reweighting #####################################################
