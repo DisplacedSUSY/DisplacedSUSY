@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/Usr/bin/env python
 
 ############################################################################################################
 #########  LIST OF MINIAOD V2 DATASETS  ####################################################################
@@ -159,20 +159,21 @@ data_samples = {
 
 signal_mc_samples = {
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
-    'stop200_1000mm' : "",#doesn't exist for 2017 MC yet
-    'stop200_100mm'  : "",#doesn't exist for 2017 MC yet
-    'stop200_10mm'   : "",#doesn't exist for 2017 MC yet
-    'stop200_1mm'    : "",#doesn't exist for 2017 MC yet
+    'stop200_1000mm' : "/StopToLB_M_200_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop200_100mm'  : "/StopToLB_M_200_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop200_10mm'   : "/StopToLB_M_200_10mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop200_1mm'    : "/StopToLB_M_200_1mm_13TeV_2017MC/jalimena-MiniAOD-18783c0a07109245951450a1a4f55409/USER",
 
-    'stop300_1000mm' : "",#doesn't exist for 2017 MC yet
-    'stop300_100mm'  : "",#doesn't exist for 2017 MC yet
-    'stop300_10mm'   : "",#doesn't exist for 2017 MC yet
-    'stop300_1mm'    : "",#doesn't exist for 2017 MC yet
+    'stop300_1000mm' : "/StopToLB_M_300_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop300_100mm'  : "/StopToLB_M_300_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop300_10mm'   : "/StopToLB_M_300_10mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stop300_1mm'    : "/StopToLB_M_300_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
 
     'stop400_1000mm' : "/DisplacedSUSY_stopToBottom_M_400_1000mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop400_100mm'  : "/DisplacedSUSY_stopToBottom_M_400_100mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop400_10mm'   : "/DisplacedSUSY_stopToBottom_M_400_10mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
     'stop400_1mm'    : "/DisplacedSUSY_stopToBottom_M_400_1mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
+    'stop400_1mm_private' : "/StopToLB_M_400_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
 
     'stop500_1000mm' : "/DisplacedSUSY_stopToBottom_M_500_1000mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",
     'stop500_100mm'  : "/DisplacedSUSY_stopToBottom_M_500_100mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM",
