@@ -41,13 +41,29 @@ PreselectionNoIsoCut = copy.deepcopy(Preselection)
 PreselectionNoIsoCut.name = cms.string("PreselectionNoIsoCut")
 removeCuts(PreselectionNoIsoCut.cuts, [muon_iso_cut])
 
+PreselectionLowEta = copy.deepcopy(Preselection)
+PreselectionLowEta.name = cms.string("PreselectionLowEta")
+PreselectionLowEta.cuts.append(muon_eta_lessThan1_cut)
+
+PreselectionHighEta = copy.deepcopy(Preselection)
+PreselectionHighEta.name = cms.string("PreselectionHighEta")
+PreselectionHighEta.cuts.append(muon_eta_greaterThan1_cut)
+
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
 PromptControlRegion.cuts.append(muon_d0_lessThan50_cut)
 
-PromptControlRegionNoIsoCut = copy.deepcopy(PromptControlRegion)
+PromptControlRegionNoIsoCut = copy.deepcopy(PreselectionNoIsoCut)
 PromptControlRegionNoIsoCut.name = cms.string("PromptControlRegionNoIsoCut")
 PromptControlRegionNoIsoCut.cuts.append(muon_d0_lessThan50_cut)
+
+PromptControlRegionLowEta = copy.deepcopy(PreselectionLowEta)
+PromptControlRegionLowEta.name = cms.string("PromptControlRegionLowEta")
+PromptControlRegionLowEta.cuts.append(muon_d0_lessThan50_cut)
+
+PromptControlRegionHighEta = copy.deepcopy(PreselectionHighEta)
+PromptControlRegionHighEta.name = cms.string("PromptControlRegionHighEta")
+PromptControlRegionHighEta.cuts.append(muon_d0_lessThan50_cut)
 
 AntiIsoPromptControlRegion = copy.deepcopy(PromptControlRegion)
 AntiIsoPromptControlRegion.name = cms.string("AntiIsoPromptControlRegion")
@@ -69,6 +85,14 @@ InclusiveSignalRegion.cuts.append(muon_d0_greaterThan50_cut)
 InclusiveSignalRegionNoIsoCut = copy.deepcopy(PreselectionNoIsoCut)
 InclusiveSignalRegionNoIsoCut.name = cms.string("InclusiveSignalRegionNoIsoCut")
 InclusiveSignalRegionNoIsoCut.cuts.append(muon_d0_greaterThan50_cut)
+
+InclusiveSignalRegionLowEta = copy.deepcopy(PreselectionLowEta)
+InclusiveSignalRegionLowEta.name = cms.string("InclusiveSignalRegionLowEta")
+InclusiveSignalRegionLowEta.cuts.append(muon_d0_greaterThan50_cut)
+
+InclusiveSignalRegionHighEta = copy.deepcopy(PreselectionHighEta)
+InclusiveSignalRegionHighEta.name = cms.string("InclusiveSignalRegionHighEta")
+InclusiveSignalRegionHighEta.cuts.append(muon_d0_greaterThan50_cut)
 
 #################################################################
 
@@ -112,6 +136,38 @@ DisplacedLowPtControlRegionNoIsoCut.cuts.append(muon_pt_100_veto)
 DisplacedHighPtControlRegionNoIsoCut = copy.deepcopy(InclusiveSignalRegionNoIsoCut)
 DisplacedHighPtControlRegionNoIsoCut.name = cms.string("DisplacedHighPtControlRegionNoIsoCut")
 DisplacedHighPtControlRegionNoIsoCut.cuts.append(muon_pt_100_cut)
+
+PromptLowPtControlRegionLowEta = copy.deepcopy(PromptControlRegionLowEta)
+PromptLowPtControlRegionLowEta.name = cms.string("PromptLowPtControlRegionLowEta")
+PromptLowPtControlRegionLowEta.cuts.append(muon_pt_100_veto)
+
+PromptHighPtControlRegionLowEta = copy.deepcopy(PromptControlRegionLowEta)
+PromptHighPtControlRegionLowEta.name = cms.string("PromptHighPtControlRegionLowEta")
+PromptHighPtControlRegionLowEta.cuts.append(muon_pt_100_cut)
+
+DisplacedLowPtControlRegionLowEta = copy.deepcopy(InclusiveSignalRegionLowEta)
+DisplacedLowPtControlRegionLowEta.name = cms.string("DisplacedLowPtControlRegionLowEta")
+DisplacedLowPtControlRegionLowEta.cuts.append(muon_pt_100_veto)
+
+DisplacedHighPtControlRegionLowEta = copy.deepcopy(InclusiveSignalRegionLowEta)
+DisplacedHighPtControlRegionLowEta.name = cms.string("DisplacedHighPtControlRegionLowEta")
+DisplacedHighPtControlRegionLowEta.cuts.append(muon_pt_100_cut)
+
+PromptLowPtControlRegionHighEta = copy.deepcopy(PromptControlRegionHighEta)
+PromptLowPtControlRegionHighEta.name = cms.string("PromptLowPtControlRegionHighEta")
+PromptLowPtControlRegionHighEta.cuts.append(muon_pt_100_veto)
+
+PromptHighPtControlRegionHighEta = copy.deepcopy(PromptControlRegionHighEta)
+PromptHighPtControlRegionHighEta.name = cms.string("PromptHighPtControlRegionHighEta")
+PromptHighPtControlRegionHighEta.cuts.append(muon_pt_100_cut)
+
+DisplacedLowPtControlRegionHighEta = copy.deepcopy(InclusiveSignalRegionHighEta)
+DisplacedLowPtControlRegionHighEta.name = cms.string("DisplacedLowPtControlRegionHighEta")
+DisplacedLowPtControlRegionHighEta.cuts.append(muon_pt_100_veto)
+
+DisplacedHighPtControlRegionHighEta = copy.deepcopy(InclusiveSignalRegionHighEta)
+DisplacedHighPtControlRegionHighEta.name = cms.string("DisplacedHighPtControlRegionHighEta")
+DisplacedHighPtControlRegionHighEta.cuts.append(muon_pt_100_cut)
 
 #################################################################
 

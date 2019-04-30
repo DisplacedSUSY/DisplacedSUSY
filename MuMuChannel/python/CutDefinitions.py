@@ -10,6 +10,10 @@ from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 muon_eta_cut.numberRequired = cms.string(">= 2")
 
+muon_eta_lessThan1_cut.numberRequired = cms.string(">= 2")
+
+muon_eta_greaterThan1_cut.numberRequired = cms.string(">= 2")
+
 muon_pt_20_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_25_cut.numberRequired = cms.string(">= 2")
