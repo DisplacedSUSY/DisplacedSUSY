@@ -9,12 +9,12 @@ config_file = "Preselection_cfg.py"
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets = default_datasets
     #datasets.append()
-    datasets.remove('DisplacedSUSYSignal') #ready for stop-->l+b, m=200 to 1300 GeV; NOT ready for stop-->l+b, m=1400 to 1800 GeV and NOT ready for stop-->l+d, m=200 to 1800 GeV
+    datasets.remove('DisplacedSUSYSignal') #all samples ready
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = default_datasets
     #datasets = ['Background']
-    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    datasets.remove('DisplacedSUSYSignal') #all samples ready
     #datasets.remove('TTJets_Lept')
     #datasets = [
         #'stopToLD1000_1mm',

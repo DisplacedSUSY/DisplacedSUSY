@@ -10,7 +10,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets = default_datasets
     #datasets.append()
     #datasets.append('Background')
-    datasets.remove('DisplacedSUSYSignal') #ready for stop-->l+b, m=200 to 1300 GeV; NOT ready for stop-->l+b, m=1400 to 1800 GeV and NOT ready for stop-->l+d, m=200 to 1800 GeV
+    datasets.remove('DisplacedSUSYSignal') #all samples ready
     #datasets = [
     #    'stop400_10mm',
     #    'stop500_10mm',
@@ -45,7 +45,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'stop1000_1mm',
         #'stop1000_100mm',
         #]
-    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    datasets.remove('DisplacedSUSYSignal') #all samples ready
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets = default_datasets
