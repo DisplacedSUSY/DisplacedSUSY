@@ -17,20 +17,20 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 # create list of datasets to process
 datasets = [
-    'stop200_1mm',
-    'stop200_10mm',
-    'stop200_100mm',
-    'stop200_1000mm',
-    #'stop300_100mm',
-    #'stop400_1mm',
-    #'stop400_10mm',
-    #'stop400_100mm',
-    #'stop400_1000mm',
-    #'stop500_1mm',
-    #'stop500_10mm',
-    #'stop500_100mm',
-    #'stop600_1000mm',
-    #'stop900_10mm',
+    'stopToLB200_1mm',
+    'stopToLB200_10mm',
+    'stopToLB200_100mm',
+    'stopToLB200_1000mm',
+    #'stopToLB300_100mm',
+    #'stopToLB400_1mm',
+    #'stopToLB400_10mm',
+    #'stopToLB400_100mm',
+    #'stopToLB400_1000mm',
+    #'stopToLB500_1mm',
+    #'stopToLB500_10mm',
+    #'stopToLB500_100mm',
+    #'stopToLB600_1000mm',
+    #'stopToLB900_10mm',
     'Background'
 ]
 

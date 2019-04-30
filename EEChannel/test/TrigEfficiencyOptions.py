@@ -9,27 +9,24 @@ datasets = [
 
 
     #signal
-    # 'stop200_1mm',
-    # 'stop200_10mm',
-    # 'stop200_100mm',
-    # 'stop200_1000mm',
-    # 'stop800_1mm',
-    # 'stop800_10mm',
-    # 'stop800_100mm',
-    # 'stop800_1000mm',
-    # 'stop1200_1mm',
-    # 'stop1200_10mm',
-    # 'stop1200_100mm',
-    # 'stop1200_1000mm',
+    # 'stopToLB200_1mm',
+    # 'stopToLB200_10mm',
+    # 'stopToLB200_100mm',
+    # 'stopToLB200_1000mm',
+    # 'stopToLB800_1mm',
+    # 'stopToLB800_10mm',
+    # 'stopToLB800_100mm',
+    # 'stopToLB800_1000mm',
+    # 'stopToLB1200_1mm',
+    # 'stopToLB1200_10mm',
+    # 'stopToLB1200_100mm',
+    # 'stopToLB1200_1000mm',
 
     #data
     'MET_2016_postHIP',
     # 'MET_2016G',
     # 'MET_2016H',
-    
+
     #ttbar
     'TTJets_Lept',
 ]
-
-
-

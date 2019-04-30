@@ -17,8 +17,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'Background'
         #'stopToLD1000_1mm',
         #'stopToLD1000_100mm',
-        #'stop1000_1mm',
-        #'stop1000_100mm',
+        #'stopToLB1000_1mm',
+        #'stopToLB1000_100mm',
         #]
     datasets.remove('DisplacedSUSYSignal') #all samples ready
 

@@ -156,90 +156,90 @@ data_samples = {
 
 signal_mc_samples = {
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
-    'stop200_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop200_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop200_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop200_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB200_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB200_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB200_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB200_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop300_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop300_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop300_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop300_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB300_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB300_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB300_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB300_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop400_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop400_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop400_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop400_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB400_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB400_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB400_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB400_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop500_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop500_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop500_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop500_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB500_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB500_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB500_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB500_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop600_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop600_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop600_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop600_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB600_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB600_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB600_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB600_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop700_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop700_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop700_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop700_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB700_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB700_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB700_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB700_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop800_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop800_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop800_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop800_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB800_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB800_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB800_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB800_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop900_1000mm' : "",#doesn't exist for 2018 MC yet
-    'stop900_100mm'  : "",#doesn't exist for 2018 MC yet
-    'stop900_10mm'   : "",#doesn't exist for 2018 MC yet
-    'stop900_1mm'    : "",#doesn't exist for 2018 MC yet
+    'stopToLB900_1000mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB900_100mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB900_10mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB900_1mm'    : "",#doesn't exist for 2018 MC yet
 
-    'stop1000_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1000_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1000_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1000_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1000_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1000_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1000_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1000_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1100_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1100_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1100_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1100_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1100_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1100_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1100_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1100_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1200_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1200_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1200_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1200_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1200_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1200_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1200_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1200_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1300_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1300_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1300_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1300_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1300_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1300_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1300_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1300_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1400_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1400_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1400_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1400_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1400_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1400_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1400_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1400_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1500_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1500_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1500_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1500_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1500_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1500_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1500_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1500_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1600_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1600_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1600_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1600_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1600_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1600_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1600_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1600_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1700_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1700_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1700_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1700_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1700_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1700_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1700_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1700_1mm'   : "",#doesn't exist for 2018 MC yet
 
-    'stop1800_1000mm': "",#doesn't exist for 2018 MC yet
-    'stop1800_100mm' : "",#doesn't exist for 2018 MC yet
-    'stop1800_10mm'  : "",#doesn't exist for 2018 MC yet
-    'stop1800_1mm'   : "",#doesn't exist for 2018 MC yet
+    'stopToLB1800_1000mm': "",#doesn't exist for 2018 MC yet
+    'stopToLB1800_100mm' : "",#doesn't exist for 2018 MC yet
+    'stopToLB1800_10mm'  : "",#doesn't exist for 2018 MC yet
+    'stopToLB1800_1mm'   : "",#doesn't exist for 2018 MC yet
 
 
 

@@ -20,23 +20,23 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         #'stopToLD1000_1mm',
         #'stopToLD1000_100mm',
 
-        #'stop1000_1mm',
-        #'stop1000_100mm',
+        #'stopToLB1000_1mm',
+        #'stopToLB1000_100mm',
 
-        #'stop500_1mm',
-        #'stop500_10mm',
-        #'stop500_100mm',
-        #'stop500_1000mm',
+        #'stopToLB500_1mm',
+        #'stopToLB500_10mm',
+        #'stopToLB500_100mm',
+        #'stopToLB500_1000mm',
 
-        #'stop400_10mm',
-        #'stop500_10mm',
-        #'stop600_10mm',
-        #'stop700_10mm',
-        #'stop800_10mm',
-        #'stop900_10mm',
-        #'stop1000_10mm',
-        #'stop1400_10mm',
-        #'stop1700_10mm',
+        #'stopToLB400_10mm',
+        #'stopToLB500_10mm',
+        #'stopToLB600_10mm',
+        #'stopToLB700_10mm',
+        #'stopToLB800_10mm',
+        #'stopToLB900_10mm',
+        #'stopToLB1000_10mm',
+        #'stopToLB1400_10mm',
+        #'stopToLB1700_10mm',
         #]
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
