@@ -54,6 +54,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
 # Define background MC composite dataset for plotting
 composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('DoubleEG') or x.startswith('DisplacedSUSYSignal'))]
+composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
 
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 

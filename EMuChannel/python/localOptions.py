@@ -81,6 +81,7 @@ composite_dataset_definitions['QCD_MuEnriched'] = [
 
 # Define background MC composite dataset for plotting
 composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('MuonEG') or x.startswith('DisplacedSUSYSignal'))]
+composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
 
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 
