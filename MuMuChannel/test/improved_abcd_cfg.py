@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 
 # composite samples must be listed after component samples
 samples = [
@@ -24,8 +25,13 @@ channels = {
     'd' : 'DisplacedHighPtControlRegion', # signal region
 }
 
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    fitMin = 40 #muon pt cut at 40 GeV in 2016 mumu
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    fitMin = 50 #muon pt cut at 50 GeV in 2017 and 2018 mumu
+
 input_hist = "Muon Plots/muonLeadingPt"
-bin_edges = [0] + [x for x in range(40, 100, 2)] + [100,125,150,200,250,500]
-fit_ranges = [(x, 100) for x in range(40, 71, 2)]
+bin_edges = [0] + [x for x in range(fitMin, 100, 2)] + [100,125,150,200,250,500]
+fit_ranges = [(x, 100) for x in range(fitMin, 71, 2)]
 component_model = "[0] + [1]/x" # |d0| resolution as a function of pT
 composite_model = "[0] * ([1] + [2]/x) + (1 - [0]) * ([3] + [4]/x)"
