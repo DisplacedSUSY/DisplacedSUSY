@@ -6,7 +6,7 @@ import re
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph, TGraphAsymmErrors, TMultiGraph, TLegend
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph, TGraphErrors, TGraphAsymmErrors, TMultiGraph, TLegend
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -36,7 +36,7 @@ else:
 
 gROOT.SetBatch(True)
 gStyle.SetOptStat(1)
-gStyle.SetOptFit(0)
+gStyle.SetOptFit(0) # fixme: ideally this would be 1 for a subset of plots
 gStyle.SetCanvasBorderMode(0)
 gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
@@ -178,6 +178,7 @@ for sample in samples:
                                     fit.GetParameter(0), fit.GetParameter(1))
 
     # save once-per-sample plots
+
     # input hists
     a_canvas = TCanvas(sample+"_a", sample+"_a", 100, 100, 700, 600)
     in_hists['a'].Draw()
@@ -188,6 +189,7 @@ for sample in samples:
     c_canvas = TCanvas(sample+"_c", sample+"_c", 100, 100, 700, 600)
     in_hists['c'].Draw()
     c_canvas.Write()
+
     # fit summary plot
     fit_summary_canvas = TCanvas(sample+"_fit_summary", sample+"_fit_summary", 100, 100, 700, 600)
     fit_summary_plot.Draw("A")
@@ -197,20 +199,67 @@ for sample in samples:
     fit_summary_plot.GetYaxis().SetTitle("B/A or D/C")
     fit_summary_plot.GetYaxis().SetTitleOffset(1.4)
     fit_summary_plot.GetYaxis().SetLabelSize(0.025)
-    fit_legend.SetHeader("#splitline{Fit Range Lower Bound --> Corresponding BG Estimate}{(Actual yield is "
-                     + str(round(actual_yield, 2)) + " +- " + str(round(actual_error, 2)) + ")}")
+    fit_legend.SetHeader("#splitline{Fit Range Lower Bound --> Corresponding BG Estimate}{(Actual yield is " + str(round(actual_yield, 2)) + " +- " + str(round(actual_error, 2)) + ")}")
     fit_legend.SetTextSize(0.025)
     fit_legend.SetBorderSize(0)
     fit_legend.Draw()
     line.DrawLine(fit_range[1], 0, fit_range[1], gPad.GetUymax())
     fit_summary_canvas.Write()
+
     # fit parameters plot
     fit_parameters_canvas = TCanvas(sample+"_fit_pars", sample+"_fit_pars", 100, 100, 700, 600)
-    fit_parameters_plot.Draw("AP")
+    par_0_mean = fit_parameters_plot.GetMean(1)
+    par_0_rms  = fit_parameters_plot.GetRMS(1)
+    par_1_mean = fit_parameters_plot.GetMean(2)
+    par_1_rms  = fit_parameters_plot.GetRMS(2)
+    fit_parameters_mean = TGraphErrors()
+    fit_parameters_mean.SetLineColor(4)
+    fit_parameters_mean.SetPoint(0, par_0_mean, par_1_mean)
+    fit_parameters_mean.SetPointError(0, par_0_rms, par_1_rms)
+    par_mg = TMultiGraph()
+    par_mg.Add(fit_parameters_plot, "P")
+    par_mg.Add(fit_parameters_mean, "P")
+    par_mg.Draw("A")
+    par_mg.SetTitle("Fit parameters for " + model)
+    par_mg.SetName("Fit parameters for " + model)
+    par_mg.GetXaxis().SetTitle("Parameter [0]")
+    par_mg.GetYaxis().SetTitle("Parameter [1]")
+    par_mg.GetYaxis().SetTitleOffset(1.4)
+    par_legend = TLegend(0.5, 0.7, 0.89, 0.89)
+    par_legend.AddEntry(fit_parameters_plot, "Individual fit parameters", "P")
+    par_legend.AddEntry(fit_parameters_mean, "Mean fit parameters (RMS errors)", "L")
+    par_legend.Draw()
     fit_parameters_canvas.Write()
-    print
-    print " Fit parameter results:"
-    print "x mean:", fit_parameters_plot.GetMean(1), "+-", fit_parameters_plot.GetRMS(1)
-    print "y mean:", fit_parameters_plot.GetMean(2), "+-", fit_parameters_plot.GetRMS(2)
+
+    # mean fit plot
+    fit_func.FixParameter(0, par_0_mean)
+    fit_func.FixParameter(1, par_1_mean)
+    b_over_a_clone = b_over_a_plot.Clone()
+    b_over_a_clone.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1]) # use initial fit range
+    mean_fit_canvas = TCanvas(sample+"_mean_fit", sample+"_mean_fit", 100, 100, 700, 600)
+    mean_fit_plot = TMultiGraph()
+    mean_fit_plot.Add(b_over_a_clone, "P")
+    if arguments.unblind:
+        d_over_c_clone = d_over_c_plot.Clone()
+        mean_fit_plot.Add(d_over_c_clone, "P")
+    mean_fit_plot.Draw("A")
+    mean_fit_plot.SetTitle(sample + " mean fit")
+    mean_fit_plot.SetName(sample + " mean fit")
+    mean_fit_plot.GetXaxis().SetTitle(str(d_estimate_hist.GetXaxis().GetTitle()))
+    mean_fit_plot.GetYaxis().SetTitle("B/A or D/C")
+    mean_fit_plot.GetYaxis().SetTitleOffset(1.4)
+    mean_fit_plot.GetYaxis().SetLabelSize(0.025)
+    mean_fit = b_over_a_clone.GetFunction(sample+"_fit")
+    mean_fit.SetRange(0, 500)
+    mean_fit_legend = TLegend(0.4, 0.7, 0.89, 0.89)
+    mean_fit_legend.AddEntry(b_over_a_clone, "mean fit --> " + str(round(estimate, 2)) + " events")
+    mean_fit_legend.SetHeader("#splitline{Fit --> Corresponding BG Estimate}{(Actual yield is " + str(round(actual_yield, 2)) + " +- " + str(round(actual_error, 2)) + ")}")
+    mean_fit_legend.SetTextSize(0.025)
+    mean_fit_legend.SetBorderSize(0)
+    mean_fit_legend.Draw()
+    gPad.Update()
+    line.DrawLine(fit_ranges[0][0], 0, fit_ranges[0][0], gPad.GetUymax())
+    line.DrawLine(fit_ranges[0][1], 0, fit_ranges[0][1], gPad.GetUymax())
+    mean_fit_canvas.Write()
 
 out_file.Close()
