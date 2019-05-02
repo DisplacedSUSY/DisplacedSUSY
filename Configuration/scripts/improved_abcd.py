@@ -6,7 +6,7 @@ import re
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraphAsymmErrors, TMultiGraph, TLegend
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph, TGraphAsymmErrors, TMultiGraph, TLegend
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -57,6 +57,7 @@ for sample in samples:
     color_ix = 0
     fit_summary_plot = TMultiGraph()
     fit_legend = TLegend(0.4, 0.5, 0.89, 0.89)
+    fit_parameters_plot = TGraph()
     for fit_range in fit_ranges:
         print "\n" + sample
         in_hists = {}
@@ -171,6 +172,10 @@ for sample in samples:
             d_over_c_clone.SetLineColor(colors[color_ix])
             fit_summary_plot.Add(d_over_c_clone, "PX")
         color_ix = (color_ix + 1) % len(colors)
+        # add point to fit parameter plot
+        fit_parameters_plot.SetMarkerStyle(8)
+        fit_parameters_plot.SetPoint(fit_parameters_plot.GetN(),
+                                    fit.GetParameter(0), fit.GetParameter(1))
 
     # save once-per-sample plots
     # input hists
@@ -199,5 +204,13 @@ for sample in samples:
     fit_legend.Draw()
     line.DrawLine(fit_range[1], 0, fit_range[1], gPad.GetUymax())
     fit_summary_canvas.Write()
+    # fit parameters plot
+    fit_parameters_canvas = TCanvas(sample+"_fit_pars", sample+"_fit_pars", 100, 100, 700, 600)
+    fit_parameters_plot.Draw("AP")
+    fit_parameters_canvas.Write()
+    print
+    print " Fit parameter results:"
+    print "x mean:", fit_parameters_plot.GetMean(1), "+-", fit_parameters_plot.GetRMS(1)
+    print "y mean:", fit_parameters_plot.GetMean(2), "+-", fit_parameters_plot.GetRMS(2)
 
 out_file.Close()
