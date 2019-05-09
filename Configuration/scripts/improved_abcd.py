@@ -85,7 +85,6 @@ def draw_lines(x_values):
     for x in x_values:
         line.DrawLine(x, 0, x, gPad.GetUymax())
 
-
 ####################################################################################################
 
 out_file = TFile(output_path + "improved_abcd_results.root", "recreate")
@@ -120,6 +119,7 @@ for sample in samples:
         print "model:", model
         print "[1] and [2] correspond to " + components[0]
         print "[3] and [4] correspond to " + components[1]
+
         #fit_func.SetParLimits(0, 0, 1) # let weights float
         # fix weights to ratio of events in region c
         fit_func.FixParameter(0, c_yields[components[0]] /
@@ -134,6 +134,8 @@ for sample in samples:
         fit_func.SetParLimits(0, 0, 100)
         fit_func.SetParLimits(1, 0, 100)
 
+    estimates = {}
+    fits = {}
     # fit B/A once per fit range
     for fit_range in fit_ranges:
         b_over_a_plot = TGraphAsymmErrors(in_hists['b'], in_hists['a'], "pois")
@@ -143,6 +145,18 @@ for sample in samples:
         # calculate d(pT) = c(pT) * model(pT) and do closure test
         d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
         estimate, actual_yield, actual_error = do_closure_test(d_estimate_hist, in_hists['d'])
+
+        # save max and min estimate and corresponding fits
+        if fit_range == fit_ranges[0]:
+            estimates['max'] = estimates['min'] = estimate
+            fits['max'] = fits['min'] = fit.Clone()
+        else:
+            if estimate > estimates['max']:
+                estimates['max'] = estimate
+                fits['max'] = fit.Clone()
+            elif estimate < estimates['min']:
+                estimates['min'] = estimate
+                fits['min'] = fit.Clone()
 
         # save once-per-fit plots
         out_file.cd()
@@ -230,16 +244,30 @@ for sample in samples:
     par_1_rms  = fit_parameters_plot.GetRMS(2)
     fit_parameters_mean = TGraphErrors()
     fit_parameters_mean.SetLineColor(4)
+    fit_parameters_mean.SetMarkerColor(4)
+    fit_parameters_mean.SetMarkerStyle(8)
     fit_parameters_mean.SetPoint(0, par_0_mean, par_1_mean)
     fit_parameters_mean.SetPointError(0, par_0_rms, par_1_rms)
+    fit_parameters_min = TGraph()
+    fit_parameters_max = TGraph()
+    fit_parameters_min.SetMarkerStyle(8)
+    fit_parameters_max.SetMarkerStyle(8)
+    fit_parameters_min.SetMarkerColor(8)
+    fit_parameters_max.SetMarkerColor(46)
+    fit_parameters_min.SetPoint(0, fits['min'].GetParameter(0), fits['min'].GetParameter(1))
+    fit_parameters_max.SetPoint(0, fits['max'].GetParameter(0), fits['max'].GetParameter(1))
     par_mg = TMultiGraph()
     par_mg.Add(fit_parameters_plot, "P")
     par_mg.Add(fit_parameters_mean, "P")
+    par_mg.Add(fit_parameters_min, "P")
+    par_mg.Add(fit_parameters_max, "P")
     par_mg.Draw("A")
     setup_plot(par_mg, "Fit parameters for "+model, "Parameter [0]", "Parameter [1]")
     par_legend = TLegend(0.5, 0.7, 0.89, 0.89)
     par_legend.AddEntry(fit_parameters_plot, "Individual fit parameters", "P")
-    par_legend.AddEntry(fit_parameters_mean, "Mean fit parameters (RMS errors)", "L")
+    par_legend.AddEntry(fit_parameters_mean, "Mean fit parameters (RMS errors)", "LEP")
+    par_legend.AddEntry(fit_parameters_min, "Fit parameters yielding lowest estimate", "P")
+    par_legend.AddEntry(fit_parameters_max, "Fit parameters yielding highest estimate", "P")
     par_legend.SetBorderSize(0)
     par_legend.Draw()
     fit_parameters_canvas.Write()
@@ -266,14 +294,21 @@ for sample in samples:
     setup_plot(mean_fit_plot, sample+" mean fit",
                str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
     mean_fit.SetRange(0, 500)
+    fits['min'].Draw("same")
+    fits['max'].Draw("same")
+    fits['min'].SetRange(fit_ranges[0][1], d_estimate_hist.GetXaxis().GetXmax())
+    fits['max'].SetRange(fit_ranges[0][1], d_estimate_hist.GetXaxis().GetXmax())
     draw_lines([fit_ranges[0][0], fit_ranges[0][1]])
     results_pave = TPaveText(0.5, 0.7, 0.8, 0.8, "NDC")
     results_pave.AddText("Actual yield: " + str(round(actual_yield, 2))
                          + " +- " + str(round(actual_error, 2)) + " events")
-    results_pave.AddText("Estimated yield: " + str(round(estimate, 2)) + " events")
+    results_pave.AddText("Mean estimated yield: " + str(round(estimate, 2)) + " events")
+    results_pave.AddText("Minimum estimated yield: " + str(round(estimates['min'], 2)) + " events")
+    results_pave.AddText("Maximum estimated yield: " + str(round(estimates['max'], 2)) + " events")
     results_pave.SetTextSize(0.025)
     results_pave.SetFillColor(0)
     results_pave.SetBorderSize(0)
+    results_pave.SetTextAlign(11)
     results_pave.Draw()
     mean_fit_canvas.Write()
 
