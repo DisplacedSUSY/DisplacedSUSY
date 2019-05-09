@@ -93,7 +93,8 @@ c_yields = {}
 
 for sample in samples:
     fit_summary_plot = TMultiGraph()
-    fit_summary_legend = TLegend(0.4, 0.5, 0.89, 0.89)
+    fit_summary_legend = TLegend(0.4, 0.5, 0.89, 0.87)
+    fit_summary_legend.AddEntry(None, "", "") # add blank entry for spacing
     fit_parameters_plot = TGraph()
     color_ix = 0
     print "\n" + sample
@@ -228,7 +229,7 @@ for sample in samples:
                str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
     fit_summary_legend.SetHeader(
         "#splitline{Fit Range Lower Bound --> Corresponding BG Estimate}{(Actual yield is "
-        + str(round(actual_yield, 2)) + " +- " + str(round(actual_error, 2)) + ")}")
+        + str(round(actual_yield, 2)) + " +- " + str(round(actual_error, 2)) + " events)}")
     fit_summary_legend.SetTextSize(0.025)
     fit_summary_legend.SetBorderSize(0)
     fit_summary_legend.Draw()
