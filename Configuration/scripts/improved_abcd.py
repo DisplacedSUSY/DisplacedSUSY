@@ -119,7 +119,6 @@ for sample in samples:
         print "model:", model
         print "[1] and [2] correspond to " + components[0]
         print "[3] and [4] correspond to " + components[1]
-
         #fit_func.SetParLimits(0, 0, 1) # let weights float
         # fix weights to ratio of events in region c
         fit_func.FixParameter(0, c_yields[components[0]] /
