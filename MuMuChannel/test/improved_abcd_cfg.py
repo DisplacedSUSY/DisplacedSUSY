@@ -33,5 +33,3 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
 input_hist = "Muon Plots/muonLeadingPt"
 bin_edges = [0] + [x for x in range(fitMin, 100, 2)] + [100,125,150,200,250,500]
 fit_ranges = [(x, 100) for x in range(fitMin, 71, 2)]
-component_model = "[0] + [1]/x" # |d0| resolution as a function of pT
-composite_model = "[0] * ([1] + [2]/x) + (1 - [0]) * ([3] + [4]/x)"
