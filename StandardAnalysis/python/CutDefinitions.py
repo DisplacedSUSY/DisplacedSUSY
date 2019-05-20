@@ -456,6 +456,8 @@ muon_eta_greaterThan1_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+#####################################
+
 muon_pt_20_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 20"),
@@ -542,6 +544,12 @@ muon_id_cut = cms.PSet(
     cutString = objectDefs.muon_id_cutstring,
     numberRequired = cms.string(">= 1"),
     alias = objectDefs.muon_id_alias
+    )
+
+muon_softID_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isSoftMuonWRTVtx > 0"),
+    numberRequired = cms.string(">= 1"),
     )
 
 muon_id_impact_parameter_cut = cms.PSet(
