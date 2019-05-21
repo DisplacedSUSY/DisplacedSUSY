@@ -3116,6 +3116,18 @@ eventMuonHistograms = cms.PSet(
     )
 )
 
+DiMuonHistogramsExtra = cms.PSet(
+    inputCollection = cms.vstring("muons","muons"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("diMuonInvMassJPsiMassWindow"),
+            title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("invMass (muon, muon)"),
+        ),
+
+    )
+)
 
 GenParticleHistograms = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
