@@ -31,5 +31,5 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     fitMin = 50 #muon pt cut at 50 GeV in 2017 and 2018 mumu
 
 input_hist = "Muon Plots/muonLeadingPt"
-bin_edges = [0] + [x for x in range(fitMin, 100, 2)] + [100,125,150,200,250,500]
 fit_ranges = [(x, 100) for x in range(fitMin, 71, 2)]
+error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
