@@ -809,17 +809,17 @@ ElectronD0Histograms = cms.PSet(
         ),
 
         ###################################################################
-        # 3D leading electron pt vs leading electron d0 vs subleading electron d0
+        # 3D leading electron d0 vs subleading electron d0 vs leading electron pt
         cms.PSet (
-            name = cms.string("electronPt[0]_vs_electronAbsD0[0]_vs_electronAbsD0[1]_1000um"),
-            title = cms.string("Electron Leading p_{T} vs Leading |d_{0}| vs Subleading |d_{0}|;Leading electron p_{T} [GeV];Leading electron |d_{0}| [#mum];Subleading electron |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            name = cms.string("electronAbsD0[0]_vs_electronAbsD0[1]_2000um_vs_electronPt[0]"),
+            title = cms.string("Leading |d_{0}| vs Subleading |d_{0}| vs Electron Leading p_{T};Leading electron |d_{0}| [#mum];Subleading electron |d_{0}| [#mum];Leading electron p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(200, 0, 2000),
             binsY = cms.untracked.vdouble(200, 0, 2000),
-            binsZ = cms.untracked.vdouble(200, 0, 2000),
+            binsZ = cms.untracked.vdouble(250, 0, 500),
             indexX = cms.untracked.int32(0),
-            indexY = cms.untracked.int32(0),
-            indexZ = cms.untracked.int32(1),
-            inputVariables = cms.vstring("electron.pt","10000*abs("+electronSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")"),
+            indexY = cms.untracked.int32(1),
+            indexZ = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")","electron.pt"),
         ),
 
 
@@ -2082,17 +2082,17 @@ MuonD0Histograms = cms.PSet(
         ),
 
         ###################################################################
-        # 3D leading muon pt vs leading muon d0 vs subleading muon d0
+        # 3D leading muon d0 vs subleading muon d0 vs leading muon pt
         cms.PSet (
-            name = cms.string("muonPt[0]_vs_muonAbsD0[0]_vs_muonAbsD0[1]_1000um"),
-            title = cms.string("Muon Leading p_{T} vs Leading |d_{0}| vs Subleading |d_{0}|;Leading muon p_{T} [GeV];Leading muon |d_{0}| [#mum];Subleading muon |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            name = cms.string("muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"),
+            title = cms.string("Leading |d_{0}| vs Subleading |d_{0}| vs Muon Leading p_{T};Leading muon |d_{0}| [#mum];Subleading muon |d_{0}| [#mum];Leading muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(200, 0, 2000),
             binsY = cms.untracked.vdouble(200, 0, 2000),
-            binsZ = cms.untracked.vdouble(200, 0, 2000),
+            binsZ = cms.untracked.vdouble(250, 0, 500),
             indexX = cms.untracked.int32(0),
-            indexY = cms.untracked.int32(0),
-            indexZ = cms.untracked.int32(1),
-            inputVariables = cms.vstring("muon.pt","10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+muonSmearedD0WRTBeamspot+")"),
+            indexY = cms.untracked.int32(1),
+            indexZ = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+muonSmearedD0WRTBeamspot+")","muon.pt"),
         ),
 
 
@@ -2747,31 +2747,30 @@ ElectronMuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("abs("+muonD0WRTBeamspotSig+")", "abs("+electronD0WRTBeamspotSig+")"),
         ),
         ###################################################################
-        # 3D leading muon pt vs leading muon d0 vs leading electron d0
+        # 3D leading muon d0 vs leading electron d0 vs leading muon pt
         cms.PSet (
-            name = cms.string("muonPt[0]_vs_muonAbsD0[0]_vs_electronAbsD0[0]_1000um"),
-            title = cms.string("Muon leading p_{T} vs Leading muon |d_{0}| vs Leading electron |d_{0}|;Leading muon p_{T} [GeV];Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            name = cms.string("muonAbsD0[0]_vs_electronAbsD0[0]_2000um_vs_muonPt[0]"),
+            title = cms.string("Leading muon |d_{0}| vs Leading electron |d_{0}| vs Muon leading p_{T};Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum];Leading muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(200, 0, 2000),
             binsY = cms.untracked.vdouble(200, 0, 2000),
-            binsZ = cms.untracked.vdouble(200, 0, 2000),
+            binsZ = cms.untracked.vdouble(250, 0, 500),
             indexX = cms.untracked.int32(0),
             indexY = cms.untracked.int32(0),
             indexZ = cms.untracked.int32(0),
-            inputVariables = cms.vstring("muon.pt","10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")"),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")","muon.pt"),
         ),
-        # 3D leading electron pt vs leading muon d0 vs leading electron d0
+        # 3D leading muon d0 vs leading electron d0 vs leading electron pt
         cms.PSet (
-            name = cms.string("electronPt[0]_vs_muonAbsD0[0]_vs_electronAbsD0[0]_1000um"),
-            title = cms.string("Electron leading p_{T} vs Leading muon |d_{0}| vs Leading electron |d_{0}|;Leading electron p_{T} [GeV];Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
-            binsX = cms.untracked.vdouble(100, 0, 500),
+            name = cms.string("muonAbsD0[0]_vs_electronAbsD0[0]_2000um_vs_electronPt[0]"),
+            title = cms.string("Leading muon |d_{0}| vs Leading electron |d_{0}| vs Electron leading p_{T};Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum];Leading electron p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(200, 0, 2000),
             binsY = cms.untracked.vdouble(200, 0, 2000),
-            binsZ = cms.untracked.vdouble(200, 0, 2000),
+            binsZ = cms.untracked.vdouble(250, 0, 500),
             indexX = cms.untracked.int32(0),
             indexY = cms.untracked.int32(0),
             indexZ = cms.untracked.int32(0),
-            inputVariables = cms.vstring("electron.pt","10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")"),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")","10000*abs("+electronSmearedD0WRTBeamspot+")","electron.pt"),
         ),
-
 
         #gen
         cms.PSet (

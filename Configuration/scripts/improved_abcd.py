@@ -89,6 +89,7 @@ def draw_lines(x_values):
 def make_default_canvas(name):
     return TCanvas(name, name, 100, 100, 700, 600)
 
+
 class ErrorEllipse():
     # create one-sigma error ellipse for an arbitrary 2D tgraph,
     def __init__(self, tgraph):
@@ -146,6 +147,53 @@ class ErrorEllipse():
                     self.min_estimate = estimate
                     self.min_fit = fit_func.Clone()
 
+
+class RatioPlot:
+    def __init__(self, num_hist, den_hist):
+        self.num = num_hist
+        self.den = den_hist
+        self.tgraph = TGraphAsymmErrors(self.num, self.den, "pois")
+
+    def get_plot(self):
+        return self.tgraph.Clone()
+
+    def rebin(self, bin_edges):
+        num_hist = self.num.Rebin(len(bin_edges)-1, self.num.GetName(), array('d', bin_edges))
+        den_hist = self.den.Rebin(len(bin_edges)-1, self.den.GetName(), array('d', bin_edges))
+        self.tgraph = TGraphAsymmErrors(num_hist, den_hist, "pois")
+
+    # rebin so that error / bin content is below specified tolerance for all bins
+    def improve_binning(self, err_tolerance, upper_edge):
+        # create list of initial bin edges
+        bin_edges = []
+        found_first_filled_bin = False
+        # store bin edges from first filled bin until upper edge
+        for b in range(1, self.den.GetNbinsX()+1):
+            if not found_first_filled_bin and self.den.GetBinContent(b) > 0:
+                found_first_filled_bin = True
+            if found_first_filled_bin and self.den.GetXaxis().GetBinLowEdge(b) < upper_edge:
+                bin_edges.append(self.den.GetXaxis().GetBinLowEdge(b))
+        bin_edges.append(upper_edge)
+
+        self.rebin(bin_edges)
+
+        # iteratively rebin until bin error / bin content is below tolerance for each bin
+        bin_ix = 0
+        while bin_ix < len(bin_edges)-1 and len(bin_edges) > 2:
+            content = Double()
+            x = Double()
+            self.tgraph.GetPoint(bin_ix, x, content)
+            error = self.tgraph.GetErrorY(bin_ix)
+            if content == 0 or error/content > err_tolerance:
+                if bin_ix < len(bin_edges)-2:
+                    del bin_edges[bin_ix+1] # combine current and next bins
+                else:
+                    del bin_edges[bin_ix] # combine final and penultimate bins
+                self.rebin(bin_edges)
+            else:
+                bin_ix += 1 # go to next bin if current error is below tolerance
+
+
 ####################################################################################################
 
 out_file = TFile(output_path + "improved_abcd_results.root", "recreate")
@@ -165,8 +213,7 @@ for sample in samples:
     in_file = TFile(output_path + sample + ".root")
     for region, channel in channels.iteritems():
         in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
-        in_hists[region] = in_hists[region].Rebin(len(bin_edges)-1, in_hists[region].GetName(),
-                                                  array('d', bin_edges))
+        in_hists[region] = in_hists[region].Rebin(2)
         if not in_hists[region]:
             print "Warning: could not load " + channel + "Plotter/" + input_hist
 
@@ -199,7 +246,8 @@ for sample in samples:
 
     # fit B/A once per fit range
     for fit_range in fit_ranges:
-        b_over_a_plot = TGraphAsymmErrors(in_hists['b'], in_hists['a'], "pois")
+        b_over_a = RatioPlot(in_hists['b'], in_hists['a'])
+        b_over_a_plot = b_over_a.get_plot()
         b_over_a_plot.Fit(fit_func, "", "", fit_range[0], fit_range[1])
         fit = b_over_a_plot.GetFunction(sample+"_fit")
 
@@ -227,7 +275,10 @@ for sample in samples:
         fit_plot = TMultiGraph()
         fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
-            d_over_c_plot = TGraphAsymmErrors(in_hists['d'], in_hists['c'], "pois")
+            d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
+            # use 2*error_tolerance due to lower stats in c and d regions
+            d_over_c.improve_binning(error_tolerance*2, in_hists['c'].GetXaxis().GetXmax())
+            d_over_c_plot = d_over_c.get_plot()
             fit_plot.Add(d_over_c_plot, "P")
         fit_plot.Draw("A")
         setup_plot(fit_plot, sample_and_range+" fit",
@@ -238,19 +289,19 @@ for sample in samples:
 
         # add fit plots to fit summary plot
         fit.SetLineColor(colors[color_ix])
-        b_over_a_clone = b_over_a_plot.Clone() # clone plots to please pyroot
-        b_over_a_clone.SetMarkerStyle(6)
-        b_over_a_clone.SetMarkerColor(colors[color_ix])
-        b_over_a_clone.SetLineColor(colors[color_ix])
-        fit_summary_plot.Add(b_over_a_clone, "PX")
-        fit_summary_legend.AddEntry(b_over_a_clone, str(fit_range[0]) + " GeV --> " +
+        b_over_a_plot = b_over_a_plot.Clone() # get new instance of plot with fit information
+        b_over_a_plot.SetMarkerStyle(6)
+        b_over_a_plot.SetMarkerColor(colors[color_ix])
+        b_over_a_plot.SetLineColor(colors[color_ix])
+        fit_summary_plot.Add(b_over_a_plot, "PX")
+        fit_summary_legend.AddEntry(b_over_a_plot, str(fit_range[0]) + " GeV --> " +
                                     str(round(estimate, 2)) + " events")
         if arguments.unblind:
-            d_over_c_clone = d_over_c_plot.Clone() # clone plots to please pyroot
-            d_over_c_clone.SetMarkerStyle(6)
-            d_over_c_clone.SetMarkerColor(colors[color_ix])
-            d_over_c_clone.SetLineColor(colors[color_ix])
-            fit_summary_plot.Add(d_over_c_clone, "PX")
+            d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
+            d_over_c_plot.SetMarkerStyle(6)
+            d_over_c_plot.SetMarkerColor(colors[color_ix])
+            d_over_c_plot.SetLineColor(colors[color_ix])
+            fit_summary_plot.Add(d_over_c_plot, "PX")
         color_ix = (color_ix + 1) % len(colors)
 
         # add point to fit parameter plot
@@ -311,23 +362,25 @@ for sample in samples:
     # estimate background using mean fit parameters
     fit_func.FixParameter(0, err_ellipse.mean[0])
     fit_func.FixParameter(1, err_ellipse.mean[1])
-    b_over_a_clone = b_over_a_plot.Clone() # clone plots to please pyroot
-    b_over_a_clone.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1]) # use initial fit range
-    mean_fit = b_over_a_clone.GetFunction(sample+"_fit")
+    b_over_a.improve_binning(error_tolerance, fit_ranges[0][1])
+    b_over_a_plot = b_over_a.get_plot()
+    b_over_a_plot.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1]) # use initial fit range
+    mean_fit = b_over_a_plot.GetFunction(sample+"_fit")
     mean_fit_results[sample] = mean_fit.Clone() # save for use in composite fit
     mean_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), mean_fit)
     mean_estimate, _, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
     # make plot
     mean_fit_plot = TMultiGraph()
-    mean_fit_plot.Add(b_over_a_clone, "P")
+    mean_fit_plot.Add(b_over_a_plot, "P")
     if arguments.unblind:
-        d_over_c_clone = d_over_c_plot.Clone() # clone plots to please pyroot
-        mean_fit_plot.Add(d_over_c_clone, "P")
+        d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
+        mean_fit_plot.Add(d_over_c_plot, "P")
     mean_fit_plot.Draw("A")
     setup_plot(mean_fit_plot, sample+" mean fit",
                str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
     mean_fit.SetRange(0, 500)
     mean_fit_plot.Draw("same") # draw again so points aren't covered by fit lines
+    mean_fit_plot.GetYaxis().SetRangeUser(0, mean_fit_plot.GetYaxis().GetXmax())
     err_ellipse.find_estimate_bounds(fit_func, in_hists)
     err_ellipse.min_fit.Draw("same")
     err_ellipse.max_fit.Draw("same")
