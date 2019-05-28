@@ -3124,7 +3124,19 @@ DiMuonHistogramsExtra = cms.PSet(
             title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
             binsX = cms.untracked.vdouble(10, 0, 10),
             inputVariables = cms.vstring("invMass (muon, muon)"),
-        ),
+            ),
+        cms.PSet (
+            name = cms.string("diMuonInvMassJPsiMassWindow_100Bins"),
+            title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
+            binsX = cms.untracked.vdouble(100, 0, 10),
+            inputVariables = cms.vstring("invMass (muon, muon)"),
+            ),
+        cms.PSet (
+            name = cms.string("diMuonInvMassJPsiMassWindow_200Bins"),
+            title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
+            binsX = cms.untracked.vdouble(200, 0, 10),
+            inputVariables = cms.vstring("invMass (muon, muon)"),
+            ),
 
     )
 )
