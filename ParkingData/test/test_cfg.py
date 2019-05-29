@@ -8,8 +8,13 @@ from DisplacedSUSY.ParkingData.ParkingDataHistograms import *
 
 from DisplacedSUSY.ParkingData.ParkingDataTest import *
 
-eventSelections = []
-eventSelections.append(ParkingDataTest)
+eventSelections = [
+    ParkingDataTest,
+    closeMuons,
+    farMuons,
+    promptMuons,
+    displacedMuons,
+    ]
 
 #######################################
 
