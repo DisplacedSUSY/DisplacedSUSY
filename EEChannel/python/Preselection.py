@@ -76,6 +76,10 @@ DisplacedHighPtControlRegion.cuts.append(electron_pt_100_cut)
 
 #################################################################
 
+DisplacedHighPtL1PrefiringCheck = copy.deepcopy(DisplacedHighPtControlRegion)
+DisplacedHighPtL1PrefiringCheck.name = cms.string("DisplacedHighPtL1PrefiringCheck")
+DisplacedHighPtL1PrefiringCheck.cuts.extend(L1PrefiringCheck_cuts)
+
 PreselectionLeptonsFromW = cms.PSet(
     name = cms.string("PreselectionLeptonsFromW"),
     triggers = copy.deepcopy(Preselection.triggers),
