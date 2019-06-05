@@ -6,20 +6,15 @@ from DisplacedSUSY.ParkingData.CutDefinitions import *
 #no triggers required
 ParkingDataTest = cms.PSet(
     name = cms.string("ParkingDataTest"),
+    #triggers = triggersParkingData,
     cuts = cms.VPSet (
         muon_softID_cut,
         muon_eta_lessThan2p4_cut,
         muon_pt_4p2_cut,
+        diMuon_invMass_greaterThan2p9_cut,
+        diMuon_invMass_lessThan3p2_cut,
         ),
     )
-
-closeMuons = copy.deepcopy(ParkingDataTest)
-closeMuons.name = cms.string("closeMuons")
-closeMuons.cuts.append(diMuon_deltaR_lessThanP5_cut)
-
-farMuons = copy.deepcopy(ParkingDataTest)
-farMuons.name = cms.string("farMuons")
-farMuons.cuts.append(diMuon_deltaR_greaterThanP5_cut)
 
 promptMuons = copy.deepcopy(ParkingDataTest)
 promptMuons.name = cms.string("promptMuons")

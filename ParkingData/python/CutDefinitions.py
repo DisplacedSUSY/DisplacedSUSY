@@ -37,3 +37,15 @@ diMuon_deltaR_lessThanP5_cut = cms.PSet (
     cutString = cms.string("deltaR(muon, muon) < 0.5"),
     numberRequired = cms.string(">= 1"),
     )
+
+diMuon_invMass_lessThan3p2_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("invMass(muon, muon) < 3.2"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+diMuon_invMass_greaterThan2p9_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("invMass(muon, muon) > 2.9"),
+    numberRequired = cms.string(">= 1"),
+    )

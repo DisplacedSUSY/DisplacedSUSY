@@ -10,8 +10,6 @@ from DisplacedSUSY.ParkingData.ParkingDataTest import *
 
 eventSelections = [
     ParkingDataTest,
-    closeMuons,
-    farMuons,
     promptMuons,
     displacedMuons,
     ]

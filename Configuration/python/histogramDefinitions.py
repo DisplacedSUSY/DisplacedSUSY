@@ -2011,6 +2011,15 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("muon.pt", muonD0WRTBeamspotSig),
         ),
         ###################################################################
+        # 2D abs( sig(d0) ) vs. pt
+        cms.PSet (
+            name = cms.string("muonAbsD0Sig_vs_muonPt"),
+            title = cms.string("Muon |d_{0}/#sigma(d_{0})| vs. Muon p_{T};Muon p_{T} [GeV];Muon |d_{0}/#sigma(d_{0})|"),
+            binsX = cms.untracked.vdouble(100, 0, 200),
+            binsY = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("muon.pt", "abs("+muonD0WRTBeamspotSig+")"),
+        ),
+        ###################################################################
         # 2D track d0 error vs. pt
         cms.PSet (
             name = cms.string("muonTrackD0Error_vs_muonPt"),
