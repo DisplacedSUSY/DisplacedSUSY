@@ -83,6 +83,6 @@ atLeastOne_muon_basic_selection_cuts.append(muon_id_cut)
 
 #L1 prefiring check selections
 L1PrefiringCheck_cuts = cms.VPSet()
-L1PrefiringCheck_cuts.append(atLeastZero_jet_pt_50_cut)
-L1PrefiringCheck_cuts.append(atLeastZero_jet_eta_greaterThan2p25_cut)
-L1PrefiringCheck_cuts.append(atLeastZero_jet_eta_lessThan3_cut)
+L1PrefiringCheck_cuts.append(atLeastZero_jet_pt_100_cut)
+L1PrefiringCheck_cuts.append(atLeastZero_jet_eta_greaterThan2p25_veto)
+L1PrefiringCheck_cuts.append(atLeastZero_jet_eta_lessThan3_veto)

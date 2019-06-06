@@ -65,22 +65,22 @@ cutDummy = cms.PSet(
 
 # level1 prefiring check cuts:
 # https://twiki.cern.ch/twiki/bin/view/CMS/ExoPreapprovalChecklist
-atLeastZero_jet_pt_50_cut = cms.PSet(
+atLeastZero_jet_pt_100_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > 100"),
-    numberRequired = cms.string(">= 0")
+    numberRequired = cms.string("== 0")
     )
 
-atLeastZero_jet_eta_greaterThan2p25_cut = cms.PSet(
+atLeastZero_jet_eta_greaterThan2p25_veto = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("abs(eta) > 2.25"),
-    numberRequired = cms.string(">= 0")
+    numberRequired = cms.string("== 0")
     )
 
-atLeastZero_jet_eta_lessThan3_cut = cms.PSet(
+atLeastZero_jet_eta_lessThan3_veto = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("abs(eta) < 3.0"),
-    numberRequired = cms.string(">= 0")
+    numberRequired = cms.string("== 0")
     )
 ##########################################################################
 
