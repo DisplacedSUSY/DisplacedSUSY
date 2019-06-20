@@ -116,12 +116,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     #loose trigger for parking data BPH5
     triggersParkingData = cms.vstring(
         #"HLT_Mu8_IP3_part4_v",
-        "HLT_Mu12_IP6_part4_v"
+        #"HLT_Mu12_IP6_part4_v"
         #"HLT_Mu7_IP4_v",
         #"HLT_Mu8_IP5_v",
         #"HLT_Mu8_IP6_v",
         #"HLT_Mu9_IP5_v",
-        #"HLT_Mu9_IP6_v",
+        "HLT_Mu9_IP6_part3_v",
         )
 
     #main signal triggers for the MuMu channel

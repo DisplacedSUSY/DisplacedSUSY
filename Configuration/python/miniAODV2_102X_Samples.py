@@ -112,6 +112,11 @@ bg_mc_samples = {
     'QCD_bcToE_250toInf' : "",#'/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#10M DOESN'T EXIST YET
 }
 
+parkedData_samples = {
+    #'ParkingBPH5_Run2018D' : '/ParkingBPH5/Run2018D-20Mar2019-v1/MINIAOD',
+    'ParkingBPH4_Run2018A' : '/ParkingBPH4/Run2018A-14May2018-v1/MINIAOD',
+}
+
 data_samples = {
     # MuonEG 2018,17Sep2018 rereco
     'MuonEG_2018A' : '/MuonEG/Run2018A-17Sep2018-v1/MINIAOD',
@@ -335,6 +340,7 @@ dataset_names = {}
 dataset_names.update(bg_mc_samples)
 dataset_names.update(data_samples)
 dataset_names.update(signal_mc_samples)
+dataset_names.update(parkedData_samples)
 
 # Propagate displaced SUSY sample names to the lifetime-reweighted samples
 from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import renameReweightedSamples
