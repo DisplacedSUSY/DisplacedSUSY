@@ -237,7 +237,7 @@ jet_btag_lwp_veto.isVeto = cms.bool(True)
 
 electron_eta_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = absEta_2p4_cutstring,
+    cutString = cms.string("abs(eta) < 2.0")
     numberRequired = cms.string(">= 1")
     )
 
@@ -461,7 +461,7 @@ electron_gen_motherIsW_cut = cms.PSet(
 
 muon_eta_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = absEta_2p4_cutstring,
+    cutString = cms.string("abs(eta) < 1.7")
     numberRequired = cms.string(">= 1")
     )
 
@@ -855,4 +855,3 @@ pass_trigger = cms.PSet(
     numberRequired = cms.string("== 1"),
     alias = cms.string("pass trigger specified in config file")
     )
-
