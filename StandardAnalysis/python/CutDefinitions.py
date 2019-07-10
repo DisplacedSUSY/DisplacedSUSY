@@ -237,7 +237,7 @@ jet_btag_lwp_veto.isVeto = cms.bool(True)
 
 electron_eta_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(eta) < 2.0")
+    cutString = cms.string("abs(eta) < 2.0"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -461,7 +461,7 @@ electron_gen_motherIsW_cut = cms.PSet(
 
 muon_eta_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(eta) < 1.7")
+    cutString = cms.string("abs(eta) < 1.7"),
     numberRequired = cms.string(">= 1")
     )
 
