@@ -41,6 +41,18 @@ PreselectionNoIsoCut = copy.deepcopy(Preselection)
 PreselectionNoIsoCut.name = cms.string("PreselectionNoIsoCut")
 removeCuts(PreselectionNoIsoCut.cuts, [muon_iso_cut])
 
+PreselectionVeryLooseIsoCut = copy.deepcopy(Preselection)
+PreselectionVeryLooseIsoCut.name = cms.string("PreselectionVeryLooseIsoCut")
+replaceSingleCut(PreselectionVeryLooseIsoCut.cuts, muon_very_loose_iso_cut, muon_iso_cut)
+
+PreselectionBTagVeto = copy.deepcopy(Preselection)
+PreselectionBTagVeto.name = cms.string("PreselectionBTagVeto")
+PreselectionBTagVeto.cuts.append(jet_btag_lwp_veto)
+
+PreselectionVeryLooseIsoCutBTagVeto = copy.deepcopy(PreselectionVeryLooseIsoCut)
+PreselectionVeryLooseIsoCutBTagVeto.name = cms.string("PreselectionVeryLooseIsoCutBTagVeto")
+PreselectionVeryLooseIsoCutBTagVeto.cuts.append(jet_btag_lwp_veto)
+
 PreselectionLowEta = copy.deepcopy(Preselection)
 PreselectionLowEta.name = cms.string("PreselectionLowEta")
 PreselectionLowEta.cuts.append(muon_eta_lessThan1_cut)

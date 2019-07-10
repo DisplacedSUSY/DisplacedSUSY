@@ -40,6 +40,14 @@ muon_loose_antiiso_alias = cms.string(">=1 muons with inverted loose isolation")
 
 ##########################################################################
 
+# VERY LOOSE MUON ISOLATION
+
+muon_very_loose_iso_cutstring = cms.string("pfdBetaIsoCorr <= 0.40")
+
+muon_very_loose_iso_alias = cms.string(">=1 muons with very loose isolation")
+
+##########################################################################
+
 
 
 

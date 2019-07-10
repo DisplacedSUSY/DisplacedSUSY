@@ -9,8 +9,11 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #PreselectionNoIsoCut,
+    #PreselectionVeryLooseIsoCut,
+    #PreselectionBTagVeto,
+    #PreselectionVeryLooseIsoCutBTagVeto,
     #PromptControlRegion,
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
