@@ -478,6 +478,19 @@ muon_eta_greaterThan1_cut = cms.PSet(
     )
 
 #####################################
+muon_pt_15_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 15"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_15_veto = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 15"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("muon pT > 15 GeV veto")
+    )
 
 muon_pt_20_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
