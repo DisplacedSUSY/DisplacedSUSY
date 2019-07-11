@@ -9,9 +9,14 @@ from DisplacedSUSY.ParkingData.ParkingDataHistograms import *
 from DisplacedSUSY.ParkingData.ParkingDataTest import *
 
 eventSelections = [
-    ParkingDataTest,
-    promptMuons,
-    displacedMuons,
+    #ParkingDataTest,
+    #promptMuons,
+    #displacedMuons,
+    #ParkingDataJPsi,
+    displacedHighPtJPsi,
+    displacedLowPtJPsi,
+    promptHighPtJPsi,
+    promptLowPtJPsi,
     ]
 
 #######################################
@@ -19,7 +24,7 @@ eventSelections = [
 # REDIFINE variableProducers, weights, scalingfactorproducers,
 # histograms to all to be empty for the skim
 
-variableProducers = []
+#variableProducers = []
 
 weights = cms.VPSet()
 
