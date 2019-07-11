@@ -707,6 +707,22 @@ muon_d0_greaterThan200_cut = cms.PSet(
     alias = cms.string(">=1 muons with |d_0| > 200 mum")
     )
 
+# muon d0 < 300 microns
+muon_d0_lessThan300_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") < 300"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| < 300 mum")
+    )
+
+# muon d0 > 300 microns
+muon_d0_greaterThan300_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") > 300"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| > 300 mum")
+    )
+
 muon_d0_lessThan2000_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
     cutString = cms.string("abs("+muonSmearedD0WRTBeamspot+") < 0.2"),
