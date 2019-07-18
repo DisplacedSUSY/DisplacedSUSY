@@ -16,6 +16,8 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-u", "--unblind", action="store_true", dest="unblind",
                   default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-t", "--threeD", action="store_true", dest="threeD",
+                  default=False, help="use 3D d0/d0/pt histogram instead of 4 regions")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -211,11 +213,68 @@ for sample in samples:
     # get histograms and statistical uncertainties for all regions
     in_hists = {}
     in_file = TFile(output_path + sample + ".root")
-    for region, channel in channels.iteritems():
-        in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
-        in_hists[region] = in_hists[region].Rebin(2)
-        if not in_hists[region]:
-            print "Warning: could not load " + channel + "Plotter/" + input_hist
+    if arguments.threeD:
+        in_hist = in_file.Get("PreselectionPlotter/" + input_hist)
+        if not in_hist:
+            print "Warning: could not load PreselectionPlotter/" + input_hist
+        xaxis = in_hist.GetXaxis()
+        yaxis = in_hist.GetYaxis()
+        zaxis = in_hist.GetZaxis()
+        binx = xaxis.FindBin(d0_0_cut)
+        biny = yaxis.FindBin(d0_1_cut)
+        binz = zaxis.FindBin(pt_cut)
+        print "for "+str(d0_0_cut)+" d0 cut, bin is "+str(binx)
+        print "for "+str(d0_1_cut)+" d0 cut, bin is "+str(biny)
+        print "for "+str(pt_cut)+" pt cut, bin is "+str(binz)
+
+        #in below: binx, or binx-1, or binx+1 ?
+        #also: check underflow/overflow
+        in_hists['a'] = in_hist.ProjectionZ("a", #PromptLowPtControlRegion
+                                       1,#x min bin
+                                       binx,#x max bin
+                                       1,#ymin
+                                       biny,#ymax
+                                       "eo")
+        for b in range(binz,in_hist.GetNbinsZ()+1):
+            in_hists['a'].SetBinContent(b,0)
+            in_hists['a'].SetBinError(b,0)
+
+        in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
+                                       binx,#x min bin
+                                       in_hist.GetNbinsX(),#x max bin
+                                       biny,#ymin
+                                       in_hist.GetNbinsY(),#ymax
+                                       "eo")
+        for b in range(binz,in_hist.GetNbinsZ()+1):
+            in_hists['b'].SetBinContent(b,0)
+            in_hists['b'].SetBinError(b,0)
+
+        in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
+                                       1,#x min bin
+                                       binx,#x max bin
+                                       1,#ymin
+                                       biny,#ymax
+                                       "eo")
+        for b in range(1,binz):
+            in_hists['c'].SetBinContent(b,0)
+            in_hists['c'].SetBinError(b,0)
+
+        in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
+                                       binx,#x min bin
+                                       in_hist.GetNbinsX(),#x max bin
+                                       biny,#ymin
+                                       in_hist.GetNbinsY(),#ymax
+                                       "eo")
+        for b in range(1,binz):
+            in_hists['d'].SetBinContent(b,0)
+            in_hists['d'].SetBinError(b,0)
+
+    else:
+        for region, channel in channels.iteritems():
+            in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
+            in_hists[region] = in_hists[region].Rebin(2)
+            if not in_hists[region]:
+                print "Warning: could not load " + channel + "Plotter/" + input_hist
 
     # set up fit model
     composite = sample in composite_samples
