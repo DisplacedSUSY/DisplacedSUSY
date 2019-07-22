@@ -15,7 +15,7 @@ bg_mc_samples = {
 
     #WJets
     'WJetsToLNu' : ['/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#29M
-		    '/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#25M
+    '/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#25M
                     '/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#5M
                     '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#19M
                     '/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#8M
@@ -134,8 +134,8 @@ data_samples = {
     'EGamma_2018A' : '/EGamma/Run2018A-17Sep2018-v2/MINIAOD',
     'EGamma_2018B' : '/EGamma/Run2018B-17Sep2018-v1/MINIAOD',
     'EGamma_2018C' : '/EGamma/Run2018C-17Sep2018-v1/MINIAOD',
-    'EGamma_2018D' : ['/EGamma/Run2018D-PromptReco-v1/MINIAOD',
-                      '/EGamma/Run2018D-PromptReco-v2/MINIAOD'],
+    'EGamma_2018D' : ['/EGamma/Run2018D-22Jan2019-v1/MINIAOD',
+                      '/EGamma/Run2018D-22Jan2019-v2/MINIAOD'],
 
     # MET 2018,17Sep2018 rereco
     'MET_2018A' : '/MET/Run2018A-17Sep2018-v1/MINIAOD',
