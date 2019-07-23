@@ -3,7 +3,8 @@ import os
 
 # composite samples must be listed after component samples
 samples = [
-    'DYJetsToLL',
+    'DoubleMu_2016_postHIP',
+    #'DYJetsToLL',
     #'TTJets_Lept',
     #'SingleTop',
     #'Diboson',
@@ -20,6 +21,9 @@ composite_samples = {
 d0_0_cut = 50.
 d0_1_cut = 50.
 pt_cut = 100.
+d0_0_max = 100 # set to 0 to remove upper limit
+d0_1_max = 100 # set to 0 to remove upper limit
+pt_max = 300 # set to 0 to remove upper limit
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     fitMin = 40 #muon pt cut at 40 GeV in 2016 mumu

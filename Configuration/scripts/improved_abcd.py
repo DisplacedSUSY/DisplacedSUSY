@@ -220,52 +220,60 @@ for sample in samples:
         xaxis = in_hist.GetXaxis()
         yaxis = in_hist.GetYaxis()
         zaxis = in_hist.GetZaxis()
-        binx = xaxis.FindBin(d0_0_cut)
-        biny = yaxis.FindBin(d0_1_cut)
-        binz = zaxis.FindBin(pt_cut)
-        print "for "+str(d0_0_cut)+" d0 cut, bin is "+str(binx)
-        print "for "+str(d0_1_cut)+" d0 cut, bin is "+str(biny)
-        print "for "+str(pt_cut)+" pt cut, bin is "+str(binz)
+        cut_bin_x = xaxis.FindBin(d0_0_cut)
+        cut_bin_y = yaxis.FindBin(d0_1_cut)
+        cut_bin_z = zaxis.FindBin(pt_cut)
+        max_bin_x = xaxis.FindBin(d0_0_max) if d0_0_max else in_hist.GetNbinsX()
+        max_bin_y = yaxis.FindBin(d0_1_max) if d0_1_max else in_hist.GetNbinsY()
+        max_bin_z = zaxis.FindBin(pt_max) if pt_max else in_hist.GetNbinsZ()
 
-        #in below: binx, or binx-1, or binx+1 ?
+        print "for "+str(d0_0_cut)+" d0 cut, bin is "+str(cut_bin_x)
+        print "for "+str(d0_1_cut)+" d0 cut, bin is "+str(cut_bin_y)
+        print "for "+str(pt_cut)+" pt cut, bin is "+str(cut_bin_z)
+
+        print "for "+str(d0_0_max)+" d0 cut, bin is "+str(max_bin_x)
+        print "for "+str(d0_1_max)+" d0 cut, bin is "+str(max_bin_y)
+        print "for "+str(pt_max)+" pt cut, bin is "+str(max_bin_z)
+
+        #in below: cut_bin_x, or cut_bin_x-1, or cut_bin_x+1 ?
         #also: check underflow/overflow
         in_hists['a'] = in_hist.ProjectionZ("a", #PromptLowPtControlRegion
                                        1,#x min bin
-                                       binx,#x max bin
+                                       cut_bin_x,#x max bin
                                        1,#ymin
-                                       biny,#ymax
+                                       cut_bin_y,#ymax
                                        "eo")
-        for b in range(binz,in_hist.GetNbinsZ()+1):
+        for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['a'].SetBinContent(b,0)
             in_hists['a'].SetBinError(b,0)
 
         in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
-                                       binx,#x min bin
-                                       in_hist.GetNbinsX(),#x max bin
-                                       biny,#ymin
-                                       in_hist.GetNbinsY(),#ymax
+                                       cut_bin_x,#x min bin
+                                       max_bin_x,#x max bin
+                                       cut_bin_y,#ymin
+                                       max_bin_y,#ymax
                                        "eo")
-        for b in range(binz,in_hist.GetNbinsZ()+1):
+        for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['b'].SetBinContent(b,0)
             in_hists['b'].SetBinError(b,0)
 
         in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
                                        1,#x min bin
-                                       binx,#x max bin
+                                       cut_bin_x,#x max bin
                                        1,#ymin
-                                       biny,#ymax
+                                       cut_bin_y,#ymax
                                        "eo")
-        for b in range(1,binz):
+        for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['c'].SetBinContent(b,0)
             in_hists['c'].SetBinError(b,0)
 
         in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
-                                       binx,#x min bin
-                                       in_hist.GetNbinsX(),#x max bin
-                                       biny,#ymin
-                                       in_hist.GetNbinsY(),#ymax
+                                       cut_bin_x,#x min bin
+                                       max_bin_x,#x max bin
+                                       cut_bin_y,#ymin
+                                       max_bin_y,#ymax
                                        "eo")
-        for b in range(1,binz):
+        for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['d'].SetBinContent(b,0)
             in_hists['d'].SetBinError(b,0)
 
@@ -336,7 +344,7 @@ for sample in samples:
         if arguments.unblind:
             d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
             # use 2*error_tolerance due to lower stats in c and d regions
-            d_over_c.improve_binning(error_tolerance*2, in_hists['c'].GetXaxis().GetXmax())
+            d_over_c.improve_binning(error_tolerance*2, max_bin_z)
             d_over_c_plot = d_over_c.get_plot()
             fit_plot.Add(d_over_c_plot, "P")
         fit_plot.Draw("A")
