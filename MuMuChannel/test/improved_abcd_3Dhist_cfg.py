@@ -18,6 +18,7 @@ composite_samples = {
     #'Background' : ['NonQcdBackground', 'QCD_MuEnriched']
 }
 
+# the following parameters only take effect when using the -t option
 d0_0_cut = 50.
 d0_1_cut = 50.
 pt_cut = 100.
