@@ -18,7 +18,8 @@ composite_samples = {
     #'Background' : ['NonQcdBackground', 'QCD_MuEnriched']
 }
 
-# the following parameters only take effect when using the -t option
+# the following block of parameters only take effect when using the -t option
+# these parameters are the default setup (not particularily motivated)
 d0_0_cut = 50.
 d0_1_cut = 50.
 pt_cut = 100.
@@ -34,3 +35,21 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
 input_hist = "Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
 fit_ranges = [(x, 100) for x in range(fitMin, 71, 2)]
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
+
+
+# the following parameters were used in elog 1331 and resulted in closure
+#d0_0_cut = 30.
+#d0_1_cut = 30.
+#pt_cut = 120.
+#d0_0_max = 100 # set to 0 to remove upper limit
+#d0_1_max = 100 # set to 0 to remove upper limit
+#pt_max = 300 # set to 0 to remove upper limit
+#
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#    fitMin = 60 #muon pt cut at 40 GeV in 2016 mumu
+#elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+#    fitMin = 50 #muon pt cut at 50 GeV in 2017 and 2018 mumu
+#
+#input_hist = "Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
+#fit_ranges = [(x, 120) for x in range(fitMin, 91, 2)]
+#error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
