@@ -343,7 +343,7 @@ for sample in samples:
         fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
             d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
-            upper_edge = pt_max if arguments.threeD else in_hists['c'].GetXaxis().GetXmax()
+            upper_edge = pt_max if pt_max else in_hists['c'].GetXaxis().GetXmax()
             # use 2*error_tolerance due to lower stats in c and d regions
             d_over_c.improve_binning(error_tolerance*2, upper_edge)
             d_over_c_plot = d_over_c.get_plot()
