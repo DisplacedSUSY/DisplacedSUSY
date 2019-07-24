@@ -402,6 +402,7 @@ for sample in samples:
     fit_summary_legend.Draw()
     draw_lines([fit_range[1]])
     fit_summary_canvas.Write()
+    fit_summary_canvas.SaveAs("fit_summary.pdf", "recreate")
 
     # fit parameters plot
     fit_parameters_canvas = make_default_canvas(sample+"_fit_pars")
@@ -424,6 +425,7 @@ for sample in samples:
     par_legend.SetBorderSize(0)
     par_legend.Draw()
     fit_parameters_canvas.Write()
+    fit_parameters_canvas.SaveAs("fit_parameters.pdf", "recreate")
 
     # mean fit plot
     mean_fit_canvas = make_default_canvas(sample+"_mean_fit")
@@ -472,5 +474,6 @@ for sample in samples:
     results_pave.SetTextAlign(11)
     results_pave.Draw()
     mean_fit_canvas.Write()
+    mean_fit_canvas.SaveAs("mean_fit.pdf","recreate")
 
 out_file.Close()
