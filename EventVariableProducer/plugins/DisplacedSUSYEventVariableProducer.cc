@@ -45,6 +45,20 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
     }
   }
 
+  double numSoftMuons = 0;
+  for(const auto muon : *handles_.muons) {
+    if(muon.isSoftMuon((*handles_.primaryvertexs)[0])) {
+      numSoftMuons = numSoftMuons + 1;
+    }
+  }
+
+  double numTightMuons = 0;
+  for(const auto muon : *handles_.muons) {
+    if(muon.isTightMuon((*handles_.primaryvertexs)[0])) {
+      numTightMuons = numTightMuons + 1;
+    }
+  }
+
   double numTruePV = 0;
   if(type_.find("MC") < type_.length()) {
     for (const auto &pv1 : *handles_.pileupinfos) {
@@ -129,6 +143,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
+  (*eventvariables)["numSoftMuons"] = numSoftMuons;
+  (*eventvariables)["numTightMuons"] = numTightMuons;
   (*eventvariables)["passTrigger"] = passTrigger;
   (*eventvariables)["triggerScaleFactor"] = triggerScaleFactor_;
 # endif

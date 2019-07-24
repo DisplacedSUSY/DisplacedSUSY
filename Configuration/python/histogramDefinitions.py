@@ -2908,6 +2908,18 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("numPV"),
         ),
         cms.PSet (
+            name = cms.string("numSoftMuons"),
+            title = cms.string("Number of Soft Muons; # muon passing soft ID"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("numSoftMuons"),
+        ),
+        cms.PSet (
+            name = cms.string("numTightMuons"),
+            title = cms.string("Number of Tight Muons; # muon passing tight ID"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("numTightMuons"),
+        ),
+        cms.PSet (
             name = cms.string("numTruePV"),
             title = cms.string("Number of True PVs; #True PVs"),
             binsX = cms.untracked.vdouble(75, 0, 75),

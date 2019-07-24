@@ -13,10 +13,11 @@ eventSelections = [
     #promptMuons,
     #displacedMuons,
     #ParkingDataJPsi,
-    displacedHighPtJPsi,
-    displacedLowPtJPsi,
-    promptHighPtJPsi,
-    promptLowPtJPsi,
+    #displacedHighPtJPsi,
+    #displacedLowPtJPsi,
+    #promptHighPtJPsi,
+    #promptLowPtJPsi,
+    signalNoCuts,
     ]
 
 #######################################
@@ -37,4 +38,4 @@ scalingfactorproducers = []
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
-customize (process, "mumu", False, False, "data")
+customize (process, "mumu", True, False, "signal")

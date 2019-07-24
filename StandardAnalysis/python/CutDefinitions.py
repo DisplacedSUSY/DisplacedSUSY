@@ -586,6 +586,24 @@ muon_softID_cut = cms.PSet(
     numberRequired = cms.string(">= 1"),
     )
 
+muon_softID_dummy = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isSoftMuonWRTVtx > 0"),
+    numberRequired = cms.string(">= 0"),
+    )
+
+muon_tightID_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("isTightMuonWRTVtx > 0"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+muon_tightID_dummy = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("istightMuonWRTVtx > 0"),
+    numberRequired = cms.string(">= 0"),
+    )
+
 muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_id_impact_parameter_cutstring,
