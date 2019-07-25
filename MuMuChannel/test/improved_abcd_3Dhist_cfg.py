@@ -47,7 +47,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     fitMin = 50 #muon pt cut at 50 GeV in 2017 and 2018 mumu
 
-input_hist = "Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
+input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
 fit_ranges = [(x, pt_cut) for x in range(fitMin, 71, 2)]
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
 
@@ -65,6 +65,6 @@ error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
 #elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
 #    fitMin = 60 #muon pt cut at 50 GeV in 2017 and 2018 mumu
 #
-#input_hist = "Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
+#input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
 #fit_ranges = [(x, pt_cut) for x in range(fitMin, 91, 2)]
 #error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot

@@ -21,6 +21,6 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     fitMin = 9 #muon pt cut at 9 GeV from trigger
 
-input_hist = "Muon Plots/muonLeadingPt"
+input_hist = "PreselectionPlotter/Muon Plots/muonLeadingPt"
 fit_ranges = [(x, 15) for x in range(fitMin, 17, 2)]
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
