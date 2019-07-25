@@ -214,9 +214,9 @@ for sample in samples:
     in_hists = {}
     in_file = TFile(output_path + sample + ".root")
     if arguments.threeD:
-        in_hist = in_file.Get("PreselectionPlotter/" + input_hist)
+        in_hist = in_file.Get(input_hist)
         if not in_hist:
-            print "Warning: could not load PreselectionPlotter/" + input_hist
+            print "Warning: could not load " + input_hist
         xaxis = in_hist.GetXaxis()
         yaxis = in_hist.GetYaxis()
         zaxis = in_hist.GetZaxis()
