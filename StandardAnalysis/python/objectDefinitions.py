@@ -140,12 +140,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 
 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= (0.0287+0.506/pt)) | \
-                                     (isEE & pfdRhoIsoCorr <= (0.0445+0.963/pt))")
+                                         (isEE & pfdRhoIsoCorr <= (0.0445+0.963/pt))")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
-                                     (isEE & pfdRhoIsoCorr <= 0.0571)")
+                                         (isEE & pfdRhoIsoCorr <= 0.0571)")
 else:
     print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
 electron_iso_alias = cms.string(">=1 electrons with tight isolation")
@@ -159,6 +159,23 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_antiiso_cutstring = cms.string("(isEB & pfdRhoIsoCorr > 0.0588) | \
                                      (isEE & pfdRhoIsoCorr > 0.0571)")
 electron_antiiso_alias = cms.string(">=1 electrons with inverted tight isolation")
+
+##########################################################################
+# LOOSE ELECTRON ISOLATION
+
+#taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working%20points%20for%2094X%20and%20later
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    electron_loose_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= (0.112+0.506/pt)) | \
+                                               (isEE & pfdRhoIsoCorr <= (0.108+0.963/pt))")
+
+# taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    electron_loose_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0994) | \
+                                               (isEE & pfdRhoIsoCorr <= 0.107)")
+else:
+    print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
+electron_loose_iso_alias = cms.string(">=1 electrons with loose isolation")
+
 
 ##########################################################################
 

@@ -331,6 +331,13 @@ electron_antiiso_cut = cms.PSet(
     alias = objectDefs.electron_antiiso_alias
     )
 
+electron_loose_iso_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_loose_iso_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.electron_loose_iso_alias
+    )
+
 electron_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_id_impact_parameter_cutstring,
