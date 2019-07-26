@@ -11,6 +11,7 @@ from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
     Preselection,
+    #PreselectionLooseIsoCutBTagVeto,
     #PromptControlRegion,
     #DisplacedControlRegion,
     #PromptLowPtControlRegion,

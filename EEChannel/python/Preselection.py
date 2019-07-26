@@ -52,6 +52,13 @@ InclusiveSignalRegion.cuts.append(electron_d0_greaterThan50_cut)
 
 #################################################################
 
+PreselectionLooseIsoCutBTagVeto = copy.deepcopy(Preselection)
+PreselectionLooseIsoCutBTagVeto.name = cms.string("PreselectionLooseIsoCutBTagVeto")
+replaceSingleCut(PreselectionLooseIsoCut.cuts, electron_loose_iso_cut, electron_iso_cut)
+PreselectionLooseIsoCutBTagVeto.cuts.append(jet_btag_lwp_veto)
+
+#################################################################
+
 PromptLowPtControlRegion = copy.deepcopy(PromptControlRegion)
 PromptLowPtControlRegion.name = cms.string("PromptLowPtControlRegion")
 PromptLowPtControlRegion.cuts.append(electron_pt_100_veto)
