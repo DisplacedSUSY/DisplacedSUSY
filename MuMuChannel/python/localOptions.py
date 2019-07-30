@@ -53,6 +53,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('DoubleMu') or x.startswith('DisplacedSUSYSignal'))]
 composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
 
+# Define 2016-2018 combined data datasets
+composite_dataset_definitions['DoubleMu_2016_2017_2018'] = [
+    'DoubleMu_2016_postHIP',
+    'DoubleMu_2017_withoutB',
+    'DoubleMu_2018'
+]
+
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 
 InputCondorArguments = {}
