@@ -317,6 +317,7 @@ for sample in samples:
         b_over_a_plot = b_over_a.get_plot()
         b_over_a_plot.Fit(fit_func, "", "", fit_range[0], fit_range[1])
         fit = b_over_a_plot.GetFunction(sample+"_fit")
+        chisq_per_dof = fit.GetChisquare()/fit.GetNDF()
 
         # calculate d(pT) = c(pT) * model(pT) and do closure test
         d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
@@ -363,7 +364,7 @@ for sample in samples:
         b_over_a_plot.SetLineColor(colors[color_ix])
         fit_summary_plot.Add(b_over_a_plot, "PX")
         fit_summary_legend.AddEntry(b_over_a_plot, str(fit_range[0]) + " GeV --> " +
-                                    str(round(estimate, 2)) + " events")
+                                    str(round(estimate, 2)) + " events; chisq/dof is " + str(round(chisq_per_dof,2)))
         if arguments.unblind:
             d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
             d_over_c_plot.SetMarkerStyle(6)
@@ -377,7 +378,6 @@ for sample in samples:
                                     fit.GetParameter(0), fit.GetParameter(1))
 
     # save once-per-sample plots
-
     # input hists
     a_canvas = make_default_canvas(sample+"_a")
     in_hists['a'].Draw()
@@ -438,6 +438,7 @@ for sample in samples:
     b_over_a_plot = b_over_a.get_plot()
     b_over_a_plot.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1]) # use initial fit range
     mean_fit = b_over_a_plot.GetFunction(sample+"_fit")
+    print "mean fit chisq/dof is: "+ str(mean_fit.GetChisquare()/mean_fit.GetNDF())
     mean_fit_results[sample] = mean_fit.Clone() # save for use in composite fit
     mean_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), mean_fit)
     mean_estimate, _, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
