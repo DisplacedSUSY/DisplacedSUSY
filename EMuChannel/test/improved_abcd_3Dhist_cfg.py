@@ -32,6 +32,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     # samples must be listed before composite samples
     samples = ['MuonEG_2018']
+    #samples = ['MuonEG_2016_2017_2018']
 
     # fit assumes composite samples have two components
     composite_samples = { }
@@ -40,11 +41,19 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 # these parameters are the default setup (not particularily motivated)
 d0_0_cut = 15.
 d0_1_cut = 15.
-#pt_cut = 120.
-pt_cut = 100.
+pt_cut = 120.
+#pt_cut = 100.
 d0_0_max = 30 # set to 0 to remove upper limit
 d0_1_max = 30 # set to 0 to remove upper limit
 pt_max = 0 # set to 0 to remove upper limit
+
+#d0_0_cut = 30.
+#d0_1_cut = 30.
+#pt_cut = 120.
+#pt_cut = 100.
+#d0_0_max = 100 # set to 0 to remove upper limit
+#d0_1_max = 100 # set to 0 to remove upper limit
+#pt_max = 300 # set to 0 to remove upper limit
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     if vsElectronPt: fitMin = 42 #electron pt cut at 42 GeV in emu
