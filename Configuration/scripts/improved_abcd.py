@@ -246,6 +246,8 @@ for sample in samples:
         for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['a'].SetBinContent(b,0)
             in_hists['a'].SetBinError(b,0)
+        error = Double()
+        print "number of events in A is: "+str(in_hists['a'].IntegralAndError(0,in_hists['a'].GetNbinsX(),error))+" +/- "+str(error)
 
         in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
                                        cut_bin_x,#x min bin
@@ -256,6 +258,7 @@ for sample in samples:
         for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['b'].SetBinContent(b,0)
             in_hists['b'].SetBinError(b,0)
+        print "number of events in B is: "+str(in_hists['b'].IntegralAndError(0,in_hists['b'].GetNbinsX(),error))+" +/- "+str(error)
 
         in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
                                        1,#x min bin
@@ -266,6 +269,7 @@ for sample in samples:
         for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['c'].SetBinContent(b,0)
             in_hists['c'].SetBinError(b,0)
+        print "number of events in C is: "+str(in_hists['c'].IntegralAndError(0,in_hists['c'].GetNbinsX(),error))+" +/- "+str(error)
 
         in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
                                        cut_bin_x,#x min bin
@@ -276,6 +280,8 @@ for sample in samples:
         for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
             in_hists['d'].SetBinContent(b,0)
             in_hists['d'].SetBinError(b,0)
+        if arguments.unblind:
+            print "number of events in D is: "+str(in_hists['d'].IntegralAndError(0,in_hists['d'].GetNbinsX(),error))+" +/- "+str(error)
 
     else:
         for region, channel in channels.iteritems():
