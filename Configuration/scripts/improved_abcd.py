@@ -217,12 +217,14 @@ for sample in samples:
     xaxis = in_hist.GetXaxis()
     yaxis = in_hist.GetYaxis()
     zaxis = in_hist.GetZaxis()
+    min_bin_z = zaxis.FindBin(fit_min)
     cut_bin_x = xaxis.FindBin(d0_0_cut)
     cut_bin_y = yaxis.FindBin(d0_1_cut)
     cut_bin_z = zaxis.FindBin(pt_cut)
     max_bin_x = xaxis.FindBin(d0_0_max) if d0_0_max else in_hist.GetNbinsX()
     max_bin_y = yaxis.FindBin(d0_1_max) if d0_1_max else in_hist.GetNbinsY()
     max_bin_z = zaxis.FindBin(pt_max) if pt_max else in_hist.GetNbinsZ()
+
 
     #in below: cut_bin_x, or cut_bin_x-1, or cut_bin_x+1 ?
     #also: check underflow/overflow
@@ -232,7 +234,7 @@ for sample in samples:
                                    1,#ymin
                                    cut_bin_y,#ymax
                                    "eo")
-    for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
+    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+1):
         in_hists['a'].SetBinContent(b,0)
         in_hists['a'].SetBinError(b,0)
     error = Double()
@@ -244,7 +246,7 @@ for sample in samples:
                                    cut_bin_y,#ymin
                                    max_bin_y,#ymax
                                    "eo")
-    for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
+    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+1):
         in_hists['b'].SetBinContent(b,0)
         in_hists['b'].SetBinError(b,0)
     print "number of events in B is: "+str(in_hists['b'].IntegralAndError(0,in_hists['b'].GetNbinsX(),error))+" +/- "+str(error)
