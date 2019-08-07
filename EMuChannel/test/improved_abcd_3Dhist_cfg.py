@@ -37,7 +37,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     # fit assumes composite samples have two components
     composite_samples = { }
 
-# the following parameters only take effect when using the -t option
 # 1st sideband tried:
 d0_0_cut = 15.
 d0_1_cut = 15.

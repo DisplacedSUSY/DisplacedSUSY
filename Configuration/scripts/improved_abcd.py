@@ -16,8 +16,6 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-u", "--unblind", action="store_true", dest="unblind",
                   default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
-parser.add_option("-t", "--threeD", action="store_true", dest="threeD",
-                  default=False, help="use 3D d0/d0/pt histogram instead of 4 regions")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -213,82 +211,66 @@ for sample in samples:
     # get histograms and statistical uncertainties for all regions
     in_hists = {}
     in_file = TFile(output_path + sample + ".root")
-    if arguments.threeD:
-        in_hist = in_file.Get(input_hist)
-        if not in_hist:
-            print "Warning: could not load " + input_hist
-        xaxis = in_hist.GetXaxis()
-        yaxis = in_hist.GetYaxis()
-        zaxis = in_hist.GetZaxis()
-        cut_bin_x = xaxis.FindBin(d0_0_cut)
-        cut_bin_y = yaxis.FindBin(d0_1_cut)
-        cut_bin_z = zaxis.FindBin(pt_cut)
-        max_bin_x = xaxis.FindBin(d0_0_max) if d0_0_max else in_hist.GetNbinsX()
-        max_bin_y = yaxis.FindBin(d0_1_max) if d0_1_max else in_hist.GetNbinsY()
-        max_bin_z = zaxis.FindBin(pt_max) if pt_max else in_hist.GetNbinsZ()
+    in_hist = in_file.Get(input_hist)
+    if not in_hist:
+        print "Warning: could not load " + input_hist
+    xaxis = in_hist.GetXaxis()
+    yaxis = in_hist.GetYaxis()
+    zaxis = in_hist.GetZaxis()
+    cut_bin_x = xaxis.FindBin(d0_0_cut)
+    cut_bin_y = yaxis.FindBin(d0_1_cut)
+    cut_bin_z = zaxis.FindBin(pt_cut)
+    max_bin_x = xaxis.FindBin(d0_0_max) if d0_0_max else in_hist.GetNbinsX()
+    max_bin_y = yaxis.FindBin(d0_1_max) if d0_1_max else in_hist.GetNbinsY()
+    max_bin_z = zaxis.FindBin(pt_max) if pt_max else in_hist.GetNbinsZ()
 
-        print "for "+str(d0_0_cut)+" d0 cut, bin is "+str(cut_bin_x)
-        print "for "+str(d0_1_cut)+" d0 cut, bin is "+str(cut_bin_y)
-        print "for "+str(pt_cut)+" pt cut, bin is "+str(cut_bin_z)
+    #in below: cut_bin_x, or cut_bin_x-1, or cut_bin_x+1 ?
+    #also: check underflow/overflow
+    in_hists['a'] = in_hist.ProjectionZ("a", #PromptLowPtControlRegion
+                                   1,#x min bin
+                                   cut_bin_x,#x max bin
+                                   1,#ymin
+                                   cut_bin_y,#ymax
+                                   "eo")
+    for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
+        in_hists['a'].SetBinContent(b,0)
+        in_hists['a'].SetBinError(b,0)
+    error = Double()
+    print "number of events in A is: "+str(in_hists['a'].IntegralAndError(0,in_hists['a'].GetNbinsX(),error))+" +/- "+str(error)
 
-        print "for "+str(d0_0_max)+" d0 cut, bin is "+str(max_bin_x)
-        print "for "+str(d0_1_max)+" d0 cut, bin is "+str(max_bin_y)
-        print "for "+str(pt_max)+" pt cut, bin is "+str(max_bin_z)
+    in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
+                                   cut_bin_x,#x min bin
+                                   max_bin_x,#x max bin
+                                   cut_bin_y,#ymin
+                                   max_bin_y,#ymax
+                                   "eo")
+    for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
+        in_hists['b'].SetBinContent(b,0)
+        in_hists['b'].SetBinError(b,0)
+    print "number of events in B is: "+str(in_hists['b'].IntegralAndError(0,in_hists['b'].GetNbinsX(),error))+" +/- "+str(error)
 
-        #in below: cut_bin_x, or cut_bin_x-1, or cut_bin_x+1 ?
-        #also: check underflow/overflow
-        in_hists['a'] = in_hist.ProjectionZ("a", #PromptLowPtControlRegion
-                                       1,#x min bin
-                                       cut_bin_x,#x max bin
-                                       1,#ymin
-                                       cut_bin_y,#ymax
-                                       "eo")
-        for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
-            in_hists['a'].SetBinContent(b,0)
-            in_hists['a'].SetBinError(b,0)
-        error = Double()
-        print "number of events in A is: "+str(in_hists['a'].IntegralAndError(0,in_hists['a'].GetNbinsX(),error))+" +/- "+str(error)
+    in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
+                                   1,#x min bin
+                                   cut_bin_x,#x max bin
+                                   1,#ymin
+                                   cut_bin_y,#ymax
+                                   "eo")
+    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
+        in_hists['c'].SetBinContent(b,0)
+        in_hists['c'].SetBinError(b,0)
+    print "number of events in C is: "+str(in_hists['c'].IntegralAndError(0,in_hists['c'].GetNbinsX(),error))+" +/- "+str(error)
 
-        in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
-                                       cut_bin_x,#x min bin
-                                       max_bin_x,#x max bin
-                                       cut_bin_y,#ymin
-                                       max_bin_y,#ymax
-                                       "eo")
-        for b in range(cut_bin_z, in_hist.GetNbinsZ()+1):
-            in_hists['b'].SetBinContent(b,0)
-            in_hists['b'].SetBinError(b,0)
-        print "number of events in B is: "+str(in_hists['b'].IntegralAndError(0,in_hists['b'].GetNbinsX(),error))+" +/- "+str(error)
-
-        in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
-                                       1,#x min bin
-                                       cut_bin_x,#x max bin
-                                       1,#ymin
-                                       cut_bin_y,#ymax
-                                       "eo")
-        for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
-            in_hists['c'].SetBinContent(b,0)
-            in_hists['c'].SetBinError(b,0)
-        print "number of events in C is: "+str(in_hists['c'].IntegralAndError(0,in_hists['c'].GetNbinsX(),error))+" +/- "+str(error)
-
-        in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
-                                       cut_bin_x,#x min bin
-                                       max_bin_x,#x max bin
-                                       cut_bin_y,#ymin
-                                       max_bin_y,#ymax
-                                       "eo")
-        for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
-            in_hists['d'].SetBinContent(b,0)
-            in_hists['d'].SetBinError(b,0)
-        if arguments.unblind:
-            print "number of events in D is: "+str(in_hists['d'].IntegralAndError(0,in_hists['d'].GetNbinsX(),error))+" +/- "+str(error)
-
-    else:
-        for region, channel in channels.iteritems():
-            in_hists[region] = in_file.Get(channel + "Plotter/" + input_hist)
-            in_hists[region] = in_hists[region].Rebin(2)
-            if not in_hists[region]:
-                print "Warning: could not load " + channel + "Plotter/" + input_hist
+    in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
+                                   cut_bin_x,#x min bin
+                                   max_bin_x,#x max bin
+                                   cut_bin_y,#ymin
+                                   max_bin_y,#ymax
+                                   "eo")
+    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+1):
+        in_hists['d'].SetBinContent(b,0)
+        in_hists['d'].SetBinError(b,0)
+    if arguments.unblind:
+        print "number of events in D is: "+str(in_hists['d'].IntegralAndError(0,in_hists['d'].GetNbinsX(),error))+" +/- "+str(error)
 
     # set up fit model
     composite = sample in composite_samples
