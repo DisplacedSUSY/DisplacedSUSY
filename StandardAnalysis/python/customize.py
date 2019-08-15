@@ -74,7 +74,6 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
                 process.PUScalingFactorProducer.targetUp = cms.string ("data2017Up")
                 process.PUScalingFactorProducer.targetDown = cms.string ("data2017Down")
 
-        #FIXME: need to apply 2018 PU reweighting
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2018.root')
             process.PUScalingFactorProducer.target = cms.string ("data2018")
