@@ -45,7 +45,7 @@ pt_max = 0 # set to 0 to remove upper limit
 # 2nd sideband tried:
 #d0_0_cut = 30
 #d0_1_cut = 30
-#pt_cut = 110
+#pt_cut = 100
 #d0_0_max = 100 # set to 0 to remove upper limit
 #d0_1_max = 100 # set to 0 to remove upper limit
 #pt_max = 300 # set to 0 to remove upper limit
