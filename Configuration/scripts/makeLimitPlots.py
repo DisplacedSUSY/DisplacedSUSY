@@ -559,8 +559,8 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
 
         tmp_limit = { }
 
-        # for Asymptotic CLs, get the limits from the root file
-        if method == "Asymptotic":
+        # for AsymptoticLimits CLs, get the limits from the root file
+        if method == "AsymptoticLimits":
             fname = makeSignalRootFileName(mass,lifetime,directory,"expected",use_miniAOD)
             if not fname:
                 continue
@@ -728,7 +728,7 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
         tmp_limit['up2'] *= signalSF
         tmp_limit['down1'] *= signalSF
         tmp_limit['down2'] *= signalSF
-        if method != "Asymptotic":
+        if method != "AsymptoticLimits":
             signalSF = getSignalSF (mass, lifetime, directory, 'observed', use_miniAOD)
         tmp_limit['observed'] *= signalSF
 #        print tmp_limit['observed']/xSection

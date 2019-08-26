@@ -16,9 +16,9 @@ parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-c", "--outputDir", dest="outputDir",
-                                    help="output directory")
-parser.add_option("-M", "--method", dest="method", default="Asymptotic",
-                                    help="which method of combine to use: currently supported options are Asymptotic (default), BayesianSimple, MarkovChainMC, BayesianToyMC, and HybridNew")
+                  help="output directory")
+parser.add_option("-M", "--method", dest="method", default="AsymptoticLimits",
+                  help="which method of combine to use: currently supported options are AsymptoticLimits (default), BayesianSimple, MarkovChainMC, BayesianToyMC, and HybridNew")
 parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
                   help="how many points are proposed to fill a single Markov chain, default = 10k")
 parser.add_option("-r", "--tries", dest="Ntries", default="10",
@@ -145,30 +145,20 @@ for mass in masses:
             datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
             datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
             datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-            combine_expected_options = combine_observed_options = "-s -1 -H AsymptoticLimits "
+            combine_expected_options = combine_observed_options = "-M " + arguments.method + " -H AsymptoticLimits "
             if arguments.method == "HybridNew":
-                combine_expected_options += "-M " + arguments.method + " "
-                combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
-                combine_observed_options = combine_observed_options + " "
             elif arguments.method == "MarkovChainMC":
-                combine_expected_options += "-M " + arguments.method + " "
-                combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
                 combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
             elif arguments.method == "BayesianSimple":
-                combine_expected_options += "-M " + arguments.method + " "
-                combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-                combine_observed_options = combine_observed_options + " "
             elif arguments.method == "BayesianToyMC":
-                combine_expected_options += "-M " + arguments.method + " "
-                combine_observed_options += "-M " + arguments.method + " "
                 combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-                combine_observed_options = combine_observed_options + " "
             else:
-                combine_expected_options += "-M Asymptotic --picky --minosAlgo stepping " # removed --minimizerStrategy 1 
-                combine_observed_options += "-M Asymptotic --picky --minosAlgo stepping " # removed --minimizerStrategy 1 
+                print "Defaulting to AsymptoticLimits"
+                combine_expected_options += " --picky "
+                combine_observed_options += " --picky "
 
             combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
             combine_command = combine_command.rstrip()
@@ -194,7 +184,7 @@ for mass in masses:
             os.chdir("../../..")
 
             # for everything other than Asymptotic, we need to also run observed limits
-            if arguments.method != "Asymptotic":
+            if arguments.method != "AsymptoticLimits":
 
                 shutil.rmtree(condor_observed_dir, True)
                 os.mkdir(condor_observed_dir)
