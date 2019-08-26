@@ -9,6 +9,7 @@ from optparse import OptionParser
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -26,23 +27,19 @@ if arguments.localConfig:
     sys.path.append(os.getcwd())
     exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
 else:
-    print "No local config specified, shame on you"
+    print "No local config specified"
     sys.exit(0)
 
 if arguments.outputDir:
     if not os.path.exists("limits/"+arguments.outputDir):
         os.system("mkdir limits/"+arguments.outputDir)
 else:
-    print "No output directory specified, shame on you"
+    print "No output directory specified"
     sys.exit(0)
 
 if not arguments.d0Cuts:
-    print "No d0 cuts specified, how could you?"
+    print "No d0 cuts specified"
     sys.exit(0)
-
-
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
-
 
 def fancyTable(arrays):
 
@@ -55,7 +52,6 @@ def fancyTable(arrays):
     verticalMaxLengths = [max(value) for value in map(lambda * x:x, *[map(len, a) for a in arrays])]
 
     spacedLines = []
-
     for array in arrays:
         spacedLine = ''
         for i, field in enumerate(array):
@@ -65,7 +61,6 @@ def fancyTable(arrays):
 
     return '\n'.join(spacedLines)
 
-
 def subtractSignalRegions(yields, errors):
     for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region
         currentD0Cut = arguments.d0Cuts[cutIndex]
@@ -73,13 +68,13 @@ def subtractSignalRegions(yields, errors):
         currentError = yields[currentD0Cut] * (errors[currentD0Cut]-1)
         nextError = yields[nextD0Cut] * (errors[nextD0Cut]-1)
 
+        # fixme: use propagateError instead
         yields[currentD0Cut] = yields[currentD0Cut] - yields[nextD0Cut]
         if yields[currentD0Cut] > 0.0:
             errors[currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / yields[currentD0Cut] + 1
         else:
             errors[currentD0Cut] = 0
     return (yields, errors)
-
 
 def GetYieldAndError(condor_dir, process, channel, d0_cut):
     yield_and_error = {}
@@ -95,10 +90,10 @@ def GetYieldAndError(condor_dir, process, channel, d0_cut):
     d0Histogram.SetDirectory(0)
     inputFile.Close()
 
-    x_min = d0Histogram.GetXaxis().FindBin (float(d0_cut))
-    y_min = d0Histogram.GetYaxis().FindBin (float(d0_cut))
-    x_max = d0Histogram.GetXaxis().FindBin (float(arguments.d0Max))
-    y_max = d0Histogram.GetYaxis().FindBin (float(arguments.d0Max))
+    x_min = d0Histogram.GetXaxis().FindBin(float(d0_cut))
+    y_min = d0Histogram.GetYaxis().FindBin(float(d0_cut))
+    x_max = d0Histogram.GetXaxis().FindBin(float(arguments.d0Max))
+    y_max = d0Histogram.GetYaxis().FindBin(float(arguments.d0Max))
 
     intError = Double (0.0)
     fracError = 0.0
@@ -112,11 +107,8 @@ def GetYieldAndError(condor_dir, process, channel, d0_cut):
 
     return yield_and_error
 
-
 def writeDatacard(mass,lifetime):
-
     signal_dataset = "stop"+mass+"_"+lifetime+"mm"
-
     signal_yield = {}
     signal_error = {}
 
@@ -136,14 +128,12 @@ def writeDatacard(mass,lifetime):
     datacard.write('kmax * number of nuisance parameters\n')
     datacard.write('\n')
 
-    #################
     bin_row = [ 'bin', ' ']
     observation_row = [ 'observation', ' ']
     for d0Cut in arguments.d0Cuts:
         bin_row.append('d0min_'+str(d0Cut))
         observation_row.append(str(round(observation[d0Cut],0)))
 
-    #################
     datacard.write('\n----------------------------------------\n')
     datacard.write(fancyTable([ bin_row, observation_row ]))
     datacard.write('\n----------------------------------------\n')
@@ -160,7 +150,7 @@ def writeDatacard(mass,lifetime):
 
         process_index = 0
 
-        #add signal yield
+        #a dd signal yield
         bin_row_2.append('d0min_'+str(d0Cut))
         process_name_row.append(signal_dataset)
         process_index_row.append(str(process_index))
@@ -168,7 +158,7 @@ def writeDatacard(mass,lifetime):
         rate_row.append(str(round(signal_yield[d0Cut],4)))
         empty_row.append('')
 
-        #add background yields
+        # add background yields
         for bg in bg_names:
             bin_row_2.append('d0min_'+str(d0Cut))
             process_name_row.append(bg)
@@ -183,8 +173,7 @@ def writeDatacard(mass,lifetime):
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
 
-
-    #add a row for the statistical errors of the signal in each region
+    # add a row for the statistical uncertainty on the signal yield in each region
     for d0Cut in arguments.d0Cuts:
         name = 'signal_stat_' + 'd0min_' + str(d0Cut)
         row = [name,'gmN']
@@ -204,7 +193,7 @@ def writeDatacard(mass,lifetime):
 
         datacard_data.append(row)
 
-    #add a row for the statistical error of each background
+    # add a row for the statistical uncertainty for each background
     for bg in bg_names:
         row = [bg+"_stat",'lnN','']
         for d0Cut in arguments.d0Cuts:
@@ -216,28 +205,7 @@ def writeDatacard(mass,lifetime):
                     row.append('-')
         datacard_data.append(row)
 
-
-#    datacard_data.append(empty_row)
-#    comment_row = empty_row[:]
-#    comment_row[0] = "# NORMALIZATION UNCERTAINTIES #"
-#    datacard_data.append(comment_row)
-#    datacard_data.append(empty_row)
-#
-#    #add a row for the cross-section error for the signal
-#    row = ['signal_cross_sec','lnN','']
-#    for d0Cut in arguments.d0Cuts:
-#        if energy == '13':
-#            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
-#        elif energy == '8':
-#            row.append(str(round(float(signal_cross_sections_8TeV[mass]['error']),3)))
-#        else:
-#            row.append(str(round(float(signal_cross_sections_13TeV[mass]['error']),3)))
-#
-#        for bg in backgrounds:
-#            row.append('-')
-#    datacard_data.append(row)
-
-    #add a row for the normalization error for each background
+    # add a row for the normalization error for each background
     for process_name in sorted(background_normalization_uncertainties):
         row = [process_name+"_norm",background_normalization_uncertainties[process_name]['type'],'']
         for d0Cut in arguments.d0Cuts:
@@ -255,8 +223,7 @@ def writeDatacard(mass,lifetime):
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
 
-
-    #add a new row for each global uncertainty specified in configuration file
+    # add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
@@ -272,7 +239,7 @@ def writeDatacard(mass,lifetime):
         datacard_data.append(row)
 
 
-    #add a new row for each dataset-specific uncertainty specified in configuration file
+    # add a new row for each dataset-specific uncertainty specified in configuration file
     for uncertainty in unique_systematic_uncertainties:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
@@ -288,7 +255,7 @@ def writeDatacard(mass,lifetime):
         datacard_data.append(row)
 
 
-    #add a new row for each uncertainty defined in external text files
+    # add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
         for d0Cut in arguments.d0Cuts:
@@ -303,24 +270,17 @@ def writeDatacard(mass,lifetime):
                     row.append('-')
         datacard_data.append(row)
 
-
-
-    #write all rows to the datacard
+    # write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
 
 
-########################################################################################
-########################################################################################
+###################################################################################################
 
-
-
-###setting up background yields and statistical errors
+# setup background yields and statistical errors
 bg_yields = {}
 bg_errors = {}
-
 bg_names = [bg['name'] for bg in backgrounds]
-
 arguments.d0Cuts.sort(key=float)
 
 for bg in backgrounds:
@@ -345,7 +305,7 @@ for cutIndex in range(len(arguments.d0Cuts)):
             bg_yields[bg][currentD0Cut] = bg_yields[bg][lastD0Cut]
             bg_errors[bg][currentD0Cut] = bg_errors[bg][lastD0Cut]
 
-###getting all the external systematic errors and putting them in a dictionary
+# get all the external systematic errors and put them in a dictionary
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
     systematics_dictionary[systematic] =  {}
@@ -364,11 +324,9 @@ for systematic in external_systematic_uncertainties:
             if systematics_dictionary[systematic][d0Cut][dataset] == '0' or systematics_dictionary[systematic][d0Cut][dataset] == '0/0':
                 systematics_dictionary[systematic][d0Cut][dataset] = '-'
 
-###setting up observed number of events
+# set up observed number of events
 observation = {}
-
 for d0Cut in arguments.d0Cuts:
-
     if run_blind_limits:
         background_sum = 0
         for bg in bg_names:
@@ -377,7 +335,7 @@ for d0Cut in arguments.d0Cuts:
     else:
         observation[d0Cut] = GetYieldAndError(data_condor_dir, data_dataset, data_channel, d0Cut)['yield']
 
-###looping over signal models and writing a datacard for each
+# write a datacard for each signal point
 for mass in masses:
   for lifetime in lifetimes:
         print "making datacard_stop"+mass+"_"+lifetime+"mm.txt"
