@@ -217,14 +217,16 @@ for sample in samples:
     xaxis = in_hist.GetXaxis()
     yaxis = in_hist.GetYaxis()
     zaxis = in_hist.GetZaxis()
-    min_bin_z = zaxis.FindBin(fit_min)
+    d0_0_max = d0_0_max if d0_0_max else in_hist.GetXaxis().GetXmax()
+    d0_1_max = d0_1_max if d0_1_max else in_hist.GetYaxis().GetXmax()
+    pt_max   = pt_max if pt_max else in_hist.GetZaxis().GetXmax()
     cut_bin_x = xaxis.FindBin(d0_0_cut)
     cut_bin_y = yaxis.FindBin(d0_1_cut)
     cut_bin_z = zaxis.FindBin(pt_cut)
-    max_bin_x = xaxis.FindBin(d0_0_max) if d0_0_max else in_hist.GetNbinsX()
-    max_bin_y = yaxis.FindBin(d0_1_max) if d0_1_max else in_hist.GetNbinsY()
-    max_bin_z = zaxis.FindBin(pt_max) if pt_max else in_hist.GetNbinsZ()
-
+    min_bin_z = zaxis.FindBin(fit_min)
+    max_bin_x = xaxis.FindBin(d0_0_max)
+    max_bin_y = yaxis.FindBin(d0_1_max)
+    max_bin_z = zaxis.FindBin(pt_max)
 
     #in below: cut_bin_x, or cut_bin_x-1, or cut_bin_x+1 ?
     #also: check underflow/overflow
@@ -334,7 +336,7 @@ for sample in samples:
         fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
             d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
-            upper_edge = pt_max if pt_max else in_hists['c'].GetXaxis().GetXmax()
+            upper_edge = pt_max
             # use 2*error_tolerance due to lower stats in c and d regions
             d_over_c.improve_binning(error_tolerance*2, upper_edge)
             d_over_c_plot = d_over_c.get_plot()
@@ -469,5 +471,30 @@ for sample in samples:
     mean_fit_canvas.Write()
     mean_fit_canvas.SaveAs("mean_fit.pdf","recreate")
     mean_fit_canvas.SaveAs("mean_fit.png","recreate")
+
+    # 3D mean estimate histogram
+    estimate_hist = in_hist.Clone()
+    estimate_hist.SetName(sample + "_estimate")
+    estimate_hist.SetTitle(sample + "_estimate")
+    # create bins for each signal region
+    x_edges = [d0_0_cut, d0_0_max]
+    y_edges = [d0_1_cut, d0_1_max]
+    z_edges = [pt_cut, pt_max]
+    estimate_hist.SetBins(len(x_edges)-1, array('d', x_edges),
+                          len(y_edges)-1, array('d', y_edges),
+                          len(z_edges)-1, array('d', z_edges))
+    # fill hist with mean estimate and statistical uncertainty
+    for x in x_edges[:-1]:
+        x_bin = estimate_hist.GetXaxis().FindBin(x)
+        for y in y_edges[:-1]:
+            y_bin = estimate_hist.GetYaxis().FindBin(y)
+            for z in z_edges[:-1]:
+                z_bin = estimate_hist.GetZaxis().FindBin(z)
+                bin_num = estimate_hist.GetBin(x_bin, y_bin, z_bin)
+                estimate_hist.SetBinContent(bin_num, mean_estimate)
+                estimate_hist.ResetStats()
+                # fixme: add statistical uncertainty from abcd
+    estimate_hist.Write()
+
 
 out_file.Close()
