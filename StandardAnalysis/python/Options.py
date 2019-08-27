@@ -13,6 +13,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     from DisplacedSUSY.Configuration.miniAODV2_102X_Samples import *
     print "using 102X samples"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+    from DisplacedSUSY.Configuration.miniAODV2_106X_Samples import *
+    print "using 106X samples"
 else:
     print "What CMSSW release are you in? We expect the samples to be imported from the 80X or 94X or 102X list"
 

@@ -68,7 +68,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
             #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
       )
     )
-elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_"):
+elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_6_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
           #input MINIAOD files
@@ -114,6 +114,11 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     data_global_tag = '102X_dataRun2_Sep2018ABC_v2'
     mc_global_tag = '102X_upgrade2018_realistic_v18'
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+    data_global_tag = '102X_dataRun2_Sep2018ABC_v2' #would need an update
+    #mc_global_tag = '106X_mcRun3_2021_realistic_v3'
+    #mc_global_tag = '106X_mcRun3_2023_realistic_v3'
+    mc_global_tag = '106X_mcRun3_2024_realistic_v4'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag

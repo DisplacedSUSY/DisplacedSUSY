@@ -44,3 +44,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
     #datasets = ['MuonEG_2018']
     #datasets = ['MuonEG_2016_2017_2018']
+
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+    datasets = [#'stopToLB800_500mm_2021', #each sample needs different global tag in protoConfig_cfg.py
+                #'stopToLB800_500mm_2023',
+                'stopToLB800_500mm_2024'
+    ]
