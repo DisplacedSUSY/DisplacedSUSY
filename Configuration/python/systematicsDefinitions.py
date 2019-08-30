@@ -11,7 +11,7 @@ import os
 ### signal cross sections and their uncertainties ###
 #####################################################
 
-#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom
+#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom (NLO+NLL)
 signal_cross_sections_13TeV = {
 
     '100' : {
@@ -61,6 +61,38 @@ signal_cross_sections_13TeV = {
     '1200' : {
       'value' : '0.00159844',
       'error' : '1.185209',
+    },
+    '1300' : {
+      'value' : '0.000850345',
+      'error' : '1.201604',
+    },
+    '1400' : {
+      'value' : '0.000461944',
+      'error' : '1.222704',
+    },
+    '1500' : {
+      'value' : '0.000256248',
+      'error' : '1.24372',
+    },
+    '1600' : {
+      'value' : '0.000141382',
+      'error' : '1.265291',
+    },
+    '1700' : {
+      'value' : '8.07774e-05',
+      'error' : '1.287497',
+    },
+    '1800' : {
+      'value' : '4.67492e-05',
+      'error' : '1.312291',
+    },
+    '1900' : {
+      'value' : '2.73974e-05',
+      'error' : '1.338247',
+    },
+    '2000' : {
+      'value' : '1.62355e-05',
+      'error' : '1.365277',
     },
 }
 
@@ -117,7 +149,7 @@ signal_cross_sections_8TeV = {
 #   https://twiki.cern.ch/twiki/bin/view/CMS/StandardModelCrossSectionsat13TeV
 #       -Jamie 4-19-16
 #
-# For things take from data, this should be the uncertainty on the data-driven method
+# For things taken from data, this should be the uncertainty on the data-driven method
 
 
 background_normalization_uncertainties = {
@@ -152,6 +184,10 @@ background_normalization_uncertainties = {
     #    '0.05':{'value' : '1.800'},
     #    '0.1':{'value' : '1.923'},
     # },
+    'bg_estimate' : {
+        'value' : '1.50',
+        'type' : 'lnN',
+    },
 
 }
 
