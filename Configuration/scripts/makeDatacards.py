@@ -14,12 +14,8 @@ from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanva
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                  help="output directory")
-parser.add_option("-d", "--d0Cut", action="append", dest="d0Cuts",
-                  help="include a channel with specified lepton impact parameter in same units as input hist (the syntax for multiple channels is '-d STRING1 -d STRING2' etc.)")
-parser.add_option("-m", "--d0Max", dest="d0Max", default = 999999999.0,
-                  help="specific a max d0 cut")
+parser.add_option("-w", "--workDir", dest="condorDir",
+                  help="condor working directory")
 
 (arguments, args) = parser.parse_args()
 
@@ -30,15 +26,11 @@ else:
     print "No local config specified"
     sys.exit(0)
 
-if arguments.outputDir:
-    if not os.path.exists("limits/"+arguments.outputDir):
-        os.system("mkdir limits/"+arguments.outputDir)
+if arguments.condorDir:
+    if not os.path.exists("limits/"+arguments.condorDir):
+        os.system("mkdir limits/"+arguments.condorDir)
 else:
     print "No output directory specified"
-    sys.exit(0)
-
-if not arguments.d0Cuts:
-    print "No d0 cuts specified"
     sys.exit(0)
 
 def fancyTable(arrays):
@@ -61,81 +53,152 @@ def fancyTable(arrays):
 
     return '\n'.join(spacedLines)
 
-def subtractSignalRegions(yields, errors):
-    for cutIndex in range(len(arguments.d0Cuts)-1): # -1 => don't include the most exclusive region
-        currentD0Cut = arguments.d0Cuts[cutIndex]
-        nextD0Cut = arguments.d0Cuts[cutIndex+1]
-        currentError = yields[currentD0Cut] * (errors[currentD0Cut]-1)
-        nextError = yields[nextD0Cut] * (errors[nextD0Cut]-1)
+def get_hist(hist_info):
+    file_path = 'condor/{}/{}'.format(hist_info['dir'], hist_info['file'])
+    try:
+        f = TFile(file_path)
+        h = f.Get(hist_info['hist']).Clone()
+    except:
+        print "Could not load", hist_info['hist'], "from", file_path
+        sys.exit()
 
-        # fixme: use propagateError instead
-        yields[currentD0Cut] = yields[currentD0Cut] - yields[nextD0Cut]
-        if yields[currentD0Cut] > 0.0:
-            errors[currentD0Cut] = math.sqrt(currentError*currentError - nextError*nextError) / yields[currentD0Cut] + 1
+    h.SetDirectory(0)
+    return h
+
+# class to represent non-overlapping signal regions in d0-d0-pT space
+class SignalRegion:
+    def __init__(self, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi, d0_max):
+        self.name = name
+        self.d0_0_lo = d0_0_lo
+        self.d0_0_hi = d0_0_hi
+        self.d0_1_lo = d0_1_lo
+        self.d0_1_hi = d0_1_hi
+        self.pt_lo   = pt_lo
+        self.pt_hi   = pt_hi
+        self.d0_max  = d0_max
+
+    def get_yield_and_error(self, hist):
+        d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)
+        x_bin_lo = hist.GetXaxis().FindBin(self.d0_0_lo)
+        x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)
+        y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
+        y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)
+        z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
+        z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)
+
+        # just integrate the rectangular prism if it's the outermost signal region
+        # fixme: need to double check all the off-by-ones in the integrals
+        if self.d0_0_hi == self.d0_1_hi == self.d0_max:
+            return (hist.Integral(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, z_bin_lo, z_bin_hi), 0.0)
+
+        # otherwise integrate L-shape region one leg at a time
+        # fixme: need to test with multiple signal regions
         else:
-            errors[currentD0Cut] = 0
-    return (yields, errors)
+            leg_0 = hist.Integral(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi, z_bin_lo, z_bin_hi)
+            leg_1 = hist.Integral(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max, z_bin_lo, z_bin_hi)
+            return (leg_0 + leg_1, 0.0) # fixme: need to propagate errors
 
-def GetYieldAndError(condor_dir, process, channel, d0_cut):
-    yield_and_error = {}
-    inputFile = TFile("condor/"+condor_dir+"/"+process.replace('.','p')+".root")
-    d0HistogramTry = inputFile.Get(channel+"/"+d0histogramName)
-    if not d0HistogramTry:
-        print "WARNING: input histogram not found"
-        yield_and_error['yield'] = 0.0
-        yield_and_error['error'] = 0.0
-        return yield_and_error
 
-    d0Histogram = d0HistogramTry.Clone()
-    d0Histogram.SetDirectory(0)
-    inputFile.Close()
+###################################################################################################
 
-    x_min = d0Histogram.GetXaxis().FindBin(float(d0_cut))
-    y_min = d0Histogram.GetYaxis().FindBin(float(d0_cut))
-    x_max = d0Histogram.GetXaxis().FindBin(float(arguments.d0Max))
-    y_max = d0Histogram.GetYaxis().FindBin(float(arguments.d0Max))
+# get signal regions defined in 3D bg estimate hist
+estimate_hist = get_hist(backgrounds[0])
 
-    intError = Double (0.0)
-    fracError = 0.0
+# check that x and y axes have same number of bins and range
+if not (estimate_hist.GetXaxis().GetNbins() == estimate_hist.GetYaxis().GetNbins() and
+        estimate_hist.GetXaxis().GetXmax()  == estimate_hist.GetYaxis().GetXmax()):
+    print "Warning: x and y axes of bg estimate hist are asymmetric"
+    sys.exit()
 
-    yield_ = d0Histogram.IntegralAndError(x_min, x_max, y_min, y_max, intError)
-    if yield_ > 0.0:
-        fracError = 1.0 + (intError / yield_)
+signal_regions = []
+d0_max = estimate_hist.GetXaxis().GetXmax()
+for pt_bin in range(1, estimate_hist.GetZaxis().GetNbins()+1):
+    pt_lo = estimate_hist.GetZaxis().GetBinLowEdge(pt_bin)
+    pt_hi = estimate_hist.GetZaxis().GetBinUpEdge(pt_bin)
 
-    yield_and_error['yield'] = yield_
-    yield_and_error['error'] = fracError
+    for d0_bin in range(1, estimate_hist.GetXaxis().GetNbins()+1):
+        d0_0_lo = estimate_hist.GetXaxis().GetBinLowEdge(d0_bin)
+        d0_0_hi = estimate_hist.GetXaxis().GetBinUpEdge(d0_bin)
+        d0_1_lo = estimate_hist.GetYaxis().GetBinLowEdge(d0_bin)
+        d0_1_hi = estimate_hist.GetYaxis().GetBinUpEdge(d0_bin)
 
-    return yield_and_error
+        sr_name = 'SR_{}um_{}um_{}GeV'.format(int(d0_0_lo), int(d0_1_lo), int(pt_lo))
+        signal_regions.append(SignalRegion(sr_name, d0_0_lo, d0_0_hi,
+                                           d0_1_lo, d0_1_hi, pt_lo, pt_hi, d0_max))
 
-def writeDatacard(mass,lifetime):
-    signal_dataset = "stop"+mass+"_"+lifetime+"mm"
-    signal_yield = {}
-    signal_error = {}
+# get background estimate yields and statistical uncertainties
+bg_yields = {}
+bg_errors = {}
+for bg in backgrounds:
+    bg_yields[bg['name']] = {}
+    bg_errors[bg['name']] = {}
 
-    for d0Cut in arguments.d0Cuts:
-        signalYieldAndError = GetYieldAndError(signal_condor_dir, signal_dataset, signal_channel, d0Cut)
-        signal_yield[d0Cut] = signalYieldAndError['yield']
-        signal_error[d0Cut] = signalYieldAndError['error']
+    for sr in signal_regions:
+        (bg_yield, bg_error) = sr.get_yield_and_error(get_hist(bg))
+        bg_yields[bg['name']][sr.name] = bg_yield
+        bg_errors[bg['name']][sr.name] = bg_error
 
-    # subtract the contributions from the more exclusive signal region
-    (signal_yield, signal_error) = subtractSignalRegions(signal_yield, signal_error)
+# set up observed number of events
+observed_yields = {}
+for sr in signal_regions:
+    if blinded:
+        observed_yields[sr.name] = sum([bg_yields[bg['name']][sr.name] for bg in backgrounds])
+    else:
+        (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
 
-    os.system("rm -f limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt")
-    datacard = open("limits/"+arguments.outputDir+"/datacard_"+signal_dataset+".txt", 'w')
+# get all the external systematic errors and put them in a dictionary
+# fixme: why not just write systematics in a python dictionary to start with?
+systematics_dictionary = {}
+for systematic in external_systematic_uncertainties:
+    systematics_dictionary[systematic] = {}
+    for sr in signal_regions:
+        systematics_dictionary[systematic][sr.name] = {}
+        input_file = open(os.environ['CMSSW_BASE'] +
+                          "/src/DisplacedSUSY/Configuration/data/systematic_values__" +
+                          systematic + ".txt")
+        for line in input_file:
+            line = line.rstrip("\n").split(" ")
+            dataset = line[0]
+            if len(line) is 2:
+                systematics_dictionary[systematic][sr.name][dataset] = line[1]
+            elif len(line) is 3:
+                systematics_dictionary[systematic][sr.name][dataset]= line[1]+"/"+line[2]
 
-    datacard.write('imax ' + str(len(arguments.d0Cuts)) + ' number of channels\n')
+            # turn off systematic when the central yield is zero
+            if (systematics_dictionary[systematic][sr.name][dataset] == '0' or
+                systematics_dictionary[systematic][sr.name][dataset] == '0/0'):
+                systematics_dictionary[systematic][sr.name][dataset] = '-'
+
+# write a datacard for each signal point
+for signal['name'] in signal_points:
+
+    signal['file'] = signal['name'] + ".root"
+    datacard_name = 'datacard_{}.txt'.format(signal['name'])
+    print "making", datacard_name
+
+    signal_yields = {}
+    signal_errors = {}
+    for sr in signal_regions:
+        (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal))
+        signal_yields[sr.name] = signal_yield * lumi_factor # fixme: remove after adding signal from all years
+        signal_errors[sr.name] = signal_error
+
+    datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
+    datacard = open(datacard_path, 'w')
+
+    datacard.write('imax ' + str(len(signal_regions)) + ' number of channels\n')
     datacard.write('jmax '+ str(len(backgrounds)) + ' number of backgrounds\n')
     datacard.write('kmax * number of nuisance parameters\n')
     datacard.write('\n')
 
     bin_row = [ 'bin', ' ']
     observation_row = [ 'observation', ' ']
-    for d0Cut in arguments.d0Cuts:
-        bin_row.append('d0min_'+str(d0Cut))
-        observation_row.append(str(round(observation[d0Cut],0)))
+    for sr in signal_regions:
+        bin_row.append(sr.name)
+        observation_row.append(str(round(observed_yields[sr.name], 0)))
 
     datacard.write('\n----------------------------------------\n')
-    datacard.write(fancyTable([ bin_row, observation_row ]))
+    datacard.write(fancyTable([bin_row, observation_row]))
     datacard.write('\n----------------------------------------\n')
 
     bin_row_2 = [ 'bin', ' ', ' ' ]
@@ -146,25 +209,24 @@ def writeDatacard(mass,lifetime):
 
     empty_row = ['','','']
 
-    for d0Cut in arguments.d0Cuts:
-
+    for sr in signal_regions:
         process_index = 0
 
-        #a dd signal yield
-        bin_row_2.append('d0min_'+str(d0Cut))
-        process_name_row.append(signal_dataset)
+        # add signal yield
+        bin_row_2.append(sr.name)
+        process_name_row.append(signal['name'])
         process_index_row.append(str(process_index))
-        process_index = process_index + 1
-        rate_row.append(str(round(signal_yield[d0Cut],4)))
+        process_index += 1
+        rate_row.append(str(round(signal_yields[sr.name], 4)))
         empty_row.append('')
 
         # add background yields
-        for bg in bg_names:
-            bin_row_2.append('d0min_'+str(d0Cut))
-            process_name_row.append(bg)
+        for bg in backgrounds:
+            bin_row_2.append(sr.name)
+            process_name_row.append(bg['name'])
             process_index_row.append(str(process_index))
-            process_index = process_index + 1
-            rate_row.append(str(round(bg_yields[bg][d0Cut],4)))
+            process_index += 1
+            rate_row.append(str(round(bg_yields[bg['name']][sr.name], 4)))
             empty_row.append('')
 
     datacard_data.append(empty_row)
@@ -174,19 +236,19 @@ def writeDatacard(mass,lifetime):
     datacard_data.append(empty_row)
 
     # add a row for the statistical uncertainty on the signal yield in each region
-    for d0Cut in arguments.d0Cuts:
-        name = 'signal_stat_' + 'd0min_' + str(d0Cut)
-        row = [name,'gmN']
-        error = abs(signal_error[d0Cut]-1)
-        original_events = 1.0/(error*error)
+    for sr in signal_regions:
+        name = 'signal_stat_' + sr.name
+        row = [name, 'gmN']
+        error = abs(signal_errors[sr.name] - 1)
+        original_events = 1.0/(error**2)
         row.append(str(int(original_events)))
 
-        for d0CutInner in arguments.d0Cuts:
-            if d0Cut is d0CutInner:
-                signal_error_string = str(round(signal_yield[d0Cut]/original_events,7))
-                row.append(signal_error_string)
+        # write uncertainty in column for appropriate region and '-' in all other columns
+        for sr_test in signal_regions:
+            if sr.name == sr_test.name:
+                row.append(str(round(signal_yields[sr.name]/original_events, 7)))
             else:
-                row.append('-') # for signal in other region
+                row.append('-')
 
             for bg in backgrounds:
                 row.append('-')
@@ -194,24 +256,25 @@ def writeDatacard(mass,lifetime):
         datacard_data.append(row)
 
     # add a row for the statistical uncertainty for each background
-    for bg in bg_names:
-        row = [bg+"_stat",'lnN','']
-        for d0Cut in arguments.d0Cuts:
+    for bg in backgrounds:
+        row = [bg['name']+"_stat",'lnN','']
+        for sr in signal_regions:
             row.append('-') # for the signal
-            for process_name in bg_names:
-                if bg is process_name:
-                    row.append(str(round(bg_errors[process_name][d0Cut],3)))
+            for bg_test in backgrounds:
+                if bg['name'] == bg_test['name']:
+                    row.append(str(round(bg_errors[bg['name']][sr.name], 3)))
                 else:
                     row.append('-')
+
         datacard_data.append(row)
 
     # add a row for the normalization error for each background
     for process_name in sorted(background_normalization_uncertainties):
         row = [process_name+"_norm",background_normalization_uncertainties[process_name]['type'],'']
-        for d0Cut in arguments.d0Cuts:
+        for sr in signal_regions:
             row.append('-') # for the signal
-            for bg in bg_names:
-                if process_name is bg:
+            for bg in backgrounds:
+                if process_name == bg['name']:
                     row.append(background_normalization_uncertainties[process_name]['value'])
                 else:
                     row.append('-')
@@ -226,46 +289,29 @@ def writeDatacard(mass,lifetime):
     # add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
         row = [uncertainty,'lnN','']
-        for d0Cut in arguments.d0Cuts:
+        for sr in signal_regions:
             if 'signal' in global_systematic_uncertainties[uncertainty]['applyList']:
                 row.append(global_systematic_uncertainties[uncertainty]['value'])
             else:
                 row.append('-')
-            for bg in bg_names:
-                if bg in global_systematic_uncertainties[uncertainty]['applyList']:
+            for bg in backgrounds:
+                if bg['name'] in global_systematic_uncertainties[uncertainty]['applyList']:
                     row.append(global_systematic_uncertainties[uncertainty]['value'])
                 else:
                     row.append('-')
         datacard_data.append(row)
 
-
-    # add a new row for each dataset-specific uncertainty specified in configuration file
-    for uncertainty in unique_systematic_uncertainties:
-        row = [uncertainty,'lnN','']
-        for d0Cut in arguments.d0Cuts:
-            if 'signal' is unique_systematic_uncertainties[uncertainty]['dataset']:
-                row.append(unique_systematic_uncertainties[uncertainty]['value'])
-            else:
-                row.append('-')
-            for bg in bg_names:
-                if bg is unique_systematic_uncertainties[uncertainty]['dataset']:
-                    row.append(unique_systematic_uncertainties[uncertainty]['value'])
-                else:
-                    row.append('-')
-        datacard_data.append(row)
-
-
     # add a new row for each uncertainty defined in external text files
     for uncertainty in systematics_dictionary:
         row = [uncertainty,'lnN','']
-        for d0Cut in arguments.d0Cuts:
-            if signal_dataset in systematics_dictionary[uncertainty][d0Cut]:
-                row.append(systematics_dictionary[uncertainty][d0Cut][signal_dataset])
+        for sr in signal_regions:
+            if signal['name'] in systematics_dictionary[uncertainty][sr.name]:
+                row.append(systematics_dictionary[uncertainty][sr.name][signal['name']])
             else:
                 row.append('-')
-            for bg in bg_names:
-                if bg in systematics_dictionary[uncertainty][d0Cut]:
-                    row.append(systematics_dictionary[uncertainty][d0Cut][bg])
+            for bg in backgrounds:
+                if bg['name'] in systematics_dictionary[uncertainty][sr.name]:
+                    row.append(systematics_dictionary[uncertainty][sr.name][bg])
                 else:
                     row.append('-')
         datacard_data.append(row)
@@ -273,70 +319,3 @@ def writeDatacard(mass,lifetime):
     # write all rows to the datacard
     datacard.write(fancyTable(datacard_data))
     datacard.write('\n')
-
-
-###################################################################################################
-
-# setup background yields and statistical errors
-bg_yields = {}
-bg_errors = {}
-bg_names = [bg['name'] for bg in backgrounds]
-arguments.d0Cuts.sort(key=float)
-
-for bg in backgrounds:
-    bg_yields[bg['name']] = {}
-    bg_errors[bg['name']] = {}
-
-    for d0Cut in arguments.d0Cuts:
-        yieldAndError = {}
-        yieldAndError = GetYieldAndError(bg['condor_dir'], bg['name'], bg['channel'], d0Cut)
-        bg_yields[bg['name']][d0Cut] = yieldAndError['yield']
-        bg_errors[bg['name']][d0Cut] = yieldAndError['error']
-
-    # subtract the contributions from the more exclusive signal region
-    (bg_yields[bg['name']], bg_errors[bg['name']]) = subtractSignalRegions(bg_yields[bg['name']], bg_errors[bg['name']])
-
-# if a background prediction is null, just set it equal to the previous region's yield
-for cutIndex in range(len(arguments.d0Cuts)):
-    currentD0Cut = arguments.d0Cuts[cutIndex]
-    lastD0Cut = arguments.d0Cuts[max(0,cutIndex-1)]
-    for bg in bg_names:
-        if not bg_yields[bg][currentD0Cut] > 0.0:
-            bg_yields[bg][currentD0Cut] = bg_yields[bg][lastD0Cut]
-            bg_errors[bg][currentD0Cut] = bg_errors[bg][lastD0Cut]
-
-# get all the external systematic errors and put them in a dictionary
-systematics_dictionary = {}
-for systematic in external_systematic_uncertainties:
-    systematics_dictionary[systematic] =  {}
-    for d0Cut in arguments.d0Cuts:
-        systematics_dictionary[systematic][d0Cut] = {}
-        input_file = open(os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + systematic + ".txt")
-        for line in input_file:
-            line = line.rstrip("\n").split(" ")
-            dataset = line[0]
-            if len(line) is 2:
-                systematics_dictionary[systematic][d0Cut][dataset] = line[1]
-            elif len(line) is 3:
-                systematics_dictionary[systematic][d0Cut][dataset]= line[1]+"/"+line[2]
-
-            # turn off systematic when the central yield is zero
-            if systematics_dictionary[systematic][d0Cut][dataset] == '0' or systematics_dictionary[systematic][d0Cut][dataset] == '0/0':
-                systematics_dictionary[systematic][d0Cut][dataset] = '-'
-
-# set up observed number of events
-observation = {}
-for d0Cut in arguments.d0Cuts:
-    if run_blind_limits:
-        background_sum = 0
-        for bg in bg_names:
-            background_sum = background_sum + round(float(bg_yields[bg][d0Cut]),1)
-        observation[d0Cut] = background_sum
-    else:
-        observation[d0Cut] = GetYieldAndError(data_condor_dir, data_dataset, data_channel, d0Cut)['yield']
-
-# write a datacard for each signal point
-for mass in masses:
-  for lifetime in lifetimes:
-        print "making datacard_stop"+mass+"_"+lifetime+"mm.txt"
-        writeDatacard(mass,lifetime)
