@@ -120,14 +120,14 @@ else:
 HeaderText = LumiText + " (" + energy + " TeV)"
 
 
-def makeSignalName(mass,lifetime,use_miniAOD):
+def makeSignalName(process, mass,lifetime,use_miniAOD):
     if use_miniAOD:
-        return "stop"+str(mass)+"_"+str(lifetime)+"mm_MiniAOD"
+        return process+str(mass)+"_"+str(lifetime)+"mm_MiniAOD"
     else:
-        return "stop"+str(mass)+"_"+str(lifetime)+"mm"
+        return process+str(mass)+"_"+str(lifetime)+"mm"
 
-def makeSignalRootFileName(mass,lifetime,directory,limit_type,use_miniAOD):
-    signal_name = makeSignalName(mass,lifetime,use_miniAOD)
+def makeSignalRootFileName(process,mass,lifetime,directory,limit_type,use_miniAOD):
+    signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
 #    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root"
@@ -137,8 +137,8 @@ def makeSignalRootFileName(mass,lifetime,directory,limit_type,use_miniAOD):
     else:
         return False
 
-def makeSignalLogFileName(mass,lifetime,directory,limit_type,use_miniAOD):
-    signal_name = makeSignalName(mass,lifetime,use_miniAOD)
+def makeSignalLogFileName(process,mass,lifetime,directory,limit_type,use_miniAOD):
+    signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".log")
 #    print "limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".log"
@@ -149,7 +149,7 @@ def makeSignalLogFileName(mass,lifetime,directory,limit_type,use_miniAOD):
         return False
 
 def getSignalSF(mass,lifetime,directory,type_,use_miniAOD):
-    signal_name = makeSignalName(mass,lifetime,use_miniAOD)
+    signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     signalSFFile = glob.glob("limits/"+directory+"/"+signal_name+"_"+type_+"/*.sf")
     if not signalSFFile:
         return 1.0
@@ -543,13 +543,14 @@ def getTwoSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma'])
     return graph
 
-def fetchLimits(mass,lifetime,directories,use_miniAOD):
+def fetchLimits(process,mass,lifetime,directories,use_miniAOD):
     print "fetching limits for mass = " + mass + " GeV, ctau = " + lifetime + " mm"
     limit = { }
     limit['expected'] = 1.0e12
 
     for directory in directories:
-        if not os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt"):
+        if not os.path.exists("limits/"+directory+"/method.txt"):
+            print "limits/"+directory+"/method.txt doesn't exist"
             return -1
 
         with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
@@ -561,16 +562,20 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
 
         # for AsymptoticLimits CLs, get the limits from the root file
         if method == "AsymptoticLimits":
-            fname = makeSignalRootFileName(mass,lifetime,directory,"expected",use_miniAOD)
+            fname = makeSignalRootFileName(process,mass,lifetime,directory,"expected",use_miniAOD)
             if not fname:
+                print "not fname"
                 continue
-            file = TFile(fname)
-            if not file.GetNkeys():
+            f = TFile(fname)
+            if not f.GetNkeys():
+                print "not f.GetNkeys()"
                 return -1
-            limit_tree = file.Get('limit')
+            limit_tree = f.Get('limit')
             if not limit_tree:
+                print "not limit_tree"
                 return -1
             if limit_tree.GetEntries() < 6:
+                print "limit_tree.GetEntries() < 6"
                 continue
             for i in range(0,limit_tree.GetEntries()):
                 limit_tree.GetEntry(i)
@@ -587,13 +592,13 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                     tmp_limit['up2'] = limit_tree.limit
                 if math.fabs(quantileExpected - (-1)) < 0.001:
                     tmp_limit['observed'] = limit_tree.limit
-            file.Close()
+            f.Close()
 
         #########################################################
 
         # for other methods, get the ranges from the log file
         else:
-            fname = makeSignalLogFileName(mass,lifetime,directory,"expected",use_miniAOD)
+            fname = makeSignalLogFileName(process,mass,lifetime,directory,"expected",use_miniAOD)
             if not fname:
                 continue
             file = open(fname)
@@ -609,7 +614,7 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                     tmp_limit['up2'] = float(line[1].split(" ")[5])
             file.close()
             if len(tmp_limit) != 5:
-                fname = makeSignalRootFileName(mass,lifetime,directory,"expected",use_miniAOD)
+                fname = makeSignalRootFileName(process,mass,lifetime,directory,"expected",use_miniAOD)
                 if not fname:
                     continue
                 file = TFile(fname)
@@ -630,7 +635,7 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                 tmp_limit['up2'] = float(xq[4])
                 file.Close()
 
-            fname = makeSignalLogFileName(mass,lifetime,directory,"observed",use_miniAOD)
+            fname = makeSignalLogFileName(process,mass,lifetime,directory,"expected",use_miniAOD)
             if not fname:
                 continue
             file = open(fname)
@@ -639,70 +644,6 @@ def fetchLimits(mass,lifetime,directories,use_miniAOD):
                 if line[0] =="Limit": #observed limit
                     tmp_limit['observed'] = float(line[1].split(" ")[3])
             file.close()
-
-            #file = TFile(makeSignalRootFileName(mass,lifetime,directory,"expected"))
-            #if not file.GetNkeys():
-            #    return -1
-            #file.Close()
-            
-            #os.chdir("/data/users/bing/limits/"+directory+"/"+ makeSignalName(mass,lifetime) + "_expected")
-            #os.sys.path.append("/data/users/bing/limits/" + directory+"/"+ makeSignalName(mass,lifetime) + "_expected")
-            #filename = "limits_"+makeSignalName(mass,lifetime)+".root"
-            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.50 > tmp0p5.log" 
-            #os.system(command)         
-            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.16 > tmp0p16.log" 
-            #os.system(command)         
-            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.84 > tmp0p84.log" 
-            #os.system(command)         
-            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.975 > tmp0p975.log" 
-            #os.system(command)         
-            #command = "combine datacard_stop" + str(mass) + "_" + str(lifetime) + "mm.txt -M HybridNew --freq --grid=" + filename +" --expectedFromGrid 0.025 > tmp0p025.log" 
-            #os.system(command)         
-            
-#            file = open('tmp0p5.log','r')
-#            #file = open('tmp0p025.log','r')
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['expected'] = float(line[1].split("<")[1].split("+")[0])
-#            file.close()
-#            
-#            file = open('tmp0p16.log','r')
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['down1'] = float(line[1].split("<")[1].split("+")[0])
-#            file.close()
-#
-#            file = open('tmp0p84.log','r')
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['up1'] = float(line[1].split("<")[1].split("+")[0])
-#            file.close()
-#            
-#            file = open('tmp0p025.log','r')
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['down2'] = float(line[1].split("<")[1].split("+")[0])
-#            file.close()
-#            
-#            file = open('tmp0p975.log','r')
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['up2'] = float(line[1].split("<")[1].split("+")[0])
-#            file.close()
-#            os.chdir("/home/bing/CMSSW_7_1_5/src/DisplacedSUSY/LimitsCalculation/test")
-#
-#            file = open(makeSignalLogFileName(mass,lifetime,directory,"observed"))
-#            lines = file.readlines()
-#            line = lines[len(lines) - 2]
-#            line = line.rstrip("\n").split(":")
-#            tmp_limit['observed'] = float(line[1].split("<")[1].split("+")[0])
-#            print float(line[1].split("<")[1].split("+")[0])
-#            file.close()
 
         if len(tmp_limit) is not 6:
             return -1
@@ -1107,7 +1048,7 @@ for plot in plotDefinitions:
             else:
                 for mass in masses:
                     for lifetime in lifetimes:
-                        limit = fetchLimits(mass,lifetime,th2f['source'],use_miniAOD)
+                        limit = fetchLimits(process,mass,lifetime,th2f['source'],use_miniAOD)
                         if limit is not -1:
                             th2f['limits'].append(limit)
                         else:
@@ -1121,14 +1062,14 @@ for plot in plotDefinitions:
             graph['limits'] = []
             if plot['xAxisType'] is 'lifetime' and 'yAxisType' not in plot:
                 for lifetime in lifetimes:
-                    limit = fetchLimits(graph['mass'],lifetime,graph['source'],use_miniAOD)
+                    limit = fetchLimits(process,graph['mass'],lifetime,graph['source'],use_miniAOD)
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
                         print "WARNING: not plotting lifetime " + str (lifetime) + " mm"
             elif plot['xAxisType'] is 'mass' and 'yAxisType' not in plot:
                 for mass in masses:
-                    limit = fetchLimits(mass,graph['lifetime'],graph['source'],use_miniAOD)
+                    limit = fetchLimits(process,mass,graph['lifetime'],graph['source'],use_miniAOD)
                     if limit is not -1:
                         graph['limits'].append(limit)
                     else:
@@ -1136,7 +1077,7 @@ for plot in plotDefinitions:
             elif 'yAxisType' in plot:
                 for mass in masses:
                     for lifetime in lifetimes:
-                        limit = fetchLimits(mass,lifetime,graph['source'],use_miniAOD)
+                        limit = fetchLimits(process,mass,lifetime,graph['source'],use_miniAOD)
                         if limit is not -1:
                             graph['limits'].append(limit)
                         else:
