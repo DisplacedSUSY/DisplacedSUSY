@@ -15,8 +15,8 @@ from optparse import OptionParser
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                  help="output directory")
+parser.add_option("-w", "--workDir", dest="condorDir",
+                  help="condor working directory")
 parser.add_option("-M", "--method", dest="method", default="AsymptoticLimits",
                   help="which method of combine to use: currently supported options are AsymptoticLimits (default), BayesianSimple, MarkovChainMC, BayesianToyMC, and HybridNew")
 parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
@@ -38,7 +38,7 @@ if arguments.localConfig:
 else:
     print "No local config specified, shame on you"
     sys.exit(0)
-if not arguments.outputDir:
+if not arguments.condorDir:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
@@ -126,82 +126,78 @@ def scaleSignal(src, dst):
     f.write (str (signalSF) + "\n")
     f.close ()
 
-### create a file to keep track of which combine method was used
-### (since extracting the limits is different for each one)
-outputDirPath = os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.outputDir
+# create a file to keep track of which combine method was used
+outputDirPath = os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.condorDir
 methodFile = open(outputDirPath+"/method.txt", "w")
 methodFile.write(arguments.method)
 methodFile.close()
 
-### looping over signal models and running a combine job for each one
-for mass in masses:
-    for lifetime in lifetimes:
-            signal_name = "stop"+mass+"_"+lifetime.split(".0")[0]+"mm"
+# loop over signal models and run a combine job for each one
+for signal_name in signal_points:
 
+    condor_expected_dir = "limits/"+arguments.condorDir+"/"+signal_name+"_expected"
+    condor_observed_dir = "limits/"+arguments.condorDir+"/"+signal_name+"_observed"
+    datacard_name = "datacard_"+signal_name+".txt"
+    datacard_src_name = "limits/"+arguments.condorDir+"/"+datacard_name
+    datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
+    datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
 
-            condor_expected_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_expected"
-            condor_observed_dir = "limits/"+arguments.outputDir+"/"+signal_name+"_observed"
-            datacard_name = "datacard_"+signal_name+".txt"
-            datacard_src_name = "limits/"+arguments.outputDir+"/"+datacard_name
-            datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
-            datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
-            combine_expected_options = combine_observed_options = "-M " + arguments.method + " -H AsymptoticLimits "
-            if arguments.method == "HybridNew":
-                combine_expected_options = combine_expected_options + "-T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
-            elif arguments.method == "MarkovChainMC":
-                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-                combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-            elif arguments.method == "BayesianSimple":
-                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-            elif arguments.method == "BayesianToyMC":
-                combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
-            else:
-                print "Defaulting to AsymptoticLimits"
-                combine_expected_options += " --picky "
-                combine_observed_options += " --picky "
+    combine_expected_options = combine_observed_options = "-M " + arguments.method
+    if arguments.method == "HybridNew":
+        combine_expected_options = combine_expected_options + "-T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
+    elif arguments.method == "MarkovChainMC":
+        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+        combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+    elif arguments.method == "BayesianSimple":
+        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+    elif arguments.method == "BayesianToyMC":
+        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+    else:
+        print "Defaulting to AsymptoticLimits"
+        combine_expected_options += " --picky "
+        combine_observed_options += " --picky "
 
-            combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
-            combine_command = combine_command.rstrip()
+    combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
+    combine_command = combine_command.rstrip()
 
+    shutil.rmtree(condor_expected_dir, True)
+    os.mkdir(condor_expected_dir)
+    if arguments.maxSignalRate < 0.0:
+        shutil.copy(datacard_src_name, datacard_dst_expected_name)
+    else:
+        scaleSignal(datacard_src_name, datacard_dst_expected_name)
+    os.chdir(condor_expected_dir)
 
-            shutil.rmtree(condor_expected_dir, True)
-            os.mkdir(condor_expected_dir)
-            if arguments.maxSignalRate < 0.0:
-                shutil.copy(datacard_src_name, datacard_dst_expected_name)
-            else:
-                scaleSignal(datacard_src_name, datacard_dst_expected_name)
-            os.chdir(condor_expected_dir)
+    if not arguments.batchMode:
+        command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+        print command
+        os.system(command)
 
-            if not arguments.batchMode:
-                command = "(combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
-                print command
-                os.system(command)
+    else:
+        print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
+        output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
+        os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
+    os.chdir("../../..")
 
-            else:
-                print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
-                output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
-                os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-            os.chdir("../../..")
+    # for everything other than Asymptotic, we need to also run observed limits
+    if arguments.method != "AsymptoticLimits":
 
-            # for everything other than Asymptotic, we need to also run observed limits
-            if arguments.method != "AsymptoticLimits":
+        shutil.rmtree(condor_observed_dir, True)
+        os.mkdir(condor_observed_dir)
+        if arguments.maxSignalRate < 0.0:
+            shutil.copy(datacard_src_name, datacard_dst_observed_name)
+        else:
+            scaleSignal(datacard_src_name, datacard_dst_observed_name)
+        os.chdir(condor_observed_dir)
 
-                shutil.rmtree(condor_observed_dir, True)
-                os.mkdir(condor_observed_dir)
-                if arguments.maxSignalRate < 0.0:
-                    shutil.copy(datacard_src_name, datacard_dst_observed_name)
-                else:
-                    scaleSignal(datacard_src_name, datacard_dst_observed_name)
-                os.chdir(condor_observed_dir)
+        if not arguments.batchMode:
+            command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
+            print command
+            os.system(command)
 
-                if not arguments.batchMode:
-                    command = "(combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null) > combine_log_"+signal_name+".log"
-                    print command
-                    os.system(command)
+        else:
+            print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
+            output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
+            os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
-                else:
-                    print "combine "+datacard_name+" "+combine_observed_options+" --name "+signal_name
-                    output_condor(combine_command, datacard_name+" "+combine_observed_options+" --name "+signal_name+" | tee /dev/null")
-                    os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
-
-                os.chdir("../../..")
+        os.chdir("../../..")
