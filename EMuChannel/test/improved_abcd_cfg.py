@@ -38,12 +38,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     composite_samples = { }
 
 # 1st sideband tried:
-d0_0_cut = 15
-d0_1_cut = 15
-pt_cut = 100
-d0_0_max = 30 # set to 0 to remove upper limit
-d0_1_max = 30 # set to 0 to remove upper limit
-pt_max = 0 # set to 0 to remove upper limit
+#d0_0_cut = 15
+#d0_1_cut = 15
+#pt_cut = 100
+#d0_0_max = 30 # set to 0 to remove upper limit
+#d0_1_max = 30 # set to 0 to remove upper limit
+#pt_max = 0 # set to 0 to remove upper limit
 
 # 2nd sideband tried:
 #d0_0_cut = 30
@@ -52,6 +52,14 @@ pt_max = 0 # set to 0 to remove upper limit
 #d0_0_max = 100 # set to 0 to remove upper limit
 #d0_1_max = 100 # set to 0 to remove upper limit
 #pt_max = 300 # set to 0 to remove upper limit
+
+# 1st background estimate (DON'T UNBLIND UNLESS YOU MEAN TO!!):
+d0_0_cut = 200
+d0_1_cut = 200
+pt_cut = 100
+d0_0_max = 0 # set to 0 to remove upper limit
+d0_1_max = 0 # set to 0 to remove upper limit
+pt_max = 0 # set to 0 to remove upper limit
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     if vs_electon_pt: fit_min = 42 #electron pt cut at 42 GeV in emu
