@@ -134,6 +134,8 @@ methodFile.close()
 
 # loop over signal models and run a combine job for each one
 for signal_name in signal_points:
+    # rename sub-mm samples to match sample names
+    signal_name = signal_name.replace('.', 'p')
 
     condor_expected_dir = "limits/"+arguments.condorDir+"/"+signal_name+"_expected"
     condor_observed_dir = "limits/"+arguments.condorDir+"/"+signal_name+"_observed"

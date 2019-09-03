@@ -171,6 +171,8 @@ for systematic in external_systematic_uncertainties:
 
 # write a datacard for each signal point
 for signal['name'] in signal_points:
+    # rename sub-mm samples to match sample names
+    signal['name'] = signal['name'].replace('.', 'p')
 
     signal['file'] = signal['name'] + ".root"
     datacard_name = 'datacard_{}.txt'.format(signal['name'])

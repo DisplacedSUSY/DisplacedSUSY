@@ -120,11 +120,13 @@ else:
 HeaderText = LumiText + " (" + energy + " TeV)"
 
 
-def makeSignalName(process, mass,lifetime,use_miniAOD):
+def makeSignalName(process, mass, lifetime, use_miniAOD):
+    name = process + str(mass) + "_" + str(lifetime) + "mm"
     if use_miniAOD:
-        return process+str(mass)+"_"+str(lifetime)+"mm_MiniAOD"
-    else:
-        return process+str(mass)+"_"+str(lifetime)+"mm"
+        name = name + "_MiniAOD"
+    # rename sub-mm samples to match sample names
+    name = name.replace('.', 'p')
+    return name
 
 def makeSignalRootFileName(process,mass,lifetime,directory,limit_type,use_miniAOD):
     signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
