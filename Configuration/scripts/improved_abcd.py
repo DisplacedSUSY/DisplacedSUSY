@@ -197,8 +197,6 @@ class RatioPlot:
 ####################################################################################################
 
 out_file = TFile(output_path + "improved_abcd_results.root", "recreate")
-mean_fit_results = {} # for use in composite fit
-c_yields = {} # for use in composite fit
 
 for sample in samples:
     fit_summary_plot = TMultiGraph()
@@ -277,31 +275,10 @@ for sample in samples:
         print "number of events in D is: "+str(in_hists['d'].IntegralAndError(0,in_hists['d'].GetNbinsX(),error))+" +/- "+str(error)
 
     # set up fit model
-    composite = sample in composite_samples
-    c_yields[sample] = in_hists["c"].Integral()
-    if composite:
-        model = "[0] * ([1] + [2]/x) + (1 - [0]) * ([3] + [4]/x)"
-        fit_func = TF1(sample + "_fit", model, 0, in_hists['a'].GetXaxis().GetXmax())
-        components = composite_samples[sample]
-        print "Fitting composite dataset:"
-        print "model:", model
-        print "[1] and [2] correspond to " + components[0]
-        print "[3] and [4] correspond to " + components[1]
-        #fit_func.SetParLimits(0, 0, 1) # let weights float
-        # fix weights to ratio of events in region c
-        fit_func.FixParameter(0, c_yields[components[0]] /
-                              (c_yields[components[0]]+c_yields[components[1]]))
-        fit_func.FixParameter(1, mean_fit_results[components[0]].GetParameter(0))
-        fit_func.FixParameter(2, mean_fit_results[components[0]].GetParameter(1))
-        fit_func.FixParameter(3, mean_fit_results[components[1]].GetParameter(0))
-        fit_func.FixParameter(4, mean_fit_results[components[1]].GetParameter(1))
-    else:
-        model = "[0] + [1]/x" # |d0| resolution as a function of pT
-        fit_func = TF1(sample + "_fit", model, 0, in_hists['a'].GetXaxis().GetXmax())
-        print "Fitting component dataset:"
-        print "model:", model
-        fit_func.SetParLimits(0, 0, 100)
-        fit_func.SetParLimits(1, 0, 100)
+    model = "[0] + [1]/x" # |d0| resolution as a function of pT
+    fit_func = TF1(sample + "_fit", model, 0, in_hists['a'].GetXaxis().GetXmax())
+    fit_func.SetParLimits(0, 0, 100)
+    fit_func.SetParLimits(1, 0, 100)
 
     # fit B/A once per fit range
     for fit_range in fit_ranges:
@@ -356,7 +333,8 @@ for sample in samples:
         b_over_a_plot.SetLineColor(colors[color_ix])
         fit_summary_plot.Add(b_over_a_plot, "PX")
         fit_summary_legend.AddEntry(b_over_a_plot, str(fit_range[0]) + " GeV --> " +
-                                    str(round(estimate, 2)) + " events; chisq/dof is " + str(round(chisq_per_dof,2)))
+                                    str(round(estimate, 2)) + " events; chisq/dof is "
+                                    + str(round(chisq_per_dof,2)))
         if arguments.unblind:
             d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
             d_over_c_plot.SetMarkerStyle(6)
@@ -431,7 +409,6 @@ for sample in samples:
     b_over_a_plot.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1]) # use initial fit range
     mean_fit = b_over_a_plot.GetFunction(sample+"_fit")
     print "mean fit chisq/dof is: "+ str(mean_fit.GetChisquare()/mean_fit.GetNDF())
-    mean_fit_results[sample] = mean_fit.Clone() # save for use in composite fit
     mean_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), mean_fit)
     mean_estimate, _, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
     # make plot

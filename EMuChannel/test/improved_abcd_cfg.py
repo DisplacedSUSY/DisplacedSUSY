@@ -5,7 +5,6 @@ import os
 vs_electon_pt = True #use this if you want to plot/compute vs electron pt
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    # samples must be listed before composite samples
     samples = [
         'MuonEG_2016_postHIP',
         #'DYJetsToLL',
@@ -17,25 +16,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         #'Background',
     ]
 
-    # fit assumes composite samples have two components
-    composite_samples = {
-        #'Background' : ['NonQcdBackground', 'QCD_MuEnriched']
-    }
-
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    # samples must be listed before composite samples
     samples = ['MuonEG_2017_withoutB']
 
-    # fit assumes composite samples have two components
-    composite_samples = { }
-
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    # samples must be listed before composite samples
-    #samples = ['MuonEG_2018']
     samples = ['MuonEG_2016_2017_2018']
-
-    # fit assumes composite samples have two components
-    composite_samples = { }
 
 # 1st sideband tried:
 #d0_0_cut = 15
