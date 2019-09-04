@@ -78,25 +78,38 @@ class SignalRegion:
         self.d0_max  = d0_max
 
     def get_yield_and_error(self, hist):
-        d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)
+        d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)-1
         x_bin_lo = hist.GetXaxis().FindBin(self.d0_0_lo)
-        x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)
+        x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)-1
         y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
-        y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)
+        y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)-1
         z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
-        z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)
+        z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)-1
+
+        # include pT overflow in integral if SR extends to edge of pT axis
+        if z_bin_hi == hist.GetNbinsZ():
+            z_bin_hi += 1
 
         # just integrate the rectangular prism if it's the outermost signal region
         # fixme: need to double check all the off-by-ones in the integrals
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
-            return (hist.Integral(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, z_bin_lo, z_bin_hi), 0.0)
+            x_bin_hi += 1 # include d0_0 overflow
+            y_bin_hi += 1 # include d0_1 overflow
+            error = Double()
+            return (hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi,
+                                          z_bin_lo, z_bin_hi, error), error)
 
         # otherwise integrate L-shape region one leg at a time
         # fixme: need to test with multiple signal regions
         else:
-            leg_0 = hist.Integral(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi, z_bin_lo, z_bin_hi)
-            leg_1 = hist.Integral(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max, z_bin_lo, z_bin_hi)
-            return (leg_0 + leg_1, 0.0) # fixme: need to propagate errors
+            leg_0_err = Double()
+            leg_1_err = Double()
+            leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
+                                                z_bin_lo, z_bin_hi, leg_0_err)
+            leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max,
+                                                z_bin_lo, z_bin_hi, leg_1_err)
+
+            return propagateError("sum", leg_0_yield, leg_0_err, leg_1_yield, leg_1_err)
 
 
 ###################################################################################################
@@ -183,7 +196,7 @@ for signal['name'] in signal_points:
     for sr in signal_regions:
         (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal))
         signal_yields[sr.name] = signal_yield * lumi_factor # fixme: remove after adding signal from all years
-        signal_errors[sr.name] = signal_error
+        signal_errors[sr.name] = signal_error * lumi_factor # fixme: remove after adding signal from all years
 
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     datacard = open(datacard_path, 'w')
