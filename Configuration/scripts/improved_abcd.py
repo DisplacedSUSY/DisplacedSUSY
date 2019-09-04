@@ -292,55 +292,14 @@ for sample in samples:
         d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
         estimate, actual_yield, actual_error = do_closure_test(d_estimate_hist, in_hists['d'])
 
-        # save once-per-fit plots
-        out_file.cd()
-        sample_and_range = sample + "_" + str(fit_range[0])
-
-        # estimated and actual pT distribution in region D
-        d_canvas = make_default_canvas(sample_and_range+"_d")
-        d_estimate_hist.SetTitle(sample_and_range + " d estimate and actual")
-        d_estimate_hist.SetName(sample_and_range + " d estimate and actual")
-        d_estimate_hist.SetLineColor(2)
-        d_estimate_hist.Draw()
-        if arguments.unblind:
-            in_hists['d'].Draw("sames")
-        d_canvas.Write()
-
-        # fits and combined B/A and D/C plot
-        fit_canvas = make_default_canvas(sample_and_range+"_fit")
-        b_over_a_plot.PaintStats(fit)
-        fit_plot = TMultiGraph()
-        fit_plot.Add(b_over_a_plot, "P")
-        if arguments.unblind:
-            d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
-            upper_edge = pt_max
-            # use 2*error_tolerance due to lower stats in c and d regions
-            d_over_c.improve_binning(error_tolerance*2, upper_edge)
-            d_over_c_plot = d_over_c.get_plot()
-            fit_plot.Add(d_over_c_plot, "P")
-        fit_plot.Draw("A")
-        setup_plot(fit_plot, sample_and_range+" fit",
-                    str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
-        fit.SetRange(0, 500)
-        draw_lines([fit_range[0], fit_range[1]])
-        fit_canvas.Write()
-
         # add fit plots to fit summary plot
+        fit.SetRange(0, pt_max)
         fit.SetLineColor(colors[color_ix])
-        b_over_a_plot = b_over_a_plot.Clone() # get new instance of plot with fit information
-        b_over_a_plot.SetMarkerStyle(6)
-        b_over_a_plot.SetMarkerColor(colors[color_ix])
         b_over_a_plot.SetLineColor(colors[color_ix])
-        fit_summary_plot.Add(b_over_a_plot, "PX")
+        fit_summary_plot.Add(b_over_a_plot, "X")
         fit_summary_legend.AddEntry(b_over_a_plot, str(fit_range[0]) + " GeV --> " +
                                     str(round(estimate, 2)) + " events; chisq/dof is "
                                     + str(round(chisq_per_dof,2)))
-        if arguments.unblind:
-            d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
-            d_over_c_plot.SetMarkerStyle(6)
-            d_over_c_plot.SetMarkerColor(colors[color_ix])
-            d_over_c_plot.SetLineColor(colors[color_ix])
-            fit_summary_plot.Add(d_over_c_plot, "PX")
         color_ix = (color_ix + 1) % len(colors)
 
         # add point to fit parameter plot
@@ -348,6 +307,8 @@ for sample in samples:
                                     fit.GetParameter(0), fit.GetParameter(1))
 
     # save once-per-sample plots
+    out_file.cd()
+
     # input hists
     a_canvas = make_default_canvas(sample+"_a")
     in_hists['a'].Draw()
@@ -362,6 +323,7 @@ for sample in samples:
     # fit summary plot
     fit_summary_canvas = make_default_canvas(sample+"_fit_summary")
     fit_summary_plot.Draw("A")
+    fit_summary_plot.GetXaxis().SetLimits(0, pt_max)
     setup_plot(fit_summary_plot, sample+" fit summary",
                str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
     fit_summary_legend.SetHeader(
@@ -418,9 +380,10 @@ for sample in samples:
         d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
         mean_fit_plot.Add(d_over_c_plot, "P")
     mean_fit_plot.Draw("A")
+    mean_fit_plot.GetXaxis().SetLimits(0, pt_max)
     setup_plot(mean_fit_plot, sample+" mean fit",
                str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
-    mean_fit.SetRange(0, 500)
+    mean_fit.SetRange(0, pt_max)
     mean_fit_plot.Draw("same") # draw again so points aren't covered by fit lines
     mean_fit_plot.GetYaxis().SetRangeUser(0, mean_fit_plot.GetYaxis().GetXmax())
     err_ellipse.find_estimate_bounds(fit_func, in_hists)
