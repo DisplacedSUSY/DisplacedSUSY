@@ -19,7 +19,7 @@ process = cms.Process ('OSUAnalysis')
 
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 10
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 # suppress gen-matching errors
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
@@ -94,7 +94,7 @@ process.TFileService = cms.Service ('TFileService',
 
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
-    input = cms.untracked.int32 (22000)
+    input = cms.untracked.int32 (1000)
 )
 
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
