@@ -90,6 +90,84 @@ def draw_lines(x_values):
 def make_default_canvas(name):
     return TCanvas(name, name, 100, 100, 700, 600)
 
+# remember that we don't expect the number of events in the full 3D histogram
+# to equal the sum of A+B+C+D because we are requiring BOTH leptons to be prompt or displaced!!!
+def makeABCD(h, d0_0_cut, d0_1_cut, pt_cut, d0_0_max, d0_1_max, pt_max):
+    # get bins whose lower edge is equal to the given value
+    cut_bin_x = h.GetXaxis().FindBin(d0_0_cut)
+    cut_bin_y = h.GetYaxis().FindBin(d0_1_cut)
+    cut_bin_z = h.GetZaxis().FindBin(pt_cut)
+    min_bin_z = h.GetZaxis().FindBin(fit_min)
+    max_bin_x = h.GetXaxis().FindBin(d0_0_max)
+    max_bin_y = h.GetYaxis().FindBin(d0_1_max)
+    max_bin_z = h.GetZaxis().FindBin(pt_max)
+    # increment max bins to include overflow bin if desired max is input hist max
+    if d0_0_max == h.GetXaxis().GetXmax():
+        max_bin_x += 1
+    if d0_1_max == h.GetYaxis().GetXmax():
+        max_bin_y += 1
+    if pt_max == h.GetZaxis().GetXmax():
+        max_bin_z += 1
+
+    pt_hists = {}
+
+    pt_hists['a'] = h.ProjectionZ("a", #PromptLowPtControlRegion
+                                   1,           # x min bin
+                                   cut_bin_x-1, # x max bin
+                                   1,           # y min bin
+                                   cut_bin_y-1, # y max bin
+                                   "eo")
+    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+2):
+        pt_hists['a'].SetBinContent(b,0)
+        pt_hists['a'].SetBinError(b,0)
+    error = Double()
+    pt_hists['a'].ResetStats()
+    print "number of events in A is: {} +- {}".format(
+        pt_hists['a'].IntegralAndError(1, pt_hists['a'].GetNbinsX()+1, error), error)
+
+    pt_hists['b'] = h.ProjectionZ("b", #DisplacedLowPtControlRegion
+                                   cut_bin_x,   # x min bin
+                                   max_bin_x-1, # x max bin
+                                   cut_bin_y,   # y min bin
+                                   max_bin_y-1, # y max bin
+                                   "eo")
+    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+2):
+        pt_hists['b'].SetBinContent(b,0)
+        pt_hists['b'].SetBinError(b,0)
+    pt_hists['b'].ResetStats()
+    print "number of events in B is: {} +- {}".format(
+           pt_hists['b'].IntegralAndError(1, pt_hists['b'].GetNbinsX()+1, error), error)
+
+    pt_hists['c'] = h.ProjectionZ("c", #PromptHighPtControlRegion
+                                   1,           # x min bin
+                                   cut_bin_x-1, # x max bin
+                                   1,           # y min bin
+                                   cut_bin_y-1, # y max bin
+                                   "eo")
+    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+2):
+        pt_hists['c'].SetBinContent(b,0)
+        pt_hists['c'].SetBinError(b,0)
+    pt_hists['c'].ResetStats()
+    print "number of events in C is: {} +- {}".format(
+        pt_hists['c'].IntegralAndError(1, pt_hists['c'].GetNbinsX()+1, error), error)
+
+    pt_hists['d'] = h.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
+                                   cut_bin_x,   # x min bin
+                                   max_bin_x-1, # x max bin
+                                   cut_bin_y,   # y min bin
+                                   max_bin_y-1, # y max bin
+                                   "eo")
+    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+2):
+        pt_hists['d'].SetBinContent(b,0)
+        pt_hists['d'].SetBinError(b,0)
+    pt_hists['d'].ResetStats()
+    if arguments.unblind:
+        print "number of events in D is: {} +- {}".format(
+            pt_hists['d'].IntegralAndError(1, pt_hists['d'].GetNbinsX()+1, error), error)
+
+    return pt_hists
+
+
 
 class ErrorEllipse():
     # create one-sigma error ellipse for an arbitrary 2D tgraph,
@@ -208,88 +286,19 @@ for sample in samples:
     print "\n" + sample
 
     # get histograms and statistical uncertainties for all regions
-    in_hists = {}
     in_file = TFile(output_path + sample + ".root")
     in_hist = in_file.Get(input_hist)
     if not in_hist:
         print "Warning: could not load " + input_hist
-    # remember that we don't expect the number of events in the full 3D histogram
-    # to equal the sum of A+B+C+D because we are requiring BOTH leptons to be prompt or displaced!!!
-    xaxis = in_hist.GetXaxis()
-    yaxis = in_hist.GetYaxis()
-    zaxis = in_hist.GetZaxis()
-    d0_0_max = d0_0_max if 0 < d0_0_max < xaxis.GetXmax() else xaxis.GetXmax()
-    d0_1_max = d0_1_max if 0 < d0_1_max < yaxis.GetXmax() else yaxis.GetXmax()
-    pt_max   = pt_max   if 0 < pt_max   < zaxis.GetXmax() else zaxis.GetXmax()
-    # get bins whose lower edge is equal to the given value
-    cut_bin_x = xaxis.FindBin(d0_0_cut)
-    cut_bin_y = yaxis.FindBin(d0_1_cut)
-    cut_bin_z = zaxis.FindBin(pt_cut)
-    min_bin_z = zaxis.FindBin(fit_min)
-    max_bin_x = xaxis.FindBin(d0_0_max)
-    max_bin_y = yaxis.FindBin(d0_1_max)
-    max_bin_z = zaxis.FindBin(pt_max)
-    # increment max bins to include overflow bin if desired max is input hist max
-    if d0_0_max == xaxis.GetXmax():
-        max_bin_x += 1
-    if d0_1_max == yaxis.GetXmax():
-        max_bin_y += 1
-    if pt_max == zaxis.GetXmax():
-        max_bin_z += 1
 
-    in_hists['a'] = in_hist.ProjectionZ("a", #PromptLowPtControlRegion
-                                   1,           # x min bin
-                                   cut_bin_x-1, # x max bin
-                                   1,           # y min bin
-                                   cut_bin_y-1, # y max bin
-                                   "eo")
-    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+2):
-        in_hists['a'].SetBinContent(b,0)
-        in_hists['a'].SetBinError(b,0)
-    error = Double()
-    in_hists['a'].ResetStats()
-    print "number of events in A is: {} +- {}".format(
-        in_hists['a'].IntegralAndError(1, in_hists['a'].GetNbinsX()+1, error), error)
-
-    in_hists['b'] = in_hist.ProjectionZ("b", #DisplacedLowPtControlRegion
-                                   cut_bin_x,   # x min bin
-                                   max_bin_x-1, # x max bin
-                                   cut_bin_y,   # y min bin
-                                   max_bin_y-1, # y max bin
-                                   "eo")
-    for b in range(1, min_bin_z) + range(cut_bin_z, in_hist.GetNbinsZ()+2):
-        in_hists['b'].SetBinContent(b,0)
-        in_hists['b'].SetBinError(b,0)
-    in_hists['b'].ResetStats()
-    print "number of events in B is: {} +- {}".format(
-           in_hists['b'].IntegralAndError(1, in_hists['b'].GetNbinsX()+1, error), error)
-
-    in_hists['c'] = in_hist.ProjectionZ("c", #PromptHighPtControlRegion
-                                   1,           # x min bin
-                                   cut_bin_x-1, # x max bin
-                                   1,           # y min bin
-                                   cut_bin_y-1, # y max bin
-                                   "eo")
-    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+2):
-        in_hists['c'].SetBinContent(b,0)
-        in_hists['c'].SetBinError(b,0)
-    in_hists['c'].ResetStats()
-    print "number of events in C is: {} +- {}".format(
-        in_hists['c'].IntegralAndError(1, in_hists['c'].GetNbinsX()+1, error), error)
-
-    in_hists['d'] = in_hist.ProjectionZ("d", #DisplacedHighPtControlRegion (signal region)
-                                   cut_bin_x,   # x min bin
-                                   max_bin_x-1, # x max bin
-                                   cut_bin_y,   # y min bin
-                                   max_bin_y-1, # y max bin
-                                   "eo")
-    for b in range(1, cut_bin_z) + range(max_bin_z, in_hist.GetNbinsZ()+2):
-        in_hists['d'].SetBinContent(b,0)
-        in_hists['d'].SetBinError(b,0)
-    in_hists['d'].ResetStats()
-    if arguments.unblind:
-        print "number of events in D is: {} +- {}".format(
-            in_hists['d'].IntegralAndError(1, in_hists['d'].GetNbinsX()+1, error), error)
+    # make 1D pT histograms for ABCD regions
+    x_hist_max = in_hist.GetXaxis().GetXmax()
+    y_hist_max = in_hist.GetYaxis().GetXmax()
+    z_hist_max = in_hist.GetZaxis().GetXmax()
+    d0_0_max = d0_0_max if 0 < d0_0_max < x_hist_max else x_hist_max
+    d0_1_max = d0_1_max if 0 < d0_1_max < y_hist_max else y_hist_max
+    pt_max   = pt_max   if 0 < pt_max   < z_hist_max else z_hist_max
+    in_hists = makeABCD(in_hist, d0_0_cut, d0_1_cut, pt_cut, d0_0_max, d0_1_max, pt_max)
 
     # set up fit model
     model = "[0] + [1]/x" # |d0| resolution as a function of pT
