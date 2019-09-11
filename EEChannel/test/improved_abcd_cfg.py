@@ -37,12 +37,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #pt_max = 300 # set to 0 to remove upper limit
 
 # 1st background estimate (DON'T UNBLIND UNLESS YOU MEAN TO!!):
-d0_0_cut = 200
-d0_1_cut = 200
-pt_cut = 100
-d0_0_max = 0 # set to 0 to remove upper limit
-d0_1_max = 0 # set to 0 to remove upper limit
-pt_max = 0 # set to 0 to remove upper limit
+d0_0_cuts = [100, 500, 1000]
+d0_1_cuts = [100, 500, 1000]
+pt_cuts   = [100, 400]
+d0_0_max  = 0 # set to 0 to remove upper limit
+d0_1_max  = 0 # set to 0 to remove upper limit
+pt_max    = 0 # set to 0 to remove upper limit
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     fit_min = 65 #electron pt cut at 65 GeV in 2016 ee
@@ -50,5 +50,5 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     fit_min = 75 #electron pt cut at 75 GeV in 2017 and 2018 ee
 
 input_hist = "PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_2000um_vs_electronPt[0]"
-fit_ranges = [(x, pt_cut) for x in range(fit_min, pt_cut-20+1, 2)]
+fit_ranges = [(x, pt_cuts[0]) for x in range(fit_min, pt_cuts[0]-20+1, 2)]
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot
