@@ -4,8 +4,10 @@ import os
 import sys
 import math
 import re
+import json
 from array import *
 from optparse import OptionParser
+from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
@@ -67,7 +69,7 @@ def get_hist(hist_info):
 
 # class to represent non-overlapping signal regions in d0-d0-pT space
 class SignalRegion:
-    def __init__(self, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi, d0_max):
+    def __init__(self, name, d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         self.name = name
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
@@ -91,7 +93,6 @@ class SignalRegion:
             z_bin_hi += 1
 
         # just integrate the rectangular prism if it's the outermost signal region
-        # fixme: need to double check all the off-by-ones in the integrals
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
             x_bin_hi += 1 # include d0_0 overflow
             y_bin_hi += 1 # include d0_1 overflow
@@ -100,8 +101,9 @@ class SignalRegion:
                                           z_bin_lo, z_bin_hi, error), error)
 
         # otherwise integrate L-shape region one leg at a time
-        # fixme: need to test with multiple signal regions
         else:
+            if d0_bin_max == hist.GetNbinsX():
+                d0_bin_max += 1 # include overflow
             leg_0_err = Double()
             leg_1_err = Double()
             leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
@@ -114,48 +116,34 @@ class SignalRegion:
 
 ###################################################################################################
 
-# get signal regions defined in 3D bg estimate hist
-estimate_hist = get_hist(backgrounds[0])
+# get dict containing bg estimates and signal region definitions
+with open('condor/{}/{}'.format(background['dir'], background['file'])) as bg_json:
+    bg_estimates = json.load(bg_json)
 
-# check that x and y axes have same number of bins and range
-if not (estimate_hist.GetXaxis().GetNbins() == estimate_hist.GetYaxis().GetNbins() and
-        estimate_hist.GetXaxis().GetXmax()  == estimate_hist.GetYaxis().GetXmax()):
-    print "Warning: x and y axes of bg estimate hist are asymmetric"
-    sys.exit()
-
+backgrounds = bg_estimates.keys()
 signal_regions = []
-d0_max = estimate_hist.GetXaxis().GetXmax()
-for pt_bin in range(1, estimate_hist.GetZaxis().GetNbins()+1):
-    pt_lo = estimate_hist.GetZaxis().GetBinLowEdge(pt_bin)
-    pt_hi = estimate_hist.GetZaxis().GetBinUpEdge(pt_bin)
-
-    for d0_bin in range(1, estimate_hist.GetXaxis().GetNbins()+1):
-        d0_0_lo = estimate_hist.GetXaxis().GetBinLowEdge(d0_bin)
-        d0_0_hi = estimate_hist.GetXaxis().GetBinUpEdge(d0_bin)
-        d0_1_lo = estimate_hist.GetYaxis().GetBinLowEdge(d0_bin)
-        d0_1_hi = estimate_hist.GetYaxis().GetBinUpEdge(d0_bin)
-
-        sr_name = 'SR_{}um_{}um_{}GeV'.format(int(d0_0_lo), int(d0_1_lo), int(pt_lo))
-        signal_regions.append(SignalRegion(sr_name, d0_0_lo, d0_0_hi,
-                                           d0_1_lo, d0_1_hi, pt_lo, pt_hi, d0_max))
-
-# get background estimate yields and statistical uncertainties
 bg_yields = {}
 bg_errors = {}
-for bg in backgrounds:
-    bg_yields[bg['name']] = {}
-    bg_errors[bg['name']] = {}
 
-    for sr in signal_regions:
-        (bg_yield, bg_error) = sr.get_yield_and_error(get_hist(bg))
-        bg_yields[bg['name']][sr.name] = bg_yield
-        bg_errors[bg['name']][sr.name] = bg_error
+# put background estimate and signal region info into more useful form
+for sample, regions in bg_estimates.iteritems():
+    bg_yields[sample] = {}
+    bg_errors[sample] = {}
+
+    for sr in regions:
+        sr_name = 'SR_{}um_{}um_{}GeV'.format(int(sr['d0_0'][0]),
+                                              int(sr['d0_1'][0]), int(sr['pt'][0]))
+        signal_regions.append(SignalRegion(sr_name, sr['d0_max'], sr['d0_0'][0], sr['d0_0'][1],
+                                                                  sr['d0_1'][0], sr['d0_1'][1],
+                                                                  sr['pt'][0], sr['pt'][1]))
+        bg_yields[sample][sr_name] = sr['estimate']
+        bg_errors[sample][sr_name] = sr['stat_err']
 
 # set up observed number of events
 observed_yields = {}
 for sr in signal_regions:
     if blinded:
-        observed_yields[sr.name] = sum([bg_yields[bg['name']][sr.name] for bg in backgrounds])
+        observed_yields[sr.name] = sum([bg_yields[bg][sr.name] for bg in backgrounds])
     else:
         (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
 
@@ -196,7 +184,7 @@ for signal['name'] in signal_points:
     for sr in signal_regions:
         (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal))
         signal_yields[sr.name] = signal_yield * lumi_factor # fixme: remove after adding signal from all years
-        signal_errors[sr.name] = signal_error * lumi_factor # fixme: remove after adding signal from all years
+        signal_errors[sr.name] = signal_error * math.sqrt(lumi_factor) # fixme: remove after adding signal from all years
 
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     datacard = open(datacard_path, 'w')
@@ -238,10 +226,10 @@ for signal['name'] in signal_points:
         # add background yields
         for bg in backgrounds:
             bin_row_2.append(sr.name)
-            process_name_row.append(bg['name'])
+            process_name_row.append(bg)
             process_index_row.append(str(process_index))
             process_index += 1
-            rate_row.append(str(round(bg_yields[bg['name']][sr.name], 4)))
+            rate_row.append(str(round(bg_yields[bg][sr.name], 4)))
             empty_row.append('')
 
     datacard_data.append(empty_row)
@@ -254,14 +242,18 @@ for signal['name'] in signal_points:
     for sr in signal_regions:
         name = 'signal_stat_' + sr.name
         row = [name, 'gmN']
-        error = abs(signal_errors[sr.name] - 1)
-        original_events = 1.0/(error**2)
+        try:
+            original_events = (signal_yields[sr.name] / signal_errors[sr.name])**2
+            scale_factor = signal_yields[sr.name] / original_events
+        except ZeroDivisionError:
+            original_events = 0
+            scale_factor = 0
         row.append(str(int(original_events)))
 
         # write uncertainty in column for appropriate region and '-' in all other columns
         for sr_test in signal_regions:
             if sr.name == sr_test.name:
-                row.append(str(round(signal_yields[sr.name]/original_events, 7)))
+                row.append(str(round(scale_factor, 7)))
             else:
                 row.append('-')
 
@@ -272,12 +264,12 @@ for signal['name'] in signal_points:
 
     # add a row for the statistical uncertainty for each background
     for bg in backgrounds:
-        row = [bg['name']+"_stat",'lnN','']
+        row = [bg+"_stat",'lnN','']
         for sr in signal_regions:
             row.append('-') # for the signal
             for bg_test in backgrounds:
-                if bg['name'] == bg_test['name']:
-                    row.append(str(round(bg_errors[bg['name']][sr.name], 3)))
+                if bg == bg_test:
+                    row.append(str(round(bg_errors[bg][sr.name], 3)))
                 else:
                     row.append('-')
 
@@ -289,7 +281,7 @@ for signal['name'] in signal_points:
         for sr in signal_regions:
             row.append('-') # for the signal
             for bg in backgrounds:
-                if process_name == bg['name']:
+                if process_name == bg:
                     row.append(background_normalization_uncertainties[process_name]['value'])
                 else:
                     row.append('-')
@@ -310,7 +302,7 @@ for signal['name'] in signal_points:
             else:
                 row.append('-')
             for bg in backgrounds:
-                if bg['name'] in global_systematic_uncertainties[uncertainty]['applyList']:
+                if bg in global_systematic_uncertainties[uncertainty]['applyList']:
                     row.append(global_systematic_uncertainties[uncertainty]['value'])
                 else:
                     row.append('-')
@@ -325,7 +317,7 @@ for signal['name'] in signal_points:
             else:
                 row.append('-')
             for bg in backgrounds:
-                if bg['name'] in systematics_dictionary[uncertainty][sr.name]:
+                if bg in systematics_dictionary[uncertainty][sr.name]:
                     row.append(systematics_dictionary[uncertainty][sr.name][bg])
                 else:
                     row.append('-')
