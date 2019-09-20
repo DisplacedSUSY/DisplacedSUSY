@@ -2,15 +2,12 @@
 
 blinded = True # sets observed events equal to bg estimate
 
-# first background estimate hist will be used to define signal regions
-backgrounds = [
-    {
-        'name' : 'bg_estimate',
-        'dir'  : 'EMuPreselection_FullAnalysis_3Dhists_30July2019',
-        'file' : 'improved_abcd_results.root',
-        'hist' : 'MuonEG_2016_2017_2018_estimate',
-    },
-]
+# background estimates are loaded from a json that also defines the signal regions
+background = {
+    'name' : 'bg_estimate',
+    'dir'  : 'EMuPreselection_FullAnalysis_3Dhists_30July2019',
+    'file' : 'background_estimate_2015SRs.json',
+}
 
 # fixme: populate fields when we're ready to unblind
 data = {
@@ -25,7 +22,7 @@ lumi_factor = 112.8/59.7
 
 processes = ['stopToLB']
 masses = [m for m in range(200, 1801, 100)]
-lifetimes = [10**e for e in range(0, 4)]
+lifetimes = [10**e for e in range(-1, 4)]
 signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 
 # a separate datacard will be produced for each signal point

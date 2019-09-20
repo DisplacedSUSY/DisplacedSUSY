@@ -88,24 +88,23 @@ class SignalRegion:
         z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
         z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)-1
 
-        # include pT overflow in integral if SR extends to edge of pT axis
+        # include overflow bins if SR extends to edge of hist
         if z_bin_hi == hist.GetNbinsZ():
             z_bin_hi += 1
+        if d0_bin_max == hist.GetNbinsX():
+            d0_bin_max += 1 # include overflow
 
         # just integrate the rectangular prism if it's the outermost signal region
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
-            x_bin_hi += 1 # include d0_0 overflow
-            y_bin_hi += 1 # include d0_1 overflow
             error = Double()
-            return (hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi,
+            return (hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max,
                                           z_bin_lo, z_bin_hi, error), error)
 
         # otherwise integrate L-shape region one leg at a time
         else:
-            if d0_bin_max == hist.GetNbinsX():
-                d0_bin_max += 1 # include overflow
             leg_0_err = Double()
             leg_1_err = Double()
+            # include corner in leg_0
             leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
                                                 z_bin_lo, z_bin_hi, leg_0_err)
             leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max,
