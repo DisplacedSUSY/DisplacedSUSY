@@ -340,7 +340,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
             y1 = math.log10(limit_dict[lifetime][previous_mass]['theory'])
             y3 = math.log10(limit_dict[lifetime][previous_mass]['experiment'])
             y2 = math.log10(limit_dict[lifetime][first_allowed_mass]['theory'])
-            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment']) 
+            y4 = math.log10(limit_dict[lifetime][first_allowed_mass]['experiment'])
             mass_limit = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
             mass_limit /= (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
             if math.isnan (mass_limit):
@@ -985,7 +985,7 @@ def drawPlot(plot):
         HeaderLabel.SetBorderSize(0)
         HeaderLabel.SetFillColor(0)
         HeaderLabel.SetFillStyle(0)
-#        HeaderLabel.Draw()
+        HeaderLabel.Draw()
         LumiLabel = TPaveLabel(topLeft_x_left,topLeft_y_bottom,topLeft_x_right,topLeft_y_top,"CMS","NDC")
         LumiLabel.SetTextFont(61)
         LumiLabel.SetTextSize(0.75)
@@ -1000,8 +1000,8 @@ def drawPlot(plot):
         extraLabel.SetBorderSize(0)
         extraLabel.SetFillColor(0)
         extraLabel.SetFillStyle(0)
-        LumiLabel.Draw() 
-        extraLabel.Draw() 
+        LumiLabel.Draw()
+        extraLabel.Draw()
         if 'massLabel' in plot:
             MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
             MassLabel.SetTextSize(0.5454546)
