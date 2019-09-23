@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-intLumi = 11280 # full RunII
+intLumi = 11760 # full RunII
 energy = '13'
 
 #masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
