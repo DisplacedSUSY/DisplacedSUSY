@@ -20,8 +20,8 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'stop mass [GeV]',
-        'yAxisLabel' : 'stop #LTc#tau#GT [cm]',
+        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+        'yAxisLabel' : 'c#tau [cm]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
@@ -44,7 +44,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
         # xmin, xmax, label
-        'xAxisLabel' : 'stop mass [GeV]',
+        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -87,7 +87,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'stop #LTc#tau#GT [cm]',
+        'xAxisLabel' : 'c#tau [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
