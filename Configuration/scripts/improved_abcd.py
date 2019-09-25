@@ -393,6 +393,8 @@ for sample in samples:
         mean_fit_plot = TMultiGraph()
         mean_fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
+            d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
+            d_over_c.improve_binning(error_tolerance*2, pt_max)
             d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
             mean_fit_plot.Add(d_over_c_plot, "P")
         mean_fit_plot.Draw("A")
