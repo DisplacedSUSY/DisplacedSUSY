@@ -127,7 +127,7 @@ def scaleSignal(src, dst):
     f.close ()
 
 # create a file to keep track of which combine method was used
-outputDirPath = os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+arguments.condorDir
+outputDirPath = "limits/"+arguments.condorDir
 methodFile = open(outputDirPath+"/method.txt", "w")
 methodFile.write(arguments.method)
 methodFile.close()
