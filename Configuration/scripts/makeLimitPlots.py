@@ -53,14 +53,14 @@ gStyle.SetTextFont(42)
 gStyle.SetOptTitle(0)
 gROOT.ForceStyle()
 
-topLeft_x_left    = 0.177333
-topLeft_y_bottom  = 0.850805
-topLeft_x_right   = 0.529333
-topLeft_y_top     = 0.910483
+topLeft_x_left    = 0.127333
+topLeft_y_bottom  = 0.840805
+topLeft_x_right   = 0.479333
+topLeft_y_top     = 0.900483
 topLeft_y_offset  = 0.04
-topLeft_x_left_extra    = 0.177333
+topLeft_x_left_extra    = 0.127333
 topLeft_y_bottom_extra  = 0.795724
-topLeft_x_right_extra  = 0.529333
+topLeft_x_right_extra  = 0.479333
 topLeft_y_top_extra     = 0.85599
 topLeft_y_offset_extra  = 0.04
 colorSchemes = {
@@ -978,10 +978,10 @@ def drawPlot(plot):
 
 
         #draw the header label
-        HeaderLabel = TPaveLabel(0.602535,0.963134,0.928224,0.980535,HeaderText,"NDC")
+        HeaderLabel = TPaveLabel(0.88,0.9,0.90,0.94,HeaderText,"NDC")
         HeaderLabel.SetTextAlign(32)
         HeaderLabel.SetTextFont(42)
-        HeaderLabel.SetTextSize(0.697674)
+        HeaderLabel.SetTextSize(1)
         HeaderLabel.SetBorderSize(0)
         HeaderLabel.SetFillColor(0)
         HeaderLabel.SetFillStyle(0)
