@@ -3,10 +3,10 @@
 blinded = True # sets observed events equal to bg estimate
 
 # first background estimate hist will be used to define signal regions
-backgrounds = {
+background = {
     'name' : 'bg_estimate',
     'dir'  : 'EEPreselection_FullAnalysis_3Dhists_30July2019',
-    'file' : '', # insert json file here
+    'file' : 'background_estimate.json', # insert json file here
 }
 
 # fixme: populate fields when we're ready to unblind
