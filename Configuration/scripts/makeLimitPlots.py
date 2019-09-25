@@ -555,7 +555,7 @@ def fetchLimits(process,mass,lifetime,directories,use_miniAOD):
             print "limits/"+directory+"/method.txt doesn't exist"
             return -1
 
-        with open(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/test/limits/"+directory+"/method.txt", 'r') as methodFile:
+        with open("limits/"+directory+"/method.txt", 'r') as methodFile:
             method = methodFile.readline()
 
         #########################################################
