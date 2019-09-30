@@ -6,7 +6,7 @@ blinded = True # sets observed events equal to bg estimate
 background = {
     'name' : 'bg_estimate',
     'dir'  : 'EEPreselection_FullAnalysis_3Dhists_30July2019',
-    'file' : 'background_estimate.json', # insert json file here
+    'file' : 'background_estimate.json',
 }
 
 # fixme: populate fields when we're ready to unblind
