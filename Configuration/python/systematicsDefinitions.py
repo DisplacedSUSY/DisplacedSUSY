@@ -151,44 +151,19 @@ signal_cross_sections_8TeV = {
 #
 # For things taken from data, this should be the uncertainty on the data-driven method
 
-
 background_normalization_uncertainties = {
-    #'DYJetsToLL_50' : {
-    #   'value' : '1.0379',
-    #  'value' : '1.2',
-    #  'type' : 'lnN',
-    #},
-    ## use WW values
-    #'Diboson' : {
-    #   'value' : '1.025',
-    #  'value' : '1.2',
-    #  'type' : 'lnN',
-    #},
-    #'SingleTop' : {
-    #   'value' : '1.0423',
-    #  'value' : '1.2',
-    #  'type' : 'lnN',
-    #},
-    #'TTJets_Lept' : {
-    #   'value' : '1.0614',
-    #  'value' : '1.2',
-    #  'type' : 'lnN',
-    #},
-    # 'QCD_MuEnriched' : {
-    #    'value' : '1.5',
-    #    'type' : 'lnN',
-    # },
-    # 'QCDFromData' : {
-    #    'type': 'lnN',
-    #    '0.02':{'value' : '1.324'},
-    #    '0.05':{'value' : '1.800'},
-    #    '0.1':{'value' : '1.923'},
-    # },
-    'bg_estimate' : {
-        'value' : '1.50',
+    'DoubleEG_2016_2017_2018' : {
+        'value' : '1.10', # placeholder value
         'type' : 'lnN',
     },
-
+    'MuonEG_2016_2017_2018' : {
+        'value' : '1.10', # placeholder value
+        'type' : 'lnN',
+    },
+    'DoubleMu_2016_postHIP' : {
+        'value' : '1.10', # placeholder value
+        'type' : 'lnN',
+    },
 }
 
 ######################################################

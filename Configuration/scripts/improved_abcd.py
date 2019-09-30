@@ -460,7 +460,6 @@ for s in samples:
             sr['d0_max'] = d0_0_max # fixme: assuming d0_0_max == d0_1_max
             sr['estimate'] = bg_estimates[s][d0_0_lo][pt_lo]
             sr['stat_err'] = 0 # fixme
-            sr['sys_err'] = 0 # fixme
             bg_estimate_output[s].append(sr)
 
 import json
