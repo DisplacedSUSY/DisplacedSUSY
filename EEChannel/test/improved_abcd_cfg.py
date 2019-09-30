@@ -37,9 +37,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #pt_max = 300 # set to 0 to remove upper limit
 
 # 1st background estimate (DON'T UNBLIND UNLESS YOU MEAN TO!!):
-d0_0_cuts = [100, 500, 1000]
-d0_1_cuts = [100, 500, 1000]
-pt_cuts   = [100, 400]
+d0_0_cuts = [100, 300]
+d0_1_cuts = [100, 300]
+pt_cuts   = [120, 400]
 d0_0_max  = 0 # set to 0 to remove upper limit
 d0_1_max  = 0 # set to 0 to remove upper limit
 pt_max    = 0 # set to 0 to remove upper limit
