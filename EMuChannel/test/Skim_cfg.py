@@ -9,10 +9,11 @@ from DisplacedSUSY.EMuChannel.EMuSkim import *
 
 eventSelections = []
 eventSelections.append(EMuSkim)
+#eventSelections.append(EmptySkim)
 
 ################################################################################
 
-# REDEFINE variableProducers, weights, scalingfactorproducers, histograms 
+# REDEFINE variableProducers, weights, scalingfactorproducers, histograms
 # to all to be empty for the skim
 
 variableProducers = []
