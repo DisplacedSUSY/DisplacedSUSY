@@ -55,6 +55,20 @@ cutDummyMet = cms.PSet(
     numberRequired = cms.string(">= 1"),
 )
 
+cutDummyMuon = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string("No offline cuts")
+)
+
+cutDummyElectron = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string("No offline cuts")
+)
+
 cutDummy = cms.PSet(
     inputCollection = cms.vstring("jets"),
     cutString = cms.string("pt > -1"),
