@@ -10,10 +10,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     datasets = default_datasets
     #datasets.append()
     datasets.remove('DisplacedSUSYSignal') #all samples ready
+    #datasets.append('stopToLB1800_1000mm_private') #private version of a centrally-produced sample, for validation of other private samples
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = default_datasets
     datasets.remove('DisplacedSUSYSignal') #all samples ready
+    #datasets.append('stopToLB400_1mm_private') #private version of a centrally-produced sample, for validation of other private samples
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets = default_datasets
