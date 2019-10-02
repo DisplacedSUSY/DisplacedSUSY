@@ -25,3 +25,4 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
                 #'stopToLB800_500mm_2023',
                 'stopToLB800_500mm_2024'
     ]
+    #colors['stopToLB800_500mm'] = 8
