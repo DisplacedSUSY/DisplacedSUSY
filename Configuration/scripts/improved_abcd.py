@@ -344,7 +344,7 @@ for sample in samples:
                    str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
         fit_summary_legend.SetHeader(
             "#splitline{Fit Range Lower Bound --> Corresponding BG Estimate}{(Actual yield is "
-            + str(round(actual_yield, 1)) + " +- " + str(round(actual_error, 1)) + " events)}")
+            + str(round(actual_yield, 1)) + " events)}")
         fit_summary_legend.SetTextSize(0.025)
         fit_summary_legend.SetBorderSize(0)
         fit_summary_legend.Draw()
@@ -412,8 +412,7 @@ for sample in samples:
         draw_lines([fit_ranges[0][0], fit_ranges[0][1]])
         # add text with closure test results
         results_pave = TPaveText(0.5, 0.7, 0.8, 0.8, "NDC")
-        results_pave.AddText("Actual yield: " + str(round(actual_yield, 1)) + " +- "
-                             + str(round(actual_error, 1)) + " events")
+        results_pave.AddText("Actual yield: {} events".format(round(actual_yield, 1)))
         # fixme: cosmetic cleanup needed
         err_up = round(err_ellipse.max_estimate - mean_estimate, 1)
         err_down = round(mean_estimate - err_ellipse.min_estimate, 1)
