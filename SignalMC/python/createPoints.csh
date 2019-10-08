@@ -1,6 +1,12 @@
 #!/bin/tcsh
 
 foreach i (200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+    if ($i == '150') then
+        set xs=249.409
+    endif
+    if ($i == '175') then
+        set xs=121.416
+    endif
     if ($i == '200') then
         set xs=64.5085
     endif
