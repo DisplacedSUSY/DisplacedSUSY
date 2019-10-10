@@ -122,12 +122,12 @@ with open('condor/{}/{}'.format(background['dir'], background['file'])) as bg_js
 backgrounds = bg_estimates.keys()
 signal_regions = []
 bg_yields = {}
-bg_errors = {}
+bg_cr_events = {} # numbers of control region events for gamma uncertainty on bg estimate
 
 # put background estimate and signal region info into more useful form
 for sample, regions in bg_estimates.iteritems():
     bg_yields[sample] = {}
-    bg_errors[sample] = {}
+    bg_cr_events[sample] = {}
 
     for sr in regions:
         sr_name = 'SR_{}um_{}um_{}GeV'.format(int(sr['d0_0'][0]),
@@ -136,7 +136,7 @@ for sample, regions in bg_estimates.iteritems():
                                                                   sr['d0_1'][0], sr['d0_1'][1],
                                                                   sr['pt'][0], sr['pt'][1]))
         bg_yields[sample][sr_name] = sr['estimate']
-        bg_errors[sample][sr_name] = sr['stat_err']
+        bg_cr_events[sample][sr_name] = sr['ctrl_region_events']
 
 # set up observed number of events
 observed_yields = {}
@@ -246,7 +246,7 @@ for signal['name'] in signal_points:
             scale_factor = signal_yields[sr.name] / original_events
         except ZeroDivisionError:
             original_events = 0
-            scale_factor = 0
+            scale_factor = 0.0
         row.append(str(int(original_events)))
 
         # write uncertainty in column for appropriate region and '-' in all other columns
@@ -263,16 +263,18 @@ for signal['name'] in signal_points:
 
     # add a row for the statistical uncertainty for each background
     for bg in backgrounds:
-        row = [bg+"_stat",'lnN','']
         for sr in signal_regions:
-            row.append('-') # for the signal
+            row = ['bg_stat_' + sr.name, 'gmN', str(int(bg_cr_events[bg][sr.name]))]
+            scale_factor = bg_yields[bg][sr.name] / bg_cr_events[bg][sr.name]
             for bg_test in backgrounds:
-                if bg == bg_test:
-                    row.append(str(round(bg_errors[bg][sr.name], 3)))
-                else:
-                    row.append('-')
+                for sr_test in signal_regions:
+                    row.append('-') # for the signal
+                    if bg == bg_test and sr.name == sr_test.name:
+                        row.append(str(round(scale_factor, 7)))
+                    else:
+                        row.append('-')
 
-        datacard_data.append(row)
+            datacard_data.append(row)
 
     # add a row for the normalization error for each background
     for process_name in sorted(background_normalization_uncertainties):

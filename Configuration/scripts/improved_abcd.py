@@ -69,11 +69,10 @@ def do_closure_test(estimate_hist, d_hist, pt_lo=0, pt_hi=0):
 
     estimate = estimate_hist.Integral(lo_bin, hi_bin)
     if arguments.unblind:
-        actual_error = Double()
-        actual_yield = d_hist.IntegralAndError(lo_bin, hi_bin, actual_error)
+        actual_yield = d_hist.Integral(lo_bin, hi_bin)
     else:
-        actual_yield = actual_error = 0.0
-    return (estimate, actual_yield, actual_error)
+        actual_yield = 0.0
+    return (estimate, actual_yield)
 
 def setup_plot(plot, title, x_title, y_title):
     plot.SetTitle(title)
@@ -174,7 +173,7 @@ class ErrorEllipse():
             fit_func.FixParameter(0, pars[0])
             fit_func.FixParameter(1, pars[1])
             estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit_func)
-            estimate, _, _ = do_closure_test(estimate_hist, in_hists['d'])
+            estimate, _ = do_closure_test(estimate_hist, in_hists['d'])
             # save max and min estimate and corresponding fits
             if pars == self.points[0]:
                 self.min_estimate = self.max_estimate = estimate
@@ -238,10 +237,12 @@ class RatioPlot:
 
 output_plots = TFile(output_path + "improved_abcd_results.root", "recreate")
 bg_estimates = {}
+ctrl_region_evts = {}
 
 for sample in samples:
     print "\n" + sample
     bg_estimates[sample] = {}
+    ctrl_region_evts[sample] = {}
 
     # get histograms and statistical uncertainties for all regions
     in_file = TFile(output_path + sample + ".root")
@@ -263,6 +264,7 @@ for sample in samples:
     # do bg estimate in each inclusive d0 signal region
     for (d0_0_cut, d0_1_cut) in zip(d0_0_cuts, d0_1_cuts):
         bg_estimates[sample][d0_0_cut] = {}
+        ctrl_region_evts[sample][d0_0_cut] = {}
         fit_summary_plot = TMultiGraph()
         fit_summary_legend = TLegend(0.4, 0.5, 0.89, 0.87)
         fit_summary_legend.AddEntry(None, "", "") # add blank entry for spacing
@@ -305,7 +307,7 @@ for sample in samples:
 
             # calculate d(pT) = c(pT) * model(pT) and do closure test
             d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
-            estimate, actual_yield, actual_error = do_closure_test(d_estimate_hist, in_hists['d'])
+            estimate, actual_yield = do_closure_test(d_estimate_hist, in_hists['d'])
 
             # add fit plots to fit summary plot
             fit.SetRange(0, pt_max)
@@ -388,7 +390,7 @@ for sample in samples:
         mean_fit = b_over_a_plot.GetFunction(sample+"_fit")
         print "mean fit chisq/dof is: "+ str(mean_fit.GetChisquare()/mean_fit.GetNDF())
         mean_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), mean_fit)
-        mean_estimate, _, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
+        mean_estimate, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
         # make plot
         mean_fit_plot = TMultiGraph()
         mean_fit_plot.Add(b_over_a_plot, "P")
@@ -433,9 +435,15 @@ for sample in samples:
 
         # divide bg estimate into non-overlapping pT bins
         for pt_lo, pt_hi in zip(pt_cuts, pt_cuts[1:]+[int(pt_max)]):
-            estimate, _, _ = do_closure_test(mean_estimate_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate, _ = do_closure_test(mean_estimate_hist, in_hists['d'] , pt_lo, pt_hi)
             bg_estimates[sample][d0_0_cut][pt_lo] = estimate
-            # fixme: add uncertainties
+            # store number of events in part of region C that corresponds to each pT range
+            lo_bin =  in_hists['c'].GetXaxis().FindBin(pt_lo)
+            if 0 < pt_hi < in_hists['c'].GetXaxis().GetXmax():
+                hi_bin = in_hists['c'].GetXaxis().FindBin(pt_hi) - 1
+            else:
+                hi_bin = in_hists['c'].GetNbinsX() + 1
+            ctrl_region_evts[sample][pt_lo] = in_hists['c'].Integral(lo_bin, hi_bin)
 
     # in |d0|-|d0| plane, subtract estimate from more displaced signal regions
     # to create non-overlapping L-shaped signal regions
@@ -456,9 +464,9 @@ for s in samples:
             sr['pt'] = (pt_lo, pt_hi)
             sr['d0_0'] = (d0_0_lo, d0_0_hi)
             sr['d0_1'] = (d0_1_lo, d0_1_hi)
-            sr['d0_max'] = d0_0_max # fixme: assuming d0_0_max == d0_1_max
+            sr['d0_max'] = d0_0_max # assuming d0_0_max == d0_1_max
             sr['estimate'] = bg_estimates[s][d0_0_lo][pt_lo]
-            sr['stat_err'] = 0 # fixme
+            sr['ctrl_region_events'] = ctrl_region_evts[s][pt_lo]
             bg_estimate_output[s].append(sr)
 
 import json
