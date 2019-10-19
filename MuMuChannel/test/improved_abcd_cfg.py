@@ -49,5 +49,5 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     fit_min = 60 #muon pt cut at 50 GeV in 2017 and 2018 mumu, but set to 60 GeV to avoid z peak
 
 input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]"
-fit_ranges = [(x, pt_cuts[0]) for x in range(fit_min, pt_cuts[0]-20+1, 2)]
+fit_range = (fit_min, pt_cuts[0])
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot

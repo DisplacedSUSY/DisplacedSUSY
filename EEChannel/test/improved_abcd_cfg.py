@@ -50,5 +50,5 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     fit_min = 75 #electron pt cut at 75 GeV in 2017 and 2018 ee
 
 input_hist = "PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_2000um_vs_electronPt[0]"
-fit_ranges = [(x, pt_cuts[0]) for x in range(fit_min, pt_cuts[0]-20+1, 2)]
+fit_range = (fit_min, pt_cuts[0])
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot

@@ -55,5 +55,5 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
 if vs_electon_pt: input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_2000um_vs_electronPt[0]"
 else: input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_2000um_vs_muonPt[0]"
 
-fit_ranges = [(x, pt_cuts[0]) for x in range(fit_min, pt_cuts[0]-20+1, 2)]
+fit_range = (fit_min, pt_cuts[0])
 error_tolerance = 0.1 # maximum error/bin content ratio for b/a plot

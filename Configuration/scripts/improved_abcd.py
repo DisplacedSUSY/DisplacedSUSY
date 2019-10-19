@@ -8,7 +8,7 @@ from math import pi, atan, sqrt, log
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph,TGraphErrors, TGraphAsymmErrors, TMultiGraph, TLegend, TPaveText, TMatrixD, TMatrixDEigen, TEllipse, TFormula
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph,TGraphErrors, TGraphAsymmErrors, TMultiGraph, TLegend, TPaveText, TMatrixDSymEigen, TEllipse, TFormula
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -123,51 +123,62 @@ def make_pt_hist(h, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
     pt_hist.ResetStats()
 
     if arguments.unblind or name in ("A", "B", "C"):
-        error = Double()
-        print "number of events in {} is: {} +- {}".format(name,
-            pt_hist.IntegralAndError(1, pt_hist.GetNbinsX()+1, error), error)
+        print "number of events in {} is: {}".format(name, pt_hist.Integral(1, pt_hist.GetNbinsX()+1))
 
     return pt_hist
 
 class ErrorEllipse():
     # create one-sigma error ellipse for an arbitrary 2D tgraph,
-    def __init__(self, tgraph):
-        covariance_matrix = TMatrixD(2, 2, array('d', [tgraph.GetRMS(1)**2, tgraph.GetCovariance(),
-                                                       tgraph.GetCovariance(), tgraph.GetRMS(2)**2]))
-        eigen_covariance_matrix = TMatrixDEigen(covariance_matrix)
+    def __init__(self, par_vals, covariance_matrix):
+        eigen_covariance_matrix = TMatrixDSymEigen(covariance_matrix)
         eigenvalues = eigen_covariance_matrix.GetEigenValues()
         eigenvectors = eigen_covariance_matrix.GetEigenVectors()
-        self.mean = (tgraph.GetMean(1), tgraph.GetMean(2))
-        self.radii = (sqrt(eigenvalues(0,0)), sqrt(eigenvalues(1,1)))
-        if eigenvalues(0,0) >= eigenvalues(1,1):
+        self.par_vals = par_vals
+        self.radii = (sqrt(eigenvalues(0)), sqrt(eigenvalues(1)))
+        if eigenvalues(0) >= eigenvalues(1):
             self.angle = 180/pi*atan(eigenvectors(1,0)/eigenvectors(0,0))
         else:
             self.angle = 180/pi*atan(eigenvectors(0,1)/eigenvectors(1,1))
-        self.ellipse = TEllipse(self.mean[0], self.mean[1], self.radii[0], self.radii[1],
+        self.ellipse = TEllipse(self.par_vals[0], self.par_vals[1], self.radii[0], self.radii[1],
                                 0, 360, self.angle)
         self.ellipse.SetFillStyle(0)
         self.ellipse.SetLineColor(2)
+        self.points = self.generate_sample_points()
 
     # generate list of 360 points sampled from the error ellipse
-    def sample_points(self):
+    def generate_sample_points(self):
         x = TFormula("err_ellipse", "[0] + [1]*cos(x)*cos([2]) + [3]*sin(x)*(-sin([2]))")
         y = TFormula("err_ellipse", "[0] + [1]*cos(x)*sin([2]) + [3]*sin(x)*cos([2])")
-        x.SetParameter(0, self.mean[0])
-        y.SetParameter(0, self.mean[1])
+        x.SetParameter(0, self.par_vals[0])
+        y.SetParameter(0, self.par_vals[1])
         x.SetParameter(1, self.radii[0])
         y.SetParameter(1, self.radii[0])
         x.SetParameter(2, self.angle*pi/180) # TFormula wants radians
         y.SetParameter(2, self.angle*pi/180) # TFormula wants radians
         x.SetParameter(3, self.radii[1])
         y.SetParameter(3, self.radii[1])
+
         points = []
+        min_x = min_y = 100 # this is a little irresponsible
+        max_x = max_y = 0
         for t in range(0, 360):
-            points.append((x.Eval(t*pi/180), y.Eval(t*pi/180)))
+            x_val = x.Eval(t*pi/180) if x.Eval(t*pi/180) > 0 else 0.0
+            y_val = y.Eval(t*pi/180) if y.Eval(t*pi/180) > 0 else 0.0
+            points.append((x_val, y_val))
+            min_x = x_val if x_val < min_x else min_x
+            min_y = y_val if y_val < min_y else min_y
+            max_x = x_val if x_val > max_x else max_x
+            max_y = y_val if y_val > max_y else max_y
+
+        self.min_x = min_x
+        self.min_y = min_y
+        self.max_x = max_x
+        self.max_y = max_y
+
         return points
 
     # estimate background using each pair of fit parameters on ellipse
     def find_estimate_bounds(self, fit_func, in_hists):
-        self.points = self.sample_points()
         for pars in self.points:
             # estimate background
             fit_func.FixParameter(0, pars[0])
@@ -186,7 +197,6 @@ class ErrorEllipse():
                     self.min_estimate = estimate
                     self.min_fit = fit_func.Clone()
 
-
 class RatioPlot:
     def __init__(self, num_hist, den_hist):
         self.num = num_hist
@@ -202,7 +212,7 @@ class RatioPlot:
         self.tgraph = TGraphAsymmErrors(num_hist, den_hist, "pois")
 
     # rebin so that error / bin content is below specified tolerance for all bins
-    def improve_binning(self, err_tolerance, upper_edge):
+    def improve_binning(self, err_tolerance, upper_edge, min_bins=4):
         # create list of initial bin edges
         bin_edges = []
         found_first_filled_bin = False
@@ -213,17 +223,33 @@ class RatioPlot:
             if found_first_filled_bin and self.den.GetXaxis().GetBinLowEdge(b) < upper_edge:
                 bin_edges.append(self.den.GetXaxis().GetBinLowEdge(b))
         bin_edges.append(upper_edge)
-
         self.rebin(bin_edges)
 
-        # iteratively rebin until bin error / bin content is below tolerance for each bin
+        # iteratively rebin until all bins are filled
         bin_ix = 0
-        while bin_ix < len(bin_edges)-1 and len(bin_edges) > 2:
+        while bin_ix < len(bin_edges)-1:
             content = Double()
             x = Double()
             self.tgraph.GetPoint(bin_ix, x, content)
+            if content == 0:
+                if bin_ix < len(bin_edges)-2:
+                    del bin_edges[bin_ix+1] # combine current and next bins
+                else:
+                    del bin_edges[bin_ix] # combine final and penultimate bins
+                self.rebin(bin_edges)
+            else:
+                bin_ix += 1 # go to next bin if current bin is filled
+
+        # iteratively rebin until bin error / bin content is below tolerance for each bin
+        if len(bin_edges)-1 < min_bins:
+            return
+        original_edges = list(bin_edges)
+        original_tolerance = err_tolerance
+        bin_ix = 0
+        while bin_ix < len(bin_edges)-1:
+            self.tgraph.GetPoint(bin_ix, x, content)
             error = self.tgraph.GetErrorY(bin_ix)
-            if content == 0 or error/content > err_tolerance:
+            if error/content > err_tolerance:
                 if bin_ix < len(bin_edges)-2:
                     del bin_edges[bin_ix+1] # combine current and next bins
                 else:
@@ -232,17 +258,28 @@ class RatioPlot:
             else:
                 bin_ix += 1 # go to next bin if current error is below tolerance
 
+            # if there are fewer than min_bins bins, increase the tolerance and try again
+            if len(bin_edges)-1 < min_bins:
+                bin_edges = list(original_edges)
+                self.rebin(bin_edges)
+                bin_ix = 0
+                err_tolerance += original_tolerance
+
 
 ####################################################################################################
 
 output_plots = TFile(output_path + "improved_abcd_results.root", "recreate")
 bg_estimates = {}
 ctrl_region_evts = {}
+estimate_upper_bounds = {}
+estimate_lower_bounds = {}
 
 for sample in samples:
     print "\n" + sample
     bg_estimates[sample] = {}
     ctrl_region_evts[sample] = {}
+    estimate_upper_bounds[sample] = {}
+    estimate_lower_bounds[sample] = {}
 
     # get histograms and statistical uncertainties for all regions
     in_file = TFile(output_path + sample + ".root")
@@ -265,6 +302,8 @@ for sample in samples:
     for (d0_0_cut, d0_1_cut) in zip(d0_0_cuts, d0_1_cuts):
         bg_estimates[sample][d0_0_cut] = {}
         ctrl_region_evts[sample][d0_0_cut] = {}
+        estimate_upper_bounds[sample][d0_0_cut] = {}
+        estimate_lower_bounds[sample][d0_0_cut] = {}
         fit_summary_plot = TMultiGraph()
         fit_summary_legend = TLegend(0.4, 0.5, 0.89, 0.87)
         fit_summary_legend.AddEntry(None, "", "") # add blank entry for spacing
@@ -289,41 +328,18 @@ for sample in samples:
         fit_func.SetParLimits(0, 0, 100)
         fit_func.SetParLimits(1, 0, 100)
 
-        # fit B/A once per fit range
-        for fit_range in fit_ranges:
-            # don't perform fit if fit range is empty
-            get_bin = lambda x: in_hists['b'].GetXaxis().FindBin(x)
-            if not in_hists['b'].Integral(get_bin(fit_range[0]), get_bin(fit_range[1])-1) > 0:
-                print "No events in fit range {}-{}. Skipping.".format(fit_range[0], fit_range[1])
-                # fixme: will skipping empty fit ranges lead to overestimate?
-                # maybe rebinning to avoid empty ranges would be better?
-                continue
+        # fit B/A
+        b_over_a = RatioPlot(in_hists['b'], in_hists['a'])
+        b_over_a.improve_binning(error_tolerance, fit_range[1])
+        b_over_a_plot = b_over_a.get_plot()
+        fit_results = b_over_a_plot.Fit(fit_func, "S", "", fit_range[0], fit_range[1])
+        fit = b_over_a_plot.GetFunction(sample+"_fit")
 
-            b_over_a = RatioPlot(in_hists['b'], in_hists['a'])
-            b_over_a_plot = b_over_a.get_plot()
-            b_over_a_plot.Fit(fit_func, "", "", fit_range[0], fit_range[1])
-            fit = b_over_a_plot.GetFunction(sample+"_fit")
-            chisq_per_dof = fit.GetChisquare()/fit.GetNDF()
+        # calculate d(pT) = c(pT) * model(pT) and do closure test
+        d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
+        estimate, actual_yield = do_closure_test(d_estimate_hist, in_hists['d'])
 
-            # calculate d(pT) = c(pT) * model(pT) and do closure test
-            d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
-            estimate, actual_yield = do_closure_test(d_estimate_hist, in_hists['d'])
-
-            # add fit plots to fit summary plot
-            fit.SetRange(0, pt_max)
-            fit.SetLineColor(colors[color_ix])
-            b_over_a_plot.SetLineColor(colors[color_ix])
-            fit_summary_plot.Add(b_over_a_plot, "X")
-            fit_summary_legend.AddEntry(b_over_a_plot, str(fit_range[0]) + " GeV --> " +
-                                        str(round(estimate, 2)) + " events; chisq/dof is "
-                                        + str(round(chisq_per_dof,2)))
-            color_ix = (color_ix + 1) % len(colors)
-
-            # add point to fit parameter plot
-            fit_parameters_plot.SetPoint(fit_parameters_plot.GetN(),
-                                        fit.GetParameter(0), fit.GetParameter(1))
-
-        # save once-per-sample plots
+        # make plots
         output_plots.cd()
         sample_and_d0_region = "{}_{}_{}".format(sample, d0_0_cut, d0_1_cut)
 
@@ -338,40 +354,26 @@ for sample in samples:
         in_hists['c'].Draw()
         c_canvas.Write()
 
-        # fit summary plot
-        fit_summary_canvas = make_default_canvas(sample_and_d0_region+"_fit_summary")
-        fit_summary_plot.Draw("A")
-        fit_summary_plot.GetXaxis().SetLimits(0, pt_max)
-        setup_plot(fit_summary_plot, sample_and_d0_region+" fit summary",
-                   str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
-        fit_summary_legend.SetHeader(
-            "#splitline{Fit Range Lower Bound --> Corresponding BG Estimate}{(Actual yield is "
-            + str(round(actual_yield, 1)) + " events)}")
-        fit_summary_legend.SetTextSize(0.025)
-        fit_summary_legend.SetBorderSize(0)
-        fit_summary_legend.Draw()
-        draw_lines([fit_range[1]])
-        fit_summary_canvas.Write()
-        fit_summary_canvas.SaveAs("fit_summary_"+sample_and_d0_region+".pdf", "recreate")
-        fit_summary_canvas.SaveAs("fit_summary_"+sample_and_d0_region+".png", "recreate")
-
         # fit parameters plot
         fit_parameters_canvas = make_default_canvas(sample_and_d0_region+"_fit_pars")
+        fit_covariance = fit_results.GetCovarianceMatrix()
+        fit_parameters = (fit.GetParameter(0), fit.GetParameter(1))
+        err_ellipse = ErrorEllipse(fit_parameters, fit_covariance)
+        fit_parameters_plot = TGraph()
+        fit_parameters_plot.SetMarkerColor(4)
         fit_parameters_plot.SetMarkerStyle(8)
-        err_ellipse = ErrorEllipse(fit_parameters_plot)
-        fit_parameters_mean = TGraph()
-        fit_parameters_mean.SetMarkerColor(4)
-        fit_parameters_mean.SetMarkerStyle(8)
-        fit_parameters_mean.SetPoint(0, err_ellipse.mean[0], err_ellipse.mean[1])
+        fit_parameters_plot.SetPoint(0, fit_parameters[0], fit_parameters[1])
         par_mg = TMultiGraph()
         par_mg.Add(fit_parameters_plot, "P")
-        par_mg.Add(fit_parameters_mean, "P")
         par_mg.Draw("A")
-        setup_plot(par_mg, "Fit parameters for "+model, "Parameter [0]", "Parameter [1]")
+        setup_plot(par_mg, "Fit parameters and uncertainty for "+model,
+                   "Parameter [0]", "Parameter [1]")
+        par_mg.GetXaxis().SetLimits(0.5*err_ellipse.min_x, 1.5*err_ellipse.max_x)
+        par_mg.SetMinimum(0.5*err_ellipse.min_y)
+        par_mg.SetMaximum(1.5*err_ellipse.max_y)
         err_ellipse.ellipse.Draw("same")
         par_legend = TLegend(0.5, 0.7, 0.89, 0.89)
-        par_legend.AddEntry(fit_parameters_plot, "Individual fit parameters", "P")
-        par_legend.AddEntry(fit_parameters_mean, "Mean fit parameters", "P")
+        par_legend.AddEntry(fit_parameters_plot, "Fit parameters", "P")
         par_legend.AddEntry(err_ellipse.ellipse, "One-sigma uncertainty ellipse", "L")
         par_legend.SetBorderSize(0)
         par_legend.Draw()
@@ -379,64 +381,58 @@ for sample in samples:
         fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".pdf", "recreate")
         fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".png", "recreate")
 
-        # mean fit plot
-        mean_fit_canvas = make_default_canvas(sample_and_d0_region+"_mean_fit")
-        # estimate background using mean fit parameters
-        fit_func.FixParameter(0, err_ellipse.mean[0])
-        fit_func.FixParameter(1, err_ellipse.mean[1])
-        b_over_a.improve_binning(error_tolerance, fit_ranges[0][1])
-        b_over_a_plot = b_over_a.get_plot()
-        b_over_a_plot.Fit(fit_func, "", "", fit_ranges[0][0], fit_ranges[0][1])
-        mean_fit = b_over_a_plot.GetFunction(sample+"_fit")
-        print "mean fit chisq/dof is: "+ str(mean_fit.GetChisquare()/mean_fit.GetNDF())
-        mean_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), mean_fit)
-        mean_estimate, _ = do_closure_test(mean_estimate_hist, in_hists['d'])
-        # make plot
-        mean_fit_plot = TMultiGraph()
-        mean_fit_plot.Add(b_over_a_plot, "P")
+        # fit plot
+        fit_canvas = make_default_canvas(sample_and_d0_region+"_fit")
+        fit_plot = TMultiGraph()
+        fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
             d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
-            d_over_c.improve_binning(error_tolerance*2, pt_max)
-            d_over_c_plot = d_over_c.get_plot() # get new instance of plot so pyroot doesn't get confused
-            mean_fit_plot.Add(d_over_c_plot, "P")
-        mean_fit_plot.Draw("A")
-        mean_fit_plot.GetXaxis().SetLimits(0, pt_max)
-        setup_plot(mean_fit_plot, sample+" mean fit",
-                   str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
-        mean_fit.SetRange(0, pt_max)
-        mean_fit_plot.Draw("same") # draw again so points aren't covered by fit lines
-        mean_fit_plot.GetYaxis().SetRangeUser(0, mean_fit_plot.GetYaxis().GetXmax())
+            d_over_c.improve_binning(error_tolerance, pt_max)
+            fit_plot.Add(d_over_c.get_plot(), "P")
+        fit_plot.Draw("A")
+        fit_plot.GetXaxis().SetLimits(0, pt_max)
+        setup_plot(fit_plot, sample+" fit", str(d_estimate_hist.GetXaxis().GetTitle()), "B/A or D/C")
+        fit.SetRange(0, pt_max)
+        fit_plot.Draw("same") # draw again so points aren't covered by fit lines
+        fit_plot.GetYaxis().SetRangeUser(0, 1.5*fit_plot.GetYaxis().GetXmax())
         err_ellipse.find_estimate_bounds(fit_func, in_hists)
         err_ellipse.min_fit.Draw("same")
         err_ellipse.max_fit.Draw("same")
-        err_ellipse.min_fit.SetRange(fit_ranges[0][1], d_estimate_hist.GetXaxis().GetXmax())
-        err_ellipse.max_fit.SetRange(fit_ranges[0][1], d_estimate_hist.GetXaxis().GetXmax())
-        draw_lines([fit_ranges[0][0], fit_ranges[0][1]])
+        err_ellipse.min_fit.SetRange(fit_range[1], d_estimate_hist.GetXaxis().GetXmax())
+        err_ellipse.max_fit.SetRange(fit_range[1], d_estimate_hist.GetXaxis().GetXmax())
+        draw_lines([fit_range[0], fit_range[1]])
         # add text with closure test results
-        results_pave = TPaveText(0.5, 0.7, 0.8, 0.8, "NDC")
-        results_pave.AddText("Actual yield: {} events".format(round(actual_yield, 1)))
-        # fixme: cosmetic cleanup needed
-        err_up = round(err_ellipse.max_estimate - mean_estimate, 1)
-        err_down = round(mean_estimate - err_ellipse.min_estimate, 1)
+        results_pave = TPaveText(0.3, 0.75, 0.85, 0.85, "NDC")
+        results_pave.AddText("Actual yield for entire pT range: {} events".format(
+                              round(actual_yield, 1)))
+        err_up = round(err_ellipse.max_estimate - estimate, 2)
+        err_down = round(estimate - err_ellipse.min_estimate, 2)
         if err_up == err_down:
-            estimate_uncertainty_string = " +- {}".format(err_up)
+            uncertainty_string = " +- {}".format(err_up)
         else:
-            estimate_uncertainty_string = " +{}/-{}".format(err_up, err_down)
-        results_pave.AddText("Mean fit estimated yield: {}{} events".format(
-                             round(mean_estimate, 1), estimate_uncertainty_string))
+            uncertainty_string = " +{}/-{}".format(err_up, err_down)
+        results_pave.AddText("Estimated yield for entire pT range: {}{} events".format(
+                              round(estimate, 2), uncertainty_string))
         results_pave.SetTextSize(0.025)
         results_pave.SetFillColor(0)
         results_pave.SetBorderSize(0)
         results_pave.SetTextAlign(11)
         results_pave.Draw()
-        mean_fit_canvas.Write()
-        mean_fit_canvas.SaveAs("mean_fit_"+sample_and_d0_region+".pdf","recreate")
-        mean_fit_canvas.SaveAs("mean_fit_"+sample_and_d0_region+".png","recreate")
+        fit_canvas.Write()
+        fit_canvas.SaveAs("fit_"+sample_and_d0_region+".pdf","recreate")
+        fit_canvas.SaveAs("fit_"+sample_and_d0_region+".png","recreate")
 
         # divide bg estimate into non-overlapping pT bins
         for pt_lo, pt_hi in zip(pt_cuts, pt_cuts[1:]+[int(pt_max)]):
-            estimate, _ = do_closure_test(mean_estimate_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate, _ = do_closure_test(d_estimate_hist, in_hists['d'] , pt_lo, pt_hi)
             bg_estimates[sample][d0_0_cut][pt_lo] = estimate
+            # also divide upper and lower bounds on bg estimate to estimate uncertainty
+            estimate_up_hist   = make_estimate_hist(in_hists['c'].Clone(), err_ellipse.max_fit)
+            estimate_down_hist = make_estimate_hist(in_hists['c'].Clone(), err_ellipse.min_fit)
+            estimate_up, _   = do_closure_test(estimate_up_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate_down, _ = do_closure_test(estimate_down_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate_upper_bounds[sample][d0_0_cut][pt_lo] = estimate_up
+            estimate_lower_bounds[sample][d0_0_cut][pt_lo] = estimate_down
             # store number of events in part of region C that corresponds to each pT range
             lo_bin =  in_hists['c'].GetXaxis().FindBin(pt_lo)
             if 0 < pt_hi < in_hists['c'].GetXaxis().GetXmax():
@@ -450,7 +446,8 @@ for sample in samples:
     for d0_0, next_d0_0 in zip(d0_0_cuts[:-1], d0_0_cuts[1:]):
         for pt in pt_cuts:
             bg_estimates[sample][d0_0][pt] -= bg_estimates[sample][next_d0_0][pt]
-            # fixme: propagate uncertainty
+            estimate_upper_bounds[sample][d0_0][pt] -= estimate_upper_bounds[sample][next_d0_0][pt]
+            estimate_lower_bounds[sample][d0_0][pt] -= estimate_lower_bounds[sample][next_d0_0][pt]
 
 # create output json that contains background estimate results for use in limit setting
 bg_estimate_output = {}
@@ -467,6 +464,8 @@ for s in samples:
             sr['d0_max'] = d0_0_max # assuming d0_0_max == d0_1_max
             sr['estimate'] = bg_estimates[s][d0_0_lo][pt_lo]
             sr['ctrl_region_events'] = ctrl_region_evts[s][pt_lo]
+            sr['fit_up_err']   = estimate_upper_bounds[s][d0_0_lo][pt_lo] / sr['estimate']
+            sr['fit_down_err'] = estimate_lower_bounds[s][d0_0_lo][pt_lo] / sr['estimate']
             bg_estimate_output[s].append(sr)
 
 import json
