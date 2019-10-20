@@ -2,7 +2,7 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
 
-config.General.requestName = 'stopToLB_M_400_100mm_13TeV_2018MC_RawReco'
+config.General.requestName = 'stopToLB_M_400_1000mm_13TeV_2018MC_RawReco'
 config.General.workArea = 'crab'
 config.General.transferOutputs = True
 config.General.transferLogs = True
@@ -11,7 +11,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'step3_RAW2DIGI_L1Reco_RECO.py'
 config.JobType.maxMemoryMB = 8000
 
-config.Data.inputDataset = '/StopToLB_M_400_100mm_13TeV_2018MC/jalimena-DigiRawHlt-1ab5d763e6d9fe77c873408b3fd013b1/USER'
+config.Data.inputDataset = '/StopToLB_M_400_1000mm_13TeV_2018MC/jalimena-DigiRawHlt-1ab5d763e6d9fe77c873408b3fd013b1/USER'
 config.Data.outputDatasetTag = 'RawReco'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
