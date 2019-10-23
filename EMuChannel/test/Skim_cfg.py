@@ -9,6 +9,7 @@ from DisplacedSUSY.EMuChannel.EMuSkim import *
 
 eventSelections = []
 eventSelections.append(EMuSkim)
+#eventSelections.append(EMuSkimWithoutTrigger)
 #eventSelections.append(EmptySkim)
 
 ################################################################################
