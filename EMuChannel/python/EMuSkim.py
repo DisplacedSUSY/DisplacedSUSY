@@ -21,6 +21,12 @@ EMuSkim.cuts.append(muon_pt_20_cut)
 EMuSkim.cuts.append(muon_global_cut)
 
 
+EMuSkimWithoutTrigger = cms.PSet(
+    name = cms.string("EMuSkimWithoutTrigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(EMuSkim.cuts))
+)
+
 EmptySkim = cms.PSet(
     name = cms.string("EmptySkim"),
     triggers = cms.vstring(""),
