@@ -125,7 +125,10 @@ def make_pt_hist(h, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
     pt_hist.ResetStats()
 
     if arguments.unblind or name in ("A", "B", "C"):
-        print "number of events in {} is: {}".format(name, pt_hist.Integral(1, pt_hist.GetNbinsX()+1))
+        num_events = pt_hist.Integral(1, pt_hist.GetNbinsX()+1)
+        print "number of events in {} is: {}".format(name, num_events)
+        if num_events < 10:
+            print "You should redefine your regions so that {} has more events".format(name)
 
     return pt_hist
 
