@@ -17,6 +17,8 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-u", "--unblind", action="store_true", dest="unblind",
                   default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-p", "--savePlots", action="store_true", dest="savePlots",
+                  default=False, help="save summary plots as pdfs and pngs")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -378,8 +380,9 @@ for sample in samples:
         par_legend.SetBorderSize(0)
         par_legend.Draw()
         fit_parameters_canvas.Write()
-        fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".pdf", "recreate")
-        fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".png", "recreate")
+        if arguments.savePlots:
+            fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".pdf", "recreate")
+            fit_parameters_canvas.SaveAs("fit_parameters_"+sample_and_d0_region+".png", "recreate")
 
         # fit plot
         fit_canvas = make_default_canvas(sample_and_d0_region+"_fit")
@@ -419,8 +422,9 @@ for sample in samples:
         results_pave.SetTextAlign(11)
         results_pave.Draw()
         fit_canvas.Write()
-        fit_canvas.SaveAs("fit_"+sample_and_d0_region+".pdf","recreate")
-        fit_canvas.SaveAs("fit_"+sample_and_d0_region+".png","recreate")
+        if arguments.savePlots:
+            fit_canvas.SaveAs("fit_"+sample_and_d0_region+".pdf","recreate")
+            fit_canvas.SaveAs("fit_"+sample_and_d0_region+".png","recreate")
 
         # divide bg estimate into non-overlapping pT bins
         for pt_lo, pt_hi in zip(pt_cuts, pt_cuts[1:]+[int(pt_max)]):
