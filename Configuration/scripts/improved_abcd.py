@@ -336,6 +336,10 @@ for sample in samples:
         b_over_a_plot = b_over_a.get_plot()
         fit_results = b_over_a_plot.Fit(fit_func, "S", "", fit_range[0], fit_range[1])
         fit = b_over_a_plot.GetFunction(sample+"_fit")
+        try:
+            print "Chi2/NDF: {}".format(fit.GetChisquare()/fit.GetNDF())
+        except ZeroDivisionError:
+            print "NDF is {}; you might need to increase statistics in region B".format(fit.GetNDF())
 
         # calculate d(pT) = c(pT) * model(pT) and do closure test
         d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
