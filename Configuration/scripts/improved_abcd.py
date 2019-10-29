@@ -183,13 +183,13 @@ class ErrorEllipse():
         return points
 
     # estimate background using each pair of fit parameters on ellipse
-    def find_estimate_bounds(self, fit_func, in_hists):
+    def find_estimate_bounds(self, fit_func, pt_hists):
         for pars in self.points:
             # estimate background
             fit_func.FixParameter(0, pars[0])
             fit_func.FixParameter(1, pars[1])
-            estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit_func)
-            estimate, _ = do_closure_test(estimate_hist, in_hists['d'])
+            estimate_hist = make_estimate_hist(pt_hists['c'].Clone(), fit_func)
+            estimate, _ = do_closure_test(estimate_hist, pt_hists['d'])
             # save max and min estimate and corresponding fits
             if pars == self.points[0]:
                 self.min_estimate = self.max_estimate = estimate
@@ -300,8 +300,8 @@ for sample in samples:
     pt_max   = pt_max   if 0 < pt_max   < in_hist_pt_max   else in_hist_pt_max
 
     # get pT hist for prompt, low-pT region
-    in_hists = {}
-    in_hists['a'] = make_pt_hist(in_hist, "A", 0, d0_0_cuts[0], 0, d0_1_cuts[0], fit_min, pt_cuts[0])
+    pt_hists = {}
+    pt_hists['a'] = make_pt_hist(in_hist, "A", 0, d0_0_cuts[0], 0, d0_1_cuts[0], fit_min, pt_cuts[0])
 
     # do bg estimate in each inclusive d0 signal region
     for (d0_0_cut, d0_1_cut) in zip(d0_0_cuts, d0_1_cuts):
@@ -317,13 +317,13 @@ for sample in samples:
 
         # get pT hists for displaced and/or high-pt regions
         # don't subdivide signal region in pT at this point  -- will do so after fitting etc
-        in_hists['b'] = make_pt_hist(in_hist, "B", d0_0_cut, d0_0_max,
+        pt_hists['b'] = make_pt_hist(in_hist, "B", d0_0_cut, d0_0_max,
                                                    d0_1_cut, d0_1_max,
                                                    fit_min, pt_cuts[0])
-        in_hists['c'] = make_pt_hist(in_hist, "C", 0, d0_0_cuts[0],
+        pt_hists['c'] = make_pt_hist(in_hist, "C", 0, d0_0_cuts[0],
                                                    0, d0_1_cuts[0],
                                                    pt_cuts[0], pt_max)
-        in_hists['d'] = make_pt_hist(in_hist, "D", d0_0_cut, d0_0_max,
+        pt_hists['d'] = make_pt_hist(in_hist, "D", d0_0_cut, d0_0_max,
                                                    d0_1_cut, d0_1_max,
                                                    pt_cuts[0], pt_max)
 
@@ -334,7 +334,7 @@ for sample in samples:
         fit_func.SetParLimits(1, 0, 100)
 
         # fit B/A
-        b_over_a = RatioPlot(in_hists['b'], in_hists['a'])
+        b_over_a = RatioPlot(pt_hists['b'], pt_hists['a'])
         b_over_a.improve_binning(error_tolerance, fit_range[1])
         b_over_a_plot = b_over_a.get_plot()
         fit_results = b_over_a_plot.Fit(fit_func, "S", "", fit_range[0], fit_range[1])
@@ -345,8 +345,8 @@ for sample in samples:
             print "NDF is {}; you might need to increase statistics in region B".format(fit.GetNDF())
 
         # calculate d(pT) = c(pT) * model(pT) and do closure test
-        d_estimate_hist = make_estimate_hist(in_hists['c'].Clone(), fit)
-        estimate, actual_yield = do_closure_test(d_estimate_hist, in_hists['d'])
+        d_estimate_hist = make_estimate_hist(pt_hists['c'].Clone(), fit)
+        estimate, actual_yield = do_closure_test(d_estimate_hist, pt_hists['d'])
 
         # make plots
         output_plots.cd()
@@ -354,13 +354,13 @@ for sample in samples:
 
         # input hists
         a_canvas = make_default_canvas(sample_and_d0_region + "_A")
-        in_hists['a'].Draw()
+        pt_hists['a'].Draw()
         a_canvas.Write()
         b_canvas = make_default_canvas(sample_and_d0_region + "_B")
-        in_hists['b'].Draw()
+        pt_hists['b'].Draw()
         b_canvas.Write()
         c_canvas = make_default_canvas(sample_and_d0_region + "_C")
-        in_hists['c'].Draw()
+        pt_hists['c'].Draw()
         c_canvas.Write()
 
         # fit parameters plot
@@ -396,7 +396,7 @@ for sample in samples:
         fit_plot = TMultiGraph()
         fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
-            d_over_c = RatioPlot(in_hists['d'], in_hists['c'])
+            d_over_c = RatioPlot(pt_hists['d'], pt_hists['c'])
             d_over_c.improve_binning(error_tolerance, pt_max)
             fit_plot.Add(d_over_c.get_plot(), "P")
         fit_plot.Draw("A")
@@ -405,7 +405,7 @@ for sample in samples:
         fit.SetRange(0, pt_max)
         fit_plot.Draw("same") # draw again so points aren't covered by fit lines
         fit_plot.GetYaxis().SetRangeUser(0, 1.5*fit_plot.GetYaxis().GetXmax())
-        err_ellipse.find_estimate_bounds(fit_func, in_hists)
+        err_ellipse.find_estimate_bounds(fit_func, pt_hists)
         err_ellipse.min_fit.Draw("same")
         err_ellipse.max_fit.Draw("same")
         err_ellipse.min_fit.SetRange(fit_range[1], d_estimate_hist.GetXaxis().GetXmax())
@@ -435,22 +435,22 @@ for sample in samples:
 
         # divide bg estimate into non-overlapping pT bins
         for pt_lo, pt_hi in zip(pt_cuts, pt_cuts[1:]+[int(pt_max)]):
-            estimate, _ = do_closure_test(d_estimate_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate, _ = do_closure_test(d_estimate_hist, pt_hists['d'] , pt_lo, pt_hi)
             bg_estimates[sample][d0_0_cut][pt_lo] = estimate
             # also divide upper and lower bounds on bg estimate to estimate uncertainty
-            estimate_up_hist   = make_estimate_hist(in_hists['c'].Clone(), err_ellipse.max_fit)
-            estimate_down_hist = make_estimate_hist(in_hists['c'].Clone(), err_ellipse.min_fit)
-            estimate_up, _   = do_closure_test(estimate_up_hist, in_hists['d'] , pt_lo, pt_hi)
-            estimate_down, _ = do_closure_test(estimate_down_hist, in_hists['d'] , pt_lo, pt_hi)
+            estimate_up_hist   = make_estimate_hist(pt_hists['c'].Clone(), err_ellipse.max_fit)
+            estimate_down_hist = make_estimate_hist(pt_hists['c'].Clone(), err_ellipse.min_fit)
+            estimate_up, _   = do_closure_test(estimate_up_hist, pt_hists['d'] , pt_lo, pt_hi)
+            estimate_down, _ = do_closure_test(estimate_down_hist, pt_hists['d'] , pt_lo, pt_hi)
             estimate_upper_bounds[sample][d0_0_cut][pt_lo] = estimate_up
             estimate_lower_bounds[sample][d0_0_cut][pt_lo] = estimate_down
             # store number of events in part of region C that corresponds to each pT range
-            lo_bin =  in_hists['c'].GetXaxis().FindBin(pt_lo)
-            if 0 < pt_hi < in_hists['c'].GetXaxis().GetXmax():
-                hi_bin = in_hists['c'].GetXaxis().FindBin(pt_hi) - 1
+            lo_bin =  pt_hists['c'].GetXaxis().FindBin(pt_lo)
+            if 0 < pt_hi < pt_hists['c'].GetXaxis().GetXmax():
+                hi_bin = pt_hists['c'].GetXaxis().FindBin(pt_hi) - 1
             else:
-                hi_bin = in_hists['c'].GetNbinsX() + 1
-            ctrl_region_evts[sample][pt_lo] = in_hists['c'].Integral(lo_bin, hi_bin)
+                hi_bin = pt_hists['c'].GetNbinsX() + 1
+            ctrl_region_evts[sample][pt_lo] = pt_hists['c'].Integral(lo_bin, hi_bin)
 
     # in |d0|-|d0| plane, subtract estimate from more displaced signal regions
     # to create non-overlapping L-shaped signal regions
