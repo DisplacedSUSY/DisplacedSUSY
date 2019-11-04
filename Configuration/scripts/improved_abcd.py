@@ -486,6 +486,16 @@ for s in samples:
             sr['fit_down_err'] = estimate_lower_bounds[s][d0_0_lo][pt_lo] / sr['estimate']
             bg_estimate_output[s].append(sr)
 
+            # print estimtates
+            err_up   = round(estimate_upper_bounds[s][d0_0_lo][pt_lo] - sr['estimate'], 4)
+            err_down = round(sr['estimate'] - estimate_lower_bounds[s][d0_0_lo][pt_lo], 4)
+            if err_up == err_down:
+                uncertainty_string = " +- {}".format(err_up)
+            else:
+                uncertainty_string = " +{}/-{}".format(err_up, err_down)
+            print "For {}-{}um, {}-{}GeV signal region:".format(d0_0_lo, d0_0_hi, pt_lo, pt_hi)
+            print "Estimate: {}{} events".format(round(sr['estimate'], 4), uncertainty_string)
+
 import json
 output_estimates = open(output_path + "background_estimate.json", "w")
 json = json.dump(bg_estimate_output, output_estimates, sort_keys=True, indent=4)
