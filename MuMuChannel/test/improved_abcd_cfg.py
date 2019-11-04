@@ -20,8 +20,8 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     samples = ['DoubleMu_2016_2017_2018']
 
 # 1st sideband tried:
-#d0_0_cuts = [15]
-#d0_1_cuts = [15]
+#d0_0_cuts = [10]
+#d0_1_cuts = [10]
 #pt_cuts   = [100]
 #d0_0_max  = 30 # set to 0 to remove upper limit
 #d0_1_max  = 30 # set to 0 to remove upper limit
