@@ -116,7 +116,7 @@ def make_pt_hist(h, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         hi_bin_z += 1
 
     # extract 1D pT hist
-    pt_hist = h.ProjectionZ(name, lo_bin_x, hi_bin_x, lo_bin_y, hi_bin_y, "eo")
+    pt_hist = h.ProjectionZ(name, lo_bin_x, hi_bin_x-1, lo_bin_y, hi_bin_y-1, "eo")
 
     # set bin content to zero in all but desired pT range
     for b in range(1, lo_bin_z) + range(hi_bin_z, in_hist.GetNbinsZ()+2):
