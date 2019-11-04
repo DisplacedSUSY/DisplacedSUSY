@@ -124,12 +124,6 @@ def make_pt_hist(h, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         pt_hist.SetBinError(b,0)
     pt_hist.ResetStats()
 
-    if arguments.unblind or name in ("A", "B", "C"):
-        num_events = pt_hist.Integral(1, pt_hist.GetNbinsX()+1)
-        print "number of events in {} is: {}".format(name, num_events)
-        if num_events < 10:
-            print "You should redefine your regions so that {} has more events".format(name)
-
     return pt_hist
 
 class ErrorEllipse():
@@ -303,8 +297,9 @@ for sample in samples:
     pt_hists = {}
     pt_hists['a'] = make_pt_hist(in_hist, "A", 0, d0_0_cuts[0], 0, d0_1_cuts[0], fit_min, pt_cuts[0])
 
-    # do bg estimate in each inclusive d0 signal region
-    for (d0_0_cut, d0_1_cut) in zip(d0_0_cuts, d0_1_cuts):
+    # do bg estimate in each non-overlapping |d0| signal region
+    # loop from most displaced to least displaced to simplify creation of L-shaped signal regions
+    for (d0_0_cut, d0_1_cut) in reversed(zip(d0_0_cuts, d0_1_cuts)):
         bg_estimates[sample][d0_0_cut] = {}
         ctrl_region_evts[sample][d0_0_cut] = {}
         estimate_upper_bounds[sample][d0_0_cut] = {}
@@ -316,7 +311,7 @@ for sample in samples:
         color_ix = 0
 
         # get pT hists for displaced and/or high-pt regions
-        # don't subdivide signal region in pT at this point  -- will do so after fitting etc
+        # don't subdivide signal region in pT at this point -- will do so after fitting etc
         pt_hists['b'] = make_pt_hist(in_hist, "B", d0_0_cut, d0_0_max,
                                                    d0_1_cut, d0_1_max,
                                                    fit_min, pt_cuts[0])
@@ -326,6 +321,19 @@ for sample in samples:
         pt_hists['d'] = make_pt_hist(in_hist, "D", d0_0_cut, d0_0_max,
                                                    d0_1_cut, d0_1_max,
                                                    pt_cuts[0], pt_max)
+
+        inclusive_pt_hists = {}
+        inclusive_pt_hists['b'] = pt_hists['b'].Clone()
+        inclusive_pt_hists['d'] = pt_hists['d'].Clone()
+
+        # subtract previous displaced pt hists from current ones to create L-shaped regions in |d0|
+        if d0_0_cut != d0_0_cuts[-1] and d0_1_cut != d0_0_cuts[-1]:
+            pt_hists['b'].Add(previous_pt_hists['b'], -1)
+            pt_hists['d'].Add(previous_pt_hists['d'], -1)
+
+        previous_pt_hists = {}
+        previous_pt_hists['b'] = inclusive_pt_hists['b'].Clone()
+        previous_pt_hists['d'] = inclusive_pt_hists['d'].Clone()
 
         # set up fit model
         model = "[0] + [1]/x" # |d0| resolution as a function of pT
@@ -452,13 +460,12 @@ for sample in samples:
                 hi_bin = pt_hists['c'].GetNbinsX() + 1
             ctrl_region_evts[sample][pt_lo] = pt_hists['c'].Integral(lo_bin, hi_bin)
 
-    # in |d0|-|d0| plane, subtract estimate from more displaced signal regions
-    # to create non-overlapping L-shaped signal regions
-    for d0_0, next_d0_0 in zip(d0_0_cuts[:-1], d0_0_cuts[1:]):
+        # print CR stats
+        print "Region A contains {} events".format(pt_hists['a'].Integral())
+        print "Region B contains {} events".format(pt_hists['b'].Integral())
         for pt in pt_cuts:
-            bg_estimates[sample][d0_0][pt] -= bg_estimates[sample][next_d0_0][pt]
-            estimate_upper_bounds[sample][d0_0][pt] -= estimate_upper_bounds[sample][next_d0_0][pt]
-            estimate_lower_bounds[sample][d0_0][pt] -= estimate_lower_bounds[sample][next_d0_0][pt]
+            print "Region C contains {} events in pT range starting at {}GeV".format(
+                   ctrl_region_evts[sample][pt], pt)
 
 # create output json that contains background estimate results for use in limit setting
 bg_estimate_output = {}
