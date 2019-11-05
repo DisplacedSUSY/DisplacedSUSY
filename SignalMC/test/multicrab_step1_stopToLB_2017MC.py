@@ -39,47 +39,67 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    config.General.requestName = 'stopToLB_M_200_1mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_200_1mm_13TeV_2017MC'
+    config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2017MC_GenSim'
+    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_100_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM_2017.py'
+    config.Data.outputPrimaryDataset = 'StopToLB_M_100_1mm_13TeV_2017MC'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_200_10mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_10mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_200_10mm_13TeV_2017MC'
+    config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2017MC_GenSim'
+    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_100_10mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM_2017.py'
+    config.Data.outputPrimaryDataset = 'StopToLB_M_100_10mm_13TeV_2017MC'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_200_100mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_100mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_200_100mm_13TeV_2017MC'
+    config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2017MC_GenSim'
+    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_100_100mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM_2017.py'
+    config.Data.outputPrimaryDataset = 'StopToLB_M_100_100mm_13TeV_2017MC'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_200_1000mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_200_1000mm_13TeV_2017MC'
+    config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2017MC_GenSim'
+    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_100_1000mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM_2017.py'
+    config.Data.outputPrimaryDataset = 'StopToLB_M_100_1000mm_13TeV_2017MC'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_300_1mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_300_1mm_13TeV_2017MC'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_200_1mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_200_1mm_13TeV_2017MC'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_300_10mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_10mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_300_10mm_13TeV_2017MC'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_200_10mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_10mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_200_10mm_13TeV_2017MC'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_300_100mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_100mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_300_100mm_13TeV_2017MC'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_200_100mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_100mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_200_100mm_13TeV_2017MC'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_300_1000mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_1000mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_300_1000mm_13TeV_2017MC'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_200_1000mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_200_1000mm_13TeV_2017MC'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_400_1mm_13TeV_2017MC_GenSim'
-    config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_400_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
-    config.Data.outputPrimaryDataset = 'StopToLB_M_400_1mm_13TeV_2017MC'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_300_1mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_300_1mm_13TeV_2017MC'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_300_10mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_10mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_300_10mm_13TeV_2017MC'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_300_100mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_100mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_300_100mm_13TeV_2017MC'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_300_1000mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_300_1000mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_300_1000mm_13TeV_2017MC'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_400_1mm_13TeV_2017MC_GenSim'
+    #config.JobType.psetName = 'DisplacedSUSY_stopToBottom_M_400_1mm_TuneCP5_13TeV_pythia8_cff_py_GEN_SIM.py'
+    #config.Data.outputPrimaryDataset = 'StopToLB_M_400_1mm_13TeV_2017MC'
+    #submit(config)
