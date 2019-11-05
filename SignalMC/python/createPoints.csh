@@ -1,6 +1,10 @@
 #!/bin/tcsh
+#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom (NLO+NLL)
 
-foreach i (150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+foreach i (100 150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+    if ($i == '100') then
+        set xs=1521.11
+    endif
     if ($i == '150') then
         set xs=249.409
     endif
