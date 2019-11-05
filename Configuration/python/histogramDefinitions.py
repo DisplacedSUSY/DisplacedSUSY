@@ -3218,17 +3218,29 @@ GenParticleHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("phi"),
         ),
+         cms.PSet (
+            name = cms.string("GenVx"),
+            title = cms.string("Gen x-coord of vertex;Gen vx [mm]"),
+            binsX = cms.untracked.vdouble(100, -1000, 1000),
+            inputVariables = cms.vstring("vx"),
+        ),
+        cms.PSet (
+            name = cms.string("GenVy"),
+            title = cms.string("Gen y-coord of vertex;Gen vy [mm]"),
+            binsX = cms.untracked.vdouble(100, -1000, 1000),
+            inputVariables = cms.vstring("vy"),
+        ),
+        cms.PSet (
+            name = cms.string("GenVz"),
+            title = cms.string("Gen z-coord of vertex;Gen vz [mm]"),
+            binsX = cms.untracked.vdouble(100, -1000, 1000),
+            inputVariables = cms.vstring("vz"),
+        ),
         cms.PSet (
             name = cms.string("GenMotherPdgId"),
-            title = cms.string("Gen Mother PdgId;Mother |PDG ID|"),
+            title = cms.string("Unique Gen Mother PdgId;Mother |PDG ID|"),
             binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
-            inputVariables = cms.vstring("abs (motherPdgId)"),
-            ),
-        cms.PSet (
-            name = cms.string("GenMotherStatus"),
-            title = cms.string("Gen Mother Status;Mother Status"),
-            binsX = cms.untracked.vdouble(5, 0, 5),
-            inputVariables = cms.vstring("motherStatus"),
+            inputVariables = cms.vstring("abs (uniqueMotherPdgId)"),
             ),
         )
     )
