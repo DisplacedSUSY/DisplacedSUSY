@@ -134,38 +134,6 @@ signal_cross_sections_8TeV = {
 }
 
 
-##############################################
-### background normalization uncertainties ###
-##############################################
-
-# These are the systematics on the methods to determine the contribution of each process
-#
-# For things taken from MC, this should be the uncertainty on the calculated cross-section
-# or the uncertainty on the measured CMS cross-section
-#
-#   The measured cross-sections have similar errors to the theory ones,
-#   and are often in different mass windows than our signals
-#   so we'll use the theory uncertainties from this twiki:
-#   https://twiki.cern.ch/twiki/bin/view/CMS/StandardModelCrossSectionsat13TeV
-#       -Jamie 4-19-16
-#
-# For things taken from data, this should be the uncertainty on the data-driven method
-
-background_normalization_uncertainties = {
-    'DoubleEG_2016_2017_2018' : {
-        'value' : '1.10', # placeholder value
-        'type' : 'lnN',
-    },
-    'MuonEG_2016_2017_2018' : {
-        'value' : '1.10', # placeholder value
-        'type' : 'lnN',
-    },
-    'DoubleMu_2016_postHIP' : {
-        'value' : '1.10', # placeholder value
-        'type' : 'lnN',
-    },
-}
-
 ######################################################
 ### Experimental Systematic Uncertainty Parameters ###
 ######################################################

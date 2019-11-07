@@ -123,11 +123,13 @@ backgrounds = bg_estimates.keys()
 signal_regions = []
 bg_yields = {}
 bg_cr_events = {} # numbers of control region events for gamma uncertainty on bg estimate
+bg_sys_errs = {} # uncertainty factors for fit-based systematic on bg estimate
 
 # put background estimate and signal region info into more useful form
 for sample, regions in bg_estimates.iteritems():
     bg_yields[sample] = {}
     bg_cr_events[sample] = {}
+    bg_sys_errs[sample] = {}
 
     for sr in regions:
         sr_name = 'SR_{}um_{}um_{}GeV'.format(int(sr['d0_0'][0]),
@@ -137,6 +139,7 @@ for sample, regions in bg_estimates.iteritems():
                                                                   sr['pt'][0], sr['pt'][1]))
         bg_yields[sample][sr_name] = sr['estimate']
         bg_cr_events[sample][sr_name] = sr['ctrl_region_events']
+        bg_sys_errs[sample][sr_name] = (sr['fit_down_err'], sr['fit_up_err'])
 
 # set up observed number of events
 observed_yields = {}
@@ -147,7 +150,6 @@ for sr in signal_regions:
         (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
 
 # get all the external systematic errors and put them in a dictionary
-# fixme: why not just write systematics in a python dictionary to start with?
 systematics_dictionary = {}
 for systematic in external_systematic_uncertainties:
     systematics_dictionary[systematic] = {}
@@ -276,23 +278,27 @@ for signal['name'] in signal_points:
 
             datacard_data.append(row)
 
-    # add a row for the normalization error for each background
-    for process_name in sorted(background_normalization_uncertainties):
-        row = [process_name+"_norm",background_normalization_uncertainties[process_name]['type'],'']
-        for sr in signal_regions:
-            row.append('-') # for the signal
-            for bg in backgrounds:
-                if process_name == bg:
-                    row.append(background_normalization_uncertainties[process_name]['value'])
-                else:
-                    row.append('-')
-        datacard_data.append(row)
-
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
     comment_row[0] = "# SYSTEMATIC UNCERTAINTIES #"
     datacard_data.append(comment_row)
     datacard_data.append(empty_row)
+
+    # add a row for the fit-based systematic uncertainty for each background
+    for bg in backgrounds:
+        for sr in signal_regions:
+            row = ['bg_fit_sys_' + sr.name, 'lnN', '']
+            uncertainty_string = "{}/{}".format(round(bg_sys_errs[bg][sr.name][0], 2),
+                                                round(bg_sys_errs[bg][sr.name][1], 2))
+            for bg_test in backgrounds:
+                for sr_test in signal_regions:
+                    row.append('-') # for the signal
+                    if bg == bg_test and sr.name == sr_test.name:
+                        row.append(uncertainty_string)
+                    else:
+                        row.append('-')
+
+            datacard_data.append(row)
 
     # add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
