@@ -56,21 +56,21 @@ if __name__ == '__main__':
     config.Data.inputDataset = '/StopToLD_M_100_1000mm_13TeV_2017MC/jalimena-GenSim-4504de8f8578ad70bf24eb437fe5dc70/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2017MC_DigiRawHlt'
-    config.Data.inputDataset = '/StopToLB_M_100_1mm_13TeV_2017MC/jalimena-GenSim-2fce641141f84d514579372ac328c9a1/USER'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2017MC_DigiRawHlt'
+    #config.Data.inputDataset = '/StopToLB_M_100_1mm_13TeV_2017MC/jalimena-GenSim-2fce641141f84d514579372ac328c9a1/USER'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2017MC_DigiRawHlt'
-    config.Data.inputDataset = '/StopToLB_M_100_10mm_13TeV_2017MC/jalimena-GenSim-beea00654e66a926416126ccc61ac648/USER'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2017MC_DigiRawHlt'
+    #config.Data.inputDataset = '/StopToLB_M_100_10mm_13TeV_2017MC/jalimena-GenSim-beea00654e66a926416126ccc61ac648/USER'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2017MC_DigiRawHlt'
-    config.Data.inputDataset = '/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-GenSim-348d7b55bf69d106adf4011cc04e8e99/USER'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2017MC_DigiRawHlt'
+    #config.Data.inputDataset = '/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-GenSim-348d7b55bf69d106adf4011cc04e8e99/USER'
+    #submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2017MC_DigiRawHlt'
-    config.Data.inputDataset = '/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-GenSim-e6ad712ae3257f93bded6aa72d945ae1/USER'
-    submit(config)
+    #config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2017MC_DigiRawHlt'
+    #config.Data.inputDataset = '/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-GenSim-e6ad712ae3257f93bded6aa72d945ae1/USER'
+    #submit(config)
 
     #config.General.requestName = 'stopToLB_M_200_1mm_13TeV_2017MC_DigiRawHlt'
     #config.Data.inputDataset = '/StopToLB_M_200_1mm_13TeV_2017MC/jalimena-GenSim-e217d25a75fda0e5e4cda775d3307369/USER'
