@@ -333,6 +333,14 @@ signal_mc_samples = {
     'stopToLD1800_10mm'   : "/DisplacedSUSY_stopToLD_M_1800_10mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLD1800_1mm'    : "/DisplacedSUSY_stopToLD_M_1800_1mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
 
+
+    'HTo4Mu125_50_50mm'   : "/HTo2LongLivedTo4mu_MH-125_MFF-50_CTau-50mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v3/MINIAODSIM",
+    'HTo4Mu125_50_500mm'  : "/HTo2LongLivedTo4mu_MH-125_MFF-50_CTau-500mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
+    'HTo4Mu125_50_5000mm' : "/HTo2LongLivedTo4mu_MH-125_MFF-50_CTau-5000mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
+
+    'HTo4Mu125_20_13mm'   : "/HTo2LongLivedTo4mu_MH-125_MFF-20_CTau-13mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
+    'HTo4Mu125_20_130mm'  : "/HTo2LongLivedTo4mu_MH-125_MFF-20_CTau-130mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v3/MINIAODSIM",
+    'HTo4Mu125_20_1300mm' : "/HTo2LongLivedTo4mu_MH-125_MFF-20_CTau-1300mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
 }
 
 # create composite dictionary of all samples

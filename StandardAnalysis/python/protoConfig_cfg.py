@@ -77,7 +77,10 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #"/store/data/Run2018D/EGamma/MINIAOD/PromptReco-v1/000/320/434/00000/1858FF04-BD93-E811-A4C8-FA163E472C72.root"
           #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6391FD45-7256-EC45-B6D4-3DEF9DDCCF90.root"
           #"/store/data/Run2018D/ParkingBPH5/MINIAOD/20Mar2019-v1/60003/FD6BDA2E-F9B0-1D47-B915-73614A217E25.root"
-          "/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/33568D74-1FF4-5E4F-A5D8-09CDFC436439.root"
+          #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/33568D74-1FF4-5E4F-A5D8-09CDFC436439.root"
+          #"/store/mc/RunIIAutumn18MiniAOD/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/90000/FF8CA354-EA2A-CA48-B634-59EC7DE358E6.root"
+          "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
+          #"/store/data/Run2018D/MET/MINIAOD/PromptReco-v2/000/325/175/00000/BB60D29A-1476-4B4C-882E-4856877B06D0.root"
 
           #initial skim files
 
