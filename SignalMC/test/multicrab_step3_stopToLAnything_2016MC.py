@@ -40,20 +40,36 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    config.General.requestName = 'stopToLD_M_100_1mm_13TeV_2016MC_Reco'
-    config.Data.inputDataset = '/StopToLD_M_100_1mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    #config.General.requestName = 'stopToLD_M_100_1mm_13TeV_2016MC_Reco'
+    #config.Data.inputDataset = '/StopToLD_M_100_1mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLD_M_100_10mm_13TeV_2016MC_Reco'
+    #config.Data.inputDataset = '/StopToLD_M_100_10mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLD_M_100_100mm_13TeV_2016MC_Reco'
+    #config.Data.inputDataset = '/StopToLD_M_100_100mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLD_M_100_1000mm_13TeV_2016MC_Reco'
+    #config.Data.inputDataset = '/StopToLD_M_100_1000mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    #submit(config)
+
+    config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2016MC_Reco'
+    config.Data.inputDataset = '/StopToLB_M_100_1mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLD_M_100_10mm_13TeV_2016MC_Reco'
-    config.Data.inputDataset = '/StopToLD_M_100_10mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2016MC_Reco'
+    config.Data.inputDataset = '/StopToLB_M_100_10mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLD_M_100_100mm_13TeV_2016MC_Reco'
-    config.Data.inputDataset = '/StopToLD_M_100_100mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2016MC_Reco'
+    config.Data.inputDataset = '/StopToLB_M_100_100mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLD_M_100_1000mm_13TeV_2016MC_Reco'
-    config.Data.inputDataset = '/StopToLD_M_100_1000mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
+    config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2016MC_Reco'
+    config.Data.inputDataset = '/StopToLB_M_100_1000mm_13TeV_2016MC/jalimena-DigiRawHlt-16ca0fac1b892ff3c3d45d801745cbbf/USER'
     submit(config)
 
     #config.General.requestName = 'stopToLB_M_1300_1mm_13TeV_2016MC_Reco'
