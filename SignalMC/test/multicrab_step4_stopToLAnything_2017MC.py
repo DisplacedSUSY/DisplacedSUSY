@@ -40,18 +40,34 @@ if __name__ == '__main__':
     ## From now on that's what users should modify: this is the a-la-CRAB2 configuration part. ##
     #############################################################################################
 
-    config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2017MC_MiniAod'
-    config.Data.inputDataset = '/StopToLB_M_100_1mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    #config.General.requestName = 'stopToLB_M_100_1mm_13TeV_2017MC_MiniAod'
+    #config.Data.inputDataset = '/StopToLB_M_100_1mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2017MC_MiniAod'
+    #config.Data.inputDataset = '/StopToLB_M_100_10mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2017MC_MiniAod'
+    #config.Data.inputDataset = '/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    #submit(config)
+
+    #config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2017MC_MiniAod'
+    #config.Data.inputDataset = '/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    #submit(config)
+
+    config.General.requestName = 'stopToLD_M_100_1mm_13TeV_2017MC_MiniAod'
+    config.Data.inputDataset = '/StopToLD_M_100_1mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_10mm_13TeV_2017MC_MiniAod'
-    config.Data.inputDataset = '/StopToLB_M_100_10mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    config.General.requestName = 'stopToLD_M_100_10mm_13TeV_2017MC_MiniAod'
+    config.Data.inputDataset = '/StopToLD_M_100_10mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_100mm_13TeV_2017MC_MiniAod'
-    config.Data.inputDataset = '/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    config.General.requestName = 'stopToLD_M_100_100mm_13TeV_2017MC_MiniAod'
+    config.Data.inputDataset = '/StopToLD_M_100_100mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
     submit(config)
 
-    config.General.requestName = 'stopToLB_M_100_1000mm_13TeV_2017MC_MiniAod'
-    config.Data.inputDataset = '/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
+    config.General.requestName = 'stopToLD_M_100_1000mm_13TeV_2017MC_MiniAod'
+    config.Data.inputDataset = '/StopToLD_M_100_1000mm_13TeV_2017MC/jalimena-Reco-ce5bdde49b39cbb6b29d59a381558487/USER'
     submit(config)
