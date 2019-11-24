@@ -38,7 +38,9 @@ else:
 
 gROOT.SetBatch(True)
 gStyle.SetOptStat(1)
-gStyle.SetOptFit(0)
+gStyle.SetOptFit(1100)
+gStyle.SetStatW(0.08)
+gStyle.SetStatH(0.08)
 gStyle.SetCanvasBorderMode(0)
 gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
