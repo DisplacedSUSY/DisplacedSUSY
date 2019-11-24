@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 
-intLumi = 117600 # full RunII
+intLumi = 112800 # full RunII
 energy = '13'
 
 #masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
 #masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
 process = 'stopToLB'
+#process = 'HTo4Mu125_'
 masses = [str(m) for m in range(200, 1801, 100)]
+#masses = ['50']
+#masses = ['20']
 lifetimes = [str(10**e) for e in range(-1, 4)]
+#lifetimes = ['50','500','5000']
+#lifetimes = ['13','130','1300']
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -27,6 +32,7 @@ plotDefinitions = [
         'th2fs' : [
             {
                 'source' : ['MuMu_100um_500um_1000um_100GeV_400GeV_26Sep2019'],
+                #'source' : ['MuMuHToXXTo4Mu_Full_3bins'],
                 'th2fsToInclude' : ['exp'],
             },
         ],
