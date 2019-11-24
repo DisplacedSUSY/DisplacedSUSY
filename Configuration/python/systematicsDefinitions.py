@@ -14,6 +14,16 @@ import os
 #taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom (NLO+NLL)
 signal_cross_sections_13TeV = {
 
+    '20' : { #H cross section
+      'value' : '43.92',
+      'error' : '1.10',
+    },
+    '50' : { #H cross section
+      'value' : '43.92',
+      'error' : '1.10',
+    },
+
+
     '100' : {
       'value' : '1521.11',
       'error' : '1.154038',

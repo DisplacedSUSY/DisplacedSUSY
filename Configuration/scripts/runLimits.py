@@ -93,14 +93,14 @@ def scaleSignal(src, dst):
     signalRate = []
     signalAlpha = []
     for process in range (0, len (processLine)):
-        if re.search (r"^stop", processLine[process]):
+        if (re.search (r"^stop", processLine[process]) or re.search (r"^HTo", processLine[process])):
             signalRate.append (float (rateLine[process]))
     signalSF = 1.0
     if len (signalRate) > 0:
         largestSignalRate = sorted (signalRate)[-1]
         signalSF = float (arguments.maxSignalRate) / largestSignalRate if largestSignalRate > 0 else 0.0
     for process in range (0, len (processLine)):
-        if re.search (r"^stop", processLine[process]):
+        if (re.search (r"^stop", processLine[process]) or re.search (r"^HTo", processLine[process])):
             rateLine[process] = str (signalSF * float (rateLine[process]))
             for gammaLine in gammaLines:
                 try:
@@ -146,14 +146,14 @@ for signal_name in signal_points:
 
     combine_expected_options = combine_observed_options = "-M " + arguments.method
     if arguments.method == "HybridNew":
-        combine_expected_options = combine_expected_options + "-T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
+        combine_expected_options = combine_expected_options + " -T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
     elif arguments.method == "MarkovChainMC":
-        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-        combine_observed_options = combine_observed_options + "--tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
+        combine_observed_options = combine_observed_options + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
     elif arguments.method == "BayesianSimple":
-        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " "
     elif arguments.method == "BayesianToyMC":
-        combine_expected_options = combine_expected_options + "-t " + arguments.Ntoys + " "
+        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " "
     else:
         print "Defaulting to AsymptoticLimits"
         combine_expected_options += " --picky "

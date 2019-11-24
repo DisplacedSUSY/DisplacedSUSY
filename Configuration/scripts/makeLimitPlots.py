@@ -954,6 +954,8 @@ def drawPlot(plot):
             tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
             if not is2D:
                 tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
+                #tGraph.GetYaxis().SetTitle('#sigma_{95%CL}(H #rightarrow XX) B(X #rightarrow #mu#mu) [pb]')
+                tGraph.GetYaxis().SetTitleOffset(1.4)
                 if 'yAxis' in plot:
                     tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
                 else:
