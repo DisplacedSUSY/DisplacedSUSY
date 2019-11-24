@@ -159,6 +159,11 @@ data_samples = {
 
 signal_mc_samples = {
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
+    'stopToLB100_1000mm' : "/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLB100_100mm'  : "/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLB100_10mm'   : "/StopToLB_M_100_10mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLB100_1mm'    : "/StopToLB_M_100_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+
     'stopToLB200_1000mm' : "/StopToLB_M_200_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
     'stopToLB200_100mm'  : "/StopToLB_M_200_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
     'stopToLB200_10mm'   : "/StopToLB_M_200_10mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
@@ -248,6 +253,11 @@ signal_mc_samples = {
     #privately produced
     #'stopToLD1000_1mm'    : "/StopToLD_M_1000_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
     #'stopToLD1000_100mm'  : "/StopToLD_M_1000_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+
+    'stopToLD100_1000mm' : "/StopToLD_M_100_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLD100_100mm'  : "/StopToLD_M_100_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLD100_10mm'   : "/StopToLD_M_100_10mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
+    'stopToLD100_1mm'    : "/StopToLD_M_100_1mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
 
     #centrally produced
     'stopToLD200_1000mm'  : "/DisplacedSUSY_stopToLD_M_200_1000mm_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM",

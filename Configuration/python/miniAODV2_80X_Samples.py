@@ -163,6 +163,11 @@ data_samples = {
 
 signal_mc_samples = {
     #DisplacedSUSY Signal MC MiniAOD - 90k events/sample
+    'stopToLB100_1000mm' : "/StopToLB_M_100_1000mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLB100_100mm'  : "/StopToLB_M_100_100mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLB100_10mm'   : "/StopToLB_M_100_10mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLB100_1mm'    : "/StopToLB_M_100_1mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+
     'stopToLB200_1mm'    : "/DisplacedSUSY_StopToBL_M-200_CTau-1_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
     'stopToLB200_10mm'   : "/DisplacedSUSY_StopToBL_M-200_CTau-10_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
     'stopToLB200_100mm'  : "/DisplacedSUSY_StopToBL_M-200_CTau-100_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM",
@@ -249,6 +254,11 @@ signal_mc_samples = {
     'stopToLB1800_10mm'  : "/DisplacedSUSY_stopToBottom_M_1800_10mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLB1800_1mm'   : "/DisplacedSUSY_stopToBottom_M_1800_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
 
+
+    'stopToLD100_1000mm' : "/StopToLD_M_100_1000mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLD100_100mm'  : "/StopToLD_M_100_100mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLD100_10mm'   : "/StopToLD_M_100_10mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'stopToLD100_1mm'    : "/StopToLD_M_100_1mm_13TeV_2016MC/jalimena-MiniAod-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
 
     'stopToLD200_1000mm'  : "/DisplacedSUSY_stopToLD_M_200_1000mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD200_100mm'   : "/DisplacedSUSY_stopToLD_M_200_100mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
