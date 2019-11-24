@@ -18,7 +18,7 @@ data = {
 }
 
 # fixme: temporary fudge factor to scale 2018 signal yield to Run II signal yield
-lumi_factor = 112.8/59.7
+lumi_factor = 117.6/59.7
 
 processes = ['stopToLB']
 masses = [m for m in range(200, 1801, 100)]
