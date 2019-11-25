@@ -39,6 +39,7 @@ eventSelections = [
     #PreselectionLeptonsFromW,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
+    #GenMuMuFromStopsSelection,
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors

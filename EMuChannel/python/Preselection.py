@@ -174,3 +174,18 @@ PreselectionLeptonsFromW = cms.PSet(
 )
 PreselectionLeptonsFromW.cuts.append(electron_gen_motherIsW_cut)
 PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
+
+GenEMuFromStopsSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet([
+        exactly2_genEleOrMu_status1_uniqueMotherIsStop_cut,
+        genEleMuChannel_cut,
+        atLeastTwo_genLxy_lessThan50cm_cut,
+        atLeastTwo_genEta_cut,
+    ])
+)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_40_cut)
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)

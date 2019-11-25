@@ -21,6 +21,7 @@ eventSelections = [
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
     #DisplacedHighPtL1PrefiringCheck,
+    #GenEEFromStopsSelection,
     ]
 
 # Redefine scalingfactorproducers to not include muon scale factors
