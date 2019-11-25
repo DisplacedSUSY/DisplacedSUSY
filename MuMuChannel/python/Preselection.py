@@ -189,3 +189,11 @@ PreselectionLeptonsFromW = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
+
+
+AdditionalPreselection = cms.PSet(
+    name = cms.string("AdditionalPreselection"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet()
+)
+AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto)
