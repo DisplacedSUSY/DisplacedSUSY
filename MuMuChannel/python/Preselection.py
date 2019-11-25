@@ -204,3 +204,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     GenMuMuFromStopsSelection.cuts.append(atLeastTwo_genPt_40_cut)
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     GenMuMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
+
+AdditionalPreselection = cms.PSet(
+    name = cms.string("AdditionalPreselection"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet()
+)
+AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto)
