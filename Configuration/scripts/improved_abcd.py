@@ -8,7 +8,7 @@ from math import pi, atan, sqrt, log
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph,TGraphErrors, TGraphAsymmErrors, TMultiGraph, TLegend, TPaveText, TMatrixDSymEigen, TEllipse, TFormula
+from ROOT import TFile, TF1, TCanvas, Double, gStyle, gPad, gROOT, TLine, TGraph,TGraphErrors, TGraphAsymmErrors, TMultiGraph, TLegend, TPaveText, TMatrixDSymEigen, TEllipse, TFormula, TRatioPlot
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -269,7 +269,7 @@ class RatioPlot:
 
 ####################################################################################################
 
-output_plots = TFile(output_path + "improved_abcd_results.root", "recreate")
+output_plots = TFile(output_path + "improved_abcd_results_test.root", "recreate")
 bg_estimates = {}
 ctrl_region_evts = {}
 estimate_upper_bounds = {}
@@ -442,6 +442,29 @@ for sample in samples:
         if arguments.savePlots:
             fit_canvas.SaveAs("fit_"+sample_and_d0_region+".pdf","recreate")
             fit_canvas.SaveAs("fit_"+sample_and_d0_region+".png","recreate")
+
+        # estimated and actual pT distributions in region D
+        d_canvas = make_default_canvas(sample_and_d0_region+"_d")
+        d_estimate_hist.SetTitle(sample_and_d0_region + " d estimate and actual")
+        d_estimate_hist.SetName(sample_and_d0_region + " d estimate and actual")
+        d_estimate_hist.SetLineColor(2)
+        d_estimate_hist.Rebin(25)
+        d_canvas.SetLogy()
+        if arguments.unblind:
+            d_actual_hist = pt_hists['d'].Clone()
+            d_actual_hist.Rebin(25)
+            ratio_plot = TRatioPlot(d_estimate_hist, d_actual_hist)
+            ratio_plot.Draw()
+            ratio_plot.GetLowerRefGraph().SetMinimum(0)
+            ratio_plot.GetLowerRefGraph().SetMaximum(2)
+        else:
+            d_estimate_hist.Draw()
+        d_canvas.Update()
+        d_canvas.Write()
+        if arguments.savePlots:
+            d_canvas.SaveAs("d_"+sample_and_d0_region+".pdf","recreate")
+            d_canvas.SaveAs("d_"+sample_and_d0_region+".png","recreate")
+
 
         # divide bg estimate into non-overlapping pT bins
         for pt_lo, pt_hi in zip(pt_cuts, pt_cuts[1:]+[int(pt_max)]):
