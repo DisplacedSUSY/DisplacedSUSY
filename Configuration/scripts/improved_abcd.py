@@ -15,10 +15,12 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
-parser.add_option("-u", "--unblind", action="store_true", dest="unblind",
-                  default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
-parser.add_option("-p", "--savePlots", action="store_true", dest="savePlots",
-                  default=False, help="save summary plots as pdfs and pngs")
+parser.add_option("-u", "--unblind", action="store_true", dest="unblind", default=False,
+                  help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-p", "--savePlots", action="store_true", dest="savePlots", default=False,
+                  help="save summary plots as pdfs and pngs")
+parser.add_option("-o", "--outputFile", dest="outputFileName", default="improved_abcd",
+                  help="specify a name for output files (don't include file extension)")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -269,7 +271,7 @@ class RatioPlot:
 
 ####################################################################################################
 
-output_plots = TFile(output_path + "improved_abcd_results.root", "recreate")
+output_plots = TFile(output_path + arguments.outputFileName + "_results.root", "recreate")
 bg_estimates = {}
 ctrl_region_evts = {}
 estimate_upper_bounds = {}
@@ -522,7 +524,7 @@ for s in samples:
             print "Estimate: {}{} events".format(round(sr['estimate'], 4), uncertainty_string)
 
 import json
-output_estimates = open(output_path + "background_estimate.json", "w")
+output_estimates = open(output_path + arguments.outputFileName + "_background_estimate.json", "w")
 json = json.dump(bg_estimate_output, output_estimates, sort_keys=True, indent=4)
 
 output_plots.Close()
