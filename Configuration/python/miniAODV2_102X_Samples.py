@@ -162,10 +162,10 @@ data_samples = {
 
 signal_mc_samples = {
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
-    #'stopToLB100_1000mm' : "",
-    #'stopToLB100_100mm'  : "",
-    #'stopToLB100_10mm'   : "",
-    #'stopToLB100_1mm'    : "",
+    'stopToLB100_1000mm' : "/StopToLB_M_100_1000mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLB100_100mm'  : "/StopToLB_M_100_100mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLB100_10mm'   : "/StopToLB_M_100_10mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLB100_1mm'    : "/StopToLB_M_100_1mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
 
     'stopToLB200_1000mm' : "/DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLB200_100mm'  : "/DisplacedSUSY_stopToBottom_M_200_100mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
@@ -253,10 +253,10 @@ signal_mc_samples = {
     'stopToLB1800_1mm'   : "/DisplacedSUSY_stopToBottom_M_1800_1mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
 
 
-    #'stopToLD100_1000mm' : "",
-    #'stopToLD100_100mm'  : "",
-    #'stopToLD100_10mm'   : "",
-    #'stopToLD100_1mm'    : "",
+    'stopToLD100_1000mm' : "/StopToLD_M_100_1000mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLD100_100mm'  : "/StopToLD_M_100_100mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLD100_10mm'   : "/StopToLD_M_100_10mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLD100_1mm'    : "/StopToLD_M_100_1mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
 
     'stopToLD200_1000mm'  : "/DisplacedSUSY_stopToLD_M_200_1000mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLD200_100mm'   : "/DisplacedSUSY_stopToLD_M_200_100mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
