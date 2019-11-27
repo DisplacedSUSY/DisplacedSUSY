@@ -46,6 +46,22 @@ d0_0_max  = 0 # set to 0 to remove upper limit
 d0_1_max  = 0 # set to 0 to remove upper limit
 pt_max    = 0 # set to 0 to remove upper limit
 
+# prompt muon, displaced electron sideband:
+#d0_0_cuts = [10, 10,  10, 10]
+#d0_1_cuts = [10, 100, 500, 1000]
+#pt_cuts   = [100]
+#d0_0_max  = 40 # set to 0 to remove upper limit
+#d0_1_max  = 0 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt electron, displaced muon sideband:
+#d0_0_cuts = [10, 100, 500, 1000]
+#d0_1_cuts = [10, 10,  10,  10]
+#pt_cuts   = [100]
+#d0_0_max  = 0 # set to 0 to remove upper limit
+#d0_1_max  = 40 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     if vs_electon_pt: fit_min = 42 #electron pt cut at 42 GeV in emu
     else: fit_min = 40 #muon pt cut at 40 GeV in 2016 emu

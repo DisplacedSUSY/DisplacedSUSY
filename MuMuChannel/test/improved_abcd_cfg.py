@@ -43,6 +43,22 @@ d0_0_max  = 0 # set to 0 to remove upper limit
 d0_1_max  = 0 # set to 0 to remove upper limit
 pt_max    = 0 # set to 0 to remove upper limit
 
+# prompt leading, displaced subleading sideband:
+#d0_0_cuts = [10, 10,  10,  10]
+#d0_1_cuts = [10, 100, 1000, 2000]
+#pt_cuts   = [100]
+#d0_0_max  = 40 # set to 0 to remove upper limit
+#d0_1_max  = 0 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt subleading, displaced leading sideband:
+#d0_0_cuts = [10, 100, 1000, 2000]
+#d0_1_cuts = [10, 10,  10,  10]
+#pt_cuts   = [100]
+#d0_0_max  = 0 # set to 0 to remove upper limit
+#d0_1_max  = 40 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     fit_min = 60 #muon pt cut at 40 GeV in 2016 mumu, but set to 60 GeV to avoid z peak
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
