@@ -269,7 +269,7 @@ class RatioPlot:
 
 ####################################################################################################
 
-output_plots = TFile(output_path + "improved_abcd_results_test.root", "recreate")
+output_plots = TFile(output_path + "improved_abcd_results.root", "recreate")
 bg_estimates = {}
 ctrl_region_evts = {}
 estimate_upper_bounds = {}
