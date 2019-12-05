@@ -18,7 +18,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUMuonProducer.cc#L124
 # muon isolation is so far the same for 2016 and 2017 data
 
-muon_iso_cutstring = cms.string("pfdBetaIsoCorr <= 0.15")
+muon_iso_cutstring = cms.string("muon.pfdBetaIsoCorr <= 0.15")
 
 muon_iso_alias = cms.string(">=1 muons with tight isolation")
 
@@ -139,13 +139,14 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 # Since you should use Fall17v2 VID for 94X and 102X, the isolation cuts are the same in the two releases
 
 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= (0.0287+0.506/pt)) | \
-                                         (isEE & pfdRhoIsoCorr <= (0.0445+0.963/pt))")
+    electron_iso_cutstring = cms.string(
+                         "(electron.isEB & electron.pfdRhoIsoCorr <= (0.0287+0.506/electron.pt)) | \
+                          (electron.isEE & electron.pfdRhoIsoCorr <= (0.0445+0.963/electron.pt))")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    electron_iso_cutstring = cms.string("(isEB & pfdRhoIsoCorr <= 0.0588) | \
-                                         (isEE & pfdRhoIsoCorr <= 0.0571)")
+    electron_iso_cutstring = cms.string("(electron.isEB & electron.pfdRhoIsoCorr <= 0.0588) | \
+                                         (electron.isEE & electron.pfdRhoIsoCorr <= 0.0571)")
 else:
     print "# uhhh what release are you trying to use? please use 94X for 2017 data or 80X for 2016 data"
 electron_iso_alias = cms.string(">=1 electrons with tight isolation")
@@ -198,7 +199,7 @@ electron_id_impact_parameter_alias = cms.string(">=1 electrons with tight ID imp
 # done separately because some other cuts access members that only exist for global muons
 # tight muon ID is the same for 2016 and 2017 and 2018 data
 
-muon_global_cutstring = cms.string("isGlobalMuon & isPFMuon")
+muon_global_cutstring = cms.string("muon.isGlobalMuon & muon.isPFMuon")
 
 muon_global_alias = cms.string(">=1 global PF muons")
 
@@ -208,11 +209,11 @@ muon_global_alias = cms.string(">=1 global PF muons")
 # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Tight_Muon
 # we don't include d0/dz inside the ID so that we can control it more explicitly
 
-muon_id_cutstring = cms.string("globalTrack.normalizedChi2 < 10 & \
-                                globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
-                                numberOfMatchedStations > 1 & \
-                                innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
-                                innerTrack.hitPattern_.trackerLayersWithMeasurement > 5")
+muon_id_cutstring = cms.string("muon.globalTrack.normalizedChi2 < 10 & \
+                                muon.globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
+                                muon.numberOfMatchedStations > 1 & \
+                                muon.innerTrack.hitPattern_.numberOfValidPixelHits > 0 & \
+                                muon.innerTrack.hitPattern_.trackerLayersWithMeasurement > 5")
 
 muon_id_alias = cms.string(">=1 muons with tight ID")
 

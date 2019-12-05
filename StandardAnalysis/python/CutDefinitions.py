@@ -1,12 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 import copy
 import string
+import os
 
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 from OSUT3Analysis.Configuration.cutUtilities import *
-
-#WE USE ETA 2.4 OFTEN
-absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 
 #########################################################################
 # weight selections to determine if they contribute to negative
@@ -102,7 +100,7 @@ zero_jet_eta_lessThan3_cut = cms.PSet(
 
 atLeastZero_jet_eta_cut = cms.PSet(
     inputCollection = cms.vstring("jets"),
-    cutString = absEta_2p4_cutstring,
+    cutString = cms.string("abs(eta) < 2.4"),
     numberRequired = cms.string(">= 0")
     )
 
@@ -251,7 +249,7 @@ jet_btag_lwp_veto.isVeto = cms.bool(True)
 
 electron_eta_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = absEta_2p4_cutstring,
+    cutString = cms.string("abs(electron.eta) < 2.4"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -482,7 +480,7 @@ electron_gen_motherIsW_cut = cms.PSet(
 
 muon_eta_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = absEta_2p4_cutstring,
+    cutString = cms.string("abs(muon.eta) < 2.4"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -929,4 +927,51 @@ pass_trigger = cms.PSet(
     cutString = cms.string("eventvariable.passTrigger"),
     numberRequired = cms.string("== 1"),
     alias = cms.string("pass trigger specified in config file")
+    )
+
+##########################################################################
+
+# BEGIN CUTS TO REDUCE OVERLAP BETWEEN CHANNELS
+
+# function to faciliate combining cuts by getting the cutstring and without the 'cms.string()'
+def get_cutstring(cut):
+   return str(cut.cutString)[12:-2]
+
+# cut to veto events with a displaced electron that would pass the emu preselection electron selection
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    electron_emu_pt_cut = copy.deepcopy(electron_pt_42_cut)
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    electron_emu_pt_cut = copy.deepcopy(electron_pt_50_cut)
+
+displaced_electron_emu_preselection_veto = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("({}) & (electron.{}) & (electron.{}) & ({}) & ({})".format(
+        get_cutstring(electron_eta_cut),
+        get_cutstring(electron_emu_pt_cut),
+        get_cutstring(electron_id_cut),
+        get_cutstring(electron_iso_cut),
+        get_cutstring(electron_d0_greaterThan100_cut)
+        )),
+    numberRequired = cms.string("== 0"),
+    alias = cms.string("veto events with displaced electrons that pass the emu preselection electron selection")
+    )
+
+# cut to veto events with a displaced muon that would pass the emu preselection muon selection
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    muon_emu_pt_cut = copy.deepcopy(muon_pt_40_cut)
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    muon_emu_pt_cut = copy.deepcopy(muon_pt_50_cut)
+
+displaced_muon_emu_preselection_veto = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("({}) & (muon.{}) & ({}) & ({}) & ({}) & ({})".format(
+        get_cutstring(muon_eta_cut),
+        get_cutstring(muon_emu_pt_cut),
+        get_cutstring(muon_global_cut),
+        get_cutstring(muon_id_cut),
+        get_cutstring(muon_iso_cut),
+        get_cutstring(muon_d0_greaterThan100_cut)
+        )),
+    numberRequired = cms.string("== 0"),
+    alias = cms.string("veto events with displaced muons that pass the emu preselection muon selection")
     )

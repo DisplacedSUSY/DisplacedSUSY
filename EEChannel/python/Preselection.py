@@ -118,3 +118,4 @@ AdditionalPreselection = cms.PSet(
     triggers = cms.vstring(""),
     cuts = cms.VPSet()
 )
+AdditionalPreselection.cuts.append(displaced_muon_emu_preselection_veto)

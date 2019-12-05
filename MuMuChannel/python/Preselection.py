@@ -213,3 +213,4 @@ AdditionalPreselection = cms.PSet(
     cuts = cms.VPSet()
 )
 AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto)
+AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto)
