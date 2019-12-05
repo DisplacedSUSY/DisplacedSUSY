@@ -95,20 +95,23 @@ PreselectionLeptonsFromW = cms.PSet(
 PreselectionLeptonsFromW.cuts.append(electron_gen_motherIsW_cut)
 
 #################################################################
-GenEEFromStopsSelection = cms.PSet(
-    name = cms.string("GenEEFromStopsSelection"),
-    triggers = cms.vstring(),
-    cuts = cms.VPSet([exactly2_genEle_status1_uniqueMotherIsStop_cut,
-                      #atLeastTwo_genLxy_lessThan50cm_cut,
-                      atLeastTwo_genLxy_lessThan1cm_cut,
-                      atLeastTwo_genEta_cut,
-                ])
-)
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_65_cut)
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_75_cut)
-GenEEFromStopsSelection.cuts.append(cutDummyElectron)
+
+#GenEEFromStopsSelection = cms.PSet(
+#    name = cms.string("GenEEFromStopsSelection"),
+#    triggers = cms.vstring(),
+#    cuts = cms.VPSet([exactly2_genEle_status1_uniqueMotherIsStop_cut,
+#                      #atLeastTwo_genLxy_lessThan50cm_cut,
+#                      atLeastTwo_genLxy_lessThan1cm_cut,
+#                      atLeastTwo_genEta_cut,
+#                ])
+#)
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_65_cut)
+#elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+#    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_75_cut)
+#GenEEFromStopsSelection.cuts.append(cutDummyElectron)
+
+#################################################################
 
 AdditionalPreselection = cms.PSet(
     name = cms.string("AdditionalPreselection"),
