@@ -167,6 +167,12 @@ signal_mc_samples = {
     'stopToLB100_10mm'   : "/StopToLB_M_100_10mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
     'stopToLB100_1mm'    : "/StopToLB_M_100_1mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
 
+    'stopToLB150_1000mm' : "/StopToLBottom_M_150_1000mm_13TeV_2018MC/manunezo-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLB150_1mm'    : "/StopToLBottom_M_150_1mm_13TeV_2018MC/manunezo-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+
+    'stopToLB175_1000mm' : "/StopToLBottom_M_175_1000mm_13TeV_2018MC/manunezo-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+    'stopToLB175_1mm'    : "/StopToLBottom_M_175_1mm_13TeV_2018MC/manunezo-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
+
     'stopToLB200_1000mm' : "/DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLB200_100mm'  : "/DisplacedSUSY_stopToBottom_M_200_100mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLB200_10mm'   : "/DisplacedSUSY_stopToBottom_M_200_10mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",

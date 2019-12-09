@@ -9,14 +9,22 @@ from DisplacedSUSY.ParkingData.ParkingDataHistograms import *
 from DisplacedSUSY.ParkingData.Preselection import *
 
 eventSelections = [
-    #triggerSelection,
-    #pTselection,
-    #etaSelection,
-    #globalCutSelection,
-    #idSelection,
-    #isoSelection,
-    #MuMuPreselection,
-    ParkingPreselection,
+   # MuMuPreselection,
+   # ParkingPreselection,
+   # ParkingPreselectionD0Sig,
+   # ParkingPreselectionNoTrigger,
+    ParkingTrigger,
+    MuMuTrigger,
+   # NoSelections,
+   # GenMotherStopMuonTightID,
+   # GenMotherStopMuonSoftID,
+   # GenMotherStop,
+   # ParkingTriggerGenMotherStop,
+   # ParkingTriggerMuonGenMotherIsStop,
+   # MuMuTriggerMuonGenMotherIsStop,
+   # MuMuPreselectionStopGen,
+   # ParkingPreselectionStopGen,
+   # MuonGenMotherIsStop,
     ]
 
 #######################################

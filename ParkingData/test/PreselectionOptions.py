@@ -5,9 +5,18 @@ config_file = "Preselection_cfg.py"
 
 # create list of datasets to process
 
+#datasets = []
 #datasets = default_datasets
 #datasets.remove('DisplacedSUSYSignal')
+#datasets.append('Background')
 
 datasets = [
+    'stopToLB150_1000mm',
+    'stopToLB150_1mm',
+    'stopToLB175_1000mm',
+    'stopToLB175_1mm',
     'stopToLB200_1000mm',
+    'stopToLB200_1mm',
+    'stopToLB300_1000mm',
+    'stopToLB300_1mm',
     ]
