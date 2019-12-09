@@ -8,7 +8,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'step3_RAW2DIGI_RECO_RECOSIM_EI.py'
+config.JobType.psetName = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_EI_2018MC.py'
 config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 

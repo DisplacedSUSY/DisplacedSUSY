@@ -23,12 +23,12 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:step-1.root'),
+    fileNames = cms.untracked.vstring('file:/eos/uscms/store/user/manunezo/StopToLBottom_M_150_1mm_13TeV_2018MC/Reco/191024_141656/0000/step1_1.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
