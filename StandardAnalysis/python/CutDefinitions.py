@@ -6,6 +6,9 @@ import os
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 from OSUT3Analysis.Configuration.cutUtilities import *
 
+#WE USE ETA 2.4 OFTEN
+absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
+
 #########################################################################
 # weight selections to determine if they contribute to negative
 # weighted event
@@ -26,23 +29,77 @@ puScalingFactor_negative = cms.PSet(
 
 # BEGIN GEN PARTICLE CUTS
 #just for checking signal, not used in analysis event selection
-genEleId_cut = cms.PSet(
+exactly2_genEle_status1_uniqueMotherIsStop_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
-    cutString = cms.string("abs ( pdgId ) == 11"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("abs ( pdgId ) == 11 & status==1 & abs (uniqueMotherPdgId) == 1000006"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("Exactly 2 status==1 gen electrons whose unique mother is a stop")
 )
 
-genMuId_cut = cms.PSet(
+exactly2_genMu_status1_uniqueMotherIsStop_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
-    cutString = cms.string("abs ( pdgId ) == 13"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("abs ( pdgId ) == 13 & status==1 & abs (uniqueMotherPdgId) == 1000006"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("Exactly 2 status==1 gen muons whose unique mother is a stop")
 )
 
-gen_motherIsStopId_cut = cms.PSet(
+exactly2_genEleOrMu_status1_uniqueMotherIsStop_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
-    cutString = cms.string("abs (motherPdgId) == 1000006"),
-    numberRequired = cms.string(">= 1"),
+    cutString = cms.string("(abs (pdgId) ==11 || abs ( pdgId ) == 13) & status==1 & abs (uniqueMotherPdgId) == 1000006"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("Exactly 2 status==1 gen electrons or muons whose unique mother is a stop")
 )
+
+genEleMuChannel_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles","hardInteractionMcparticles"),
+    cutString = cms.string("abs(hardInteractionMcparticle.pdgId)+abs(hardInteractionMcparticle.pdgId)==24"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("Exactly 1 gen electron and 1 gen muon")
+)
+
+atLeastTwo_genLxy_lessThan50cm_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("sqrt(vx*vx+vy*vy)<500."),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string("At least 2 hardInteractionMcparticles with vertex in xy plane < 50 cm")
+)
+
+atLeastTwo_genLxy_lessThan1cm_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("sqrt(vx*vx+vy*vy)<10."),
+    numberRequired = cms.string(">= 2"),
+    alias = cms.string("At least 2 hardInteractionMcparticles with vertex in xy plane < 1 cm")
+)
+
+atLeastTwo_genEta_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = absEta_2p4_cutstring,
+    numberRequired = cms.string(">= 2")
+    )
+
+atLeastTwo_genPt_40_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 2")
+    )
+
+atLeastTwo_genPt_50_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("pt > 50"),
+    numberRequired = cms.string(">= 2")
+    )
+
+atLeastTwo_genPt_65_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("pt > 65"),
+    numberRequired = cms.string(">= 2")
+    )
+
+atLeastTwo_genPt_75_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("pt > 75"),
+    numberRequired = cms.string(">= 2")
+    )
 
 ##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
