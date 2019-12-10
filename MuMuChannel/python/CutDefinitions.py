@@ -154,3 +154,17 @@ tagMuonExists_cut = cms.PSet (
     numberRequired = cms.string("== 1"),
     alias = cms.string("tag muon exists")
     )
+
+tagMuon_d0_greaterThan100_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("10000*abs(eventvariable.tagMuonUnsmearedD0) > 100"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("tag muon |d0| > 100um")
+    )
+
+tagMuon_d0_greaterThan500_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("10000*abs(eventvariable.tagMuonUnsmearedD0) > 500"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("tag muon |d0| > 500um")
+    )

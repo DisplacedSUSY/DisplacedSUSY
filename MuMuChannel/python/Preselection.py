@@ -214,3 +214,19 @@ AdditionalPreselection = cms.PSet(
 )
 AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto)
 AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto)
+
+#################################################################
+
+PreselectionOnePromptOneDisplaced100um = cms.PSet(
+    name = cms.string("PreselectionOnePromptOneDisplaced100um"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionOnePromptOneDisplaced100um.cuts.append(muon_d0_lessThan40_cut) # only requires >=1 muon
+PreselectionOnePromptOneDisplaced100um.cuts.append(tagMuonExists_cut)
+PreselectionOnePromptOneDisplaced100um.cuts.append(tagMuon_d0_greaterThan100_cut)
+
+PreselectionOnePromptOneDisplaced500um = copy.deepcopy(PreselectionOnePromptOneDisplaced100um)
+PreselectionOnePromptOneDisplaced500um.name = cms.string("PreselectionOnePromptOneDisplaced500um")
+replaceSingleCut(PreselectionOnePromptOneDisplaced500um.cuts,
+                 tagMuon_d0_greaterThan500_cut, tagMuon_d0_greaterThan100_cut)

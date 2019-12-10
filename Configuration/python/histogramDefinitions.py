@@ -2993,6 +2993,12 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("tagMuonCharge"),
         ),
         cms.PSet (
+            name = cms.string("tagMuonUnsmearedAbsD0"),
+            title = cms.string("Unsmeared Muon d_{0};Unsmeared Muon d_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 2000),
+            inputVariables = cms.vstring("10000*abs(tagMuonUnsmearedD0)"),
+        ),
+        cms.PSet (
             name = cms.string("passTrigger"),
             title = cms.string("Pass Trigger; Trigger Flag"),
             binsX = cms.untracked.vdouble(4, -2, 2),

@@ -41,6 +41,8 @@ eventSelections = [
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,
+    #PreselectionOnePromptOneDisplaced100um,
+    #PreselectionOnePromptOneDisplaced500um,
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors

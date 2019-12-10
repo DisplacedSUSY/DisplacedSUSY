@@ -7,6 +7,7 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   muonsToken_ = consumes<vector<TYPE(muons)> > (collections_.getParameter<edm::InputTag> ("muons"));
   electronsToken_ = consumes<vector<TYPE(electrons)> > (collections_.getParameter<edm::InputTag> ("electrons"));
   jetsToken_ = consumes<vector<TYPE(jets)> > (collections_.getParameter<edm::InputTag> ("jets"));
+  beamspotsToken_ = consumes<TYPE(beamspots)> (collections_.getParameter<edm::InputTag> ("beamspots"));
   primaryVertexsToken_ = consumes<vector<TYPE(primaryvertexs)> > (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
   triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
 
@@ -22,6 +23,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
+  objectsToGet_.insert ("beamspots");
   objectsToGet_.insert ("primaryvertexs");
   objectsToGet_.insert ("triggers");
   if(type_.find("MC") < type_.length()) {
@@ -67,7 +69,6 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       }
     }
   }
-
   // Pass trigger specified in config file
   const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
   bool passTrigger = false;
@@ -84,6 +85,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   double tagMuonEta = 0;
   double tagMuonPhi = -4; // -pi < phi < pi
   double tagMuonCharge = 0;
+  double tagMuonUnsmearedD0 = 0;
+  auto beamspot = *handles_.beamspots;
   for (const auto &muon1 : *handles_.muons) {
     // Use subset of muon selection criteria that can be implemented here without significant hassle
     // This is a hideous approach. These magic numbers should be replaced by a better approach
@@ -94,6 +97,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagMuonEta = muon1.eta();
       tagMuonPhi = muon1.phi();
       tagMuonCharge = muon1.charge();
+      tagMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
     }
   }
 
@@ -135,6 +139,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["tagMuonEta"] = tagMuonEta;
   (*eventvariables)["tagMuonPhi"] = tagMuonPhi;
   (*eventvariables)["tagMuonCharge"] = tagMuonCharge;
+  (*eventvariables)["tagMuonUnsmearedD0"] = tagMuonUnsmearedD0;
   (*eventvariables)["tagElectronExists"] = tagElectronExists;
   (*eventvariables)["tagElectronPt"] = tagElectronPt;
   (*eventvariables)["tagElectronEta"] = tagElectronEta;
@@ -207,6 +212,7 @@ void DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered
   if  (VEC_CONTAINS  (objectsToGet,  "electrons"))       event.getByToken  (electronsToken_, handles.electrons);
   if  (VEC_CONTAINS  (objectsToGet,  "jets"))            event.getByToken  (jetsToken_, handles.jets);
   if  (VEC_CONTAINS  (objectsToGet,  "muons"))           event.getByToken  (muonsToken_, handles.muons);
+  if  (VEC_CONTAINS  (objectsToGet,  "beamspots"))       event.getByToken  (beamspotsToken_, handles.beamspots);
   if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs"))  event.getByToken  (primaryVertexsToken_, handles.primaryvertexs);
   if  (VEC_CONTAINS  (objectsToGet,  "pileupinfos"))     event.getByToken  (pileUpInfosToken_, handles.pileupinfos);
   if  (VEC_CONTAINS  (objectsToGet,  "triggers"))        event.getByToken  (triggersToken_, handles.triggers);
