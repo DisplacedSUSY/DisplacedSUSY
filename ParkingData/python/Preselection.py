@@ -58,13 +58,6 @@ ParkingPreselectionD0Sig = copy.deepcopy(ParkingPreselection)
 ParkingPreselectionD0Sig.name = cms.string("ParkingPreselectionD0Sig")
 #ParkingPreselectionD0Sig.cuts.append(muon_d0Sig_6_cut)
 
-MuMuPreselectionStopGen = copy.deepcopy(MuMuPreselection)
-MuMuPreselectionStopGen.name = cms.string("MuMuPreselectionStopGen")
-#MuMuPreselectionStopGen.cuts.append(muon_gen_motherIsStop_cut)
-
-ParkingPreselectionStopGen = copy.deepcopy(ParkingPreselection)
-ParkingPreselectionStopGen.name = cms.string("ParkingPreselectionStopGen")
-#ParkingPreselectionStopGen.cuts.append(muon_gen_motherIsStop_cut)
 
 ParkingPreselectionNoPt = cms.PSet(
     name = cms.string("ParkingPreselectionNoPt"),
@@ -89,7 +82,7 @@ GenMotherStopMuonTightID = cms.PSet(
     cuts = cms.VPSet (
         ),
     )
-GenMotherStopMuonTightID.cuts.append(gen_motherIsStopId_cut)
+GenMotherStopMuonTightID.cuts.append(exactly2_genMu_status1_uniqueMotherIsStop_cut)
 GenMotherStopMuonTightID.cuts.append(muon_tightID_cut)
 
 GenMotherStopMuonSoftID = cms.PSet(
@@ -97,7 +90,7 @@ GenMotherStopMuonSoftID = cms.PSet(
     cuts = cms.VPSet (
         ),
     )
-GenMotherStopMuonSoftID.cuts.append(gen_motherIsStopId_cut)
+GenMotherStopMuonSoftID.cuts.append(exactly2_genMu_status1_uniqueMotherIsStop_cut)
 GenMotherStopMuonSoftID.cuts.append(muon_softID_cut)
 
 GenMotherStop = cms.PSet(
@@ -105,38 +98,24 @@ GenMotherStop = cms.PSet(
     cuts = cms.VPSet (
         ),
     )
-GenMotherStop.cuts.append(gen_motherIsStopId_cut)
+GenMotherStop.cuts.append(exactly2_genMu_status1_uniqueMotherIsStop_cut)
 
-ParkingTriggerGenMotherStop = cms.PSet(
-    name = cms.string("ParkingTriggerGenMotherStop"),
+ParkingTriggerGenMotherIsStop = cms.PSet(
+    name = cms.string("ParkingTriggerGenMotherIsStop"),
     triggers = triggersParkingData,
     cuts = cms.VPSet (
+        muon_d0Sig_greaterThan6_cut, #for 2018 signal samples b/c parking triggers are not available
+        exactly2_genMu_status1_uniqueMotherIsStop_cut,
         ),
     )
-ParkingTriggerGenMotherStop.cuts.append(gen_motherIsStopId_cut)
 
-ParkingTriggerMuonGenMotherIsStop = cms.PSet(
-    name = cms.string("ParkingTriggerMuonGenMotherIsStop"),
-    triggers = triggersParkingData,
-    cuts = cms.VPSet (
-        ),
-    )
-#ParkingTriggerMuonGenMotherIsStop.cuts.append(muon_gen_motherIsStop_cut)
-
-MuonGenMotherIsStop = cms.PSet(
-    name = cms.string("MuonGenMotherIsStop"),
-    cuts = cms.VPSet (
-        ),
-    )
-#MuonGenMotherIsStop.cuts.append(muon_gen_motherIsStop_cut)
-
-MuMuTriggerMuonGenMotherIsStop = cms.PSet(
-    name = cms.string("MuMuTriggerMuonGenMotherIsStop"),
+MuMuTriggerGenMotherIsStop = cms.PSet(
+    name = cms.string("MuMuTriggerGenMotherIsStop"),
     triggers = triggersDoubleMuon,
     cuts = cms.VPSet (
+        exactly2_genMu_status1_uniqueMotherIsStop_cut,
         ),
     )
-#MuMuTriggerMuonGenMotherIsStop.cuts.append(muon_gen_motherIsStop_cut)
 
 NoSelections = cms.PSet(
     name = cms.string("NoSelections"),
