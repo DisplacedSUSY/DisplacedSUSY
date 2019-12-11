@@ -93,7 +93,7 @@ multi.SetTitle("")
 #multi.GetYaxis().SetTitle("trigger efficiency (%)")
 
 leg = TLegend(0.15,0.65,0.7,0.85)
-leg.SetHeader("#tilde{t}#tilde{t}#rightarrow lb lb, c#tau_{#tilde{t}}=1000 mm","C")
+leg.SetHeader("#tilde{t}#tilde{t}#rightarrow #mub #mub, c#tau_{#tilde{t}}=1000 mm","C")
 leg.AddEntry(hEff_parking, "Parked data trigger", "p")
 leg.AddEntry(hEff_mumu, "Double muon trigger", "p")
 leg.SetBorderSize(0)
