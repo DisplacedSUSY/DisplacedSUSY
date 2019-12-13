@@ -92,12 +92,40 @@ multi.SetTitle("")
 
 #multi.GetYaxis().SetTitle("trigger efficiency (%)")
 
-leg = TLegend(0.15,0.65,0.7,0.85)
-leg.SetHeader("#tilde{t}#tilde{t}#rightarrow #mub #mub, c#tau_{#tilde{t}}=1000 mm","C")
+leg = TLegend(0.15,0.55,0.7,0.75)
+leg.SetHeader("#tilde{t}#tilde{t}#rightarrow #mub #mub, c#tau=1000 mm","C")
 leg.AddEntry(hEff_parking, "Parked data trigger", "p")
 leg.AddEntry(hEff_mumu, "Double muon trigger", "p")
 leg.SetBorderSize(0)
 leg.Draw()
+
+topLeft_x_left    = 0.14
+topLeft_y_bottom  = 0.832117
+topLeft_x_right   = 0.49
+topLeft_y_top     = 0.892944
+
+header_x_left    = 0.55
+header_y_bottom  = 0.90
+header_x_right   = 0.91
+header_y_top     = 0.95
+
+LumiLabel = TPaveLabel(topLeft_x_left,topLeft_y_bottom,topLeft_x_right,topLeft_y_top,"CMS Internal Simulation","NDC")
+LumiLabel.SetTextFont(62)
+LumiLabel.SetTextSize(0.8)
+LumiLabel.SetTextAlign(12)
+LumiLabel.SetBorderSize(0)
+LumiLabel.SetFillColor(0)
+LumiLabel.SetFillStyle(0)
+LumiLabel.Draw()
+
+HeaderLabel = TPaveLabel(header_x_left,header_y_bottom,header_x_right,header_y_top,"13 TeV","NDC")
+HeaderLabel.SetTextFont(42)
+HeaderLabel.SetTextSize(0.697674)
+HeaderLabel.SetTextAlign(32)
+HeaderLabel.SetBorderSize(0)
+HeaderLabel.SetFillColor(0)
+HeaderLabel.SetFillStyle(0)
+HeaderLabel.Draw()
 
 p2.cd()
 
