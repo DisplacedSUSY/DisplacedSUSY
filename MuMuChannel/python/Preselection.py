@@ -217,16 +217,32 @@ AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto)
 
 #################################################################
 
-PreselectionOnePromptOneDisplaced100um = cms.PSet(
-    name = cms.string("PreselectionOnePromptOneDisplaced100um"),
+PreselectionOneLessThan40umOneGreaterThan100um = cms.PSet(
+    name = cms.string("PreselectionOneLessThan40umOneGreaterThan100um"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-PreselectionOnePromptOneDisplaced100um.cuts.append(muon_d0_lessThan40_cut) # only requires >=1 muon
-PreselectionOnePromptOneDisplaced100um.cuts.append(tagMuonExists_cut)
-PreselectionOnePromptOneDisplaced100um.cuts.append(tagMuon_d0_greaterThan100_cut)
+PreselectionOneLessThan40umOneGreaterThan100um.cuts.append(muon_onePrompt_oneDisplaced_cut)
 
-PreselectionOnePromptOneDisplaced500um = copy.deepcopy(PreselectionOnePromptOneDisplaced100um)
-PreselectionOnePromptOneDisplaced500um.name = cms.string("PreselectionOnePromptOneDisplaced500um")
-replaceSingleCut(PreselectionOnePromptOneDisplaced500um.cuts,
+PreselectionPromptMuonDisplacedTagMuon100um = cms.PSet(
+    name = cms.string("PreselectionPromptMuonDisplacedTagMuon100um"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionPromptMuonDisplacedTagMuon100um.cuts.append(muon_d0_lessThan40_cut) # only requires >=1
+PreselectionPromptMuonDisplacedTagMuon100um.cuts.append(tagMuonExists_cut)
+PreselectionPromptMuonDisplacedTagMuon100um.cuts.append(tagMuon_d0_greaterThan100_cut)
+
+PreselectionPromptMuonDisplacedTagMuon500um = copy.deepcopy(PreselectionPromptMuonDisplacedTagMuon100um)
+PreselectionPromptMuonDisplacedTagMuon500um.name = cms.string("PreselectionPromptMuonDisplacedTagMuon500um")
+replaceSingleCut(PreselectionPromptMuonDisplacedTagMuon500um.cuts,
                  tagMuon_d0_greaterThan500_cut, tagMuon_d0_greaterThan100_cut)
+
+PreselectionPromptTagMuonDisplacedMuon100um = cms.PSet(
+    name = cms.string("PreselectionPromptTagMuonDisplacedMuon100um"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionPromptTagMuonDisplacedMuon100um.cuts.append(muon_d0_greaterThan100_exactly1_cut)
+PreselectionPromptTagMuonDisplacedMuon100um.cuts.append(tagMuonExists_cut)
+PreselectionPromptTagMuonDisplacedMuon100um.cuts.append(tagMuon_d0_lessThan40_cut)

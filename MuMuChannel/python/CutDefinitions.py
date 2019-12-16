@@ -158,13 +158,31 @@ tagMuonExists_cut = cms.PSet (
 tagMuon_d0_greaterThan100_cut = cms.PSet (
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("10000*abs(eventvariable.tagMuonUnsmearedD0) > 100"),
-    numberRequired = cms.string(">= 1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("tag muon |d0| > 100um")
     )
 
 tagMuon_d0_greaterThan500_cut = cms.PSet (
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("10000*abs(eventvariable.tagMuonUnsmearedD0) > 500"),
-    numberRequired = cms.string(">= 1"),
+    numberRequired = cms.string("== 1"),
     alias = cms.string("tag muon |d0| > 500um")
+    )
+
+tagMuon_d0_lessThan40_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("10000*abs(eventvariable.tagMuonUnsmearedD0) < 40"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("tag muon |d0| < 40um")
+    )
+
+muon_onePrompt_oneDisplaced_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingMuonUnsmearedD0) < 40 &   \
+                           10000*abs(eventvariable.subleadingMuonUnsmearedD0) > 100)  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 40 & \
+                           10000*abs(eventvariable.leadingMuonUnsmearedD0) > 100)"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one muon |d0| < 40um & another muon |d0| > 100um")
     )

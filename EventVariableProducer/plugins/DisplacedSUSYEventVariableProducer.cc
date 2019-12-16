@@ -101,6 +101,38 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
     }
   }
 
+  // Store leading and subleading muon properties
+  double leadingMuonPt = 0;
+  double leadingMuonEta = 0;
+  double leadingMuonPhi = -4; // -pi < phi < pi
+  double leadingMuonUnsmearedD0 = 0;
+  double subleadingMuonPt = 0;
+  double subleadingMuonEta = 0;
+  double subleadingMuonPhi = -4; // -pi < phi < pi
+  double subleadingMuonUnsmearedD0 = 0;
+  for (const auto &muon1 : *handles_.muons) {
+    if (abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
+      if (muon1.pt() > subleadingMuonPt) {
+        if (muon1.pt() > leadingMuonPt) {
+          subleadingMuonPt = leadingMuonPt;
+          subleadingMuonEta = leadingMuonEta;
+          subleadingMuonPhi = leadingMuonPhi;
+          subleadingMuonUnsmearedD0 = leadingMuonUnsmearedD0;
+          leadingMuonPt = muon1.pt();
+          leadingMuonEta = muon1.eta();
+          leadingMuonPhi = muon1.phi();
+          leadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
+        }
+        else {
+          subleadingMuonPt = muon1.pt();
+          subleadingMuonEta = muon1.eta();
+          subleadingMuonPhi = muon1.phi();
+          subleadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
+        }
+      }
+    }
+  }
+
   // Identify tag electron for trigger efficiency plotting
   bool tagElectronExists = false;
   double tagElectronPt = -999;
@@ -140,6 +172,14 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["tagMuonPhi"] = tagMuonPhi;
   (*eventvariables)["tagMuonCharge"] = tagMuonCharge;
   (*eventvariables)["tagMuonUnsmearedD0"] = tagMuonUnsmearedD0;
+  (*eventvariables)["leadingMuonPt"] = leadingMuonPt;
+  (*eventvariables)["leadingMuonEta"] = leadingMuonEta;
+  (*eventvariables)["leadingMuonPhi"] = leadingMuonPhi;
+  (*eventvariables)["leadingMuonUnsmearedD0"] = leadingMuonUnsmearedD0;
+  (*eventvariables)["subleadingMuonPt"] = subleadingMuonPt;
+  (*eventvariables)["subleadingMuonEta"] = subleadingMuonEta;
+  (*eventvariables)["subleadingMuonPhi"] = subleadingMuonPhi;
+  (*eventvariables)["subleadingMuonUnsmearedD0"] = subleadingMuonUnsmearedD0;
   (*eventvariables)["tagElectronExists"] = tagElectronExists;
   (*eventvariables)["tagElectronPt"] = tagElectronPt;
   (*eventvariables)["tagElectronEta"] = tagElectronEta;
