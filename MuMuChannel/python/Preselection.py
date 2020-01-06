@@ -205,6 +205,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     GenMuMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
 
+GenMuMuFromZSelection = cms.PSet(
+    name = cms.string("GenMuMuFromZSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet([exactly2_genMu_status1_uniqueMotherIsZ_cut])
+)
+
 #################################################################
 
 AdditionalPreselection = cms.PSet(

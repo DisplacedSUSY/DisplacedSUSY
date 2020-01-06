@@ -41,6 +41,7 @@ eventSelections = [
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,
+    #GenMuMuFromZSelection,
     #PreselectionOneLessThan40umOneGreaterThan100um,
     #PreselectionPromptMuonDisplacedTagMuon100um,
     #PreselectionPromptTagMuonDisplacedMuon100um,

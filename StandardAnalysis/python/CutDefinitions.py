@@ -101,6 +101,13 @@ atLeastTwo_genPt_75_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 
+exactly2_genMu_status1_uniqueMotherIsZ_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 13 & status==1 & abs (uniqueMotherPdgId) == 23"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("Exactly 2 status==1 gen muons whose unique mother is a Z")
+)
+
 ##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
 
