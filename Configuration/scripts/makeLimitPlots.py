@@ -1005,6 +1005,29 @@ def drawPlot(plot):
         extraLabel.SetFillStyle(0)
         LumiLabel.Draw()
         extraLabel.Draw()
+        if process == 'stopToLB':
+            processText = "#tilde{t}#tilde{t} #rightarrow lb lb"
+        elif process == 'stopToLD':
+            processText = "#tilde{t}#tilde{t} #rightarrow ld ld"
+        else:
+            processText = ''
+        processLabel = TPaveLabel(0.15,0.7,0.25,0.8,processText,"NDC")
+        processLabel.SetTextFont(52)
+        processLabel.SetTextSize(0.4)
+        processLabel.SetTextAlign(12)
+        processLabel.SetBorderSize(0)
+        processLabel.SetFillColor(0)
+        processLabel.SetFillStyle(0)
+        processLabel.Draw()
+        if channel:
+            channelLabel = TPaveLabel(0.15,0.65,0.25,0.75,channel+" channel","NDC")
+            channelLabel.SetTextFont(52)
+            channelLabel.SetTextSize(0.4)
+            channelLabel.SetTextAlign(12)
+            channelLabel.SetBorderSize(0)
+            channelLabel.SetFillColor(0)
+            channelLabel.SetFillStyle(0)
+            channelLabel.Draw()
         if 'massLabel' in plot:
             MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
             MassLabel.SetTextSize(0.5454546)

@@ -2,12 +2,12 @@
 
 intLumi = 112800 # full RunII
 energy = '13'
+channel = 'e#mu'
 
-#masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
-#masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
 process = 'stopToLB'
 masses = [str(m) for m in range(200, 1801, 100)]
-lifetimes = [str(10**e) for e in range(-1, 4)]
+#lifetimes = [str(10**e) for e in range(-1, 4)]
+lifetimes = [str(b*10**e) for e in range(-1, 3) for b in range(1, 10)] + [str(1000)]
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -26,18 +26,53 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : ['EMu_100um_500um_1000um_100GeV_400GeV_26Sep2019'],
+                'source' : ['emu_standard_19Dec2019'],
                 'th2fsToInclude' : ['exp'],
             },
         ],
         'graphs' : [
             {
-                'source' : ['EMu_100um_500um_1000um_100GeV_400GeV_26Sep2019'],
-                'graphsToInclude' : ['exp'],
-                'legendEntry' : 'expected limits',
+                'source' : ['emu_standard_19Dec2019'],
+                'graphsToInclude' : ['twoSigma', 'oneSigma', 'exp'],
+                'colorScheme' : 'brazilian',
             },
         ],
     },
+    # summary plot of all three channels
+    #{
+    #    # this will be the name of the canvas in the output root file
+    #    'title' : 'all_standard',
+
+    #    # current options are 'mass' and 'lifetime'
+    #    'xAxisType' : 'mass',
+    #    'yAxisType' : 'lifetime',
+
+    #    # xmin, xmax, label
+    #    'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+    #    'yAxisLabel' : 'c#tau [cm]',
+
+    #    #define all the curves to include on this canvas
+    #    'graphs' : [
+    #        {
+    #            'source' : ['emu_standard_19Dec2019'],
+    #            'graphsToInclude' : ['exp'],
+    #            'colorScheme' : 'yellow',
+    #            'legendEntry' : 'e#mu channel'
+    #        },
+    #        {
+    #            'source' : ['ee_standard_03Jan2020'],
+    #            'graphsToInclude' : ['exp'],
+    #            'colorScheme' : 'blue',
+    #            'legendEntry' : 'ee channel'
+    #        },
+    #        {
+    #            'source' : ['mumu_standard_03Jan2020'],
+    #            'graphsToInclude' : ['exp'],
+    #            'colorScheme' : 'green',
+    #            'legendEntry' : '#mu#mu channel'
+    #        },
+    #    ],
+    #},
     {
         # this will be the name of the canvas in the output root file
         'title' : 'limits_vs_mass',

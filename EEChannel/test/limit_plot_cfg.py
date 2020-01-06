@@ -2,12 +2,14 @@
 
 intLumi = 117600 # full RunII
 energy = '13'
+channel = 'ee'
 
 #masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
 #masses = ['200','300','400','500','600','700','800','900','1000','1100','1200']
 process = 'stopToLB'
 masses = [str(m) for m in range(200, 1801, 100)]
-lifetimes = [str(10**e) for e in range(-1, 4)]
+#lifetimes = [str(10**e) for e in range(-1, 4)]
+lifetimes = [str(b*10**e) for e in range(-1, 3) for b in range(1, 10)] + [str(1000)]
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -26,16 +28,15 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : ['EE_100um_300um_120GeV_400GeV_26Sep2019'],
+                'source' : ['ee_standard_03Jan2020'],
                 'th2fsToInclude' : ['exp'],
             },
         ],
         'graphs' : [
             {
-                'source' : ['EE_100um_300um_120GeV_400GeV_26Sep2019'],
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'blue',
-                'legendEntry' : 'expected limits',
+                'source' : ['ee_standard_03Jan2020'],
+                'graphsToInclude' : ['twoSigma', 'oneSigma', 'exp'],
+                'colorScheme' : 'brazilian',
             },
         ],
     },

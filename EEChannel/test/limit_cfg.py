@@ -6,7 +6,7 @@ blinded = True # sets observed events equal to bg estimate
 background = {
     'name' : 'bg_estimate',
     'dir'  : 'EEPreselection_FullAnalysis_3Dhists_30July2019',
-    'file' : 'background_estimate.json',
+    'file' : 'standard_background_estimate.json',
 }
 
 # fixme: populate fields when we're ready to unblind
@@ -22,7 +22,8 @@ lumi_factor = 117.6/59.7
 
 processes = ['stopToLB']
 masses = [m for m in range(200, 1801, 100)]
-lifetimes = [10**e for e in range(-1, 4)]
+#lifetimes = [10**e for e in range(-1, 4)]
+lifetimes = [b*10**e for e in range(-1, 3) for b in range(1, 10)] + [1000]
 signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 
 # a separate datacard will be produced for each signal point
