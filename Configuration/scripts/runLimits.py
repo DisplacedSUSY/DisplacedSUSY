@@ -29,6 +29,8 @@ parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", de
                                     help="run on the condor queue")
 parser.add_option("-s", "--scaleSignalRate", dest="maxSignalRate", default="0.1",
                   help="scale all signal rates so the maximum is MAXSIGNALRATE, default = 0.1; negative values turn off scaling")
+parser.add_option("-e", "--expectedOnly", action="store_true", dest="expectedOnly", default=False,
+                                    help="only run expected limits (skip observed)")
 
 (arguments, args) = parser.parse_args()
 
@@ -43,7 +45,17 @@ if not arguments.condorDir:
     sys.exit(0)
 
 def output_condor(command, options):
+    cmssw_tarball = os.environ["CMSSW_VERSION"] + '.tar.gz'
     script = "#!/usr/bin/env bash\n\n"
+    script += 'source /cvmfs/cms.cern.ch/cmsset_default.sh\n'
+    script += 'source /cvmfs/cms.cern.ch/crab3/crab.sh\n'
+    script += 'tar -xzf '+cmssw_tarball+'\n'
+    script += 'rm -f '+cmssw_tarball+'\n'
+    script += 'SCRAM_ARCH=slc7_amd64_gcc700\n'
+    script += 'cd CMSSW_10_2_12/\n'
+    script += 'scramv1 b ProjectRename\n'
+    script += 'eval `scramv1 runtime -sh`\n'
+    script += 'cd -\n\n'
     script += command+" "+options+"\n"
     f = open ("condor.sh", "w")
     f.write (script)
@@ -52,25 +64,21 @@ def output_condor(command, options):
     command = os.getcwd () + "/condor.sh"
 
     sub_file = ""
-    if os.path.exists(os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/data/condor.sub"):
-        f = open (os.environ["CMSSW_BASE"]+"/src/DisplacedSUSY/LimitsCalculation/data/condor.sub", "r")
-        sub_file = f.read ()
-        f.close ()
-        sub_file = re.sub (r"\$combine", command, sub_file)
-    else:
-        sub_file += "Executable              = "+command+"\n"
-        sub_file += "Universe                = vanilla\n"
-        sub_file += "Getenv                  = True\n"
-        sub_file += "request_memory            = 2048MB\n"
-        sub_file += "\n"
-        sub_file += "Output                  = condor_$(Process).out\n"
-        sub_file += "Error                   = condor_$(Process).err\n"
-        sub_file += "Log                     = condor_$(Process).log\n"
-        sub_file += "\n"
-        sub_file += "+IsLocalJob             = true\n"
-        sub_file += "Rank                    = TARGET.IsLocalSlot\n"
-        sub_file += "\n"
-        sub_file += "Queue 1\n"
+    sub_file += "Executable              = "+command+"\n"
+    sub_file += "Universe                = vanilla\n"
+    sub_file += "Getenv                  = True\n"
+    sub_file += "request_memory            = 2048MB\n"
+    sub_file += "Should_Transfer_Files   = YES\n"
+    sub_file += "Transfer_Input_Files    = "+combine_command+", "+cmssw_tarball+", "+datacard_name+"\n"
+    sub_file += "\n"
+    sub_file += "Output                  = condor_$(Process).out\n"
+    sub_file += "Error                   = condor_$(Process).err\n"
+    sub_file += "Log                     = condor_$(Process).log\n"
+    sub_file += "\n"
+    sub_file += "+IsLocalJob             = true\n"
+    sub_file += "Rank                    = TARGET.IsLocalSlot\n"
+    sub_file += "\n"
+    sub_file += "Queue 1\n"
 
     f = open ("condor.sub", "w")
     f.write (sub_file)
@@ -132,6 +140,10 @@ methodFile = open(outputDirPath+"/method.txt", "w")
 methodFile.write(arguments.method)
 methodFile.close()
 
+
+if arguments.batchMode:
+    os.system('tar -zc --exclude="*git*" --exclude="test" --exclude="tmp" -C $CMSSW_BASE/../ -f limits/'+arguments.condorDir+'/$CMSSW_VERSION.tar.gz $CMSSW_VERSION')
+
 # loop over signal models and run a combine job for each one
 for signal_name in signal_points:
     # rename sub-mm samples to match sample names
@@ -146,7 +158,8 @@ for signal_name in signal_points:
 
     combine_expected_options = combine_observed_options = "-M " + arguments.method
     if arguments.method == "HybridNew":
-        combine_expected_options = combine_expected_options + " -T " + arguments.Ntoys + " --frequentist --expectedFromGrid=0.5 --saveToys --fullBToys --testStat LHC --saveHybridResult --saveGrid"
+        # hybrid-bayesian (recommended for low bg)
+        combine_expected_options = combine_expected_options + " --testStat LEP --generateNuisances=1 --generateExternalMeasurements=0 --fitNuisances=0 -H AsymptoticLimits --expectedFromGrid=0.5" + " -t " + arguments.Ntoys
     elif arguments.method == "MarkovChainMC":
         combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
         combine_observed_options = combine_observed_options + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
@@ -177,12 +190,13 @@ for signal_name in signal_points:
 
     else:
         print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
-        output_condor(combine_command, datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
+        shutil.copy("../"+os.environ["CMSSW_VERSION"]+".tar.gz", os.environ["CMSSW_VERSION"]+".tar.gz")
+        output_condor("combine", datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
         os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
     os.chdir("../../..")
 
     # for everything other than Asymptotic, we need to also run observed limits
-    if arguments.method != "AsymptoticLimits":
+    if arguments.method != "AsymptoticLimits" and not arguments.expectedOnly:
 
         shutil.rmtree(condor_observed_dir, True)
         os.mkdir(condor_observed_dir)
