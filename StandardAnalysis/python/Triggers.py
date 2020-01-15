@@ -2,6 +2,10 @@ import FWCore.ParameterSet.Config as cms
 import os
 import copy
 
+######################################################################
+# Also see: https://twiki.cern.ch/twiki/bin/view/CMS/HLTPathsRunIIList
+######################################################################
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Using 2016 triggers"
     #http://fwyzard.web.cern.ch/fwyzard/hlt/2016/summary
