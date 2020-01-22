@@ -308,9 +308,6 @@ for sample in samples:
         ctrl_region_evts[sample][d0_0_cut] = {}
         estimate_upper_bounds[sample][d0_0_cut] = {}
         estimate_lower_bounds[sample][d0_0_cut] = {}
-        fit_summary_plot = TMultiGraph()
-        fit_summary_legend = TLegend(0.4, 0.5, 0.89, 0.87)
-        fit_summary_legend.AddEntry(None, "", "") # add blank entry for spacing
         fit_parameters_plot = TGraph()
         color_ix = 0
 
