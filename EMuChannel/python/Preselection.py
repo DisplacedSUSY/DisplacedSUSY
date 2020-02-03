@@ -52,6 +52,35 @@ DisplacedControlRegion = cms.PSet(
 DisplacedControlRegion.cuts.append(electron_d0_100to200_cut)
 DisplacedControlRegion.cuts.append(muon_d0_100to200_cut)
 
+MuonD00to40ElectronD00to100Region = copy.deepcopy(Preselection)
+MuonD00to40ElectronD00to100Region.name = cms.string("MuonD00to40ElectronD00to100Region")
+MuonD00to40ElectronD00to100Region.cuts.append(muon_d0_lessThan40_cut)
+MuonD00to40ElectronD00to100Region.cuts.append(electron_d0_lessThan100_cut)
+
+MuonD00to40ElectronD0100to500Region = copy.deepcopy(Preselection)
+MuonD00to40ElectronD0100to500Region.name = cms.string("MuonD00to40ElectronD0100to500Region")
+MuonD00to40ElectronD0100to500Region.cuts.append(muon_d0_lessThan40_cut)
+MuonD00to40ElectronD0100to500Region.cuts.append(electron_d0_100to500_cut)
+
+MuonD00to40ElectronD0500to1000Region = copy.deepcopy(Preselection)
+MuonD00to40ElectronD0500to1000Region.name = cms.string("MuonD00to40ElectronD0500to1000Region")
+MuonD00to40ElectronD0500to1000Region.cuts.append(muon_d0_lessThan40_cut)
+MuonD00to40ElectronD0500to1000Region.cuts.append(electron_d0_500to1000_cut)
+
+ElectronD00to40MuonD00to100Region = copy.deepcopy(Preselection)
+ElectronD00to40MuonD00to100Region.name = cms.string("ElectronD00to40MuonD00to100Region")
+ElectronD00to40MuonD00to100Region.cuts.append(electron_d0_lessThan40_cut)
+ElectronD00to40MuonD00to100Region.cuts.append(muon_d0_lessThan100_cut)
+
+ElectronD00to40MuonD0100to500Region = copy.deepcopy(Preselection)
+ElectronD00to40MuonD0100to500Region.name = cms.string("ElectronD00to40MuonD0100to500Region")
+ElectronD00to40MuonD0100to500Region.cuts.append(electron_d0_lessThan40_cut)
+ElectronD00to40MuonD0100to500Region.cuts.append(muon_d0_100to500_cut)
+
+ElectronD00to40MuonD0500to1000Region = copy.deepcopy(Preselection)
+ElectronD00to40MuonD0500to1000Region.name = cms.string("ElectronD00to40MuonD0500to1000Region")
+ElectronD00to40MuonD0500to1000Region.cuts.append(electron_d0_lessThan40_cut)
+ElectronD00to40MuonD0500to1000Region.cuts.append(muon_d0_500to1000_cut)
 
 InclusiveSignalRegion = cms.PSet(
     name = cms.string("InclusiveSignalRegion"),
