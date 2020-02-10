@@ -63,6 +63,14 @@ atLeastOne_muon_basic_selection_cuts.append(muon_id_cut)
 
 ##########################################################################
 
+#Basic photon selections
+atLeastZero_photon_basic_selection_cuts = cms.VPSet()
+atLeastZero_photon_basic_selection_cuts.append(photon_lwp_id_cut)
+atLeastZero_photon_basic_selection_cuts.append(photon_noPixelSeed_cut)
+#atLeastZero_photon_basic_selection_cuts.append(photon_genMatched_cut)
+
+##########################################################################
+
 #L1 prefiring check selections
 L1PrefiringCheck_cuts = cms.VPSet()
 L1PrefiringCheck_cuts.append(zero_jet_pt_100_cut)

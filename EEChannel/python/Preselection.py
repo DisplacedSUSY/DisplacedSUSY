@@ -14,6 +14,8 @@ Preselection = cms.PSet(
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
 Preselection.cuts.extend(atLeastZero_jet_basic_selection_cuts)
+### dummy photon cuts for plotting
+Preselection.cuts.extend(atLeastZero_photon_basic_selection_cuts)
 ### at least two good electrons
 Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
