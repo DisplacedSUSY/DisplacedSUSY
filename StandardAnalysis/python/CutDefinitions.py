@@ -77,6 +77,13 @@ atLeastTwo_genEta_cut = cms.PSet(
     numberRequired = cms.string(">= 2")
     )
 
+atLeastZero_genEta_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = absEta_2p4_cutstring,
+    numberRequired = cms.string(">= 0")
+    )
+
+
 atLeastTwo_genPt_40_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     cutString = cms.string("pt > 40"),
@@ -108,6 +115,13 @@ exactly2_genMu_status1_uniqueMotherIsZ_cut = cms.PSet(
     alias = cms.string("Exactly 2 status==1 gen muons whose unique mother is a Z")
 )
 
+genPhoton_status1_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 22 & status==1"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">= 0 status==1 gen photons")
+)
+
 ##########################################################################
 # DUMMY CUT FOR PRODUCING FLOW CHART
 
@@ -126,6 +140,13 @@ cutDummyMuon = cms.PSet(
 
 cutDummyElectron = cms.PSet(
     inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > -1"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string("No offline cuts")
+)
+
+cutDummyPhoton = cms.PSet(
+    inputCollection = cms.vstring("photons"),
     cutString = cms.string("pt > -1"),
     numberRequired = cms.string(">= 0"),
     alias = cms.string("No offline cuts")
@@ -1051,6 +1072,52 @@ met_pt_60_cut =  cms.PSet (
     cutString = cms.string("pt > 60"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("met > 60")
+    )
+
+##########################################################################
+
+# BEGIN PHOTON CUTS
+
+photon_lwp_id_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("passesVID_looseID"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons with versioned loose ID") # includes isolation
+    )
+
+photon_mwp_id_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("passesVID_mediumID"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons with versioned medium ID") # includes isolation
+    )
+
+photon_twp_id_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("passesVID_tightID"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons with versioned tight ID") # includes isolation
+    )
+
+photon_passElectronVeto_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("passElectronVeto"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons that pass the electron veto")
+    )
+
+photon_noPixelSeed_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("hasPixelSeed == 0"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons without a pixel seed")
+    )
+
+photon_genMatched_cut = cms.PSet(
+    inputCollection = cms.vstring("photons"),
+    cutString = cms.string("abs(genMatchedParticle.bestMatch.pdgId) == 22"),
+    numberRequired = cms.string(">= 0"),
+    alias = cms.string(">=0 photons matched to gen particle with PDG ID of 22")
     )
 
 ##########################################################################
