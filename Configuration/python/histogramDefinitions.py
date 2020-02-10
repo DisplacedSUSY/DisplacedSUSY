@@ -2940,6 +2940,82 @@ ElectronMuonD0Histograms = cms.PSet(
     )
 )
 
+
+ElectronPhotonHistograms = cms.PSet(
+    inputCollection = cms.vstring("electrons","photons"),
+    histograms = cms.VPSet (
+
+        ###################################################################
+        #
+        cms.PSet (
+            name = cms.string("electronPhotonDeltaPhi"),
+            title = cms.string("Electron-photon Phi Difference;|#Delta(#phi)|"),
+            binsX = cms.untracked.vdouble(32, 0, 3.2),
+            inputVariables = cms.vstring("abs ( deltaPhi (electron, photon) )"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPhotonDeltaEta"),
+            title = cms.string("Electron-photon Eta Difference;|#Delta(#eta)|"),
+            binsX = cms.untracked.vdouble(60, 0, 6),
+            inputVariables = cms.vstring("abs (electron.eta - photon.eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPhotonDeltaR"),
+            title = cms.string("Electron-photon #DeltaR;#DeltaR"),
+            binsX = cms.untracked.vdouble(60, 0, 6),
+            inputVariables = cms.vstring("deltaR (electron, photon)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPhotonDeltaPhiZoomed"),
+            title = cms.string("Electron-photon Phi Difference;|#Delta(#phi)|"),
+            binsX = cms.untracked.vdouble(50, 0, 1),
+            inputVariables = cms.vstring("abs ( deltaPhi (electron, photon) )"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPhotonDeltaEtaZoomed"),
+            title = cms.string("Electron-photon Eta Difference;|#Delta(#eta)|"),
+            binsX = cms.untracked.vdouble(20, 0, 1),
+            inputVariables = cms.vstring("abs (electron.eta - photon.eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPt_vs_photonPt"),
+            title = cms.string("Electron p_{T} vs. Photon p_{T};Photon p_{T} [GeV];Electron p_{T} [GeV];"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("photon.pt", "electron.pt"),
+        ),
+    )
+)
+
+
+MuonPhotonHistograms = cms.PSet(
+    inputCollection = cms.vstring("muons","photons"),
+    histograms = cms.VPSet (
+
+        ###################################################################
+        #
+        cms.PSet (
+            name = cms.string("muonPhotonDeltaPhi"),
+            title = cms.string("Muon-photon Phi Difference;|#Delta(#phi)|"),
+            binsX = cms.untracked.vdouble(32, 0, 3.2),
+            inputVariables = cms.vstring("abs ( deltaPhi (muon, photon) )"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPhotonDeltaEta"),
+            title = cms.string("Muon-photon Eta Difference;|#Delta(#eta)|"),
+            binsX = cms.untracked.vdouble(60, 0, 6),
+            inputVariables = cms.vstring("abs (muon.eta - photon.eta)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPhotonDeltaR"),
+            title = cms.string("Muon-photon #DeltaR;#DeltaR"),
+            binsX = cms.untracked.vdouble(60, 0, 6),
+            inputVariables = cms.vstring("deltaR (muon, photon)"),
+        ),
+    )
+)
+
+
 BeamspotHistograms = cms.PSet(
     inputCollection = cms.vstring("beamspots"),
     histograms = cms.VPSet (

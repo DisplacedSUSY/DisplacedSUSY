@@ -1,5 +1,5 @@
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms, ElectronJetHistograms, ElectronMetHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms
+from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms, ElectronJetHistograms, ElectronMetHistograms, PhotonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, ElectronPhotonHistograms
 from DisplacedSUSY.StandardAnalysis.BasicHistograms import *
 
 histograms.append(ElectronHistograms)
@@ -7,3 +7,5 @@ histograms.append(DiElectronHistograms)
 histograms.append(ElectronD0Histograms)
 histograms.append(ElectronJetHistograms)
 histograms.append(ElectronMetHistograms)
+histograms.append(PhotonHistograms)
+histograms.append(ElectronPhotonHistograms)
