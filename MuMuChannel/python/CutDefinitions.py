@@ -186,3 +186,36 @@ muon_onePrompt_oneDisplaced_cut = cms.PSet (
     numberRequired = cms.string("== 1"),
     alias = cms.string("one muon |d0| < 40um & another muon |d0| > 100um")
     )
+
+muon_onePrompt_0to40_one_lessThan100_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingMuonUnsmearedD0) < 40 &   \
+                           10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 100)  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 40 & \
+                           10000*abs(eventvariable.leadingMuonUnsmearedD0) < 100)"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one muon |d0| < 40um & another muon |d0| < 100um")
+    )
+
+muon_onePrompt_0to40_oneDisplaced_100to500_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingMuonUnsmearedD0) < 40 &   \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) > 100 & 10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 500))  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 40 & \
+                           (10000*abs(eventvariable.leadingMuonUnsmearedD0) < 100 & 10000*abs(eventvariable.leadingMuonUnsmearedD0) < 500))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one muon |d0| < 40um & another muon 100 < |d0| < 500um")
+    )
+
+muon_onePrompt_0to40_oneDisplaced_500to1000_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingMuonUnsmearedD0) < 40 &   \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) > 500 & 10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 1000))  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingMuonUnsmearedD0) < 40 & \
+                           (10000*abs(eventvariable.leadingMuonUnsmearedD0) < 500 & 10000*abs(eventvariable.leadingMuonUnsmearedD0) < 1000))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one muon |d0| < 40um & another muon 500 < |d0| < 1000um")
+    )

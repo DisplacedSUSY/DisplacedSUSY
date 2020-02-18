@@ -24,6 +24,18 @@ Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut)
 
+MuonD00to40MuonD00to100Region = copy.deepcopy(Preselection)
+MuonD00to40MuonD00to100Region.name = cms.string("MuonD00to40MuonD00to100Region")
+MuonD00to40MuonD00to100Region.cuts.append(muon_onePrompt_0to40_one_lessThan100_cut)
+
+MuonD00to40MuonD0100to500Region = copy.deepcopy(Preselection)
+MuonD00to40MuonD0100to500Region.name = cms.string("MuonD00to40MuonD0100to500Region")
+MuonD00to40MuonD0100to500Region.cuts.append(muon_onePrompt_0to40_oneDisplaced_100to500_cut)
+
+MuonD00to40MuonD0500to1000Region = copy.deepcopy(Preselection)
+MuonD00to40MuonD0500to1000Region.name = cms.string("MuonD00to40MuonD0500to1000Region")
+MuonD00to40MuonD0500to1000Region.cuts.append(muon_onePrompt_0to40_oneDisplaced_500to1000_cut)
+
 #################################################################
 
 ### to find negative valued bins in abcd method closure test
