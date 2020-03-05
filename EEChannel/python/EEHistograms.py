@@ -1,4 +1,4 @@
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms, ElectronJetHistograms, ElectronMetHistograms, PhotonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronHistograms, DiElectronHistograms, ElectronJetHistograms, ElectronMetHistograms, PhotonHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, ElectronPhotonHistograms
 from DisplacedSUSY.StandardAnalysis.BasicHistograms import *
 

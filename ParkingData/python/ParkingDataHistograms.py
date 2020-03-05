@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms, MuonJetHistograms, MuonMetHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms, MuonJetHistograms, MuonMetHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, DiMuonHistogramsExtra, eventHistograms
 from DisplacedSUSY.StandardAnalysis.BasicHistograms import *
 

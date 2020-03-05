@@ -1,4 +1,4 @@
-from OSUT3Analysis.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms, MuonJetHistograms, MuonMetHistograms, PhotonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import MuonHistograms, DiMuonHistograms, MuonJetHistograms, MuonMetHistograms, PhotonHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import MuonD0Histograms, MuonPhotonHistograms
 from DisplacedSUSY.StandardAnalysis.BasicHistograms import *
 

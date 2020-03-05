@@ -1,6 +1,6 @@
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronHistograms, MuonHistograms, ElectronMuonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronHistograms, MuonHistograms, ElectronMuonHistograms
 from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms, MuonD0Histograms, ElectronMuonD0Histograms, ElectronPhotonHistograms, MuonPhotonHistograms
-from OSUT3Analysis.Configuration.histogramDefinitions import ElectronJetHistograms, MuonJetHistograms, ElectronMetHistograms, MuonMetHistograms, PhotonHistograms
+from DisplacedSUSY.Configuration.histogramDefinitions import ElectronJetHistograms, MuonJetHistograms, ElectronMetHistograms, MuonMetHistograms, PhotonHistograms
 from DisplacedSUSY.StandardAnalysis.BasicHistograms import *
 
 histograms.append(ElectronHistograms)

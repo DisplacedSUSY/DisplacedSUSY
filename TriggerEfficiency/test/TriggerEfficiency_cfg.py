@@ -132,8 +132,7 @@ from DisplacedSUSY.StandardAnalysis.EMuPreselection import *
 ################################################################################
 ##### Import the histograms to be plotted ######################################
 ################################################################################
-from OSUT3Analysis.Configuration.histogramDefinitions import *
-from DisplacedSUSY.Configuration.histogramDefinitions import ElectronD0Histograms,MuonD0Histograms,ElectronMuonD0Histograms
+from DisplacedSUSY.Configuration.histogramDefinitions import *
 from DisplacedSUSY.StandardAnalysis.HistogramsDefinitions import eventHistograms
 histograms = cms.VPSet()
 histograms.append(ElectronHistograms)
