@@ -10,9 +10,8 @@ from DisplacedSUSY.EMuChannel.Preselection import *
 from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #AdditionalPreselection,
-    #PreselectionLooseIsoCutBTagVeto,
     #PromptControlRegion,
     #DisplacedControlRegion,
     #MuonD00to40ElectronD00to100Region,
@@ -26,6 +25,7 @@ eventSelections = [
     #DisplacedLowPtControlRegion,
     #DisplacedHighPtControlRegion,
     #InclusiveSignalRegion,
+    pdfBetaIsoCorrPreselection,
     #AntiIsoPreselection,
     #AntiIsoPromptElectronDisplacedMuonRegion,
     #AntiIsoPromptMuonDisplacedElectronRegion,

@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import os
 from OSUT3Analysis.Configuration.cutUtilities import *
 from OSUT3Analysis.Configuration.pdgIdBins import *
+import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 
 
 ###############################################
@@ -157,15 +158,21 @@ MuonHistograms = cms.PSet(
             inputVariables = cms.vstring("isSoftMuonWRTVtx"),
         ),
         cms.PSet (
+            name = cms.string("muonRhoBasedIsolation"),
+            title = cms.string("Muon rho-based Isolation;Muon rho-based isolation"),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            inputVariables = cms.vstring(objectDefs.muon_iso_string),
+        ),
+        cms.PSet (
             name = cms.string("muonPFdBetaIsolation"),
             title = cms.string("Muon PF-based #Delta#beta Isolation;Muon PF-based #Delta#beta isolation"),
-            binsX = cms.untracked.vdouble(100, 0, 6.0),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
             inputVariables = cms.vstring("(pfIsolationR04_.sumChargedHadronPt + max(0.0,pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5*pfIsolationR04_.sumPUPt))/pt"),
         ),
         cms.PSet (
             name = cms.string("muonPFdBetaIsolationCorr"),
             title = cms.string("Muon PF-based #Delta#beta Isolation Corrected;Muon PF-based #Delta#beta Isolation Corrected"),
-            binsX = cms.untracked.vdouble(100, 0, 6.0),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
             inputVariables = cms.vstring("pfdBetaIsoCorr"),
         ),
         cms.PSet (

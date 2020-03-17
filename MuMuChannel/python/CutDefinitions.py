@@ -41,8 +41,8 @@ muon_iso_cut.alias = cms.string(">=2 muons with tight isolation")
 muon_antiiso_cut.numberRequired = cms.string(">= 2")
 muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight isolation")
 
-muon_very_loose_iso_cut.numberRequired = cms.string(">= 2")
-muon_very_loose_iso_cut.alias = cms.string(">=2 muons with very loose isolation")
+muon_pdfBetaIsoCorr_cut.numberRequired = cms.string(">= 2")
+muon_pdfBetaIsoCorr_cut.alias = cms.string(">=2 muons with pdfBetaIsoCorr tight isolation")
 
 muon_d0_lessThan10_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan10_cut.alias = cms.string(">=2 muons with |d_0| < 10 mum")

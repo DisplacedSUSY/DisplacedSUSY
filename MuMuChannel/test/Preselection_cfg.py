@@ -9,15 +9,14 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    #Preselection,
-    MuonD00to40MuonD00to100Region,
-    MuonD00to40MuonD0100to500Region,
-    MuonD00to40MuonD0500to1000Region,
+    Preselection,
+    #MuonD00to40MuonD00to100Region,
+    #MuonD00to40MuonD0100to500Region,
+    #MuonD00to40MuonD0500to1000Region,
     #AdditionalPreselection,
     #PreselectionNoIsoCut,
-    #PreselectionVeryLooseIsoCut,
+    #pdfBetaIsoCorrPreselection,
     #PreselectionBTagVeto,
-    #PreselectionVeryLooseIsoCutBTagVeto,
     #PromptControlRegion,
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,

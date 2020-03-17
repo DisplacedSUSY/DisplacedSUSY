@@ -11,40 +11,30 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 
 ##########################################################################
 
-# TIGHT MUON ISOLATION
+# TIGHT MUON ISOLATION W/ SIMPLE RHO-BASED PU CORRECTION
+# default muon iso for 2016-2018
+# defined as (total PF energy within a cone of dR < 0.4 minus rho times cone area) / (muon pT)
+# using fixedGridRhoFastjetAll for rho, which accounts for all PF energy in |eta| < 5
+
+muon_iso_string = "1/pt * max(pfIsolationR04_.sumChargedHadronPt + pfIsolationR04_.sumPUPt + pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - rho*0.503, 0)" # 0.503 = pi*0.4**2
+
+muon_iso_cutstring = cms.string(muon_iso_string + " <= 0.15")
+muon_iso_alias = cms.string(">=1 muons with tight isolation")
+
+muon_antiiso_cutstring = cms.string(muon_iso_string + " > 0.15")
+muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
+
+##########################################################################
+
+# TIGHT MUON ISOLATION USED IN 2015
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_Isolation
 # pfdBetaIsoCorr -> isolation variables recalculated wrt the closest PV to the electron
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUMuonProducer.cc#L124
 # muon isolation is so far the same for 2016 and 2017 data
 
-muon_iso_cutstring = cms.string("muon.pfdBetaIsoCorr <= 0.15")
-
-muon_iso_alias = cms.string(">=1 muons with tight isolation")
-
-##########################################################################
-
-# INVERTED TIGHT MUON ISOLATION
-
-muon_antiiso_cutstring = cms.string("pfdBetaIsoCorr > 0.15")
-
-muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
-
-##########################################################################
-
-# INVERTED LOOSE MUON ISOLATION
-
-muon_loose_antiiso_cutstring = cms.string("pfdBetaIsoCorr > 0.25")
-
-muon_loose_antiiso_alias = cms.string(">=1 muons with inverted loose isolation")
-
-##########################################################################
-
-# VERY LOOSE MUON ISOLATION
-
-muon_very_loose_iso_cutstring = cms.string("pfdBetaIsoCorr <= 0.40")
-
-muon_very_loose_iso_alias = cms.string(">=1 muons with very loose isolation")
+muon_pdfBetaIsoCorr_cutstring = cms.string("muon.pfdBetaIsoCorr <= 0.15")
+muon_pdfBetaIsoCorr_alias = cms.string(">=1 muons with pdfBetaIsoCorr tight isolation")
 
 ##########################################################################
 
