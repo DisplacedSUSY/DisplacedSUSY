@@ -12,7 +12,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 ##########################################################################
 
 # TIGHT MUON ISOLATION W/ SIMPLE RHO-BASED PU CORRECTION
-# default muon iso for 2016-2018
+# we are using this muon iso definiton for 2016-2018
 # defined as (total PF energy within a cone of dR < 0.4 minus rho times cone area) / (muon pT)
 # using fixedGridRhoFastjetAll for rho, which accounts for all PF energy in |eta| < 5
 
