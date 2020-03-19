@@ -112,12 +112,12 @@ DisplacedHighPtControlRegion.name = cms.string("DisplacedHighPtControlRegion")
 DisplacedHighPtControlRegion.cuts.append(electron_pt_100_cut)
 DisplacedHighPtControlRegion.cuts.append(muon_pt_100_cut)
 
-pdfBetaIsoCorrPreselection = cms.PSet(
-    name = cms.string("pdfBetaIsoCorrPreselection"),
+pfBetaIsoCorrPreselection = cms.PSet(
+    name = cms.string("pfBetaIsoCorrPreselection"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-replaceSingleCut(pdfBetaIsoCorrPreselection.cuts, muon_pdfBetaIsoCorr_cut, muon_iso_cut)
+replaceSingleCut(pfBetaIsoCorrPreselection.cuts, muon_pfBetaIsoCorr_cut, muon_iso_cut)
 
 AntiIsoPreselection = cms.PSet(
     name = cms.string("AntiIsoPreselection"),

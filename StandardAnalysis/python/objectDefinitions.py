@@ -33,8 +33,8 @@ muon_antiiso_alias = cms.string(">=1 muons with inverted tight isolation")
 # calculation found here: https://github.com/OSU-CMS/OSUT3Analysis/blob/master/Collections/plugins/OSUMuonProducer.cc#L124
 # muon isolation is so far the same for 2016 and 2017 data
 
-muon_pdfBetaIsoCorr_cutstring = cms.string("muon.pfdBetaIsoCorr <= 0.15")
-muon_pdfBetaIsoCorr_alias = cms.string(">=1 muons with pdfBetaIsoCorr tight isolation")
+muon_pfBetaIsoCorr_cutstring = cms.string("muon.pfdBetaIsoCorr <= 0.15")
+muon_pfBetaIsoCorr_alias = cms.string(">=1 muons with pfBetaIsoCorr tight isolation")
 
 ##########################################################################
 

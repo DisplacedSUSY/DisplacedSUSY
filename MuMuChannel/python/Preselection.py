@@ -55,9 +55,9 @@ PreselectionNoIsoCut = copy.deepcopy(Preselection)
 PreselectionNoIsoCut.name = cms.string("PreselectionNoIsoCut")
 removeCuts(PreselectionNoIsoCut.cuts, [muon_iso_cut])
 
-pdfBetaIsoCorrPreselection = copy.deepcopy(Preselection)
-pdfBetaIsoCorrPreselection.name = cms.string("pdfBetaIsoCorrPreselection")
-replaceSingleCut(pdfBetaIsoCorrPreselection.cuts, muon_pdfBetaIsoCorr_cut, muon_iso_cut)
+pfBetaIsoCorrPreselection = copy.deepcopy(Preselection)
+pfBetaIsoCorrPreselection.name = cms.string("pfBetaIsoCorrPreselection")
+replaceSingleCut(pfBetaIsoCorrPreselection.cuts, muon_pfBetaIsoCorr_cut, muon_iso_cut)
 
 PreselectionBTagVeto = copy.deepcopy(Preselection)
 PreselectionBTagVeto.name = cms.string("PreselectionBTagVeto")

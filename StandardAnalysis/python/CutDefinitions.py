@@ -761,11 +761,11 @@ muon_antiiso_cut = cms.PSet(
     alias = objectDefs.muon_antiiso_alias
     )
 
-muon_pdfBetaIsoCorr_cut = cms.PSet(
+muon_pfBetaIsoCorr_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = objectDefs.muon_pdfBetaIsoCorr_cutstring,
+    cutString = objectDefs.muon_pfBetaIsoCorr_cutstring,
     numberRequired = cms.string(">= 1"),
-    alias = objectDefs.muon_pdfBetaIsoCorr_alias
+    alias = objectDefs.muon_pfBetaIsoCorr_alias
 )
 
 # muon d0 < 10 microns
