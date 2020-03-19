@@ -15,7 +15,7 @@ eventSelections = [
     #MuonD00to40MuonD0500to1000Region,
     #AdditionalPreselection,
     #PreselectionNoIsoCut,
-    #pdfBetaIsoCorrPreselection,
+    #pfBetaIsoCorrPreselection,
     #PreselectionBTagVeto,
     #PromptControlRegion,
     #AntiIsoPromptControlRegion,
