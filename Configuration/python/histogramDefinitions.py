@@ -535,15 +535,21 @@ ElectronHistograms = cms.PSet(
 #            inputVariables = cms.vstring("gsfTrack.numberOfValidHits"),
 #        ),
         cms.PSet (
+            name = cms.string("ElectronNewRhoBasedIsolation"),
+            title = cms.string("Electron new rho-based Isolation;Electron new rho-based isolation"),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            inputVariables = cms.vstring(objectDefs.electron_newIso_string),
+        ),
+        cms.PSet (
             name = cms.string("electronPFrhoIsolation"),
             title = cms.string("Electron PF-based #rho-corrected Isolation;Electron rel. iso."),
-            binsX = cms.untracked.vdouble(100, 0, 6),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
             inputVariables = cms.vstring("(pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt"),
         ),
         cms.PSet (
             name = cms.string("electronPFrhoIsolationCorr"),
             title = cms.string("Electron PF-based #rho-corrected Isolation Corrected;Electron #rho-corrected Isolation Corrected"),
-            binsX = cms.untracked.vdouble(100, 0, 6.0),
+            binsX = cms.untracked.vdouble(100, 0, 5.0),
             inputVariables = cms.vstring("pfdRhoIsoCorr"),
         ),
         cms.PSet (
@@ -551,6 +557,36 @@ ElectronHistograms = cms.PSet(
             title = cms.string("Electron PF-based #rho-corrected Isolation Discrepancy;Electron PF-based Iso_{default} - Iso_{customized}"),
             binsX = cms.untracked.vdouble(100, -1, 1),
             inputVariables = cms.vstring("(pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt - pfdRhoIsoCorr"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSumChargedHadronPt"),
+            title = cms.string("Electron sum charged hadron transverse momentum from PV[0];Electron sum charged hadron transverse momentum from PV[0] [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("pfIso_.sumChargedHadronPt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSumPuPt"),
+            title = cms.string("Electron sum charged hadron transverse momentum from PV[n>0];Electron sum charged hadron transverse momentum from PV[n>0] [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("pfIso_.sumPUPt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSumNeutralHadronEt"),
+            title = cms.string("Electron sum neutral hadron transverse energy;Electron sum neutral hadron transverse energy [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("pfIso_.sumNeutralHadronEt"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSumPhotonEt"),
+            title = cms.string("Electron sum photon transverse energy;Electron sum photon transverse energy [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("pfIso_.sumPhotonEt"),
+        ),
+        cms.PSet (
+            name = cms.string("electonSimpleRhoBasedPuCorrection"),
+            title = cms.string("Electron simple rho-based PU correction;Electron simple rho-based PU correction [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("rho*0.283"),
         ),
 #        cms.PSet (
 #            name = cms.string("electronFbrem"),

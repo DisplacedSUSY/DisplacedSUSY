@@ -430,6 +430,13 @@ electron_iso_cut = cms.PSet(
     alias = objectDefs.electron_iso_alias
     )
 
+electron_newIso_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = objectDefs.electron_newIso_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.electron_newIso_alias
+    )
+
 electron_antiiso_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = objectDefs.electron_antiiso_cutstring,
