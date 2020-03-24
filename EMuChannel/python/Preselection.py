@@ -214,6 +214,13 @@ PreselectionMuFromTau = cms.PSet(
 )
 PreselectionMuFromTau.cuts.append(muon_gen_motherIsTau_cut)
 
+PreselectionMuNotFromTau = cms.PSet(
+    name = cms.string("PreselectionMuNotFromTau"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionMuNotFromTau.cuts.append(muon_gen_motherIsNotTau_cut)
+
 GenEMuFromStopsSelection = cms.PSet(
     name = cms.string("GenEMuFromStopsSelection"),
     triggers = cms.vstring(),
