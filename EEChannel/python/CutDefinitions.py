@@ -34,6 +34,9 @@ electron_antiiso_cut.alias = cms.string(">=2 electrons with inverted tight isola
 electron_loose_iso_cut.numberRequired = cms.string(">= 2")
 electron_loose_iso_cut.alias = cms.string(">=2 electrons with loose isolation")
 
+electron_newIso_cut.numberRequired = cms.string(">= 2")
+electron_newIso_cut.alias = cms.string(">=2 electrons with tight isolation (new def)")
+
 electron_d0_lessThan10_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan10_cut.alias = cms.string(">=2 electrons with |d_0| < 10 mum")
 
