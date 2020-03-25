@@ -10,7 +10,16 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
 ##### remove isolation cut from electron VID  ##################################
 ################################################################################
 
-    removeVIDCut(process, str(collectionProducer.electrons.vidTightIdMap), 'GsfEleEffAreaPFIsoCut')
+    e_id_name = str(collectionProducer.electrons.vidTightIdMap).split(",")[1][1:-2]
+    cut_to_remove = 'GsfEleRelPFIsoScaledCut'
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        cut_to_remove = 'GsfEleEffAreaPFIsoCut'
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        cut_to_remove = 'GsfEleRelPFIsoScaledCut'
+    else:
+        print "unrecognized CMSSW release; electron VID cut removal might not work"
+
+    removeVIDCut(process, e_id_name, cut_to_remove)
 
 ################################################################################
 ##### Set variables needed for DisplacedSUSYEventVariableProducer ##############
