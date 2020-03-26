@@ -970,6 +970,20 @@ muon_gen_motherIsTau_cut = cms.PSet(
     alias = cms.string(">=1 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
 )
 
+exactly1muon_gen_motherIsTau_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 15".format(gen_mother_string)),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("==1 muon from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
+)
+
+exactly2muon_gen_motherIsTau_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 15".format(gen_mother_string)),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("==2 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
+)
+
 muon_gen_motherIsWorZ_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 23 | abs(genMatchedParticle.noFlags.{}.pdgId) == 24".format(gen_mother_string, gen_mother_string)),

@@ -9,7 +9,7 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    #Preselection,
+    Preselection,
     #MuonD00to40MuonD00to100Region,
     #MuonD00to40MuonD0100to500Region,
     #MuonD00to40MuonD0500to1000Region,
@@ -40,7 +40,9 @@ eventSelections = [
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
-    PreselectionLeptonsFromWorZ,
+    #PreselectionLeptonsFromWorZ,
+    #Preselection1LeptonFromTau,
+    #Preselection2LeptonsFromTau,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,
