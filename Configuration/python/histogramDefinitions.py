@@ -583,10 +583,22 @@ ElectronHistograms = cms.PSet(
             inputVariables = cms.vstring("pfIso_.sumPhotonEt"),
         ),
         cms.PSet (
+            name = cms.string("electonPfRhoIsoRhoTimesAEff"),
+            title = cms.string("Electron PfRhoIso Rho * AEff;Electron PfRhoIso Rho * AEff [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("rho*AEff"),
+        ),
+        cms.PSet (
             name = cms.string("electonSimpleRhoBasedPuCorrection"),
             title = cms.string("Electron simple rho-based PU correction;Electron simple rho-based PU correction [GeV]"),
             binsX = cms.untracked.vdouble(50, 0, 100),
             inputVariables = cms.vstring("rho*0.283"),
+        ),
+        cms.PSet (
+            name = cms.string("electonPfRhoIsoPuCorrection"),
+            title = cms.string("Electron PfRhoIso PU correction;Electron PfRhoIso PU correction [GeV]"),
+            binsX = cms.untracked.vdouble(50, 0, 100),
+            inputVariables = cms.vstring("rho*AEff + pfIso_.sumPUPt"),
         ),
 #        cms.PSet (
 #            name = cms.string("electronFbrem"),
