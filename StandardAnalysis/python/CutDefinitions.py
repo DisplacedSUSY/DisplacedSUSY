@@ -9,15 +9,6 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 #WE USE ETA 2.4 OFTEN
 absEta_2p4_cutstring = cms.string("abs(eta) < 2.4")
 
-# syntax to access gen mother is different in different releases
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    gen_mother_string = "mother_"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    gen_mother_string = "motherRef"
-else:
-    gen_mother_string = "motherRef"
-    print "CMSSW release not recognized; gen mother cuts might not work"
-
 #########################################################################
 # weight selections to determine if they contribute to negative
 # weighted event
@@ -602,7 +593,7 @@ electron_num_exactly_1_cut = cms.PSet(
 
 electron_gen_motherIsW_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 24".format(gen_mother_string)),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 24"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons from W (electron matched to gen particle whose mother has PDG ID of 24)")
 )
@@ -958,14 +949,21 @@ muon_num_exactly_1_cut = cms.PSet(
 
 muon_gen_motherIsW_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 24".format(gen_mother_string)),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 24"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons from W (muon matched to gen particle whose mother's PDG ID is 24)")
 )
 
+muon_gen_motherIsMuon_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 13"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons from muon (muon matched to gen particle whose mother's PDG ID is 13)")
+)
+
 muon_gen_motherIsTau_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 15".format(gen_mother_string)),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
 )
@@ -986,7 +984,7 @@ exactly2muon_gen_motherIsTau_cut = cms.PSet(
 
 muon_gen_motherIsWorZ_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(genMatchedParticle.noFlags.{}.pdgId) == 23 | abs(genMatchedParticle.noFlags.{}.pdgId) == 24".format(gen_mother_string, gen_mother_string)),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 23 | abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 24"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons from W or Z (muon matched to gen particle whose mother's PDG ID is 23 or 24)")
 )
@@ -1152,7 +1150,7 @@ photon_noPixelSeed_cut = cms.PSet(
 
 photon_genMatched_cut = cms.PSet(
     inputCollection = cms.vstring("photons"),
-    cutString = cms.string("abs(genMatchedParticle.bestMatch.pdgId) == 22"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.pdgId) == 22"),
     numberRequired = cms.string(">= 0"),
     alias = cms.string(">=0 photons matched to gen particle with PDG ID of 22")
     )
