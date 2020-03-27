@@ -182,8 +182,6 @@ MuonHistograms = cms.PSet(
             inputVariables = cms.vstring("(pfIsolationR04_.sumChargedHadronPt + max(0.0,pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5*pfIsolationR04_.sumPUPt))/pt - pfdBetaIsoCorr"),
         ),
 
-
-
         #gen
         cms.PSet (
             name = cms.string("muonGenMatchPdgId"),
