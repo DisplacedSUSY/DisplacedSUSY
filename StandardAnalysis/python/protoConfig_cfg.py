@@ -87,6 +87,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuPreselection_2018Analysis_Signal_12Aug2019/stopToLB1800_1mm/Preselection/skim_0.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EEInitialSkim_2018Analysis_15Mar2019/EGamma_2018C/EESkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/MuonEG_2018C/EMuSkim/skim_1.root'
+          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/MuMuInitialSkim_2018Analysis_15Mar2019/DoubleMu_2018C/MuMuSkim/skim_1.root'
       )
     )
