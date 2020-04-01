@@ -222,6 +222,12 @@ Preselection2LeptonsFromTau = cms.PSet(
 )
 Preselection2LeptonsFromTau.cuts.append(exactly2muon_gen_motherIsTau_cut)
 
+Preselection2TausFromZ = cms.PSet(
+    name = cms.string("Preselection2TausFromZ"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+Preselection2TausFromZ.cuts.append(exactly2_genTau_uniqueMotherIsZ_cut)
 
 #################################################################
 

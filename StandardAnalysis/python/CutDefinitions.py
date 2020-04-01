@@ -115,6 +115,13 @@ exactly2_genMu_status1_uniqueMotherIsZ_cut = cms.PSet(
     alias = cms.string("Exactly 2 status==1 gen muons whose unique mother is a Z")
 )
 
+exactly2_genTau_uniqueMotherIsZ_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 15  & abs (uniqueMotherPdgId) == 23"),
+    numberRequired = cms.string("== 2"),
+    alias = cms.string("Exactly 2 gen taus whose unique mother is a Z")
+)
+
 genPhoton_status1_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     cutString = cms.string("abs ( pdgId ) == 22 & status==1"),

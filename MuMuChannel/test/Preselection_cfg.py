@@ -43,6 +43,7 @@ eventSelections = [
     #PreselectionLeptonsFromWorZ,
     #Preselection1LeptonFromTau,
     #Preselection2LeptonsFromTau,
+    #Preselection2TausFromZ,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,
