@@ -48,7 +48,7 @@ gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
 gStyle.SetTextFont(42)
-gStyle.SetPaintTextFormat('1.1e')
+gStyle.SetPaintTextFormat('.2f')
 gROOT.ForceStyle()
 
 
@@ -135,11 +135,10 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             comp_hist.SetBinContent(out_bin, consistency)
 
             if arguments.makeTables:
-                format_string = "{:d}-{:d} | {:d}-{:d}" + 5 * " | {:.1e}+-{:.1e}"
+                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + "| {:.0f}"
                 print "|-"
-                print format_string.format( x_lo, x_hi, y_lo, y_hi, prompt_yield, prompt_error,
-                                           x_yield, x_error, y_yield, y_error, abcd_yield,
-                                           abcd_error, count_yield, count_error)
+                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield,
+                                           x_yield, y_yield, abcd_yield, abcd_error, count_yield)
 
 if arguments.makeTables:
     print "[/TABLE]"
@@ -185,8 +184,8 @@ abcd_hist.GetXaxis().SetTitleOffset(1.2)
 abcd_hist.GetYaxis().SetTitleOffset(1.1)
 abcd_hist.Write()
 CanvasAbcd = TCanvas( "CanvasAbcd", "CanvasAbcd", 100, 100, 700, 600 )
-CanvasAbcd.SetLogx()
-CanvasAbcd.SetLogy()
+#CanvasAbcd.SetLogx()
+#CanvasAbcd.SetLogy()
 CanvasAbcd.SetLogz()
 CanvasAbcd.cd()
 abcd_hist.Draw("colz text45 e")
@@ -202,8 +201,8 @@ if arguments.doClosureTest:
     count_hist.GetYaxis().SetTitleOffset(1.1)
     count_hist.Write()
     CanvasCount = TCanvas( "CanvasCount", "CanvasCount", 100, 100, 700, 600 )
-    CanvasCount.SetLogx()
-    CanvasCount.SetLogy()
+    #CanvasCount.SetLogx()
+    #CanvasCount.SetLogy()
     CanvasCount.SetLogz()
     CanvasCount.cd()
     count_hist.Draw("colz text45 e")
@@ -218,8 +217,8 @@ if arguments.doClosureTest:
     comp_hist.GetYaxis().SetTitleOffset(1.1)
     comp_hist.Write()
     CanvasComp = TCanvas( "CanvasComp", "CanvasComp", 100, 100, 700, 600 )
-    CanvasComp.SetLogx()
-    CanvasComp.SetLogy()
+    #CanvasComp.SetLogx()
+    #CanvasComp.SetLogy()
     CanvasComp.cd()
     comp_hist.Draw("colz text45")
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
