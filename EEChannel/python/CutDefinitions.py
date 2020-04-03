@@ -64,6 +64,9 @@ electron_d0_greaterThan200_cut.alias = cms.string("electron |d_0| > 200 mum")
 electron_gen_motherIsW_cut.numberRequired = cms.string(">= 2")
 electron_gen_motherIsW_cut.alias = cms.string(">=2 electrons from W (electron matched to gen particle whose mother has PDG ID of 24)")
 
+electron_gen_motherIsTau_cut.numberRequired = cms.string(">= 2")
+electron_gen_motherIsTau_cut.alias = cms.string(">=2 electrons from tau (electron matched to gen particle whose mother has PDG ID of 15)")
+
 electron_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),

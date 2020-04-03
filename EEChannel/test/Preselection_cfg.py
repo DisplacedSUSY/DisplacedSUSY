@@ -9,7 +9,7 @@ from DisplacedSUSY.EEChannel.EEHistograms import *
 from DisplacedSUSY.EEChannel.Preselection import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #AdditionalPreselection,
     #PreselectionLooseIsoCutBTagVeto,
     #PromptControlRegion,
@@ -18,9 +18,12 @@ eventSelections = [
     #PromptHighPtControlRegion,
     #DisplacedLowPtControlRegion,
     #DisplacedHighPtControlRegion,
+    DisplacedGreaterThan100,
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
+    #PreselectionLeptonsFromTau,
+    #Preselection2TausFromZ,
     #DisplacedHighPtL1PrefiringCheck,
     #GenEEFromStopsSelection,
     ]

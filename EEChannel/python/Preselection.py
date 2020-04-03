@@ -38,6 +38,12 @@ DisplacedControlRegion.name = cms.string("DisplacedControlRegion")
 #DisplacedControlRegion.cuts.append(electron_d0_100to200_cut)
 DisplacedControlRegion.cuts.append(electron_d0_10to20_cut)
 
+
+DisplacedGreaterThan100 = copy.deepcopy(Preselection)
+DisplacedGreaterThan100.name = cms.string("DisplacedGreaterThan100")
+DisplacedGreaterThan100.cuts.append(electron_d0_greaterThan100_cut)
+
+
 #################################################################
 
 ZControlRegion = copy.deepcopy(Preselection)
@@ -96,6 +102,20 @@ PreselectionLeptonsFromW = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionLeptonsFromW.cuts.append(electron_gen_motherIsW_cut)
+
+PreselectionLeptonsFromTau = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromTau"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromTau.cuts.append(electron_gen_motherIsTau_cut)
+
+Preselection2TausFromZ = cms.PSet(
+    name = cms.string("Preselection2TausFromZ"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+Preselection2TausFromZ.cuts.append(exactly2_genTau_uniqueMotherIsZ_cut)
 
 #################################################################
 
