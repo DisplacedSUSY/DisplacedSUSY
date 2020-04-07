@@ -27,6 +27,26 @@ Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolat
 #Preselection.cuts.append(electron_iso_cut)
 Preselection.cuts.append(electron_newIso_cut)
 
+
+ElectronD00to40ElectronD0Above100Region = copy.deepcopy(Preselection)
+ElectronD00to40ElectronD0Above100Region.name = cms.string("ElectronD00to40ElectronD0Above100Region")
+ElectronD00to40ElectronD0Above100Region.cuts.append(electron_onePrompt_oneDisplaced_cut)
+
+ElectronD00to40ElectronD00to100Region = copy.deepcopy(Preselection)
+ElectronD00to40ElectronD00to100Region.name = cms.string("ElectronD00to40ElectronD00to100Region")
+ElectronD00to40ElectronD00to100Region.cuts.append(electron_onePrompt_0to40_one_lessThan100_cut)
+
+ElectronD00to40ElectronD0100to500Region = copy.deepcopy(Preselection)
+ElectronD00to40ElectronD0100to500Region.name = cms.string("ElectronD00to40ElectronD0100to500Region")
+ElectronD00to40ElectronD0100to500Region.cuts.append(electron_onePrompt_0to40_oneDisplaced_100to500_cut)
+
+ElectronD00to40ElectronD0500to1000Region = copy.deepcopy(Preselection)
+ElectronD00to40ElectronD0500to1000Region.name = cms.string("ElectronD00to40ElectronD0500to1000Region")
+ElectronD00to40ElectronD0500to1000Region.cuts.append(electron_onePrompt_0to40_oneDisplaced_500to1000_cut)
+
+
+#################################################################
+
 PromptControlRegion = copy.deepcopy(Preselection)
 PromptControlRegion.name = cms.string("PromptControlRegion")
 PromptControlRegion.cuts.append(electron_d0_lessThan50_cut)

@@ -135,4 +135,48 @@ electron_deltaR_from_tag_cut = cms.PSet (
     numberRequired = cms.string("== 1"),
     alias = cms.string("well-seperated e-tage pair")
 )
+
+electron_onePrompt_oneDisplaced_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingElectronUnsmearedD0) < 40 &   \
+                           10000*abs(eventvariable.subleadingElectronUnsmearedD0) > 100)  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 40 & \
+                           10000*abs(eventvariable.leadingElectronUnsmearedD0) > 100)"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one electron |d0| < 40um & another electron |d0| > 100um")
+    )
+
+electron_onePrompt_0to40_one_lessThan100_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingElectronUnsmearedD0) < 40 &   \
+                           10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 100)  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 40 & \
+                           10000*abs(eventvariable.leadingElectronUnsmearedD0) < 100)"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one electron |d0| < 40um & another electron |d0| < 100um")
+    )
+
+electron_onePrompt_0to40_oneDisplaced_100to500_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingElectronUnsmearedD0) < 40 &   \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) > 100 & 10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 500))  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 40 & \
+                           (10000*abs(eventvariable.leadingElectronUnsmearedD0) > 100 & 10000*abs(eventvariable.leadingElectronUnsmearedD0) < 500))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one electron |d0| < 40um & another electron 100 < |d0| < 500um")
+    )
+
+electron_onePrompt_0to40_oneDisplaced_500to1000_cut = cms.PSet (
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("(10000*abs(eventvariable.leadingElectronUnsmearedD0) < 40 &   \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) > 500 & 10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 1000))  \
+                           |                                                          \
+                           (10000*abs(eventvariable.subleadingElectronUnsmearedD0) < 40 & \
+                           (10000*abs(eventvariable.leadingElectronUnsmearedD0) > 500 & 10000*abs(eventvariable.leadingElectronUnsmearedD0) < 1000))"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("one electron |d0| < 40um & another electron 500 < |d0| < 1000um")
+    )
 ##########################################################################
