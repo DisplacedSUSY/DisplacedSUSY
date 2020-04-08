@@ -139,6 +139,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   double tagElectronEta = 0;
   double tagElectronPhi = -4;
   double tagElectronCharge = -999;
+  double tagElectronUnsmearedD0 = 0;
   for (const auto &electron1 : *handles_.electrons) {
     // electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
     // These magic numbers should be replaced by a better approach
@@ -152,6 +153,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagElectronEta = electron1.eta();
       tagElectronPhi = electron1.phi();
       tagElectronCharge = electron1.charge();
+      tagElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
     } 
     if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) > 1.479 && 
         electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 && 
@@ -163,8 +165,69 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagElectronEta = electron1.eta();
       tagElectronPhi = electron1.phi();
       tagElectronCharge = electron1.charge();
+      tagElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
     } 
   }  
+
+
+  // Store leading and subleading electron properties
+  double leadingElectronPt = 0;
+  double leadingElectronEta = 0;
+  double leadingElectronPhi = -4; // -pi < phi < pi
+  double leadingElectronUnsmearedD0 = 0;
+  double subleadingElectronPt = 0;
+  double subleadingElectronEta = 0;
+  double subleadingElectronPhi = -4; // -pi < phi < pi
+  double subleadingElectronUnsmearedD0 = 0;
+  for (const auto &electron1 : *handles_.electrons) {
+    if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
+        abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
+        abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
+        electron1.passConversionVeto()) {
+      if (electron1.pt() > subleadingElectronPt) {
+        if (electron1.pt() > leadingElectronPt) {
+          subleadingElectronPt = leadingElectronPt;
+          subleadingElectronEta = leadingElectronEta;
+          subleadingElectronPhi = leadingElectronPhi;
+          subleadingElectronUnsmearedD0 = leadingElectronUnsmearedD0;
+          leadingElectronPt = electron1.pt();
+          leadingElectronEta = electron1.eta();
+          leadingElectronPhi = electron1.phi();
+          leadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+        }
+        else {
+          subleadingElectronPt = electron1.pt();
+          subleadingElectronEta = electron1.eta();
+          subleadingElectronPhi = electron1.phi();
+          subleadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+        }
+      }
+    }
+    if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 &&
+        abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00605 && electron1.hadronicOverEm() < 0.0641 &&
+        abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
+        electron1.passConversionVeto()) {
+      if (electron1.pt() > subleadingElectronPt) {
+        if (electron1.pt() > leadingElectronPt) {
+          subleadingElectronPt = leadingElectronPt;
+          subleadingElectronEta = leadingElectronEta;
+          subleadingElectronPhi = leadingElectronPhi;
+          subleadingElectronUnsmearedD0 = leadingElectronUnsmearedD0;
+          leadingElectronPt = electron1.pt();
+          leadingElectronEta = electron1.eta();
+          leadingElectronPhi = electron1.phi();
+          leadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+        }
+        else {
+          subleadingElectronPt = electron1.pt();
+          subleadingElectronEta = electron1.eta();
+          subleadingElectronPhi = electron1.phi();
+          subleadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+        }
+      }
+    }
+  }
+
 
   (*eventvariables)["tagMuonExists"] = tagMuonExists;
   (*eventvariables)["tagMuonPt"] = tagMuonPt;
@@ -185,6 +248,15 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["tagElectronEta"] = tagElectronEta;
   (*eventvariables)["tagElectronPhi"] = tagElectronPhi;
   (*eventvariables)["tagElectronCharge"] = tagElectronCharge;
+  (*eventvariables)["tagElectronUnsmearedD0"] = tagElectronUnsmearedD0;
+  (*eventvariables)["leadingElectronPt"] = leadingElectronPt;
+  (*eventvariables)["leadingElectronEta"] = leadingElectronEta;
+  (*eventvariables)["leadingElectronPhi"] = leadingElectronPhi;
+  (*eventvariables)["leadingElectronUnsmearedD0"] = leadingElectronUnsmearedD0;
+  (*eventvariables)["subleadingElectronPt"] = subleadingElectronPt;
+  (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
+  (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
+  (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
