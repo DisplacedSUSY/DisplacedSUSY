@@ -43,6 +43,7 @@ eventSelections = [
     #PreselectionLeptonsFromW,
     #PreselectionMuFromTau,
     #PreselectionMuFromWorZ,
+    #Preselection2TausFromZ,
 
     #GenEMuFromStopsSelection,
 ]
