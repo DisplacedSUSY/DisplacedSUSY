@@ -74,6 +74,8 @@ count_hist = TH2F(title("Counting Yields"), title("Counting Yields"), len(bins_x
                   array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 comp_hist  = TH2F(title("Consistency"), title("Consistency"),  len(bins_x)-1,
                   array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+ratio_hist  = TH2F(title("Ratio"), title("Ratio"),  len(bins_x)-1,
+                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 
 # Get yield and error in prompt region
 prompt_bin_x_lo = in_hist.GetXaxis().FindBin(bins_x[0])
@@ -123,6 +125,12 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             count_hist.SetBinContent(out_bin, count_yield)
             count_hist.SetBinError(out_bin, count_error)
 
+            try:
+                ratio_hist.SetBinContent(out_bin, abcd_yield/count_yield)
+            except ZeroDivisionError:
+                ratio_hist.SetBinContent(out_bin, 2)
+                print "count yield is 0, setting ratio to 2"
+
             yield_diff = round(abs(abcd_yield - count_yield), 5)
             total_error  = abcd_error + count_error
             try:
@@ -134,7 +142,7 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
                     print "Total error is 0 while yields are > 0. Something is wrong with your input histogram"
             comp_hist.SetBinContent(out_bin, consistency)
 
-            if arguments.makeTables:
+            if arguments.makeTables and x_bin_lo != prompt_bin_x_lo and y_bin_lo != prompt_bin_y_lo:
                 format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + "| {:.0f}"
                 print "|-"
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield,
@@ -223,5 +231,20 @@ if arguments.doClosureTest:
     comp_hist.Draw("colz text45")
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.png"))
+
+    ratio_hist.SetMarkerSize(0.75)
+    ratio_hist.SetOption("colz text45")
+    ratio_hist.GetXaxis().SetTitle(x_axis_title)
+    ratio_hist.GetYaxis().SetTitle(y_axis_title)
+    ratio_hist.GetXaxis().SetTitleOffset(1.2)
+    ratio_hist.GetYaxis().SetTitleOffset(1.1)
+    ratio_hist.Write()
+    CanvasRatio = TCanvas( "CanvasRatio", "CanvasRatio", 100, 100, 700, 600 )
+    #CanvasRatio.SetLogx()
+    #CanvasRatio.SetLogy()
+    CanvasRatio.cd()
+    ratio_hist.Draw("colz text45")
+    CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.pdf"))
+    CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
 
 out_file.Close()
