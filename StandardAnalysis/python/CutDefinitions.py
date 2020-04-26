@@ -117,9 +117,10 @@ exactly2_genMu_status1_uniqueMotherIsZ_cut = cms.PSet(
 
 exactly2_genTau_uniqueMotherIsZ_cut = cms.PSet(
    inputCollection = cms.vstring("hardInteractionMcparticles"),
-   cutString = cms.string("abs ( pdgId ) == 15 & status==2 & abs (uniqueMotherPdgId) == 23"),
+   cutString = cms.string("abs ( pdgId ) == 15 & status==2"),
+   #cutString = cms.string("abs ( pdgId ) == 15 & status==2 & abs(uniqueMotherPdgId) ==23"), # requiring abs(uniqueMotherPdgId)==23 is cutting out more events than it should!
    numberRequired = cms.string("== 2"),
-   alias = cms.string("Exactly 2 status==2 gen taus whose unique mother is a Z")
+   alias = cms.string("Exactly 2 status==2 gen taus")
    #status 2 is the tau status just before it decays. if you don't require this,
    #then having numberRequired==2 won't work for the cases where you have Z --> tau tau --> tau tau --> whatever
    #and you'd be throwing out many good events
