@@ -264,7 +264,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VE
         cms.PSet (
             name = cms.string("muonGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen muon"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -273,7 +273,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_
         cms.PSet (
             name = cms.string("muonGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen muon"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -695,7 +695,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VE
         cms.PSet (
             name = cms.string("electronGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen electron"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -704,7 +704,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_
         cms.PSet (
             name = cms.string("electronGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen electron"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -1575,7 +1575,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VE
         cms.PSet (
             name = cms.string("photonGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen photon"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -1584,7 +1584,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_
         cms.PSet (
             name = cms.string("photonGenMatchMotherPdgId"),
             title = cms.string(";|PDG ID| of mother of gen photon"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
         ),
         )
@@ -5312,7 +5312,7 @@ GenParticleHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("GenMotherPdgId"),
             title = cms.string("Unique Gen Mother PdgId;Mother |PDG ID|"),
-            binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs (uniqueMotherPdgId)"),
             ),
         )
