@@ -5,6 +5,7 @@ import os
 vs_electon_pt = True #use this if you want to plot/compute vs electron pt
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    template_sample = 'DYJetsToTauTauLeptonic'
     samples = [
         'MuonEG_2016_postHIP',
         #'DYJetsToLL',
@@ -17,10 +18,12 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     ]
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    template_sample = 'DYJetsToTauTauLeptonic'
     samples = ['MuonEG_2017_withoutB']
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    samples = ['MuonEG_2016_2017_2018']
+    template_sample = 'DYJetsToTauTauLeptonic'
+    samples = ['DYJetsToLL_50']
 
 # 1st sideband tried:
 #d0_0_cuts = [10]

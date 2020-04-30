@@ -2,6 +2,7 @@
 import os
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    template_sample = 'DYJetsToTauTauLeptonic'
     samples = [
         'DoubleEG_2016_postHIP',
         #'DYJetsToLL',
@@ -14,9 +15,11 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     ]
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    template_sample = 'DYJetsToTauTauLeptonic'
     samples = ['DoubleEG_2017']
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    template_sample = 'DYJetsToTauTauLeptonic'
     samples = ['DoubleEG_2016_2017_2018']
 
 

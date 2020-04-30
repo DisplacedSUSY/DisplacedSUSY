@@ -21,6 +21,8 @@ parser.add_option("-p", "--savePlots", action="store_true", dest="savePlots", de
                   help="save summary plots as pdfs and pngs")
 parser.add_option("-o", "--outputFile", dest="outputFileName", default="improved_abcd",
                   help="specify a name for output files (don't include file extension)")
+parser.add_option("-s", "--subtractTemplate", dest="templateDir",
+                  help="subtract 3D distribution taken from sample in specified directory")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -37,6 +39,13 @@ if arguments.condorDir:
 else:
     print "you forgot to specify a condor directory with -w"
     sys.exit(1)
+
+if arguments.templateDir:
+    template_path = "condor/" + arguments.templateDir + "/"
+    print "Taking template from", template_path
+    if not os.path.exists(template_path):
+        print "template path does not exist"
+        sys.exit(1)
 
 gROOT.SetBatch(True)
 gStyle.SetOptStat(1)
@@ -231,10 +240,13 @@ class RatioPlot:
         # iteratively rebin until all bins are filled
         bin_ix = 0
         while bin_ix < len(bin_edges)-1:
+            if len(bin_edges)-1 < min_bins:
+                print "One of the control regions has too few events. Please redefine it."
+                return
             content = Double()
             x = Double()
             self.tgraph.GetPoint(bin_ix, x, content)
-            if content == 0:
+            if content <= 0:
                 if bin_ix < len(bin_edges)-2:
                     del bin_edges[bin_ix+1] # combine current and next bins
                 else:
@@ -274,21 +286,33 @@ class RatioPlot:
 output_plots = TFile(output_path + arguments.outputFileName + "_results.root", "recreate")
 bg_estimates = {}
 ctrl_region_evts = {}
+signal_region_evts = {}
 estimate_upper_bounds = {}
 estimate_lower_bounds = {}
+
+if arguments.templateDir:
+    template_file_path = template_path + template_sample + ".root"
+    template_file = TFile(template_file_path)
+    template_hist = template_file.Get(input_hist)
+    if not template_hist:
+        print "Warning: could not load {} from {}".format(input_hist, template_file_path)
 
 for sample in samples:
     print "\n" + sample
     bg_estimates[sample] = {}
     ctrl_region_evts[sample] = {}
+    signal_region_evts[sample] = {}
     estimate_upper_bounds[sample] = {}
     estimate_lower_bounds[sample] = {}
 
     # get histograms and statistical uncertainties for all regions
     in_file = TFile(output_path + sample + ".root")
-    in_hist = in_file.Get(input_hist)
+    in_hist = in_file.Get(input_hist).Clone()
     if not in_hist:
         print "Warning: could not load " + input_hist
+
+    if arguments.templateDir:
+        in_hist.Add(template_hist, -1)
 
     in_hist_d0_0_max = in_hist.GetXaxis().GetXmax()
     in_hist_d0_1_max = in_hist.GetYaxis().GetXmax()
@@ -306,6 +330,7 @@ for sample in samples:
     for (d0_0_cut, d0_1_cut) in reversed(zip(d0_0_cuts, d0_1_cuts)):
         bg_estimates[sample][d0_0_cut] = {}
         ctrl_region_evts[sample][d0_0_cut] = {}
+        signal_region_evts[sample][d0_0_cut] = {}
         estimate_upper_bounds[sample][d0_0_cut] = {}
         estimate_lower_bounds[sample][d0_0_cut] = {}
         fit_parameters_plot = TGraph()
@@ -482,7 +507,8 @@ for sample in samples:
                 hi_bin = pt_hists['c'].GetXaxis().FindBin(pt_hi) - 1
             else:
                 hi_bin = pt_hists['c'].GetNbinsX() + 1
-            ctrl_region_evts[sample][pt_lo] = pt_hists['c'].Integral(lo_bin, hi_bin)
+            ctrl_region_evts[sample][pt_lo]   = pt_hists['c'].Integral(lo_bin, hi_bin)
+            signal_region_evts[sample][pt_lo] = pt_hists['d'].Integral(lo_bin, hi_bin)
 
         # print CR stats
         print "Region A contains {} events".format(pt_hists['a'].Integral())
@@ -490,6 +516,9 @@ for sample in samples:
         for pt in pt_cuts:
             print "Region C contains {} events in pT range starting at {}GeV".format(
                    ctrl_region_evts[sample][pt], pt)
+            if arguments.unblind:
+                print "Region D contains {} events in pT range starting at {}GeV".format(
+                       signal_region_evts[sample][pt], pt)
 
 # create output json that contains background estimate results for use in limit setting
 bg_estimate_output = {}
