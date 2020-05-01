@@ -25,8 +25,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(electron_pt_50_cut)
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
-Preselection.cuts.append(electron_iso_cut)
-#Preselection.cuts.append(electron_newIso_cut)
+Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
 ### at least one good muon
 Preselection.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
@@ -35,7 +34,7 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     Preselection.cuts.append(muon_pt_50_cut)
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
-Preselection.cuts.append(muon_iso_cut)
+Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
 
 
 PromptControlRegion = cms.PSet(
@@ -125,7 +124,7 @@ AntiIsoPreselection = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-replaceSingleCut(AntiIsoPreselection.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPreselection.cuts, electron_antiNewIso_cut, electron_newIso_cut)
 replaceSingleCut(AntiIsoPreselection.cuts, muon_antiiso_cut, muon_iso_cut)
 
 
@@ -134,7 +133,7 @@ AntiIsoPromptElectronDisplacedMuonRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, electron_antiNewIso_cut, electron_newIso_cut)
 replaceSingleCut(AntiIsoPromptElectronDisplacedMuonRegion.cuts, muon_antiiso_cut, muon_iso_cut)
 AntiIsoPromptElectronDisplacedMuonRegion.cuts.append(electron_d0_lessThan200_cut)
 AntiIsoPromptElectronDisplacedMuonRegion.cuts.append(muon_d0_greaterThan100_cut)
@@ -145,7 +144,7 @@ AntiIsoPromptMuonDisplacedElectronRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, electron_antiiso_cut, electron_iso_cut)
+replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, electron_antiNewIso_cut, electron_newIso_cut)
 replaceSingleCut(AntiIsoPromptMuonDisplacedElectronRegion.cuts, muon_antiiso_cut, muon_iso_cut)
 AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(muon_d0_lessThan200_cut)
 AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(electron_d0_greaterThan100_cut)

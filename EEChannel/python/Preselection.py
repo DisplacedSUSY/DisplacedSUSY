@@ -24,8 +24,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(electron_pt_75_cut)
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
-#Preselection.cuts.append(electron_iso_cut)
-Preselection.cuts.append(electron_newIso_cut)
+Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
 
 
 ElectronD00to40ElectronD0Above100Region = copy.deepcopy(Preselection)
@@ -78,13 +77,6 @@ ZControlRegion.cuts.append(electron_fiducial_phi_cut)
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
 InclusiveSignalRegion.cuts.append(electron_d0_greaterThan50_cut)
-
-#################################################################
-
-PreselectionLooseIsoCutBTagVeto = copy.deepcopy(Preselection)
-PreselectionLooseIsoCutBTagVeto.name = cms.string("PreselectionLooseIsoCutBTagVeto")
-replaceSingleCut(PreselectionLooseIsoCutBTagVeto.cuts, electron_loose_iso_cut, electron_iso_cut)
-PreselectionLooseIsoCutBTagVeto.cuts.append(jet_btag_lwp_veto)
 
 #################################################################
 

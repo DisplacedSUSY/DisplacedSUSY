@@ -24,7 +24,7 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     Preselection.cuts.append(muon_pt_50_cut)
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
-Preselection.cuts.append(muon_iso_cut)
+Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
 
 MuonD00to40MuonD00to100Region = copy.deepcopy(Preselection)
 MuonD00to40MuonD00to100Region.name = cms.string("MuonD00to40MuonD00to100Region")

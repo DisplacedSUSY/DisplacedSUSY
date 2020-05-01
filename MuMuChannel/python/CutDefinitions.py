@@ -36,10 +36,10 @@ muon_id_cut.numberRequired = cms.string(">= 2")
 muon_id_cut.alias = cms.string(">=2 muons with tight ID")
 
 muon_iso_cut.numberRequired = cms.string(">= 2")
-muon_iso_cut.alias = cms.string(">=2 muons with tight isolation")
+muon_iso_cut.alias = cms.string(">=2 muons with tight rho-based isolation")
 
 muon_antiiso_cut.numberRequired = cms.string(">= 2")
-muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight isolation")
+muon_antiiso_cut.alias = cms.string(">=2 muons with inverted tight rho-based isolation")
 
 muon_pfBetaIsoCorr_cut.numberRequired = cms.string(">= 2")
 muon_pfBetaIsoCorr_cut.alias = cms.string(">=2 muons with pfBetaIsoCorr tight isolation")

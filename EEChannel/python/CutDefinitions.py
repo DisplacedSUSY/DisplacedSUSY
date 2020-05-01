@@ -26,16 +26,13 @@ electron_id_cut.numberRequired = cms.string(">= 2")
 electron_id_cut.alias = cms.string(">=2 electrons with versioned tight ID")
 
 electron_iso_cut.numberRequired = cms.string(">= 2")
-electron_iso_cut.alias = cms.string(">=2 electrons with tight isolation")
-
-electron_antiiso_cut.numberRequired = cms.string(">= 2")
-electron_antiiso_cut.alias = cms.string(">=2 electrons with inverted tight isolation")
-
-electron_loose_iso_cut.numberRequired = cms.string(">= 2")
-electron_loose_iso_cut.alias = cms.string(">=2 electrons with loose isolation")
+electron_iso_cut.alias = cms.string(">=2 electrons with (old) tight isolation")
 
 electron_newIso_cut.numberRequired = cms.string(">= 2")
-electron_newIso_cut.alias = cms.string(">=2 electrons with tight isolation (new def)")
+electron_newIso_cut.alias = cms.string(">=2 electrons with tight rho-based isolation")
+
+electron_antiNewIso_cut.numberRequired = cms.string(">= 2")
+electron_antiNewIso_cut.alias = cms.string(">=2 electrons with inverted tight rho-based isolation")
 
 electron_d0_lessThan10_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan10_cut.alias = cms.string(">=2 electrons with |d_0| < 10 mum")

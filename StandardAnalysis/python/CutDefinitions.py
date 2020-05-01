@@ -439,18 +439,11 @@ electron_newIso_cut = cms.PSet(
     alias = objectDefs.electron_newIso_alias
     )
 
-electron_antiiso_cut = cms.PSet(
+electron_antiNewIso_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_antiiso_cutstring,
+    cutString = objectDefs.electron_antiNewIso_cutstring,
     numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_antiiso_alias
-    )
-
-electron_loose_iso_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = objectDefs.electron_loose_iso_cutstring,
-    numberRequired = cms.string(">= 1"),
-    alias = objectDefs.electron_loose_iso_alias
+    alias = objectDefs.electron_antiNewIso_alias
     )
 
 electron_id_impact_parameter_cut = cms.PSet(
@@ -840,6 +833,14 @@ muon_d0_greaterThan50_cut = cms.PSet(
     alias = cms.string(">=1 muons with |d_0| > 50 mum")
     )
 
+# muon d0 > 80 microns
+muon_d0_greaterThan80_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") > 80"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| > 80 mum")
+    )
+
 # muon 50 < d0 < 100 microns
 muon_d0_50to100_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
@@ -983,6 +984,13 @@ muon_gen_motherIsTau_cut = cms.PSet(
     cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
+)
+
+muon_gen_motherIsHeavyMeson_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) > 400 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 600"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons from heavy meson (muon matched to gen particle whose mother's PDG ID is between 400 and 600)")
 )
 
 exactly1muon_gen_motherIsTau_cut = cms.PSet(
