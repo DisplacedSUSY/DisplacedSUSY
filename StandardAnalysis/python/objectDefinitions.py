@@ -19,7 +19,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 muon_iso_string = "1/pt * max(pfIsolationR04_.sumChargedHadronPt + pfIsolationR04_.sumPUPt + pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - rho*0.503, 0)" # 0.503 = pi*0.4**2
 
 muon_iso_cutstring = cms.string(muon_iso_string + " <= 0.10")
-muon_iso_alias = cms.string(">=1 muons with tight rho-based isolation (<=0.10")
+muon_iso_alias = cms.string(">=1 muons with tight rho-based isolation (<=0.10)")
 
 muon_antiiso_cutstring = cms.string(muon_iso_string + " > 0.10")
 muon_antiiso_alias = cms.string(">=1 muons with inverted tight rho-based isolation (> 0.10)")
