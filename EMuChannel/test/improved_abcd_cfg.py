@@ -65,6 +65,30 @@ pt_max    = 0 # set to 0 to remove upper limit
 #d0_1_max  = 40 # set to 0 to remove upper limit
 #pt_max    = 0 # set to 0 to remove upper limit
 
+# both slightly displaced sideband (as in elog 1548):
+#d0_0_cuts = [50]
+#d0_1_cuts = [50]
+#pt_cuts   = [100]
+#d0_0_max  = 100 # set to 0 to remove upper limit
+#d0_1_max  = 100 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt muon, displaced electron sideband (as in elog 1548):
+#d0_0_cuts = [20]
+#d0_1_cuts = [200]
+#pt_cuts   = [100]
+#d0_0_max  = 100 # set to 0 to remove upper limit
+#d0_1_max  = 1000 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt electron, displaced muon sideband (as in elog 1548):
+#d0_0_cuts = [100]
+#d0_1_cuts = [20]
+#pt_cuts   = [100]
+#d0_0_max  = 500 # set to 0 to remove upper limit
+#d0_1_max  = 100 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     if vs_electon_pt: fit_min = 42 #electron pt cut at 42 GeV in emu
     else: fit_min = 40 #muon pt cut at 40 GeV in 2016 emu
