@@ -63,6 +63,30 @@ pt_max    = 0 # set to 0 to remove upper limit
 #d0_1_max  = 40 # set to 0 to remove upper limit
 #pt_max    = 0 # set to 0 to remove upper limit
 
+# both slightly displaced sideband (as in elog 1548):
+#d0_0_cuts = [50]
+#d0_1_cuts = [50]
+#pt_cuts   = [100]
+#d0_0_max  = 100 # set to 0 to remove upper limit
+#d0_1_max  = 100 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt leading electron, displaced subleading electron sideband:
+#d0_0_cuts = [20]
+#d0_1_cuts = [200]
+#pt_cuts   = [100]
+#d0_0_max  = 100 # set to 0 to remove upper limit
+#d0_1_max  = 1000 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
+# prompt subleading electron, displaced leading electron sideband:
+#d0_0_cuts = [200]
+#d0_1_cuts = [20]
+#pt_cuts   = [100]
+#d0_0_max  = 1000 # set to 0 to remove upper limit
+#d0_1_max  = 100 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     fit_min = 65 #electron pt cut at 65 GeV in 2016 ee
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
