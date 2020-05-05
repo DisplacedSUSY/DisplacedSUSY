@@ -73,7 +73,7 @@ pt_max    = 0 # set to 0 to remove upper limit
 #d0_1_max  = 100 # set to 0 to remove upper limit
 #pt_max    = 0 # set to 0 to remove upper limit
 
-# prompt leading muon, displaced subleading muon sideband:
+# displaced leading muon, prompt subleading muon sideband:
 #d0_0_cuts = [100]
 #d0_1_cuts = [20]
 #pt_cuts   = [100]
@@ -81,7 +81,7 @@ pt_max    = 0 # set to 0 to remove upper limit
 #d0_1_max  = 100 # set to 0 to remove upper limit
 #pt_max    = 0 # set to 0 to remove upper limit
 
-# prompt subleading muon, displaced leading muon sideband:
+# displaced subleading muon, prompt leading muon sideband:
 #d0_0_cuts = [20]
 #d0_1_cuts = [100]
 #pt_cuts   = [100]
