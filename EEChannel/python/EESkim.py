@@ -3,7 +3,6 @@ import copy
 
 from DisplacedSUSY.EEChannel.CutDefinitions import *
 
-#no triggers required
 #at least two good electrons
 EESkim = cms.PSet(
     name = cms.string("EESkim"),
@@ -13,4 +12,10 @@ EESkim = cms.PSet(
         electron_pt_25_cut,
         electron_gap_veto
         )
+)
+
+EESkimWithoutTrigger = cms.PSet(
+    name= cms.string("EESkimWithoutTrigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(EESkim.cuts))
 )

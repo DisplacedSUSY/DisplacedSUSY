@@ -4,7 +4,6 @@ import copy
 from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
 #at least two good muons
-#no triggers required
 MuMuSkim = cms.PSet(
     name = cms.string("MuMuSkim"),
     triggers = triggersDoubleMuon,
@@ -15,3 +14,8 @@ MuMuSkim = cms.PSet(
         ),
     )
 
+MuMuSkimWithoutTrigger = cms.PSet(
+    name= cms.string("MuMuSkimWithoutTrigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(MuMuSkim.cuts))
+)
