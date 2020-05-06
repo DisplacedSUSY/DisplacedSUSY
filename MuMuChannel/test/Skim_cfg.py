@@ -9,10 +9,11 @@ from DisplacedSUSY.MuMuChannel.MuMuSkim import *
 
 eventSelections = []
 eventSelections.append(MuMuSkim)
+#eventSelections.append(MuMuSkimWithoutTrigger)
 
 ################################################################################
 
-# REDEFINE variableProducers, weights, scalingfactorproducers, histograms 
+# REDEFINE variableProducers, weights, scalingfactorproducers, histograms
 # to all to be empty for the skim
 
 variableProducers = []
