@@ -606,7 +606,7 @@ electron_gen_motherIsTau_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 electrons from W (electron matched to gen particle whose mother has PDG ID of 15)")
+    alias = cms.string(">=1 electrons from Tau (electron matched to gen particle whose mother has PDG ID of 15)")
 )
 ##########################################################################
 
@@ -1094,6 +1094,12 @@ emu_uncorrelated_genD0_cut = cms.PSet (
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 e-mu pair w/ uncorrelated |genD0|")
     )
+emu_gen_motherIsTau_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string("abs(electron.genMatchedParticle.noFlags.uniqueMotherPdgId) == 15 || abs(muon.genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons OR muons from Tau (electron OR muon matched to gen particle whose mother has PDG ID of 15)")
+)
 
 
 ##########################################################################
