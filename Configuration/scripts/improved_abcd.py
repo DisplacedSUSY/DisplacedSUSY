@@ -251,12 +251,14 @@ class RatioPlot:
                     del bin_edges[bin_ix+1] # combine current and next bins
                 else:
                     del bin_edges[bin_ix] # combine final and penultimate bins
+                    if content < 0:
+                        bin_ix -= 1 # go back one bin to check that final bin is now positive
                 self.rebin(bin_edges)
             else:
                 bin_ix += 1 # go to next bin if current bin is filled
 
         # iteratively rebin until bin error / bin content is below tolerance for each bin
-        if len(bin_edges)-1 < min_bins:
+        if len(bin_edges)-1 <= min_bins:
             return
         original_edges = list(bin_edges)
         original_tolerance = err_tolerance
@@ -431,7 +433,7 @@ for sample in samples:
         fit_plot.Add(b_over_a_plot, "P")
         if arguments.unblind:
             d_over_c = RatioPlot(pt_hists['d'], pt_hists['c'])
-            d_over_c.improve_binning(error_tolerance, pt_max)
+            d_over_c.improve_binning(error_tolerance, pt_max, 3)
             fit_plot.Add(d_over_c.get_plot(), "P")
         fit_plot.Draw("A")
         fit_plot.GetXaxis().SetLimits(0, pt_max)
