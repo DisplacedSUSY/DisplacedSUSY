@@ -537,19 +537,26 @@ ElectronHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("ElectronNewRhoBasedIsolation"),
             title = cms.string("Electron new rho-based Isolation;Electron new rho-based isolation"),
-            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            binsX = cms.untracked.vdouble(100, 0, 1.0),
             inputVariables = cms.vstring(objectDefs.electron_newIso_string),
+        ),
+        cms.PSet (
+            name = cms.string("ElectronNewRhoBasedIsolation_vs_electronPt"),
+            title = cms.string("Electron new rho-based Isolation vs. Electron p_{T};Electron p_{T} [GeV];Electron new rho-based isolation"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            binsY = cms.untracked.vdouble(100, 0, 1.0),
+            inputVariables = cms.vstring("pt",objectDefs.electron_newIso_string),
         ),
         cms.PSet (
             name = cms.string("electronPFrhoIsolation"),
             title = cms.string("Electron PF-based #rho-corrected Isolation;Electron rel. iso."),
-            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            binsX = cms.untracked.vdouble(100, 0, 1.0),
             inputVariables = cms.vstring("(pfIso_.sumChargedHadronPt + max(0.0,pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*AEff))/pt"),
         ),
         cms.PSet (
             name = cms.string("electronPFrhoIsolationCorr"),
             title = cms.string("Electron PF-based #rho-corrected Isolation Corrected;Electron #rho-corrected Isolation Corrected"),
-            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            binsX = cms.untracked.vdouble(100, 0, 1.0),
             inputVariables = cms.vstring("pfdRhoIsoCorr"),
         ),
         cms.PSet (
