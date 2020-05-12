@@ -160,7 +160,7 @@ MuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonRhoBasedIsolation"),
             title = cms.string("Muon rho-based Isolation;Muon rho-based isolation"),
-            binsX = cms.untracked.vdouble(100, 0, 5.0),
+            binsX = cms.untracked.vdouble(100, 0, 1.0),
             inputVariables = cms.vstring(objectDefs.muon_iso_string),
         ),
         cms.PSet (
