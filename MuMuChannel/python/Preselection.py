@@ -200,13 +200,19 @@ PreselectionLeptonsFromW = cms.PSet(
 )
 PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
 
-
 PreselectionLeptonsFromWorZ = cms.PSet(
     name = cms.string("PreselectionLeptonsFromWorZ"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionLeptonsFromWorZ.cuts.append(muon_gen_motherIsWorZ_cut)
+
+PreselectionLeptonsFromTau = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromTau"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
 
 Preselection1LeptonFromTau = cms.PSet(
     name = cms.string("Preselection1LeptonFromTau"),

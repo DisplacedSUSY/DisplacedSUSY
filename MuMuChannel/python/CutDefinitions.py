@@ -78,6 +78,9 @@ muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
 muon_gen_motherIsW_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsW_cut.alias = cms.string(">=2 muons from W (muon matched to gen particle whose mother has PDG ID of 24)")
 
+muon_gen_motherIsTau_cut.numberRequired = cms.string(">= 2")
+muon_gen_motherIsTau_cut.alias = cms.string(">=2 muons from tau (muon matched to gen particle whose mother has PDG ID of 15)")
+
 muon_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
