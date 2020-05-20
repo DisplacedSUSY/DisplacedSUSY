@@ -41,7 +41,7 @@ eventSelections = [
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
     #PreselectionLeptonsFromWorZ,
-    #PreselectionLeptonsFromWorTau,
+    #PreselectionLeptonsFromTau,
     #Preselection1LeptonFromTau,
     #Preselection2LeptonsFromTau,
     #Preselection2TausFromZ,
