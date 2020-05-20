@@ -41,7 +41,9 @@ eventSelections = [
     #PreselectionUncorrelatedGenD0,
 
     #PreselectionLeptonsFromW,
+    #PreselectionLeptonsFromWorZ,
     #PreselectionMuFromTau,
+    #PreselectionEFromTau,
     #PreselectionMuFromWorZ,
     #Preselection2TausFromZ,
 

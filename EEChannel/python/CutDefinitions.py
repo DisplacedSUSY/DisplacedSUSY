@@ -61,6 +61,9 @@ electron_d0_greaterThan200_cut.alias = cms.string("electron |d_0| > 200 mum")
 electron_gen_motherIsW_cut.numberRequired = cms.string(">= 2")
 electron_gen_motherIsW_cut.alias = cms.string(">=2 electrons from W (electron matched to gen particle whose mother has PDG ID of 24)")
 
+electron_gen_motherIsWorZ_cut.numberRequired = cms.string(">= 2")
+electron_gen_motherIsWorZ_cut.alias = cms.string(">=2 electrons from W or Z (electron matched to gen particle whose mother's PDG ID is 23 or 24)")
+
 electron_gen_motherIsTau_cut.numberRequired = cms.string(">= 2")
 electron_gen_motherIsTau_cut.alias = cms.string(">=2 electrons from tau (electron matched to gen particle whose mother has PDG ID of 15)")
 

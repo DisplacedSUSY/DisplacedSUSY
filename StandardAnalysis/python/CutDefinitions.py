@@ -602,6 +602,13 @@ electron_gen_motherIsW_cut = cms.PSet(
     alias = cms.string(">=1 electrons from W (electron matched to gen particle whose mother has PDG ID of 24)")
 )
 
+electron_gen_motherIsWorZ_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 23 | abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 24"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons from W or Z (electron matched to gen particle whose mother's PDG ID is 23 or 24)")
+)
+
 electron_gen_motherIsTau_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
@@ -1099,7 +1106,18 @@ emu_gen_motherIsTau_cut = cms.PSet(
     cutString = cms.string("abs(electron.genMatchedParticle.noFlags.uniqueMotherPdgId) == 15 || abs(muon.genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons OR muons from Tau (electron OR muon matched to gen particle whose mother has PDG ID of 15)")
-)
+    )
+emu_gen_motherIsQuarkOrHadron_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons", "muons"),
+    cutString = cms.string(
+        "(abs(electron.genMatchedParticle.noFlags.uniqueMotherPdgId) <= 6    || " +
+        " abs(electron.genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111) || " +
+        "(abs(muon.genMatchedParticle.noFlags.uniqueMotherPdgId)     <= 6    || " +
+        " abs(muon.genMatchedParticle.noFlags.uniqueMotherPdgId)     >= 111) || "
+    ),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons OR muons from quarks or hadrons (electron OR muon matched to gen particle whose mother has PDG ID <=6 OR >=111)")
+    )
 
 
 ##########################################################################
