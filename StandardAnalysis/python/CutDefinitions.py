@@ -618,7 +618,7 @@ electron_gen_motherIsTau_cut = cms.PSet(
 
 electron_gen_motherIsLightMeson_cut = cms.PSet(
    inputCollection = cms.vstring("electrons"),
-   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111) & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400)"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string(">=1 electrons from light mesons (electron matched to gen particle whose mother has 111 <= PDG ID < 400)")
 )
@@ -1010,7 +1010,7 @@ muon_gen_motherIsTau_cut = cms.PSet(
 
 muon_gen_motherIsLightMeson_cut = cms.PSet(
    inputCollection = cms.vstring("muons"),
-   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111) & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400)"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string(">=1 muons from light mesons (muon matched to gen particle whose mother has 111 <= PDG ID < 400)")
 )
