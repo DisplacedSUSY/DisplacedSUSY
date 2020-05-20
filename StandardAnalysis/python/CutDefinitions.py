@@ -615,6 +615,21 @@ electron_gen_motherIsTau_cut = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons from Tau (electron matched to gen particle whose mother has PDG ID of 15)")
 )
+
+electron_gen_motherIsLightMeson_cut = cms.PSet(
+   inputCollection = cms.vstring("electrons"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111) & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 electrons from light mesons (electron matched to gen particle whose mother has 111 <= PDG ID < 400)")
+)
+
+electron_gen_motherIsHeavyMeson_cut = cms.PSet(
+   inputCollection = cms.vstring("electrons"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) > 400 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 600"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 electrons from heavy mesons (electron matched to gen particle whose mother has 400 < PDG ID < 600)")
+)
+
 ##########################################################################
 
 # BEGIN MUON CUTS
@@ -993,11 +1008,18 @@ muon_gen_motherIsTau_cut = cms.PSet(
     alias = cms.string(">=1 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
 )
 
+muon_gen_motherIsLightMeson_cut = cms.PSet(
+   inputCollection = cms.vstring("muons"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111) & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 muons from light mesons (muon matched to gen particle whose mother has 111 <= PDG ID < 400)")
+)
+
 muon_gen_motherIsHeavyMeson_cut = cms.PSet(
-    inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) > 400 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 600"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 muons from heavy meson (muon matched to gen particle whose mother's PDG ID is between 400 and 600)")
+   inputCollection = cms.vstring("muons"),
+   cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) > 400 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 600"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 muons from heavy mesons (muon matched to gen particle whose mother has 400 < PDG ID < 600)")
 )
 
 exactly1muon_gen_motherIsTau_cut = cms.PSet(

@@ -46,6 +46,10 @@ eventSelections = [
     #PreselectionEFromTau,
     #PreselectionMuFromWorZ,
     #Preselection2TausFromZ,
+    #PreselectionMuFromLightMeson,
+    #PreselectionMuFromHeavyMeson,
+    #PreselectionEFromLightMeson,
+    #PreselectionEFromHeavyMeson,
 
     #GenEMuFromStopsSelection,
 ]

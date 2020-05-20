@@ -45,6 +45,8 @@ eventSelections = [
     #Preselection1LeptonFromTau,
     #Preselection2LeptonsFromTau,
     #Preselection2TausFromZ,
+    #PreselectionMuFromLightMeson,
+    #PreselectionMuFromHeavyMeson,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,

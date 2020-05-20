@@ -29,6 +29,8 @@ eventSelections = [
     #PreselectionLeptonsFromWorZ,
     #PreselectionLeptonsFromTau,
     #Preselection2TausFromZ,
+    #PreselectionEFromLightMeson,
+    #PreselectionEFromHeavyMeson,
     #DisplacedHighPtL1PrefiringCheck,
     #GenEEFromStopsSelection,
     ]

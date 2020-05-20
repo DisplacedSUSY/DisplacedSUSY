@@ -71,6 +71,12 @@ muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with |d_0| < 0.2 cm")
 muon_gen_motherIsWorZ_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsWorZ_cut.alias = cms.string(">=2 muons from W or Z (muons matched to gen particles whose mother's PDG ID is 23 or 24")
 
+muon_gen_motherIsLightMeson_cut.numberRequired = cms.string(">= 2")
+muon_gen_motherIsLightMeson_cut.alias = cms.string(">=2 muons from light mesons (muon matched to gen particle whose mother has 111 <= PDG ID < 400)")
+
+muon_gen_motherIsHeavyMeson_cut.numberRequired = cms.string(">= 2")
+muon_gen_motherIsHeavyMeson_cut.alias = cms.string(">=2 muons from heavy mesons (muon matched to gen particle whose mother has 400 < PDG ID < 600)")
+
 #dZ cut
 muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
 muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")

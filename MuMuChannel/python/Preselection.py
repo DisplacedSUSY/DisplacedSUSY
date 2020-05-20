@@ -235,6 +235,19 @@ Preselection2TausFromZ = cms.PSet(
 )
 Preselection2TausFromZ.cuts.append(exactly2_genTau_uniqueMotherIsZ_cut)
 
+PreselectionMuFromLightMeson = cms.PSet(
+    name = cms.string("PreselectionMuFromLightMeson"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionMuFromLightMeson.cuts.append(muon_gen_motherIsLightMeson_cut)
+
+PreselectionMuFromHeavyMeson = cms.PSet(
+    name = cms.string("PreselectionMuFromHeavyMeson"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionMuFromHeavyMeson.cuts.append(muon_gen_motherIsHeavyMeson_cut)
 #################################################################
 
 GenMuMuFromStopsSelection = cms.PSet(
