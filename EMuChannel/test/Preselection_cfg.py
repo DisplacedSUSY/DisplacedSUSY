@@ -52,6 +52,10 @@ eventSelections = [
     #PreselectionEFromHeavyMeson,
 
     #GenEMuFromStopsSelection,
+    #GenEMuFromStopsEleSelection,
+    #GenEMuFromStopsMuSelection,
+    #GenEMuFromStopsEleAndTriggerSelection,
+    #GenEMuFromStopsMuAndTriggerSelection,
 ]
 
 ################################################################################

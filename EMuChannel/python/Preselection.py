@@ -277,14 +277,40 @@ GenEMuFromStopsSelection = cms.PSet(
     cuts = cms.VPSet([
         exactly2_genEleOrMu_status1_uniqueMotherIsStop_cut,
         genEleMuChannel_cut,
-        atLeastTwo_genLxy_lessThan50cm_cut,
-        atLeastTwo_genEta_cut,
+        #atLeastTwo_genLxy_lessThan50cm_cut,
+        #atLeastTwo_genEta_cut,
     ])
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_40_cut)
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    #GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_40_cut)
+#elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    #GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
+
+GenEMuFromStopsEleSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsEleSelection"),
+    triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
+)
+GenEMuFromStopsEleSelection.cuts.append(exactly1_genEle)
+
+GenEMuFromStopsMuSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsMuSelection"),
+    triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
+)
+GenEMuFromStopsMuSelection.cuts.append(exactly1_genMu)
+
+GenEMuFromStopsEleAndTriggerSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsEleAndTriggerSelection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsEleSelection.cuts))
+)
+
+GenEMuFromStopsMuAndTriggerSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsMuAndTriggerSelection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsMuSelection.cuts))
+)
 
 AdditionalPreselection = cms.PSet(
     name = cms.string("AdditionalPreselection"),

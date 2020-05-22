@@ -5287,6 +5287,12 @@ GenParticleHistograms = cms.PSet(
             inputVariables = cms.vstring("pt"),
         ),
         cms.PSet (
+            name = cms.string("GenPt_ext"),
+            title = cms.string("Gen Transverse Momentum;Gen p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(300, 0, 3000),
+            inputVariables = cms.vstring("pt"),
+        ),
+        cms.PSet (
             name = cms.string("GenEta"),
             title = cms.string("Gen Eta;Gen #eta"),
             binsX = cms.untracked.vdouble(80, -4, 4),
@@ -5298,24 +5304,6 @@ GenParticleHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("phi"),
         ),
-         cms.PSet (
-            name = cms.string("GenVx"),
-            title = cms.string("Gen x-coord of vertex;Gen vx [mm]"),
-            binsX = cms.untracked.vdouble(100, -1000, 1000),
-            inputVariables = cms.vstring("vx"),
-        ),
-        cms.PSet (
-            name = cms.string("GenVy"),
-            title = cms.string("Gen y-coord of vertex;Gen vy [mm]"),
-            binsX = cms.untracked.vdouble(100, -1000, 1000),
-            inputVariables = cms.vstring("vy"),
-        ),
-        cms.PSet (
-            name = cms.string("GenVz"),
-            title = cms.string("Gen z-coord of vertex;Gen vz [mm]"),
-            binsX = cms.untracked.vdouble(100, -1000, 1000),
-            inputVariables = cms.vstring("vz"),
-        ),
         cms.PSet (
             name = cms.string("GenMotherPdgId"),
             title = cms.string("Unique Gen Mother PdgId;Mother |PDG ID|"),
@@ -5324,3 +5312,15 @@ GenParticleHistograms = cms.PSet(
             ),
         )
     )
+
+GenParticleD0Histograms = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles","beamspots"),
+    histograms = cms.VPSet (
+        cms.PSet (
+            name = cms.string("GenAbsD0_100000um"),
+            title = cms.string("Gen |d_{0}|;Gen |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(1000, 0, 100000),
+            inputVariables = cms.vstring("10000*abs("+hardInteractionMcparticleD0WRTBeamspot+")"),
+        ),
+    )
+)

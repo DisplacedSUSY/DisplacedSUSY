@@ -57,6 +57,20 @@ genEleMuChannel_cut = cms.PSet(
     alias = cms.string("Exactly 1 gen electron and 1 gen muon")
 )
 
+exactly1_genEle = cms.PSet(
+   inputCollection = cms.vstring("hardInteractionMcparticles"),
+   cutString = cms.string("abs (pdgId) == 11"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("Exactly 1 gen electron")
+)
+
+exactly1_genMu = cms.PSet(
+   inputCollection = cms.vstring("hardInteractionMcparticles"),
+   cutString = cms.string("abs (pdgId) == 13"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("Exactly 1 gen muon")
+)
+
 atLeastTwo_genLxy_lessThan50cm_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     cutString = cms.string("sqrt(vx*vx+vy*vy)<500."),

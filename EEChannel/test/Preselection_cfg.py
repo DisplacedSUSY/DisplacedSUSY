@@ -33,6 +33,7 @@ eventSelections = [
     #PreselectionEFromHeavyMeson,
     #DisplacedHighPtL1PrefiringCheck,
     #GenEEFromStopsSelection,
+    #GenEEFromStopsAndTriggerSelection,
     ]
 
 # Redefine scalingfactorproducers to not include muon scale factors

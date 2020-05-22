@@ -156,16 +156,21 @@ GenEEFromStopsSelection = cms.PSet(
     triggers = cms.vstring(),
     cuts = cms.VPSet([exactly2_genEle_status1_uniqueMotherIsStop_cut,
                       #atLeastTwo_genLxy_lessThan50cm_cut,
-                      atLeastTwo_genLxy_lessThan1cm_cut,
-                      atLeastTwo_genEta_cut,
+                      #atLeastTwo_genLxy_lessThan1cm_cut,
+                      #atLeastTwo_genEta_cut,
                 ])
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_65_cut)
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_75_cut)
-GenEEFromStopsSelection.cuts.append(cutDummyElectron)
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    #GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_65_cut)
+#elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    #GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_75_cut)
+#GenEEFromStopsSelection.cuts.append(cutDummyElectron)
 
+GenEEFromStopsAndTriggerSelection = cms.PSet(
+    name = cms.string("GenEEFromStopsAndTriggerSelection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenEEFromStopsSelection.cuts))
+)
 #################################################################
 
 AdditionalPreselection = cms.PSet(
