@@ -151,9 +151,9 @@ diMuon_opposite_charge_cut = cms.PSet (
 
 diMuon_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("deltaR(muon, muon) > 0.5"),
+    cutString = cms.string("deltaR(muon, muon) > 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well-seperated mu-mu pair (#DeltaR > 0.5)")
+    alias = cms.string(">=1 mu-mu pair with #DeltaR > 0.1")
     )
 
 diMuon_cosAlpha_veto = cms.PSet (
