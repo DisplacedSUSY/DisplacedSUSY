@@ -50,6 +50,7 @@ eventSelections = [
     #PreselectionMuFromHeavyMeson,
     #PreselectionEFromLightMeson,
     #PreselectionEFromHeavyMeson,
+    #PreselectionEOrMuFromHeavyMeson,
 
     #GenEMuFromStopsSelection,
     #GenEMuFromStopsEleSelection,

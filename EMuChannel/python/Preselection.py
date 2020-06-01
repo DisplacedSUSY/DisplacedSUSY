@@ -257,6 +257,13 @@ PreselectionEFromHeavyMeson = cms.PSet(
 )
 PreselectionEFromHeavyMeson.cuts.append(electron_gen_motherIsHeavyMeson_cut)
 
+PreselectionEOrMuFromHeavyMeson = cms.PSet(
+    name = cms.string("PreselectionEOrMuFromHeavyMeson"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionEOrMuFromHeavyMeson.cuts.append(emu_gen_motherIsHeavyMeson_cut)
+
 PreselectionMuFromWorZ = cms.PSet(
     name = cms.string("PreselectionMuFromWorZ"),
     triggers = copy.deepcopy(Preselection.triggers),
