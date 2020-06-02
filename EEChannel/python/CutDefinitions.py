@@ -9,6 +9,7 @@ from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 # CHANGE ELECTRON CUTS TO >=2 ELECTRONS
 
 electron_eta_cut.numberRequired = cms.string(">= 2")
+electron_eta1p9_cut.numberRequired = cms.string(">= 2")
 
 electron_gap_veto.numberRequired = cms.string(">= 2")
 electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
@@ -116,9 +117,9 @@ diElectron_opposite_charge_cut = cms.PSet (
 
 diElectron_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "electrons"),
-    cutString = cms.string("deltaR(electron, electron) > 0.5"),
+    cutString = cms.string("deltaR(electron, electron) > 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well-seperated e-e pair (#DeltaR > 0.5)")
+    alias = cms.string(">=1 e-e pair with #DeltaR > 0.1")
 )
 
 tagElectronExists_cut = cms.PSet (

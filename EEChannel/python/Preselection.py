@@ -175,7 +175,9 @@ GenEEFromStopsAndTriggerSelection = cms.PSet(
 
 AdditionalPreselection = cms.PSet(
     name = cms.string("AdditionalPreselection"),
-    triggers = cms.vstring(""),
-    cuts = cms.VPSet()
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-AdditionalPreselection.cuts.append(displaced_muon_emu_preselection_veto)
+AdditionalPreselection.cuts.append(electron_eta1p9_cut) #to remove poorly measured d0 of electrons at large eta
+AdditionalPreselection.cuts.append(diElectron_deltaR_cut) # remove hypothetical electrons from mesons that are close to each other (loose dR>0.1)
+#AdditionalPreselection.cuts.append(displaced_muon_emu_preselection_veto) #remove overlap with emu channel

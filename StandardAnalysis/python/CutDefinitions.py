@@ -363,6 +363,12 @@ electron_eta_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_eta1p9_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("abs(electron.eta) < 1.9"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_gap_veto = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("isEBEEGap = 0"),

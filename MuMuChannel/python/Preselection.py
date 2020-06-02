@@ -279,12 +279,12 @@ GenMuMuFromZSelection = cms.PSet(
 
 AdditionalPreselection = cms.PSet(
     name = cms.string("AdditionalPreselection"),
-    triggers = cms.vstring(""),
-    cuts = cms.VPSet()
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
 AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
-AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
+#AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
 
 #################################################################
 
