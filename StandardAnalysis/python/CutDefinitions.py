@@ -1111,9 +1111,9 @@ emu_pt_greaterThan50_cut = cms.PSet (
 
 emu_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
-    cutString = cms.string("deltaR(electron,muon) > 0.5"),
+    cutString = cms.string("deltaR(electron,muon) > 0.1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 well separated e-mu pair (#DeltaR > 0.5)")
+    alias = cms.string(">=1 e-mu pair with #DeltaR > 0.1")
     )
 
 emu_correlated_d0_cut = cms.PSet (

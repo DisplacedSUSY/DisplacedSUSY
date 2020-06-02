@@ -324,4 +324,5 @@ AdditionalPreselection = cms.PSet(
     triggers = cms.vstring(""),
     cuts = cms.VPSet()
 )
-AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto)
+AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+AdditionalPreselection.cuts.append(emu_deltaR_cut) #remove leptons from mesons that are very close to each other (loose dR>0.1)
