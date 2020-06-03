@@ -1176,6 +1176,18 @@ emu_gen_motherIsQuarkOrHadron_cut = cms.PSet(
     alias = cms.string(">=1 electrons OR muons from quarks or hadrons (electron OR muon matched to gen particle whose mother has PDG ID <=6 OR >=111)")
     )
 
+##########################################################################
+
+# BEGIN MUON-MUON CUTS
+
+diMuon_cosAlpha_veto = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("cosAlpha(muon, muon) < -0.99"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("veto back-to-back muons (0 pairs with cos(3D angle) < -0.99)")
+    )
+
 
 ##########################################################################
 # ELECTRON-JET OVERLAP VETO
