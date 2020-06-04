@@ -89,7 +89,7 @@ prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 if arguments.makeTables:
     print "[B]", title(""), "[/B]"
     print '[TABLE border="1"]'
-    print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual"
+    print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual|D Actual/Estimate"
 
 for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
     x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
@@ -143,10 +143,10 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             comp_hist.SetBinContent(out_bin, consistency)
 
             if arguments.makeTables and x_bin_lo != prompt_bin_x_lo and y_bin_lo != prompt_bin_y_lo:
-                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + "| {:.0f}"
+                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + " | {:.0f}" + " | {:.2f}"
                 print "|-"
-                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield,
-                                           x_yield, y_yield, abcd_yield, abcd_error, count_yield)
+                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield, x_yield, y_yield,
+                                           abcd_yield, abcd_error, count_yield, count_yield/abcd_yield)
 
 if arguments.makeTables:
     print "[/TABLE]"
