@@ -126,10 +126,10 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             count_hist.SetBinError(out_bin, count_error)
 
             try:
-                ratio_hist.SetBinContent(out_bin, abcd_yield/count_yield)
+                ratio_hist.SetBinContent(out_bin, count_yield/abcd_yield)
             except ZeroDivisionError:
                 ratio_hist.SetBinContent(out_bin, 2)
-                print "count yield is 0, setting ratio to 2"
+                print "estimate is 0, setting ratio to 2"
 
             yield_diff = round(abs(abcd_yield - count_yield), 5)
             total_error  = abcd_error + count_error
@@ -238,6 +238,8 @@ if arguments.doClosureTest:
     ratio_hist.GetYaxis().SetTitle(y_axis_title)
     ratio_hist.GetXaxis().SetTitleOffset(1.2)
     ratio_hist.GetYaxis().SetTitleOffset(1.1)
+    ratio_hist.SetMinimum(0)
+    ratio_hist.SetMaximum(2)
     ratio_hist.Write()
     CanvasRatio = TCanvas( "CanvasRatio", "CanvasRatio", 100, 100, 700, 600 )
     #CanvasRatio.SetLogx()
