@@ -1284,6 +1284,27 @@ pass_trigger = cms.PSet(
     alias = cms.string("pass trigger specified in config file")
     )
 
+pass_L1MuEG_Seeds = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("L1_Mu5_EG20 > 0 || L1_Mu20_EG15 > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("pass L1_Mu5_EG20 OR L1_Mu20_EG15")
+    )
+
+pass_L1DoubleMu_Seeds = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("L1_DoubleMu_11_4 > 0 || L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("pass L1_DoubleMu_11_4 OR L1_DoubleMu_12_5 OR L1_DoubleMu_13_6")
+    )
+
+pass_L1EG_OR_L1Jet_Seeds = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("pass L1_SingleEG OR SingleIsoEG OR DoubleEG OR SingleJet200 OR SingleTau100er")
+    )
+
 ##########################################################################
 
 # BEGIN CUTS TO REDUCE OVERLAP BETWEEN CHANNELS

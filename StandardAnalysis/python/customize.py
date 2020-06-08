@@ -35,6 +35,11 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
             process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_PFMET200_HBHECleaned")
         process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
+        process.DisplacedSUSYEventVariableProducer.AlgInputTag = cms.InputTag("gtStage2Digis")
+        process.DisplacedSUSYEventVariableProducer.l1tAlgBlkInputTag = cms.InputTag("gtStage2Digis")
+        process.DisplacedSUSYEventVariableProducer.l1tExtBlkInputTag = cms.InputTag("gtStage2Digis")
+        process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG20","L1_Mu20_EG15","L1_DoubleMu_11_4", "L1_DoubleMu_12_5", "L1_DoubleMu_13_6", "L1_SingleEG30", "L1_SingleEG40", "L1_SingleIsoEG22er", "L1_SingleIsoEG28", "L1_DoubleEG_15_10", "L1_DoubleEG_25_12", "L1_SingleJet200", "L1_SingleTau100er") #just for 2016 seeds for now
+        process.DisplacedSUSYEventVariableProducer.ReadPrescalesFromFile = cms.bool(False)
 ################################################################################
 ##### Set variables needed for OSUElectron and Muon Producer ###################
 ################################################################################
