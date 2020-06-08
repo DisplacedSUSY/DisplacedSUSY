@@ -27,6 +27,13 @@ EMuSkimWithoutTrigger = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(EMuSkim.cuts))
 )
 
+EMuSkimWithOnlyL1Trigger = cms.PSet(
+    name = cms.string("EMuSkimWithOnlyL1Trigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(EMuSkim.cuts))
+)
+EMuSkimWithOnlyL1Trigger.cuts.append(pass_L1MuEG_Seeds)
+
 EmptySkim = cms.PSet(
     name = cms.string("EmptySkim"),
     triggers = cms.vstring(""),

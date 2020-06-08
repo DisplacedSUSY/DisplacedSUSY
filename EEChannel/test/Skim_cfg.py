@@ -10,19 +10,17 @@ from DisplacedSUSY.EEChannel.EESkim import *
 eventSelections = []
 eventSelections.append(EESkim)
 #eventSelections.append(EESkimWithoutTrigger)
-
+#eventSelections.append(EESkimWithOnlyL1Trigger)
 ################################################################################
 
-# REDEFINE variableProducers, weights, scalingfactorproducers, histograms
+# REDEFINE weights, scalingfactorproducers, histograms
 # to all to be empty for the skim
-
-variableProducers = []
 
 weights = cms.VPSet ()
 
 scalingfactorproducers = []
 
-histograms = cms.VPSet()
+histograms = cms.VPSet() #but need to make histograms for trigger study
 
 ################################################################################
 ##### Attach the channels to the process #######################################

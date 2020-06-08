@@ -19,3 +19,10 @@ EESkimWithoutTrigger = cms.PSet(
     triggers = cms.vstring(""),
     cuts = cms.VPSet (copy.deepcopy(EESkim.cuts))
 )
+
+EESkimWithOnlyL1Trigger = cms.PSet(
+    name = cms.string("EESkimWithOnlyL1Trigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(EESkim.cuts))
+)
+EESkimWithOnlyL1Trigger.cuts.append(pass_L1EG_OR_L1Jet_Seeds)

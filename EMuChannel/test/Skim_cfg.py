@@ -1,5 +1,6 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
+from DisplacedSUSY.EMuChannel.EMuHistograms import *
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -10,20 +11,19 @@ from DisplacedSUSY.EMuChannel.EMuSkim import *
 eventSelections = []
 eventSelections.append(EMuSkim)
 #eventSelections.append(EMuSkimWithoutTrigger)
+#eventSelections.append(EMuSkimWithOnlyL1Trigger)
 #eventSelections.append(EmptySkim)
 
 ################################################################################
 
-# REDEFINE variableProducers, weights, scalingfactorproducers, histograms
+# REDEFINE weights, scalingfactorproducers, histograms
 # to all to be empty for the skim
-
-variableProducers = []
 
 weights = cms.VPSet ()
 
 scalingfactorproducers = []
 
-histograms = cms.VPSet()
+histograms = cms.VPSet() #but need to make histograms for trigger study
 
 ################################################################################
 ##### Attach the channels to the process #######################################

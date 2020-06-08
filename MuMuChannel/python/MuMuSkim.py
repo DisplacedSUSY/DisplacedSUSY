@@ -19,3 +19,10 @@ MuMuSkimWithoutTrigger = cms.PSet(
     triggers = cms.vstring(""),
     cuts = cms.VPSet (copy.deepcopy(MuMuSkim.cuts))
 )
+
+MuMuSkimWithOnlyL1Trigger = cms.PSet(
+    name = cms.string("MuMuSkimWithOnlyL1Trigger"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet (copy.deepcopy(MuMuSkim.cuts))
+)
+MuMuSkimWithOnlyL1Trigger.cuts.append(pass_L1DoubleMu_Seeds)
