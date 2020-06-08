@@ -55,8 +55,10 @@ eventSelections = [
     #GenEMuFromStopsSelection,
     #GenEMuFromStopsEleSelection,
     #GenEMuFromStopsMuSelection,
-    #GenEMuFromStopsEleAndTriggerSelection,
-    #GenEMuFromStopsMuAndTriggerSelection,
+    #GenEMuFromStopsEleAndHLTTrigSelection,
+    #GenEMuFromStopsMuAndHLTTrigSelection,
+    #GenEMuFromStopsEleAndL1TrigSelection,
+    #GenEMuFromStopsMuAndL1TrigSelection,
 ]
 
 ################################################################################

@@ -166,11 +166,21 @@ GenEEFromStopsSelection = cms.PSet(
     #GenEEFromStopsSelection.cuts.append(atLeastTwo_genPt_75_cut)
 #GenEEFromStopsSelection.cuts.append(cutDummyElectron)
 
-GenEEFromStopsAndTriggerSelection = cms.PSet(
-    name = cms.string("GenEEFromStopsAndTriggerSelection"),
+#HLT
+GenEEFromStopsAndHLTTrigSelection = cms.PSet(
+    name = cms.string("GenEEFromStopsAndHLTTrigSelection"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEEFromStopsSelection.cuts))
 )
+
+#L1
+GenEEFromStopsAndL1TrigSelection = cms.PSet(
+    name = cms.string("GenEEFromStopsAndL1TrigSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (copy.deepcopy(GenEEFromStopsSelection.cuts))
+)
+GenEEFromStopsAndL1TrigSelection.cuts.append(pass_L1EG_OR_L1Jet_Seeds)
+
 #################################################################
 
 AdditionalPreselection = cms.PSet(

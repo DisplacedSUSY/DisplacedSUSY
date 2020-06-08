@@ -293,6 +293,8 @@ GenEMuFromStopsSelection = cms.PSet(
 #elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     #GenEMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
 
+######
+#to look at either gen ele or mu, but not both, in histograms
 GenEMuFromStopsEleSelection = cms.PSet(
     name = cms.string("GenEMuFromStopsEleSelection"),
     triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
@@ -307,18 +309,37 @@ GenEMuFromStopsMuSelection = cms.PSet(
 )
 GenEMuFromStopsMuSelection.cuts.append(exactly1_genMu)
 
-GenEMuFromStopsEleAndTriggerSelection = cms.PSet(
-    name = cms.string("GenEMuFromStopsEleAndTriggerSelection"),
+######
+#HLT
+GenEMuFromStopsEleAndHLTTrigSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsEleAndHLTTrigSelection"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsEleSelection.cuts))
 )
 
-GenEMuFromStopsMuAndTriggerSelection = cms.PSet(
-    name = cms.string("GenEMuFromStopsMuAndTriggerSelection"),
+GenEMuFromStopsMuAndHLTTrigSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsMuAndHLTTrigSelection"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsMuSelection.cuts))
 )
 
+######
+#L1
+GenEMuFromStopsEleAndL1TrigSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsEleAndL1TrigSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsEleSelection.cuts))
+)
+GenEMuFromStopsEleAndL1TrigSelection.cuts.append(pass_L1MuEG_Seeds)
+
+GenEMuFromStopsMuAndL1TrigSelection = cms.PSet(
+    name = cms.string("GenEMuFromStopsMuAndL1TrigSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsMuSelection.cuts))
+)
+GenEMuFromStopsMuAndL1TrigSelection.cuts.append(pass_L1MuEG_Seeds)
+
+######
 AdditionalPreselection = cms.PSet(
     name = cms.string("AdditionalPreselection"),
     triggers = copy.deepcopy(Preselection.triggers),

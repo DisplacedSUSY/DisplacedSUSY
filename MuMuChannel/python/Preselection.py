@@ -263,18 +263,26 @@ GenMuMuFromStopsSelection = cms.PSet(
 #elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     #GenMuMuFromStopsSelection.cuts.append(atLeastTwo_genPt_50_cut)
 
-GenMuMuFromStopsAndTriggerSelection = cms.PSet(
-    name = cms.string("GenMuMuFromStopsAndTriggerSelection"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(GenMuMuFromStopsSelection.cuts))
-)
-
 GenMuMuFromZSelection = cms.PSet(
     name = cms.string("GenMuMuFromZSelection"),
     triggers = cms.vstring(),
     cuts = cms.VPSet([exactly2_genMu_status1_uniqueMotherIsZ_cut])
 )
 
+#HLT
+GenMuMuFromStopsAndHLTTrigSelection = cms.PSet(
+    name = cms.string("GenMuMuFromStopsAndHLTTrigSelection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(GenMuMuFromStopsSelection.cuts))
+)
+
+#L1
+GenMuMuFromStopsAndL1TrigSelection = cms.PSet(
+    name = cms.string("GenMuMuFromStopsAndL1TrigSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet (copy.deepcopy(GenMuMuFromStopsSelection.cuts))
+)
+GenMuMuFromStopsAndL1TrigSelection.cuts.append(pass_L1DoubleMu_Seeds)
 #################################################################
 
 AdditionalPreselection = cms.PSet(
