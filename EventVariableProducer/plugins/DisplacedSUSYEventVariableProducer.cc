@@ -14,11 +14,19 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   type_ = cfg.getParameter<string>("type");
   triggerPath_ = cfg.getParameter<string>("triggerPath");
   triggerScaleFactor_ = cfg.getParameter<double>("triggerScaleFactor");
+
+  //L1 bits information, thanks to scouting dijet team
+  //https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetScoutingTreeProducer.cc
+  l1GtUtils_ = new l1t::L1TGlobalUtil(cfg,consumesCollector());
+  algToken_ = consumes<BXVector<GlobalAlgBlk>>(cfg.getParameter<edm::InputTag>("AlgInputTag"));
+  l1Seeds_ = cfg.getParameter<std::vector<std::string> >("l1Seeds");
+  //fill a map of l1 seeds
+  for(unsigned int i = 0; i < l1Seeds_.size(); i++) L1BitsMap[ l1Seeds_[i] ] = false;
 }
 
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
-void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) {
+void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, const edm::EventSetup &setup) {
 #if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD || DATA_FORMAT == MINI_AOD_2017
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
@@ -143,8 +151,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   for (const auto &electron1 : *handles_.electrons) {
     // electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
     // These magic numbers should be replaced by a better approach
-    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) <= 1.479 && 
-        electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 && 
+    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) <= 1.479 &&
+        electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
         abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
         electron1.passConversionVeto()) {
@@ -154,9 +162,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagElectronPhi = electron1.phi();
       tagElectronCharge = electron1.charge();
       tagElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
-    } 
-    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) > 1.479 && 
-        electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 && 
+    }
+    if (electron1.pt() > 55 && electron1.phi() > tagElectronPhi && abs(electron1.eta()) > 1.479 &&
+        electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 &&
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00605 && electron1.hadronicOverEm() < 0.0641 &&
         abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
         electron1.passConversionVeto()) {
@@ -166,8 +174,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
       tagElectronPhi = electron1.phi();
       tagElectronCharge = electron1.charge();
       tagElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
-    } 
-  }  
+    }
+  }
 
 
   // Store leading and subleading electron properties
@@ -228,6 +236,18 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
     }
   }
 
+  //L1 bits
+  l1GtUtils_->retrieveL1(event,setup,algToken_);
+  //std::cout<<"starting to loop over L1 seeds"<<std::endl;
+  for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
+    L1BitsMap[l1Seeds_[iseed]] = false;
+    bool l1htbit = 0;
+    l1GtUtils_->getFinalDecisionByName(l1Seeds_[iseed], l1htbit);
+    //std::cout<<l1Seeds_[iseed]<< " " << l1htbit << std::endl;
+    if (l1htbit){
+      L1BitsMap[l1Seeds_[iseed]] = true;
+    }
+  }
 
   (*eventvariables)["tagMuonExists"] = tagMuonExists;
   (*eventvariables)["tagMuonPt"] = tagMuonPt;
@@ -264,6 +284,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event) 
   (*eventvariables)["numTightMuons"] = numTightMuons;
   (*eventvariables)["passTrigger"] = passTrigger;
   (*eventvariables)["triggerScaleFactor"] = triggerScaleFactor_;
+  for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
+    (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
+  }
+
 # endif
 }
 

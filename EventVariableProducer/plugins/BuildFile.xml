@@ -10,6 +10,7 @@
 <use  name="CondFormats/EcalObjects"/>
 <use  name="DataFormats/EcalDetId"/>
 <use  name="Geometry/Records"/>
+<use name="L1Trigger/L1TGlobal"/>
 <use  name="OSUT3Analysis/AnaTools"/>
 <use  name="DisplacedSUSY/StandardAnalysis"/>
 <use  name="OSUT3Analysis/Collections"/>

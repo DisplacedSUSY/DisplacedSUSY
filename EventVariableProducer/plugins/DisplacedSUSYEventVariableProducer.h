@@ -4,6 +4,14 @@
 #include "OSUT3Analysis/AnaTools/interface/EventVariableProducer.h"
 #include "OSUT3Analysis/AnaTools/interface/DataFormat.h"
 #include "OSUT3Analysis/AnaTools/interface/ValueLookupTree.h"
+
+#include "FWCore/Common/interface/TriggerNames.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
+#include "DataFormats/HLTReco/interface/TriggerObject.h"
+#include "DataFormats/HLTReco/interface/TriggerEvent.h"
+#include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h" //Pre-firing
+#include "L1Trigger/L1TGlobal/interface/L1TGlobalUtil.h"
+
 struct OriginalCollections
 {
   edm::Handle<vector<pat::Electron> >       electrons;
@@ -25,16 +33,24 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
         OriginalCollections handles_;
 
     private:
-        void AddVariables(const edm::Event &);
+        void AddVariables(const edm::Event &, const edm::EventSetup &);
         string type_;
-	    string triggerPath_;
-	    double triggerScaleFactor_;
+	string triggerPath_;
+	double triggerScaleFactor_;
         edm::EDGetTokenT<vector<TYPE(pileupinfos)> > pileUpInfosToken_;
         edm::EDGetTokenT<TYPE(beamspots)> beamspotsToken_;
         edm::EDGetTokenT<vector<TYPE(primaryvertexs)> > primaryVertexsToken_;
         edm::EDGetTokenT<vector<TYPE(muons)> > muonsToken_;
         edm::EDGetTokenT<vector<TYPE(electrons)> > electronsToken_;
         edm::EDGetTokenT<vector<TYPE(jets)> > jetsToken_;
-	    edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
+	edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
+
+	//L1 bits information; thanks to dijet scouting team
+	//https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetCaloScoutingTreeProducer.h
+	edm::EDGetToken algToken_;
+	l1t::L1TGlobalUtil *l1GtUtils_;
+	std::vector<std::string> l1Seeds_;
+	std::map<std::string, bool> L1BitsMap;
+	std::vector<bool> *l1Result_;
   };
 #endif
