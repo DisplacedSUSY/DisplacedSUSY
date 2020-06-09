@@ -294,6 +294,10 @@ AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that ar
 AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
 #AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
 
+PromptRegion = copy.deepcopy(AdditionalPreselection)
+PromptRegion.name = cms.string("PromptRegion")
+PromptRegion.cuts.append(muon_d0_lessThan30_cut)
+
 #################################################################
 
 PreselectionOneLessThan40umOneGreaterThan100um = cms.PSet(

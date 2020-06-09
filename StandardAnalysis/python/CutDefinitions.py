@@ -849,6 +849,14 @@ muon_d0_10to20_cut = cms.PSet(
     alias = cms.string(">=1 muons with 10 < |d_0| < 20 mum")
     )
 
+# muon d0 < 30 microns
+muon_d0_lessThan30_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") < 30"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_0| < 30 mum")
+    )
+
 # muon d0 < 40 microns
 muon_d0_lessThan40_cut = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
