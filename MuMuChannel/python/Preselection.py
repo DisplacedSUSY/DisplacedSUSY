@@ -302,6 +302,10 @@ GenPromptRegion = copy.deepcopy(AdditionalPreselection)
 GenPromptRegion.name = cms.string("GenPromptRegion")
 GenPromptRegion.cuts.append(gen_muon_d0_lessThan30_cut)
 
+etaLessThan1GenPromptRegion = copy.deepcopy(GenPromptRegion)
+etaLessThan1GenPromptRegion.name = cms.string("etaLessThan1GenPromptRegion")
+etaLessThan1GenPromptRegion.cuts.append(muon_eta_lessThan1_cut)
+
 #################################################################
 
 PreselectionOneLessThan40umOneGreaterThan100um = cms.PSet(
