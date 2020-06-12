@@ -42,6 +42,15 @@ MuonHistograms = cms.PSet(
             inputVariables = cms.vstring("pt"),
         ),
         cms.PSet (
+            name = cms.string("muonLeadingPt[0]_vs_muonSubleadingPt[1]"),
+            title = cms.string("Leading Transverse Momentum vs Subleading Transverse Momentum;Muon p_{T} [GeV]; Subleading Muon p_{T} [GeV]; Leading Muon p_{T} [GeV]"),
+            binsX = cms.untracked.vdouble(500, 0, 500),
+            binsY = cms.untracked.vdouble(500, 0, 500),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("pt", "pt"),
+        ),
+        cms.PSet (
             name = cms.string("muonPt_ext"),
             title = cms.string("Muon Transverse Momentum;Muon p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(300, 0, 3000),
