@@ -5082,12 +5082,6 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(subleadingMuonUnsmearedD0)"),
         ),
         cms.PSet (
-            name = cms.string("passTrigger"),
-            title = cms.string("Pass Trigger; Trigger Flag"),
-            binsX = cms.untracked.vdouble(4, -2, 2),
-            inputVariables = cms.vstring("passTrigger"),
-        ),
-        cms.PSet (
             name = cms.string("triggerScaleFactor"),
             title = cms.string("Trigger Scale Factor; Trigger Scale Factor"),
             binsX = cms.untracked.vdouble(10, 0, 1),
@@ -5206,6 +5200,42 @@ eventHistograms = cms.PSet(
             title = cms.string("Stop 1 c#tau;c#tau [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 1000000),
             inputVariables = cms.vstring("10000*cTau_1000006_1"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_CaloMET350_HBHECleaned"),
+            title = cms.string("HLT_CaloMET350_HBHECleaned"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_CaloMET350_HBHECleaned"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+            title = cms.string("HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_PFMET120_PFMHT120_IDTight"),
+            title = cms.string("HLT_PFMET120_PFMHT120_IDTight"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_PFMET120_PFMHT120_IDTight"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_PFMET200_HBHE_BeamHaloCleaned"),
+            title = cms.string("HLT_PFMET200_HBHE_BeamHaloCleaned"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_PFMET200_HBHE_BeamHaloCleaned"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_PFMET250_HBHECleaned"),
+            title = cms.string("HLT_PFMET250_HBHECleaned"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_PFMET250_HBHECleaned"),
+        ),
+        cms.PSet (
+            name = cms.string("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+            title = cms.string("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"),
         ),
         cms.PSet (
             name = cms.string("L1_Mu5_EG20"),

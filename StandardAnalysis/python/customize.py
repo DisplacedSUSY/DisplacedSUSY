@@ -28,11 +28,11 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
     if hasattr(process, "DisplacedSUSYEventVariableProducer"):
         process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-            process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_MET200_v")
+            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_MET200_v")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-            process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_PFMET200_HBHECleaned")
+            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-            process.DisplacedSUSYEventVariableProducer.triggerPath = cms.string("HLT_PFMET200_HBHECleaned")
+            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET200_HBHE_BeamHaloCleaned","HLT_PFMET250_HBHECleaned","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
         process.DisplacedSUSYEventVariableProducer.triggerScaleFactor = cms.double(1.0)
 
         process.DisplacedSUSYEventVariableProducer.AlgInputTag = cms.InputTag("gtStage2Digis")

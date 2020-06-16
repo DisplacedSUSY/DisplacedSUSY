@@ -12,7 +12,9 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
 
   type_ = cfg.getParameter<string>("type");
-  triggerPath_ = cfg.getParameter<string>("triggerPath");
+  triggerPaths_ = cfg.getParameter<std::vector<std::string> >("triggerPaths");
+  //fill a map of HLT paths
+  for(unsigned int i = 0; i < triggerPaths_.size(); i++) HLTBitsMap[ triggerPaths_[i] ] = false;
   triggerScaleFactor_ = cfg.getParameter<double>("triggerScaleFactor");
 
   //L1 bits information, thanks to scouting dijet team
@@ -79,13 +81,21 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   }
   // Pass trigger specified in config file
   const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
-  bool passTrigger = false;
-  for (unsigned int i = 0; i < names.size() - 1 ; ++i) {
-    std::string name = names.triggerName(i);
-    if(name.find(triggerPath_) == 0 && handles_.triggers->accept(i)) {
-      passTrigger = true;
+  for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
+    HLTBitsMap[triggerPaths_[ipath]] = false;
+    bool passTrigger = 0;
+    for (unsigned int i = 0; i < names.size() - 1 ; ++i) {
+      std::string name = names.triggerName(i);
+      if(name.find(triggerPaths_[ipath]) == 0 && handles_.triggers->accept(i)) {
+	passTrigger = true;
+      }
+    }
+    //std::cout<<"triggerPaths_[ipath] is: "<<triggerPaths_[ipath]<< " " << passTrigger << std::endl;
+    if (passTrigger){
+      HLTBitsMap[triggerPaths_[ipath]] = true;
     }
   }
+
 
   // Identify tag muon to for trigger efficiency plotting
   bool tagMuonExists = false;
@@ -282,7 +292,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["numPV"] = numPV;
   (*eventvariables)["numSoftMuons"] = numSoftMuons;
   (*eventvariables)["numTightMuons"] = numTightMuons;
-  (*eventvariables)["passTrigger"] = passTrigger;
+  for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
+    (*eventvariables)[triggerPaths_[ipath].c_str()] = HLTBitsMap[triggerPaths_[ipath]];
+  }
   (*eventvariables)["triggerScaleFactor"] = triggerScaleFactor_;
   for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
     (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];

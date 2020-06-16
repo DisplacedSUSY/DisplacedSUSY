@@ -1292,13 +1292,15 @@ photon_genMatched_cut = cms.PSet(
 
 # BEGIN EVENTVARIABLE CUTS
 
-pass_trigger = cms.PSet(
+#2018
+pass_HLTMET_paths = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("eventvariable.passTrigger"),
-    numberRequired = cms.string("== 1"),
-    alias = cms.string("pass trigger specified in config file")
+    cutString = cms.string("HLT_CaloMET350_HBHECleaned > 0 || HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight > 0 || HLT_PFMET120_PFMHT120_IDTight > 0 || HLT_PFMET200_HBHE_BeamHaloCleaned > 0 || HLT_PFMET250_HBHECleaned > 0 || HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("pass unprescaled HLT_MET paths")
     )
 
+#2016
 pass_L1MuEG_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("L1_Mu5_EG20 > 0 || L1_Mu20_EG15 > 0"),
@@ -1306,6 +1308,7 @@ pass_L1MuEG_Seeds = cms.PSet(
     alias = cms.string("pass L1_Mu5_EG20 OR L1_Mu20_EG15")
     )
 
+#2016
 pass_L1DoubleMu_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("L1_DoubleMu_11_4 > 0 || L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0"),
@@ -1313,6 +1316,7 @@ pass_L1DoubleMu_Seeds = cms.PSet(
     alias = cms.string("pass L1_DoubleMu_11_4 OR L1_DoubleMu_12_5 OR L1_DoubleMu_13_6")
     )
 
+#2016
 pass_L1EG_OR_L1Jet_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0"),
