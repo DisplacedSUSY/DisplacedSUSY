@@ -3220,7 +3220,7 @@ ElectronD0Histograms = cms.PSet(
         ),
         #gen 3D
         cms.PSet (
-            name = cms.string("electronAbsGenD0[0]_vs_electronAbsGenD0[1]_2000um_vs_electronLeadingGenPt[0]"),
+            name = cms.string("electronAbsGenD0[0]_vs_electronAbsGenD0[1]_2000um_vs_electronGenPt[0]"),
             title = cms.string("Leading gen |d_{0}| vs Subleading gen |d_{0}| vs Gen Electron Leading p_{T};Leading gen electron |d_{0}| [#mum];Subleading gen electron |d_{0}| [#mum];Leading gen electron p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(200, 0, 2000),
             binsY = cms.untracked.vdouble(200, 0, 2000),
@@ -4617,7 +4617,7 @@ ElectronMuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
-            name = cms.string("electronAbsD0_vs_muonAbsD0_50um_coare"),
+            name = cms.string("electronAbsD0_vs_muonAbsD0_50um_coarse"),
             title = cms.string("Electron |d_{0}| vs. Muon |d_{0}|;Muon |d_{0}| [#mum];Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,50),
             binsY = cms.untracked.vdouble(10,0,50),
