@@ -55,7 +55,7 @@ muon_d0_lessThan50_cut.alias = cms.string(">=2 muons with |d_0| < 50 mum")
 muon_d0_lessThan30_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan30_cut.alias = cms.string(">=2 muons with |d_0| < 30 mum")
 
-gen_muon_d0_lessThan30_cut.numberrequired = cms.string(">= 2")
+gen_muon_d0_lessThan30_cut.numberRequired = cms.string(">= 2")
 gen_muon_d0_lessThan30_cut.alias = cms.string(">=2 gen muons with |d_0| < 30 mum")
 
 muon_d0_greaterThan50_cut.numberRequired = cms.string(">= 2")
