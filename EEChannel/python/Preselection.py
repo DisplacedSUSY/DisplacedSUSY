@@ -177,9 +177,10 @@ GenEEFromStopsAndHLTTrigSelection = cms.PSet(
 GenEEFromStopsAndL1TrigSelection = cms.PSet(
     name = cms.string("GenEEFromStopsAndL1TrigSelection"),
     triggers = cms.vstring(),
-    cuts = cms.VPSet (copy.deepcopy(GenEEFromStopsSelection.cuts))
+    cuts = cms.VPSet ()
 )
-GenEEFromStopsAndL1TrigSelection.cuts.append(pass_L1EG_OR_L1Jet_Seeds)
+GenEEFromStopsAndL1TrigSelection.cuts.append(pass_L1EG_OR_L1Jet_Seeds) #need L1 cut first and then gen cuts, otherwise hardIntMcpart hists get screwed up!
+GenEEFromStopsAndL1TrigSelection.cuts.extend(copy.deepcopy(GenEEFromStopsSelection.cuts))
 
 #################################################################
 

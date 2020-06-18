@@ -280,9 +280,10 @@ GenMuMuFromStopsAndHLTTrigSelection = cms.PSet(
 GenMuMuFromStopsAndL1TrigSelection = cms.PSet(
     name = cms.string("GenMuMuFromStopsAndL1TrigSelection"),
     triggers = cms.vstring(),
-    cuts = cms.VPSet (copy.deepcopy(GenMuMuFromStopsSelection.cuts))
+    cuts = cms.VPSet ()
 )
-GenMuMuFromStopsAndL1TrigSelection.cuts.append(pass_L1DoubleMu_Seeds)
+GenMuMuFromStopsAndL1TrigSelection.cuts.append(pass_L1DoubleMu_Seeds) #need L1 cut first and then gen cuts, otherwise hardIntMcpart hists get screwed up!
+GenMuMuFromStopsAndL1TrigSelection.cuts.extend(copy.deepcopy(GenMuMuFromStopsSelection.cuts))
 #################################################################
 
 AdditionalPreselection = cms.PSet(
