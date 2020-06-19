@@ -28,6 +28,10 @@ muon_pt_70_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_100_cut.numberRequired = cms.string(">= 2")
 
+muon_pt_150_cut.numberRequired = cms.string(">= 2")
+
+muon_pt_50to60_cut.numberRequired = cms.string(">= 2")
+
 # only require >= 1 muon to cut on leading muon
 #muon_pt_100_cut.alias = cms.string(">=1 muons with pT > 100")
 

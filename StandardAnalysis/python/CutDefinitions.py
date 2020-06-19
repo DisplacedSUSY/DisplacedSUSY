@@ -767,6 +767,12 @@ muon_pt_150_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+muon_pt_50to60_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 50 & pt < 60"),
+    numberRequired = cms.string(">= 1")
+    )
+
 muon_global_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_global_cutstring,
