@@ -38,7 +38,17 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
         process.DisplacedSUSYEventVariableProducer.AlgInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tAlgBlkInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tExtBlkInputTag = cms.InputTag("gtStage2Digis")
-        process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG20","L1_Mu20_EG15","L1_DoubleMu_11_4", "L1_DoubleMu_12_5", "L1_DoubleMu_13_6", "L1_SingleEG30", "L1_SingleEG40", "L1_SingleIsoEG22er", "L1_SingleIsoEG28", "L1_DoubleEG_15_10", "L1_DoubleEG_25_12", "L1_SingleJet200", "L1_SingleTau100er") #just for 2016 seeds for now
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+            process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG20","L1_Mu20_EG15",
+                                                                             "L1_DoubleMu_11_4", "L1_DoubleMu_12_5", "L1_DoubleMu_13_6",
+                                                                             "L1_SingleEG30", "L1_SingleEG40", "L1_SingleIsoEG22er", "L1_SingleIsoEG28",
+                                                                             "L1_DoubleEG_15_10", "L1_DoubleEG_25_12", "L1_SingleJet200", "L1_SingleTau100er")
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+            process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG23","L1_Mu7_EG23","L1_Mu20_EG17","L1_Mu23_EG10",
+                                                                             "L1_DoubleMu_12_5", "L1_DoubleMu_13_6", "L1_DoubleMu_15_5", "L1_DoubleMu_15_7",
+                                                                             "L1_SingleEG30", "L1_SingleEG50", "L1_SingleIsoEG24", "L1_SingleIsoEG38",
+                                                                             "L1_DoubleEG_18_17", "L1_DoubleEG_25_12", "L1_SingleJet200", "L1_SingleTau100er2p1")
+
         process.DisplacedSUSYEventVariableProducer.ReadPrescalesFromFile = cms.bool(False)
 ################################################################################
 ##### Set variables needed for OSUElectron and Muon Producer ###################

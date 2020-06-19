@@ -1306,29 +1306,37 @@ pass_HLTMET_paths = cms.PSet(
     alias = cms.string("pass unprescaled HLT_MET paths")
     )
 
-#2016
 pass_L1MuEG_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("L1_Mu5_EG20 > 0 || L1_Mu20_EG15 > 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("pass L1_Mu5_EG20 OR L1_Mu20_EG15")
     )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+   pass_L1MuEG_Seeds.cutString = cms.string("L1_Mu5_EG20 > 0 || L1_Mu20_EG15 > 0")
+   pass_L1MuEG_Seeds.alias = cms.string("pass L1_Mu5_EG20 OR L1_Mu20_EG15")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+   pass_L1MuEG_Seeds.cutString = cms.string("L1_Mu5_EG23 > 0 || L1_Mu7_EG23 > 0 || L1_Mu20_EG17 > 0 || L1_Mu23_EG10 > 0")
+   pass_L1MuEG_Seeds.alias = cms.string("pass L1_Mu5_EG23 OR L1_Mu7_EG23 OR L1_Mu20_EG17 OR L1_Mu23_EG10")
 
-#2016
 pass_L1DoubleMu_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("L1_DoubleMu_11_4 > 0 || L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string("pass L1_DoubleMu_11_4 OR L1_DoubleMu_12_5 OR L1_DoubleMu_13_6")
     )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    pass_L1DoubleMu_Seeds.cutString = cms.string("L1_DoubleMu_11_4 > 0 || L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0")
+    pass_L1DoubleMu_Seeds.alias = cms.string("pass L1_DoubleMu_11_4 OR L1_DoubleMu_12_5 OR L1_DoubleMu_13_6")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    pass_L1DoubleMu_Seeds.cutString = cms.string("L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0 || L1_DoubleMu_15_5 > 0 || L1_DoubleMu_15_7 > 0")
+    pass_L1DoubleMu_Seeds.alias = cms.string("pass L1_DoubleMu_12_5 OR L1_DoubleMu_13_6 OR L1_DoubleMu_15_5 OR L1_DoubleMu_15_7")
 
-#2016
 pass_L1EG_OR_L1Jet_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("pass L1_SingleEG OR SingleIsoEG OR DoubleEG OR SingleJet200 OR SingleTau100er")
     )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG50 > 0 || L1_SingleIsoEG24 > 0 || L1_SingleIsoEG38 > 0 ||  L1_DoubleEG_18_17 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er2p1 > 0")
 
 ##########################################################################
 

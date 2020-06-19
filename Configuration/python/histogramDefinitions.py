@@ -5621,6 +5621,30 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("L1_Mu20_EG15"),
         ),
         cms.PSet (
+            name = cms.string("L1_Mu5_EG23"),
+            title = cms.string("L1_Mu5_EG23"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_Mu5_EG23"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_Mu7_EG23"),
+            title = cms.string("L1_Mu7_EG23"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_Mu7_EG23"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_Mu20_EG17"),
+            title = cms.string("L1_Mu20_EG17"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_Mu20_EG17"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_Mu23_EG10"),
+            title = cms.string("L1_Mu23_EG10"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_Mu23_EG10"),
+        ),
+        cms.PSet (
             name = cms.string("L1_DoubleMu_11_4"),
             title = cms.string("L1_DoubleMu_11_4"),
             binsX = cms.untracked.vdouble(2, 0, 2),
@@ -5639,6 +5663,18 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("L1_DoubleMu_13_6"),
         ),
         cms.PSet (
+            name = cms.string("L1_DoubleMu_15_5"),
+            title = cms.string("L1_DoubleMu_15_5"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_DoubleMu_15_5"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_DoubleMu_15_7"),
+            title = cms.string("L1_DoubleMu_15_7"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_DoubleMu_15_7"),
+        ),
+        cms.PSet (
             name = cms.string("L1_SingleEG30"),
             title = cms.string("L1_SingleEG30"),
             binsX = cms.untracked.vdouble(2, 0, 2),
@@ -5651,10 +5687,22 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("L1_SingleEG40"),
         ),
         cms.PSet (
+            name = cms.string("L1_SingleEG50"),
+            title = cms.string("L1_SingleEG50"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_SingleEG50"),
+        ),
+        cms.PSet (
             name = cms.string("L1_SingleIsoEG22er"),
             title = cms.string("L1_SingleIsoEG22er"),
             binsX = cms.untracked.vdouble(2, 0, 2),
             inputVariables = cms.vstring("L1_SingleIsoEG22er"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_SingleIsoEG24"),
+            title = cms.string("L1_SingleIsoEG24"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_SingleIsoEG24"),
         ),
         cms.PSet (
             name = cms.string("L1_SingleIsoEG28"),
@@ -5663,10 +5711,22 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("L1_SingleIsoEG28"),
         ),
         cms.PSet (
+            name = cms.string("L1_SingleIsoEG38"),
+            title = cms.string("L1_SingleIsoEG38"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_SingleIsoEG38"),
+        ),
+        cms.PSet (
             name = cms.string("L1_DoubleEG_15_10"),
             title = cms.string("L1_DoubleEG_15_10"),
             binsX = cms.untracked.vdouble(2, 0, 2),
             inputVariables = cms.vstring("L1_DoubleEG_15_10"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_DoubleEG_18_17"),
+            title = cms.string("L1_DoubleEG_18_17"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_DoubleEG_18_17"),
         ),
         cms.PSet (
             name = cms.string("L1_DoubleEG_25_12"),
@@ -5685,6 +5745,12 @@ eventHistograms = cms.PSet(
             title = cms.string("L1_SingleTau100er"),
             binsX = cms.untracked.vdouble(2, 0, 2),
             inputVariables = cms.vstring("L1_SingleTau100er"),
+        ),
+        cms.PSet (
+            name = cms.string("L1_SingleTau100er2p1"),
+            title = cms.string("L1_SingleTau100er2p1"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("L1_SingleTau100er2p1"),
         ),
     )
 )
