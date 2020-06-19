@@ -190,8 +190,96 @@ MuonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, -1, 1),
             inputVariables = cms.vstring("(pfIsolationR04_.sumChargedHadronPt + max(0.0,pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - 0.5*pfIsolationR04_.sumPUPt))/pt - pfdBetaIsoCorr"),
         ),
+        cms.PSet (
+            name = cms.string("muonVx"),
+            title = cms.string("Muon track reference point x value;Muon track reference point x value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vx"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVy"),
+            title = cms.string("Muon track reference point y value;Muon track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vy"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVy_vs_muonVx"),
+            title = cms.string("Muon track reference point y value vs. muon track reference point x value;Muon track reference point x value [#mum];Muon track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            binsY = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vx","10000*vy"),
+        ),
+        cms.PSet (
+            name = cms.string("muonV0"),
+            title = cms.string("Muon track reference point transverse distance from CMS center;Muon track reference point transverse distance from CMS center [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*hypot(vx,vy)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPx"),
+            title = cms.string("Muon track reference point x momentum;Muon track reference point x momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("px"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPy"),
+            title = cms.string("Muon track reference point y momentum;Muon track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("py"),
+        ),
+        cms.PSet (
+            name = cms.string("muonPy_vs_muonPx"),
+            title = cms.string("Muon track reference point y momentum vs. muon track reference point x momentum;Muon track reference point x momentum [GeV];Muon track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            binsY = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("px","py"),
+        ),
 
         #gen
+        cms.PSet (
+            name = cms.string("muonGenVx"),
+            title = cms.string("Gen muon track reference point x value;Gen muon track reference point x value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVx"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVy"),
+            title = cms.string("Gen muon track reference point y value;Gen muon track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVy"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVy_vs_muonGenVx"),
+            title = cms.string("Gen muon track reference point y value vs. gen muon track reference point x value;Gen muon track reference point x value [#mum];Gen muon track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            binsY = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVx","10000*genVy"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenV0"),
+            title = cms.string("Gen muon track reference point transverse distance from CMS center;Gen muon track reference point transverse distance from CMS center [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*hypot(genVx,genVy)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenPx"),
+            title = cms.string("Gen muon track reference point x momentum;Gen muon track reference point x momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("genPx"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenPy"),
+            title = cms.string("Gen muon track reference point y momentum;Gen muon track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("genPy"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenPy_vs_muonGenPx"),
+            title = cms.string("Gen muon track reference point y momentum vs. gen muon track reference point x momentum;Gen muon track reference point x momentum [GeV];Gen muon track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            binsY = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("genPx","genPy"),
+        ),
         cms.PSet (
             name = cms.string("muonGenMatchPdgId"),
             title = cms.string(";|PDG ID| of generator particle matched to muon"),
@@ -628,8 +716,96 @@ ElectronHistograms = cms.PSet(
 #            binsX = cms.untracked.vdouble(10, 0, 10),
 #            inputVariables = cms.vstring("gsfTrack.numberOfLostHits"),
 #        ),
+        cms.PSet (
+            name = cms.string("electronVx"),
+            title = cms.string("Electron track reference point x value;Electron track reference point x value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vx"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVy"),
+            title = cms.string("Electron track reference point y value;Electron track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vy"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVy_vs_electronVx"),
+            title = cms.string("Electron track reference point y value vs. electron track reference point x value;Electron track reference point x value [#mum];Electron track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            binsY = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*vx","10000*vy"),
+        ),
+        cms.PSet (
+            name = cms.string("electronV0"),
+            title = cms.string("Electron track reference point transverse distance from CMS center;Electron track reference point transverse distance from CMS center [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*hypot(vx,vy)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPx"),
+            title = cms.string("Electron track reference point x momentum;Electron track reference point x momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("px"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPy"),
+            title = cms.string("Electron track reference point y momentum;Electron track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("py"),
+        ),
+        cms.PSet (
+            name = cms.string("electronPy_vs_electronPx"),
+            title = cms.string("Electron track reference point y momentum vs. electron track reference point x momentum;Electron track reference point x momentum [GeV];Electron track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            binsY = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("px","py"),
+        ),
 
         #gen
+        cms.PSet (
+            name = cms.string("electronGenVx"),
+            title = cms.string("Gen electron track reference point x value;Gen electron track reference point x value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVx"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVy"),
+            title = cms.string("Gen electron track reference point y value;Gen electron track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVy"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVy_vs_electronGenVx"),
+            title = cms.string("Gen electron track reference point y value vs. gen electron track reference point x value;Gen electron track reference point x value [#mum];Gen electron track reference point y value [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            binsY = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*genVx","10000*GenVy"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenV0"),
+            title = cms.string("Gen electron track reference point transverse distance from CMS center;Gen electron track reference point transverse distance from CMS center [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            inputVariables = cms.vstring("10000*hypot(genVx,genVy)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenPx"),
+            title = cms.string("Gen electron track reference point x momentum;Gen electron track reference point x momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("genPx"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenPy"),
+            title = cms.string("Gen electron track reference point y momentum;Gen electron track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("GenPy"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenPy_vs_electronGenPx"),
+            title = cms.string("Gen electron track reference point y momentum vs. gen electron track reference point x momentum;Gen electron track reference point x momentum [GeV];Gen electron track reference point y momentum [GeV]"),
+            binsX = cms.untracked.vdouble(100, -500, 500),
+            binsY = cms.untracked.vdouble(100, -500, 500),
+            inputVariables = cms.vstring("genPx","genPy"),
+        ),
         cms.PSet (
             name = cms.string("electronGenMatchPdgId"),
             title = cms.string(";|PDG ID| of generator particle matched to electron"),
@@ -1961,6 +2137,85 @@ ElectronD0Histograms = cms.PSet(
             ),
 
         ###################################################################
+        # d0 calculation histograms
+        cms.PSet (
+            name = cms.string("electronVxWrtBeamspot_100um"),
+            title = cms.string("Electron track reference point x value wrt beamspot;Electron track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.vx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVyWrtBeamspot_100um"),
+            title = cms.string("Electron track reference point y value wrt beamspot;Electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVyWrtBeamspot_vs_electronVxWrtBeamspot_100um"),
+            title = cms.string("Electron track reference point y value wrt beamspot vs. electron track reference point x value wrt beamspot;Electron track reference point x value wrt beamspot [#mum];Electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            binsY = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.vx-beamspot.x0)","10000*(electron.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVxWrtBeamspot_10000um"),
+            title = cms.string("Electron track reference point x value wrt beamspot;Electron track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.vx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVyWrtBeamspot_10000um"),
+            title = cms.string("Electron track reference point y value wrt beamspot;Electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronVyWrtBeamspot_vs_electronVxWrtBeamspot_10000um"),
+            title = cms.string("Electron track reference point y value wrt beamspot vs. electron track reference point x value wrt beamspot;Electron track reference point x value wrt beamspot [#mum];Electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            binsY = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.vx-beamspot.x0)","10000*(electron.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVxWrtBeamspot_100um"),
+            title = cms.string("Gen electron track reference point x value wrt beamspot;Gen electron track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.genVx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVyWrtBeamspot_100um"),
+            title = cms.string("Gen electron track reference point y value wrt beamspot;Gen electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVyWrtBeamspot_vs_electronGenVxWrtBeamspot_100um"),
+            title = cms.string("Gen Electron track reference point y value wrt beamspot vs. gen Electron track reference point x value wrt beamspot;Gen electron track reference point x value wrt beamspot [#mum];Gen electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            binsY = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(electron.genVx-beamspot.x0)","10000*(electron.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVxWrtBeamspot_10000um"),
+            title = cms.string("Gen electron track reference point x value wrt beamspot;Gen electron track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.genVx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVyWrtBeamspot_10000um"),
+            title = cms.string("Gen electron track reference point y value wrt beamspot;Gen electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronGenVyWrtBeamspot_vs_electronGenVxWrtBeamspot_10000um"),
+            title = cms.string("Gen electron track reference point y value wrt beamspot vs. gen electron track reference point x value wrt beamspot;Gen electron track reference point x value wrt beamspot [#mum];Gen electron track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            binsY = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(electron.genVx-beamspot.x0)","10000*(electron.genVy-beamspot.y0)"),
+        ),
+
+        ###################################################################
         # d0 histograms
         cms.PSet (
             name = cms.string("electronD0_10um"),
@@ -3255,6 +3510,84 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*"+muonDZWRTBeamspot),
             ),
 
+        ###################################################################
+        # d0 calculation histograms
+        cms.PSet (
+            name = cms.string("muonVxWrtBeamspot_100um"),
+            title = cms.string("Muon track reference point x value wrt beamspot;Muon track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.vx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVyWrtBeamspot_100um"),
+            title = cms.string("Muon track reference point y value wrt beamspot;Muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVyWrtBeamspot_vs_muonVxWrtBeamspot_100um"),
+            title = cms.string("Muon track reference point y value wrt beamspot vs. muon track reference point x value wrt beamspot;Muon track reference point x value wrt beamspot [#mum];Muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            binsY = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.vx-beamspot.x0)","10000*(muon.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVxWrtBeamspot_10000um"),
+            title = cms.string("Muon track reference point x value wrt beamspot;Muon track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.vx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVyWrtBeamspot_10000um"),
+            title = cms.string("Muon track reference point y value wrt beamspot;Muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonVyWrtBeamspot_vs_muonVxWrtBeamspot_10000um"),
+            title = cms.string("Muon track reference point y value wrt beamspot vs. muon track reference point x value wrt beamspot;Muon track reference point x value wrt beamspot [#mum];Muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            binsY = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.vx-beamspot.x0)","10000*(muon.vy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVxWrtBeamspot_100um"),
+            title = cms.string("Gen muon track reference point x value wrt beamspot;Gen muon track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.genVx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVyWrtBeamspot_100um"),
+            title = cms.string("Gen muon track reference point y value wrt beamspot;Gen muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVyWrtBeamspot_vs_muonGenVxWrtBeamspot_100um"),
+            title = cms.string("Gen Muon track reference point y value wrt beamspot vs. gen Muon track reference point x value wrt beamspot;Gen muon track reference point x value wrt beamspot [#mum];Gen muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -100, 100),
+            binsY = cms.untracked.vdouble(200, -100, 100),
+            inputVariables = cms.vstring("10000*(muon.genVx-beamspot.x0)","10000*(muon.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVxWrtBeamspot_10000um"),
+            title = cms.string("Gen muon track reference point x value wrt beamspot;Gen muon track reference point x value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.genVx-beamspot.x0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVyWrtBeamspot_10000um"),
+            title = cms.string("Gen muon track reference point y value wrt beamspot;Gen muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.genVy-beamspot.y0)"),
+        ),
+        cms.PSet (
+            name = cms.string("muonGenVyWrtBeamspot_vs_muonGenVxWrtBeamspot_10000um"),
+            title = cms.string("Gen muon track reference point y value wrt beamspot vs. gen muon track reference point x value wrt beamspot;Gen muon track reference point x value wrt beamspot [#mum];Gen muon track reference point y value wrt beamspot [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            binsY = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*(muon.genVx-beamspot.x0)","10000*(muon.genVy-beamspot.y0)"),
+        ),
 
         ###################################################################
         # d0 histograms
@@ -4935,6 +5268,44 @@ BeamspotHistograms = cms.PSet(
 
         ###################################################################
         #
+        cms.PSet (
+            name = cms.string("beamspotX0_1000um"),
+            title = cms.string("Beamspot x_{0};beamspot x_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*beamspot.x0"),
+        ),
+        cms.PSet (
+            name = cms.string("beamspotY0_1000um"),
+            title = cms.string("Beamspot y_{0};beamspot y_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*beamspot.y0"),
+        ),
+        cms.PSet (
+            name = cms.string("beamspotY0_vs_beamspotX0_1000um"),
+            title = cms.string("Beamspot y_{0} vs. beamspot y_{0};beamspot x_{0} [#mum];beamspot y_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -1000, 1000),
+            binsY = cms.untracked.vdouble(200, -1000, 1000),
+            inputVariables = cms.vstring("10000*beamspot.x0","10000*beamspot.y0"),
+        ),
+        cms.PSet (
+            name = cms.string("beamspotX0_10000um"),
+            title = cms.string("Beamspot x_{0};beamspot x_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*beamspot.x0"),
+        ),
+        cms.PSet (
+            name = cms.string("beamspotY0_10000um"),
+            title = cms.string("Beamspot y_{0};beamspot y_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*beamspot.y0"),
+        ),
+        cms.PSet (
+            name = cms.string("beamspotY0_vs_beamspotX0_10000um"),
+            title = cms.string("Beamspot y_{0} vs. beamspot y_{0};beamspot x_{0} [#mum];beamspot y_{0} [#mum]"),
+            binsX = cms.untracked.vdouble(200, -10000, 10000),
+            binsY = cms.untracked.vdouble(200, -10000, 10000),
+            inputVariables = cms.vstring("10000*beamspot.x0","10000*beamspot.y0"),
+        ),
         cms.PSet (
             name = cms.string("beamspotV0"),
             title = cms.string("Beamspot v_{0};beamspot v_{0} [#mum]"),
