@@ -9,6 +9,10 @@ import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 ##### Set up the histograms to be plotted #####
 ###############################################
 
+muonGenVertexIsOriginD0WRTBeamspot = "((muon.genMatchedParticleOfSameType.noFlags.vx - beamspot.x0) * muon.genMatchedParticleOfSameType.noFlags.py - (muon.genMatchedParticleOfSameType.noFlags.vy - beamspot.y0) * muon.genMatchedParticleOfSameType.noFlags.px) / muon.genMatchedParticleOfSameType.noFlags.pt"
+
+electronGenVertexIsOriginD0WRTBeamspot = "((electron.genMatchedParticleOfSameType.noFlags.vx - beamspot.x0) * electron.genMatchedParticleOfSameType.noFlags.py - (electron.genMatchedParticleOfSameType.noFlags.vy - beamspot.y0) * electron.genMatchedParticleOfSameType.noFlags.px) / electron.genMatchedParticleOfSameType.noFlags.pt"
+
 
 ##############################################################################################
 
