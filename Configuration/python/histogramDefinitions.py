@@ -353,27 +353,15 @@ MuonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("genMatchedParticleOfSameType.noFlags.phi"),
         ),
+        cms.PSet (
+            name = cms.string("muonGenMatchMotherPdgId"),
+            title = cms.string(";|PDG ID| of mother of gen muon"),
+            binsX = cms.untracked.vdouble(600, 0, 600),
+            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
+        ),
     )
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    MuonHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("muonGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen muon"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    MuonHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("muonGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen muon"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
 
 ##############################################################################################
 
@@ -879,27 +867,15 @@ ElectronHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("genMatchedParticleOfSameType.noFlags.phi"),
         ),
+        cms.PSet (
+            name = cms.string("electronGenMatchMotherPdgId"),
+            title = cms.string(";|PDG ID| of mother of gen electron"),
+            binsX = cms.untracked.vdouble(600, 0, 600),
+            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
+        ),
     )
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    ElectronHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("electronGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen electron"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    ElectronHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("electronGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen electron"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
 
 ##############################################################################################
 
@@ -1760,26 +1736,14 @@ PhotonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(64, -3.2, 3.2),
             inputVariables = cms.vstring("genMatchedParticle.noFlags.phi"),
         ),
+        cms.PSet (
+            name = cms.string("photonGenMatchMotherPdgId"),
+            title = cms.string(";|PDG ID| of mother of gen photon"),
+            binsX = cms.untracked.vdouble(600, 0, 600),
+            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
+        ),
     )
 )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_7_6_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    PhotonHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("photonGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen photon"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    PhotonHistograms.histograms.append(
-        cms.PSet (
-            name = cms.string("photonGenMatchMotherPdgId"),
-            title = cms.string(";|PDG ID| of mother of gen photon"),
-            binsX = cms.untracked.vdouble(600, 0, 600),
-            inputVariables = cms.vstring("abs(genMatchedParticle.noFlags.uniqueMotherPdgId)"),
-        ),
-        )
 
 
 
