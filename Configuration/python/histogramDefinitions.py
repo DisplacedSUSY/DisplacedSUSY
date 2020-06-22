@@ -3165,7 +3165,7 @@ ElectronD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(fine_100000um_bins),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)"),
+            inputVariables = cms.vstring("10000*abs("+electronGenVertexIsOriginD0WRTBeamspot+")", "10000*abs("+electronGenVertexIsOriginD0WRTBeamspot+")"),
         ),
 
 
@@ -4557,7 +4557,7 @@ MuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(fine_100000um_bins),
             indexX = cms.untracked.int32(1),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)"),
+            inputVariables = cms.vstring("10000*abs("+muonGenVertexIsOriginD0WRTBeamspot+")", "10000*abs("+muonGenVertexIsOriginD0WRTBeamspot+")"),
         ),
 
         cms.PSet (
@@ -5106,7 +5106,7 @@ ElectronMuonD0Histograms = cms.PSet(
             binsY = cms.untracked.vdouble(fine_100000um_bins),
             indexX = cms.untracked.int32(0),
             indexY = cms.untracked.int32(0),
-            inputVariables = cms.vstring("10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)"),
+            inputVariables = cms.vstring("10000*abs("+muonGenVertexIsOriginD0WRTBeamspot+")", "10000*abs("+electronGenVertexIsOriginD0WRTBeamspot+")"),
         ),
 
         cms.PSet (
