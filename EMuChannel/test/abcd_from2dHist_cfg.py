@@ -8,7 +8,7 @@
 #input_file = "/uscms_data/d3/alimena/condor/EMuPreselection_2017Analysis_28July2018/MuonEG_2017_withoutB.root" #DATA! HANDLE WITH CARE!
 input_file = "/uscms_data/d3/cardwell/condor/EMuPreselection_2018Analysis_30Mar2020/MuonEG_2018.root" #DATA! HANDLE WITH CARE!
 
-input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/electronAbsD0_vs_muonAbsD0_100000um"
+input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
 
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
