@@ -3158,6 +3158,15 @@ ElectronD0Histograms = cms.PSet(
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs(electron.genD0)", "10000*abs(electron.genD0)"),
         ),
+        cms.PSet (
+            name = cms.string("vertexIsOrigin_electronAbsGenD0[0]_vs_electronAbsGenD0[1]_100000um"),
+            title = cms.string("With the vertex set to the origin (wrong d0!), Leading gen electron |d_{0}| vs. Subleading gen electron |d_{0}|;Subleading gen electron |d_{0}| [#mum];Leading gen electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(fine_100000um_bins),
+            binsY = cms.untracked.vdouble(fine_100000um_bins),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)"),
+        ),
 
 
         cms.PSet (
@@ -4541,6 +4550,15 @@ MuonD0Histograms = cms.PSet(
             indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs(muon.genD0)", "10000*abs(muon.genD0)"),
         ),
+        cms.PSet (
+            name = cms.string("vertexIsOrigin_muonAbsGenD0[0]_vs_muonAbsGenD0[1]_100000um"),
+            title = cms.string("With the vertex set to the origin (wrong d0!), Leading gen muon |d_{0}| vs. Subleading gen muon |d_{0}|;Subleading gen muon |d_{0}| [#mum];Leading gen muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(fine_100000um_bins),
+            binsY = cms.untracked.vdouble(fine_100000um_bins),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)"),
+        ),
 
         cms.PSet (
             name = cms.string("muonAbsGenD0[0]_vs_muonAbsGenD0[1]_10um_coarse"),
@@ -5080,6 +5098,15 @@ ElectronMuonD0Histograms = cms.PSet(
             binsX = cms.untracked.vdouble(2000,0,2000),
             binsY = cms.untracked.vdouble(2000,0,2000),
             inputVariables = cms.vstring("10000*abs(muon.genD0)", "10000*abs(electron.genD0)"),
+        ),
+        cms.PSet (
+            name = cms.string("vertexIsOrigin_electronAbsGenD0[0]_vs_muonAbsGenD0[0]_100000um"),
+            title = cms.string("With the vertex set to the origin (wrong d0!), Leading gen electron |d_{0}| vs. Leading gen muon |d_{0}|;Leading gen muon |d_{0}| [#mum];Leading gen electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(fine_100000um_bins),
+            binsY = cms.untracked.vdouble(fine_100000um_bins),
+            indexX = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs(muon.genMatchedParticleOfSameType.noFlags.d0)", "10000*abs(electron.genMatchedParticleOfSameType.noFlags.d0)"),
         ),
 
         cms.PSet (
