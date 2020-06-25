@@ -956,29 +956,6 @@ ElectronMuonHistograms = cms.PSet(
 
 ##############################################################################################
 
-ElectronMuonIPHistograms = cms.PSet(
-    inputCollection = cms.vstring("electrons","muons","beamspots"),
-    histograms = cms.VPSet (
-        cms.PSet (
-            name = cms.string("electronD0vsMuonD0Beamspot"),
-            title = cms.string("Electron d_{0} wrt Beamspot vs. Muon d_{0} wrt Beamspot;Muon d_{0} [cm];Electron d_{0} [cm]"),
-            binsX = cms.untracked.vdouble(100, -0.02, 0.02),
-            binsY = cms.untracked.vdouble(100, -0.02, 0.02),
-            inputVariables = cms.vstring("(-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt","(-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt"),
-        ),
-        cms.PSet (
-            name = cms.string("electronAbsD0BeamspotVsMuonAbsD0Beamspot"),
-            title = cms.string("Electron |d_{0}| wrt Beamspot vs. Muon |d_{0}| wrt Beamspot;Muon |d_{0}| [cm];Electron |d_{0}| [cm]"),
-            binsX = cms.untracked.vdouble(100, 0, 0.02),
-            binsY = cms.untracked.vdouble(100, 0, 0.02),
-            inputVariables = cms.vstring("abs((-(muon.vx - beamspot.x0)*muon.py + (muon.vy - beamspot.y0)*muon.px)/muon.pt)","abs((-(electron.vx - beamspot.x0)*electron.py + (electron.vy - beamspot.y0)*electron.px)/electron.pt)"),
-        ),
-    )
-)
-
-
-##############################################################################################
-
 ElectronMetHistograms = cms.PSet(
     inputCollection = cms.vstring("electrons","mets"),
     histograms = cms.VPSet (
@@ -1094,6 +1071,7 @@ JetHistograms = cms.PSet(
     )
 )
 
+
 #####################################################################################
 
 BjetHistograms = cms.PSet(
@@ -1175,6 +1153,7 @@ BjetHistograms = cms.PSet(
     )
 )
 
+
 #####################################################################################
 
 JetIsoHistograms = cms.PSet(
@@ -1206,6 +1185,7 @@ JetIsoHistograms = cms.PSet(
         ),
     )
 )
+
 
 ##########################################################################################
 
@@ -1273,7 +1253,7 @@ JetBjetHistograms = cms.PSet(
     )
 )
 
-##########################################################################################
+
 ##########################################################################################
 
 MuonJetHistograms = cms.PSet(
@@ -1354,7 +1334,6 @@ MuonJetHistograms = cms.PSet(
 )
 
 ##########################################################################################
-##########################################################################################
 
 ElectronJetHistograms = cms.PSet(
     inputCollection = cms.vstring("electrons","jets","beamspots"),
@@ -1432,6 +1411,7 @@ ElectronJetHistograms = cms.PSet(
         ),
     )
 )
+
 
 ##########################################################################################
 
@@ -1512,7 +1492,9 @@ MuonBjetHistograms = cms.PSet(
     )
 )
 
+
 ##########################################################################
+
 ElectronBjetHistograms = cms.PSet(
     inputCollection = cms.vstring("electrons","bjets","beamspots"),
     histograms = cms.VPSet (
@@ -1590,7 +1572,9 @@ ElectronBjetHistograms = cms.PSet(
     )
 )
 
+
 ##########################################################################
+
 PhotonHistograms = cms.PSet(
     inputCollection = cms.vstring("photons"),
     histograms = cms.VPSet (
