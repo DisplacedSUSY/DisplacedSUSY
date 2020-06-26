@@ -125,8 +125,10 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             count_hist.SetBinContent(out_bin, count_yield)
             count_hist.SetBinError(out_bin, count_error)
 
+            (ratio_yield, ratio_error) = propagateError("quotient", count_yield, count_error, abcd_yield, abcd_error)
+
             try:
-                ratio_hist.SetBinContent(out_bin, count_yield/abcd_yield)
+                ratio_hist.SetBinContent(out_bin, ratio_yield)
             except ZeroDivisionError:
                 ratio_hist.SetBinContent(out_bin, 2)
                 print "estimate is 0, setting ratio to 2"
@@ -143,10 +145,10 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             comp_hist.SetBinContent(out_bin, consistency)
 
             if arguments.makeTables and x_bin_lo != prompt_bin_x_lo and y_bin_lo != prompt_bin_y_lo:
-                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + " | {:.0f}" + " | {:.2f}"
+                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + " | {:.0f}+-{:.0f}" + " | {:.2f}+-{:.2f}"
                 print "|-"
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield, x_yield, y_yield,
-                                           abcd_yield, abcd_error, count_yield, count_yield/abcd_yield)
+                                           abcd_yield, abcd_error, count_yield, count_error, ratio_yield, ratio_error)
 
 if arguments.makeTables:
     print "[/TABLE]"
