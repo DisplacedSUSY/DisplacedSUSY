@@ -129,6 +129,7 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
 
             try:
                 ratio_hist.SetBinContent(out_bin, ratio_yield)
+                ratio_hist.SetBinError(out_bin, ratio_error)
             except ZeroDivisionError:
                 ratio_hist.SetBinContent(out_bin, 2)
                 print "estimate is 0, setting ratio to 2"
