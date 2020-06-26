@@ -49,7 +49,6 @@ atLeastOne_bjet_basic_selection_cuts.append(atLeastOne_bjet_id_cut)
 atLeastOne_electron_basic_selection_cuts = cms.VPSet()
 atLeastOne_electron_basic_selection_cuts.append(electron_eta_cut)
 atLeastOne_electron_basic_selection_cuts.append(electron_gap_veto)
-atLeastOne_electron_basic_selection_cuts.append(electron_pt_25_cut)
 atLeastOne_electron_basic_selection_cuts.append(electron_id_cut)
 
 ##########################################################################
@@ -57,7 +56,6 @@ atLeastOne_electron_basic_selection_cuts.append(electron_id_cut)
 #Basic muon selections
 atLeastOne_muon_basic_selection_cuts = cms.VPSet()
 atLeastOne_muon_basic_selection_cuts.append(muon_eta_cut)
-atLeastOne_muon_basic_selection_cuts.append(muon_pt_25_cut)
 atLeastOne_muon_basic_selection_cuts.append(muon_global_cut)
 atLeastOne_muon_basic_selection_cuts.append(muon_id_cut)
 

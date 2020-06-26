@@ -14,42 +14,45 @@ from DisplacedSUSY.StandardAnalysis.Triggers import *
 
 ##########################################################################
 
-# Denominator: ttbar+(MET trigger)
+# Denominator: basic selection+(MET triggers)
 TrigEffDen = cms.PSet(
     name = cms.string("TrigEffDen"),
     triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
-### passes MET trigger (use eventvariable so that triggers can be ANDed)
+### passes OR of unprescaled MET triggers (use eventvariable so that OR of MET triggers can be ANDed with analysis trigger)
 TrigEffDen.cuts.append(pass_HLTMET_paths)
-### at least one good, isolated electron
 TrigEffDen.cuts.extend(atLeastOne_electron_basic_selection_cuts)
-### at least one good, isolated muon
 TrigEffDen.cuts.extend(atLeastOne_muon_basic_selection_cuts)
-#TrigEffDen.cuts.append(muon_iso_cut)
-### at least one good electron-muon pair
-##TrigEffDen.cuts.append(emu_opposite_charge_cut)
-##TrigEffDen.cuts.append(emu_deltaR_cut)
-### at least two good jets, one medium b jet
-#TrigEffDen.cuts.extend(atLeastTwo_jet_basic_selection_cuts)
-#TrigEffDen.cuts.append(atLeastTwo_jet_lepton_cleaning_cut)
-#TrigEffDen.cuts.append(jet_btag_mwp_cut)
-### extra lepton vetoes
-#TrigEffDen.cuts.append(electron_num_exactly_1_cut)
-#TrigEffDen.cuts.append(muon_num_exactly_1_cut)
 
-# Numerator: ttbar+(MET trigger)+(analysis trigger)
-TrigEffNum = cms.PSet(
-    name = cms.string("TrigEffNum"),
-    triggers = triggersMuonPhoton,
+### Require high-pt electron when looking at muon leg eff, to separate out effects
+TrigEffHighPtEleDen = cms.PSet(
+    name = cms.string("TrigEffHighPtEleDen"),
+    triggers = cms.vstring(),
     cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
 )
+TrigEffHighPtEleDen.cuts.append(electron_pt_50_cut)
 
-
-### Require high-pt electron
-TrigEffNumHighPtE = cms.PSet(
-    name = cms.string("TrigEffNumHighPtE"),
-    triggers = copy.deepcopy(TrigEffNum.triggers),
-    cuts = cms.VPSet(copy.deepcopy(TrigEffNum.cuts))
+# Numerator: basic selection+high pt other leg+(MET triggers)+(analysis trigger)
+TrigEffHighPtEleNum = cms.PSet(
+    name = cms.string("TrigEffHighPtEleNum"),
+    triggers = triggersMuonPhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtEleDen.cuts))
 )
-TrigEffNumHighPtE.cuts.append(electron_pt_50_cut)
+
+
+
+### Require high-pt muon when looking at ele leg eff, to separate out effects
+TrigEffHighPtMuDen = cms.PSet(
+    name = cms.string("TrigEffHighPtMuDen"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
+)
+TrigEffHighPtMuDen.cuts.append(muon_pt_50_cut)
+
+# Numerator: basic selection+high pt other leg+(MET triggers)+(analysis trigger)
+TrigEffHighPtMuNum = cms.PSet(
+    name = cms.string("TrigEffHighPtMuNum"),
+    triggers = triggersMuonPhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtMuDen.cuts))
+)

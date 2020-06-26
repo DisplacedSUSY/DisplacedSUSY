@@ -9,8 +9,11 @@ from DisplacedSUSY.EMuChannel.EMuHistograms import *
 from DisplacedSUSY.EMuChannel.TrigEfficiency import *
 
 eventSelections = [
-    TrigEffNum,
-    TrigEffDen
+    TrigEffHighPtEleNum,
+    TrigEffHighPtEleDen,
+
+    #TrigEffHighPtMuNum,
+    #TrigEffHighPtMuDen,
 ]
 
 ################################################################################
