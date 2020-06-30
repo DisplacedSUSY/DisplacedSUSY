@@ -243,6 +243,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             }
         }
 
+# !!! need to use https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM#LumiComb for combined lumi uncertainty!
+
+
 # uncertainties that have different values for each dataset
 unique_systematic_uncertainties = {
 }

@@ -36,7 +36,7 @@ else:
     sys.exit(0)
 
 
-from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_8TeV, signal_cross_sections_13TeV
+from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV
 signal_cross_sections = {}
 
 from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree
