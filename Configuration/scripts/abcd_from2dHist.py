@@ -125,14 +125,20 @@ for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
             count_hist.SetBinContent(out_bin, count_yield)
             count_hist.SetBinError(out_bin, count_error)
 
-            (ratio_yield, ratio_error) = propagateError("quotient", count_yield, count_error, abcd_yield, abcd_error)
+            if abcd_yield == 0:
+                print "estimate is 0, setting ratio to 100 +/- 100"
+                ratio_yield = 100
+                ratio_error = 100
+            elif count_yield == 0:
+                print "count_yield is 0, setting ratio uncertainty to 100"
+                ratio_yield = 1.*count_yield/abcd_yield
+                ratio_error = 100
+            else:
+                (ratio_yield, ratio_error) = propagateError("quotient", count_yield, count_error, abcd_yield, abcd_error)
 
-            try:
-                ratio_hist.SetBinContent(out_bin, ratio_yield)
-                ratio_hist.SetBinError(out_bin, ratio_error)
-            except ZeroDivisionError:
-                ratio_hist.SetBinContent(out_bin, 2)
-                print "estimate is 0, setting ratio to 2"
+            ratio_hist.SetBinContent(out_bin, ratio_yield)
+            ratio_hist.SetBinError(out_bin, ratio_error)
+
 
             yield_diff = round(abs(abcd_yield - count_yield), 5)
             total_error  = abcd_error + count_error
@@ -187,7 +193,7 @@ if arguments.makeTables:
 
 out_file = TFile(output_path + output_file, "recreate")
 
-abcd_hist.SetMarkerSize(0.75)
+abcd_hist.SetMarkerSize(2)
 abcd_hist.SetOption("colz text45 e")
 abcd_hist.GetXaxis().SetTitle(x_axis_title)
 abcd_hist.GetYaxis().SetTitle(y_axis_title)
@@ -199,12 +205,13 @@ CanvasAbcd = TCanvas( "CanvasAbcd", "CanvasAbcd", 100, 100, 700, 600 )
 #CanvasAbcd.SetLogy()
 CanvasAbcd.SetLogz()
 CanvasAbcd.cd()
+
 abcd_hist.Draw("colz text45 e")
 CanvasAbcd.SaveAs(output_path+output_file.replace(".root", "_abcd.pdf"))
 CanvasAbcd.SaveAs(output_path+output_file.replace(".root", "_abcd.png"))
 
 if arguments.doClosureTest:
-    count_hist.SetMarkerSize(0.75)
+    count_hist.SetMarkerSize(2)
     count_hist.SetOption("colz text45 e")
     count_hist.GetXaxis().SetTitle(x_axis_title)
     count_hist.GetYaxis().SetTitle(y_axis_title)
@@ -220,8 +227,8 @@ if arguments.doClosureTest:
     CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.pdf"))
     CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.png"))
 
-    comp_hist.SetMarkerSize(0.75)
-    comp_hist.SetOption("colz text45")
+    comp_hist.SetMarkerSize(2)
+    comp_hist.SetOption("colz text45 e")
     comp_hist.GetXaxis().SetTitle(x_axis_title)
     comp_hist.GetYaxis().SetTitle(y_axis_title)
     comp_hist.GetXaxis().SetTitleOffset(1.2)
@@ -231,12 +238,12 @@ if arguments.doClosureTest:
     #CanvasComp.SetLogx()
     #CanvasComp.SetLogy()
     CanvasComp.cd()
-    comp_hist.Draw("colz text45")
+    comp_hist.Draw("colz text45 e")
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
     CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.png"))
 
-    ratio_hist.SetMarkerSize(0.75)
-    ratio_hist.SetOption("colz text45")
+    ratio_hist.SetMarkerSize(2)
+    ratio_hist.SetOption("colz text45 e")
     ratio_hist.GetXaxis().SetTitle(x_axis_title)
     ratio_hist.GetYaxis().SetTitle(y_axis_title)
     ratio_hist.GetXaxis().SetTitleOffset(1.2)
@@ -248,7 +255,7 @@ if arguments.doClosureTest:
     #CanvasRatio.SetLogx()
     #CanvasRatio.SetLogy()
     CanvasRatio.cd()
-    ratio_hist.Draw("colz text45")
+    ratio_hist.Draw("colz text45 e")
     CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.pdf"))
     CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
 
