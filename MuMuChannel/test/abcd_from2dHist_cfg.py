@@ -14,9 +14,9 @@ variable_bins = True
 
 # output info
 #output_file  = "BackgroundABCDEstimate.root"
-output_file  = "BackgroundABCDClosureTestData_startAt0mum_PromptRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt0mum_DisplacedSubleadingMuRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt0mum_DisplacedLeadingMuRegion.root"
+output_file  = "BackgroundABCDClosureTestData_startAt20mum_PromptRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedSubleadingMuRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedLeadingMuRegion.root"
 x_axis_title = "Subleading muon |d_{0}| [#mum]"
 y_axis_title = "Leading muon |d_{0}| [#mum]"
 
@@ -26,13 +26,13 @@ y_axis_title = "Leading muon |d_{0}| [#mum]"
 #bins_y = [50, 60, 100, 760, 1860, 100000]
 
 # prompt-sub mu/prompt-lead mu region
-bins_x = [0, 40, 100]
-bins_y = [0, 40, 100]
+bins_x = [20, 50, 100]
+bins_y = [20, 50, 100]
 
 # prompt-leading-mu/displaced-subleading-mu region
-#bins_x = [0, 20,  100,  100000]
-#bins_y = [0, 20,  40,  100]
+#bins_x = [20,  100,  100000]
+#bins_y = [20,  40,  100]
 
 # displaced-leading-mu/prompt-subleading-mu region
-#bins_x = [0, 20, 40,   100]
-#bins_y = [0, 20, 100,  100000]
+#bins_x = [20, 40,   100]
+#bins_y = [20, 100,  100000]

@@ -9,9 +9,9 @@ input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electro
 variable_bins = True
 
 # output info
-output_file  = "BackgroundABCDClosureTestData_startAt0mum_PromptRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt0mum_DisplacedMuRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt0mum_DisplacedEleRegion.root"
+output_file  = "BackgroundABCDClosureTestData_startAt20mum_PromptRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedMuRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedEleRegion.root"
 x_axis_title = "Leading muon |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
@@ -19,13 +19,13 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 # be careful not to accidently unblind if running over preselection data
 
 # prompt-sub mu/prompt-lead mu region
-bins_x = [0, 40, 100]
-bins_y = [0, 40, 100]
+bins_x = [20, 40, 100]
+bins_y = [20, 40, 100]
 
 # prompt-leading-ele/displaced-leading-mu region
-#bins_x = [0, 20, 100,  100000]
-#bins_y = [0, 20, 40, 100]
+#bins_x = [20, 100,  100000]
+#bins_y = [20, 40, 100]
 
 # displaced-leading-ele/prompt-leading-mu region
-#bins_x = [0, 20, 40,   100]
-#bins_y = [0, 20, 100,  100000]
+#bins_x = [20, 40,   100]
+#bins_y = [20, 100,  100000]
