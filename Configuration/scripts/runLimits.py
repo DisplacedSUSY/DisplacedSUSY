@@ -9,30 +9,8 @@ import re
 import subprocess
 import shutil
 from array import *
-from optparse import OptionParser
 
-
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-w", "--workDir", dest="condorDir",
-                  help="condor working directory")
-parser.add_option("-M", "--method", dest="method", default="AsymptoticLimits",
-                  help="which method of combine to use: currently supported options are AsymptoticLimits (default), BayesianSimple, MarkovChainMC, BayesianToyMC, and HybridNew")
-parser.add_option("-i", "--iterations", dest="Niterations", default="10000",
-                  help="how many points are proposed to fill a single Markov chain, default = 10k")
-parser.add_option("-r", "--tries", dest="Ntries", default="10",
-                  help="how many times the algorithm will run for observed limits, default = 10")
-parser.add_option("-t", "--toys", dest="Ntoys", default="1",
-                  help="how many toy MC to throw for expected limits, default = 1")
-parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
-                                    help="run on the condor queue")
-parser.add_option("-s", "--scaleSignalRate", dest="maxSignalRate", default="0.1",
-                  help="scale all signal rates so the maximum is MAXSIGNALRATE, default = 0.1; negative values turn off scaling")
-parser.add_option("-e", "--expectedOnly", action="store_true", dest="expectedOnly", default=False,
-                                    help="only run expected limits (skip observed)")
-
-(arguments, args) = parser.parse_args()
+from DisplacedSUSY.Configuration.limitOptions import *
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -43,6 +21,13 @@ else:
 if not arguments.condorDir:
     print "No output directory specified, shame on you"
     sys.exit(0)
+
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
 def output_condor(command, options):
     cmssw_tarball = os.environ["CMSSW_VERSION"] + '.tar.gz'
@@ -217,3 +202,6 @@ for signal_name in signal_points:
             os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
 
         os.chdir("../../..")
+
+    if arguments.quick:
+        sys.exit("Finished running one point.")

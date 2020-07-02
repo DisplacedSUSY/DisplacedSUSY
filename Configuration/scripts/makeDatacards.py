@@ -6,20 +6,12 @@ import math
 import re
 import json
 from array import *
-from optparse import OptionParser
+from DisplacedSUSY.Configuration.limitOptions import *
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
 from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
-
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-w", "--workDir", dest="condorDir",
-                  help="condor working directory")
-
-(arguments, args) = parser.parse_args()
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -34,6 +26,13 @@ if arguments.condorDir:
 else:
     print "No output directory specified"
     sys.exit(0)
+
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
 def fancyTable(arrays):
 
@@ -137,17 +136,26 @@ for sample, regions in bg_estimates.iteritems():
         signal_regions.append(SignalRegion(sr_name, sr['d0_max'], sr['d0_0'][0], sr['d0_0'][1],
                                                                   sr['d0_1'][0], sr['d0_1'][1],
                                                                   sr['pt'][0], sr['pt'][1]))
-        bg_yields[sample][sr_name] = sr['estimate']
-        bg_cr_events[sample][sr_name] = sr['ctrl_region_events']
-        bg_sys_errs[sample][sr_name] = (sr['fit_down_err'], sr['fit_up_err'])
+
+        if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
+            bg_yields[sample][sr_name] = sr['estimate']
+            bg_cr_events[sample][sr_name] = sr['ctrl_region_events']
+            bg_sys_errs[sample][sr_name] = (sr['fit_down_err'], sr['fit_up_err'])
+        else: #leave background and data as 0's if running over just 2016 or 2017
+            bg_yields[sample][sr_name] = 0.
+            bg_cr_events[sample][sr_name] = 0.
+            bg_sys_errs[sample][sr_name] = (0., 0.,)
 
 # set up observed number of events
 observed_yields = {}
 for sr in signal_regions:
-    if blinded:
-        observed_yields[sr.name] = sum([bg_yields[bg][sr.name] for bg in backgrounds])
-    else:
-        (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
+    if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
+        if blinded:
+            observed_yields[sr.name] = sum([bg_yields[bg][sr.name] for bg in backgrounds])
+        else:
+            (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
+    else: #leave background and data as 0's if running over just 2016 or 2017
+        observed_yields[sr.name] = 0.
 
 # get all the external systematic errors and put them in a dictionary
 systematics_dictionary = {}
@@ -264,19 +272,20 @@ for signal['name'] in signal_points:
         datacard_data.append(row)
 
     # add a row for the statistical uncertainty for each background
-    for bg in backgrounds:
-        for sr in signal_regions:
-            row = ['bg_stat_' + sr.name, 'gmN', str(int(bg_cr_events[bg][sr.name]))]
-            scale_factor = bg_yields[bg][sr.name] / bg_cr_events[bg][sr.name]
-            for bg_test in backgrounds:
-                for sr_test in signal_regions:
-                    row.append('-') # for the signal
-                    if bg == bg_test and sr.name == sr_test.name:
-                        row.append(str(round(scale_factor, 7)))
-                    else:
-                        row.append('-')
+    if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
+        for bg in backgrounds:
+            for sr in signal_regions:
+                row = ['bg_stat_' + sr.name, 'gmN', str(int(bg_cr_events[bg][sr.name]))]
+                scale_factor = bg_yields[bg][sr.name] / bg_cr_events[bg][sr.name]
+                for bg_test in backgrounds:
+                    for sr_test in signal_regions:
+                        row.append('-') # for the signal
+                        if bg == bg_test and sr.name == sr_test.name:
+                            row.append(str(round(scale_factor, 7)))
+                        else:
+                            row.append('-')
 
-            datacard_data.append(row)
+                            datacard_data.append(row)
 
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
@@ -285,20 +294,21 @@ for signal['name'] in signal_points:
     datacard_data.append(empty_row)
 
     # add a row for the fit-based systematic uncertainty for each background
-    for bg in backgrounds:
-        for sr in signal_regions:
-            row = ['bg_fit_sys_' + sr.name, 'lnN', '']
-            uncertainty_string = "{}/{}".format(round(bg_sys_errs[bg][sr.name][0], 2),
-                                                round(bg_sys_errs[bg][sr.name][1], 2))
-            for bg_test in backgrounds:
-                for sr_test in signal_regions:
-                    row.append('-') # for the signal
-                    if bg == bg_test and sr.name == sr_test.name:
-                        row.append(uncertainty_string)
-                    else:
-                        row.append('-')
+    if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
+        for bg in backgrounds:
+            for sr in signal_regions:
+                row = ['bg_fit_sys_' + sr.name, 'lnN', '']
+                uncertainty_string = "{}/{}".format(round(bg_sys_errs[bg][sr.name][0], 2),
+                                                    round(bg_sys_errs[bg][sr.name][1], 2))
+                for bg_test in backgrounds:
+                    for sr_test in signal_regions:
+                        row.append('-') # for the signal
+                        if bg == bg_test and sr.name == sr_test.name:
+                            row.append(uncertainty_string)
+                        else:
+                            row.append('-')
 
-            datacard_data.append(row)
+                            datacard_data.append(row)
 
     # add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
@@ -309,7 +319,7 @@ for signal['name'] in signal_points:
             else:
                 row.append('-')
             for bg in backgrounds:
-                if bg in global_systematic_uncertainties[uncertainty]['applyList']:
+                if (arguments.era == "2018" and bg in global_systematic_uncertainties[uncertainty]['applyList']):
                     row.append(global_systematic_uncertainties[uncertainty]['value'])
                 else:
                     row.append('-')
@@ -324,7 +334,7 @@ for signal['name'] in signal_points:
             else:
                 row.append('-')
             for bg in backgrounds:
-                if bg in systematics_dictionary[uncertainty][sr.name]:
+                if (arguments.era == "2018" and bg in systematics_dictionary[uncertainty][sr.name]):
                     row.append(systematics_dictionary[uncertainty][sr.name][bg])
                 else:
                     row.append('-')

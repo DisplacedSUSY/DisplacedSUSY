@@ -1,5 +1,7 @@
  #!/usr/bin/env python
 import os
+from DisplacedSUSY.Configuration.limitOptions import *
+
 #################################################################################
 #################################################################################
 ### this file contains all information pertaining to systematic uncertainties ###
@@ -163,7 +165,7 @@ mc_normalized_processes = [
 
 
 # uncertainties for which the same value applies to all datasets
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if arguments.era == "2016":
     global_systematic_uncertainties = {
         # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {
@@ -189,7 +191,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             'applyList' : ['signal'],
             }
         }
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+
+elif arguments.era == "2017":
     global_systematic_uncertainties = {
         # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {
@@ -216,7 +219,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             }
         }
 
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+elif arguments.era == "2018":
     global_systematic_uncertainties = {
         # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
         'lumi' :  {

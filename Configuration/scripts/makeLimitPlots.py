@@ -10,17 +10,8 @@ import subprocess
 import glob
 from array import *
 from operator import itemgetter
-from optparse import OptionParser
 
-
-
-parser = OptionParser()
-parser.add_option("-l", "--localConfig", dest="localConfig",
-                  help="local configuration file")
-parser.add_option("-c", "--outputDir", dest="outputDir",
-                  help="output directory")
-
-(arguments, args) = parser.parse_args()
+from DisplacedSUSY.Configuration.limitOptions import *
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -35,6 +26,12 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
+if not arguments.era in validEras:
+  print
+  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print str(validEras)
+  print
+  sys.exit(0)
 
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV
 signal_cross_sections = {}
