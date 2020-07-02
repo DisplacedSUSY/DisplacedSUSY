@@ -167,11 +167,28 @@ mc_normalized_processes = [
 # uncertainties for which the same value applies to all datasets
 if arguments.era == "2016":
     global_systematic_uncertainties = {
-        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
-        'lumi' :  {
-            'value' : '1.025',
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM#LumiComb
+        'lumi_uncorrelated_2016' :  {
+            'value' : '1.022',
             'applyList' : mc_normalized_processes,
             },
+        'lumi_xyFactorization' :  {
+            'value' : '1.009',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_beamBeamDeflection' :  {
+            'value' : '1.004',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_dynamicBeta' :  {
+            'value' : '1.005',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_ghostsAndSatellites' :  {
+            'value' : '1.004',
+            'applyList' : mc_normalized_processes,
+            },
+
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu' :  {
             'value' : '1.013',
@@ -185,6 +202,7 @@ if arguments.era == "2016":
             'value' : '1.017',
             'applyList' : mc_normalized_processes,
             },
+
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.135',
@@ -194,11 +212,36 @@ if arguments.era == "2016":
 
 elif arguments.era == "2017":
     global_systematic_uncertainties = {
-        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
-        'lumi' :  {
-            'value' : '1.023',
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM#LumiComb
+        'lumi_uncorrelated_2017' :  {
+            'value' : '1.020',
             'applyList' : mc_normalized_processes,
             },
+        'lumi_xyFactorization' :  {
+            'value' : '1.008',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_lengthScale' :  {
+            'value' : '1.003',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_beamBeamDeflection' :  {
+            'value' : '1.004',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_dynamicBeta' :  {
+            'value' : '1.005',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_beamCurrentCalibration' :  {
+            'value' : '1.003',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_ghostsAndSatellites' :  {
+            'value' : '1.001',
+            'applyList' : mc_normalized_processes,
+            },
+
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu' :  {
             'value' : '1.013', #needs to be updated for 2017
@@ -212,6 +255,7 @@ elif arguments.era == "2017":
             'value' : '1.017', #needs to be updated for 2017
             'applyList' : mc_normalized_processes,
             },
+
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.047', #needs to be updated for 2017
@@ -221,11 +265,24 @@ elif arguments.era == "2017":
 
 elif arguments.era == "2018":
     global_systematic_uncertainties = {
-        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM
-        'lumi' :  {
-            'value' : '1.025',
+        # taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/TWikiLUM#LumiComb
+        'lumi_uncorrelated_2018' :  {
+            'value' : '1.015',
             'applyList' : mc_normalized_processes,
             },
+        'lumi_xyFactorization' :  {
+            'value' : '1.020',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_lengthScale' :  {
+            'value' : '1.002',
+            'applyList' : mc_normalized_processes,
+            },
+        'lumi_beamCurrentCalibration' :  {
+            'value' : '1.002',
+            'applyList' : mc_normalized_processes,
+            },
+
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu' :  {
             'value' : '1.', #needs to be updated for 2018
@@ -239,6 +296,7 @@ elif arguments.era == "2018":
             'value' : '1.', #needs to be updated for 2018
             'applyList' : mc_normalized_processes,
             },
+
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.', #needs to be updated for 2018
@@ -246,7 +304,6 @@ elif arguments.era == "2018":
             }
         }
 
-# !!! need to use https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM#LumiComb for combined lumi uncertainty!
 
 
 # uncertainties that have different values for each dataset
