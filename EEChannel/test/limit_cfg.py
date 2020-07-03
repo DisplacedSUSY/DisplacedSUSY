@@ -21,12 +21,6 @@ data = {
 # fixme: temporary fudge factor to scale 2018 signal yield to Run II signal yield
 lumi_factor = 117.6/59.7
 
-processes = ['stopToLB']
-masses = [m for m in range(200, 1801, 100)]
-#lifetimes = [10**e for e in range(-1, 4)]
-lifetimes = [b*10**e for e in range(-1, 3) for b in range(1, 10)] + [1000]
-signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
-
 # a separate datacard will be produced for each signal point
 if arguments.era == "2016":
     signal = {
