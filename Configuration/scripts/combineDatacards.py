@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 # Script to combine run periods into single cards for running limits.
+# run with combineDatacards.py -l combineYearsLimit_cfg.py -w COMBINED_LIMITDIR
 
 import os, sys, glob, re, subprocess
-from optparse import OptionParser
 from threading import Thread, Semaphore, Lock
 from multiprocessing import cpu_count
 
@@ -11,19 +11,21 @@ from OSUT3Analysis.Configuration.ProgressIndicator import ProgressIndicator
 
 from DisplacedSUSY.Configuration.limitOptions import *
 
-# check the input directories exist
-for combinedCard in datacardCombinations:
-    for card in datacardCombinations[combinedCard]:
-        if not os.path.exists('limits/limits_' + card):
-            print 'The input directory limits/limits_' + card + ' is missing! Quitting.'
-            sys.exit(1)
+if arguments.localConfig:
+    sys.path.append(os.getcwd())
+    exec("from " + re.sub (r".py$", r"", arguments.localConfig) + " import *")
+else:
+    print "No local config specified"
+    sys.exit(0)
 
-# create the output directories
-for combinedCard in datacardCombinations:
-    if not os.path.exists('limits/limits_' + combinedCard):
-        os.mkdir('limits/limits_' + combinedCard)
+if arguments.condorDir:
+    if not os.path.exists("limits/"+arguments.condorDir):
+        os.system("mkdir limits/"+arguments.condorDir)
+else:
+    print "No output directory specified"
+    sys.exit(0)
 
-def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFactor):
+def makeCombinedCard (i, N, combinedCard, sample):
     global semaphore
     global printLock
     global progress
@@ -35,20 +37,19 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
     progress.printProgress(False)
     printLock.release ()
 
-    sample = ""#fixme
-
     # create the combined card
-    outputCardFile = 'limits/limits_' + combinedCard + '/datacard_' + sample + '.txt'
-    cmd = 'combineCards.py '
+    outputCardFile = 'limits/' + combinedCard + '/datacard_' + sample + '.txt'
+    cmd = 'combineCards.py'
     cardsExist = False
-    for card in datacardCombinations[combinedCard]:
-        inputCardFile = 'limits/limits_' + card + '/datacard_' + sample + '.txt'
+
+    for inputDir in inputDirs:
+        inputCardFile = 'limits/' + inputDir + '/datacard_' + sample + '.txt'
         # if an input card is missing, skip this bin in the combined card
         if not os.path.isfile(inputCardFile):
             continue
         else:
             cardsExist = True
-        cmd += ' Bin' + card.replace('_', '') + '=' + inputCardFile
+        cmd += ' ' + inputCardFile
 
     # if no input cards exist, there's nothing to combine
     if not cardsExist:
@@ -57,76 +58,13 @@ def makeCombinedCard (i, N, combinedCard, mass, lifetime, ignoreSignalScaleFacto
 
     subprocess.call(cmd + ' > ' + outputCardFile, shell = True)
 
-    # from the input cards, figure out the original, unscaled yields
-    # these are always written as the last line in the card
-    realYields = {}
-    sumYields = 0.0
-    for card in datacardCombinations[combinedCard]:
-        inputCardFile = 'limits/limits_' + card + '/datacard_' + sample + '.txt'
-        if not os.path.isfile(inputCardFile):
-            continue
-        with open(inputCardFile) as f:
-            first = f.readline()
-            for last in f: pass
-        realYields['Bin' + card.replace('_', '')] = float(last.strip().split()[-1])
-        sumYields += realYields['Bin' + card.replace('_', '')]
-
-    # now scale the bins in the combined card so that their total is 10.0 events
-    if not ignoreSignalScaleFactor:
-        scaleFactor = 10.0 / sumYields if sumYields > 0.0 else 1.0
-        scaledYields = {x : realYields[x] * scaleFactor for x in realYields}
-
-        # edit the combined card, replacing the rates -- currently all scaled to 10.0 -- to (realYield * scaleFactor)
-        rateLines = subprocess.check_output('sed -n "/^rate/p" ' + outputCardFile, shell = True).split()
-        processLines = subprocess.check_output('sed -n "/^process\s*0\s*/p" ' + outputCardFile, shell = True).split()
-        binLines = subprocess.check_output('awk "/^bin/{c++; if (c==2) {print}}" ' + outputCardFile, shell = True).split()
-
-        for iBin in range(len(rateLines)):
-            # skip headers in lines
-            if iBin == 0:
-                continue
-            # if this is a signal process (0), replace the rate with this new scaled value
-            if processLines[iBin] == '0':
-                rateLines[iBin] = str(scaledYields[binLines[iBin]])
-
-        # now replace the rates in the combined card
-        subprocess.call('sed -i "s/^rate.*/' + ' '.join(rateLines) + '/" ' + outputCardFile, shell = True)
-
-        # also now fix the signalSF file
-        subprocess.call('echo ' + str(scaleFactor) + ' > ' + outputCardFile.replace('datacard_', 'signalSF_'), shell = True)
-
-        # find the signal stat lines, since these will need to change
-        signalStatLines = subprocess.check_output('sed -n "/^signal_stat_.*gmN.*/p" ' + outputCardFile, shell = True).split('\n')
-        for iLine in range(len(signalStatLines)):
-            if not signalStatLines[iLine].startswith('signal_stat_Bin'):
-                continue
-            gmN_number = -1
-            stat_idx = -1
-            binName = ''
-            lineEntries = signalStatLines[iLine].split()
-            for ix, x in enumerate(lineEntries):
-                if x.startswith('signal_stat_Bin'):
-                    binName = x.replace('signal_stat_', '')
-                if x.isdigit():
-                    gmN_number = int(x)
-                if '.' in x:
-                    stat_idx = ix
-            if stat_idx < 0:
-                printLock.acquire()
-                print 'WARNING: cannot find signal stat error in file ' + outputCardFile + ', line = ' + signalStatLines[iLine]
-                printLock.release()
-                continue
-            lineEntries[stat_idx] = str(scaledYields[binName] / gmN_number)
-            signalStatLines[iLine] = ' '.join(lineEntries)
-            subprocess.call('sed -i "s/^signal_stat_' + binName + '.*/' + signalStatLines[iLine] + '/" ' + outputCardFile, shell = True)
-
     semaphore.release ()
 
 #######################################################################
 
 semaphore = Semaphore (cpu_count () + 1)
 printLock = Lock ()
-nCards = len(allMasses) * len(allLifetimes)
+nCards = len(signal_points)
 progressTitle = 'Combining ' + str(nCards) + ' datacards into "{0}"'
 progress = ProgressIndicator("")
 
@@ -136,11 +74,13 @@ for combinedCard in datacardCombinations:
 
     threads = []
     i = 0
-    for mass in allMasses:
-        for lifetime in allLifetimes:
-            i += 1
-            threads.append(Thread(target = makeCombinedCard, args = (i, nCards, combinedCard, mass, lifetime, arguments.ignoreSignalScaleFactor)))
-            threads[-1].start()
+
+    for signal in signal_points:
+        # rename sub-mm samples to match sample names
+        signal = signal.replace('.', 'p')
+        i += 1
+        threads.append(Thread(target = makeCombinedCard, args = (i, nCards, arguments.condorDir, signal)))
+        threads[-1].start()
 
     for thread in threads:
         thread.join()
