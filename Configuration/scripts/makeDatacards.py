@@ -29,7 +29,7 @@ else:
 
 if not arguments.era in validEras:
   print
-  print "Invalid or empty data-taking era specific (-e). Allowed eras:"
+  print "Invalid or empty data-taking era specific (-E). Allowed eras:"
   print str(validEras)
   print
   sys.exit(0)
