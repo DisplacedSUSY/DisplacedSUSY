@@ -5,6 +5,8 @@ input_file = "/uscms_data/d3/cardwell/condor/EMuAdditionalPreselection_2018Analy
 
 input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
 
+# Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
+data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
 

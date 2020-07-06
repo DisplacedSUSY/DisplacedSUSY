@@ -9,20 +9,21 @@
 import sys
 import os
 import re
+import copy
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TH2F, gROOT, Double, gStyle
+from ROOT import TFile, TCanvas, TH1F, TH2F, gROOT, Double, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
-parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest",
-                  default=False, help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
-parser.add_option("-t", "--makeTables", action="store_true", dest="makeTables",
-                  default=False, help="print table of abcd and counting yields; table is formatted for elog; must be used with '-c'")
+parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest", default=False,
+                  help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-t", "--makeTables", action="store_true", dest="makeTables", default=False,
+                  help="print table of abcd and counting yields; table is formatted for elog")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -52,18 +53,36 @@ gStyle.SetPaintTextFormat('.2f')
 gROOT.ForceStyle()
 
 
-def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins):
-    error = Double(0.0)
-    integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, error)
+def get_poisson_uncertainty(counts):
+    dummy_hist = TH1F("dummy", "dummy", 1, 0, 1)
+    dummy_hist.SetBinErrorOption(1) # one-sigma poisson interval
+    dummy_hist.SetBinContent(1, counts)
+    return (dummy_hist.GetBinErrorLow(1), dummy_hist.GetBinErrorUp(1))
+
+def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins, data):
+    err = Double(0.0)
+    integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, err)
     # multiply by area of last bin if histogram was made with variable-width bins
     # assume input histograms have symmetric binning
     if variable_bins:
         nBins = h.GetXaxis().GetNbins()
         area = h.GetXaxis().GetBinWidth(nBins) ** 2
         integral *= area
-        error *= area
-    return (integral, error)
+        err *= area
+    # replace normal approxmation uncertainty with poisson uncertainty for unweighted hists
+    (err_lo, err_hi) = get_poisson_uncertainty(integral) if data else (err, err)
+    return {'val':integral, 'err_lo':err_lo, 'err_hi':err_hi}
 
+# separately propagate lo and hi uncertaintanties
+def propagate_asymm_err(func, a, a_err_lo, a_err_hi, b, b_err_lo, b_err_hi):
+    (result, err_lo) = propagateError(func, a, a_err_lo, b, b_err_lo)
+    (result, err_hi) = propagateError(func, a, a_err_hi, b, b_err_hi)
+    return {'val':result, 'err_lo':err_lo, 'err_hi':err_hi}
+
+# sum events from different regions while accounting for asymmetric uncertainties
+def sum_regions(r1, r2):
+    return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
+                                      r2['val'], r2['err_lo'], r2['err_hi'])
 
 in_file = TFile(input_file)
 in_hist = in_file.Get(input_hist).Clone()
@@ -72,10 +91,11 @@ abcd_hist  = TH2F(title("ABCD Estimates"), title("ABCD Estimates"), len(bins_x)-
                   array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 count_hist = TH2F(title("Counting Yields"), title("Counting Yields"), len(bins_x)-1,
                   array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-comp_hist  = TH2F(title("Consistency"), title("Consistency"),  len(bins_x)-1,
-                  array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
 ratio_hist  = TH2F(title("Ratio"), title("Ratio"),  len(bins_x)-1,
                   array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+
+abcd_yields = {}
+count_yields = {}
 
 # Get yield and error in prompt region
 prompt_bin_x_lo = in_hist.GetXaxis().FindBin(bins_x[0])
@@ -83,113 +103,136 @@ prompt_bin_x_hi = in_hist.GetXaxis().FindBin(bins_x[1])-1
 prompt_bin_y_lo = in_hist.GetYaxis().FindBin(bins_y[0])
 prompt_bin_y_hi = in_hist.GetYaxis().FindBin(bins_y[1])-1
 
-(prompt_yield, prompt_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
-                                                     prompt_bin_y_lo, prompt_bin_y_hi, variable_bins)
-
+prompt = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi, prompt_bin_y_lo,
+                               prompt_bin_y_hi, variable_bins, data)
 if arguments.makeTables:
+    print
+    if not arguments.doClosureTest:
+        print "Blinded: actual yields set equal to estimate."
     print "[B]", title(""), "[/B]"
     print '[TABLE border="1"]'
     print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual|D Actual/Estimate"
 
-for x_lo, x_hi in zip(bins_x[:-1], bins_x[1:]):
+for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
+    abcd_yields[x_lo]  = {}
+    count_yields[x_lo] = {}
     x_bin_lo = in_hist.GetXaxis().FindBin(x_lo)
     x_bin_hi = in_hist.GetXaxis().FindBin(x_hi)-1
 
     # Get yield and error in x sideband
-    (x_yield, x_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi, prompt_bin_y_lo,
-                                               prompt_bin_y_hi, variable_bins)
+    x = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi, prompt_bin_y_lo, prompt_bin_y_hi,
+                              variable_bins, data)
 
-    for y_lo, y_hi in zip(bins_y[:-1], bins_y[1:]):
+    for y_lo, y_hi in zip(bins_y[1:-1], bins_y[2:]):
+        abcd_yields[x_lo][y_lo]  = {}
+        count_yields[x_lo][y_lo] = {}
         y_bin_lo = in_hist.GetYaxis().FindBin(y_lo)
         y_bin_hi = in_hist.GetYaxis().FindBin(y_hi)-1
         out_bin = count_hist.FindBin(x_lo, y_lo)
 
         # Get yield and error in y sideband
-        (y_yield, y_error) = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi,
-                                                   y_bin_lo, y_bin_hi, variable_bins)
+        y = get_yields_and_errors(in_hist, prompt_bin_x_lo, prompt_bin_x_hi, y_bin_lo, y_bin_hi,
+                                  variable_bins, data)
 
         # calculate abcd yield as d = c * b / a
-        if x_yield == 0 or y_yield == 0:
-            abcd_yield = 0
-            abcd_error = 0
+        if x['val'] == 0 or y['val'] == 0:
+            abcd['val'] = 0
+            abcd['err_lo'] = abcd['err_hi'] = 0
         else:
-            (cb_yield, cb_error) = propagateError("product", x_yield, x_error, y_yield, y_error)
-            (abcd_yield, abcd_error) = propagateError("quotient", cb_yield, cb_error, prompt_yield, prompt_error)
-        abcd_hist.SetBinContent(out_bin, abcd_yield)
-        abcd_hist.SetBinError(out_bin, abcd_error)
+            cb = propagate_asymm_err("product", x['val'], x['err_lo'], x['err_hi'],
+                                                y['val'], y['err_lo'], y['err_hi'])
+            abcd = propagate_asymm_err("quotient", cb['val'], cb['err_lo'], cb['err_hi'],
+                                       prompt['val'], prompt['err_lo'], prompt['err_hi'])
 
-        # get counting yields in signal region and calculate consistency between abcd and counting
+        # store abcd estimate in hist and dictionary
+        abcd_hist.SetBinContent(out_bin, abcd['val'])
+        abcd_yields[x_lo][y_lo]['val']  = abcd['val']
+        abcd_yields[x_lo][y_lo]['err_lo'] = abcd['err_lo']
+        abcd_yields[x_lo][y_lo]['err_hi'] = abcd['err_hi']
+
+        # if unblinded, get count yields
         if arguments.doClosureTest:
-            (count_yield, count_error) = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi,
-                                                               y_bin_lo, y_bin_hi, variable_bins)
-            count_hist.SetBinContent(out_bin, count_yield)
-            count_hist.SetBinError(out_bin, count_error)
+            count = get_yields_and_errors(in_hist, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi,
+                                          variable_bins, data)
 
-            if abcd_yield == 0:
-                print "estimate is 0, setting ratio to 100 +/- 100"
-                ratio_yield = 100
-                ratio_error = 100
-            elif count_yield == 0:
-                print "count_yield is 0, setting ratio uncertainty to 100"
-                ratio_yield = 1.*count_yield/abcd_yield
-                ratio_error = 100
-            else:
-                (ratio_yield, ratio_error) = propagateError("quotient", count_yield, count_error, abcd_yield, abcd_error)
+        else: # if blinded, set count yields equal to abcd estimate
+            count = copy.deepcopy(abcd)
 
-            ratio_hist.SetBinContent(out_bin, ratio_yield)
-            ratio_hist.SetBinError(out_bin, ratio_error)
+        # store actual yield in hist and dictionary
+        count_hist.SetBinContent(out_bin, count['val'])
+        count_yields[x_lo][y_lo]['val']  = count['val']
+        count_yields[x_lo][y_lo]['err_lo'] = count['err_lo']
+        count_yields[x_lo][y_lo]['err_hi'] = count['err_hi']
 
+        # calculate ratio of actual yield to estimate
+        if abcd['val'] == 0:
+            print "estimate is 0, setting ratio to 100 +/- 100"
+            ratio['val'] = 100
+            ratio['err_lo'] = ratio['err_hi'] = 100
+        elif count['val'] == 0:
+            print "count_yield is 0, setting ratio uncertainty to 100"
+            ratio['val'] = 1.*count['val']/abcd['val']
+            ratio['lo'] = 0
+            ratio['hi'] = 100
+        else:
+            ratio = propagate_asymm_err("quotient", count['val'], count['err_lo'], count['err_hi'],
+                                        abcd['val'], abcd['err_lo'], abcd['err_hi'])
 
-            yield_diff = round(abs(abcd_yield - count_yield), 5)
-            total_error  = abcd_error + count_error
-            try:
-                consistency = yield_diff / total_error
-            except ZeroDivisionError:
-                if yield_diff == 0:
-                    consistency = 0
-                else:
-                    print "Total error is 0 while yields are > 0. Something is wrong with your input histogram"
-            comp_hist.SetBinContent(out_bin, consistency)
+        ratio_hist.SetBinContent(out_bin, ratio['val'])
 
-            if arguments.makeTables and x_bin_lo != prompt_bin_x_lo and y_bin_lo != prompt_bin_y_lo:
-                format_string = "{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" + " | {:.2f}+-{:.2f}" + " | {:.0f}+-{:.0f}" + " | {:.2f}+-{:.2f}"
-                print "|-"
-                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt_yield, x_yield, y_yield,
-                                           abcd_yield, abcd_error, count_yield, count_error, ratio_yield, ratio_error)
+        if arguments.makeTables:
+            print "|-"
+            if data: # use asymmetric errors on estimate and no uncertainty on actual count
+                format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
+                                 " | {:.2f}+{:.2f}-{:.2f} | {:.0f} | {:.2f}")
+                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
+                                           y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
+                                           count['val'], ratio['val'])
+            else: # use normal errors on estimate and actual count
+                format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
+                                 2 * " | {:.2f}+-{:.2f}" + " | {:.2f}")
+                print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
+                                           y['val'], abcd['val'], abcd['err_hi'], count['val'],
+                                           count['err_hi'], ratio['val'])
 
+# make summary table
 if arguments.makeTables:
     print "[/TABLE]"
-
-    # Get yield and error in inclusive signal regions
-    abcd_yields_and_errors  = []
-    count_yields_and_errors = []
-    last_x_bin = abcd_hist.GetXaxis().FindBin(bins_x[-1])
-    last_y_bin = abcd_hist.GetYaxis().FindBin(bins_y[-1])
-    for x, y in zip(bins_x[1:], bins_y[1:]):
-        x_bin = abcd_hist.GetXaxis().FindBin(x)
-        y_bin = abcd_hist.GetYaxis().FindBin(y)
-        abcd_yields_and_errors.append(get_yields_and_errors(abcd_hist, x_bin, last_x_bin,
-                                                            y_bin, last_y_bin, False))
-        count_yields_and_errors.append(get_yields_and_errors(count_hist, x_bin, last_x_bin,
-                                                            y_bin, last_y_bin, False))
-
-    # subtract each yield from more inclusive yield to create non-overlapping regions
-    abcd_yields_and_errors  = [ propagateError("sum", y1, e1, -1*y2, e2) for (y1,e1), (y2,e2) in
-                              zip(abcd_yields_and_errors[:-1], abcd_yields_and_errors[1:]) ]
-    count_yields_and_errors = [ propagateError("sum", y1, e1, -1*y2, e2) for (y1,e1), (y2,e2) in
-                              zip(count_yields_and_errors[:-1], count_yields_and_errors[1:]) ]
-
-
-    # print summary table
+    print
     print '[TABLE border="1"]'
     print "Signal Region|Estimate|Actual"
-    for region, (abcd_yield, abcd_error), (count_yield, count_error) in zip(
-        range(1, len(abcd_yields_and_errors)+1), abcd_yields_and_errors, count_yields_and_errors):
-        print "|-"
-        print "Region {} | {:.1e}+-{:.1e} | {:.1e}+-{:.1e}".format(
-            region, abcd_yield, abcd_error, count_yield, count_error)
-    print "[/TABLE]"
 
+# get estimated and actual yields in L-shaped signal regions
+# assume x and y have same number of bins
+sr_count = {}
+sr_abcd  = {}
+for sr in range(0, len(bins_x)-2):
+    sr_count[sr] = {'val':0, 'err_lo':0, 'err_hi':0}
+    sr_abcd[sr]  = {'val':0, 'err_lo':0, 'err_hi':0}
+    for x_bin in bins_x[sr+1:-1]:
+        y_bin = bins_y[sr+1]
+        sr_count[sr] = sum_regions(sr_count[sr], count_yields[x_bin][y_bin])
+        sr_abcd[sr] = sum_regions(sr_abcd[sr], abcd_yields[x_bin][y_bin])
+    for y_bin in bins_y[sr+2:-1]: # +2 to not double count corner of L
+        x_bin = bins_x[sr+1]
+        sr_count[sr] = sum_regions(sr_count[sr], count_yields[x_bin][y_bin])
+        sr_abcd[sr] = sum_regions(sr_abcd[sr], abcd_yields[x_bin][y_bin])
+
+    # print summary table row
+    if arguments.makeTables:
+        if data:
+            print "Region {} | {:.2f}+{:.2f}-{:.2f} | {:.0f}".format(
+                   sr, sr_abcd[sr]['val'], sr_abcd[sr]['err_hi'], sr_abcd[sr]['err_lo'],
+                   sr_count[sr]['val'])
+        else:
+            print "Region {} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}".format(
+                   sr, sr_abcd[sr]['val'], sr_abcd[sr]['err_hi'],
+                      sr_count[sr]['val'], sr_abcd[sr]['err_hi'])
+
+# end summary table
+if arguments.makeTables:
+    print "[/TABLE]"
+    print
 
 out_file = TFile(output_path + output_file, "recreate")
 
@@ -226,21 +269,6 @@ if arguments.doClosureTest:
     count_hist.Draw("colz text45 e")
     CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.pdf"))
     CanvasCount.SaveAs(output_path+output_file.replace(".root", "_count.png"))
-
-    comp_hist.SetMarkerSize(2)
-    comp_hist.SetOption("colz text45 e")
-    comp_hist.GetXaxis().SetTitle(x_axis_title)
-    comp_hist.GetYaxis().SetTitle(y_axis_title)
-    comp_hist.GetXaxis().SetTitleOffset(1.2)
-    comp_hist.GetYaxis().SetTitleOffset(1.1)
-    comp_hist.Write()
-    CanvasComp = TCanvas( "CanvasComp", "CanvasComp", 100, 100, 700, 600 )
-    #CanvasComp.SetLogx()
-    #CanvasComp.SetLogy()
-    CanvasComp.cd()
-    comp_hist.Draw("colz text45 e")
-    CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.pdf"))
-    CanvasComp.SaveAs(output_path+output_file.replace(".root", "_comp.png"))
 
     ratio_hist.SetMarkerSize(2)
     ratio_hist.SetOption("colz text45 e")

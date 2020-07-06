@@ -9,6 +9,8 @@ input_file = "/uscms_data/d3/manunezo/condor/MuMuAdditionalPreselection_2018Anal
 #input_file = "/uscms_data/d3/alimena/condor/MuMuAdditionalPreselection_2018Analysis_MoreHists_22June2020/DYJetsToLL.root"
 input_hist = "AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um"
 
+# Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
+data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
 

@@ -8,6 +8,8 @@ input_file = "/uscms_data/d3/alimena/condor/EEAdditionalPreselection_2018Analysi
 #input_file = "/uscms_data/d3/alimena/condor/EEAdditionalPreselection_2018Analysis_2June2020/Background.root"
 input_hist = "AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um"
 
+# Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
+data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
 
