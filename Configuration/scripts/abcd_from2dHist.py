@@ -10,6 +10,7 @@ import sys
 import os
 import re
 import copy
+import json
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
@@ -195,45 +196,70 @@ for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
                                            y['val'], abcd['val'], abcd['err_hi'], count['val'],
                                            count['err_hi'], ratio['val'])
 
-# make summary table
+# finish table
 if arguments.makeTables:
     print "[/TABLE]"
     print
-    print '[TABLE border="1"]'
-    print "Signal Region|Estimate|Actual"
 
 # get estimated and actual yields in L-shaped signal regions
-# assume x and y have same number of bins
-sr_count = {}
-sr_abcd  = {}
-for sr in range(0, len(bins_x)-2):
-    sr_count[sr] = {'val':0, 'err_lo':0, 'err_hi':0}
-    sr_abcd[sr]  = {'val':0, 'err_lo':0, 'err_hi':0}
-    for x_bin in bins_x[sr+1:-1]:
-        y_bin = bins_y[sr+1]
-        sr_count[sr] = sum_regions(sr_count[sr], count_yields[x_bin][y_bin])
-        sr_abcd[sr] = sum_regions(sr_abcd[sr], abcd_yields[x_bin][y_bin])
-    for y_bin in bins_y[sr+2:-1]: # +2 to not double count corner of L
-        x_bin = bins_x[sr+1]
-        sr_count[sr] = sum_regions(sr_count[sr], count_yields[x_bin][y_bin])
-        sr_abcd[sr] = sum_regions(sr_abcd[sr], abcd_yields[x_bin][y_bin])
-
-    # print summary table row
-    if arguments.makeTables:
-        if data:
-            print "Region {} | {:.2f}+{:.2f}-{:.2f} | {:.0f}".format(
-                   sr, sr_abcd[sr]['val'], sr_abcd[sr]['err_hi'], sr_abcd[sr]['err_lo'],
-                   sr_count[sr]['val'])
-        else:
-            print "Region {} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}".format(
-                   sr, sr_abcd[sr]['val'], sr_abcd[sr]['err_hi'],
-                      sr_count[sr]['val'], sr_abcd[sr]['err_hi'])
-
-# end summary table
-if arguments.makeTables:
-    print "[/TABLE]"
+if len(bins_x) != len(bins_y):
     print
+    print ("Not making L-shaped signal regions because x and y axes have different numbers of bins")
+else:
+    # begin summary table
+    if arguments.makeTables:
+        print '[TABLE border="1"]'
+        print "Signal Region|Estimate|Actual"
 
+    bg_estimate_output = []
+    for sr in range(0, len(bins_x)-2):
+        sr_count = {'val':0, 'err_lo':0, 'err_hi':0}
+        sr_abcd  = {'val':0, 'err_lo':0, 'err_hi':0}
+        for x_bin in bins_x[sr+1:-1]:
+            y_bin = bins_y[sr+1]
+            sr_count = sum_regions(sr_count, count_yields[x_bin][y_bin])
+            sr_abcd = sum_regions(sr_abcd, abcd_yields[x_bin][y_bin])
+        for y_bin in bins_y[sr+2:-1]: # +2 to not double count corner of L
+            x_bin = bins_x[sr+1]
+            sr_count = sum_regions(sr_count, count_yields[x_bin][y_bin])
+            sr_abcd = sum_regions(sr_abcd, abcd_yields[x_bin][y_bin])
+
+        # print summary table row
+        if arguments.makeTables:
+            if data:
+                print "Region {} | {:.2f}+{:.2f}-{:.2f} | {:.0f}".format(
+                       sr, sr_abcd['val'], sr_abcd['err_hi'], sr_abcd['err_lo'], sr_count['val'])
+            else:
+                print "Region {} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}".format(
+                       sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_abcd['err_hi'])
+
+        # store estimated and actual yields with signal region info for json output
+        bg_estimate_output.append(
+            {
+                'd0_0' : bins_x[sr+1],
+                'd0_1' : bins_y[sr+1],
+                'd0_0_max' : bins_x[-1],
+                'd0_1_max' : bins_y[-1],
+                'estimate' : sr_abcd['val'],
+                'err_lo' : sr_abcd['err_lo'],
+                'err_hi' : sr_abcd['err_hi'],
+                'actual' : sr_count['val'],
+                'blinded' : arguments.doClosureTest
+            }
+        )
+
+    # end summary table
+    if arguments.makeTables:
+        print "[/TABLE]"
+        print
+
+    # export estimates as json for limit setting
+    json_name = output_file.replace(".root", "_background_estimate.json")
+    output_estimates = open(output_path+json_name, "w")
+    json = json.dump(bg_estimate_output, output_estimates, sort_keys=True, indent=4)
+    print "Storing estimates in", output_path+json_name
+
+# Format and export histograms
 out_file = TFile(output_path + output_file, "recreate")
 
 abcd_hist.SetMarkerSize(2)
