@@ -66,16 +66,14 @@ def get_hist(hist_info):
     h.SetDirectory(0)
     return h
 
-# class to represent non-overlapping signal regions in d0-d0-pT space
+# class to represent non-overlapping signal regions in d0-d0 plane
 class SignalRegion:
-    def __init__(self, name, d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
+    def __init__(self, name, d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi):
         self.name = name
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
         self.d0_1_lo = d0_1_lo
         self.d0_1_hi = d0_1_hi
-        self.pt_lo   = pt_lo
-        self.pt_hi   = pt_hi
         self.d0_max  = d0_max
 
     def get_yield_and_error(self, hist):
@@ -84,30 +82,23 @@ class SignalRegion:
         x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)-1
         y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
         y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)-1
-        z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
-        z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)-1
 
         # include overflow bins if SR extends to edge of hist
-        if z_bin_hi == hist.GetNbinsZ():
-            z_bin_hi += 1
         if d0_bin_max == hist.GetNbinsX():
-            d0_bin_max += 1 # include overflow
+            d0_bin_max += 1
 
-        # just integrate the rectangular prism if it's the outermost signal region
+        # just integrate the rectangle if it's the outermost signal region
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
             error = Double()
-            return (hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max,
-                                          z_bin_lo, z_bin_hi, error), error)
+            return (hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max, error), error)
 
         # otherwise integrate L-shape region one leg at a time
         else:
             leg_0_err = Double()
             leg_1_err = Double()
             # include corner in leg_0
-            leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
-                                                z_bin_lo, z_bin_hi, leg_0_err)
-            leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max,
-                                                z_bin_lo, z_bin_hi, leg_1_err)
+            leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi, leg_0_err)
+            leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max, leg_1_err)
 
             return propagateError("sum", leg_0_yield, leg_0_err, leg_1_yield, leg_1_err)
 
@@ -121,29 +112,27 @@ with open('condor/{}/{}'.format(background['dir'], background['file'])) as bg_js
 backgrounds = bg_estimates.keys()
 signal_regions = []
 bg_yields = {}
-bg_cr_events = {} # numbers of control region events for gamma uncertainty on bg estimate
-bg_sys_errs = {} # uncertainty factors for fit-based systematic on bg estimate
+bg_stat_errs = {} # poisson uncertainties on bg estimate propagated through abcd method
+bg_sys_errs = {} # systematic uncertainty on bg estimate to account for d0-d0 correlation
 
 # put background estimate and signal region info into more useful form
 for sample, regions in bg_estimates.iteritems():
     bg_yields[sample] = {}
-    bg_cr_events[sample] = {}
+    bg_stat_errs[sample] = {}
     bg_sys_errs[sample] = {}
 
     for sr in regions:
-        sr_name = 'SR_{}um_{}um_{}GeV'.format(int(sr['d0_0'][0]),
-                                              int(sr['d0_1'][0]), int(sr['pt'][0]))
+        sr_name = 'SR_{}um_{}um'.format(int(sr['d0_0'][0]), int(sr['d0_1'][0]))
         signal_regions.append(SignalRegion(sr_name, sr['d0_max'], sr['d0_0'][0], sr['d0_0'][1],
-                                                                  sr['d0_1'][0], sr['d0_1'][1],
-                                                                  sr['pt'][0], sr['pt'][1]))
+                                                                  sr['d0_1'][0], sr['d0_1'][1]))
 
         if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
             bg_yields[sample][sr_name] = sr['estimate']
-            bg_cr_events[sample][sr_name] = sr['ctrl_region_events']
-            bg_sys_errs[sample][sr_name] = (sr['fit_down_err'], sr['fit_up_err'])
+            bg_stat_errs[sample][sr_name] = (sr['err_lo'], sr['err_hi'])
+            bg_sys_errs[sample][sr_name] = (sr['sys_err_lo'], sr['sys_err_hi'])
         else: #leave background and data as 0's if running over just 2016 or 2017
             bg_yields[sample][sr_name] = 0.
-            bg_cr_events[sample][sr_name] = 0.
+            bg_stat_errs[sample][sr_name] = 0.
             bg_sys_errs[sample][sr_name] = (0., 0.,)
 
 # set up observed number of events
@@ -272,20 +261,21 @@ for signal['name'] in signal_points:
         datacard_data.append(row)
 
     # add a row for the statistical uncertainty for each background
-    if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
+    if arguments.era == "2018": # get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
         for bg in backgrounds:
             for sr in signal_regions:
-                row = ['bg_stat_' + sr.name, 'gmN', str(int(bg_cr_events[bg][sr.name]))]
-                scale_factor = bg_yields[bg][sr.name] / bg_cr_events[bg][sr.name]
+                row = ['bg_stat_' + sr.name, 'lnN', '']
+                uncertainty_string = "{}/{}".format(round(bg_stat_errs[bg][sr.name][0], 2),
+                                                    round(bg_stat_errs[bg][sr.name][1], 2))
                 for bg_test in backgrounds:
                     for sr_test in signal_regions:
                         row.append('-') # for the signal
                         if bg == bg_test and sr.name == sr_test.name:
-                            row.append(str(round(scale_factor, 7)))
+                            row.append(uncertainty_string)
                         else:
                             row.append('-')
 
-                            datacard_data.append(row)
+                datacard_data.append(row)
 
     datacard_data.append(empty_row)
     comment_row = empty_row[:]
@@ -308,7 +298,7 @@ for signal['name'] in signal_points:
                         else:
                             row.append('-')
 
-                            datacard_data.append(row)
+                datacard_data.append(row)
 
     # add a new row for each global uncertainty specified in configuration file
     for uncertainty in global_systematic_uncertainties:
