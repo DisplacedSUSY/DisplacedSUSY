@@ -147,6 +147,10 @@ for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
 
         # store abcd estimate in hist and dictionary
         abcd_hist.SetBinContent(out_bin, abcd['val'])
+        # set error to larger of err_lo and err_hi
+        larger_abcd_err = abcd['err_lo'] if abcd['err_lo'] > abcd['err_hi'] else abcd['err_hi']
+        abcd_hist.SetBinError(out_bin, larger_abcd_err)
+
         abcd_yields[x_lo][y_lo]['val']  = abcd['val']
         abcd_yields[x_lo][y_lo]['err_lo'] = abcd['err_lo']
         abcd_yields[x_lo][y_lo]['err_hi'] = abcd['err_hi']
@@ -161,6 +165,10 @@ for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
 
         # store actual yield in hist and dictionary
         count_hist.SetBinContent(out_bin, count['val'])
+        # set error to larger of err_lo and err_hi
+        larger_count_err = count['err_lo'] if count['err_lo'] > count['err_hi'] else count['err_hi']
+        count_hist.SetBinError(out_bin, larger_count_err)
+
         count_yields[x_lo][y_lo]['val']  = count['val']
         count_yields[x_lo][y_lo]['err_lo'] = count['err_lo']
         count_yields[x_lo][y_lo]['err_hi'] = count['err_hi']
@@ -182,7 +190,7 @@ for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
         ratio_hist.SetBinContent(out_bin, ratio['val'])
         # set error to larger of err_lo and err_hi
         larger_ratio_err = ratio['err_lo'] if ratio['err_lo'] > ratio['err_hi'] else ratio['err_hi']
-        ratio_hist.SetBinContent(out_bin, larger_ratio_err)
+        ratio_hist.SetBinError(out_bin, larger_ratio_err)
 
         if arguments.makeTables:
             print "|-"
