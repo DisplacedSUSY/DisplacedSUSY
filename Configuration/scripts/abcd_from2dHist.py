@@ -180,6 +180,9 @@ for x_lo, x_hi in zip(bins_x[1:-1], bins_x[2:]):
                                         abcd['val'], abcd['err_lo'], abcd['err_hi'])
 
         ratio_hist.SetBinContent(out_bin, ratio['val'])
+        # set error to larger of err_lo and err_hi
+        larger_ratio_err = ratio['err_lo'] if ratio['err_lo'] > ratio['err_hi'] else ratio['err_hi']
+        ratio_hist.SetBinContent(out_bin, larger_ratio_err)
 
         if arguments.makeTables:
             print "|-"
