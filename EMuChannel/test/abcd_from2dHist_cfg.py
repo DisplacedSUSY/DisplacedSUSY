@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # input info - be careful if running over preselection data while still blinded
-input_file = "/uscms_data/d3/cardwell/condor/EMuAdditionalPreselection_2018Analysis_03June2020/MuonEG_2018.root"
+input_file = "/uscms_data/d3/cardwell/condor/emu_runII_estimates_08July2020/MuonEG_2016_2017_2018.root"
 
 input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
 

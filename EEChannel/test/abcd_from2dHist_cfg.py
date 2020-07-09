@@ -3,7 +3,7 @@
 # input info - be careful if running over preselection data while still blinded
 #input_file = "/uscms_data/d3/cardwell/condor/EEPreselection_2016Analysis_24July2018/Background.root"
 #input_file = "/uscms_data/d3/cardwell/condor/EEPreselection_2017Analysis_26July2018/Background.root"
-input_file = "/uscms_data/d3/alimena/condor/EEAdditionalPreselection_2018Analysis_2June2020/EGamma_2018.root"
+input_file = "/uscms_data/d3/cardwell/condor/ee_runII_estimates_07July2020/DoubleEG_2016_2017_2018.root"
 #input_file = "/uscms_data/d3/alimena/condor/EEAdditionalPreselection_2018Analysis_2June2020/DYJetsToLL.root"
 #input_file = "/uscms_data/d3/alimena/condor/EEAdditionalPreselection_2018Analysis_2June2020/Background.root"
 input_hist = "AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um"
