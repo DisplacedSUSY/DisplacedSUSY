@@ -6,8 +6,8 @@ blinded = True # sets observed events equal to bg estimate
 # full run 2 background estimates are loaded from a json that also defines the signal regions
 background = {
     'name' : 'bg_estimate',
-    'dir'  : 'MuMuPreselection_FullAnalysis_3Dhists_30July2019',
-    'file' : 'standard_background_estimate.json',
+    'dir'  : 'mumu_runII_estimates_08July2020',
+    'file' : 'runII_standardSR_background_estimate.json',
 }
 
 # fixme: populate fields with full run2 unblinded results when we're ready to unblind
@@ -16,10 +16,12 @@ data = {
     'dir'  : '',
     'file' : '',
     'hist' : '',
+    'var_bins' : '',
 }
 
-# fixme: temporary fudge factor to scale 2018 signal yield to Run II signal yield
-lumi_factor = 112.8/59.7
+# fixme: temporary fudge factor to scale 2018 signal yield
+lumi_factor = 112.8/59.7 # 2018 --> 2016-18
+#lumi_factor = (59.7+36.7)/59.7 # 2018 --> 2017-18
 
 # a separate datacard will be produced for each signal point
 if arguments.era == "2016":
@@ -28,7 +30,8 @@ if arguments.era == "2016":
         'dir'  : 'MuMuPreselection_2018Analysis_Signal_16Aug2019',
         #'dir' : 'MuMuPreselection_2018Analysis_SignalHToXX_justXS_15Nov2019',
         'file' : '', # will be automatically generated for each signal point
-        'hist' : 'PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]',
+        'hist' : 'AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um',
+        'var_bins' : True,
     }
 elif arguments.era == "2017":
     signal = {
@@ -36,13 +39,15 @@ elif arguments.era == "2017":
         'dir'  : 'MuMuPreselection_2018Analysis_Signal_16Aug2019',
         #'dir' : 'MuMuPreselection_2018Analysis_SignalHToXX_justXS_15Nov2019',
         'file' : '', # will be automatically generated for each signal point
-        'hist' : 'PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]',
+        'hist' : 'AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um',
+        'var_bins' : True,
     }
 elif arguments.era == "2018":
     signal = {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'MuMuPreselection_2018Analysis_Signal_16Aug2019',
+        'dir'  : 'MuMuAdditionalPreselection_signal_2018Analysis_01July2020',
         #'dir' : 'MuMuPreselection_2018Analysis_SignalHToXX_justXS_15Nov2019',
         'file' : '', # will be automatically generated for each signal point
-        'hist' : 'PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_2000um_vs_muonPt[0]',
+        'hist' : 'AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um',
+        'var_bins' : True,
     }

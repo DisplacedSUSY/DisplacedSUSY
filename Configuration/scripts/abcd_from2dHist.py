@@ -211,7 +211,7 @@ else:
         print '[TABLE border="1"]'
         print "Signal Region|Estimate|Actual"
 
-    bg_estimate_output = []
+    bg_estimate_output = {'background' : []} # strange structure to match makeDataCards expectation
     for sr in range(0, len(bins_x)-2):
         sr_count = {'val':0, 'err_lo':0, 'err_hi':0}
         sr_abcd  = {'val':0, 'err_lo':0, 'err_hi':0}
@@ -234,17 +234,17 @@ else:
                        sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_abcd['err_hi'])
 
         # store estimated and actual yields with signal region info for json output
-        bg_estimate_output.append(
+        bg_estimate_output['background'].append(
             {
-                'd0_0' : bins_x[sr+1],
-                'd0_1' : bins_y[sr+1],
-                'd0_0_max' : bins_x[-1],
-                'd0_1_max' : bins_y[-1],
+                'd0_0' : (bins_x[sr+1], bins_x[sr+2]),
+                'd0_1' : (bins_y[sr+1], bins_y[sr+2]),
+                'd0_max' : bins_x[-1], # assume symmetric max d0 values
                 'estimate' : sr_abcd['val'],
-                'err_lo' : sr_abcd['err_lo'],
-                'err_hi' : sr_abcd['err_hi'],
-                'actual' : sr_count['val'],
-                'blinded' : arguments.doClosureTest
+                # store uncertainties as multiplicative factors for makeDataCards
+                'err_lo' : (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val'],
+                'err_hi' : (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
+                'sys_err_lo' : 0.5, # fixme: placeholder value
+                'sys_err_hi' : 1.5, # fixme: placeholder value
             }
         )
 

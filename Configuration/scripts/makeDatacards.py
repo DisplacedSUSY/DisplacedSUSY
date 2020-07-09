@@ -76,12 +76,20 @@ class SignalRegion:
         self.d0_1_hi = d0_1_hi
         self.d0_max  = d0_max
 
-    def get_yield_and_error(self, hist):
+    def get_yield_and_error(self, hist, var_bins):
         d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)-1
         x_bin_lo = hist.GetXaxis().FindBin(self.d0_0_lo)
         x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)-1
         y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
         y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)-1
+
+        # multiply yield and error by area of last bin if histogram was made with
+        # variable-width bins; assume input histograms have symmetric binning
+        if var_bins:
+            nBins = hist.GetXaxis().GetNbins()
+            area = hist.GetXaxis().GetBinWidth(nBins) ** 2
+        else:
+            area = 1
 
         # include overflow bins if SR extends to edge of hist
         if d0_bin_max == hist.GetNbinsX():
@@ -90,7 +98,7 @@ class SignalRegion:
         # just integrate the rectangle if it's the outermost signal region
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
             error = Double()
-            return (hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max, error), error)
+            integral = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max, error)
 
         # otherwise integrate L-shape region one leg at a time
         else:
@@ -100,7 +108,10 @@ class SignalRegion:
             leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi, leg_0_err)
             leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max, leg_1_err)
 
-            return propagateError("sum", leg_0_yield, leg_0_err, leg_1_yield, leg_1_err)
+            (integral, error) = propagateError("sum", leg_0_yield, leg_0_err, leg_1_yield, leg_1_err)
+
+        return (integral * area, error * area)
+
 
 
 ###################################################################################################
@@ -142,7 +153,7 @@ for sr in signal_regions:
         if blinded:
             observed_yields[sr.name] = sum([bg_yields[bg][sr.name] for bg in backgrounds])
         else:
-            (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data))
+            (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data), data['var_bins'])
     else: #leave background and data as 0's if running over just 2016 or 2017
         observed_yields[sr.name] = 0.
 
@@ -180,7 +191,7 @@ for signal['name'] in signal_points:
     signal_yields = {}
     signal_errors = {}
     for sr in signal_regions:
-        (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal))
+        (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal), signal['var_bins'])
         signal_yields[sr.name] = signal_yield * lumi_factor # fixme: remove after adding signal from all years
         signal_errors[sr.name] = signal_error * math.sqrt(lumi_factor) # fixme: remove after adding signal from all years
 
