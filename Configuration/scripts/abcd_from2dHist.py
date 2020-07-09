@@ -226,6 +226,7 @@ else:
 
         # print summary table row
         if arguments.makeTables:
+            print "|-"
             if data:
                 print "Region {} | {:.2f}+{:.2f}-{:.2f} | {:.0f}".format(
                        sr, sr_abcd['val'], sr_abcd['err_hi'], sr_abcd['err_lo'], sr_count['val'])
