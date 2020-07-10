@@ -19,9 +19,9 @@ if arguments.localConfig:
 else:
     print "No local config specified, shame on you"
     sys.exit(0)
-if arguments.outputDir:
-    if not os.path.exists("limits/"+arguments.outputDir):
-        os.system("mkdir limits/"+arguments.outputDir)
+if arguments.condorDir:
+    if not os.path.exists("limits/"+arguments.condorDir):
+        os.system("mkdir limits/"+arguments.condorDir)
 else:
     print "No output directory specified, shame on you"
     sys.exit(0)
@@ -1054,7 +1054,7 @@ def drawPlot(plot):
 ######################################################################################################
 
 
-outputFileName = "limits/"+arguments.outputDir+"/limit_plot.root"
+outputFileName = "limits/"+arguments.condorDir+"/limit_plot.root"
 outputFile = TFile(outputFileName, "RECREATE")
 
 # for each plot that has been defined, extract the limits and draw the plot accordingly
