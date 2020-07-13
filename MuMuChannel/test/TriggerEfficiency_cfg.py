@@ -3,43 +3,23 @@ from DisplacedSUSY.StandardAnalysis.customize import *
 from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 
 
-################################################################################
-##### Import the channels to be run ############################################
-################################################################################
-
-from DisplacedSUSY.MuMuChannel.TTbarForTrigEff import *
+from DisplacedSUSY.MuMuChannel.TrigEfficiency import *
 
 eventSelections = [
-                   TTbarForTrigEffNoTrig,
-                   TTbarForTrigEff43,
-                   TTbarForTrigEff48,
-                   TTbarForTrigEffTagMuonNoTrig,
-                   TTbarForTrigEffTagMuon43,
-                   TTbarForTrigEffTagMuon48,
-                   #TTbarForTrigEffVeto43,
-                  ]
-
-
-################################################################################
-
-# REDEFINE variableProducers, weights, scalingfactorproducers
-# to all to be empty for the trigger efficiency calculation
-# keep default mumu histograms though
-
-variableProducers = []
-variableProducers.append('DisplacedSUSYEventVariableProducer')
-
-weights = cms.VPSet ()
-
-scalingfactorproducers = []
-
+    TrigEffNum,
+    TrigEffDen,
+]
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
+# Redefine scalingfactorproducers to not include electron scale factors
+scalingfactorproducers = []
+scalingfactorproducers.append(MuonScaleFactorProducer)
+
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
-# usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, applyTriggerReweighting = True)
-customize (process, "mumu", False, False, "data")
+# usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC")
+customize (process, "mumu", True, False, "data")

@@ -3,32 +3,22 @@ import copy
 import string
 from DisplacedSUSY.MuMuChannel.CutDefinitions import *
 
-
-##########################################################################
-### Set up the displaced control region for the displaced SUSY analysis #####
-##########################################################################
-
-TriggerDoubleMu33 = cms.PSet(
-    name = cms.string("TriggerDoubleMu33"),
-    triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx"),
+# Denominator: basic 2 muon selection+(MET triggers)
+TrigEffDen = cms.PSet(
+    name = cms.string("TrigEffDen"),
+    triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
+### passes OR of unprescaled MET triggers (use eventvariable so that OR of MET triggers can be ANDed with analysis trigger)
+TrigEffDen.cuts.append(pass_HLTMET_paths)
+### at least 2 good muons
+TrigEffDen.cuts.append(muon_eta_cut)
+TrigEffDen.cuts.append(muon_global_cut)
+TrigEffDen.cuts.append(muon_id_cut)
 
-
-# TriggerDoubleMu33.cuts.append(cutDummy)
-
-TriggerDoubleMu23Displaced = cms.PSet(
-    name = cms.string("TriggerDoubleMu23Displaced"),
-    triggers = cms.vstring("HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
-    cuts = cms.VPSet()
+# Numerator: basic 2 muon selection+(MET triggers)+(analysis trigger)
+TrigEffNum = cms.PSet(
+    name = cms.string("TrigEffNum"),
+    triggers = triggersDoubleMuon,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
 )
-
-# TriggerDoubleMu23Displaced.cuts.append(cutDummy)
-
-TriggerDoubleMu33ORDoubleMu23Displaced = cms.PSet(
-    name = cms.string("TriggerDoubleMu33ORDoubleMu23Displaced"),
-    triggers = cms.vstring("HLT_DoubleMu33NoFiltersNoVtx","HLT_DoubleMu23NoFiltersNoVtxDisplaced"),
-    cuts = cms.VPSet()
-)
-
-# Trigger_DoubleMu33_OR_DoubleMu23Displaced.cuts.append(cutDummy)
