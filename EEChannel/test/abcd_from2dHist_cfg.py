@@ -26,20 +26,25 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 # be careful not to accidently unblind if running over preselection data
 #bins_x = [50, 60, 220, 480, 1600, 100000] #Bartsch and Quast |d0| optimization, starting at 50 microns
 #bins_y = [50, 60, 220, 480, 1600, 100000]
+#bins_z = [0, 5000]
 
 #bins_x = [0, 100, 500, 1000, 100000]
 #bins_y = [0, 100, 500, 1000, 100000]
+#bins_z = [0, 5000]
 
 
 
 # prompt-e/prompt-e region
 bins_x = [ 20, 50, 100]
 bins_y = [ 20, 50, 100]
+bins_z = [0, 5000]
 
 # prompt-leading-e/displaced-subleading-e region
 #bins_x = [20,  100,  100000]
 #bins_y = [20,  40,   100]
+#bins_z = [0, 5000]
 
 # displaced-leading-e/prompt-subleading-e region
 #bins_x = [20,  40,   100]
 #bins_y = [20, 100,  100000]
+#bins_z = [0, 5000]

@@ -23,11 +23,14 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 # prompt-sub mu/prompt-lead mu region
 bins_x = [20, 40, 100]
 bins_y = [20, 40, 100]
+bins_z = [0, 5000]
 
 # prompt-leading-ele/displaced-leading-mu region
 #bins_x = [20, 100,  100000]
 #bins_y = [20, 40, 100]
+#bins_z = [0, 5000]
 
 # displaced-leading-ele/prompt-leading-mu region
 #bins_x = [20, 40,   100]
 #bins_y = [20, 100,  100000]
+#bins_z = [0, 5000]
