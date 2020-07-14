@@ -67,6 +67,20 @@ MuonHistograms = cms.PSet(
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
+            name = cms.string("muonLeadingEta"),
+            title = cms.string("Leading Muon Eta;Muon #eta"),
+            binsX = cms.untracked.vdouble(80, -4, 4),
+            indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingEta"),
+            title = cms.string("Subleading Muon Eta;Muon #eta"),
+            binsX = cms.untracked.vdouble(80, -4, 4),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("eta"),
+        ),
+        cms.PSet (
             name = cms.string("muonEtaPt"),
             title = cms.string("Muon Eta vs. Muon p_{T};Muon p_{T} [GeV];Muon #eta"),
             binsX = cms.untracked.vdouble(100, 0, 500),
@@ -465,6 +479,20 @@ ElectronHistograms = cms.PSet(
             name = cms.string("electronEta"),
             title = cms.string("Electron Eta;Electron #eta"),
             binsX = cms.untracked.vdouble(60, -3, 3),
+            inputVariables = cms.vstring("eta"),
+        ),
+        cms.PSet (
+            name = cms.string("electronLeadingEta"),
+            title = cms.string("Leading Electron Eta;Electron #eta"),
+            binsX = cms.untracked.vdouble(80, -4, 4),
+            indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("eta"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSubleadingEta"),
+            title = cms.string("Subleading Electron Eta;Electron #eta"),
+            binsX = cms.untracked.vdouble(80, -4, 4),
+            indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
@@ -2441,6 +2469,13 @@ ElectronD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
+            name = cms.string("electronSubleadingAbsD0_1000um"),
+            title = cms.string("Electron |d_{0}|;Subleading electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
             name = cms.string("electronAbsD0_2000um"),
             title = cms.string("Electron |d_{0}|;Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 2000),
@@ -2487,6 +2522,13 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron |d_{0}|;Leading electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 10000),
             indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSubleadingAbsD0_10000um"),
+            title = cms.string("Electron |d_{0}|;Subleading electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 10000),
+            indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
@@ -2550,6 +2592,27 @@ ElectronD0Histograms = cms.PSet(
             title = cms.string("Electron |d_{0}|;Leading electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(variableBins(20,0,100000)),
             indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSubleadingAbsD0_100000um"),
+            title = cms.string("Electron |d_{0}|;Subleading electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(1000, 0, 100000),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSubleadingAbsD0_100000um_variableBins"),
+            title = cms.string("Electron |d_{0}|;Subleading electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,100000)),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("electronSubleadingAbsD0_100000um_variableBins_coarse"),
+            title = cms.string("Electron |d_{0}|;Subleading electron |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(20,0,100000)),
+            indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+electronSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
@@ -4082,6 +4145,13 @@ MuonD0Histograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
+            name = cms.string("muonSubleadingAbsD0_1000um"),
+            title = cms.string("Muon |d_{0}|;Subleading muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 1000),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
             name = cms.string("muonAbsD0_2000um"),
             title = cms.string("Muon |d_{0}|;Muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 2000),
@@ -4128,6 +4198,13 @@ MuonD0Histograms = cms.PSet(
             title = cms.string("Muon |d_{0}|;Leading muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100, 0, 10000),
             indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingAbsD0_10000um"),
+            title = cms.string("Muon |d_{0}|;Subleading muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(100, 0, 10000),
+            indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
@@ -4191,6 +4268,27 @@ MuonD0Histograms = cms.PSet(
             title = cms.string("Muon |d_{0}|;Leading muon |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(variableBins(20,0,100000)),
             indexX = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingAbsD0_100000um"),
+            title = cms.string("Muon |d_{0}|;Subleading muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(1000, 0, 100000),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingAbsD0_100000um_variableBins"),
+            title = cms.string("Muon |d_{0}|;Subleading muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(100,0,100000)),
+            indexX = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingAbsD0_100000um_variableBins_coarse"),
+            title = cms.string("Muon |d_{0}|;Subleading muon |d_{0}| [#mum]"),
+            binsX = cms.untracked.vdouble(variableBins(20,0,100000)),
+            indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
