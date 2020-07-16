@@ -11,7 +11,7 @@ from DisplacedSUSY.Configuration.helperFunctions import propagateError
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
-from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
+from ROOT import TFile, gROOT, gStyle, gDirectory, TStyle, THStack, TH3D, TCanvas, TString, TLegend, TArrow, THStack, TIter, TKey, TGraphErrors, Double
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -54,7 +54,7 @@ def fancyTable(arrays):
 
     return '\n'.join(spacedLines)
 
-def get_hist(hist_info):
+def get_hist(hist_info, binned_in_pt):
     file_path = 'condor/{}/{}'.format(hist_info['dir'], hist_info['file'])
     try:
         f = TFile(file_path)
@@ -62,55 +62,85 @@ def get_hist(hist_info):
     except:
         print "Could not load", hist_info['hist'], "from", file_path
         sys.exit()
-
     h.SetDirectory(0)
+
+    if type(h) is not TH3D and binned_in_pt:
+        print "Signal region is binned in pT, but {} is a {}.".format(hist_info['hist'], type(h))
+        print "Please provide a TH3 to enable binning in pT."
+        sys.exit()
+
     return h
 
-# class to represent non-overlapping signal regions in d0-d0 plane
+# class to represent non-overlapping signal regions in d0-d0-pT space
 class SignalRegion:
-    def __init__(self, name, d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi):
+    def __init__(self, name, d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         self.name = name
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
         self.d0_1_lo = d0_1_lo
         self.d0_1_hi = d0_1_hi
+        self.pt_lo   = pt_lo
+        self.pt_hi   = pt_hi
         self.d0_max  = d0_max
 
     def get_yield_and_error(self, hist, var_bins):
+        th3 = type(hist) is TH3D
         d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)-1
         x_bin_lo = hist.GetXaxis().FindBin(self.d0_0_lo)
         x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)-1
         y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
         y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)-1
+        if th3:
+            z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
+            z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)-1
 
-        # multiply yield and error by area of last bin if histogram was made with
-        # variable-width bins; assume input histograms have symmetric binning
+        # multiply yield and error by area/volume of last bin if histogram was made
+        # with variable-width bins
         if var_bins:
-            nBins = hist.GetXaxis().GetNbins()
-            area = hist.GetXaxis().GetBinWidth(nBins) ** 2
+            nBins_x = hist.GetXaxis().GetNbins()
+            nBins_y = hist.GetYaxis().GetNbins()
+            bin_factor = hist.GetXaxis().GetBinWidth(nBins_x) * hist.GetYaxis().GetBinWidth(nBins_y)
+            if th3:
+                nBins_z = hist.GetZaxis().GetNbins()
+                bin_factor *= hist.GetZaxis().GetBinWidth(nBins_z)
         else:
-            area = 1
+            bin_factor = 1
 
         # include overflow bins if SR extends to edge of hist
+        if th3 and z_bin_hi == hist.GetNbinsZ():
+            z_bin_hi += 1
         if d0_bin_max == hist.GetNbinsX():
             d0_bin_max += 1
 
         # just integrate the rectangle if it's the outermost signal region
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
             error = Double()
-            integral = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max, error)
+            if th3:
+                integral = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max,
+                                                 z_bin_lo, z_bin_hi, error)
+            else:
+                integral = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, d0_bin_max, error)
 
         # otherwise integrate L-shape region one leg at a time
         else:
             leg_0_err = Double()
             leg_1_err = Double()
             # include corner in leg_0
-            leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi, leg_0_err)
-            leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max, leg_1_err)
+            if th3:
+                leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
+                                                    z_bin_lo, z_bin_hi, leg_0_err)
+                leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max,
+                                                    z_bin_lo, z_bin_hi, leg_1_err)
+            else:
+                leg_0_yield = hist.IntegralAndError(x_bin_lo, d0_bin_max, y_bin_lo, y_bin_hi,
+                                                    leg_0_err)
+                leg_1_yield = hist.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_hi, d0_bin_max,
+                                                    leg_1_err)
 
-            (integral, error) = propagateError("sum", leg_0_yield, leg_0_err, leg_1_yield, leg_1_err)
+            (integral, error) = propagateError("sum", leg_0_yield, leg_0_err,
+                                                      leg_1_yield, leg_1_err)
 
-        return (integral * area, error * area)
+        return (integral * bin_factor, error * bin_factor)
 
 
 
@@ -132,10 +162,15 @@ for sample, regions in bg_estimates.iteritems():
     bg_stat_errs[sample] = {}
     bg_sys_errs[sample] = {}
 
+    # check for multiple pT bins in signal region
+    pt_bins = [sr['pt'] for sr in regions]
+    binned_in_pt = pt_bins.count(pt_bins[0]) != len(pt_bins)
+
     for sr in regions:
-        sr_name = 'SR_{}um_{}um'.format(int(sr['d0_0'][0]), int(sr['d0_1'][0]))
+        sr_name = 'SR_{}um_{}um_{}GeV'.format(int(sr['d0_0'][0]), int(sr['d0_1'][0]),
+                                              int(sr['pt'][0]))
         signal_regions.append(SignalRegion(sr_name, sr['d0_max'], sr['d0_0'][0], sr['d0_0'][1],
-                                                                  sr['d0_1'][0], sr['d0_1'][1]))
+                                           sr['d0_1'][0], sr['d0_1'][1], sr['pt'][0], sr['pt'][1]))
 
         if arguments.era == "2018": #get the full run2 bkg estimate and observed data when doing the 2018 limits, for combining datacards
             bg_yields[sample][sr_name] = sr['estimate']
@@ -153,7 +188,8 @@ for sr in signal_regions:
         if blinded:
             observed_yields[sr.name] = sum([bg_yields[bg][sr.name] for bg in backgrounds])
         else:
-            (observed_yields[sr.name], _) = sr.get_yield_and_error(get_hist(data), data['var_bins'])
+            data_hist = get_hist(data, binned_in_pt)
+            (observed_yields[sr.name], _) = sr.get_yield_and_error(data_hist, data['var_bins'])
     else: #leave background and data as 0's if running over just 2016 or 2017
         observed_yields[sr.name] = 0.
 
@@ -191,7 +227,8 @@ for signal['name'] in signal_points:
     signal_yields = {}
     signal_errors = {}
     for sr in signal_regions:
-        (signal_yield, signal_error) = sr.get_yield_and_error(get_hist(signal), signal['var_bins'])
+        signal_hist = get_hist(signal, binned_in_pt)
+        (signal_yield, signal_error) = sr.get_yield_and_error(signal_hist, signal['var_bins'])
         signal_yields[sr.name] = signal_yield * lumi_factor # fixme: remove after adding signal from all years
         signal_errors[sr.name] = signal_error * math.sqrt(lumi_factor) # fixme: remove after adding signal from all years
 

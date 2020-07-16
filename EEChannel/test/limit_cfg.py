@@ -6,8 +6,8 @@ blinded = True # sets observed events equal to bg estimate
 # full run 2 background estimates are loaded from a json that also defines the signal regions
 background = {
     'name' : 'bg_estimate',
-    'dir'  : 'ee_runII_estimates_07July2020',
-    'file' : 'runII_standardSR_background_estimate.json',
+    'dir'  : 'ee_runII_ptBinned_estimates_15July2020',
+    'file' : 'ee_runII_100um_500um_300GeV_3dHist_background_estimate.json',
 }
 
 # fixme: populate fields with full run2 unblinded results when we're ready to unblind
@@ -43,8 +43,8 @@ elif arguments.era == "2017":
 elif arguments.era == "2018":
     signal = {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EEAdditionalPreselection_signal_2018Analysis_01July2020',
+        'dir'  : 'EEAdditionalPreselection_2018Analysis_signal_coarse3DHists_10July2020',
         'file' : '', # will be automatically generated for each signal point
-        'hist' : 'AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um',
+        'hist' : 'AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]',
         'var_bins' : True,
     }
