@@ -1358,7 +1358,7 @@ displaced_electron_emu_preselection_veto = cms.PSet(
         get_cutstring(electron_eta_cut),
         get_cutstring(electron_emu_pt_cut),
         get_cutstring(electron_id_cut),
-        get_cutstring(electron_iso_cut),
+        get_cutstring(electron_newIso_cut),
         get_cutstring(electron_d0_greaterThan100_cut)
         )),
     numberRequired = cms.string("== 0"),
