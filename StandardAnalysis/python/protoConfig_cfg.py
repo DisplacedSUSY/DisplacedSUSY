@@ -35,11 +35,10 @@ if os.environ["CMSSW_VERSION"].startswith("CMSSW_8_0_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
             #input MINIAOD files
-            #'/store/data/Run2016G/MuonEG/MINIAOD/07Aug17-v1/10000/04360562-9C92-E711-A8A3-4C79BA180B5D.root'
+            '/store/data/Run2016G/MuonEG/MINIAOD/07Aug17-v1/10000/04360562-9C92-E711-A8A3-4C79BA180B5D.root'
             #'/store/data/Run2016G/DoubleEG/MINIAOD/07Aug17-v1/00000/1EF72C1E-DFB3-E711-A459-0242AC110005.root'
             #'/store/data/Run2016G/DoubleMuon/MINIAOD/07Aug17-v1/10000/00448C94-C19A-E711-BC4C-A4BF01125660.root'
             #'/store/mc/RunIISummer16MiniAODv2/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/04F61242-90BA-E611-B842-001E67DFF7CB.root'
-          '/store/mc/RunIISummer16MiniAODv2/DisplacedSUSY_StopToBL_M-300_CTau-1000_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/6809BBB9-74D5-E611-89A1-02163E019DD2.root'
 
             #initial skim files
             #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2016Analysis_11July2018/MuonEG_2016G/EMuSkim/skim_0.root'
@@ -80,7 +79,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #"/store/data/Run2018D/ParkingBPH5/MINIAOD/20Mar2019-v1/60003/FD6BDA2E-F9B0-1D47-B915-73614A217E25.root"
           #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/33568D74-1FF4-5E4F-A5D8-09CDFC436439.root"
           #"/store/mc/RunIIAutumn18MiniAOD/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/90000/FF8CA354-EA2A-CA48-B634-59EC7DE358E6.root"
-          #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
+          "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
           #"/store/data/Run2018D/MET/MINIAOD/PromptReco-v2/000/325/175/00000/BB60D29A-1476-4B4C-882E-4856877B06D0.root"
 
           #initial skim files
@@ -90,10 +89,6 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/MuonEG_2018C/EMuSkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/MuMuInitialSkim_2018Analysis_15Mar2019/DoubleMu_2018C/MuMuSkim/skim_1.root'
-
-          "/store/relval/CMSSW_10_6_12/RelValDispSUSY_M300_1000mm_13UP16/MINIAODSIM/PU25ns_106X_mcRun2_asymptotic_preVFP_v8_hltul16_preVFP-v1/20000/9062F47B-997F-B84F-969C-98D7BCE3E3E1.root"
-          #'/store/mc/RunIISummer16MiniAODv2/DisplacedSUSY_StopToBL_M-300_CTau-1000_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/6809BBB9-74D5-E611-89A1-02163E019DD2.root'
-
       )
     )
 else:
@@ -133,10 +128,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
     data_global_tag = '102X_dataRun2_Sep2018ABC_v2' #would need an update
     #mc_global_tag = '106X_mcRun3_2021_realistic_v3'
     #mc_global_tag = '106X_mcRun3_2023_realistic_v3'
-    #mc_global_tag = '106X_mcRun3_2024_realistic_v4'
-    mc_global_tag = '106X_mcRun2_asymptotic_preVFP_v8'
-    #mc_global_tag = '106X_mcRun2_asymptotic_v13'
-
+    mc_global_tag = '106X_mcRun3_2024_realistic_v4'
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
@@ -161,24 +153,24 @@ from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
 
 variableProducers = []
 variableProducers.append('DisplacedSUSYEventVariableProducer')
-#variableProducers.append('LifetimeWeightProducer')
-#variableProducers.append('PUScalingFactorProducer')
+variableProducers.append('LifetimeWeightProducer')
+variableProducers.append('PUScalingFactorProducer')
 
 ################################################################################
 ##### Set up event weights #####################################################
 ################################################################################
 
-#from DisplacedSUSY.StandardAnalysis.EventWeights import *
+from DisplacedSUSY.StandardAnalysis.EventWeights import *
 
 ################################################################################
 ##### Set up scale factors #####################################################
 ################################################################################
 
-#from DisplacedSUSY.StandardAnalysis.LeptonScaleFactors import *
+from DisplacedSUSY.StandardAnalysis.LeptonScaleFactors import *
 
 # These will look for framework object producers, meaning if you don't apply any
 # cuts on say electrons it will throw a product-not-found error for osu::electrons
 # Meaning, only use these if they make sense to use
 scalingfactorproducers = []
-#scalingfactorproducers.append(ElectronScaleFactorProducer)
-#scalingfactorproducers.append(MuonScaleFactorProducer)
+scalingfactorproducers.append(ElectronScaleFactorProducer)
+scalingfactorproducers.append(MuonScaleFactorProducer)

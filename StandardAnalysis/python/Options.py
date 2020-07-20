@@ -15,7 +15,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "using 102X samples"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
     from DisplacedSUSY.Configuration.miniAODV2_106X_Samples import *
-    #from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
     print "using 106X samples"
 else:
     print "What CMSSW release are you in? We expect the samples to be imported from the 80X or 94X or 102X list"
@@ -26,8 +25,8 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 InputCondorArguments = {}
 
 # Define composite datasets of all samples
-#composite_dataset_definitions['all_bg_mc'] = bg_mc_samples.keys()
-#composite_dataset_definitions['non_interpolated_signal_mc'] = signal_mc_samples.keys()
+composite_dataset_definitions['all_bg_mc'] = bg_mc_samples.keys()
+composite_dataset_definitions['non_interpolated_signal_mc'] = signal_mc_samples.keys()
 
 # Redefine composite datasets that differ from those in OSUT3Analysis/Configuration/ConfigurationOptions.py
 composite_dataset_definitions['QCD_MuEnriched'] = [

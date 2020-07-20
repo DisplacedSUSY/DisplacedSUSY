@@ -50,9 +50,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
         'DisplacedSUSYSignal',
         ]
 
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
-    intLumi = 16146.2 # 2016G,H only
-
 # Redefine composite datasets that differ from those in OSUT3Analysis/Configuration/ConfigurationOptions.py
 composite_dataset_definitions['Diboson'] = [
     'WWToLNuLNu',
@@ -81,8 +78,8 @@ composite_dataset_definitions['QCD_MuEnriched'] = [
     ]
 
 # Define background MC composite dataset for plotting
-#composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('MuonEG') or x.startswith('DisplacedSUSYSignal'))]
-#composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
+composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('MuonEG') or x.startswith('DisplacedSUSYSignal'))]
+composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
 
 # Define 2016-2018 combined data datasets
 composite_dataset_definitions['MuonEG_2016_2017_2018'] = [

@@ -58,7 +58,7 @@ eventSelections = [
     #GenMuMuFromStopsSelection,
     #GenMuMuFromZSelection,
     #GenMuMuFromStopsAndHLTTrigSelection,
-    GenMuMuFromStopsAndL1TrigSelection,
+    #GenMuMuFromStopsAndL1TrigSelection,
     #PreselectionOneLessThan40umOneGreaterThan100um,
     #PreselectionPromptMuonDisplacedTagMuon100um,
     #PreselectionPromptTagMuonDisplacedMuon100um,
@@ -67,10 +67,7 @@ eventSelections = [
 
 # Redefine scalingfactorproducers to not include electron scale factors
 scalingfactorproducers = []
-#scalingfactorproducers.append(MuonScaleFactorProducer)
-
-#define empty weights
-weights = cms.VPSet ()
+scalingfactorproducers.append(MuonScaleFactorProducer)
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -80,4 +77,4 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 # customize the process:
 # usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, applyTriggerReweighting = True)
-customize (process, "mumu", False, False, "data")
+customize (process, "mumu", True, True, "data")

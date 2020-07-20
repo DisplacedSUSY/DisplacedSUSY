@@ -14,8 +14,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets = default_datasets
     #datasets.remove('DisplacedSUSYSignal') #all samples ready
 
-#elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     #datasets = default_datasets
     #datasets.remove('DisplacedSUSYSignal') #all samples ready
     #datasets = ['DoubleMu_2016_2017_2018']
@@ -46,16 +45,13 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
                 #'stopToLD1800_100mm',
                 #'stopToLD1800_1000mm',
 
-        #'HTo4Mu125_50_50mm',
-        #'HTo4Mu125_50_500mm',
-        #'HTo4Mu125_50_5000mm',
-        #'HTo4Mu125_20_13mm',
-        #'HTo4Mu125_20_130mm',
-        #'HTo4Mu125_20_1300mm',
+        'HTo4Mu125_50_50mm',
+        'HTo4Mu125_50_500mm',
+        'HTo4Mu125_50_5000mm',
+        'HTo4Mu125_20_13mm',
+        'HTo4Mu125_20_130mm',
+        'HTo4Mu125_20_1300mm',
 
-        #'stopToLB300_1000mm',
-        #'stopToLB300_1000mm_preVFP',
-        'stopToLB300_1000mm_postVFP'
                 ]
     #colors['stopToLB1000_1mm'] = 1
     #colors['stopToLB1000_10mm'] = 2

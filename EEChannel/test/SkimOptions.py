@@ -19,9 +19,3 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets = default_datasets
     datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
-
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
-    datasets = ['stopToLB300_1000mm',
-                'stopToLB300_1000mm_preVFP',
-                'stopToLB300_1000mm_postVFP',
-            ]

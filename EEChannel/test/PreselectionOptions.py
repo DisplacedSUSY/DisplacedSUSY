@@ -19,10 +19,3 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     datasets = default_datasets
     datasets.remove('DisplacedSUSYSignal') #all samples ready
     #datasets = ['DoubleEG_2016_2017_2018']
-
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
-    datasets = [
-        #'stopToLB300_1000mm',
-        'stopToLB300_1000mm_preVFP',
-        #'stopToLB300_1000mm_postVFP'
-    ]

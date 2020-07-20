@@ -29,8 +29,8 @@ intLumi = 16146.2 # 2016G,H only
 ## 'hollow'
 ## default: 'solid'
 
-cutName = 'HLT'
-#cutName = 'L1'
+#cutName = 'trigger'
+cutName = 'L1 trigger'
 
 input_sources = [
     #HLT efficiency with basic e-mu reco selection
@@ -64,30 +64,30 @@ input_sources = [
 
     #HLT efficiency with basic e-mu gen selection
    # {
-   #     'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-   #     'condor_dir'       : 'GenEMuFromStopsMuAndHLTTrig_HighPtEle_UL2016_26June2020',
-   #     'den_channel'      : 'GenEMuFromStopsMuSelection',
-   #     'num_channel'      : 'GenEMuFromStopsMuAndHLTTrigSelection',
+   #     'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+   #     'condor_dir'       : 'GenEMuFromStopsEleAndHLTTrig_UL2016_10June2020',
+   #     'den_channel'      : 'GenEMuFromStopsEleSelection',
+   #     'num_channel'      : 'GenEMuFromStopsEleAndHLTTrigSelection',
    #     'dataset'          : 'stopToLB300_1000mm',
    #     'legend_entry'     : 'RunIIAutum16MiniAODv2',
    #     'marker'           : 'circle',
    #     'color'            : 'black',
    # },
-    {
-        'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-        'condor_dir'       : 'GenEMuFromStopsMuAndHLTTrig_HighPtEle_UL2016_26June2020',
-        'den_channel'      : 'GenEMuFromStopsMuSelection',
-        'num_channel'      : 'GenEMuFromStopsMuAndHLTTrigSelection',
-        'dataset'          : 'stopToLB300_1000mm_preVFP',
-        'legend_entry'     : 'UL2016, preVFP',
-        'marker'           : 'square',
-        'color'            : 'red',
-    },
    # {
-   #     'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-   #     'condor_dir'       : 'GenEMuFromStopsMuAndHLTTrig_HighPtEle_UL2016_26June2020',
-   #     'den_channel'      : 'GenEMuFromStopsMuSelection',
-   #     'num_channel'      : 'GenEMuFromStopsMuAndHLTTrigSelection',
+   #     'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+   #     'condor_dir'       : 'GenEMuFromStopsEleAndHLTTrig_UL2016_10June2020',
+   #     'den_channel'      : 'GenEMuFromStopsEleSelection',
+   #     'num_channel'      : 'GenEMuFromStopsEleAndHLTTrigSelection',
+   #     'dataset'          : 'stopToLB300_1000mm_preVFP',
+   #     'legend_entry'     : 'UL2016, preVFP',
+   #     'marker'           : 'square',
+   #     'color'            : 'red',
+   # },
+   # {
+   #     'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+   #     'condor_dir'       : 'GenEMuFromStopsEleAndHLTTrig_UL2016_10June2020',
+   #     'den_channel'      : 'GenEMuFromStopsEleSelection',
+   #     'num_channel'      : 'GenEMuFromStopsEleAndHLTTrigSelection',
    #     'dataset'          : 'stopToLB300_1000mm_postVFP',
    #     'legend_entry'     : 'UL2016, postVFP',
    #     'marker'           : 'triangle',
@@ -96,36 +96,36 @@ input_sources = [
 
 
      #L1 efficiency with basic e-mu gen selection
-   #  {
-   #     'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-   #     'condor_dir'       : 'GenEMuFromStopsMuAndL1Trig_HighPtEle_UL2016_26June2020',
-   #     'den_channel'      : 'GenEMuFromStopsMuSelection',
-   #     'num_channel'      : 'GenEMuFromStopsMuAndL1TrigSelection',
-   #     'dataset'          : 'stopToLB300_1000mm',
-   #     'legend_entry'     : 'RunIIAutum16MiniAODv2',
-   #     'marker'           : 'circle',
-   #     'color'            : 'black',
-   #  },
-   #  {
-   #     'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-   #     'condor_dir'       : 'GenEMuFromStopsMuAndL1Trig_HighPtEle_UL2016_26June2020',
-   #     'den_channel'      : 'GenEMuFromStopsMuSelection',
-   #     'num_channel'      : 'GenEMuFromStopsMuAndL1TrigSelection',
-   #     'dataset'          : 'stopToLB300_1000mm_preVFP',
-   #     'legend_entry'     : 'UL2016, preVFP',
-   #     'marker'           : 'square',
-   #     'color'            : 'red',
-   #  },
-   #  {
-   #      'condor_dir_den'   : 'GenEMuFromStopsMu_HighPtEle_UL2016_26June2020',
-   #      'condor_dir'       : 'GenEMuFromStopsMuAndL1Trig_HighPtEle_UL2016_26June2020',
-   #      'den_channel'      : 'GenEMuFromStopsMuSelection',
-   #      'num_channel'      : 'GenEMuFromStopsMuAndL1TrigSelection',
-   #      'dataset'          : 'stopToLB300_1000mm_postVFP',
-   #      'legend_entry'     : 'UL2016, postVFP',
-   #      'marker'           : 'triangle',
-   #      'color'            : 'blue',
-   #  },
+     {
+        'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+        'condor_dir'       : 'GenEMuFromStopsEleAndL1Trig_UL2016_10June2020',
+        'den_channel'      : 'GenEMuFromStopsEleSelection',
+        'num_channel'      : 'GenEMuFromStopsEleAndL1TrigSelection',
+        'dataset'          : 'stopToLB300_1000mm',
+        'legend_entry'     : 'RunIIAutum16MiniAODv2',
+        'marker'           : 'circle',
+        'color'            : 'black',
+     },
+     {
+        'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+        'condor_dir'       : 'GenEMuFromStopsEleAndL1Trig_UL2016_10June2020',
+        'den_channel'      : 'GenEMuFromStopsEleSelection',
+        'num_channel'      : 'GenEMuFromStopsEleAndL1TrigSelection',
+        'dataset'          : 'stopToLB300_1000mm_preVFP',
+        'legend_entry'     : 'UL2016, preVFP',
+        'marker'           : 'square',
+        'color'            : 'red',
+     },
+     {
+         'condor_dir_den'   : 'GenEMuFromStopsEle_UL2016_10June2020',
+         'condor_dir'       : 'GenEMuFromStopsEleAndL1Trig_UL2016_10June2020',
+         'den_channel'      : 'GenEMuFromStopsEleSelection',
+         'num_channel'      : 'GenEMuFromStopsEleAndL1TrigSelection',
+         'dataset'          : 'stopToLB300_1000mm_postVFP',
+         'legend_entry'     : 'UL2016, postVFP',
+         'marker'           : 'triangle',
+         'color'            : 'blue',
+     },
 
 
 ]

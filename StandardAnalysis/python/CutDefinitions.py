@@ -71,20 +71,6 @@ exactly1_genMu = cms.PSet(
    alias = cms.string("Exactly 1 gen muon")
 )
 
-atLeast1_genMu_pt50 = cms.PSet(
-   inputCollection = cms.vstring("mcparticles"),
-   cutString = cms.string("abs (pdgId) == 13 & pt>50"),
-   numberRequired = cms.string(">= 1"),
-   alias = cms.string("At least 1 gen muon with pT> 50 GeV")
-)
-
-atLeast1_genEle_pt50 = cms.PSet(
-   inputCollection = cms.vstring("mcparticles"),
-   cutString = cms.string("abs (pdgId) == 11 & pt>50"),
-   numberRequired = cms.string(">= 1"),
-   alias = cms.string("At least 1 gen electron with pT> 50 GeV")
-)
-
 atLeastTwo_genLxy_lessThan50cm_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     cutString = cms.string("sqrt(vx*vx+vy*vy)<500."),
@@ -1330,7 +1316,7 @@ pass_L1MuEG_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     numberRequired = cms.string(">= 1"),
     )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
    pass_L1MuEG_Seeds.cutString = cms.string("L1_Mu5_EG20 > 0 || L1_Mu20_EG15 > 0")
    pass_L1MuEG_Seeds.alias = cms.string("pass L1_Mu5_EG20 OR L1_Mu20_EG15")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -1341,7 +1327,7 @@ pass_L1DoubleMu_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     numberRequired = cms.string(">= 1"),
     )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     pass_L1DoubleMu_Seeds.cutString = cms.string("L1_DoubleMu_11_4 > 0 || L1_DoubleMu_12_5 > 0 || L1_DoubleMu_13_6 > 0")
     pass_L1DoubleMu_Seeds.alias = cms.string("pass L1_DoubleMu_11_4 OR L1_DoubleMu_12_5 OR L1_DoubleMu_13_6")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -1353,7 +1339,7 @@ pass_L1EG_OR_L1Jet_Seeds = cms.PSet(
     numberRequired = cms.string(">= 1"),
     alias = cms.string("pass L1_SingleEG OR SingleIsoEG OR DoubleEG OR SingleJet200 OR SingleTau100er")
     )
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG50 > 0 || L1_SingleIsoEG24 > 0 || L1_SingleIsoEG38 > 0 ||  L1_DoubleEG_18_17 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er2p1 > 0")
@@ -1369,7 +1355,7 @@ def get_cutstring(cut):
 # cut to veto events with a displaced electron that would pass the emu preselection electron selection
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electron_emu_pt_cut = copy.deepcopy(electron_pt_42_cut)
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_emu_pt_cut = copy.deepcopy(electron_pt_50_cut)
 
 displaced_electron_emu_preselection_veto = cms.PSet(
@@ -1388,7 +1374,7 @@ displaced_electron_emu_preselection_veto = cms.PSet(
 # cut to veto events with a displaced muon that would pass the emu preselection muon selection
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     muon_emu_pt_cut = copy.deepcopy(muon_pt_40_cut)
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     muon_emu_pt_cut = copy.deepcopy(muon_pt_50_cut)
 
 displaced_muon_emu_preselection_veto = cms.PSet(
