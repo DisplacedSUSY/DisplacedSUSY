@@ -1209,6 +1209,12 @@ diMuon_cosAlpha_veto = cms.PSet (
     alias = cms.string("veto back-to-back muons (0 pairs with cos(3D angle) < -0.99)")
     )
 
+diMuon_cosAlpha = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("cosAlpha(muon, muon) < -0.99"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("at least one back-to-back muon pair (with cos(3D angle) < -0.99)")
+    )
 
 ##########################################################################
 # ELECTRON-JET OVERLAP VETO

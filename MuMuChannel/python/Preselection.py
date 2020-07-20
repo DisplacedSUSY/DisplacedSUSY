@@ -26,6 +26,45 @@ Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
 
+AdditionalPreselection = cms.PSet(
+    name = cms.string("AdditionalPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
+#AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
+
+CosmicsAdditionalPreselection = copy.deepcopy(AdditionalPreselection)
+CosmicsAdditionalPreselection.name = cms.string("CosmicsAdditionalPreselection")
+removeCuts(CosmicsAdditionalPreselection.cuts, [diMuon_cosAlpha_veto])
+CosmicsAdditionalPreselection.cuts.append(diMuon_cosAlpha)
+
+PromptRegion = copy.deepcopy(AdditionalPreselection)
+PromptRegion.name = cms.string("PromptRegion")
+PromptRegion.cuts.append(muon_d0_lessThan30_cut)
+
+GenPromptRegion = copy.deepcopy(AdditionalPreselection)
+GenPromptRegion.name = cms.string("GenPromptRegion")
+GenPromptRegion.cuts.append(gen_muon_d0_lessThan30_cut)
+
+etaLessThan1GenPromptRegion = copy.deepcopy(GenPromptRegion)
+etaLessThan1GenPromptRegion.name = cms.string("etaLessThan1GenPromptRegion")
+etaLessThan1GenPromptRegion.cuts.append(muon_eta_lessThan1_cut)
+
+pT50to60GenPromptRegion = copy.deepcopy(GenPromptRegion)
+pT50to60GenPromptRegion.name = cms.string("pT50to60GenPromptRegion")
+pT50to60GenPromptRegion.cuts.append(muon_pt_50to60_cut)
+
+pTGreaterThan150GenPromptRegion = copy.deepcopy(GenPromptRegion)
+pTGreaterThan150GenPromptRegion.name = cms.string("pTGreaterThan150GenPromptRegion")
+pTGreaterThan150GenPromptRegion.cuts.append(muon_pt_150_cut)
+
+#################################################################
+
+
+
+
 MuonD00to40MuonD00to100Region = copy.deepcopy(Preselection)
 MuonD00to40MuonD00to100Region.name = cms.string("MuonD00to40MuonD00to100Region")
 MuonD00to40MuonD00to100Region.cuts.append(muon_onePrompt_0to40_one_lessThan100_cut)
@@ -284,37 +323,6 @@ GenMuMuFromStopsAndL1TrigSelection = cms.PSet(
 )
 GenMuMuFromStopsAndL1TrigSelection.cuts.append(pass_L1DoubleMu_Seeds) #need L1 cut first and then gen cuts, otherwise hardIntMcpart hists get screwed up!
 GenMuMuFromStopsAndL1TrigSelection.cuts.extend(copy.deepcopy(GenMuMuFromStopsSelection.cuts))
-#################################################################
-
-AdditionalPreselection = cms.PSet(
-    name = cms.string("AdditionalPreselection"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
-)
-AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
-AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
-#AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
-
-PromptRegion = copy.deepcopy(AdditionalPreselection)
-PromptRegion.name = cms.string("PromptRegion")
-PromptRegion.cuts.append(muon_d0_lessThan30_cut)
-
-GenPromptRegion = copy.deepcopy(AdditionalPreselection)
-GenPromptRegion.name = cms.string("GenPromptRegion")
-GenPromptRegion.cuts.append(gen_muon_d0_lessThan30_cut)
-
-etaLessThan1GenPromptRegion = copy.deepcopy(GenPromptRegion)
-etaLessThan1GenPromptRegion.name = cms.string("etaLessThan1GenPromptRegion")
-etaLessThan1GenPromptRegion.cuts.append(muon_eta_lessThan1_cut)
-
-pT50to60GenPromptRegion = copy.deepcopy(GenPromptRegion)
-pT50to60GenPromptRegion.name = cms.string("pT50to60GenPromptRegion")
-pT50to60GenPromptRegion.cuts.append(muon_pt_50to60_cut)
-
-pTGreaterThan150GenPromptRegion = copy.deepcopy(GenPromptRegion)
-pTGreaterThan150GenPromptRegion.name = cms.string("pTGreaterThan150GenPromptRegion")
-pTGreaterThan150GenPromptRegion.cuts.append(muon_pt_150_cut)
-
 #################################################################
 
 PreselectionOneLessThan40umOneGreaterThan100um = cms.PSet(
