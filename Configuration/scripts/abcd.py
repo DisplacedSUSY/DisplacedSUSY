@@ -55,11 +55,35 @@ gStyle.SetTextFont(42)
 gStyle.SetPaintTextFormat('.2f')
 gROOT.ForceStyle()
 
+# make output histogram with bins for each ABCD region
+def make_output_hist(title, template_hist, x_bins, y_bins):
+    #  include overflow in outermost bins if applicable
+    x_edges = array('d', [template_hist.GetXaxis().GetXmax() if x == -1 else x for x in bins_x])
+    y_edges = array('d', [template_hist.GetYaxis().GetXmax() if y == -1 else y for y in bins_y])
 
-# fixme: what about overflow?
+    return TH2D(title, title, len(x_bins)-1, x_edges, len(y_bins)-1, y_edges)
+
+# get bin numbers associated with given values; account for possible overflow inclusion
+def get_bins(hist, axis_name, lo, hi):
+    if axis_name is "x":
+        axis = hist.GetXaxis()
+    elif axis_name is "y":
+        axis = hist.GetYaxis()
+    elif axis_name is "z":
+        axis = hist.GetZaxis()
+    else:
+        print axis_name, "is not a recognized axis name. Try 'x', 'y', or 'z'."
+
+    lo_bin = axis.FindBin(lo)
+    if hi is -1:
+        hi_bin = axis.GetNbins()+1
+    else:
+        hi_bin = axis.FindBin(hi)-1
+
+    return (lo_bin, hi_bin)
+
 def get_th2(th3, z_lo, z_hi, variable_bins):
-    z_bin_lo = th3.GetZaxis().FindBin(z_lo)
-    z_bin_hi = th3.GetZaxis().FindBin(z_hi)-1
+    (z_bin_lo, z_bin_hi) = get_bins(th3, 'z', z_lo, z_hi)
     th3.GetZaxis().SetRange(z_bin_lo, z_bin_hi)
     th2 = th3.Project3D("xy")
     if variable_bins: # scale events and eror to account for bin size in z
@@ -73,7 +97,9 @@ def get_poisson_uncertainty(counts):
     dummy_hist.SetBinContent(1, counts)
     return (dummy_hist.GetBinErrorLow(1), dummy_hist.GetBinErrorUp(1))
 
-def get_yields_and_errors(h, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, variable_bins, data):
+def get_yields_and_errors(h, x_lo, x_hi, y_lo, y_hi, variable_bins, data):
+    (x_bin_lo, x_bin_hi) = get_bins(h, "x", x_lo, x_hi)
+    (y_bin_lo, y_bin_hi) = get_bins(h, "y", y_lo, y_hi)
     err = Double(0.0)
     integral = h.IntegralAndError(x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi, err)
     # multiply by area of last bin if histogram was made with variable-width bins
@@ -119,6 +145,7 @@ x_regions = regions(bins_x)
 y_regions = regions(bins_y)
 z_regions = regions(bins_z)
 
+# perform abcd estimate separately for each region in z
 for z_lo, z_hi in z_regions:
     abcd_yields[z_lo]  = {}
     count_yields[z_lo] = {}
@@ -129,31 +156,22 @@ for z_lo, z_hi in z_regions:
     else:
         in_th2 = in_hist
 
-    title = lambda x: output_file.replace(".root", "{} {}GeV".format(x, z_lo))
-    abcd_hist  = TH2D(title("ABCD Estimates"), title("ABCD Estimates"), len(bins_x)-1,
-                      array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-    count_hist = TH2D(title("Counting Yields"), title("Counting Yields"), len(bins_x)-1,
-                      array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
-    ratio_hist  = TH2D(title("Ratio"), title("Ratio"),  len(bins_x)-1,
-                      array('d',bins_x), len(bins_y)-1, array('d',bins_y) )
+    abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates", bins_x, bins_y, bins_z)
+    count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields", bins_x, bins_y, bins_z)
+    ratio_hist = make_output_hist(str(z_lo)+"GeV Actual/Estimate Ratio", bins_x, bins_y, bins_z)
 
-    # Get yield and error in prompt region
-    prompt_bin_x_lo = in_th2.GetXaxis().FindBin(bins_x[0])
-    prompt_bin_x_hi = in_th2.GetXaxis().FindBin(bins_x[1])-1
-    prompt_bin_y_lo = in_th2.GetYaxis().FindBin(bins_y[0])
-    prompt_bin_y_hi = in_th2.GetYaxis().FindBin(bins_y[1])-1
-
-    prompt = get_yields_and_errors(in_th2, prompt_bin_x_lo, prompt_bin_x_hi, prompt_bin_y_lo,
-                                   prompt_bin_y_hi, variable_bins, data)
+    prompt = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], bins_y[0], bins_y[1],
+                                   variable_bins, data)
 
     if arguments.makeTables:
         print
         if not arguments.doClosureTest:
             print "Blinded: actual yields set equal to estimate."
-        print "[B]", title(""), "[/B]"
+        print "[B]", output_file.replace(".root", ""), "[/B]"
         print '[TABLE border="1"]'
         print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual|D Actual/Estimate"
 
+    # iterate through all target regions and perform abcd estimate
     for (x_lo, x_hi), (y_lo, y_hi) in itertools.product(x_regions[1:], y_regions[1:]):
         if not x_lo in abcd_yields[z_lo]:
             abcd_yields[z_lo][x_lo]  = {}
@@ -161,19 +179,9 @@ for z_lo, z_hi in z_regions:
         abcd_yields[z_lo][x_lo][y_lo]  = {}
         count_yields[z_lo][x_lo][y_lo] = {}
 
-        x_bin_lo = in_th2.GetXaxis().FindBin(x_lo)
-        x_bin_hi = in_th2.GetXaxis().FindBin(x_hi)-1
-        y_bin_lo = in_th2.GetYaxis().FindBin(y_lo)
-        y_bin_hi = in_th2.GetYaxis().FindBin(y_hi)-1
-        out_bin = count_hist.FindBin(x_lo, y_lo)
-
-        # Get yield and error in x sideband
-        x = get_yields_and_errors(in_th2, x_bin_lo, x_bin_hi, prompt_bin_y_lo, prompt_bin_y_hi,
-                                  variable_bins, data)
-
-        # Get yield and error in y sideband
-        y = get_yields_and_errors(in_th2, prompt_bin_x_lo, prompt_bin_x_hi, y_bin_lo, y_bin_hi,
-                                  variable_bins, data)
+        # Get yield and error in x and y sidebands
+        x = get_yields_and_errors(in_th2, x_lo, x_hi, bins_y[0], bins_y[1], variable_bins, data)
+        y = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], y_lo, y_hi, variable_bins, data)
 
         # calculate abcd yield as d = c * b / a
         if x['val'] == 0 or y['val'] == 0:
@@ -185,33 +193,11 @@ for z_lo, z_hi in z_regions:
             abcd = propagate_asymm_err("quotient", cb['val'], cb['err_lo'], cb['err_hi'],
                                        prompt['val'], prompt['err_lo'], prompt['err_hi'])
 
-        # store abcd estimate in hist and dictionary
-        abcd_hist.SetBinContent(out_bin, abcd['val'])
-        # set error to larger of err_lo and err_hi
-        larger_abcd_err = abcd['err_lo'] if abcd['err_lo'] > abcd['err_hi'] else abcd['err_hi']
-        abcd_hist.SetBinError(out_bin, larger_abcd_err)
-
-        abcd_yields[z_lo][x_lo][y_lo]['val']  = abcd['val']
-        abcd_yields[z_lo][x_lo][y_lo]['err_lo'] = abcd['err_lo']
-        abcd_yields[z_lo][x_lo][y_lo]['err_hi'] = abcd['err_hi']
-
-        # if unblinded, get count yields
+        # get count yields if unblinded; otherwise, set count yields equal to estimate
         if arguments.doClosureTest:
-            count = get_yields_and_errors(in_th2, x_bin_lo, x_bin_hi, y_bin_lo, y_bin_hi,
-                                          variable_bins, data)
-
-        else: # if blinded, set count yields equal to abcd estimate
+            count = get_yields_and_errors(in_th2, x_lo, x_hi, y_lo, y_hi, variable_bins, data)
+        else:
             count = copy.deepcopy(abcd)
-
-        # store actual yield in hist and dictionary
-        count_hist.SetBinContent(out_bin, count['val'])
-        # set error to larger of err_lo and err_hi
-        larger_count_err = count['err_lo'] if count['err_lo'] > count['err_hi'] else count['err_hi']
-        count_hist.SetBinError(out_bin, larger_count_err)
-
-        count_yields[z_lo][x_lo][y_lo]['val']  = count['val']
-        count_yields[z_lo][x_lo][y_lo]['err_lo'] = count['err_lo']
-        count_yields[z_lo][x_lo][y_lo]['err_hi'] = count['err_hi']
 
         # calculate ratio of actual yield to estimate
         if abcd['val'] == 0:
@@ -227,10 +213,25 @@ for z_lo, z_hi in z_regions:
             ratio = propagate_asymm_err("quotient", count['val'], count['err_lo'], count['err_hi'],
                                         abcd['val'], abcd['err_lo'], abcd['err_hi'])
 
+        # store results in dictionaries
+        abcd_yields[z_lo][x_lo][y_lo]['val']    = abcd['val']
+        abcd_yields[z_lo][x_lo][y_lo]['err_lo'] = abcd['err_lo']
+        abcd_yields[z_lo][x_lo][y_lo]['err_hi'] = abcd['err_hi']
+
+        count_yields[z_lo][x_lo][y_lo]['val']    = count['val']
+        count_yields[z_lo][x_lo][y_lo]['err_lo'] = count['err_lo']
+        count_yields[z_lo][x_lo][y_lo]['err_hi'] = count['err_hi']
+
+        # fill output hists
+        out_bin = count_hist.FindBin(x_lo, y_lo)
+        abcd_hist.SetBinContent(out_bin, abcd['val'])
+        abcd_hist.SetBinError(out_bin, max(abcd['err_lo'], abcd['err_hi']))
+
+        count_hist.SetBinContent(out_bin, count['val'])
+        count_hist.SetBinError(out_bin, max(count['err_lo'], count['err_hi']))
+
         ratio_hist.SetBinContent(out_bin, ratio['val'])
-        # set error to larger of err_lo and err_hi
-        larger_ratio_err = ratio['err_lo'] if ratio['err_lo'] > ratio['err_hi'] else ratio['err_hi']
-        ratio_hist.SetBinError(out_bin, larger_ratio_err)
+        ratio_hist.SetBinError(out_bin, max(ratio['err_lo'], ratio['err_hi']))
 
         if arguments.makeTables:
             print "|-"
@@ -238,14 +239,14 @@ for z_lo, z_hi in z_regions:
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
                                  " | {:.2f}+{:.2f}-{:.2f} | {:.0f} | {:.2f}+{:.2f}-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
-                                           y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
-                                           count['val'], ratio['val'], ratio['err_hi'], ratio['err_lo'])
+                                       y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
+                                       count['val'], ratio['val'], ratio['err_hi'], ratio['err_lo'])
             else: # use normal errors on estimate and actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
                                  2 * " | {:.2f}+-{:.2f}" + " | {:.2f}+-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
-                                           y['val'], abcd['val'], abcd['err_hi'], count['val'],
-                                           count['err_hi'], ratio['val'], ratio['val'], ratio['err_hi'])
+                                       y['val'], abcd['val'], abcd['err_hi'], count['val'],
+                                       count['err_hi'], ratio['val'], ratio['val'], ratio['err_hi'])
 
     # finish table
     if arguments.makeTables:
@@ -259,7 +260,7 @@ for z_lo, z_hi in z_regions:
     else:
         # begin summary table
         if arguments.makeTables:
-            print "[B]", title(" summary"), "[/B]"
+            print "[B]", output_file.replace(".root", " summary"), "[/B]"
             print '[TABLE border="1"]'
             print "Signal Region|Estimate|Actual"
 

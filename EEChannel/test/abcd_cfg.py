@@ -22,27 +22,27 @@ systematic_uncertainty = 0.30
 output_file  = "BackgroundABCDClosureTest_Data_PromptRegion.root"
 #output_file  = "BackgroundABCDClosureTest_Data_DisplacedSubleadingEleRegion.root"
 #output_file  = "BackgroundABCDClosureTest_Data_DisplacedLeadingEleRegion.root"
-
 x_axis_title = "Subleading electron |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
+# set last bin to -1 on any axis to include overflow along that axis
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data
 
 # actual signal regions (don't unblind!)
 #bins_x = [0, 100, 500, 1000, 100000]
 #bins_y = [0, 100, 500, 1000, 100000]
-#bins_z = [0, 300, 5000]
+#bins_z = [0, 300, -1]
 
 # prompt-e/prompt-e region
 bins_x = [20, 50, 100]
 bins_y = [20, 50, 100]
-bins_z = [0, 5000]
+bins_z = [0, -1]
 
 # prompt-leading-e/displaced-subleading-e region
 #bins_x = [20,  100,  100000]
 #bins_y = [20,  40,   100]
-#bins_z = [0, 5000]
+#bins_z = [0, -1]
 
 # displaced-leading-e/prompt-subleading-e region
 #bins_x = [20,  40,   100]

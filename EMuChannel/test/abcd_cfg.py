@@ -21,25 +21,26 @@ output_file  = "BackgroundABCDClosureTestData_PromptRegion.root"
 x_axis_title = "Leading muon |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
+# set last bin to -1 on any axis to include overflow along that axis
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data
 
 # actual signal regions (don't unblind!)
 #bins_x = [20, 100, 500, 100000]
 #bins_y = [20, 100, 500, 100000]
-#bins_z = [0, 200, 5000]
+#bins_z = [0, 200, -1]
 
 # prompt-sub mu/prompt-lead mu region
 bins_x = [20, 40, 100]
 bins_y = [20, 40, 100]
-bins_z = [0, 5000]
+bins_z = [0, -1]
 
 # prompt-leading-ele/displaced-leading-mu region
 #bins_x = [20, 100,  100000]
 #bins_y = [20, 40, 100]
-#bins_z = [0, 5000]
+#bins_z = [0, -1]
 
 # displaced-leading-ele/prompt-leading-mu region
 #bins_x = [20, 40,   100]
 #bins_y = [20, 100,  100000]
-#bins_z = [0, 5000]
+#bins_z = [0, -1]
