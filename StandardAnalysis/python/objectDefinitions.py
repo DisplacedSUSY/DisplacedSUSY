@@ -51,7 +51,7 @@ muon_pfBetaIsoCorr_alias = cms.string(">=1 muons with pfBetaIsoCorr tight isolat
 
 # N.B.: JET ID VALID FOR ETA < 2.4
 
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
 # taken from here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2017
 # and https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13TeVRun2018
     jet_id_cutstring = cms.string("neutralHadronEnergyFraction < 0.90 & \
@@ -95,7 +95,7 @@ jet_ttbar_paper_loose_id_alias = cms.string("loose jet ID from ttbar paper")
 
 #keeping 102X the same as 94X for now. in 102X, should move to DeepCSV:
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     btag_tightCSVv2_cutstring = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags > 0.9693")
 
@@ -128,7 +128,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working%20points%20for%2094X%20and%20later
 # Since you should use Fall17v2 VID for 94X and 102X, the isolation cuts are the same in the two releases
 
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
     electron_iso_cutstring = cms.string(
                          "(electron.isEB & electron.pfdRhoIsoCorr <= (0.0287+0.506/electron.pt)) | \
                           (electron.isEE & electron.pfdRhoIsoCorr <= (0.0445+0.963/electron.pt))")
@@ -147,7 +147,7 @@ electron_iso_alias = cms.string(">=1 electrons with tight isolation (old def)")
 
 electron_newIso_string = "1/pt * max(pfIso_.sumChargedHadronPt + pfIso_.sumPUPt + pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*0.283, 0)" # 0.283 = pi*0.3**2
 
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
     electron_newIso_cutstring = cms.string(
                          "(electron.isEB & (" + electron_newIso_string + ") <= (0.0287+0.506/electron.pt)) | \
                           (electron.isEE & (" + electron_newIso_string + ") <= (0.0445+0.963/electron.pt))")
@@ -163,7 +163,7 @@ electron_newIso_alias = cms.string(">=1 electrons with tight rho-based isolation
 
 ##########################################################################
 # INVERTED TIGHT ELECTRON ISOLATION
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
     electron_antiNewIso_cutstring = cms.string("(isEB & (" + electron_newIso_string + ") > (0.0287+0.506/pt)) | \
                                      (isEE & (" + electron_newIso_string + ") > (0.0445+0.963/pt))")
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):

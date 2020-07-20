@@ -25,6 +25,9 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
     datasets = [#'stopToLB800_500mm_2021', #each sample needs different global tag in protoConfig_cfg.py
                 #'stopToLB800_500mm_2023',
-                'stopToLB800_500mm_2024'
+                #'stopToLB800_500mm_2024'
+        #'stopToLB300_1000mm',
+        'stopToLB300_1000mm_preVFP',
+        #'stopToLB300_1000mm_postVFP',
     ]
-    #colors['stopToLB800_500mm'] = 8
+        #colors['stopToLB800_500mm'] = 8

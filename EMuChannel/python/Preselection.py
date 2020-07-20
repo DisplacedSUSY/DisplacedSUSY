@@ -300,6 +300,7 @@ GenEMuFromStopsEleSelection = cms.PSet(
     triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
 )
+GenEMuFromStopsEleSelection.cuts.append(atLeast1_genMu_pt50) #make other leg in turn-on plateau
 GenEMuFromStopsEleSelection.cuts.append(exactly1_genEle)
 
 GenEMuFromStopsMuSelection = cms.PSet(
@@ -307,6 +308,7 @@ GenEMuFromStopsMuSelection = cms.PSet(
     triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
 )
+GenEMuFromStopsMuSelection.cuts.append(atLeast1_genEle_pt50) #make other leg in turn-on plateau
 GenEMuFromStopsMuSelection.cuts.append(exactly1_genMu)
 
 ######

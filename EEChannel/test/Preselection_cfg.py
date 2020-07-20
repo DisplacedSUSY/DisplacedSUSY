@@ -9,7 +9,7 @@ from DisplacedSUSY.EEChannel.EEHistograms import *
 from DisplacedSUSY.EEChannel.Preselection import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #ElectronD00to40ElectronD0Above100Region,
     #ElectronD00to40ElectronD00to100Region,
     #ElectronD00to40ElectronD0100to500Region,
@@ -32,14 +32,17 @@ eventSelections = [
     #PreselectionEleFromLightMeson,
     #PreselectionEleFromHeavyMeson,
     #DisplacedHighPtL1PrefiringCheck,
-    #GenEEFromStopsSelection,
+    GenEEFromStopsSelection,
     #GenEEFromStopsAndHLTTrigSelection,
     #GenEEFromStopsAndL1TrigSelection,
     ]
 
 # Redefine scalingfactorproducers to not include muon scale factors
 scalingfactorproducers = []
-scalingfactorproducers.append(ElectronScaleFactorProducer)
+#scalingfactorproducers.append(ElectronScaleFactorProducer)
+
+#define empty weights
+weights = cms.VPSet ()
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -49,4 +52,4 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 # customize the process:
 # usage: customize(process, analysisChannel = "ee", applyPUReweighting = True, applyTriggerReweighting = True)
-customize (process, "ee", True, True, "data")
+customize (process, "ee", False, False, "data")

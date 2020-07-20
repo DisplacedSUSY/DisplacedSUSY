@@ -27,7 +27,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
 
     if hasattr(process, "DisplacedSUSYEventVariableProducer"):
         process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_MET200_v")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned")
@@ -38,7 +38,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, appl
         process.DisplacedSUSYEventVariableProducer.AlgInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tAlgBlkInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tExtBlkInputTag = cms.InputTag("gtStage2Digis")
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_"):
             process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG20","L1_Mu20_EG15",
                                                                              "L1_DoubleMu_11_4", "L1_DoubleMu_12_5", "L1_DoubleMu_13_6",
                                                                              "L1_SingleEG30", "L1_SingleEG40", "L1_SingleIsoEG22er", "L1_SingleIsoEG28",

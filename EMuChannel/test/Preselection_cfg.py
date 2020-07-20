@@ -10,7 +10,7 @@ from DisplacedSUSY.EMuChannel.Preselection import *
 from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #AdditionalPreselection,
     #PromptControlRegion,
     #DisplacedControlRegion,
@@ -56,10 +56,13 @@ eventSelections = [
     #GenEMuFromStopsEleSelection,
     #GenEMuFromStopsMuSelection,
     #GenEMuFromStopsEleAndHLTTrigSelection,
-    #GenEMuFromStopsMuAndHLTTrigSelection,
+    GenEMuFromStopsMuAndHLTTrigSelection,
     #GenEMuFromStopsEleAndL1TrigSelection,
     #GenEMuFromStopsMuAndL1TrigSelection,
 ]
+
+#define empty weights
+weights = cms.VPSet ()
 
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
@@ -72,4 +75,4 @@ add_channels (process, eventSelections, histograms, weights, scalingfactorproduc
 
 # customize the process:
 # usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC")
-customize (process, "emu", True, True, "bgMC")
+customize (process, "emu", False, False, "bgMC")

@@ -90,6 +90,10 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
             ),
         )
 
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
+    electronWeights = cms.VPSet(
+        )
+
 #################################################################
 
 #OFFLINE MUON WEIGHTS
@@ -118,6 +122,9 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
             inputCollections = cms.vstring("eventvariables"),
             inputVariable = cms.string(muonIsoPayload)
             ),
+        )
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_6_")):
+    muonWeights = cms.VPSet(
         )
 
 #################################################################

@@ -10,6 +10,9 @@ signal_mc_samples = {
     'stopToLB800_500mm_2023' : "/DisplacedSUSY_stopToBottom_M_800_500mm_TuneCP5_14TeV_pythia8/Run3Summer19MiniAOD-106X_mcRun3_2023_realistic_v3-v2/MINIAODSIM",
     'stopToLB800_500mm_2021' : "/DisplacedSUSY_stopToBottom_M_800_500mm_TuneCP5_14TeV_pythia8/Run3Summer19MiniAOD-106X_mcRun3_2021_realistic_v3-v2/MINIAODSIM",
 
+    'stopToLB300_1000mm_preVFP'  : "/RelValDispSUSY_M300_1000mm_13UP16/CMSSW_10_6_12-PU25ns_106X_mcRun2_asymptotic_preVFP_v8_hltul16_preVFP-v1/MINIAODSIM",
+    'stopToLB300_1000mm_postVFP' : "/RelValDispSUSY_M300_1000mm_13UP16/CMSSW_10_6_12-PU25ns_106X_mcRun2_asymptotic_v13_hltul16_postVFP-v1/MINIAODSIM",
+
 }
 
 # create composite dictionary of all samples

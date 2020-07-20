@@ -5,12 +5,13 @@ import FWCore.ParameterSet.Config as cms
 ################################################################################
 
 from DisplacedSUSY.Configuration.histogramDefinitions import JetHistograms, MetHistograms
-from DisplacedSUSY.Configuration.histogramDefinitions import BeamspotHistograms, eventHistograms, GenParticleHistograms, GenParticleD0Histograms
+from DisplacedSUSY.Configuration.histogramDefinitions import BeamspotHistograms, eventHistograms, GenParticleHistograms, GenParticleD0Histograms#, TriggerObjectHistograms
 
 histograms = cms.VPSet()
-histograms.append(JetHistograms)
-histograms.append(MetHistograms)
-histograms.append(BeamspotHistograms)
+#histograms.append(JetHistograms)
+#histograms.append(MetHistograms)
+#histograms.append(BeamspotHistograms)
 histograms.append(eventHistograms)
-#histograms.append(GenParticleHistograms)
-#histograms.append(GenParticleD0Histograms)
+histograms.append(GenParticleHistograms)
+histograms.append(GenParticleD0Histograms)
+#histograms.append(TriggerObjectHistograms)
