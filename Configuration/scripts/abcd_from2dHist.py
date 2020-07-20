@@ -235,16 +235,16 @@ for z_lo, z_hi in z_regions:
             print "|-"
             if data: # use asymmetric errors on estimate and no uncertainty on actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
-                                 " | {:.2f}+{:.2f}-{:.2f} | {:.0f} | {:.2f}")
+                                 " | {:.2f}+{:.2f}-{:.2f} | {:.0f} | {:.2f}+{:.2f}-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
                                            y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
-                                           count['val'], ratio['val'])
+                                           count['val'], ratio['val'], ratio['err_hi'], ratio['err_lo'])
             else: # use normal errors on estimate and actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
-                                 2 * " | {:.2f}+-{:.2f}" + " | {:.2f}")
+                                 2 * " | {:.2f}+-{:.2f}" + " | {:.2f}+-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
                                            y['val'], abcd['val'], abcd['err_hi'], count['val'],
-                                           count['err_hi'], ratio['val'])
+                                           count['err_hi'], ratio['val'], ratio['val'], ratio['err_hi'])
 
     # finish table
     if arguments.makeTables:
