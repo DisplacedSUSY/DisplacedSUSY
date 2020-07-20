@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 # input info - be careful if running over preselection data while still blinded
-input_file = "/uscms_data/d3/cardwell/condor/emu_runII_estimates_08July2020/MuonEG_2016_2017_2018.root"
+input_file = "/uscms_data/d3/cardwell/condor/emu_runII_ptBinned_estimates_15July2020/MuonEG_2016_2017_2018.root"
 
-input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
+#input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
+#input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]"
+input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]"
 
 # Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
 data = True
@@ -13,14 +15,19 @@ variable_bins = True
 systematic_uncertainty = 0.30
 
 # output info
-output_file  = "BackgroundABCDClosureTestData_startAt20mum_PromptRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedMuRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_startAt20mum_DisplacedEleRegion.root"
+output_file  = "BackgroundABCDClosureTestData_PromptRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_DisplacedMuRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_DisplacedEleRegion.root"
 x_axis_title = "Leading muon |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
 # bin edges must line up with bin edges in input histograms
 # be careful not to accidently unblind if running over preselection data
+
+# actual signal regions (don't unblind!)
+#bins_x = [20, 100, 500, 100000]
+#bins_y = [20, 100, 500, 100000]
+#bins_z = [0, 200, 5000]
 
 # prompt-sub mu/prompt-lead mu region
 bins_x = [20, 40, 100]
