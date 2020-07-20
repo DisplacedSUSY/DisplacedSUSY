@@ -295,8 +295,8 @@ for z_lo, z_hi in z_regions:
                     # store uncertainties as multiplicative factors for makeDataCards
                     'err_lo' : (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val'],
                     'err_hi' : (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
-                    'sys_err_lo' : 0.5, # fixme: placeholder value
-                    'sys_err_hi' : 1.5, # fixme: placeholder value
+                    'sys_err_lo' : 1 - systematic_uncertainty,
+                    'sys_err_hi' : 1 + systematic_uncertainty,
                 }
             )
 

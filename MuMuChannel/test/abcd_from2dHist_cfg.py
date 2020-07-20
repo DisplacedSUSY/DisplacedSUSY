@@ -16,6 +16,8 @@ input_hist = "AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_
 data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
+# systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
+systematic_uncertainty = 1.00
 
 # output info
 #output_file  = "BackgroundABCDEstimate.root"

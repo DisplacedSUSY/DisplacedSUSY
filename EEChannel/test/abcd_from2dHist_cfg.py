@@ -12,6 +12,8 @@ input_hist = "AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD
 data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
+# systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
+systematic_uncertainty = 0.30
 
 # output info
 #output_file  = "BackgroundABCDEstimate_Data.root"
