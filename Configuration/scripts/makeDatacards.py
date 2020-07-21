@@ -83,16 +83,32 @@ class SignalRegion:
         self.pt_hi   = pt_hi
         self.d0_max  = d0_max
 
+    # get bin numbers associated with given values; account for possible overflow inclusion
+    def get_bins(self, hist, axis_name, lo, hi):
+        if axis_name is "x":
+            axis = hist.GetXaxis()
+        elif axis_name is "y":
+            axis = hist.GetYaxis()
+        elif axis_name is "z":
+            axis = hist.GetZaxis()
+        else:
+            print axis_name, "is not a recognized axis name. Try 'x', 'y', or 'z'."
+
+        lo_bin = axis.FindBin(lo)
+        if hi is -1:
+            hi_bin = axis.GetNbins()+1
+        else:
+            hi_bin = axis.FindBin(hi)-1
+
+        return (lo_bin, hi_bin)
+
     def get_yield_and_error(self, hist, var_bins):
         th3 = type(hist) is TH3D
-        d0_bin_max = hist.GetXaxis().FindBin(self.d0_max)-1
-        x_bin_lo = hist.GetXaxis().FindBin(self.d0_0_lo)
-        x_bin_hi = hist.GetXaxis().FindBin(self.d0_0_hi)-1
-        y_bin_lo = hist.GetYaxis().FindBin(self.d0_0_lo)
-        y_bin_hi = hist.GetYaxis().FindBin(self.d0_0_hi)-1
+        (x_bin_lo, x_bin_hi) = self.get_bins(hist, "x", self.d0_0_lo, self.d0_0_hi)
+        (y_bin_lo, y_bin_hi) = self.get_bins(hist, "y", self.d0_0_lo, self.d0_0_hi)
+        (_, d0_bin_max) = self.get_bins(hist, "x", 0, self.d0_max)
         if th3:
-            z_bin_lo = hist.GetZaxis().FindBin(self.pt_lo)
-            z_bin_hi = hist.GetZaxis().FindBin(self.pt_hi)-1
+            (z_bin_lo, z_bin_hi) = self.get_bins(hist, "z", self.pt_lo, self.pt_hi)
 
         # multiply yield and error by area/volume of last bin if histogram was made
         # with variable-width bins
@@ -105,12 +121,6 @@ class SignalRegion:
                 bin_factor *= hist.GetZaxis().GetBinWidth(nBins_z)
         else:
             bin_factor = 1
-
-        # include overflow bins if SR extends to edge of hist
-        if th3 and z_bin_hi == hist.GetNbinsZ():
-            z_bin_hi += 1
-        if d0_bin_max == hist.GetNbinsX():
-            d0_bin_max += 1
 
         # just integrate the rectangle if it's the outermost signal region
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
