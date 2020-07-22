@@ -5429,7 +5429,7 @@ ElectronMuonD0Histograms = cms.PSet(
             binsX = cms.untracked.vdouble(fine_100000um_bins),
             binsY = cms.untracked.vdouble(fine_100000um_bins),
             indexX = cms.untracked.int32(0),
-            indexy = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs("+muonSmearedD0WRTBeamspot+")", "10000*abs("+electronSmearedD0WRTBeamspot+")"),
         ),
         cms.PSet (
