@@ -71,5 +71,5 @@ add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfa
 #add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, True)
 
 # customize the process:
-# usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, applyTriggerReweighting = True, sampleType = "bgMC")
-customize (process, "emu", True, True, "bgMC")
+# usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC")
+customize (process, "emu", True, "bgMC")

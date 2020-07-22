@@ -37,7 +37,6 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
         string type_;
 	std::vector<std::string> triggerPaths_;
 	std::map<std::string, bool> HLTBitsMap;
-	double triggerScaleFactor_;
         edm::EDGetTokenT<vector<TYPE(pileupinfos)> > pileUpInfosToken_;
         edm::EDGetTokenT<TYPE(beamspots)> beamspotsToken_;
         edm::EDGetTokenT<vector<TYPE(primaryvertexs)> > primaryVertexsToken_;

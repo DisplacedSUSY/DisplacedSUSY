@@ -9,8 +9,8 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    #Preselection,
-    CosmicsAdditionalPreselection,
+    Preselection,
+    #CosmicsAdditionalPreselection,
     #MuonD00to40MuonD00to100Region,
     #MuonD00to40MuonD0100to500Region,
     #MuonD00to40MuonD0500to1000Region,
@@ -76,5 +76,5 @@ scalingfactorproducers.append(MuonScaleFactorProducer)
 add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
-# usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, applyTriggerReweighting = True)
-customize (process, "mumu", True, True, "data")
+# usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, sampleType = "bgMC")
+customize (process, "mumu", True, "signalMC")

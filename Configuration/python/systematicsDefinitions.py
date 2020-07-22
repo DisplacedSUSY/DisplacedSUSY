@@ -190,16 +190,20 @@ if arguments.era == "2016":
             },
 
         # taken from the error on the trigger effieciency scale factor
-        'trigger_emu' :  {
-            'value' : '1.013',
+        'trigger_emu_electron' :  {
+            'value' : '1.', #needs to be updated
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_emu_muon' :  {
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
-            'value' : '1.044',
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
         'trigger_mumu' :  {
-            'value' : '1.017',
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
 
@@ -243,16 +247,20 @@ elif arguments.era == "2017":
             },
 
         # taken from the error on the trigger effieciency scale factor
-        'trigger_emu' :  {
-            'value' : '1.013', #needs to be updated for 2017
+        'trigger_emu_electron' :  {
+            'value' : '1.', #needs to be updated
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_emu_muon' :  {
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
-            'value' : '1.044', #needs to be updated for 2017
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
         'trigger_mumu' :  {
-            'value' : '1.017', #needs to be updated for 2017
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
 
@@ -284,16 +292,20 @@ elif arguments.era == "2018":
             },
 
         # taken from the error on the trigger effieciency scale factor
-        'trigger_emu' :  {
-            'value' : '1.', #needs to be updated for 2018
+        'trigger_emu_electron' :  {
+            'value' : '1.', #needs to be updated
+            'applyList' : mc_normalized_processes,
+            },
+        'trigger_emu_muon' :  {
+            'value' : '1.', #needs to be updated
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
-            'value' : '1.', #needs to be updated for 2018
+            'value' : '1.106',
             'applyList' : mc_normalized_processes,
             },
         'trigger_mumu' :  {
-            'value' : '1.', #needs to be updated for 2018
+            'value' : '1.008',
             'applyList' : mc_normalized_processes,
             },
 

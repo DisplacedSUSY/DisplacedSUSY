@@ -13,27 +13,30 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     muonTrackingPayload = "muonTracking2016GH"
     muonIdPayload = "muonID2016TightGH"
     muonIsoPayload = "muonIso2016TightTightIDGH"
-    triggerScaleFactorEEChannelPayload  = "triggerScaleFactorEEChannel2016"
-    triggerScaleFactorMuMuChannelPayload  = "triggerScaleFactorMuMuChannel2016"
-    triggerScaleFactorEMuChannelPayload  = "triggerScaleFactorEMuChannel2016"
+    electronTriggerEEPayload  = "electronTrigger2016ee"
+    muonTriggerMuMuPayload  = "muonTrigger2016mumu"
+    electronTriggerEMuPayload  = "electronTrigger2016emu"
+    muonTriggerEMuPayload  = "muonTrigger2016emu"
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# EventWeights applied: 2017"
     electronIdPayload = "electronID2017Tight"
     muonIdPayload = "muonID2017Tight"
     muonIsoPayload = "muonIso2017TightTightID"
-    triggerScaleFactorEEChannelPayload = "triggerScaleFactorEEChannel2017"
-    triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2017"
-    triggerScaleFactorEMuChannelPayload = "triggerScaleFactorEMuChannel2017"
+    electronTriggerEEPayload = "electronTrigger2017ee"
+    muonTriggerMuMuPayload = "muonTrigger2017mumu"
+    electronTriggerEMuPayload = "electronTrigger2017emu"
+    muonTriggerEMuPayload  = "muonTrigger2017emu"
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     print "# EventWeights applied: 2018"
     electronIdPayload = "electronID2018Tight"
     muonIdPayload = "muonID2018Tight"
     muonIsoPayload = "muonIso2018TightTightID"
-    triggerScaleFactorEEChannelPayload = "triggerScaleFactorEEChannel2018"
-    triggerScaleFactorMuMuChannelPayload = "triggerScaleFactorMuMuChannel2018"
-    triggerScaleFactorEMuChannelPayload = "triggerScaleFactorEMuChannel2018"
+    electronTriggerEEPayload = "electronTrigger2018ee"
+    muonTriggerMuMuPayload = "muonTrigger2018mumu"
+    electronTriggerEMuPayload = "electronTrigger2018emu"
+    muonTriggerEMuPayload  = "muonTrigger2018emu"
 
 else:
     print "what release are you in? We expect to be in 80X or 94X or 102X for the event weights"
@@ -132,7 +135,7 @@ weightsEEChannel.extend(electronWeights)
 weightsEEChannel.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(triggerScaleFactorEEChannelPayload)
+        inputVariable = cms.string(electronTriggerEEPayload)
         ),
     )
 
@@ -144,10 +147,9 @@ weightsMuMuChannel.extend(muonWeights)
 weightsMuMuChannel.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(triggerScaleFactorMuMuChannelPayload)
+        inputVariable = cms.string(muonTriggerMuMuPayload)
         ),
     )
-
 #################################################################
 
 # E-MU CHANNEL
@@ -157,6 +159,12 @@ weightsEMuChannel.extend(muonWeights)
 weightsEMuChannel.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
-        inputVariable = cms.string(triggerScaleFactorEMuChannelPayload)
-        ),
+        inputVariable = cms.string(electronTriggerEMuPayload)
     )
+)
+weightsEMuChannel.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonTriggerEMuPayload)
+    )
+)

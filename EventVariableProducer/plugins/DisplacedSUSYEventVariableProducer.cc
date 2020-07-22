@@ -15,7 +15,6 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   triggerPaths_ = cfg.getParameter<std::vector<std::string> >("triggerPaths");
   //fill a map of HLT paths
   for(unsigned int i = 0; i < triggerPaths_.size(); i++) HLTBitsMap[ triggerPaths_[i] ] = false;
-  triggerScaleFactor_ = cfg.getParameter<double>("triggerScaleFactor");
 
   //L1 bits information, thanks to scouting dijet team
   //https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetScoutingTreeProducer.cc
@@ -295,7 +294,6 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
     (*eventvariables)[triggerPaths_[ipath].c_str()] = HLTBitsMap[triggerPaths_[ipath]];
   }
-  (*eventvariables)["triggerScaleFactor"] = triggerScaleFactor_;
   for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
     (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
   }

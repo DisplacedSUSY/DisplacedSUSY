@@ -14,6 +14,18 @@ electronScaleFactors2016 = cms.VPSet (
         version = cms.string("2016"),
         wp = cms.string("Tight"),
     ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2016"),
+        wp = cms.string("ee"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2016"),
+        wp = cms.string("emu"),
+    ),
 )
 
 electronScaleFactors2017 = cms.VPSet (
@@ -24,6 +36,19 @@ electronScaleFactors2017 = cms.VPSet (
         version = cms.string("2017"),
         wp = cms.string("Tight"),
     ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2017"),
+        wp = cms.string("ee"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2017"),
+        wp = cms.string("emu"),
+    ),
+
 )
 
 electronScaleFactors2018 = cms.VPSet (
@@ -33,6 +58,18 @@ electronScaleFactors2018 = cms.VPSet (
         sfType = cms.string("ID"),
         version = cms.string("2018"),
         wp = cms.string("Tight"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2018"),
+        wp = cms.string("ee"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("electrons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2018"),
+        wp = cms.string("emu"),
     ),
 )
 
@@ -55,6 +92,18 @@ muonScaleFactors2016 = cms.VPSet (
         lumis = cms.vdouble(16146),
         additionalSystematic = cms.double(0.01),
     ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2016"),
+        wp = cms.string("mumu"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2016"),
+        wp = cms.string("emu"),
+    ),
 )
 
 muonScaleFactors2017 = cms.VPSet (
@@ -71,6 +120,18 @@ muonScaleFactors2017 = cms.VPSet (
         version = cms.string("2017"),
         wp = cms.string("Tight"),
         additionalSystematic = cms.double(0.01),#additional systematic to be updated when muon POG makes this update
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2017"),
+        wp = cms.string("mumu"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2017"),
+        wp = cms.string("emu"),
     ),
 )
 
@@ -89,12 +150,26 @@ muonScaleFactors2018 = cms.VPSet (
         wp = cms.string("Tight"),
         additionalSystematic = cms.double(0.01),#additional systematic to be updated when muon POG makes this update
     ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2018"),
+        wp = cms.string("mumu"),
+    ),
+    cms.PSet (
+        inputCollection = cms.string("muons"),
+        sfType = cms.string("Trigger"),
+        version = cms.string("2018"),
+        wp = cms.string("emu"),
+    ),
 )
 
 ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
-    'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
-    'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root'),
+    #'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
+    #'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root'),
+    'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/electronSFs.root'),
+    'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/muonSFs.root'),
     'scaleFactors' : electronScaleFactors2016,
 }
 
