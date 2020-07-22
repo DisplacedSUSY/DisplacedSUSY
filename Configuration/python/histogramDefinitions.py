@@ -4,6 +4,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 from OSUT3Analysis.Configuration.pdgIdBins import *
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 
+hist_psets = []
 
 ###############################################
 ##### Set up the histograms to be plotted #####
@@ -379,6 +380,7 @@ MuonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonHistograms)
 
 
 ##############################################################################################
@@ -436,6 +438,7 @@ DiMuonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(DiMuonHistograms)
 
 
 ##############################################################################################
@@ -857,6 +860,7 @@ ElectronHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronHistograms)
 
 
 ##############################################################################################
@@ -908,6 +912,7 @@ DiElectronHistograms = cms.PSet(
         ),
    )
 )
+hist_psets.append(DiElectronHistograms)
 
 
 ##############################################################################################
@@ -984,6 +989,7 @@ ElectronMuonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronMuonHistograms)
 
 
 ##############################################################################################
@@ -999,6 +1005,7 @@ ElectronMetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronMetHistograms)
 
 
 ##############################################################################################
@@ -1014,6 +1021,7 @@ MuonMetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonMetHistograms)
 
 
 ##############################################################################################
@@ -1102,6 +1110,7 @@ JetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(JetHistograms)
 
 
 #####################################################################################
@@ -1184,6 +1193,7 @@ BjetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(BjetHistograms)
 
 
 #####################################################################################
@@ -1217,6 +1227,7 @@ JetIsoHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(JetIsoHistograms)
 
 
 ##########################################################################################
@@ -1256,6 +1267,7 @@ JetBjetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(JetBjetHistograms)
 
 
 ##########################################################################################
@@ -1301,6 +1313,8 @@ MuonJetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonJetHistograms)
+
 
 ##########################################################################################
 
@@ -1345,6 +1359,7 @@ ElectronJetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronJetHistograms)
 
 
 ##########################################################################################
@@ -1390,6 +1405,7 @@ MuonBjetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonBjetHistograms)
 
 
 ##########################################################################
@@ -1435,6 +1451,7 @@ ElectronBjetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronBjetHistograms)
 
 
 ##########################################################################
@@ -1499,6 +1516,7 @@ PhotonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(PhotonHistograms)
 
 
 ##############################################################################################
@@ -1520,6 +1538,7 @@ MetHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MetHistograms)
 
 
 ##############################################################################################
@@ -1656,6 +1675,7 @@ TrackHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(TrackHistograms)
 
 
 ##############################################################################################
@@ -1689,6 +1709,7 @@ TrackBeamspotHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(TrackBeamspotHistograms)
 
 
 ##############################################################################################
@@ -1736,6 +1757,7 @@ TrackEventVarHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(TrackEventVarHistograms)
 
 
 ##############################################################################################
@@ -1775,6 +1797,7 @@ TrackMCParticleHistograms = cms.PSet(
             ),
         )
     )
+hist_psets.append(TrackMCParticleHistograms)
 
 
 ##############################################################################################
@@ -1811,6 +1834,7 @@ EventVariablePVHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(EventVariablePVHistograms)
 
 
 ##############################################################################################
@@ -3520,7 +3544,7 @@ ElectronD0Histograms = cms.PSet(
 
     )
 )
-
+hist_psets.append(ElectronD0Histograms)
 
 
 MuonD0Histograms = cms.PSet(
@@ -5195,6 +5219,7 @@ MuonD0Histograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonD0Histograms)
 
 
 ElectronMuonD0Histograms = cms.PSet(
@@ -5591,6 +5616,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronMuonD0Histograms)
 
 
 ElectronPhotonHistograms = cms.PSet(
@@ -5640,6 +5666,7 @@ ElectronPhotonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(ElectronPhotonHistograms)
 
 
 MuonPhotonHistograms = cms.PSet(
@@ -5668,6 +5695,7 @@ MuonPhotonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(MuonPhotonHistograms)
 
 
 BeamspotHistograms = cms.PSet(
@@ -5734,6 +5762,7 @@ BeamspotHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(BeamspotHistograms)
 
 
 eventHistograms = cms.PSet(
@@ -6162,6 +6191,7 @@ eventHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(eventHistograms)
 
 
 CosmicMuonHistograms = cms.PSet(
@@ -6188,6 +6218,8 @@ CosmicMuonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(CosmicMuonHistograms)
+
 
 eventMuonHistograms = cms.PSet(
     inputCollection = cms.vstring("eventvariables", "muons"),
@@ -6202,6 +6234,8 @@ eventMuonHistograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(eventMuonHistograms)
+
 
 DiMuonHistogramsExtra = cms.PSet(
     inputCollection = cms.vstring("muons","muons"),
@@ -6227,6 +6261,8 @@ DiMuonHistogramsExtra = cms.PSet(
 
     )
 )
+hist_psets.append(DiMuonHistogramsExtra)
+
 
 GenParticleHistograms = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
@@ -6272,9 +6308,11 @@ GenParticleHistograms = cms.PSet(
             title = cms.string("Unique Gen Mother PdgId;Mother |PDG ID|"),
             binsX = cms.untracked.vdouble(600, 0, 600),
             inputVariables = cms.vstring("abs (uniqueMotherPdgId)"),
-            ),
-        )
+        ),
     )
+)
+hist_psets.append(GenParticleHistograms)
+
 
 GenParticleD0Histograms = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles","beamspots"),
@@ -6287,3 +6325,36 @@ GenParticleD0Histograms = cms.PSet(
         ),
     )
 )
+hist_psets.append(GenParticleD0Histograms)
+
+
+##############################################################################################
+
+# raise exception if any hist definitions contain invalid attribute names
+valid_attributes = [
+    'name',
+    'title',
+    'binsX', 'binsY', 'binsZ',
+    'indexX', 'indexY', 'indexZ',
+    'inputVariables',
+    '_isFrozen',
+    '_ParameterTypeBase__isTracked',
+    '_isModified',
+    '_Parameterizable__parameterNames',
+]
+
+# find all histograms with invalid attributes
+invalid_hists = {}
+for pset in hist_psets:
+    for h in pset.histograms:
+        attributes = h.__dict__.keys()
+        invalid_attributes =  list(set(attributes) - set(valid_attributes))
+        if len(invalid_attributes) > 0:
+            invalid_hists[str(h.name)[12:-2]] = invalid_attributes
+
+# if necessary, raise exception listing all histograms with invalid attributes
+if invalid_hists:
+    exception_string = ""
+    for hist, attributes in invalid_hists.iteritems():
+        exception_string += "\nhist {} contains invalid attributes: {}".format(hist, attributes)
+    raise AttributeError(exception_string)
