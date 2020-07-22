@@ -16,7 +16,7 @@ from OSUT3Analysis.Configuration.cutUtilities import *
 # defined as (total PF energy within a cone of dR < 0.4 minus rho times cone area) / (muon pT)
 # using fixedGridRhoFastjetAll for rho, which accounts for all PF energy in |eta| < 5
 
-muon_iso_string = "1/pt * max(pfIsolationR04_.sumChargedHadronPt + pfIsolationR04_.sumPUPt + pfIsolationR04_.sumNeutralHadronEt + pfIsolationR04_.sumPhotonEt - rho*0.503, 0)" # 0.503 = pi*0.4**2
+muon_iso_string = "1/muon.pt * max(muon.pfIsolationR04_.sumChargedHadronPt + muon.pfIsolationR04_.sumPUPt + muon.pfIsolationR04_.sumNeutralHadronEt + muon.pfIsolationR04_.sumPhotonEt - muon.rho*0.503, 0)" # 0.503 = pi*0.4**2
 
 muon_iso_cutstring = cms.string(muon_iso_string + " <= 0.10")
 muon_iso_alias = cms.string(">=1 muons with tight rho-based isolation (<=0.10)")
@@ -145,7 +145,7 @@ electron_iso_alias = cms.string(">=1 electrons with tight isolation (old def)")
 # TIGHT ELECTRON ISOLATION W/ SIMPLE RHO-BASED PU CORRECTION
 # we are using this electron iso definiton for 2016-2018
 
-electron_newIso_string = "1/pt * max(pfIso_.sumChargedHadronPt + pfIso_.sumPUPt + pfIso_.sumNeutralHadronEt + pfIso_.sumPhotonEt - rho*0.283, 0)" # 0.283 = pi*0.3**2
+electron_newIso_string = "1/electron.pt * max(electron.pfIso_.sumChargedHadronPt + electron.pfIso_.sumPUPt + electron.pfIso_.sumNeutralHadronEt + electron.pfIso_.sumPhotonEt - electron.rho*0.283, 0)" # 0.283 = pi*0.3**2
 
 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_newIso_cutstring = cms.string(
