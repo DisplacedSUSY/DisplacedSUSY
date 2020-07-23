@@ -1,5 +1,6 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
+from DisplacedSUSY.Configuration.helperFunctions import *
 from DisplacedSUSY.EMuChannel.EMuHistograms import *
 
 ################################################################################
@@ -64,6 +65,9 @@ eventSelections = [
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
+
+check_definitions(eventSelections)
+check_definitions(histograms)
 
 add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers)
 
