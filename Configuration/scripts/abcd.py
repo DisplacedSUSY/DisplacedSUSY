@@ -156,9 +156,9 @@ for z_lo, z_hi in z_regions:
     else:
         in_th2 = in_hist
 
-    abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates", bins_x, bins_y, bins_z)
-    count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields", bins_x, bins_y, bins_z)
-    ratio_hist = make_output_hist(str(z_lo)+"GeV Actual/Estimate Ratio", bins_x, bins_y, bins_z)
+    abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates",        in_th2, bins_x, bins_y)
+    count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields",       in_th2, bins_x, bins_y)
+    ratio_hist = make_output_hist(str(z_lo)+"GeV Actual/Estimate Ratio", in_th2, bins_x, bins_y)
 
     prompt = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], bins_y[0], bins_y[1],
                                    variable_bins, data)
