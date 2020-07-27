@@ -5,15 +5,6 @@ from DisplacedSUSY.EMuChannel.CutDefinitions import *
 from DisplacedSUSY.StandardAnalysis.Triggers import *
 
 
-##########################################################################
-### Set up the TTbar regions for trigger efficiency plots
-##########################################################################
-
-# Opposite sign e-mu pair with >=2 jets and >= 1 b jet
-# Designed to mimic the selection Bing used for trigger efficiency
-
-##########################################################################
-
 # Denominator: basic selection+(MET triggers)
 TrigEffDen = cms.PSet(
     name = cms.string("TrigEffDen"),
