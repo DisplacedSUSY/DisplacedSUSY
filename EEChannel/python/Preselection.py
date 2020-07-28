@@ -192,3 +192,10 @@ AdditionalPreselection = cms.PSet(
 AdditionalPreselection.cuts.append(electron_eta1p9_cut) #to remove poorly measured d0 of electrons at large eta
 AdditionalPreselection.cuts.append(diElectron_deltaR_cut) # remove hypothetical electrons from mesons that are close to each other (loose dR>0.1)
 #AdditionalPreselection.cuts.append(displaced_muon_emu_preselection_veto) #remove overlap with emu channel
+
+AdditionalPreselectionD0Pull50um = cms.PSet(
+    name = cms.string("AdditionalPreselectionD0Pull50um"),
+    triggers = copy.deepcopy(AdditionalPreselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
+)
+AdditionalPreselectionD0Pull50um.cuts.append(electron_absD0Pull_lessThan50_cut)

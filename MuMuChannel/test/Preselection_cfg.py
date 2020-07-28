@@ -10,12 +10,13 @@ from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 from DisplacedSUSY.MuMuChannel.Preselection import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #CosmicsAdditionalPreselection,
     #MuonD00to40MuonD00to100Region,
     #MuonD00to40MuonD0100to500Region,
     #MuonD00to40MuonD0500to1000Region,
-    #AdditionalPreselection,
+    AdditionalPreselection,
+    #AdditionalPreselectionPt75,
     #GenPromptRegion,
     #etaLessThan1GenPromptRegion,
     #pT50to60GenPromptRegion,

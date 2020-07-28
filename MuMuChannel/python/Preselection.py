@@ -40,6 +40,10 @@ CosmicsAdditionalPreselection.name = cms.string("CosmicsAdditionalPreselection")
 removeCuts(CosmicsAdditionalPreselection.cuts, [diMuon_cosAlpha_veto])
 CosmicsAdditionalPreselection.cuts.append(diMuon_cosAlpha)
 
+AdditionalPreselectionPt75 = copy.deepcopy(AdditionalPreselection)
+AdditionalPreselectionPt75.name = cms.string("AdditionalPreselectionPt75")
+AdditionalPreselectionPt75.cuts.append(muon_pt_75_cut)
+
 PromptRegion = copy.deepcopy(AdditionalPreselection)
 PromptRegion.name = cms.string("PromptRegion")
 PromptRegion.cuts.append(muon_d0_lessThan30_cut)

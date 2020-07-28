@@ -10,12 +10,13 @@ from DisplacedSUSY.EEChannel.EEHistograms import *
 from DisplacedSUSY.EEChannel.Preselection import *
 
 eventSelections = [
-    Preselection,
+    #Preselection,
     #ElectronD00to40ElectronD0Above100Region,
     #ElectronD00to40ElectronD00to100Region,
     #ElectronD00to40ElectronD0100to500Region,
     #ElectronD00to40ElectronD0500to1000Region,
-    #AdditionalPreselection,
+    AdditionalPreselection,
+    #AdditionalPreselectionD0Pull50um,
     #PreselectionLooseIsoCutBTagVeto,
     #PromptControlRegion,
     #DisplacedControlRegion,
