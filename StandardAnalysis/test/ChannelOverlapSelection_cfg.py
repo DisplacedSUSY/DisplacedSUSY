@@ -1,6 +1,5 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
-from DisplacedSUSY.Configuration.helperFunctions import *
 from DisplacedSUSY.EMuChannel.EMuHistograms import *
 
 ################################################################################
@@ -17,9 +16,6 @@ eventSelections.append(EMuEEPreselectionOverlap)
 ################################################################################
 ##### Attach the channels to the process #######################################
 ################################################################################
-
-check_definitions(eventSelections)
-check_definitions(histograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()

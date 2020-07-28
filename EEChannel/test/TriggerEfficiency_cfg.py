@@ -1,6 +1,5 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
-from DisplacedSUSY.Configuration.helperFunctions import *
 from DisplacedSUSY.EEChannel.EEHistograms import *
 
 ################################################################################
@@ -21,9 +20,6 @@ eventSelections = [
 # Redefine scalingfactorproducers to not include muon scale factors
 scalingfactorproducers = []
 scalingfactorproducers.append(ElectronScaleFactorProducer)
-
-check_definitions(eventSelections)
-check_definitions(histograms)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 
