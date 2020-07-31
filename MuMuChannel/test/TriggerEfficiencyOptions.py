@@ -24,6 +24,8 @@ datasets = [
     #'QCD_MuEnriched',
 
     ### Data
-    #'MET_2018',
+    #'MET_2016_postHIP',
+    #'MET_2017_withoutB',
+    'MET_2018',
 
 ]
