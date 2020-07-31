@@ -10,7 +10,10 @@ from DisplacedSUSY.EEChannel.TrigEfficiency import *
 
 eventSelections = [
     TrigEffNum,
-    TrigEffDen
+    #TrigEffDen,
+
+    #TrigEffNumInPtPlateau,
+    #TrigEffDenInPtPlateau,
 ]
 
 ################################################################################
@@ -22,6 +25,7 @@ scalingfactorproducers = []
 scalingfactorproducers.append(ElectronScaleFactorProducer)
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
+#add_channels (process, eventSelections, histograms, weightsEEChannel, scalingfactorproducers, collectionMap, variableProducers) #can apply trigger SFs when measuring trig eff in pt plateau
 
 # customize the process:
 # usage: customize(process, analysisChannel = "ee", applyPUReweighting = True)

@@ -14,14 +14,13 @@ electron_eta1p9_cut.numberRequired = cms.string(">= 2")
 electron_gap_veto.numberRequired = cms.string(">= 2")
 electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
 
+electron_pt_100_cut.numberRequired = cms.string(">= 2")
 electron_pt_75_cut.numberRequired = cms.string(">= 2")
 electron_pt_65_cut.numberRequired = cms.string(">= 2")
+electron_pt_45_cut.numberRequired = cms.string(">= 2")
 electron_pt_42_cut.numberRequired = cms.string(">= 2")
 electron_pt_30_cut.numberRequired = cms.string(">= 2")
 electron_pt_25_cut.numberRequired = cms.string(">= 2")
-
-# only require >= 1 electron to cut on leading electron
-electron_pt_100_cut.alias = cms.string(">=1 electrons with pT > 100")
 
 electron_id_cut.numberRequired = cms.string(">= 2")
 electron_id_cut.alias = cms.string(">=2 electrons with versioned tight ID")

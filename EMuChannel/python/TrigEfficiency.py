@@ -47,3 +47,19 @@ TrigEffHighPtMuNum = cms.PSet(
     triggers = triggersMuonPhoton,
     cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtMuDen.cuts))
 )
+
+
+#######################################
+# apply pt cut and apply trigger scale factors, to look at trigger efficiency as a function of d0
+TrigEffDenInPtPlateau = cms.PSet(
+    name = cms.string("TrigEffDenInPtPlateau"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtMuDen.cuts))
+)
+TrigEffDenInPtPlateau.cuts.append(electron_pt_50_cut) #measure only in pt plateau
+
+TrigEffNumInPtPlateau = cms.PSet(
+    name = cms.string("TrigEffNumInPtPlateau"),
+    triggers = triggersMuonPhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDenInPtPlateau.cuts))
+)
