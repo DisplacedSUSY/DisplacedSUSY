@@ -46,7 +46,7 @@ muonTrigger2018mumu.SetBinContent(1,1,0.897)
 
 electronTrigger2018emu = ROOT.TH2D("electronTrigger2018emu", "electronTrigger2018emu", 1, 0, 500, 1, 0, 2.4)
 electronTrigger2018emu.SetTitle("electronTrigger2018emu;pt [GeV];|#eta|")
-electronTrigger2018emu.SetBinContent(1,1,1.0) #FIXME
+electronTrigger2018emu.SetBinContent(1,1,0.949)
 
 muonTrigger2018emu = ROOT.TH2D("muonTrigger2018emu", "muonTrigger2018emu", 1, 0, 500, 1, 0, 2.4)
 muonTrigger2018emu.SetTitle("muonTrigger2018emu;pt [GeV];|#eta|")
