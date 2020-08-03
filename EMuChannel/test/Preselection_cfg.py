@@ -66,9 +66,8 @@ eventSelections = [
 ################################################################################
 
 add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers)
-
-#FIXME: fluctuate PU weights properly
-#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, True)
+#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers)
+#add_channels (process, eventSelections, histograms, weightsEMuChannelFluctuateEleAndMuSFs, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
 # usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC")

@@ -75,6 +75,8 @@ scalingfactorproducers.append(MuonScaleFactorProducer)
 ################################################################################
 
 add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers)
+#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers)
+#add_channels (process, eventSelections, histograms, weightsMuMuChannelFluctuateMuSFs, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
 # usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, sampleType = "bgMC")

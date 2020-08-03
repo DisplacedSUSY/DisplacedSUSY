@@ -74,54 +74,75 @@ weightsFluctuatePileup = cms.VPSet(
 #################################################################
 
 #OFFLINE ELECTRON WEIGHTS
+electronWeights = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(electronIdPayload)
+    ),
+)
+electronWeightsFluctuate = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(electronIdPayload),
+        fluctuations = cms.vstring(electronIdPayload+"Up", electronIdPayload+"Down")
+    ),
+)
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    electronWeights = cms.VPSet(
+    electronWeights.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
             inputVariable = cms.string(electronRecoPayload)
-            ),
+        ),
+    )
+    electronWeightsFluctuate.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(electronIdPayload)
-            ),
-        )
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    electronWeights = cms.VPSet(
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(electronIdPayload)
-            ),
-        )
-
+            inputVariable = cms.string(electronRecoPayload),
+            fluctuations = cms.vstring(electronRecoPayload+"Up", electronRecoPayload+"Down")
+        ),
+    )
 #################################################################
 
 #OFFLINE MUON WEIGHTS
+muonWeights = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonIdPayload)
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonIsoPayload)
+    ),
+)
+muonWeightsFluctuate = cms.VPSet(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonIdPayload),
+        fluctuations = cms.vstring(muonIdPayload+"Up", muonIdPayload+"Down")
+    ),
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonIsoPayload),
+        fluctuations = cms.vstring(muonIsoPayload+"Up", muonIsoPayload+"Down")
+    ),
+)
+
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    muonWeights = cms.VPSet(
+    muonWeights.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
             inputVariable = cms.string(muonTrackingPayload)
             ),
+        )
+    muonWeightsFluctuate.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(muonIdPayload)
-            ),
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(muonIsoPayload)
+            inputVariable = cms.string(muonTrackingPayload),
+            fluctuations = cms.vstring(muonTrackingPayload+"Up", muonTrackingPayload+"Down")
             ),
         )
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    muonWeights = cms.VPSet(
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(muonIdPayload)
-            ),
-        cms.PSet (
-            inputCollections = cms.vstring("eventvariables"),
-            inputVariable = cms.string(muonIsoPayload)
-            ),
-        )
+
 
 #################################################################
 ####### #START OF WEIGHTS PER CHANNEL ###########################
@@ -139,12 +160,30 @@ weightsEEChannel.append(
         ),
     )
 
+weightsEEChannelFluctuateEleSFs = copy.deepcopy(weights)
+weightsEEChannelFluctuateEleSFs.extend(electronWeightsFluctuate)
+weightsEEChannelFluctuateEleSFs.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(electronTriggerEEPayload)
+        ),
+    )
+
 #################################################################
 
 # MU-MU CHANNEL
 weightsMuMuChannel = copy.deepcopy(weights)
 weightsMuMuChannel.extend(muonWeights)
 weightsMuMuChannel.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonTriggerMuMuPayload)
+        ),
+    )
+
+weightsMuMuChannelFluctuateMuSFs = copy.deepcopy(weights)
+weightsMuMuChannelFluctuateMuSFs.extend(muonWeightsFluctuate)
+weightsMuMuChannelFluctuateMuSFs.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string(muonTriggerMuMuPayload)
@@ -163,6 +202,22 @@ weightsEMuChannel.append(
     )
 )
 weightsEMuChannel.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(muonTriggerEMuPayload)
+    )
+)
+
+weightsEMuChannelFluctuateEleAndMuSFs = copy.deepcopy(weights)
+weightsEMuChannelFluctuateEleAndMuSFs.extend(electronWeightsFluctuate)
+weightsEMuChannelFluctuateEleAndMuSFs.extend(muonWeightsFluctuate)
+weightsEMuChannelFluctuateEleAndMuSFs.append(
+    cms.PSet (
+        inputCollections = cms.vstring("eventvariables"),
+        inputVariable = cms.string(electronTriggerEMuPayload)
+    )
+)
+weightsEMuChannelFluctuateEleAndMuSFs.append(
     cms.PSet (
         inputCollections = cms.vstring("eventvariables"),
         inputVariable = cms.string(muonTriggerEMuPayload)
