@@ -406,6 +406,12 @@ electron_pt_42_cut = cms.PSet(
     numberRequired = cms.string(">= 1")
     )
 
+electron_pt_45_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("pt > 45"),
+    numberRequired = cms.string(">= 1")
+    )
+
 electron_pt_50_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 50"),
@@ -733,6 +739,12 @@ muon_pt_35_cut = cms.PSet(
 muon_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("pt > 40"),
+    numberRequired = cms.string(">= 1")
+    )
+
+muon_pt_45_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("pt > 45"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -1317,13 +1329,18 @@ photon_genMatched_cut = cms.PSet(
 
 # BEGIN EVENTVARIABLE CUTS
 
-#2018
 pass_HLTMET_paths = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
-    cutString = cms.string("HLT_CaloMET350_HBHECleaned > 0 || HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight > 0 || HLT_PFMET120_PFMHT120_IDTight > 0 || HLT_PFMET200_HBHE_BeamHaloCleaned > 0 || HLT_PFMET250_HBHECleaned > 0 || HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"),
+    cutString = cms.string(""),
     numberRequired = cms.string(">= 1"),
     alias = cms.string("pass unprescaled HLT_MET paths")
     )
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+   pass_HLTMET_paths.cutString = cms.string("HLT_MET200 > 0 || HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight > 0 || HLT_PFMET120_PFMHT120_IDTight > 0 || HLT_PFMET170_HBHECleaned > 0 || HLT_PFMET300 > 0 || HLT_PFMETNoMu120_PFMHTNoMu120_IDTight > 0")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+   pass_HLTMET_paths.cutString = cms.string("HLT_CaloMET350_HBHECleaned > 0 || HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight > 0 || HLT_PFMET120_PFMHT120_IDTight > 0 || HLT_PFMET250_HBHECleaned > 0 || HLT_PFMETNoMu120_PFMHTNoMu120_IDTight > 0")
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+   pass_HLTMET_paths.cutString = cms.string("HLT_CaloMET350_HBHECleaned > 0 || HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight > 0 || HLT_PFMET120_PFMHT120_IDTight > 0 || HLT_PFMET200_HBHE_BeamHaloCleaned > 0 || HLT_PFMET250_HBHECleaned > 0 || HLT_PFMETNoMu120_PFMHTNoMu120_IDTight > 0")
 
 pass_L1MuEG_Seeds = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),

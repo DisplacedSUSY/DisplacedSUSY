@@ -22,3 +22,18 @@ TrigEffNum = cms.PSet(
     triggers = triggersDoubleMuon,
     cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
 )
+
+#######################################
+# apply pt cut and apply trigger scale factors, to look at trigger efficiency as a function of d0
+TrigEffDenInPtPlateau = cms.PSet(
+    name = cms.string("TrigEffDenInPtPlateau"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
+)
+TrigEffDenInPtPlateau.cuts.append(muon_pt_45_cut) #measure only in pt plateau
+
+TrigEffNumInPtPlateau = cms.PSet(
+    name = cms.string("TrigEffNumInPtPlateau"),
+    triggers = triggersDoubleMuon,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDenInPtPlateau.cuts))
+)

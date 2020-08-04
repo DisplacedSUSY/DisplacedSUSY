@@ -8,6 +8,7 @@ from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 # BEGIN MUON CUTS
 
+
 muon_eta_cut.numberRequired = cms.string(">= 2")
 
 muon_eta_lessThan1_cut.numberRequired = cms.string(">= 2")
@@ -21,6 +22,8 @@ muon_pt_25_cut.numberRequired = cms.string(">= 2")
 muon_pt_30_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_40_cut.numberRequired = cms.string(">= 2")
+
+muon_pt_45_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_50_cut.numberRequired = cms.string(">= 2")
 

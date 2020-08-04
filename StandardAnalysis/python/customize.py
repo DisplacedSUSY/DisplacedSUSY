@@ -28,9 +28,9 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
     if hasattr(process, "DisplacedSUSYEventVariableProducer"):
         process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_MET200_v")
+            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_MET200", "HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET170_HBHECleaned", "HLT_PFMET300", "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned")
+            process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET250_HBHECleaned","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET200_HBHE_BeamHaloCleaned","HLT_PFMET250_HBHECleaned","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
 
