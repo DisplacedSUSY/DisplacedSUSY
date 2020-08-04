@@ -208,11 +208,12 @@ if arguments.era == "2016":
             },
 
         #taken from Ian's study
-        'track_reco' :  {
+        'track_reco2016' :  { #2016 uncorrelated with 2017 and 2018 due to different pixel detector in 2016
             'value' : '1.135',
             'applyList' : ['signal'],
             }
         }
+
 
 elif arguments.era == "2017":
     global_systematic_uncertainties = {
@@ -266,7 +267,7 @@ elif arguments.era == "2017":
 
         #taken from Ian's study
         'track_reco' :  {
-            'value' : '1.047', #needs to be updated for 2017
+            'value' : '1.047',
             'applyList' : ['signal'],
             }
         }
@@ -325,7 +326,15 @@ unique_systematic_uncertainties = {
 
 # defined in external text files (located in DisplacedSUSY/Configuration/data)
 external_systematic_uncertainties = [
-#    'electronSF',
-#    'muonSF',
-    'pileup',
+    #    'pileup_emu',
+    #    'pileup_ee',
+    #    'pileup_mumu',
+    #    'electronSF_emu',
+    #    'muonSF_emu',
+    #    'electronSF_ee',
+    #    'muonSF_mumu',
+    #    'electronD0Smearing_emu',
+    #    'muonD0Smearing_emu',
+    #    'electronD0Smearing_ee',
+    #    'muonD0Smearing_mumu',
 ]

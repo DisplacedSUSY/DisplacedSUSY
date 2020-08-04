@@ -211,7 +211,7 @@ for systematic in external_systematic_uncertainties:
         systematics_dictionary[systematic][sr.name] = {}
         input_file = open(os.environ['CMSSW_BASE'] +
                           "/src/DisplacedSUSY/Configuration/data/systematic_values__" +
-                          systematic + ".txt")
+                          systematic + "_" + arguments.era + ".txt")
         for line in input_file:
             line = line.rstrip("\n").split(" ")
             dataset = line[0]
