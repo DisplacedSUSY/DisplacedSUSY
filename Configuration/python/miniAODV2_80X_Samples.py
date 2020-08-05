@@ -162,8 +162,8 @@ data_samples = {
     'MuonEG_2016H'         : '/MuonEG/Run2016H-07Aug17-v1/MINIAOD', # 29M
 
     # MET 07Aug17 rereco
-    'MET_2016G' :  '/MET/Run2016G-17Aug17-v1/MINIAOD',
-    'MET_2016H' :  '/MET/Run2016H-17Aug17-v1/MINIAOD',
+    'MET_2016G' :  '/MET/Run2016G-07Aug17-v1/MINIAOD',
+    'MET_2016H' :  '/MET/Run2016H-07Aug17-v1/MINIAOD',
 }
 
 signal_mc_samples = {
