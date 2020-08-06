@@ -16,6 +16,7 @@ eventSelections = [
     #MuonD00to40MuonD0500to1000Region,
     AdditionalPreselection,
     #AdditionalPreselectionPt75,
+    #AdditionalPreselectionMimicEE,
     #GenPromptRegion,
     #etaLessThan1GenPromptRegion,
     #pT50to60GenPromptRegion,

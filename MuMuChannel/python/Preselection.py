@@ -44,6 +44,15 @@ AdditionalPreselectionPt75 = copy.deepcopy(AdditionalPreselection)
 AdditionalPreselectionPt75.name = cms.string("AdditionalPreselectionPt75")
 AdditionalPreselectionPt75.cuts.append(muon_pt_75_cut)
 
+# selection with tighter muon eta and pT cuts to facilitate comparison with ee channel
+AdditionalPreselectionMimicEE = copy.deepcopy(AdditionalPreselection)
+AdditionalPreselectionMimicEE.name = cms.string("AdditionalPreselectionMimicEE")
+AdditionalPreselectionMimicEE.cuts.append(muon_eta1p9_cut)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    AdditionalPreselectionMimicEE.cuts.append(muon_pt_65_cut)
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    AdditionalPreselectionMimicEE.cuts.append(muon_pt_75_cut)
+
 PromptRegion = copy.deepcopy(AdditionalPreselection)
 PromptRegion.name = cms.string("PromptRegion")
 PromptRegion.cuts.append(muon_d0_lessThan30_cut)
