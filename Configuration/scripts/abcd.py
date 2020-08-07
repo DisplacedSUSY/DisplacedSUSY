@@ -16,7 +16,7 @@ import itertools
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TH1D, TH2D, TH3D, gROOT, Double, gStyle
+from ROOT import TFile, TCanvas, TH1D, TH2D, TH3D, TGraphAsymmErrors, gROOT, Double, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -27,6 +27,8 @@ parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureT
                   help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
 parser.add_option("-t", "--makeTables", action="store_true", dest="makeTables", default=False,
                   help="print table of abcd and counting yields; table is formatted for elog")
+parser.add_option("-x", "--doExtrapolation", action="store_true", dest="doExtrapolation", default=False,
+                  help="extrapolate closure tests to signal region; DON'T RUN OVER DATA IF BLINDED!")
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -44,6 +46,12 @@ else:
     print "you forgot to specify a condor directory with -w"
     sys.exit(1)
 
+#### deal with conflicting arguments
+if arguments.doExtrapolation and not arguments.doClosureTest:
+    print
+    print "You have requested to extrapolate the closure tests without calling for the closure tests. This is a very strange request. Will skip doing the extrapolation."
+    print
+    arguments.doExtrapolation = False
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -124,6 +132,11 @@ def sum_regions(r1, r2):
     return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
                                       r2['val'], r2['err_lo'], r2['err_hi'])
 
+def linear_extrapolation(nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_err_lo,ratio_err_hi,extrapolatedD0Point):
+    graph = TGraphAsymmErrors(nPoints, array('f',d0Points), array('f',ratios), array('f',d0_err_lo), array('f',d0_err_hi), array('f',ratio_err_lo), array('f',ratio_err_hi))
+    graph.Fit("pol1")
+    fit = graph.GetFunction("pol1")
+    return (fit.Eval(extrapolatedD0Point),graph)
 
 out_file = TFile(output_path + output_file, "recreate")
 in_file = TFile(input_file)
@@ -162,6 +175,15 @@ for z_lo, z_hi in z_regions:
 
     prompt = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], bins_y[0], bins_y[1],
                                    variable_bins, data)
+
+    if arguments.doExtrapolation:
+        ratios = []
+        ratios_err_lo = []
+        ratios_err_hi = []
+        x_los = []
+        x_ranges = []
+        y_los = []
+        y_ranges = []
 
     if arguments.makeTables:
         print
@@ -233,6 +255,21 @@ for z_lo, z_hi in z_regions:
         ratio_hist.SetBinContent(out_bin, ratio['val'])
         ratio_hist.SetBinError(out_bin, max(ratio['err_lo'], ratio['err_hi']))
 
+        # fill arrays for extrapolation
+        if arguments.doExtrapolation:
+            ratios.append(float(ratio['val']))
+            ratios_err_lo.append(float(ratio['err_lo']))
+            ratios_err_hi.append(float(ratio['err_hi']))
+
+            x_los.append(float(x_lo))
+            x_range = x_hi-x_lo
+            x_ranges.append(float(x_range))
+
+            y_los.append(float(y_lo))
+            y_range = y_hi-y_lo
+            y_ranges.append(float(y_range))
+
+
         if arguments.makeTables:
             print "|-"
             if data: # use asymmetric errors on estimate and no uncertainty on actual count
@@ -246,7 +283,7 @@ for z_lo, z_hi in z_regions:
                                  2 * " | {:.2f}+-{:.2f}" + " | {:.2f}+-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
                                        y['val'], abcd['val'], abcd['err_hi'], count['val'],
-                                       count['err_hi'], ratio['val'], ratio['val'], ratio['err_hi'])
+                                       count['err_hi'], ratio['val'], ratio['err_hi'])
 
     # finish table
     if arguments.makeTables:
@@ -307,6 +344,28 @@ for z_lo, z_hi in z_regions:
             print "[/TABLE]"
             print
 
+    #do linear extrapolation to estimate systematic uncertainty
+    if arguments.doExtrapolation:
+        #find if x's or y's are changing: the ones that change are the d0 values we want
+        d0_los = array('f',[])
+        d0_ranges = array('f',[])
+        d0_0s = [0.] * len(ratios)
+
+        if x_los.count(x_lo) > 1:
+            d0_los = y_los
+            d0_ranges = y_ranges
+        elif y_los.count(y_lo) > 1:
+            d0_los = x_los
+            d0_ranges = x_ranges
+        else:
+            print "problem with d0_los"
+
+        #extrapolate using the beginning of each d0 bin as the d0 points
+        extrapolatedD0Point = 100
+        (ratioProj_start, graph_start) = linear_extrapolation(len(ratios),d0_los,ratios,d0_0s,d0_ranges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
+        print "projected ratio is " + str(ratioProj_start) + " when extrapolating at the start of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
+        print
+
     # Format and export histograms
     out_file.cd()
 
@@ -360,6 +419,21 @@ for z_lo, z_hi in z_regions:
         ratio_hist.Draw("colz text45 e")
         CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.pdf"))
         CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
+
+    if arguments.doExtrapolation:
+        graph_start.SetMarkerSize(2)
+        graph_start.SetTitle("d0 points are beginning of bins")
+        graph_start.GetXaxis().SetTitle("d0 bins")
+        graph_start.GetYaxis().SetTitle("ratios")
+        graph_start.GetXaxis().SetTitleOffset(1.2)
+        graph_start.GetYaxis().SetTitleOffset(1.1)
+        graph_start.Write("graph_start")
+        CanvasGraphStart = TCanvas("CanvasGraphStart"+str(z_lo), "CanvasGraphStart"+str(z_lo), 100, 100, 700, 600)
+        CanvasGraphStart.cd()
+        graph_start.Draw("AP")
+        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.pdf"))
+        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.png"))
+
 
 out_file.Close()
 
