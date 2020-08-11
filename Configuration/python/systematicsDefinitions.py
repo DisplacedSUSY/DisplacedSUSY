@@ -253,7 +253,7 @@ elif arguments.era == "2017":
             'applyList' : mc_normalized_processes,
             },
         'trigger_emu_muon' :  {
-            'value' : '1.', #needs to be updated
+            'value' : '1.008',
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
