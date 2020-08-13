@@ -363,7 +363,7 @@ for z_lo, z_hi in z_regions:
         #extrapolate using the beginning of each d0 bin as the d0 points
         extrapolatedD0Point = 100
         (ratioProj_start, graph_start) = linear_extrapolation(len(ratios),d0_los,ratios,d0_0s,d0_ranges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
-        print "projected ratio is " + str(ratioProj_start) + " when extrapolating at the start of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
+        print "The projected ratio is {:.2f}".format(ratioProj_start) + " when extrapolating at the start of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
         print
 
     # Format and export histograms
