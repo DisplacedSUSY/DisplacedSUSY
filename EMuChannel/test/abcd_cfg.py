@@ -13,6 +13,8 @@ data = True
 variable_bins = True
 # systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
 systematic_uncertainty = 0.30
+# do pol0 (False) or pol1 (True) fit for extrapolation?
+pol1 = False
 
 # output info
 output_file  = "BackgroundABCDClosureTestData_PromptRegion.root"
@@ -37,10 +39,10 @@ bins_z = [0, -1]
 
 # prompt-leading-ele/displaced-leading-mu region
 #bins_x = [20, 100,  100000]
-#bins_y = [20, 40, 100]
+#bins_y = [20, 30, 40, 50, 60, 70, 100]
 #bins_z = [0, -1]
 
 # displaced-leading-ele/prompt-leading-mu region
-#bins_x = [20, 40,   100]
+#bins_x = [20, 30, 40, 50, 60, 70, 100]
 #bins_y = [20, 100,  100000]
 #bins_z = [0, -1]

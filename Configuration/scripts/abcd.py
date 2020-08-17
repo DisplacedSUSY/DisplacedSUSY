@@ -16,7 +16,7 @@ import itertools
 from array import array
 from optparse import OptionParser
 from DisplacedSUSY.Configuration.helperFunctions import propagateError
-from ROOT import TFile, TCanvas, TH1D, TH2D, TH3D, TGraphAsymmErrors, gROOT, Double, gStyle
+from ROOT import TFile, TCanvas, TF1, TH1D, TH2D, TH3D, TGraphErrors, TGraphAsymmErrors, TVirtualFitter, gROOT, Double, gStyle
 
 parser = OptionParser()
 parser.add_option("-l", "--localConfig", dest="localConfig",
@@ -25,10 +25,11 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-c", "--doClosureTest", action="store_true", dest="doClosureTest", default=False,
                   help="perform closure test; DON'T RUN OVER DATA IF BLINDED!")
-parser.add_option("-t", "--makeTables", action="store_true", dest="makeTables", default=False,
-                  help="print table of abcd and counting yields; table is formatted for elog")
 parser.add_option("-x", "--doExtrapolation", action="store_true", dest="doExtrapolation", default=False,
                   help="extrapolate closure tests to signal region; DON'T RUN OVER DATA IF BLINDED!")
+parser.add_option("-T", "--makeTables", action="store_true", dest="makeTables", default=False,
+                  help="print table of abcd and counting yields; table is formatted for elog")
+
 
 (arguments, args) = parser.parse_args()
 if arguments.localConfig:
@@ -132,11 +133,36 @@ def sum_regions(r1, r2):
     return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
                                       r2['val'], r2['err_lo'], r2['err_hi'])
 
-def linear_extrapolation(nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_err_lo,ratio_err_hi,extrapolatedD0Point):
+def linear_extrapolation(pol1,nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_err_lo,ratio_err_hi,extrapolatedD0Point):
     graph = TGraphAsymmErrors(nPoints, array('f',d0Points), array('f',ratios), array('f',d0_err_lo), array('f',d0_err_hi), array('f',ratio_err_lo), array('f',ratio_err_hi))
-    graph.Fit("pol1")
-    fit = graph.GetFunction("pol1")
-    return (fit.Eval(extrapolatedD0Point),graph)
+    if pol1 is True:
+        fit = TF1("fit","pol1")
+        graph.Fit(fit)
+        print "pol1 chisq is: {:.2f}".format(fit.GetChisquare())
+        print "pol1 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
+        print "pol1 slope is: {:.2f}".format(fit.GetParameter(1))+" +/- {:.2f}".format(fit.GetParError(1))
+
+    else:
+        fit = TF1("fit","pol0")
+        graph.Fit(fit)
+        print "pol0 chisq is: {:.2f}".format(fit.GetChisquare())
+        print "pol0 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
+
+    grConfInt1Sig = TGraphErrors(graph.GetN()+1)
+    for i in range(graph.GetN()):
+        grConfInt1Sig.SetPoint(i, graph.GetX()[i], 0 )
+    grConfInt1Sig.SetPoint(nPoints,extrapolatedD0Point, 0)
+    grConfInt2Sig = grConfInt1Sig.Clone()
+
+    #Compute the 68% and 95% confidence intervals at the x points of the created graph
+    TVirtualFitter.GetFitter().GetConfidenceIntervals(grConfInt1Sig, 0.68)
+    TVirtualFitter.GetFitter().GetConfidenceIntervals(grConfInt2Sig, 0.95)
+    #Now the "grConfInt" graphs contains function values as its y-coordinates
+    #and confidence intervals as the errors on these coordinates
+
+    return (fit.Eval(extrapolatedD0Point),graph,grConfInt1Sig,grConfInt2Sig)
+
+
 
 out_file = TFile(output_path + output_file, "recreate")
 in_file = TFile(input_file)
@@ -362,8 +388,12 @@ for z_lo, z_hi in z_regions:
 
         #extrapolate using the beginning of each d0 bin as the d0 points
         extrapolatedD0Point = 100
-        (ratioProj_start, graph_start) = linear_extrapolation(len(ratios),d0_los,ratios,d0_0s,d0_ranges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
-        print "The projected ratio is {:.2f}".format(ratioProj_start) + " when extrapolating at the start of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
+        (ratioProj_start, graph_start, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1,len(ratios),d0_los,ratios,d0_0s,d0_ranges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
+        if pol1 is True:
+            line = "line with slope "
+        else:
+            line = "horizontal line "
+        print "The projected ratio is {:.2f}".format(ratioProj_start) + " +/- {:.2f}".format(grConfInt1Sig.GetErrorY(len(ratios))) +" when extrapolating with "+line+"at the start of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
         print
 
     # Format and export histograms
@@ -421,19 +451,43 @@ for z_lo, z_hi in z_regions:
         CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
 
     if arguments.doExtrapolation:
-        graph_start.SetMarkerSize(2)
         graph_start.SetTitle("d0 points are beginning of bins")
+        grConfInt1Sig.SetTitle("d0 points are beginning of bins")
+        grConfInt2Sig.SetTitle("d0 points are beginning of bins")
         graph_start.GetXaxis().SetTitle("d0 bins")
         graph_start.GetYaxis().SetTitle("ratios")
+        grConfInt1Sig.GetXaxis().SetTitle("d0 bins")
+        grConfInt1Sig.GetYaxis().SetTitle("ratios")
+        grConfInt2Sig.GetXaxis().SetTitle("d0 bins")
+        grConfInt2Sig.GetYaxis().SetTitle("ratios")
         graph_start.GetXaxis().SetTitleOffset(1.2)
         graph_start.GetYaxis().SetTitleOffset(1.1)
-        graph_start.Write("graph_start")
+        grConfInt1Sig.GetXaxis().SetTitleOffset(1.2)
+        grConfInt1Sig.GetYaxis().SetTitleOffset(1.1)
+        grConfInt2Sig.GetXaxis().SetTitleOffset(1.2)
+        grConfInt2Sig.GetYaxis().SetTitleOffset(1.1)
+        if pol1 is True:
+            graph_start.GetYaxis().SetRangeUser(0.6,4.0)
+            grConfInt1Sig.GetYaxis().SetRangeUser(0.6,4.0)
+            grConfInt2Sig.GetYaxis().SetRangeUser(0.6,4.0)
+        else:
+            graph_start.GetYaxis().SetRangeUser(0.6,2.0)
+            grConfInt1Sig.GetYaxis().SetRangeUser(0.6,2.0)
+            grConfInt2Sig.GetYaxis().SetRangeUser(0.6,2.0)
+        graph_start.SetMarkerSize(2)
+        grConfInt1Sig.SetFillColor(3)
+        grConfInt2Sig.SetFillColor(5)
         CanvasGraphStart = TCanvas("CanvasGraphStart"+str(z_lo), "CanvasGraphStart"+str(z_lo), 100, 100, 700, 600)
         CanvasGraphStart.cd()
         graph_start.Draw("AP")
+        grConfInt2Sig.Draw("3same")
+        grConfInt1Sig.Draw("3same")
+        graph_start.Draw("Psame")
         CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.pdf"))
         CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.png"))
-
+        graph_start.Write("graph_start")
+        grConfInt1Sig.Write("grConfInt1Sig")
+        grConfInt2Sig.Write("grConfInt2Sig")
 
 out_file.Close()
 
