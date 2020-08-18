@@ -21,9 +21,9 @@ pol1 = False
 
 # output info
 #output_file  = "BackgroundABCDEstimate_Data.root"
-output_file  = "BackgroundABCDClosureTest_Data_PromptRegion.root"
+#output_file  = "BackgroundABCDClosureTest_Data_PromptRegion.root"
 #output_file  = "BackgroundABCDClosureTest_Data_DisplacedSubleadingEleRegion.root"
-#output_file  = "BackgroundABCDClosureTest_Data_DisplacedLeadingEleRegion.root"
+output_file  = "BackgroundABCDClosureTest_Data_DisplacedLeadingEleRegion.root"
 x_axis_title = "Subleading electron |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
@@ -37,9 +37,9 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 #bins_z = [0, 300, -1]
 
 # prompt-e/prompt-e region
-bins_x = [20, 50, 100]
-bins_y = [20, 50, 100]
-bins_z = [0, -1]
+#bins_x = [20, 50, 100]
+#bins_y = [20, 50, 100]
+#bins_z = [0, -1]
 
 # prompt-leading-e/displaced-subleading-e region
 #bins_x = [20,  100,  100000]
@@ -47,6 +47,6 @@ bins_z = [0, -1]
 #bins_z = [0, -1]
 
 # displaced-leading-e/prompt-subleading-e region
-#bins_x = [20,  30, 40, 50, 60, 70,   100]
-#bins_y = [20, 100,  100000]
-#bins_z = [0, -1]
+bins_x = [20,  30, 40, 50, 60, 70,   100]
+bins_y = [20, 100,  100000]
+bins_z = [0, -1]

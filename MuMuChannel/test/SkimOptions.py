@@ -16,5 +16,6 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     datasets.remove('DisplacedSUSYSignal') #all samples ready
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    datasets = default_datasets
-    datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    #datasets = default_datasets
+    #datasets.remove('DisplacedSUSYSignal') #NOT ready for stop-->l+b, NOT ready for stop-->l+d
+    datasets = ['ZZToLLLL','ZZToLLNuNu','WZToLLLNu','SingleTop_tbarW','SingleTop_tW','SingleTop_s_channel','QCD_MuEnriched_300to470']

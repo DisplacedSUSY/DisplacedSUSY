@@ -11,12 +11,15 @@ datasets = [
     #'DYJetsToLL',
 
     ### TTbar
-    'TTJets_Lept',
+    #'TTJets_Lept',
 
     #'MET_2016_postHIP',
     #'MET_2017_withoutB',
-    'MET_2018',
+    #'MET_2018',
 
     ### Signal MC
     #'DisplacedSUSYSignal',
+    #'stopToLB200_1000mm',
+    #'stopToLB1000_1000mm',
+    'stopToLB1800_1000mm',
 ]

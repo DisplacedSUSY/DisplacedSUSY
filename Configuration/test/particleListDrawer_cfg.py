@@ -5,7 +5,7 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5)
+    input = cms.untracked.int32(10)
 )
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -57,7 +57,17 @@ process.source = cms.Source("PoolSource",
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_19.root',
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_28.root',
 
-        'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
+        #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
+
+        #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_12/src/pickevents_merged.root'
+
+        #'/store/mc/RunIIAutumn18MiniAOD/DYJetsToTauTau_ForcedMuEleDecay_M-50_TuneCP5_PSweights_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/70000/E9E514FE-890F-9A41-8F78-27BFAA9CDE9B.root'
+
+        #'file:/eos/uscms/store/user/alimena/DisplacedLeptons/EMuPreselection_newIso_2018Analysis_13Apr2020/DYJetsToTauTauLeptonic/Preselection/skim_0.root'
+
+        'file:/eos/uscms/store/user/alimena/QCD_Pt-800to1000_MuEnrichedPt5_TuneCP5_13TeV_pythia8/crab_pickEvents/200602_095348/0000/pickevents_1.root',
+        'file:/eos/uscms/store/user/alimena/QCD_Pt-800to1000_MuEnrichedPt5_TuneCP5_13TeV_pythia8/crab_pickEvents/200602_095348/0000/pickevents_2.root',
+
         )
 )
 

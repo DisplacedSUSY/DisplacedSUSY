@@ -78,17 +78,27 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6391FD45-7256-EC45-B6D4-3DEF9DDCCF90.root"
           #"/store/data/Run2018D/ParkingBPH5/MINIAOD/20Mar2019-v1/60003/FD6BDA2E-F9B0-1D47-B915-73614A217E25.root"
           #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/33568D74-1FF4-5E4F-A5D8-09CDFC436439.root"
-          #"/store/mc/RunIIAutumn18MiniAOD/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/90000/FF8CA354-EA2A-CA48-B634-59EC7DE358E6.root"
-          "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
-          #"/store/data/Run2018D/MET/MINIAOD/PromptReco-v2/000/325/175/00000/BB60D29A-1476-4B4C-882E-4856877B06D0.root"
+          "/store/mc/RunIIAutumn18MiniAOD/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/90000/FF8CA354-EA2A-CA48-B634-59EC7DE358E6.root"
+          #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
+          #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToTauTau_ForcedMuEleDecay_M-50_TuneCP5_PSweights_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/BD7C9AA6-4B04-AB43-B9E3-9F5E7F0B1388.root",
+          #"/store/data/Run2018D/MET/MINIAOD/PromptReco-v2/000/325/175/00000/BB60D29A-1476-4B4C-882E-4856877B06D0.root",
+          #"/store/data/Run2018A/MET/MINIAOD/17Sep2018-v1/100000/6B37CF90-6563-6F47-A6FE-B654E2CF9373.root",
+          #"/store/data/Run2018D/NoBPTX/MINIAOD/PromptReco-v2/000/321/503/00000/6C7FCF5D-8DA6-E811-A50B-02163E017682.root",
+          #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToBottom_M_600_1mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/270000/35C3982D-B1F9-0E49-99AD-3D7A276D59A4.root"
 
           #initial skim files
 
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuPreselection_2018Analysis_Signal_12Aug2019/stopToLB1800_1mm/Preselection/skim_0.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EEInitialSkim_2018Analysis_15Mar2019/EGamma_2018C/EESkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/MuonEG_2018C/EMuSkim/skim_1.root'
-          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_1.root'
+          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_0.root',
+          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_1.root',
+          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_2.root',
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/MuMuInitialSkim_2018Analysis_15Mar2019/DoubleMu_2018C/MuMuSkim/skim_1.root'
+          #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/MuMuInitialSkim_2018Analysis_15Mar2019/DYJetsToLL_50/MuMuSkim/skim_0.root'
+
+          #'file:/eos/uscms/store/user/alimena/DisplacedLeptons/EMuPreselection_newIso_2018Analysis_13Apr2020/DYJetsToTauTauLeptonic/Preselection/skim_0.root',
+
       )
     )
 else:

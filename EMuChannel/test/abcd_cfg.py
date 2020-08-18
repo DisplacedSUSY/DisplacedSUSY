@@ -17,9 +17,9 @@ systematic_uncertainty = 0.30
 pol1 = False
 
 # output info
-output_file  = "BackgroundABCDClosureTestData_PromptRegion.root"
+#output_file  = "BackgroundABCDClosureTestData_PromptRegion.root"
 #output_file  = "BackgroundABCDClosureTestData_DisplacedMuRegion.root"
-#output_file  = "BackgroundABCDClosureTestData_DisplacedEleRegion.root"
+output_file  = "BackgroundABCDClosureTestData_DisplacedEleRegion.root"
 x_axis_title = "Leading muon |d_{0}| [#mum]"
 y_axis_title = "Leading electron |d_{0}| [#mum]"
 
@@ -33,9 +33,9 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 #bins_z = [0, 200, -1]
 
 # prompt-sub mu/prompt-lead mu region
-bins_x = [20, 40, 100]
-bins_y = [20, 40, 100]
-bins_z = [0, -1]
+#bins_x = [20, 40, 100]
+#bins_y = [20, 40, 100]
+#bins_z = [0, -1]
 
 # prompt-leading-ele/displaced-leading-mu region
 #bins_x = [20, 100,  100000]
@@ -43,6 +43,6 @@ bins_z = [0, -1]
 #bins_z = [0, -1]
 
 # displaced-leading-ele/prompt-leading-mu region
-#bins_x = [20, 30, 40, 50, 60, 70, 100]
-#bins_y = [20, 100,  100000]
-#bins_z = [0, -1]
+bins_x = [20, 30, 40, 50, 60, 70, 100]
+bins_y = [20, 100,  100000]
+bins_z = [0, -1]

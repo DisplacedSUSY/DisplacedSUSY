@@ -9,13 +9,13 @@ from DisplacedSUSY.EMuChannel.EMuHistograms import *
 from DisplacedSUSY.EMuChannel.TrigEfficiency import *
 
 eventSelections = [
-    TrigEffHighPtEleNum,
+    #TrigEffHighPtEleNum,
     #TrigEffHighPtEleDen,
 
     #TrigEffHighPtMuNum,
     #TrigEffHighPtMuDen,
 
-    #TrigEffNumInPtPlateau,
+    TrigEffNumInPtPlateau,
     #TrigEffDenInPtPlateau,
 ]
 
@@ -24,8 +24,8 @@ eventSelections = [
 ################################################################################
 
 
-add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
-#add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers) #can apply trigger SFs when measuring trig eff in pt plateau
+#add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
+add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers) #can apply trigger SFs when measuring trig eff in pt plateau
 
 # customize the process:
 # usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC")
