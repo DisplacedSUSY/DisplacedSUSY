@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-from DisplacedSUSY.EMuChannel.localOptions import *
-
 input_sources = [
     { 'condor_dir' : 'EMuPreselection_newIso_TauTau_2018Analysis_26Apr2020',
       'dataset' : 'DYJetsToLL',

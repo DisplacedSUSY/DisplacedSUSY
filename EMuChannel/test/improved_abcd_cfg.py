@@ -23,10 +23,7 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     template_sample = 'DYJetsToTauTauLeptonic'
-    samples = [
-        'TTJets_Lept'
-        #'Diboson'
-    ]
+    samples = ['DYJetsToLL_50']
 
 # 1st sideband tried:
 #d0_0_cuts = [10]
@@ -45,12 +42,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #pt_max    = 300 # set to 0 to remove upper limit
 
 # 1st background estimate (DON'T UNBLIND UNLESS YOU MEAN TO!!):
-#d0_0_cuts = [100, 500, 1000]
-#d0_1_cuts = [100, 500, 1000]
-#pt_cuts   = [100, 400]
-#d0_0_max  = 0 # set to 0 to remove upper limit
-#d0_1_max  = 0 # set to 0 to remove upper limit
-#pt_max    = 0 # set to 0 to remove upper limit
+d0_0_cuts = [100, 500, 1000]
+d0_1_cuts = [100, 500, 1000]
+pt_cuts   = [100, 400]
+d0_0_max  = 0 # set to 0 to remove upper limit
+d0_1_max  = 0 # set to 0 to remove upper limit
+pt_max    = 0 # set to 0 to remove upper limit
 
 # prompt muon, displaced electron sideband:
 #d0_0_cuts = [10, 10,  10, 10]
@@ -69,12 +66,12 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 #pt_max    = 0 # set to 0 to remove upper limit
 
 # both slightly displaced sideband (as in elog 1548):
-d0_0_cuts = [100]
-d0_1_cuts = [100]
-pt_cuts   = [140]
-d0_0_max  = 0 # set to 0 to remove upper limit
-d0_1_max  = 0 # set to 0 to remove upper limit
-pt_max    = 0 # set to 0 to remove upper limit
+#d0_0_cuts = [50]
+#d0_1_cuts = [50]
+#pt_cuts   = [100]
+#d0_0_max  = 100 # set to 0 to remove upper limit
+#d0_1_max  = 100 # set to 0 to remove upper limit
+#pt_max    = 0 # set to 0 to remove upper limit
 
 # prompt muon, displaced electron sideband (as in elog 1548):
 #d0_0_cuts = [20]

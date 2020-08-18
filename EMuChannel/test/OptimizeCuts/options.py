@@ -17,10 +17,10 @@ external_systematics_directory = "DisplacedSUSY/Configuration/data/"
 
 # create list of datasets to process
 datasets = [
-    #'stopToLB200_1mm',
-    #'stopToLB200_10mm',
-    #'stopToLB200_100mm',
-    #'stopToLB200_1000mm',
+    'stopToLB200_1mm',
+    'stopToLB200_10mm',
+    'stopToLB200_100mm',
+    'stopToLB200_1000mm',
     #'stopToLB300_100mm',
     #'stopToLB400_1mm',
     #'stopToLB400_10mm',
@@ -31,10 +31,7 @@ datasets = [
     #'stopToLB500_100mm',
     #'stopToLB600_1000mm',
     #'stopToLB900_10mm',
-    #'Background'
-    'Diboson',
-    #'DYJetsToLL',
-    'TTJets_Lept',
+    'Background'
 ]
 
 #from ROOT import kRed
