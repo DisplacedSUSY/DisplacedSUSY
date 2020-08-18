@@ -261,7 +261,7 @@ elif arguments.era == "2017":
             'applyList' : mc_normalized_processes,
             },
         'trigger_mumu' :  {
-            'value' : '1.', #needs to be updated
+            'value' : '1.009',
             'applyList' : mc_normalized_processes,
             },
 
