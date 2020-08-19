@@ -48,13 +48,13 @@ eventSelections = [
     #ZControlRegion,
     #InclusiveSignalRegion,
     #PreselectionLeptonsFromW,
-    #PreselectionLeptonsFromWorZ,
-    #PreselectionLeptonsFromTau,
+    #AdditionalPreselectionLeptonsFromWorZ,
+    #AdditionalPreselectionLeptonsFromTau,
     #Preselection1LeptonFromTau,
     #Preselection2LeptonsFromTau,
     #Preselection2TausFromZ,
     #PreselectionMuFromLightMeson,
-    #PreselectionMuFromHeavyMeson,
+    #AdditionalPreselectionMuFromHeavyMeson,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,
@@ -81,4 +81,4 @@ add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingf
 
 # customize the process:
 # usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, sampleType = "bgMC")
-customize (process, "mumu", True, "signalMC")
+customize (process, "mumu", True, "bgMC")

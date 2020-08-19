@@ -252,19 +252,19 @@ PreselectionLeptonsFromW = cms.PSet(
 )
 PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
 
-PreselectionLeptonsFromWorZ = cms.PSet(
-    name = cms.string("PreselectionLeptonsFromWorZ"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+AdditionalPreselectionLeptonsFromWorZ = cms.PSet(
+    name = cms.string("AdditionalPreselectionLeptonsFromWorZ"),
+    triggers = copy.deepcopy(AdditionalPreselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
 )
-PreselectionLeptonsFromWorZ.cuts.append(muon_gen_motherIsWorZ_cut)
+AdditionalPreselectionLeptonsFromWorZ.cuts.append(muon_gen_motherIsWorZ_cut)
 
-PreselectionLeptonsFromTau = cms.PSet(
-    name = cms.string("PreselectionLeptonsFromTau"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+AdditionalPreselectionLeptonsFromTau = cms.PSet(
+    name = cms.string("AdditionalPreselectionLeptonsFromTau"),
+    triggers = copy.deepcopy(AdditionalPreselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
 )
-PreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
+AdditionalPreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
 
 Preselection1LeptonFromTau = cms.PSet(
     name = cms.string("Preselection1LeptonFromTau"),
@@ -294,12 +294,12 @@ PreselectionMuFromLightMeson = cms.PSet(
 )
 PreselectionMuFromLightMeson.cuts.append(muon_gen_motherIsLightMeson_cut)
 
-PreselectionMuFromHeavyMeson = cms.PSet(
-    name = cms.string("PreselectionMuFromHeavyMeson"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+AdditionalPreselectionMuFromHeavyMeson = cms.PSet(
+    name = cms.string("AdditionalPreselectionMuFromHeavyMeson"),
+    triggers = copy.deepcopy(AdditionalPreselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
 )
-PreselectionMuFromHeavyMeson.cuts.append(muon_gen_motherIsHeavyMeson_cut)
+AdditionalPreselectionMuFromHeavyMeson.cuts.append(muon_gen_motherIsHeavyMeson_cut)
 #################################################################
 
 GenMuMuFromStopsSelection = cms.PSet(
