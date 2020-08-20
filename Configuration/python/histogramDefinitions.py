@@ -6163,23 +6163,32 @@ eventHistograms = cms.PSet(
 )
 
 
-CosmicMuonHistograms = cms.PSet(
+MuonTimingHistograms = cms.PSet(
     inputCollection = cms.vstring("muons"),
     histograms = cms.VPSet (
         cms.PSet (
-            name = cms.string("MuontimeAtIpInOut"),
+            name = cms.string("muonTimeAtIpInOut"),
             title = cms.string("Muon timeAtIpInOut; timeAtIpInOut"),
             binsX = cms.untracked.vdouble(100, -200, 200),
             inputVariables = cms.vstring("time.timeAtIpInOut"),
         ),
         cms.PSet (
-            name = cms.string("MuontimeAtIpOutIn"),
+            name = cms.string("muonTimeAtIpInOut[0]_vs_muonTimeAtIpInOut[1]"),
+            title = cms.string("Leading Muon timeAtIpInOut vs subleading muon timeAtIpInOut; Subleading Muon timeAtIpInOut [ns]; Leading Muon timeAtIpInOut [ns]"),
+            binsX = cms.untracked.vdouble(100, -200, 200),
+            binsY = cms.untracked.vdouble(100, -200, 200),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("time.timeAtIpInOut","time.timeAtIpInOut"),
+        ),
+        cms.PSet (
+            name = cms.string("muonTimeAtIpOutIn"),
             title = cms.string("Muon timeAtIpOutIn; timeAtIpOutIn"),
             binsX = cms.untracked.vdouble(100, -200, 200),
             inputVariables = cms.vstring("time.timeAtIpOutIn"),
         ),
         cms.PSet (
-            name = cms.string("MuontimeAtIpInOut_vs_MuontimeAtIpOutIn"),
+            name = cms.string("muonTimeAtIpInOut_vs_muonTimeAtIpOutIn"),
             title = cms.string("Muon timeAtIpInOut vs. Muon timeAtIpOutIn;timeAtIpOutIn;timeAtIpInOut"),
             binsX = cms.untracked.vdouble(100,-200,200),
             binsY = cms.untracked.vdouble(100,-200,200),
