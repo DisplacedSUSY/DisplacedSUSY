@@ -6,7 +6,7 @@ electronTrigger2016ee.SetBinContent(1,1,1.0)
 
 muonTrigger2016mumu = ROOT.TH2D("muonTrigger2016mumu", "muonTrigger2016mumu", 1, 0, 500, 1, 0, 2.4)
 muonTrigger2016mumu.SetTitle("muonTrigger2016mumu;pt [GeV];|#eta|")
-muonTrigger2016mumu.SetBinContent(1,1,1.0) #FIXME
+muonTrigger2016mumu.SetBinContent(1,1,0.913)
 
 electronTrigger2016emu = ROOT.TH2D("electronTrigger2016emu", "electronTrigger2016emu", 1, 0, 500, 1, 0, 2.4)
 electronTrigger2016emu.SetTitle("electronTrigger2016emu;pt [GeV];|#eta|")
