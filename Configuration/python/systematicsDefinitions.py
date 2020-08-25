@@ -199,7 +199,7 @@ if arguments.era == "2016":
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
-            'value' : '1.', #needs to be updated
+            'value' : '1.090',
             'applyList' : mc_normalized_processes,
             },
         'trigger_mumu' :  {
