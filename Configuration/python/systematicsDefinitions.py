@@ -191,11 +191,11 @@ if arguments.era == "2016":
 
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu_electron' :  {
-            'value' : '1.', #needs to be updated
+            'value' : '1.010',
             'applyList' : mc_normalized_processes,
             },
         'trigger_emu_muon' :  {
-            'value' : '1.', #needs to be updated
+            'value' : '1.010',
             'applyList' : mc_normalized_processes,
             },
         'trigger_ee' :  {
