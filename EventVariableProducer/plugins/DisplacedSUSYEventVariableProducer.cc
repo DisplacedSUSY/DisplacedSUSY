@@ -123,10 +123,14 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double leadingMuonEta = 0;
   double leadingMuonPhi = -4; // -pi < phi < pi
   double leadingMuonUnsmearedD0 = 0;
+  double leadingMuonTime = -100;
+  int    leadingMuonTimeNDof = 0;
   double subleadingMuonPt = 0;
   double subleadingMuonEta = 0;
   double subleadingMuonPhi = -4; // -pi < phi < pi
   double subleadingMuonUnsmearedD0 = 0;
+  double subleadingMuonTime = 100;
+  int    subleadingMuonTimeNDof = 0;
   for (const auto &muon1 : *handles_.muons) {
     if (abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
       if (muon1.pt() > subleadingMuonPt) {
@@ -135,20 +139,37 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingMuonEta = leadingMuonEta;
           subleadingMuonPhi = leadingMuonPhi;
           subleadingMuonUnsmearedD0 = leadingMuonUnsmearedD0;
+	  subleadingMuonTime = leadingMuonTime;
+	  subleadingMuonTimeNDof = leadingMuonTimeNDof;
           leadingMuonPt = muon1.pt();
           leadingMuonEta = muon1.eta();
           leadingMuonPhi = muon1.phi();
           leadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
+	  leadingMuonTime = muon1.time().timeAtIpInOut;
+	  leadingMuonTimeNDof = muon1.time().nDof;
         }
         else {
           subleadingMuonPt = muon1.pt();
           subleadingMuonEta = muon1.eta();
           subleadingMuonPhi = muon1.phi();
           subleadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
+	  subleadingMuonTime = muon1.time().timeAtIpInOut;
+	  subleadingMuonTimeNDof = muon1.time().nDof;
         }
       }
     }
   }
+
+  double upperMuonTime = leadingMuonTime;
+  double lowerMuonTime = subleadingMuonTime;
+  if(leadingMuonPhi < subleadingMuonPhi){
+    upperMuonTime = subleadingMuonTime;
+    lowerMuonTime = leadingMuonTime;
+  }
+  double deltaT = upperMuonTime - lowerMuonTime;
+
+  bool vetoTiming = false;
+  if (deltaT < -20.0 && leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7) vetoTiming = true;
 
   // Identify tag electron for trigger efficiency plotting
   bool tagElectronExists = false;
@@ -245,6 +266,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     }
   }
 
+
+
+
+
   //L1 bits
   l1GtUtils_->retrieveL1(event,setup,algToken_);
   //std::cout<<"starting to loop over L1 seeds"<<std::endl;
@@ -286,6 +311,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
   (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
   (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
+  (*eventvariables)["vetoTiming"] = vetoTiming;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;

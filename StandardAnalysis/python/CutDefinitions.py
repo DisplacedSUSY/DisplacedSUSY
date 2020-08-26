@@ -1253,14 +1253,6 @@ diMuon_cosAlpha = cms.PSet (
     alias = cms.string("at least one back-to-back muon pair (with cos(3D angle) < -0.99)")
     )
 
-diMuon_deltaTimeAtIpInOut_veto = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("muon.time.timeAtIpInOut - muon.time.timeAtIpInOut < -20.0"),
-    numberRequired = cms.string("== 0"),
-    isVeto = cms.bool(True),
-    alias = cms.string("veto muon pairs with timing consistent with cosmics (0 pairs with #delta timeAtIpInOut < -20.0)")
-    )
-
 ##########################################################################
 # ELECTRON-JET OVERLAP VETO
 electron_jet_deltaR_overlap_veto = cms.PSet (
@@ -1349,6 +1341,8 @@ photon_genMatched_cut = cms.PSet(
 
 # BEGIN EVENTVARIABLE CUTS
 
+# triggers
+
 pass_HLTMET_paths = cms.PSet(
     inputCollection = cms.vstring("eventvariables"),
     cutString = cms.string(""),
@@ -1393,6 +1387,16 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG40 > 0 || L1_SingleIsoEG22er > 0 || L1_SingleIsoEG28 > 0 ||  L1_DoubleEG_15_10 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er > 0")
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     pass_L1EG_OR_L1Jet_Seeds.cutString = cms.string("L1_SingleEG30 > 0 || L1_SingleEG50 > 0 || L1_SingleIsoEG24 > 0 || L1_SingleIsoEG38 > 0 ||  L1_DoubleEG_18_17 > 0 || L1_DoubleEG_25_12 > 0 || L1_SingleJet200 > 0 || L1_SingleTau100er2p1 > 0")
+
+# cosmic cut based on timing
+diMuon_deltaTimeAtIpInOut_veto = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("vetoTiming"),
+   numberRequired = cms.string("== 0"),
+   isVeto = cms.bool(True),
+   alias = cms.string("veto events with leading muon pairs with timing consistent with cosmics (veto [#delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7])")
+)
+
 
 ##########################################################################
 
