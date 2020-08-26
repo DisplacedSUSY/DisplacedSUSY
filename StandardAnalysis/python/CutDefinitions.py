@@ -1253,6 +1253,14 @@ diMuon_cosAlpha = cms.PSet (
     alias = cms.string("at least one back-to-back muon pair (with cos(3D angle) < -0.99)")
     )
 
+diMuon_deltaTimeAtIpInOut_veto = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("muon.time.timeAtIpInOut - muon.time.timeAtIpInOut < -20.0"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("veto muon pairs with timing consistent with cosmics (0 pairs with #delta timeAtIpInOut < -20.0)")
+    )
+
 ##########################################################################
 # ELECTRON-JET OVERLAP VETO
 electron_jet_deltaR_overlap_veto = cms.PSet (
