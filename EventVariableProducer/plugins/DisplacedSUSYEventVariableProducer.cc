@@ -311,6 +311,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
   (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
   (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
+  if (leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7)
+    (*eventvariables)["deltaT_leadingTwoMuons"] = deltaT;
   (*eventvariables)["vetoTiming"] = vetoTiming;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;

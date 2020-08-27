@@ -6159,6 +6159,12 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(2, 0, 2),
             inputVariables = cms.vstring("L1_SingleTau100er2p1"),
         ),
+        cms.PSet (
+            name = cms.string("muonDeltaT_leadingTwoMuons"),
+            title = cms.string("Muon #Delta timeAtIpInOut; Muon #Delta timeAtIpInOut [ns]"),
+            binsX = cms.untracked.vdouble(40, -100, 100),
+            inputVariables = cms.vstring("deltaT_leadingTwoMuons"),
+        ),
     )
 )
 
