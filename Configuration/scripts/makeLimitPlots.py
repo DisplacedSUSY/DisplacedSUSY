@@ -351,10 +351,10 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     graph = TGraph (len (x), x, y)
     return graph
 
-def getObservedGraph(limits,xAxisType,colorScheme):
+def getObservedGraph(limits,xAxisType,colorScheme,lineStyle=1):
     graph = getGraph(limits, xAxisType, 'observed')
     graph.SetLineWidth(5)
-    graph.SetLineStyle(1)
+    graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
     graph.SetMarkerStyle(20)
@@ -362,10 +362,10 @@ def getObservedGraph(limits,xAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
-def getObservedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme):
+def getObservedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme,lineStyle=1):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
     graph.SetLineWidth(5)
-    graph.SetLineStyle(1)
+    graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
     graph.SetMarkerStyle(20)
@@ -373,10 +373,10 @@ def getObservedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colo
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
-def getExpectedGraph(limits,xAxisType,colorScheme):
+def getExpectedGraph(limits,xAxisType,colorScheme, lineStyle=2):
     graph = getGraph(limits, xAxisType, 'expected')
     graph.SetLineWidth(5)
-    graph.SetLineStyle(2)
+    graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['exp'])
     graph.SetMarkerStyle(20)
@@ -384,10 +384,10 @@ def getExpectedGraph(limits,xAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['exp'])
     return graph
 
-def getExpectedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme):
+def getExpectedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme,lineStyle=2):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
     graph.SetLineWidth(5)
-    graph.SetLineStyle(2)
+    graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['exp'])
     graph.SetMarkerStyle(20)
@@ -792,7 +792,10 @@ def drawPlot(plot):
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                                if graphName is 'exp':
-                                   tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                                   lineStyle = 2
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
                                    if plotDrawn:
                                        tGraphs[-1].Draw('L')
                                    else:
@@ -804,7 +807,10 @@ def drawPlot(plot):
                                        legendEntry = legendEntry + ": " + graph['legendEntry']
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                                if graphName is 'obs':
-                                   tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                                   lineStyle = 1
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
                                    if plotDrawn:
                                        tGraphs[-1].Draw('L')
                                    else:
@@ -843,7 +849,10 @@ def drawPlot(plot):
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'F')
                                    tGraphs[-1].SetName('F')
                                if graphName is 'exp':
-                                   tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme))
+                                   lineStyle = 2
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme,lineStyle))
                                    if plotDrawn:
                                        tGraphs[-1].Draw('L')
                                    else:
@@ -855,7 +864,10 @@ def drawPlot(plot):
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                                    tGraphs[-1].SetName('L')
                                if graphName is 'twoSigmaTheory':
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme))
+                                   lineStyle = 1
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme,lineStyle))
                                    lineWidth = tGraphs[-1].GetLineWidth ()
                                    tGraphs[-1].SetLineWidth (lineWidth - 4)
                                    if plotDrawn:
@@ -864,7 +876,7 @@ def drawPlot(plot):
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
                                    tGraphs[-1].SetName('L')
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme))
+                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme,lineStyle))
                                    tGraphs[-1].SetLineWidth (lineWidth - 4)
                                    tGraphs[-1].Draw('L')
                                    legendEntry = '#pm 2 #sigma_{theory}'
@@ -873,7 +885,10 @@ def drawPlot(plot):
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                                    tGraphs[-1].SetName('L')
                                if graphName is 'oneSigmaTheory':
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme))
+                                   lineStyle = 1
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme,lineStyle))
                                    lineWidth = tGraphs[-1].GetLineWidth ()
                                    tGraphs[-1].SetLineWidth (lineWidth - 2)
                                    if plotDrawn:
@@ -882,7 +897,7 @@ def drawPlot(plot):
                                        tGraphs[-1].Draw('AL')
                                    plotDrawn = True
                                    tGraphs[-1].SetName('L')
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme))
+                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme,lineStyle))
                                    tGraphs[-1].SetLineWidth (lineWidth - 2)
                                    tGraphs[-1].Draw('L')
                                    legendEntry = '#pm 1 #sigma_{theory}'
@@ -891,7 +906,10 @@ def drawPlot(plot):
                                    legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                                    tGraphs[-1].SetName('L')
                                if graphName is 'obs':
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme))
+                                   lineStyle = 1
+                                   if 'lineStyle' in graph:
+                                       lineStyle = graph['lineStyle']
+                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme,lineStyle))
                                    if plotDrawn:
                                        tGraphs[-1].Draw('L')
                                    else:
