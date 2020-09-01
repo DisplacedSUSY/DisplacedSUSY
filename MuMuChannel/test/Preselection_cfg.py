@@ -15,6 +15,7 @@ eventSelections = [
     #MuonD00to40MuonD0100to500Region,
     #MuonD00to40MuonD0500to1000Region,
     AdditionalPreselection,
+    #CosmicPreselection,
     #AdditionalPreselectionPt75,
     #AdditionalPreselectionMimicEE,
     #GenPromptRegion,

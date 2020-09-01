@@ -43,6 +43,30 @@ CosmicsAdditionalPreselection.name = cms.string("CosmicsAdditionalPreselection")
 removeCuts(CosmicsAdditionalPreselection.cuts, [diMuon_cosAlpha_veto])
 CosmicsAdditionalPreselection.cuts.append(diMuon_cosAlpha)
 
+
+
+
+
+CosmicPreselection = cms.PSet(
+    name = cms.string("CosmicPreselection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+CosmicPreselection.cuts.append(muon_eta_cut)
+CosmicPreselection.cuts.append(muon_pt_35_cut) #should be this based on trigger turn on
+CosmicPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
+CosmicPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+CosmicPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto)
+CosmicPreselection.cuts.append(muon_global_cut)
+CosmicPreselection.cuts.append(muon_id_cut)
+CosmicPreselection.cuts.append(muon_iso_cut) #our custom rho-based iso
+
+
+
+
+
+
+
 AdditionalPreselectionPt75 = copy.deepcopy(AdditionalPreselection)
 AdditionalPreselectionPt75.name = cms.string("AdditionalPreselectionPt75")
 AdditionalPreselectionPt75.cuts.append(muon_pt_75_cut)
