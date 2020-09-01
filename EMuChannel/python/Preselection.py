@@ -24,6 +24,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_42_cut)
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(electron_pt_50_cut)
+    #Preselection.cuts.append(electron_pt_45_cut) #should be this based on trigger turn on
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
 Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
 ### at least one good muon
@@ -32,6 +33,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(muon_pt_40_cut)
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(muon_pt_50_cut)
+    #Preselection.cuts.append(muon_pt_45_cut) #should be this based on trigger turn on
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso

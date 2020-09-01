@@ -20,8 +20,10 @@ Preselection.cuts.extend(atLeastZero_photon_basic_selection_cuts)
 Preselection.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(muon_pt_40_cut)
+    #Preselection.cuts.append(muon_pt_35_cut) #should be this based on trigger turn on
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     Preselection.cuts.append(muon_pt_50_cut)
+    #Preselection.cuts.append(muon_pt_45_cut) #should be this based on trigger turn on
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
