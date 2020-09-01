@@ -13,11 +13,11 @@ cr_d0_range = (20, 100) # um
 # fixme: abcd systematics specified here temporarily
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
 abcd_systematics = {
-    'SR_100to500um_100to500um_0to150GeV'         : 3.16,
+    'SR_100to500um_100to500um_0to150GeV'         : 2.16,
     'SR_100to500um_500to100000um_0to150GeV'      : 0.19,
     'SR_500to100000um_100to500um_0to150GeV'      : 0.19,
     'SR_500to100000um_500to100000um_0to150GeV'   : 0.19,
-    'SR_100to500um_100to500um_150toInfGeV'       : 3.16,
+    'SR_100to500um_100to500um_150toInfGeV'       : 2.16,
     'SR_100to500um_500to100000um_150toInfGeV'    : 0.19,
     'SR_500to100000um_100to500um_150toInfGeV'    : 0.19,
     'SR_500to100000um_500to100000um_150toInfGeV' : 0.19,
