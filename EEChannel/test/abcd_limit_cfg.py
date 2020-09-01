@@ -13,14 +13,14 @@ cr_d0_range = (20, 100) # um
 # fixme: abcd systematics specified here temporarily
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
 abcd_systematics = {
-    'SR_100to500um_100to500um_0to300GeV'         : 0.30,
-    'SR_100to500um_500to100000um_0to300GeV'      : 0.30,
-    'SR_500to100000um_100to500um_0to300GeV'      : 0.30,
-    'SR_500to100000um_500to100000um_0to300GeV'   : 0.30,
-    'SR_100to500um_100to500um_300toInfGeV'       : 0.30,
-    'SR_100to500um_500to100000um_300toInfGeV'    : 0.30,
-    'SR_500to100000um_100to500um_300toInfGeV'    : 0.30,
-    'SR_500to100000um_500to100000um_300toInfGeV' : 0.30,
+    'SR_100to500um_100to500um_0to300GeV'         : 0.06,
+    'SR_100to500um_500to100000um_0to300GeV'      : 0.06,
+    'SR_500to100000um_100to500um_0to300GeV'      : 0.06,
+    'SR_500to100000um_500to100000um_0to300GeV'   : 0.06,
+    'SR_100to500um_100to500um_300toInfGeV'       : 0.06,
+    'SR_100to500um_500to100000um_300toInfGeV'    : 0.06,
+    'SR_500to100000um_100to500um_300toInfGeV'    : 0.06,
+    'SR_500to100000um_500to100000um_300toInfGeV' : 0.06,
 }
 
 # fixme: temporary fudge factor to scale 2018 signal yield
