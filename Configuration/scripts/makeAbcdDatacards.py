@@ -153,16 +153,22 @@ class Region(object):
 # class to represent signal regions that can be rectangular or L-shaped and will have
 # associated A, B, and C control regions
 class SignalRegion(Region):
-    def __init__(self, d0_max, cr_d0_min, cr_d0_max, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi,
-                 pt_lo, pt_hi):
+    def __init__(self, d0_min, d0_max, shape, cr_d0_min, cr_d0_max, d0_0_lo, d0_0_hi,
+                 d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         super(SignalRegion, self).__init__("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
+        self.d0_min = d0_min
         self.d0_max = d0_max
-        self.subregions = self.get_subregions()
+        if shape == 'L':
+            self.subregions = self.get_L_subregions()
+        elif shape == 'L_inv':
+            self.subregions = self.get_invL_subregions()
+        elif shape == 'grid':
+            self.subregions = self.get_grid_subregions()
         for r in self.subregions:
             r.get_control_regions(cr_d0_min, cr_d0_max)
 
     # get rectangular regions that make up rectangular or L-shaped region
-    def get_subregions(self):
+    def get_L_subregions(self):
         subregions = []
         # most-displaced region is rectangular and composed of only one subregion
         if self.d0_0_hi == self.d0_1_hi == self.d0_max:
@@ -176,6 +182,31 @@ class SignalRegion(Region):
                                      self.pt_lo, self.pt_hi))
             subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_hi, self.d0_max,
                                      self.pt_lo, self.pt_hi))
+        return subregions
+
+    # get rectangular regions that make up rectangular or inverted-L shaped region
+    def get_invL_subregions(self):
+        subregions = []
+        # most-prompt region is rectangular and composed of only one subregion
+        if self.d0_0_lo == self.d0_1_lo == self.d0_min:
+            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
+                                     self.pt_lo, self.pt_hi))
+        # more-displaced regions are shaped like an inverted L and composed of three subregions
+        else:
+            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
+                                     self.pt_lo, self.pt_hi))
+            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_min, self.d0_1_lo,
+                                     self.pt_lo, self.pt_hi))
+            subregions.append(Region("SR", self.d0_min, self.d0_1_lo, self.d0_1_lo, self.d0_1_hi,
+                                     self.pt_lo, self.pt_hi))
+        return subregions
+
+    # get single rectangular subregion that makes up rectangular signal region
+    def get_grid_subregions(self):
+        subregions = []
+        # all regions are rectangular and composed of only one subregion
+        subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
+                                 self.pt_lo, self.pt_hi))
         return subregions
 
     # get integral and number of unweighted events in entire signal region
@@ -259,15 +290,26 @@ def make_bins(bin_edges):
 ####################################################################################################
 
 # put bin edges in more useful form
-d0_bins = zip(make_bins(d0_0_bin_edges), make_bins(d0_1_bin_edges))
+d0_0_bins = make_bins(d0_0_bin_edges)
+d0_1_bins = make_bins(d0_1_bin_edges)
+if sr_shapes in ['L', 'L_inv']:
+    d0_bins = zip(d0_0_bins, d0_1_bins)
+elif sr_shapes == 'grid':
+    d0_bins = [(x, y) for x in d0_0_bins for y in d0_1_bins]
+else:
+    raise RuntimeError("Unrecognized SR shape. Please enter 'L', 'L_inv', or 'grid'")
+
 pt_bins = make_bins(pt_bin_edges)
+# assume inclusive signal region is symmetric in d0_0 and d0_1
+sr_d0_min = d0_0_bin_edges[0]
 sr_d0_max = d0_0_bin_edges[-1]
 
 # define signal regions and associated control regions
 signal_regions = []
 for pt_bin in pt_bins:
     for d0_0_bin, d0_1_bin in d0_bins:
-        signal_regions.append(SignalRegion(sr_d0_max, *cr_d0_range + d0_0_bin + d0_1_bin + pt_bin))
+        signal_regions.append(SignalRegion(sr_d0_min, sr_d0_max, sr_shapes,
+                                           *cr_d0_range + d0_0_bin + d0_1_bin + pt_bin))
 
 # get data yields and abcd estimates in all signal regions
 data_yields = {}

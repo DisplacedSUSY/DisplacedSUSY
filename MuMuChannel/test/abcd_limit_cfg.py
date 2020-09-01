@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from DisplacedSUSY.Configuration.limitOptions import *
 
-# signal region binning
-# enter -1 to include overflow
+# choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
+sr_shapes = 'grid'
+# signal region binning; enter -1 to include overflow
 d0_0_bin_edges = [100, 500, 100000] # um
 d0_1_bin_edges = [100, 500, 100000] # um
 pt_bin_edges = [0, 150, -1] # GeV
@@ -13,8 +14,12 @@ cr_d0_range = (20, 100) # um
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
 abcd_systematics = {
     'SR_100to500um_100to500um_0to150GeV'         : 1.00,
+    'SR_100to500um_500to100000um_0to150GeV'      : 1.00,
+    'SR_500to100000um_100to500um_0to150GeV'      : 1.00,
     'SR_500to100000um_500to100000um_0to150GeV'   : 1.00,
     'SR_100to500um_100to500um_150toInfGeV'       : 1.00,
+    'SR_100to500um_500to100000um_150toInfGeV'    : 1.00,
+    'SR_500to100000um_100to500um_150toInfGeV'    : 1.00,
     'SR_500to100000um_500to100000um_150toInfGeV' : 1.00,
 }
 
