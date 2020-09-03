@@ -319,9 +319,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["deltaT_leadingTwoMuons"] = deltaT;
     (*eventvariables)["upperMuonTime"] = upperMuonTime;
     (*eventvariables)["lowerMuonTime"] = lowerMuonTime;
-    (*eventvariables)["upperMuonTimeNDof"] = upperMuonTimeNDof;
-    (*eventvariables)["lowerMuonTimeNDof"] = lowerMuonTimeNDof;
   }
+  (*eventvariables)["upperMuonTimeNDof"] = upperMuonTimeNDof;
+  (*eventvariables)["lowerMuonTimeNDof"] = lowerMuonTimeNDof;
   (*eventvariables)["vetoTiming"] = vetoTiming;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
