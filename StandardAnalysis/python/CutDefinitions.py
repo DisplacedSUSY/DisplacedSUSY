@@ -1394,7 +1394,7 @@ diMuon_deltaTimeAtIpInOut_veto = cms.PSet(
    cutString = cms.string("vetoTiming"),
    numberRequired = cms.string("== 0"),
    isVeto = cms.bool(True),
-   alias = cms.string("veto events with leading muon pairs with timing consistent with cosmics (veto [#delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7])")
+   alias = cms.string("veto events with leading muon pairs with timing consistent with cosmics (veto [#Delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7])")
 )
 
 

@@ -34,8 +34,8 @@ AdditionalPreselection = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+AdditionalPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
 AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
-AdditionalPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto)
 #AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
 
 CosmicsAdditionalPreselection = copy.deepcopy(AdditionalPreselection)
@@ -60,7 +60,6 @@ CosmicPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto)
 CosmicPreselection.cuts.append(muon_global_cut)
 CosmicPreselection.cuts.append(muon_id_cut)
 CosmicPreselection.cuts.append(muon_iso_cut) #our custom rho-based iso
-
 
 
 

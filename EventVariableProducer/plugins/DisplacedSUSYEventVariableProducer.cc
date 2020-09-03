@@ -162,9 +162,13 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 
   double upperMuonTime = leadingMuonTime;
   double lowerMuonTime = subleadingMuonTime;
+  double upperMuonTimeNDof = leadingMuonTimeNDof;
+  double lowerMuonTimeNDof = subleadingMuonTimeNDof;
   if(leadingMuonPhi < subleadingMuonPhi){
     upperMuonTime = subleadingMuonTime;
     lowerMuonTime = leadingMuonTime;
+    upperMuonTimeNDof = subleadingMuonTimeNDof;
+    lowerMuonTimeNDof = leadingMuonTimeNDof;
   }
   double deltaT = upperMuonTime - lowerMuonTime;
 
@@ -311,8 +315,13 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
   (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
   (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
-  if (leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7)
+  if (leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7){
     (*eventvariables)["deltaT_leadingTwoMuons"] = deltaT;
+    (*eventvariables)["upperMuonTime"] = upperMuonTime;
+    (*eventvariables)["lowerMuonTime"] = lowerMuonTime;
+    (*eventvariables)["upperMuonTimeNDof"] = upperMuonTimeNDof;
+    (*eventvariables)["lowerMuonTimeNDof"] = lowerMuonTimeNDof;
+  }
   (*eventvariables)["vetoTiming"] = vetoTiming;
   (*eventvariables)["numTruePV"] = numTruePV;
   (*eventvariables)["sumJetPt"] = sumJetPt;
