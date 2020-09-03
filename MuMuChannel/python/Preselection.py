@@ -19,71 +19,37 @@ Preselection.cuts.extend(atLeastZero_photon_basic_selection_cuts)
 ### at least two good muons
 Preselection.cuts.append(muon_eta_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    Preselection.cuts.append(muon_pt_40_cut)
-    #Preselection.cuts.append(muon_pt_35_cut) #should be this based on trigger turn on
+    Preselection.cuts.append(muon_pt_35_cut) #plateau of trigger turn on
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    Preselection.cuts.append(muon_pt_50_cut)
-    #Preselection.cuts.append(muon_pt_45_cut) #should be this based on trigger turn on
+    Preselection.cuts.append(muon_pt_45_cut) #pleateau of trigger turn on
 Preselection.cuts.append(muon_global_cut)
 Preselection.cuts.append(muon_id_cut)
 Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
-
-AdditionalPreselection = cms.PSet(
-    name = cms.string("AdditionalPreselection"),
-    triggers = copy.deepcopy(Preselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
-)
-AdditionalPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
-AdditionalPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
-AdditionalPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
-#AdditionalPreselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
-
-CosmicsAdditionalPreselection = copy.deepcopy(AdditionalPreselection)
-CosmicsAdditionalPreselection.name = cms.string("CosmicsAdditionalPreselection")
-removeCuts(CosmicsAdditionalPreselection.cuts, [diMuon_cosAlpha_veto])
-CosmicsAdditionalPreselection.cuts.append(diMuon_cosAlpha)
+Preselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+Preselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
+Preselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
+Preselection.cuts.append(displaced_electron_emu_preselection_veto) #remove overlap with emu channel
 
 
 
-
-
-CosmicPreselection = cms.PSet(
-    name = cms.string("CosmicPreselection"),
-    triggers = cms.vstring(),
-    cuts = cms.VPSet()
-)
-CosmicPreselection.cuts.append(muon_eta_cut)
-CosmicPreselection.cuts.append(muon_pt_35_cut) #should be this based on trigger turn on
-CosmicPreselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.1)
-CosmicPreselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
-CosmicPreselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto)
-CosmicPreselection.cuts.append(muon_global_cut)
-CosmicPreselection.cuts.append(muon_id_cut)
-CosmicPreselection.cuts.append(muon_iso_cut) #our custom rho-based iso
-
-
-
-
-
-
-AdditionalPreselectionPt75 = copy.deepcopy(AdditionalPreselection)
-AdditionalPreselectionPt75.name = cms.string("AdditionalPreselectionPt75")
-AdditionalPreselectionPt75.cuts.append(muon_pt_75_cut)
+PreselectionPt75 = copy.deepcopy(Preselection)
+PreselectionPt75.name = cms.string("PreselectionPt75")
+PreselectionPt75.cuts.append(muon_pt_75_cut)
 
 # selection with tighter muon eta and pT cuts to facilitate comparison with ee channel
-AdditionalPreselectionMimicEE = copy.deepcopy(AdditionalPreselection)
-AdditionalPreselectionMimicEE.name = cms.string("AdditionalPreselectionMimicEE")
-AdditionalPreselectionMimicEE.cuts.append(muon_eta1p9_cut)
+PreselectionMimicEE = copy.deepcopy(Preselection)
+PreselectionMimicEE.name = cms.string("PreselectionMimicEE")
+PreselectionMimicEE.cuts.append(muon_eta1p9_cut)
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    AdditionalPreselectionMimicEE.cuts.append(muon_pt_65_cut)
+    PreselectionMimicEE.cuts.append(muon_pt_65_cut)
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    AdditionalPreselectionMimicEE.cuts.append(muon_pt_75_cut)
+    PreselectionMimicEE.cuts.append(muon_pt_75_cut)
 
-PromptRegion = copy.deepcopy(AdditionalPreselection)
+PromptRegion = copy.deepcopy(Preselection)
 PromptRegion.name = cms.string("PromptRegion")
 PromptRegion.cuts.append(muon_d0_lessThan30_cut)
 
-GenPromptRegion = copy.deepcopy(AdditionalPreselection)
+GenPromptRegion = copy.deepcopy(Preselection)
 GenPromptRegion.name = cms.string("GenPromptRegion")
 GenPromptRegion.cuts.append(gen_muon_d0_lessThan30_cut)
 
@@ -278,19 +244,19 @@ PreselectionLeptonsFromW = cms.PSet(
 )
 PreselectionLeptonsFromW.cuts.append(muon_gen_motherIsW_cut)
 
-AdditionalPreselectionLeptonsFromWorZ = cms.PSet(
-    name = cms.string("AdditionalPreselectionLeptonsFromWorZ"),
-    triggers = copy.deepcopy(AdditionalPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
+PreselectionLeptonsFromWorZ = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromWorZ"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-AdditionalPreselectionLeptonsFromWorZ.cuts.append(muon_gen_motherIsWorZ_cut)
+PreselectionLeptonsFromWorZ.cuts.append(muon_gen_motherIsWorZ_cut)
 
-AdditionalPreselectionLeptonsFromTau = cms.PSet(
-    name = cms.string("AdditionalPreselectionLeptonsFromTau"),
-    triggers = copy.deepcopy(AdditionalPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
+PreselectionLeptonsFromTau = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromTau"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-AdditionalPreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
+PreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
 
 Preselection1LeptonFromTau = cms.PSet(
     name = cms.string("Preselection1LeptonFromTau"),
@@ -320,12 +286,12 @@ PreselectionMuFromLightMeson = cms.PSet(
 )
 PreselectionMuFromLightMeson.cuts.append(muon_gen_motherIsLightMeson_cut)
 
-AdditionalPreselectionMuFromHeavyMeson = cms.PSet(
-    name = cms.string("AdditionalPreselectionMuFromHeavyMeson"),
-    triggers = copy.deepcopy(AdditionalPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
+PreselectionMuFromHeavyMeson = cms.PSet(
+    name = cms.string("PreselectionMuFromHeavyMeson"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-AdditionalPreselectionMuFromHeavyMeson.cuts.append(muon_gen_motherIsHeavyMeson_cut)
+PreselectionMuFromHeavyMeson.cuts.append(muon_gen_motherIsHeavyMeson_cut)
 #################################################################
 
 GenMuMuFromStopsSelection = cms.PSet(

@@ -10,8 +10,7 @@ from DisplacedSUSY.EMuChannel.Preselection import *
 from DisplacedSUSY.EMuChannel.PreselectionWithExplicitEleId import *
 
 eventSelections = [
-    #Preselection,
-    AdditionalPreselection,
+    Preselection,
     #PromptControlRegion,
     #DisplacedControlRegion,
     #MuonD00to40ElectronD00to100Region,
@@ -44,15 +43,15 @@ eventSelections = [
 
     #PreselectionLeptonsFromW,
     #PreselectionLeptonsFromWorZ,
-    #AdditionalPreselectionMuFromTau,
-    #AdditionalPreselectionEFromTau,
-    #AdditionalPreselectionMuFromWorZ,
-    #AdditionalPreselectionEFromWorZ,
+    #PreselectionMuFromTau,
+    #PreselectionEFromTau,
+    #PreselectionMuFromWorZ,
+    #PreselectionEFromWorZ,
     #Preselection2TausFromZ,
     #PreselectionMuFromLightMeson,
-    #AdditionalPreselectionMuFromHeavyMeson,
+    #PreselectionMuFromHeavyMeson,
     #PreselectionEFromLightMeson,
-    #AdditionalPreselectionEFromHeavyMeson,
+    #PreselectionEFromHeavyMeson,
     #PreselectionEOrMuFromHeavyMeson,
 
     #GenEMuFromStopsSelection,

@@ -174,9 +174,9 @@ diMuon_opposite_charge_cut = cms.PSet (
 
 diMuon_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("deltaR(muon, muon) > 0.1"),
+    cutString = cms.string("deltaR(muon, muon) > 0.2"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 mu-mu pair with #DeltaR > 0.1")
+    alias = cms.string(">=1 mu-mu pair with #DeltaR > 0.2")
     )
 
 ##########################################################################

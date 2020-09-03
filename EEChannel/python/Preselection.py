@@ -25,6 +25,8 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
     Preselection.cuts.append(electron_pt_75_cut)
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
 Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
+Preselection.cuts.append(diElectron_deltaR_cut) # remove hypothetical electrons from mesons that are close to each other (loose dR>0.2)
+Preselection.cuts.append(displaced_muon_emu_preselection_veto) #remove overlap with emu channel
 
 
 ElectronD00to40ElectronD0Above100Region = copy.deepcopy(Preselection)
@@ -184,18 +186,9 @@ GenEEFromStopsAndL1TrigSelection.cuts.extend(copy.deepcopy(GenEEFromStopsSelecti
 
 #################################################################
 
-AdditionalPreselection = cms.PSet(
-    name = cms.string("AdditionalPreselection"),
+PreselectionD0Pull50um = cms.PSet(
+    name = cms.string("PreselectionD0Pull50um"),
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-AdditionalPreselection.cuts.append(electron_eta1p9_cut) #to remove poorly measured d0 of electrons at large eta
-AdditionalPreselection.cuts.append(diElectron_deltaR_cut) # remove hypothetical electrons from mesons that are close to each other (loose dR>0.1)
-#AdditionalPreselection.cuts.append(displaced_muon_emu_preselection_veto) #remove overlap with emu channel
-
-AdditionalPreselectionD0Pull50um = cms.PSet(
-    name = cms.string("AdditionalPreselectionD0Pull50um"),
-    triggers = copy.deepcopy(AdditionalPreselection.triggers),
-    cuts = cms.VPSet (copy.deepcopy(AdditionalPreselection.cuts))
-)
-AdditionalPreselectionD0Pull50um.cuts.append(electron_absD0Pull_lessThan50_cut)
+PreselectionD0Pull50um.cuts.append(electron_absD0Pull_lessThan50_cut)

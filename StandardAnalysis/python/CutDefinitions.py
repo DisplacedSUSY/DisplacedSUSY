@@ -357,15 +357,10 @@ jet_btag_lwp_veto.isVeto = cms.bool(True)
 
 # BEGIN ELECTRON CUTS
 
+# tight electron eta cut to remove poorly measured d0 of electrons at large eta
 electron_eta_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(electron.eta) < 2.4"),
-    numberRequired = cms.string(">= 1")
-    )
-
-electron_eta1p9_cut = cms.PSet(
-    inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(electron.eta) < 1.9"),
+    cutString = cms.string("abs(electron.eta) < 1.5"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -1183,9 +1178,9 @@ emu_pt_greaterThan50_cut = cms.PSet (
 
 emu_deltaR_cut = cms.PSet (
     inputCollection = cms.vstring("electrons", "muons"),
-    cutString = cms.string("deltaR(electron,muon) > 0.1"),
+    cutString = cms.string("deltaR(electron,muon) > 0.2"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">=1 e-mu pair with #DeltaR > 0.1")
+    alias = cms.string(">=1 e-mu pair with #DeltaR > 0.2")
     )
 
 emu_correlated_d0_cut = cms.PSet (
@@ -1252,13 +1247,6 @@ diMuon_cosAlpha_veto = cms.PSet (
     numberRequired = cms.string("== 0"),
     isVeto = cms.bool(True),
     alias = cms.string("veto back-to-back muons (0 pairs with cos(3D angle) < -0.99)")
-    )
-
-diMuon_cosAlpha = cms.PSet (
-    inputCollection = cms.vstring("muons", "muons"),
-    cutString = cms.string("cosAlpha(muon, muon) < -0.99"),
-    numberRequired = cms.string(">= 1"),
-    alias = cms.string("at least one back-to-back muon pair (with cos(3D angle) < -0.99)")
     )
 
 ##########################################################################
