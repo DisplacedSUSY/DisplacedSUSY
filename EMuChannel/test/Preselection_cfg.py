@@ -19,6 +19,8 @@ eventSelections = [
     #MuonD00to40ElectronD0500to1000Region,
     #ElectronD00to40MuonD00to100Region,
     #ElectronD00to40MuonD0100to500Region,
+    #ElectronD00to40MuonD00to40Region,
+    #ElectronD00to40MuonD040to500Region,
     #ElectronD00to40MuonD0500to1000Region,
     #PromptLowPtControlRegion,
     #PromptHighPtControlRegion,
