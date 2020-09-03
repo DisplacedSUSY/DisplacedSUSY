@@ -97,6 +97,17 @@ ElectronD00to40MuonD0500to1000Region.name = cms.string("ElectronD00to40MuonD0500
 ElectronD00to40MuonD0500to1000Region.cuts.append(electron_d0_lessThan40_cut)
 ElectronD00to40MuonD0500to1000Region.cuts.append(muon_d0_500to1000_cut)
 
+ElectronD00to40MuonD00to40Region = copy.deepcopy(AdditionalPreselection)
+ElectronD00to40MuonD00to40Region.name = cms.string("ElectronD00to40MuonD00to40Region")
+ElectronD00to40MuonD00to40Region.cuts.append(electron_d0_lessThan40_cut)
+ElectronD00to40MuonD00to40Region.cuts.append(muon_d0_lessThan40_cut)
+
+ElectronD00to40MuonD040to500Region = copy.deepcopy(AdditionalPreselection)
+ElectronD00to40MuonD040to500Region.name = cms.string("ElectronD00to40MuonD040to500Region")
+ElectronD00to40MuonD040to500Region.cuts.append(electron_d0_lessThan40_cut)
+ElectronD00to40MuonD040to500Region.cuts.append(muon_d0_40to500_cut)
+
+
 InclusiveSignalRegion = cms.PSet(
     name = cms.string("InclusiveSignalRegion"),
     triggers = copy.deepcopy(Preselection.triggers),
