@@ -19,6 +19,10 @@ Preselection.cuts.extend(atLeastZero_photon_basic_selection_cuts)
 ### at least two good electrons
 Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    Preselection.cuts.append(electron_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    Preselection.cuts.append(electron_eta_phi_veto_2018) #veto region with pixel power supply issues
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_65_cut)
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):

@@ -371,6 +371,20 @@ electron_gap_veto = cms.PSet(
     alias = cms.string(">= 1 electrons not in ECAL crack")
     )
 
+electron_eta_phi_veto_2017 = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("!(electron.eta >= 1.0 & electron.phi >= 2.7)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons not in region affected by 2017 pixel power supply issues")
+    )
+
+electron_eta_phi_veto_2018 = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("!(electron.eta >= 0.3 & electron.eta <= 1.2 & electron.phi >= 0.4 & electron.phi <= 0.8)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 electrons not in region affected by 2018 pixel power supply issues")
+    )
+
 electron_pt_20_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     cutString = cms.string("pt > 20"),
@@ -691,6 +705,21 @@ muon_eta_greaterThan1_cut = cms.PSet(
     cutString = cms.string("abs(eta) >= 1.0"),
     numberRequired = cms.string(">= 1")
     )
+
+muon_eta_phi_veto_2017 = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("!(muon.eta >= 1.0 & muon.eta <= 1.5 & muon.phi >= 2.7)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons not in region affected by 2017 pixel power supply issues")
+    )
+
+muon_eta_phi_veto_2018 = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("!(muon.eta >= 0.3 & muon.eta <= 1.2 & muon.phi >= 0.4 & muon.phi <= 0.8)"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">= 1 muons not in region affected by 2018 pixel power supply issues")
+    )
+
 
 #####################################
 muon_pt_15_cut = cms.PSet(

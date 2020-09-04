@@ -13,6 +13,12 @@ electron_eta_cut.numberRequired = cms.string(">= 2")
 electron_gap_veto.numberRequired = cms.string(">= 2")
 electron_gap_veto.alias = cms.string(">=2 electrons surviving ECAL crack veto")
 
+electron_eta_phi_veto_2017.numberRequired = cms.string(">= 2")
+electron_eta_phi_veto_2017.alias = cms.string(">= 2 electrons not in region affected by 2017 pixel power supply issues")
+
+electron_eta_phi_veto_2018.numberRequired = cms.string(">= 2")
+electron_eta_phi_veto_2018.alias = cms.string(">= 2 electrons not in region affected by 2018 pixel power supply issues")
+
 electron_pt_100_cut.numberRequired = cms.string(">= 2")
 electron_pt_75_cut.numberRequired = cms.string(">= 2")
 electron_pt_65_cut.numberRequired = cms.string(">= 2")

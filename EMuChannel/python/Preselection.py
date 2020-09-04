@@ -20,6 +20,10 @@ Preselection.cuts.extend(atLeastZero_photon_basic_selection_cuts)
 ### at least one good electron
 Preselection.cuts.append(electron_eta_cut)
 Preselection.cuts.append(electron_gap_veto)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    Preselection.cuts.append(electron_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    Preselection.cuts.append(electron_eta_phi_veto_2018) #veto region with pixel power supply issues
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(electron_pt_42_cut) #plateau of trigger turn on
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
@@ -28,6 +32,10 @@ Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolat
 Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
 ### at least one good muon
 Preselection.cuts.append(muon_eta_cut)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    Preselection.cuts.append(muon_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    Preselection.cuts.append(muon_eta_phi_veto_2018) #veto region with pixel power supply issues
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     Preselection.cuts.append(muon_pt_40_cut) #plateau of trigger turn on
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):

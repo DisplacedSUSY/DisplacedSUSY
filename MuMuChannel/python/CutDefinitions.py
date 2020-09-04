@@ -17,6 +17,12 @@ muon_eta_lessThan1_cut.numberRequired = cms.string(">= 2")
 
 muon_eta_greaterThan1_cut.numberRequired = cms.string(">= 2")
 
+muon_eta_phi_veto_2017.numberRequired = cms.string(">= 2")
+muon_eta_phi_veto_2017.alias = cms.string(">= 2 muons not in region affected by 2017 pixel power supply issues")
+
+muon_eta_phi_veto_2018.numberRequired = cms.string(">= 2")
+muon_eta_phi_veto_2018.alias = cms.string(">= 2 muons not in region affected by 2018 pixel power supply issues")
+
 muon_pt_20_cut.numberRequired = cms.string(">= 2")
 
 muon_pt_25_cut.numberRequired = cms.string(">= 2")
