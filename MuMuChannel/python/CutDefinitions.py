@@ -274,3 +274,13 @@ muon_onePrompt_0to40_oneDisplaced_500to1000_cut = cms.PSet (
     numberRequired = cms.string("== 1"),
     alias = cms.string("one muon |d0| < 40um & another muon 500 < |d0| < 1000um")
     )
+
+##########################################################################
+
+# build cut to veto electrons that would fall in the emu inclusive signal region
+from DisplacedSUSY.EMuChannel.Preselection import Preselection as emu_preselection
+from DisplacedSUSY.Configuration.helperFunctions import make_overlap_veto
+
+alias = "veto events with displaced electrons that pass the emu preselection electron selection"
+displaced_electron_emu_preselection_veto = make_overlap_veto('electrons', emu_preselection,
+                                                             electron_d0_greaterThan100_cut, alias)
