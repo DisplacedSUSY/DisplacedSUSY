@@ -46,5 +46,6 @@ def make_overlap_veto(physics_object, selection, extra_cut, alias):
         inputCollection = cms.vstring(veto_input_collections),
         cutString = cms.string(veto_cutstring),
         numberRequired = cms.string("== 0"),
+        isVeto = cms.bool(True),
         alias = cms.string(alias)
         )
