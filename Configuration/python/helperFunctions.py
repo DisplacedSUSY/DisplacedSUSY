@@ -27,7 +27,7 @@ def propagateError(func, a, a_err, b, b_err):
 # currently skips cuts in which the same object appears more than once in inputCollection
 def make_overlap_veto(physics_object, selection, extra_cut, alias):
 
-    # get cutstring and without the 'cms.string()'
+    # get cutstring without the 'cms.string()'
     def get_cutstring(cut):
        return str(cut.cutString)[12:-2]
 
