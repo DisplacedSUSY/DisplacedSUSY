@@ -118,13 +118,13 @@ muon_gen_motherIsTau_cut.alias = cms.string(">=2 muons from tau (muon matched to
 
 muon_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
+    cutString = cms.string("abs(abs(muon.phi)-3.14159/2) > 0.05"),
     numberRequired = cms.string(">= 2")
     )
 
 muon_2muon_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > -1"),
+    cutString = cms.string("muon.pt > -1"),
     numberRequired = cms.string("== 2"),
     alias = cms.string("exactly 2 muons")
     )

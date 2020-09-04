@@ -164,11 +164,11 @@ electron_newIso_alias = cms.string(">=1 electrons with tight rho-based isolation
 ##########################################################################
 # INVERTED TIGHT ELECTRON ISOLATION
 if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    electron_antiNewIso_cutstring = cms.string("(isEB & (" + electron_newIso_string + ") > (0.0287+0.506/pt)) | \
-                                     (isEE & (" + electron_newIso_string + ") > (0.0445+0.963/pt))")
+    electron_antiNewIso_cutstring = cms.string("(electron.isEB & (" + electron_newIso_string + ") > (0.0287+0.506/electron.pt)) | \
+                                     (electron.isEE & (" + electron_newIso_string + ") > (0.0445+0.963/electron.pt))")
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    electron_antiNewIso_cutstring = cms.string("(isEB & (" + electron_newIso_string + ") > 0.0588) | \
-                                     (isEE & (" + electron_newIso_string + ") > 0.0571)")
+    electron_antiNewIso_cutstring = cms.string("(electron.isEB & (" + electron_newIso_string + ") > 0.0588) | \
+                                     (electron.isEE & (" + electron_newIso_string + ") > 0.0571)")
 electron_antiNewIso_alias = cms.string(">=1 electrons with inverted tight rho-based isolation")
 
 ##########################################################################
@@ -176,10 +176,10 @@ electron_antiNewIso_alias = cms.string(">=1 electrons with inverted tight rho-ba
 # ELECTRON ID IMPACT PARAMETER CUTS
 # impact parameter cuts are the same in 2016 and 2017 and 2018
 
-electron_id_impact_parameter_cutstring = cms.string("(isEB & \
+electron_id_impact_parameter_cutstring = cms.string("(electron.isEB & \
                                              abs("+electronD0WRTPV+") < 0.05 & \
                                              abs("+electronDZWRTPV+") < 0.10) | \
-                                             (isEE & \
+                                             (electron.isEE & \
                                              abs("+electronD0WRTPV+") < 0.10 & \
                                              abs("+electronDZWRTPV+") < 0.20)")
 

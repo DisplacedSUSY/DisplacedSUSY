@@ -366,7 +366,7 @@ electron_eta_cut = cms.PSet(
 
 electron_gap_veto = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("isEBEEGap = 0"),
+    cutString = cms.string("electron.isEBEEGap = 0"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">= 1 electrons not in ECAL crack")
     )
@@ -387,73 +387,73 @@ electron_eta_phi_veto_2018 = cms.PSet(
 
 electron_pt_20_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("electron.pt > 20"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 25"),
+    cutString = cms.string("electron.pt > 25"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_25_dummy_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 25"),
+    cutString = cms.string("electron.pt > 25"),
     numberRequired = cms.string(">= 0")
     )
 
 electron_pt_30_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 30"),
+    cutString = cms.string("electron.pt > 30"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_42_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 42"),
+    cutString = cms.string("electron.pt > 42"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_45_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 45"),
+    cutString = cms.string("electron.pt > 45"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_50_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 50"),
+    cutString = cms.string("electron.pt > 50"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_65_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 65"),
+    cutString = cms.string("electron.pt > 65"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_75_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 75"),
+    cutString = cms.string("electron.pt > 75"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_100_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 100"),
+    cutString = cms.string("electron.pt > 100"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_150_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 150"),
+    cutString = cms.string("electron.pt > 150"),
     numberRequired = cms.string(">= 1")
     )
 
 electron_pt_100_veto = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > 100"),
+    cutString = cms.string("electron.pt > 100"),
     numberRequired = cms.string("== 0"),
     isVeto = cms.bool(True),
     alias = cms.string("electron pT > 100 GeV veto")
@@ -461,7 +461,7 @@ electron_pt_100_veto = cms.PSet(
 
 electron_id_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("passesVID_tightID"),
+    cutString = cms.string("electron.passesVID_tightID"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 electrons with versioned tight ID") #versioned tight ID normally includes tight isolation, but we remove it in customize.py so we can use the inverted isolation at times
     )
@@ -635,7 +635,7 @@ electron_mt_cut = cms.PSet (
 
 electron_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > -1"),
+    cutString = cms.string("electron.pt > -1"),
     numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 electron")
     )
@@ -696,13 +696,13 @@ muon_eta1p9_cut = cms.PSet(
 
 muon_eta_lessThan1_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(eta) < 1.0"),
+    cutString = cms.string("abs(muon.eta) < 1.0"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_eta_greaterThan1_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(eta) >= 1.0"),
+    cutString = cms.string("abs(muon.eta) >= 1.0"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -724,13 +724,13 @@ muon_eta_phi_veto_2018 = cms.PSet(
 #####################################
 muon_pt_15_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 15"),
+    cutString = cms.string("muon.pt > 15"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_15_veto = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 15"),
+    cutString = cms.string("muon.pt > 15"),
     numberRequired = cms.string("== 0"),
     isVeto = cms.bool(True),
     alias = cms.string("muon pT > 15 GeV veto")
@@ -738,85 +738,85 @@ muon_pt_15_veto = cms.PSet(
 
 muon_pt_20_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 20"),
+    cutString = cms.string("muon.pt > 20"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_25_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 25"),
+    cutString = cms.string("muon.pt > 25"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_25_dummy_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 25"),
+    cutString = cms.string("muon.pt > 25"),
     numberRequired = cms.string(">= 0")
     )
 
 muon_pt_30_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 30"),
+    cutString = cms.string("muon.pt > 30"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_35_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 35"),
+    cutString = cms.string("muon.pt > 35"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_40_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 40"),
+    cutString = cms.string("muon.pt > 40"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_45_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 45"),
+    cutString = cms.string("muon.pt > 45"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_50_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 50"),
+    cutString = cms.string("muon.pt > 50"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_55_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 55"),
+    cutString = cms.string("muon.pt > 55"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_65_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 65"),
+    cutString = cms.string("muon.pt > 65"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_70_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 70"),
+    cutString = cms.string("muon.pt > 70"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_75_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 75"),
+    cutString = cms.string("muon.pt > 75"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_100_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 100"),
+    cutString = cms.string("muon.pt > 100"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_100_veto = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 100"),
+    cutString = cms.string("muon.pt > 100"),
     numberRequired = cms.string("== 0"),
     isVeto = cms.bool(True),
     alias = cms.string("muon pT > 100 GeV veto")
@@ -824,13 +824,13 @@ muon_pt_100_veto = cms.PSet(
 
 muon_pt_150_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 150"),
+    cutString = cms.string("muon.pt > 150"),
     numberRequired = cms.string(">= 1")
     )
 
 muon_pt_50to60_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > 50 & pt < 60"),
+    cutString = cms.string("muon.pt > 50 & muon.pt < 60"),
     numberRequired = cms.string(">= 1")
     )
 
@@ -1095,7 +1095,7 @@ muon_mt_cut = cms.PSet (
 
 muon_num_exactly_1_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("pt > -1"),
+    cutString = cms.string("muon.pt > -1"),
     numberRequired = cms.string("== 1"),
     alias = cms.string("exactly 1 muon")
     )

@@ -83,13 +83,13 @@ electron_gen_motherIsHeavyMeson_cut.alias = cms.string(">=2 electrons from heavy
 
 electron_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("abs(abs(phi)-3.14159/2) > 0.05"),
+    cutString = cms.string("abs(abs(electron.phi)-3.14159/2) > 0.05"),
     numberRequired = cms.string(">= 2")
     )
 
 electron_2electron_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("pt > -1"),
+    cutString = cms.string("electron.pt > -1"),
     numberRequired = cms.string("== 2"),
     alias = cms.string("exactly 2 electrons")
     )
