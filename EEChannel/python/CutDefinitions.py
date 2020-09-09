@@ -196,11 +196,21 @@ electron_onePrompt_0to40_oneDisplaced_500to1000_cut = cms.PSet (
 
 ##########################################################################
 
-# build cut to veto muons that would fall in the emu inclusive signal region
-# fixme: can't include cosmic cuts because of ('muons','muons') in inputCollection
+# build cut to filter out muons that would not pass the emu preselection
+# don't include cosmic or deltaR vetos
 from DisplacedSUSY.EMuChannel.Preselection import Preselection as emu_preselection
-from DisplacedSUSY.Configuration.helperFunctions import make_overlap_veto
+from DisplacedSUSY.Configuration.helperFunctions import make_selection_filter
 
-alias = "veto events with displaced muons that pass the emu preselection muon selection"
-displaced_muon_emu_preselection_veto = make_overlap_veto('muons', emu_preselection,
-                                                         muon_d0_greaterThan100_cut, alias)
+# break emu preselection into two parts because some cut attributes only exist for global muons
+muon_id_cut_ix = emu_preselection.cuts.index(muon_id_cut)
+cuts_part1 = emu_preselection.cuts[:muon_id_cut_ix]
+cuts_part2 = emu_preselection.cuts[muon_id_cut_ix:]
+emu_preselection_part1 = copy.deepcopy(emu_preselection)
+emu_preselection_part2 = copy.deepcopy(emu_preselection)
+removeCuts(emu_preselection_part1.cuts, cuts_part2)
+removeCuts(emu_preselection_part2.cuts, cuts_part1)
+
+alias1 = "filter muon collection to only include those that pass emu preselection muon cuts, part 1"
+muon_emu_preselection_filter_part1 = make_selection_filter('muons', emu_preselection_part1, alias1)
+alias2 = "filter muon collection to only include those that pass emu preselection muon cuts, part 2"
+muon_emu_preselection_filter_part2 = make_selection_filter('muons', emu_preselection_part2, alias2)

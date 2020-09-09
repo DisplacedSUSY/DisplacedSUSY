@@ -574,6 +574,15 @@ electron_d0_greaterThan100_cut = cms.PSet(
     alias = cms.string(">=1 electrons with |d_0| > 100 mum")
     )
 
+# electron d0 > 100 micron veto
+electron_d0_greaterThan100_veto = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("10000*abs("+electronSmearedD0WRTBeamspot+") > 100"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("veto events with electrons with |d_0| > 100 mum")
+    )
+
 # electron 100 < d0 < 200 microns
 electron_d0_100to200_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
@@ -1009,6 +1018,15 @@ muon_d0_greaterThan100_exactly1_cut = cms.PSet(
     cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") > 100"),
     numberRequired = cms.string("== 1"),
     alias = cms.string("==1 muons with |d_0| > 100 mum")
+    )
+
+# muon d0 > 100 micron veto
+muon_d0_greaterThan100_veto = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("10000*abs("+muonSmearedD0WRTBeamspot+") > 100"),
+    numberRequired = cms.string("== 0"),
+    isVeto = cms.bool(True),
+    alias = cms.string("veto events with muons with |d_0| > 100 mum")
     )
 
 # muon 100 < d0 < 200 microns

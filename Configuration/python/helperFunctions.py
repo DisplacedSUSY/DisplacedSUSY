@@ -23,29 +23,26 @@ def propagateError(func, a, a_err, b, b_err):
         print "Unrecognized function"
         return -1
 
-# make cut to veto a given physics object that passes a predefined selection and one extra cut
-# currently skips cuts in which the same object appears more than once in inputCollection
-def make_overlap_veto(physics_object, selection, extra_cut, alias):
+# make cut to filter a given object collection to only include objects that would pass a predefined
+# selection without removing events; only cuts with a single input collection are supported
+def make_selection_filter(physics_object, selection, alias):
 
     # get cutstring without the 'cms.string()'
     def get_cutstring(cut):
        return str(cut.cutString)[12:-2]
 
-    # get all selection cuts where physics object appears exactly once in inputCollection
-    object_cuts = [c for c in selection.cuts if c.inputCollection.count(physics_object) == 1]
-    veto_cuts = object_cuts + [extra_cut]
+    # get all selection cuts where specified object is sole inputCollection
+    object_cuts = [c for c in selection.cuts if physics_object in c.inputCollection]
+    filter_cuts = [get_cutstring(c) for c in object_cuts if len(c.inputCollection) == 1]
 
-    # build veto inputCollection and cutstring
-    veto_input_collections = set()
-    veto_cutstring = "({})".format(get_cutstring(veto_cuts[0]))
-    for c in veto_cuts[1:]:
-        veto_input_collections.update(c.inputCollection)
-        veto_cutstring += " & ({})".format(get_cutstring(c))
+    # build cutstring
+    filter_cutstring = "({})".format(filter_cuts[0])
+    for c in filter_cuts[1:]:
+        filter_cutstring += " & ({})".format(c)
 
     return cms.PSet(
-        inputCollection = cms.vstring(veto_input_collections),
-        cutString = cms.string(veto_cutstring),
-        numberRequired = cms.string("== 0"),
-        isVeto = cms.bool(True),
+        inputCollection = cms.vstring(physics_object),
+        cutString = cms.string(filter_cutstring),
+        numberRequired = cms.string(">= 0"),
         alias = cms.string(alias)
         )
