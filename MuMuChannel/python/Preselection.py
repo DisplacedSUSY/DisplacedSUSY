@@ -51,9 +51,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     PreselectionMimicEE.cuts.append(muon_pt_75_cut)
 
-PromptRegion = copy.deepcopy(Preselection)
-PromptRegion.name = cms.string("PromptRegion")
-PromptRegion.cuts.append(muon_d0_lessThan30_cut)
+PromptControlRegion = copy.deepcopy(Preselection)
+PromptControlRegion.name = cms.string("PromptControlRegion")
+PromptControlRegion.cuts.append(muon_d0_lessThan50_cut)
 
 GenPromptRegion = copy.deepcopy(Preselection)
 GenPromptRegion.name = cms.string("GenPromptRegion")

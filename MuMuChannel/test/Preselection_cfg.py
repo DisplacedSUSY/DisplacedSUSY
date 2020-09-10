@@ -19,7 +19,7 @@ eventSelections = [
     #etaLessThan1GenPromptRegion,
     #pT50to60GenPromptRegion,
     #pTGreaterThan150GenPromptRegion,
-    #PromptRegion,
+    #PromptControlRegion,
     #PreselectionNoIsoCut,
     #pfBetaIsoCorrPreselection,
     #PreselectionBTagVeto,
