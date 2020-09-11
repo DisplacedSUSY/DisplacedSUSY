@@ -32,8 +32,8 @@ y_axis_title = "Leading electron |d_{0}| [#mum]"
 # be careful not to accidently unblind if running over preselection data
 
 # actual signal regions (don't unblind!)
-#bins_x = [0, 100, 500, 1000, 100000]
-#bins_y = [0, 100, 500, 1000, 100000]
+#bins_x = [20, 100, 500, 100000]
+#bins_y = [20, 100, 500, 100000]
 #bins_z = [0, 300, -1]
 
 # prompt-e/prompt-e region
