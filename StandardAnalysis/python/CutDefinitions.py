@@ -140,6 +140,14 @@ exactly2_genTau_uniqueMotherIsZ_cut = cms.PSet(
    #and you'd be throwing out many good events
 )
 
+#for cosmics
+exactly1_genMu_status1_cut = cms.PSet(
+    inputCollection = cms.vstring("hardInteractionMcparticles"),
+    cutString = cms.string("abs ( pdgId ) == 13 & status==1"),
+    numberRequired = cms.string("== 1"),
+    alias = cms.string("Exactly 1 status==1 gen muons")
+)
+
 genPhoton_status1_cut = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     cutString = cms.string("abs ( pdgId ) == 22 & status==1"),

@@ -1,5 +1,6 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
+from DisplacedSUSY.MuMuChannel.MuMuHistograms import *
 
 ################################################################################
 ##### Import the channels to be run ############################################
@@ -11,6 +12,8 @@ eventSelections = []
 eventSelections.append(MuMuSkim)
 #eventSelections.append(MuMuSkimWithoutTrigger)
 #eventSelections.append(MuMuSkimWithOnlyL1Trigger)
+#eventSelections.append(EmptySkim)
+#eventSelections.append(CosmicsSelection)
 ################################################################################
 
 # REDEFINE weights, scalingfactorproducers, histograms
@@ -27,6 +30,7 @@ histograms = cms.VPSet() #but need to make histograms for trigger study
 ################################################################################
 
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
+#add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMapAOD, variableProducers)
 #outfile = open('dumpedConfig.py','w'); print >> outfile,process.dumpPython(); outfile.close()
 
 # customize the process:

@@ -108,6 +108,9 @@ bg_mc_samples = {
     'QCD_bcToE_80to170'  :  '/QCD_Pt_80to170_bcToE_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_backup_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM',
     'QCD_bcToE_170to250' :  '/QCD_Pt_170to250_bcToE_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 10M
     'QCD_bcToE_250toInf' :  '/QCD_Pt_250toInf_bcToE_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', # 10M
+
+    #Cosmics
+    'Cosmics' : '/CosmicMuonsMCPrivate/lpcmetx-RunIISummer15DR80_LooseMuCosmic_38T_pt10_3000_DIGIRAW_step2_AOD_CMSSW_8_0_21-0f111def6b9b94823916592fdafc5ec9/USER',
 }
 
 data_samples = {

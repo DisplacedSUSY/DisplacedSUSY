@@ -26,3 +26,20 @@ MuMuSkimWithOnlyL1Trigger = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(MuMuSkim.cuts))
 )
 MuMuSkimWithOnlyL1Trigger.cuts.append(pass_L1DoubleMu_Seeds)
+
+EmptySkim = cms.PSet(
+    name = cms.string("EmptySkim"),
+    triggers = cms.vstring(""),
+    cuts = cms.VPSet()
+)
+EmptySkim.cuts.append(cutDummyMuon)
+
+CosmicsSelection = cms.PSet(
+    name = cms.string("CosmicsSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(
+        exactly1_genMu_status1_cut,
+        muon_eta_cut,
+        muon_pt_35_cut
+    )
+)
