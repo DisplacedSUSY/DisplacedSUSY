@@ -28,7 +28,6 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
 
 void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, const edm::EventSetup &setup) {
-#if DATA_FORMAT == MINI_AOD_CUSTOM || DATA_FORMAT == MINI_AOD || DATA_FORMAT == MINI_AOD_2017
   objectsToGet_.insert ("jets");
   objectsToGet_.insert ("electrons");
   objectsToGet_.insert ("muons");
@@ -40,19 +39,29 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   }
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
 
-  double sumJetPt = -1;
-  for (const auto &jet1 : *handles_.jets) {
-    if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0) {
-      if(passCleaning(jet1.eta(),jet1.phi(), handles_) ) {
-        sumJetPt = sumJetPt + jet1.pt();
-      }
-    }
-  }
-
   double numPV = 0;
   for (const auto &pv1 : *handles_.primaryvertexs) {
     if(pv1.isValid()) {
       numPV = numPV + 1;
+    }
+  }
+
+  double numTruePV = 0;
+  if(type_.find("MC") < type_.length()) {
+    for (const auto &pv1 : *handles_.pileupinfos) {
+      if(pv1.getBunchCrossing() == 0) {
+          numTruePV = pv1.getTrueNumInteractions();
+      }
+    }
+  }
+
+#if DATA_FORMAT_FROM_MINIAOD
+  double sumJetPt = -1;
+  for (const auto &jet1 : *handles_.jets) {
+    if(jet1.pt() >= 25 && abs(jet1.eta()) <= 2.4 && jet1.neutralHadronEnergyFraction() < 0.99 && jet1.chargedEmEnergyFraction() < 0.99 && jet1.neutralEmEnergyFraction() < 0.99 && jet1.numberOfDaughters() > 1 && jet1.chargedHadronEnergyFraction() > 0.0 && jet1.chargedMultiplicity() > 0.0) {
+      if(passCleaning(jet1.eta(),jet1.phi(), handles_) ) {
+	sumJetPt = sumJetPt + jet1.pt();
+      }
     }
   }
 
@@ -69,15 +78,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
       numTightMuons = numTightMuons + 1;
     }
   }
+#endif
 
-  double numTruePV = 0;
-  if(type_.find("MC") < type_.length()) {
-    for (const auto &pv1 : *handles_.pileupinfos) {
-      if(pv1.getBunchCrossing() == 0) {
-          numTruePV = pv1.getTrueNumInteractions();
-      }
-    }
-  }
   // Pass trigger specified in config file
   const edm::TriggerNames &names = event.triggerNames(*handles_.triggers);
   for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
@@ -106,8 +108,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   auto beamspot = *handles_.beamspots;
   for (const auto &muon1 : *handles_.muons) {
     // Use subset of muon selection criteria that can be implemented here without significant hassle
-    // This is a hideous approach. These magic numbers should be replaced by a better approach
-    // TagMuonPhi condition exists to pseudorandomly pick tag muon if multiple candidates exist
+  // This is a hideous approach. These magic numbers should be replaced by a better approach
+  // TagMuonPhi condition exists to pseudorandomly pick tag muon if multiple candidates exist
     if (muon1.pt() > 55 && muon1.phi() > tagMuonPhi && abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
       tagMuonExists = true;
       tagMuonPt = muon1.pt();
@@ -132,12 +134,12 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double subleadingMuonTime = 100;
   int    subleadingMuonTimeNDof = 0;
   for (const auto &muon1 : *handles_.muons) {
-    if (abs(muon1.eta()) < 2.4 && muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
-      if (muon1.pt() > subleadingMuonPt) {
-        if (muon1.pt() > leadingMuonPt) {
-          subleadingMuonPt = leadingMuonPt;
-          subleadingMuonEta = leadingMuonEta;
-          subleadingMuonPhi = leadingMuonPhi;
+    if (muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
+       if (muon1.pt() > subleadingMuonPt) {
+	if (muon1.pt() > leadingMuonPt) {
+	  subleadingMuonPt = leadingMuonPt;
+	  subleadingMuonEta = leadingMuonEta;
+	  subleadingMuonPhi = leadingMuonPhi;
           subleadingMuonUnsmearedD0 = leadingMuonUnsmearedD0;
 	  subleadingMuonTime = leadingMuonTime;
 	  subleadingMuonTimeNDof = leadingMuonTimeNDof;
@@ -176,6 +178,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   if (deltaT < -20.0 && leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7) vetoTiming = true;
 
   // Identify tag electron for trigger efficiency plotting
+#if DATA_FORMAT_FROM_MINIAOD
   bool tagElectronExists = false;
   double tagElectronPt = -999;
   double tagElectronEta = 0;
@@ -189,7 +192,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
         electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
         abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
-        electron1.passConversionVeto()) {
+	electron1.passConversionVeto()) {
       tagElectronExists = true;
       tagElectronPt = electron1.pt();
       tagElectronEta = electron1.eta();
@@ -269,7 +272,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
       }
     }
   }
-
+#endif
 
 
 
@@ -301,6 +304,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["subleadingMuonEta"] = subleadingMuonEta;
   (*eventvariables)["subleadingMuonPhi"] = subleadingMuonPhi;
   (*eventvariables)["subleadingMuonUnsmearedD0"] = subleadingMuonUnsmearedD0;
+#if DATA_FORMAT_FROM_MINIAOD
   (*eventvariables)["tagElectronExists"] = tagElectronExists;
   (*eventvariables)["tagElectronPt"] = tagElectronPt;
   (*eventvariables)["tagElectronEta"] = tagElectronEta;
@@ -315,6 +319,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
   (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
   (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
+  (*eventvariables)["sumJetPt"] = sumJetPt;
+  (*eventvariables)["numSoftMuons"] = numSoftMuons;
+  (*eventvariables)["numTightMuons"] = numTightMuons;
+#endif
   if (leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7){
     (*eventvariables)["deltaT_leadingTwoMuons"] = deltaT;
     (*eventvariables)["upperMuonTime"] = upperMuonTime;
@@ -324,10 +332,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["lowerMuonTimeNDof"] = lowerMuonTimeNDof;
   (*eventvariables)["vetoTiming"] = vetoTiming;
   (*eventvariables)["numTruePV"] = numTruePV;
-  (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numPV"] = numPV;
-  (*eventvariables)["numSoftMuons"] = numSoftMuons;
-  (*eventvariables)["numTightMuons"] = numTightMuons;
   for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
     (*eventvariables)[triggerPaths_[ipath].c_str()] = HLTBitsMap[triggerPaths_[ipath]];
   }
@@ -335,7 +340,6 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
   }
 
-# endif
 }
 
 bool DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, OriginalCollections &handles) {

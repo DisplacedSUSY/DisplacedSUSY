@@ -14,13 +14,22 @@
 
 struct OriginalCollections
 {
-  edm::Handle<vector<pat::Electron> >       electrons;
-  edm::Handle<vector<pat::Jet> >            jets;
-  edm::Handle<vector<pat::Muon> >           muons;
+
   edm::Handle<reco::BeamSpot>               beamspots;
   edm::Handle<vector<reco::Vertex> >        primaryvertexs;
   edm::Handle<vector<PileupSummaryInfo>>    pileupinfos;
   edm::Handle<edm::TriggerResults>          triggers;
+
+#if DATA_FORMAT_FROM_AOD
+  edm::Handle<vector<reco::GsfElectron> >    electrons;
+  edm::Handle<vector<reco::PFJet> >          jets;
+  edm::Handle<vector<reco::Muon> >           muons;
+#elif DATA_FORMAT_FROM_MINIAOD
+  edm::Handle<vector<pat::Electron> >       electrons;
+  edm::Handle<vector<pat::Jet> >            jets;
+  edm::Handle<vector<pat::Muon> >           muons;
+#endif
+
 };
 
 class DisplacedSUSYEventVariableProducer : public EventVariableProducer
