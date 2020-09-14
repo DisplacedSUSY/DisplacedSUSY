@@ -160,6 +160,11 @@ data_samples = {
     'SingleMu_2017E' : '/SingleMuon/Run2017E-31Mar2018-v1/MINIAOD',
     'SingleMu_2017F' : '/SingleMuon/Run2017F-31Mar2018-v1/MINIAOD',
 
+    'NoBPTX_2017B' : '/NoBPTX/Run2017B-31Mar2018-v1/MINIAOD',
+    'NoBPTX_2017C' : '/NoBPTX/Run2017C-31Mar2018-v1/MINIAOD',
+    'NoBPTX_2017D' : '/NoBPTX/Run2017D-31Mar2018-v1/MINIAOD',
+    'NoBPTX_2017E' : '/NoBPTX/Run2017E-31Mar2018-v1/MINIAOD',
+    'NoBPTX_2017F' : '/NoBPTX/Run2017F-31Mar2018-v1/MINIAOD',
 }
 
 signal_mc_samples = {

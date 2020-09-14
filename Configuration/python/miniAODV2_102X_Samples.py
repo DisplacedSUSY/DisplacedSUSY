@@ -159,6 +159,9 @@ data_samples = {
     'SingleMu_2018C' : '/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD',
     'SingleMu_2018D' : '/SingleMuon/Run2018D-PromptReco-v2/MINIAOD',
 
+    'NoBPTX_2018A' : '/NoBPTX/Run2018A-17Sep2018-v1/MINIAOD',
+    'NoBPTX_2018B' : '/NoBPTX/Run2018B-17Sep2018-v1/MINIAOD',
+    'NoBPTX_2018C' : '/NoBPTX/Run2018C-17Sep2018-v1/MINIAOD',
     'NoBPTX_2018D' : '/NoBPTX/Run2018D-PromptReco-v2/MINIAOD',
 }
 

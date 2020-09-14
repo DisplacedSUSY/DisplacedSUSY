@@ -111,6 +111,9 @@ bg_mc_samples = {
 
     #Cosmics
     'Cosmics' : '/CosmicMuonsMCPrivate/lpcmetx-RunIISummer15DR80_LooseMuCosmic_38T_pt10_3000_DIGIRAW_step2_AOD_CMSSW_8_0_21-0f111def6b9b94823916592fdafc5ec9/USER',
+
+    'NoBPTX_2016G' : '/NoBPTX/Run2016G-07Aug17-v1/MINIAOD',
+    'NoBPTX_2016H' : '/NoBPTX/Run2016H-07Aug17-v1/MINIAOD',
 }
 
 data_samples = {
