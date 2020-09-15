@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
 # input info - be careful if running over preselection data while still blinded
-input_file = "/uscms_data/d3/cardwell/condor/emu_runII_ptBinned_estimates_15July2020/MuonEG_2016_2017_2018.root"
+input_file = "/uscms_data/d3/cardwell/condor/EMuBackgroundEstimates_RunII_11Sep2020/MuonEG_2016_2017_2018.root"
 
-#input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
-#input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]"
-input_hist = "AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]"
+#input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/electronLeadingAbsD0_vs_muonLeadingAbsD0_100000um"
+#input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]"
+input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]"
 
 # Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
 data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
 # systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
-systematic_uncertainty = 0.30
+systematic_uncertainty = 0.03
 # do pol0 (False) or pol1 (True) fit for extrapolation?
 pol1 = False
 

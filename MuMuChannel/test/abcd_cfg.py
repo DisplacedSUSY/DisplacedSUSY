@@ -1,23 +1,17 @@
 #!/usr/bin/env python
 
 # input info - be careful if running over preselection data while still blinded
-#input_file = "/uscms_data/d3/manunezo/condor/MuMuPreselection_2016Analysis_25July2018/Background.root"
-#input_file = "/uscms_data/d3/manunezo/condor/MuMuPreselection_2017Analysis_27July2018/Background.root"
-input_file = "/uscms_data/d3/cardwell/condor/mumu_runII_ptBinned_estimates_15July2020/DoubleMu_2016_2017_2018.root"
-#input_file = "/uscms_data/d3/cardwell/condor/MuMuAdditionalPreselection_2018Analysis_09July2020/DoubleMu_2018.root"
-#input_file = "/uscms_data/d3/manunezo/condor/MuMuAdditionalPreselection_2018Analysis_03June2020/DYJetsToLL.root"
-#input_file = "/uscms_data/d3/manunezo/condor/MuMuAdditionalPreselection_2018Analysis_03June2020/Background.root"
-#input_file = "/uscms_data/d3/alimena/condor/MuMuAdditionalPreselection_2018Analysis_MoreHists_22June2020/DYJetsToLL.root"
+input_file = "/uscms_data/d3/cardwell/condor/MuMuBackgroundEstimates_RunII_11Sep2020/DoubleMu_2016_2017_2018.root"
 
-#input_hist = "AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um"
-input_hist = "AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]"
+#input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um"
+input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]"
 
 # Is the sample data? If so, the script will use poisson uncertainty instead of normal approximation
 data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
 # systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
-systematic_uncertainty = 1.00
+systematic_uncertainty = 2.08
 # do pol0 (False) or pol1 (True) fit for extrapolation?
 pol1 = True
 
