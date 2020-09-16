@@ -215,6 +215,9 @@ for z_lo, z_hi in z_regions:
         print
         if not arguments.doClosureTest:
             print "Blinded: actual yields set equal to estimate."
+        if correlation_factor is not None:
+            print ("Estimates and uncertainties in most-prompt region are scaled up by {} to "
+                   "account for correlation").format(correlation_factor)
         print "[B]", output_file.replace(".root", ""), "[/B]"
         print '[TABLE border="1"]'
         print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual|D Actual/Estimate"
@@ -240,6 +243,10 @@ for z_lo, z_hi in z_regions:
                                                 y['val'], y['err_lo'], y['err_hi'])
             abcd = propagate_asymm_err("quotient", cb['val'], cb['err_lo'], cb['err_hi'],
                                        prompt['val'], prompt['err_lo'], prompt['err_hi'])
+
+        # scale estimate and uncertainty by multiplicative factor in most-prompt region
+        if correlation_factor is not None and x_lo is x_regions[1][0] and y_lo is y_regions[1][0]:
+            abcd.update((k, v*correlation_factor) for k, v in abcd.iteritems())
 
         # get count yields if unblinded; otherwise, set count yields equal to estimate
         if arguments.doClosureTest:
@@ -349,6 +356,10 @@ for z_lo, z_hi in z_regions:
                            sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_abcd['err_hi'])
 
             # store estimated and actual yields with signal region info for json output
+            if correlation_factor is not None and sr == 0:
+                systematic = correlation_factor * correlation_factor_uncertainty
+            else:
+                systematic = systematic_uncertainty
             bg_estimate_output['background'].append(
                 {
                     'pt'   : (z_lo, z_hi),
@@ -359,8 +370,8 @@ for z_lo, z_hi in z_regions:
                     # store uncertainties as multiplicative factors for makeDataCards
                     'err_lo' : (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val'],
                     'err_hi' : (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
-                    'sys_err_lo' : 1 - systematic_uncertainty,
-                    'sys_err_hi' : 1 + systematic_uncertainty,
+                    'sys_err_lo' : 1 - systematic,
+                    'sys_err_hi' : 1 + systematic,
                 }
             )
 

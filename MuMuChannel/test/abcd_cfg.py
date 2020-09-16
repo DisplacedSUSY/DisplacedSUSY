@@ -10,10 +10,17 @@ input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[
 data = True
 # Was the histogram constructed with the variable bin constructor? i.e. TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
-# systematic uncertainty on estimate (e.g. 0.5 = 50% uncertainty"
-systematic_uncertainty = 2.08
 # do pol0 (False) or pol1 (True) fit for extrapolation?
 pol1 = True
+
+# uncertainty info
+# mutliplicative correction to the estimate in the most-prompt signal region to account for correlation
+# correlation factor is only applied if not None
+correlation_factor = 2.70
+# uncertainty on correlation factor (e.g. 0.5 = 50% uncertainty)
+correlation_factor_uncertainty = 0.08
+# systematic uncertainty on estimate for all bins in which correlation factor is not applied
+systematic_uncertainty = 0.15
 
 # output info
 #output_file  = "BackgroundABCDEstimate.root"
