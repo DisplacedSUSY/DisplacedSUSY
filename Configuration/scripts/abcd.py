@@ -136,8 +136,8 @@ def sum_regions(r1, r2):
 def linear_extrapolation(pol1,nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_err_lo,ratio_err_hi,extrapolatedD0Point):
     graph = TGraphAsymmErrors(nPoints, array('f',d0Points), array('f',ratios), array('f',d0_err_lo), array('f',d0_err_hi), array('f',ratio_err_lo), array('f',ratio_err_hi))
     if pol1 is True:
-        fit = TF1("fit","pol1")
-        graph.Fit(fit)
+        fit = TF1("fit","pol1",0,extrapolatedD0Point)
+        graph.Fit(fit,"R")
         print "pol1 chisq is: {:.2f}".format(fit.GetChisquare())
         print "pol1 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
         print "pol1 slope is: {:.2f}".format(fit.GetParameter(1))+" +/- {:.2f}".format(fit.GetParError(1))
@@ -197,7 +197,7 @@ for z_lo, z_hi in z_regions:
 
     abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates",        in_th2, bins_x, bins_y)
     count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields",       in_th2, bins_x, bins_y)
-    ratio_hist = make_output_hist(str(z_lo)+"GeV Actual/Estimate Ratio", in_th2, bins_x, bins_y)
+    ratio_hist = make_output_hist("", in_th2, bins_x, bins_y)
 
     prompt = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], bins_y[0], bins_y[1],
                                    variable_bins, data)
@@ -206,10 +206,10 @@ for z_lo, z_hi in z_regions:
         ratios = []
         ratios_err_lo = []
         ratios_err_hi = []
-        x_los = []
-        x_ranges = []
-        y_los = []
-        y_ranges = []
+        x_mids = []
+        x_halfRanges = []
+        y_mids = []
+        y_halfRanges = []
 
     if arguments.makeTables:
         print
@@ -287,14 +287,15 @@ for z_lo, z_hi in z_regions:
             ratios_err_lo.append(float(ratio['err_lo']))
             ratios_err_hi.append(float(ratio['err_hi']))
 
-            x_los.append(float(x_lo))
-            x_range = x_hi-x_lo
-            x_ranges.append(float(x_range))
+            x_halfRange = 0.5*(x_hi-x_lo)
+            x_mid = x_halfRange+x_lo
+            x_halfRanges.append(float(x_halfRange))
+            x_mids.append(float(x_mid))
 
-            y_los.append(float(y_lo))
-            y_range = y_hi-y_lo
-            y_ranges.append(float(y_range))
-
+            y_halfRange = 0.5*(y_hi-y_lo)
+            y_mid = y_halfRange+y_lo
+            y_halfRanges.append(float(y_halfRange))
+            y_mids.append(float(y_mid))
 
         if arguments.makeTables:
             print "|-"
@@ -373,22 +374,21 @@ for z_lo, z_hi in z_regions:
     #do linear extrapolation to estimate systematic uncertainty
     if arguments.doExtrapolation:
         #find if x's or y's are changing: the ones that change are the d0 values we want
-        d0_los = array('f',[])
-        d0_ranges = array('f',[])
-        d0_0s = [0.] * len(ratios)
+        d0_mids = array('f',[])
+        d0_halfRanges = array('f',[])
 
-        if x_los.count(x_lo) > 1:
-            d0_los = y_los
-            d0_ranges = y_ranges
-        elif y_los.count(y_lo) > 1:
-            d0_los = x_los
-            d0_ranges = x_ranges
+        if x_mids.count(x_mid) > 1:
+            d0_mids = y_mids
+            d0_halfRanges = y_halfRanges
+        elif y_mids.count(y_mid) > 1:
+            d0_mids = x_mids
+            d0_halfRanges = x_halfRanges
         else:
-            print "problem with d0_los"
+            print "problem with d0_mids"
 
-        #extrapolate using the beginning of each d0 bin as the d0 points
-        extrapolatedD0Point = 100
-        (ratioProj_start, graph_start, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1,len(ratios),d0_los,ratios,d0_0s,d0_ranges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
+        #extrapolate using the middle of each d0 bin as the d0 points
+        extrapolatedD0Point = 300
+        (ratioProj_start, graph_middle, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1,len(ratios),d0_mids,ratios,d0_halfRanges,d0_halfRanges,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
         if pol1 is True:
             line = "line with slope "
         else:
@@ -451,41 +451,41 @@ for z_lo, z_hi in z_regions:
         CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
 
     if arguments.doExtrapolation:
-        graph_start.SetTitle("d0 points are beginning of bins")
-        grConfInt1Sig.SetTitle("d0 points are beginning of bins")
-        grConfInt2Sig.SetTitle("d0 points are beginning of bins")
-        graph_start.GetXaxis().SetTitle("d0 bins")
-        graph_start.GetYaxis().SetTitle("ratios")
-        grConfInt1Sig.GetXaxis().SetTitle("d0 bins")
-        grConfInt1Sig.GetYaxis().SetTitle("ratios")
-        grConfInt2Sig.GetXaxis().SetTitle("d0 bins")
-        grConfInt2Sig.GetYaxis().SetTitle("ratios")
-        graph_start.GetXaxis().SetTitleOffset(1.2)
-        graph_start.GetYaxis().SetTitleOffset(1.1)
+        graph_middle.SetTitle("")
+        grConfInt1Sig.SetTitle("")
+        grConfInt2Sig.SetTitle("")
+        graph_middle.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
+        graph_middle.GetYaxis().SetTitle("Actual/estimate ratios")
+        grConfInt1Sig.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
+        grConfInt1Sig.GetYaxis().SetTitle("Actual/estimate ratios")
+        grConfInt2Sig.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
+        grConfInt2Sig.GetYaxis().SetTitle("Actual/estimate ratios")
+        graph_middle.GetXaxis().SetTitleOffset(1.2)
+        graph_middle.GetYaxis().SetTitleOffset(1.1)
         grConfInt1Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt1Sig.GetYaxis().SetTitleOffset(1.1)
         grConfInt2Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt2Sig.GetYaxis().SetTitleOffset(1.1)
         if pol1 is True:
-            graph_start.GetYaxis().SetRangeUser(0.6,4.0)
-            grConfInt1Sig.GetYaxis().SetRangeUser(0.6,4.0)
-            grConfInt2Sig.GetYaxis().SetRangeUser(0.6,4.0)
+            graph_middle.GetYaxis().SetRangeUser(0.,13.0)
+            grConfInt1Sig.GetYaxis().SetRangeUser(0.,13.0)
+            grConfInt2Sig.GetYaxis().SetRangeUser(0.,13.0)
         else:
-            graph_start.GetYaxis().SetRangeUser(0.6,2.0)
+            graph_middle.GetYaxis().SetRangeUser(0.6,2.0)
             grConfInt1Sig.GetYaxis().SetRangeUser(0.6,2.0)
             grConfInt2Sig.GetYaxis().SetRangeUser(0.6,2.0)
-        graph_start.SetMarkerSize(2)
+        graph_middle.SetMarkerSize(2)
         grConfInt1Sig.SetFillColor(3)
         grConfInt2Sig.SetFillColor(5)
-        CanvasGraphStart = TCanvas("CanvasGraphStart"+str(z_lo), "CanvasGraphStart"+str(z_lo), 100, 100, 700, 600)
-        CanvasGraphStart.cd()
-        graph_start.Draw("AP")
+        CanvasGraphMiddle = TCanvas("CanvasGraphMiddle"+str(z_lo), "CanvasGraphMiddle"+str(z_lo), 100, 100, 700, 600)
+        CanvasGraphMiddle.cd()
+        grConfInt1Sig.Draw("A3")
         grConfInt2Sig.Draw("3same")
         grConfInt1Sig.Draw("3same")
-        graph_start.Draw("Psame")
-        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.pdf"))
-        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_graphStart.png"))
-        graph_start.Write("graph_start")
+        graph_middle.Draw("Psame")
+        CanvasGraphMiddle.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.pdf"))
+        CanvasGraphMiddle.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.png"))
+        graph_middle.Write("graph_middle")
         grConfInt1Sig.Write("grConfInt1Sig")
         grConfInt2Sig.Write("grConfInt2Sig")
 
