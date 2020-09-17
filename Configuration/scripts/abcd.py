@@ -143,8 +143,8 @@ def linear_extrapolation(pol1,nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_
         print "pol1 slope is: {:.2f}".format(fit.GetParameter(1))+" +/- {:.2f}".format(fit.GetParError(1))
 
     else:
-        fit = TF1("fit","pol0")
-        graph.Fit(fit)
+        fit = TF1("fit","pol0",0,extrapolatedD0Point)
+        graph.Fit(fit,"R")
         print "pol0 chisq/dof is: {:.2f}".format(1.*fit.GetChisquare()/fit.GetNDF())
         print "pol0 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
 
