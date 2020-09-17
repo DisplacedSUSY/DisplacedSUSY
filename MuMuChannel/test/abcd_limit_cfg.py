@@ -10,17 +10,23 @@ pt_bin_edges = [0, 150, -1] # GeV
 # |d0| range of prompt lepton in prompt/displaced control regions
 cr_d0_range = (20, 100) # um
 
+# multiplicative corrections to account for correlation; enter as (value, one-sigma uncertainty)
+# only list regions in which you want to apply a correction
+abcd_correlation_factors = {
+    'SR_100to500um_100to500um_0to150GeV'         : (2.70, 0.22),
+    'SR_100to500um_100to500um_150toInfGeV'       : (2.70, 0.22),
+}
+
 # fixme: abcd systematics specified here temporarily
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
+# only list regions in which you want to apply a systematic (as opposed to a correction)
 abcd_systematics = {
-    'SR_100to500um_100to500um_0to150GeV'         : 2.16,
-    'SR_100to500um_500to100000um_0to150GeV'      : 0.19,
-    'SR_500to100000um_100to500um_0to150GeV'      : 0.19,
-    'SR_500to100000um_500to100000um_0to150GeV'   : 0.19,
-    'SR_100to500um_100to500um_150toInfGeV'       : 2.16,
-    'SR_100to500um_500to100000um_150toInfGeV'    : 0.19,
-    'SR_500to100000um_100to500um_150toInfGeV'    : 0.19,
-    'SR_500to100000um_500to100000um_150toInfGeV' : 0.19,
+    'SR_100to500um_500to100000um_0to150GeV'      : 0.15,
+    'SR_500to100000um_100to500um_0to150GeV'      : 0.15,
+    'SR_500to100000um_500to100000um_0to150GeV'   : 0.15,
+    'SR_100to500um_500to100000um_150toInfGeV'    : 0.15,
+    'SR_500to100000um_100to500um_150toInfGeV'    : 0.15,
+    'SR_500to100000um_500to100000um_150toInfGeV' : 0.15,
 }
 
 # fixme: temporary fudge factor to scale 2018 signal yield

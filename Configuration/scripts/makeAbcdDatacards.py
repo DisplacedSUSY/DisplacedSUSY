@@ -230,13 +230,22 @@ class SignalRegion(Region):
 
     # specify D=B*C/A relationship using combine rateParameters
     # relationship will be more complex for non-rectangular regions
-    def build_rate_param_func(self, unique_regions):
-        func = "((@0*@1"
-        ix = 2
+    def build_rate_param_func(self, unique_regions, apply_correction):
+        self.apply_correction = apply_correction
+        if self.apply_correction:
+            func = "(@0*(@1*@2"
+            ix = 3
+        else:
+            func = "((@0*@1"
+            ix = 2
         for r in self.subregions[1:]:
             func += "+@{}*@{}".format(ix, ix+1)
             ix +=2
         func += ")/@{}) ".format(ix)
+
+        if self.apply_correction:
+            self.correction_param = self.param+"_correction"
+            func += "{},".format(self.correction_param)
 
         # find unique regions that are equivalent to currently associated control regions
         for r in self.subregions:
@@ -328,6 +337,13 @@ for sr in signal_regions:
 # create duplicate-free list of signal and control regions to use in datacards
 unique_regions = list(OrderedDict.fromkeys(ordered_regions))
 
+# check that all signal regions have either a systematic uncertainty or correction
+regions_in_cfg = abcd_correlation_factors.keys() + abcd_systematics.keys()
+signal_region_names = [sr.name for sr in signal_regions]
+if sorted(signal_region_names) != sorted(regions_in_cfg):
+    raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
+                       "abcd_systematics")
+
 # associate unique rateParam name to each unique region
 region_ixs = {'a':0, 'b' : 0, 'c' : 0, 'd' : 0}
 for r in unique_regions:
@@ -335,9 +351,10 @@ for r in unique_regions:
     r.set_param(region_type + str(region_ixs[region_type]))
     region_ixs[region_type] += 1
 
-# create ABCD associations between rateParams
+# create ABCD and correlation correction associations between params
 for sr in signal_regions:
-    sr.build_rate_param_func(unique_regions)
+    apply_correction = sr.name in abcd_correlation_factors
+    sr.build_rate_param_func(unique_regions, apply_correction)
 
 # get all the external systematic errors and put them in a dictionary
 # fixme: this needs to be tested after external systematics files are updated
@@ -381,15 +398,11 @@ observed_table = fancyTable([bin_row, obs_row])
 abcd_systematic_row = ["abcd_method", "lnN", ""]
 for r in unique_regions:
     abcd_systematic_row.append("-")
-    if r.cr:
-        abcd_systematic_row.append("-")
-    else:
-        try:
-            uncertainty = abcd_systematics[r.name]
-        except KeyError:
-            raise KeyError("ABCD systematic not specified for {} in config".format(r.name))
-        uncertainty = str(round(1+uncertainty, 2))
+    if r.name in abcd_systematics:
+        uncertainty = str(round(1+abcd_systematics[r.name], 2))
         abcd_systematic_row.append(uncertainty)
+    else:
+        abcd_systematic_row.append("-")
 
 # build global systematics rows
 global_systematics_rows = []
@@ -408,14 +421,19 @@ for name, uncertainty in global_systematic_uncertainties.iteritems():
 
 # build abcd table
 abcd_rows = []
+correlation_correction_rows = []
 for r in unique_regions:
-    row = [r.param, "rateParam", r.name, "background"]
+    abcd_row = [r.param, "rateParam", r.name, "background"]
     if r.cr:
-        row.append(str(int(round(data_yields[r.name]))))
+        abcd_row.append(str(int(round(data_yields[r.name]))))
     else:
-        row.append(r.param_func)
-    abcd_rows.append(row)
-abcd_table = fancyTable(abcd_rows)
+        abcd_row.append(r.param_func)
+    abcd_rows.append(abcd_row)
+    if not r.cr and r.apply_correction:
+        correction_string = "{} {}".format(*abcd_correlation_factors[r.name])
+        correction_row = [r.correction_param, "param", "", "", correction_string]
+        correlation_correction_rows.append(correction_row)
+abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
 # write a datacard for each signal point
 for signal['name'] in signal_points:
