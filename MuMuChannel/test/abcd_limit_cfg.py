@@ -30,17 +30,17 @@ abcd_systematics = {
 }
 
 # fixme: temporary fudge factor to scale 2018 signal yield
-#lumi_factor = 1
+lumi_factor = 1
 #lumi_factor = (59.7+36.7)/59.7 # 2018 --> 2017-18
-lumi_factor = 112.8/59.7 # 2018 --> 2016-18
+#lumi_factor = 112.8/59.7 # 2018 --> 2016-18
 
 # one will generally want to use the same histogram for signal and data
 # this can be overridden in individual dictionaries if desired
-hist = 'AdditionalPreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]'
+hist = 'PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]'
 
 data = {
     'name' : 'DoubleMu_2016_2017_2018',
-    'dir'  : 'mumu_runII_ptBinned_estimates_15July2020',
+    'dir'  : 'MuMuBackgroundEstimates_RunII_11Sep2020',
     'file' : 'DoubleMu_2016_2017_2018.root',
     'hist' : hist,
     'var_bins' : True,
@@ -51,7 +51,7 @@ data = {
 if arguments.era == "2016":
     signal = {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'MuMuPreselection_2016Analysis_94X_StopToLBMajorPoints_11Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -60,7 +60,7 @@ if arguments.era == "2016":
 elif arguments.era == "2017":
     signal = {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'MuMuPreselection_2017Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -69,7 +69,7 @@ elif arguments.era == "2017":
 elif arguments.era == "2018":
     signal = {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'MuMuAdditionalPreselection_2018Analysis_signal_coarse3DHists_9July2020',
+        'dir'  : 'MuMuPreselection_2018Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
