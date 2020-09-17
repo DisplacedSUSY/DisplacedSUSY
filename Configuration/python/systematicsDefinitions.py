@@ -209,7 +209,7 @@ if arguments.era == "2016":
 
         #taken from Ian's study
         'track_reco2016' :  { #2016 uncorrelated with 2017 and 2018 due to different pixel detector in 2016
-            'value' : '1.135',
+            'value' : '1.141',
             'applyList' : ['signal'],
             }
         }
@@ -267,7 +267,7 @@ elif arguments.era == "2017":
 
         #taken from Ian's study
         'track_reco' :  {
-            'value' : '1.047',
+            'value' : '1.058',
             'applyList' : ['signal'],
             }
         }
@@ -312,7 +312,7 @@ elif arguments.era == "2018":
 
         #taken from Ian's study
         'track_reco' :  {
-            'value' : '1.', #needs to be updated for 2018
+            'value' : '1.024',
             'applyList' : ['signal'],
             }
         }
