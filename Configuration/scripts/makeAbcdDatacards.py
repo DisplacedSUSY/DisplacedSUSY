@@ -113,6 +113,9 @@ class Region(object):
             integral *= bin_factor
             error *= bin_factor
 
+        # round integral and error to same precision to avoid rare issue due to ROOT Double
+        integral = round(integral, 15)
+        error = round(error, 15)
         try:
             unweighted_events = (integral / error)**2
         except ZeroDivisionError:
