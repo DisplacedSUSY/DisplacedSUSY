@@ -43,12 +43,14 @@ Electron0Branches = cms.PSet(
     branches = cms.VPSet ([cms.PSet(name = cms.string(x+"Electron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(x)) for x in LeptonBranches_names]),
 )
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(objectDefs.electron_newIso_string))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
 
 Electron1Branches = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x+"Electron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(x)) for x in LeptonBranches_names]),
 )
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(objectDefs.electron_newIso_string))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
 
 
 Electron0D0Branches = cms.PSet(
@@ -149,6 +151,7 @@ Muon0Branches = cms.PSet(
 )
 Muon0Branches.branches.extend([cms.PSet(name = cms.string(x+"0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(x)) for x in AdditionalMuonBranches_names])
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(objectDefs.muon_iso_string))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
 
 Muon1Branches = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -156,6 +159,7 @@ Muon1Branches = cms.PSet(
 )
 Muon1Branches.branches.extend([cms.PSet(name = cms.string(x+"1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(x)) for x in AdditionalMuonBranches_names])
 Muon1Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(objectDefs.muon_iso_string))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
 
 Muon0D0Branches = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
