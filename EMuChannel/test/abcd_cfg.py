@@ -46,10 +46,10 @@ bins_z = [0, -1]
 
 # prompt-leading-ele/displaced-leading-mu region
 #bins_x = [20, 100,  100000]
-#bins_y = [20, 30, 40, 50, 60, 70, 100]
+#bins_y = [20, 30, 40, 50, 60, 70, 80, 100]
 #bins_z = [0, -1]
 
 # displaced-leading-ele/prompt-leading-mu region
-#bins_x = [20, 30, 40, 50, 60, 70, 100]
+#bins_x = [20, 30, 40, 50, 60, 70, 80, 100]
 #bins_y = [20, 100,  100000]
 #bins_z = [0, -1]
