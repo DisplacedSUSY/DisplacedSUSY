@@ -17,8 +17,12 @@ pol1 = True
 # mutliplicative correction to the estimate in the most-prompt signal region to account for correlation
 # correlation factor is only applied if not None
 correlation_factor = 2.70
+#correlation_factor = None #needed for closure tests
+
 # uncertainty on correlation factor (e.g. 0.5 = 50% uncertainty)
 correlation_factor_uncertainty = 0.08
+#correlation_factor_uncertainty = None #needed for closure tests
+
 # systematic uncertainty on estimate for all bins in which correlation factor is not applied
 systematic_uncertainty = 0.15
 
@@ -48,7 +52,7 @@ bins_z = [0, -1]
 
 # prompt-leading-mu/displaced-subleading-mu region, 100 um to 500 um
 #bins_x = [20,  100,  500]
-#bins_y = [20, 30, 40, 50, 60, 70, 100]
+#bins_y = [20, 30, 40, 50, 60, 70, 80, 90, 100]
 #bins_z = [0, -1]
 
 # prompt-leading-mu/displaced-subleading-mu region, 500 um to 10 cm
@@ -57,7 +61,7 @@ bins_z = [0, -1]
 #bins_z = [0, -1]
 
 # displaced-leading-mu/prompt-subleading-mu region, 100 um to 500 um
-#bins_x = [20, 30, 40, 50, 60, 70,  100]
+#bins_x = [20, 30, 40, 50, 60, 70, 80, 90, 100]
 #bins_y = [20, 100,  500]
 #bins_z = [0, -1]
 
