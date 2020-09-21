@@ -16,11 +16,11 @@ pol1 = True
 # uncertainty info
 # mutliplicative correction to the estimate in the most-prompt signal region to account for correlation
 # correlation factor is only applied if not None
-correlation_factor = 2.70
+correlation_factor = 4.75
 #correlation_factor = None #needed for closure tests
 
 # uncertainty on correlation factor (e.g. 0.5 = 50% uncertainty)
-correlation_factor_uncertainty = 0.08
+correlation_factor_uncertainty = 0.067
 #correlation_factor_uncertainty = None #needed for closure tests
 
 # systematic uncertainty on estimate for all bins in which correlation factor is not applied

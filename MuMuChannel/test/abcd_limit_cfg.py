@@ -13,8 +13,8 @@ cr_d0_range = (20, 100) # um
 # multiplicative corrections to account for correlation; enter as (value, one-sigma uncertainty)
 # only list regions in which you want to apply a correction
 abcd_correlation_factors = {
-    'SR_100to500um_100to500um_0to150GeV'         : (2.70, 0.22),
-    'SR_100to500um_100to500um_150toInfGeV'       : (2.70, 0.22),
+    'SR_100to500um_100to500um_0to150GeV'         : (4.75, 0.32),
+    'SR_100to500um_100to500um_150toInfGeV'       : (4.75, 0.32),
 }
 
 # fixme: abcd systematics specified here temporarily
