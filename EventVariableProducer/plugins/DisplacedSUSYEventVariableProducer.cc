@@ -290,6 +290,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     }
   }
 
+  (*eventvariables)["run"] = event.id().run();
+  (*eventvariables)["ls"] = event.luminosityBlock();
+  (*eventvariables)["event"] = event.id().event();
   (*eventvariables)["tagMuonExists"] = tagMuonExists;
   (*eventvariables)["tagMuonPt"] = tagMuonPt;
   (*eventvariables)["tagMuonEta"] = tagMuonEta;

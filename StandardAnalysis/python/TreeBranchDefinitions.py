@@ -12,6 +12,9 @@ import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 ###########################
 
 EventVariableBranches_names = [
+    "run",
+    "ls",
+    "event",
     "numPV",
     "deltaT_leadingTwoMuons",
 ]
