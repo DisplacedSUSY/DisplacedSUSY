@@ -299,6 +299,52 @@ def fancyTable(arrays):
 def make_bins(bin_edges):
     return zip(bin_edges[:-1], bin_edges[1:])
 
+# get factor to go between unweighted events and yields for rates taken from MC
+def get_gamma_sf(y, e):
+    try:
+        return round(y/e, 7)
+    except ZeroDivisionError:
+        # the yield is necessarily 0 in this case
+        return 0.0
+
+# combine systemtic uncertainties across years, weighting by total yearly yields
+def combine_systematics(uncertainties, yields, years):
+    # return single year's systematics if only running one year
+    if len(years) == 1:
+        return uncertainties[years[0]]
+
+    # make list of weights for each year according to yields
+    yearly_yields = {}
+    total = 0.0
+    for year in years:
+        yearly_yields[year] = sum((yields[sr][year] for sr in yields))
+        total += yearly_yields[year]
+    weights = {year : y/total for year, y in yearly_yields.iteritems()}
+
+    # make a list of all relevant systematics and the years in which they are applied
+    all_uncertainties = {}
+    for year in years:
+        for u in uncertainties[year].keys():
+            if u in all_uncertainties:
+                all_uncertainties[u].append(year)
+            else:
+                all_uncertainties[u] = [year]
+
+    # weight systematics according to yield in each year
+    weighted_systematics = {}
+    for name, years_applied in all_uncertainties.iteritems():
+        weighted_systematics[name] = {}
+        val = 0
+        for year in years:
+            if year in years_applied:
+                val += float(uncertainties[year][name]['value']) * weights[year]
+            else:
+                val += weights[year]
+        weighted_systematics[name]['value'] = str(round(val, 3))
+        weighted_systematics[name]['applyList'] = uncertainties[years_applied[0]][name]['applyList']
+
+    return weighted_systematics
+
 ####################################################################################################
 
 # put bin edges in more useful form
@@ -330,12 +376,12 @@ data_hist = Hist(data)
 ordered_regions = [sr for sr in signal_regions]
 for sr in signal_regions:
     data_yields[sr.name] = sr.get_yield(data_hist)
-    abcd_yields[sr.name] = sr.get_abcd_estimate(data_hist) if arguments.era == "2018" else 0.0
+    abcd_yields[sr.name] = sr.get_abcd_estimate(data_hist) if arguments.era == "run2" else 0.0
     # get data yields in all control regions
     for subregion in sr.subregions:
         for _, cr in sorted(subregion.control_regions.iteritems()):
             ordered_regions.append(cr)
-            data_yields[cr.name] = cr.get_yield(data_hist) if arguments.era == "2018" else 0.0
+            data_yields[cr.name] = cr.get_yield(data_hist) if arguments.era == "run2" else 0.0
 
 # create duplicate-free list of signal and control regions to use in datacards
 unique_regions = list(OrderedDict.fromkeys(ordered_regions))
@@ -407,21 +453,6 @@ for r in unique_regions:
     else:
         abcd_systematic_row.append("-")
 
-# build global systematics rows
-global_systematics_rows = []
-for name, uncertainty in global_systematic_uncertainties.iteritems():
-    row = [name,'lnN','']
-    for r in unique_regions:
-        if 'signal' in uncertainty['applyList']:
-            row.append(uncertainty['value'])
-        else:
-            row.append('-')
-        if (arguments.era == "2018" and "background" in uncertainty['applyList']):
-            row.append(uncertainty['value'])
-        else:
-            row.append('-')
-    global_systematics_rows.append(row)
-
 # build abcd table
 abcd_rows = []
 correlation_correction_rows = []
@@ -439,28 +470,37 @@ for r in unique_regions:
 abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
 # write a datacard for each signal point
-for signal['name'] in signal_points:
+years = ['2016', '2017', '2018'] if arguments.era == 'run2' else [arguments.era]
+for signal_name in signal_points:
     # get basic signal info
-    signal['name'] = signal['name'].replace('.', 'p') # rename sub-mm samples to match sample names
-    signal['file'] = signal['name'] + ".root"
-    signal_hist = Hist(signal)
+    signal_name = signal_name.replace('.', 'p') # rename sub-mm samples to match sample names
+    signal_file = signal_name + ".root"
+    signal_hists = {}
+    for year in years:
+        signal_samples[year]['name'] = signal_name
+        signal_samples[year]['file'] = signal_file
+        signal_hists[year] = Hist(signal_samples[year])
 
     # get signal yields
     signal_yields = {}
     signal_num_evts = {}
     signal_sf = {}
     for r in unique_regions:
-        (y, e) = r.get_yield_and_num_events(signal_hist)
-        #fixme: remove lumi correction after adding signal from all years
-        y *= lumi_factor
-        e *= lumi_factor
-        signal_yields[r.name] = round(y, 7)
-        signal_num_evts[r.name] = int(round(e))
-        try:
-            signal_sf[r.name] = round(y/e, 7)
-        except ZeroDivisionError:
-            # the yield is necessarily 0 in this case
-            signal_sf[r.name] = 0.0
+        signal_yields[r.name] = {}
+        signal_num_evts[r.name] = {}
+        signal_sf[r.name] = {}
+        total_yield = 0.0
+        total_events = 0.0
+        for year in years:
+            (y, e) = r.get_yield_and_num_events(signal_hists[year])
+            signal_yields[r.name][year] = round(y, 7)
+            signal_num_evts[r.name][year] = int(round(e))
+            signal_sf[r.name][year] = get_gamma_sf(y, e)
+            total_yield += y
+            total_events += e
+        signal_yields[r.name]['total'] = total_yield
+        signal_num_evts[r.name]['total'] = total_events
+        signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
 
     # build datacard elements that depend on signal
     # build rate table
@@ -473,9 +513,9 @@ for signal['name'] in signal_points:
     for r in unique_regions:
         # append signal column
         bin_row.append(r.name)
-        process_row.append(signal['name'])
+        process_row.append(signal_name)
         process_ix_row.append("0")
-        rate_row.append(str(signal_yields[r.name]))
+        rate_row.append(str(signal_yields[r.name]['total']))
         # append background column
         bin_row.append(r.name)
         process_row.append("background")
@@ -489,16 +529,32 @@ for signal['name'] in signal_points:
     for r in unique_regions:
         # add row for each region
         name = 'signal_stat_' + r.name
-        row = [name, 'gmN', str(signal_num_evts[r.name])]
+        row = [name, 'gmN', str(signal_num_evts[r.name]['total'])]
         # place scale factor in correct column and dashes in all others
         r_ix = unique_regions.index(r)
         dashes_before = 2*r_ix
         dashes_after = 2*(len(unique_regions)-r_ix) - 1
         row.extend(dashes_before*["-"])
-        row.append(str(signal_sf[r.name]))
+        row.append(str(signal_sf[r.name]['total']))
         row.extend(dashes_after*["-"])
         stat_uncertainties_rows.append(row)
     stat_uncertainties_table = [empty_row, empty_row, label_row] + stat_uncertainties_rows
+
+    # build global systematics rows
+    global_systematics = combine_systematics(global_systematic_uncertainties, signal_yields, years)
+    global_systematics_rows = []
+    for name, uncertainty in sorted(global_systematics.iteritems()):
+        row = [name,'lnN','']
+        for r in unique_regions:
+            if 'signal' in uncertainty['applyList']:
+                row.append(uncertainty['value'])
+            else:
+                row.append('-')
+            if (arguments.era == "run2" and "background" in uncertainty['applyList']):
+                row.append(uncertainty['value'])
+            else:
+                row.append('-')
+        global_systematics_rows.append(row)
 
     # build systematic uncertainties table
     label_row = ["-----SYSTEMATIC UNCERTAINTIES-----", "", ""] + len(unique_regions)*["", ""]
@@ -507,12 +563,12 @@ for signal['name'] in signal_points:
         row = [name,"lnN",""]
         for r in unique_regions:
             # append signal column
-            if signal['name'] in uncertainty[r.name]:
-                row.append(uncertainty[r.name][signal['name']])
+            if signal_name in uncertainty[r.name]:
+                row.append(uncertainty[r.name][signal_name])
             else:
                 row.append('-')
             # append background column
-            if (arguments.era == "2018" and "background" in uncertainty[r.name]):
+            if (arguments.era == "run2" and "background" in uncertainty[r.name]):
                 row.append(uncertainty[r.name]["background"])
             else:
                 row.append('-')
@@ -524,7 +580,7 @@ for signal['name'] in signal_points:
     main_tables = fancyTable(rate_table + stat_uncertainties_table + sys_uncertainties_table)
 
     # write datacard
-    datacard_name = 'datacard_{}.txt'.format(signal['name'])
+    datacard_name = 'datacard_{}.txt'.format(signal_name)
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     print "making", datacard_name
     with open(datacard_path, 'w') as datacard:

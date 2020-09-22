@@ -28,11 +28,6 @@ abcd_systematics = {
     'SR_500to100000um_500to100000um_300toInfGeV' : 0.10,
 }
 
-# fixme: temporary fudge factor to scale 2018 signal yield
-#lumi_factor = 1
-#lumi_factor = (59.7+36.7)/59.7 # 2018 --> 2017-18
-lumi_factor = 117.6/59.7 # 2018 --> 2016-18
-
 # one will generally want to use the same histogram for signal and data
 # this can be overridden in individual dictionaries if desired
 hist = 'AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]'
@@ -47,26 +42,25 @@ data = {
 }
 
 # a separate datacard will be produced for each signal point
-if arguments.era == "2016":
-    signal = {
+# list separate dictionaries for each year; they will be combined by makeAbcdDatacards if necessary
+signal_samples = {
+    '2016' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : '',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
         'blinded'  : False,
-    }
-elif arguments.era == "2017":
-    signal = {
+    },
+    '2017' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : '',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
         'blinded'  : False,
-    }
-elif arguments.era == "2018":
-    signal = {
+    },
+    '2018' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EEAdditionalPreselection_2018Analysis_signal_coarse3DHists_10July2020',
         'file' : '', # will be automatically generated for each signal point
@@ -74,3 +68,4 @@ elif arguments.era == "2018":
         'var_bins' : True,
         'blinded'  : False,
     }
+}
