@@ -30,11 +30,11 @@ abcd_systematics = {
 
 # one will generally want to use the same histogram for signal and data
 # this can be overridden in individual dictionaries if desired
-hist = 'AdditionalPreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]'
+hist = 'PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]'
 
 data = {
     'name' : 'DoubleEG_2016_2017_2018',
-    'dir'  : 'ee_runII_ptBinned_estimates_15July2020',
+    'dir'  : 'EEBackgroundEstimates_RunII_11Sep2020',
     'file' : 'DoubleEG_2016_2017_2018.root',
     'hist' : hist,
     'var_bins' : True,
@@ -46,7 +46,7 @@ data = {
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'EEPreselection_2016Analysis_94X_StopToLBMajorPoints_11Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -54,7 +54,7 @@ signal_samples = {
     },
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'EEPreselection_2017Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -62,7 +62,7 @@ signal_samples = {
     },
     '2018' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EEAdditionalPreselection_2018Analysis_signal_coarse3DHists_10July2020',
+        'dir'  : 'EEPreselection_2018Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,

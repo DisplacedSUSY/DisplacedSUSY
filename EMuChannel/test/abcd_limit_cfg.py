@@ -30,12 +30,12 @@ abcd_systematics = {
 
 # one will generally want to use the same histogram for signal and data
 # this can be overridden in individual dictionaries if desired
-hist = 'AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]'
-#hist = 'AdditionalPreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]'
+hist = 'PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]'
+#hist = 'PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]'
 
 data = {
     'name' : 'MuonEG_2016_2017_2018',
-    'dir'  : 'emu_runII_ptBinned_estimates_15July2020',
+    'dir'  : 'EMuBackgroundEstimates_RunII_11Sep2020',
     'file' : 'MuonEG_2016_2017_2018.root',
     'hist' : hist,
     'var_bins' : True,
@@ -47,7 +47,7 @@ data = {
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'EMuPreselection_2016Analysis_94X_StopToLBMajorPoints_11Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -55,7 +55,7 @@ signal_samples = {
     },
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : '',
+        'dir'  : 'EMuPreselection_2017Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -63,7 +63,7 @@ signal_samples = {
     },
     '2018' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EMuAdditionalPreselection_2018Analysis_signal_coarse3DHists_10July2020',
+        'dir'  : 'EMuPreselection_2018Analysis_StopToLBMajorPoints_9Sept2020',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
