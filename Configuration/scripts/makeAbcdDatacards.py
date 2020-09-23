@@ -89,11 +89,6 @@ class Region(object):
     # get integral and number of unweighted events in region
     # account for weights associated with bin width in hists with variable-width bins
     def get_yield_and_num_events(self, hist):
-        # return abcd estimate instead of integral in signal regions if blinded
-        if hist.blinded and not self.cr:
-            abcd_estimate = self.get_abcd_estimate(hist)
-            return (abcd_estimate, int(round(abcd_estimate)))
-
         h = hist.hist
         (x_bin_lo, x_bin_hi) = self.get_bins(h, "x", self.d0_0_lo, self.d0_0_hi)
         (y_bin_lo, y_bin_hi) = self.get_bins(h, "y", self.d0_1_lo, self.d0_1_hi)
@@ -139,12 +134,12 @@ class Region(object):
             'C' : Region("C", cr_min, cr_max, self.d0_1_lo, self.d0_1_hi, self.pt_lo, self.pt_hi),
         }
 
-    def get_abcd_estimate(self, hist):
+    def get_abcd_estimate(self, hist, correction=1.0):
         a, _ = self.control_regions['A'].get_yield_and_num_events(hist)
         b, _ = self.control_regions['B'].get_yield_and_num_events(hist)
         c, _ = self.control_regions['C'].get_yield_and_num_events(hist)
         try:
-            estimate = b*c/a
+            estimate = b*c/a * correction
         except ZeroDivisionError:
             estimate = 0.0
             print "Setting estimate to 0 because prompt region is empty"
@@ -161,6 +156,7 @@ class SignalRegion(Region):
         super(SignalRegion, self).__init__("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
         self.d0_min = d0_min
         self.d0_max = d0_max
+        self.correction = None
         if shape == 'L':
             self.subregions = self.get_L_subregions()
         elif shape == 'L_inv':
@@ -169,6 +165,9 @@ class SignalRegion(Region):
             self.subregions = self.get_grid_subregions()
         for r in self.subregions:
             r.get_control_regions(cr_d0_min, cr_d0_max)
+
+    def set_abcd_correction(self, correction):
+        self.correction = correction
 
     # get rectangular regions that make up rectangular or L-shaped region
     def get_L_subregions(self):
@@ -214,6 +213,11 @@ class SignalRegion(Region):
 
     # get integral and number of unweighted events in entire signal region
     def get_yield_and_num_events(self, hist):
+        # return abcd estimate instead of integral when blinded
+        if hist.blinded:
+            abcd_estimate = self.get_abcd_estimate(hist)
+            return (abcd_estimate, int(round(abcd_estimate)))
+
         (integral, unweighted_events) = (0, 0)
         for r in self.subregions:
             (i, e) = r.get_yield_and_num_events(hist)
@@ -228,14 +232,16 @@ class SignalRegion(Region):
     def get_abcd_estimate(self, hist):
         estimate = 0.0
         for r in self.subregions:
-            estimate += r.get_abcd_estimate(hist)
+            if self.correction is not None:
+                estimate += r.get_abcd_estimate(hist, self.correction)
+            else:
+                estimate += r.get_abcd_estimate(hist)
         return estimate
 
     # specify D=B*C/A relationship using combine rateParameters
     # relationship will be more complex for non-rectangular regions
-    def build_rate_param_func(self, unique_regions, apply_correction):
-        self.apply_correction = apply_correction
-        if self.apply_correction:
+    def build_rate_param_func(self, unique_regions):
+        if self.correction is not None:
             func = "(@0*(@1*@2"
             ix = 3
         else:
@@ -246,7 +252,7 @@ class SignalRegion(Region):
             ix +=2
         func += ")/@{}) ".format(ix)
 
-        if self.apply_correction:
+        if self.correction is not None:
             self.correction_param = self.param+"_correction"
             func += "{},".format(self.correction_param)
 
@@ -369,14 +375,21 @@ for pt_bin in pt_bins:
         signal_regions.append(SignalRegion(sr_d0_min, sr_d0_max, sr_shapes,
                                            *cr_d0_range + d0_0_bin + d0_1_bin + pt_bin))
 
+# check that all signal regions have either a systematic uncertainty or correction
+regions_in_cfg = abcd_correlation_factors.keys() + abcd_systematics.keys()
+signal_region_names = [sr.name for sr in signal_regions]
+if sorted(signal_region_names) != sorted(regions_in_cfg):
+    raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
+                       "abcd_systematics")
+
 # get data yields and abcd estimates in all signal regions
 data_yields = {}
-abcd_yields = {}
 data_hist = Hist(data)
 ordered_regions = [sr for sr in signal_regions]
 for sr in signal_regions:
+    if sr.name in abcd_correlation_factors:
+        sr.set_abcd_correction(abcd_correlation_factors[sr.name][0])
     data_yields[sr.name] = sr.get_yield(data_hist)
-    abcd_yields[sr.name] = sr.get_abcd_estimate(data_hist) if arguments.era == "run2" else 0.0
     # get data yields in all control regions
     for subregion in sr.subregions:
         for _, cr in sorted(subregion.control_regions.iteritems()):
@@ -385,13 +398,6 @@ for sr in signal_regions:
 
 # create duplicate-free list of signal and control regions to use in datacards
 unique_regions = list(OrderedDict.fromkeys(ordered_regions))
-
-# check that all signal regions have either a systematic uncertainty or correction
-regions_in_cfg = abcd_correlation_factors.keys() + abcd_systematics.keys()
-signal_region_names = [sr.name for sr in signal_regions]
-if sorted(signal_region_names) != sorted(regions_in_cfg):
-    raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
-                       "abcd_systematics")
 
 # associate unique rateParam name to each unique region
 region_ixs = {'a':0, 'b' : 0, 'c' : 0, 'd' : 0}
@@ -402,8 +408,7 @@ for r in unique_regions:
 
 # create ABCD and correlation correction associations between params
 for sr in signal_regions:
-    apply_correction = sr.name in abcd_correlation_factors
-    sr.build_rate_param_func(unique_regions, apply_correction)
+    sr.build_rate_param_func(unique_regions)
 
 # get all the external systematic errors and put them in a dictionary
 # fixme: this needs to be tested after external systematics files are updated
@@ -463,7 +468,7 @@ for r in unique_regions:
     else:
         abcd_row.append(r.param_func)
     abcd_rows.append(abcd_row)
-    if not r.cr and r.apply_correction:
+    if not r.cr and r.correction is not None:
         correction_string = "{} {}".format(*abcd_correlation_factors[r.name])
         correction_row = [r.correction_param, "param", "", "", correction_string]
         correlation_correction_rows.append(correction_row)
@@ -499,7 +504,7 @@ for signal_name in signal_points:
             total_yield += y
             total_events += e
         signal_yields[r.name]['total'] = total_yield
-        signal_num_evts[r.name]['total'] = total_events
+        signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
 
     # build datacard elements that depend on signal
