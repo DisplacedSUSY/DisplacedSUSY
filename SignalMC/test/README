@@ -1,0 +1,2 @@
+#2018 GEN-SIM
+cmsDriver.py Configuration/Generator/python/DisplacedSUSY_stopToBottom_M_1000_0p01mm_TuneCP5_13TeV_pythia8_cff.py --fileout file:stopToLB1000_0p01mm.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018

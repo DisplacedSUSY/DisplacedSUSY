@@ -63,7 +63,13 @@ foreach i (100 150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 
 	set xs=0.0000467492
     endif
 
-    foreach j (1 10 100 1000)
+    foreach j (0p01 0p1 1 10 100 1000 10000)
+	if ($j == '0p01') then
+	    set exp=11
+	endif
+	if ($j == '0p1') then
+	    set exp=12
+	endif
 	if ($j == '1') then
 	    set exp=13
 	endif
@@ -76,7 +82,19 @@ foreach i (100 150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 
 	if ($j == '1000') then
 	    set exp=16
 	endif
-	sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
-	sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	if ($j == '10000') then
+	    set exp=17
+	endif
+
+	if ($j == '0p01') then
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	else if ($j == '0p1') then
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	else
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	endif
     end
 end
