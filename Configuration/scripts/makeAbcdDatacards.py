@@ -503,7 +503,7 @@ for signal_name in signal_points:
             signal_sf[r.name][year] = get_gamma_sf(y, e)
             total_yield += y
             total_events += e
-        signal_yields[r.name]['total'] = total_yield
+        signal_yields[r.name]['total'] = round(total_yield, 7)
         signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
 
