@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from DisplacedSUSY.Configuration.limitOptions import *
 
+channel = "ee"
+
 # choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
 sr_shapes = 'grid'
 # signal region binning; enter -1 to include overflow

@@ -171,47 +171,56 @@ global_systematic_uncertainties = {
         'lumi_uncorrelated_2016' :  {
             'value' : '1.022',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_xyFactorization' :  {
             'value' : '1.009',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_beamBeamDeflection' :  {
             'value' : '1.004',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_dynamicBeta' :  {
             'value' : '1.005',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_ghostsAndSatellites' :  {
             'value' : '1.004',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # fixme: these should only be applied in the relevant channels
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu_electron' :  {
             'value' : '1.010',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
             'value' : '1.010',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_ee' :  {
             'value' : '1.090',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee'],
         },
         'trigger_mumu' :  {
             'value' : '1.006',
             'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
         },
 
         #taken from Ian's study
         'track_reco2016' :  { #2016 uncorrelated with 2017 and 2018 due to different pixel detector in 2016
             'value' : '1.141',
             'applyList' : ['signal'],
+            'channels' : ['ee', 'emu', 'mumu'],
         }
     },
     '2017' : {
@@ -219,55 +228,66 @@ global_systematic_uncertainties = {
         'lumi_uncorrelated_2017' :  {
             'value' : '1.020',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_xyFactorization' :  {
             'value' : '1.008',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_lengthScale' :  {
             'value' : '1.003',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_beamBeamDeflection' :  {
             'value' : '1.004',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_dynamicBeta' :  {
             'value' : '1.005',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_beamCurrentCalibration' :  {
             'value' : '1.003',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_ghostsAndSatellites' :  {
             'value' : '1.001',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # fixme: these should only be applied in the relevant channels
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu_electron' :  {
             'value' : '1.008',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
             'value' : '1.008',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_ee' :  {
             'value' : '1.092',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee'],
         },
         'trigger_mumu' :  {
             'value' : '1.009',
             'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
         },
 
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.058',
             'applyList' : ['signal'],
+            'channels' : ['ee', 'emu', 'mumu'],
         }
     },
     '2018' : {
@@ -275,43 +295,51 @@ global_systematic_uncertainties = {
         'lumi_uncorrelated_2018' :  {
             'value' : '1.015',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_xyFactorization' :  {
             'value' : '1.020',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_lengthScale' :  {
             'value' : '1.002',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
         'lumi_beamCurrentCalibration' :  {
             'value' : '1.002',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # fixme: these should only be applied in the relevant channels
         # taken from the error on the trigger effieciency scale factor
         'trigger_emu_electron' :  {
             'value' : '1.006',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
             'value' : '1.007',
             'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
         },
         'trigger_ee' :  {
             'value' : '1.106',
             'applyList' : mc_normalized_processes,
+            'channels' : ['ee'],
         },
         'trigger_mumu' :  {
             'value' : '1.008',
             'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
         },
 
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.024',
             'applyList' : ['signal'],
+            'channels' : ['ee', 'emu', 'mumu'],
         }
     }
 }

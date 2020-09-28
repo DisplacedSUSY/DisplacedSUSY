@@ -348,6 +348,7 @@ def combine_systematics(uncertainties, yields, years):
                 val += weights[year]
         weighted_systematics[name]['value'] = str(round(val, 3))
         weighted_systematics[name]['applyList'] = uncertainties[years_applied[0]][name]['applyList']
+        weighted_systematics[name]['channels'] = uncertainties[years_applied[0]][name]['channels']
 
     return weighted_systematics
 
@@ -549,6 +550,9 @@ for signal_name in signal_points:
     global_systematics = combine_systematics(global_systematic_uncertainties, signal_yields, years)
     global_systematics_rows = []
     for name, uncertainty in sorted(global_systematics.iteritems()):
+        # skip uncertainties that don't apply to the current channel
+        if channel not in uncertainty['channels']:
+            continue
         row = [name,'lnN','']
         for r in unique_regions:
             if 'signal' in uncertainty['applyList']:
