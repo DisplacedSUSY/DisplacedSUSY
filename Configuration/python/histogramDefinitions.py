@@ -6197,6 +6197,99 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(40, -100, 100),
             inputVariables = cms.vstring("deltaT_leadingTwoMuons"),
         ),
+        #disp vertex histograms
+        cms.PSet (
+            name = cms.string("nEEVtxs"),
+            title = cms.string("Number of ee vertices; Number of ee vertices"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispEEVtxs"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxX"),
+            title = cms.string("ee vtx x-coord; ee vtx x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEX"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxY"),
+            title = cms.string("ee vtx y-coord; ee vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEY"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxZ"),
+            title = cms.string("ee vtx z-coord; ee vtx z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEZ"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxChisq"),
+            title = cms.string("ee vtx chisq/dof; ee vtx chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxEEChisq"),
+        ),
+
+        cms.PSet (
+            name = cms.string("nMuMuVtxs"),
+            title = cms.string("Number of mumu vertices; Number of mumu vertices"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispMuMuVtxs"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxX"),
+            title = cms.string("mumu vtx x-coord; mumu vtx x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuX"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxY"),
+            title = cms.string("mumu vtx y-coord; mumu vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuY"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxZ"),
+            title = cms.string("mumu vtx z-coord; mumu vtx z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuZ"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxChisq"),
+            title = cms.string("mumu vtx chisq/dof; mumu vtx chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxMuMuChisq"),
+        ),
+
+        cms.PSet (
+            name = cms.string("nEMuVtxs"),
+            title = cms.string("Number of emu vertices; Number of emu vertices"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispEMuVtxs"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxX"),
+            title = cms.string("emu vtx x-coord; emu vtx x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuX"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxY"),
+            title = cms.string("emu vtx y-coord; emu vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuY"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxZ"),
+            title = cms.string("emu vtx z-coord; emu vtx z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuZ"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxChisq"),
+            title = cms.string("emu vtx chisq/dof; emu vtx chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxEMuChisq"),
+        ),
     )
 )
 

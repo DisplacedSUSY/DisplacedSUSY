@@ -12,6 +12,15 @@
 #include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h" //Pre-firing
 #include "L1Trigger/L1TGlobal/interface/L1TGlobalUtil.h"
 
+#include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
+#include "TrackingTools/Records/interface/TransientTrackRecord.h"
+
+#include "RecoVertex/KalmanVertexFit/interface/KalmanVertexFitter.h"
+#include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+
 struct OriginalCollections
 {
 
@@ -31,6 +40,20 @@ struct OriginalCollections
 #endif
 
 };
+
+struct DispVtx {
+  int nDispVtxs;
+  double vtxX, vtxY, vtxZ, vtxXErr, vtxYErr, vtxZErr, vtxChisq;
+
+  DispVtx () :
+  nDispVtxs(0),
+    vtxX(-5000.), vtxY(-5000.), vtxZ(-5000.),
+    vtxXErr(-5000.), vtxYErr(-5000.), vtxZErr(-5000.),
+    vtxChisq(-5000.)
+  {
+  }
+};
+
 
 class DisplacedSUSYEventVariableProducer : public EventVariableProducer
   {
@@ -61,5 +84,8 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
 	std::vector<std::string> l1Seeds_;
 	std::map<std::string, bool> L1BitsMap;
 	std::vector<bool> *l1Result_;
+
+	DispVtx getDispVtx(vector<reco::TransientTrack> t_tks);
+
   };
 #endif

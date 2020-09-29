@@ -39,6 +39,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   }
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
 
+  //get the transient track builder:
+  edm::ESHandle<TransientTrackBuilder> theB;
+  setup.get<TransientTrackRecord>().get("TransientTrackBuilder", theB);
+
   double numPV = 0;
   for (const auto &pv1 : *handles_.primaryvertexs) {
     if(pv1.isValid()) {
@@ -127,12 +131,15 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double leadingMuonUnsmearedD0 = 0;
   double leadingMuonTime = -100;
   int    leadingMuonTimeNDof = 0;
+  reco::TransientTrack leadingMuonTrack;
   double subleadingMuonPt = 0;
   double subleadingMuonEta = 0;
   double subleadingMuonPhi = -4; // -pi < phi < pi
   double subleadingMuonUnsmearedD0 = 0;
   double subleadingMuonTime = 100;
   int    subleadingMuonTimeNDof = 0;
+  reco::TransientTrack subleadingMuonTrack;
+
   for (const auto &muon1 : *handles_.muons) {
     if (muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
        if (muon1.pt() > subleadingMuonPt) {
@@ -143,12 +150,15 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingMuonUnsmearedD0 = leadingMuonUnsmearedD0;
 	  subleadingMuonTime = leadingMuonTime;
 	  subleadingMuonTimeNDof = leadingMuonTimeNDof;
+	  subleadingMuonTrack = leadingMuonTrack;
           leadingMuonPt = muon1.pt();
           leadingMuonEta = muon1.eta();
           leadingMuonPhi = muon1.phi();
           leadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
 	  leadingMuonTime = muon1.time().timeAtIpInOut;
 	  leadingMuonTimeNDof = muon1.time().nDof;
+	  if (!muon1.innerTrack().isNull()) leadingMuonTrack = (*theB).build(muon1.innerTrack());
+	  else std::cout<<"leadingMuonTrack is null"<<std::endl;
         }
         else {
           subleadingMuonPt = muon1.pt();
@@ -157,6 +167,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
 	  subleadingMuonTime = muon1.time().timeAtIpInOut;
 	  subleadingMuonTimeNDof = muon1.time().nDof;
+	  if (!muon1.innerTrack().isNull()) subleadingMuonTrack = (*theB).build(muon1.innerTrack());
+	  else std::cout<<"subleadingMuonTrack is null"<<std::endl;
         }
       }
     }
@@ -220,10 +232,13 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double leadingElectronEta = 0;
   double leadingElectronPhi = -4; // -pi < phi < pi
   double leadingElectronUnsmearedD0 = 0;
+  reco::TransientTrack leadingElectronTrack;
   double subleadingElectronPt = 0;
   double subleadingElectronEta = 0;
   double subleadingElectronPhi = -4; // -pi < phi < pi
   double subleadingElectronUnsmearedD0 = 0;
+  reco::TransientTrack subleadingElectronTrack;
+
   for (const auto &electron1 : *handles_.electrons) {
     if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
@@ -235,16 +250,21 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingElectronEta = leadingElectronEta;
           subleadingElectronPhi = leadingElectronPhi;
           subleadingElectronUnsmearedD0 = leadingElectronUnsmearedD0;
+	  subleadingElectronTrack = leadingElectronTrack;
           leadingElectronPt = electron1.pt();
           leadingElectronEta = electron1.eta();
           leadingElectronPhi = electron1.phi();
           leadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+	  if (!electron1.gsfTrack().isNull()) leadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  else std::cout<<"leadingElectronTrack is null"<<std::endl;
         }
         else {
           subleadingElectronPt = electron1.pt();
           subleadingElectronEta = electron1.eta();
           subleadingElectronPhi = electron1.phi();
           subleadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+	  if (!electron1.gsfTrack().isNull()) subleadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  else std::cout<<"subleadingElectronTrack is null"<<std::endl;
         }
       }
     }
@@ -258,20 +278,60 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingElectronEta = leadingElectronEta;
           subleadingElectronPhi = leadingElectronPhi;
           subleadingElectronUnsmearedD0 = leadingElectronUnsmearedD0;
+	  subleadingElectronTrack = leadingElectronTrack;
           leadingElectronPt = electron1.pt();
           leadingElectronEta = electron1.eta();
           leadingElectronPhi = electron1.phi();
           leadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+	  if (!electron1.gsfTrack().isNull()) leadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  else std::cout<<"leadingElectronTrack is null"<<std::endl;
         }
         else {
           subleadingElectronPt = electron1.pt();
           subleadingElectronEta = electron1.eta();
           subleadingElectronPhi = electron1.phi();
           subleadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
+	  if (!electron1.gsfTrack().isNull()) subleadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  else std::cout<<"subleadingElectronTrack is null"<<std::endl;
         }
       }
     }
   }
+
+  // try a vertex fit for the two leptons, to see if it overlaps with the tracker material
+
+  vector<reco::TransientTrack> t_tks_ee;
+  if(leadingElectronTrack.isValid() && subleadingElectronTrack.isValid()){
+    //make sure the leading ele is not also the subleading ele (need two different tracks)
+    if(leadingElectronPt!=subleadingElectronPt && leadingElectronEta!=subleadingElectronEta && leadingElectronPhi!=subleadingElectronPhi){
+      t_tks_ee.push_back(leadingElectronTrack);
+      t_tks_ee.push_back(subleadingElectronTrack);
+    }
+  }
+
+  vector<reco::TransientTrack> t_tks_mumu;
+  if(leadingMuonTrack.isValid() && subleadingMuonTrack.isValid()){
+    //make sure the leading mu is not also the subleading mu (need two different tracks)
+    if(leadingMuonPt!=subleadingMuonPt && leadingMuonEta!=subleadingMuonEta && leadingMuonPhi!=subleadingMuonPhi){
+      t_tks_mumu.push_back(leadingMuonTrack);
+      t_tks_mumu.push_back(subleadingMuonTrack);
+    }
+  }
+
+  vector<reco::TransientTrack> t_tks_emu;
+  if(leadingMuonTrack.isValid() && leadingElectronTrack.isValid()){
+      t_tks_emu.push_back(leadingMuonTrack);
+      t_tks_emu.push_back(leadingElectronTrack);
+  }
+
+  DispVtx dvEE = getDispVtx(t_tks_ee);
+  DispVtx dvMuMu = getDispVtx(t_tks_mumu);
+  DispVtx dvEMu = getDispVtx(t_tks_emu);
+
+  //if(dvEE.vtxChisq!=-5000.) std::cout<<"ee vertex x/y/z/chisq is: "<<dvEE.vtxX<<"/"<<dvEE.vtxY<<"/"<<dvEE.vtxZ<<"/"<<dvEE.vtxChisq<<std::endl;
+  //if(dvMuMu.vtxChisq!=-5000.) std::cout<<"mumu vertex x/y/z/chisq is: "<<dvMuMu.vtxX<<"/"<<dvMuMu.vtxY<<"/"<<dvMuMu.vtxZ<<"/"<<dvMuMu.vtxChisq<<std::endl;
+  //if(dvEMu.vtxChisq!=-5000.) std::cout<<"emu vertex x/y/z/chisq is: "<<dvEMu.vtxX<<"/"<<dvEMu.vtxY<<"/"<<dvEMu.vtxZ<<"/"<<dvEMu.vtxChisq<<std::endl;
+
 #endif
 
 
@@ -342,6 +402,30 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
     (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
   }
+  (*eventvariables)["nDispEEVtxs"] = dvEE.nDispVtxs;
+  (*eventvariables)["vtxEEX"] = dvEE.vtxX;
+  (*eventvariables)["vtxEEY"] = dvEE.vtxY;
+  (*eventvariables)["vtxEEZ"] = dvEE.vtxZ;
+  (*eventvariables)["vtxEEXErr"] = dvEE.vtxXErr;
+  (*eventvariables)["vtxEEYErr"] = dvEE.vtxYErr;
+  (*eventvariables)["vtxEEZErr"] = dvEE.vtxZErr;
+  (*eventvariables)["vtxEEChisq"] = dvEE.vtxChisq;
+  (*eventvariables)["nDispMuMuVtxs"] = dvMuMu.nDispVtxs;
+  (*eventvariables)["vtxMuMuX"] = dvMuMu.vtxX;
+  (*eventvariables)["vtxMuMuY"] = dvMuMu.vtxY;
+  (*eventvariables)["vtxMuMuZ"] = dvMuMu.vtxZ;
+  (*eventvariables)["vtxMuMuXErr"] = dvMuMu.vtxXErr;
+  (*eventvariables)["vtxMuMuYErr"] = dvMuMu.vtxYErr;
+  (*eventvariables)["vtxMuMuZErr"] = dvMuMu.vtxZErr;
+  (*eventvariables)["vtxMuMuChisq"] = dvMuMu.vtxChisq;
+  (*eventvariables)["nDispEMuVtxs"] = dvEMu.nDispVtxs;
+  (*eventvariables)["vtxEMuX"] = dvEMu.vtxX;
+  (*eventvariables)["vtxEMuY"] = dvEMu.vtxY;
+  (*eventvariables)["vtxEMuZ"] = dvEMu.vtxZ;
+  (*eventvariables)["vtxEMuXErr"] = dvEMu.vtxXErr;
+  (*eventvariables)["vtxEMuYErr"] = dvEMu.vtxYErr;
+  (*eventvariables)["vtxEMuZErr"] = dvEMu.vtxZErr;
+  (*eventvariables)["vtxEMuChisq"] = dvEMu.vtxChisq;
 
 }
 
@@ -388,6 +472,33 @@ bool DisplacedSUSYEventVariableProducer::passCleaning(double eta, double phi, Or
     }
   }
   return muonClean && eleClean;
+}
+
+DispVtx DisplacedSUSYEventVariableProducer::getDispVtx(vector<reco::TransientTrack> t_tks){
+
+  DispVtx DV;
+
+  if (t_tks.size() == 2){
+    //std::cout<<"2 good tracks, trying to make a vertex"<<std::endl;
+    KalmanVertexFitter kvf;
+    TransientVertex tv = kvf.vertex(t_tks);
+
+    if (tv.isValid()){
+      DV.nDispVtxs++;
+      reco::Vertex vtx = tv;
+      //GlobalPoint vtxPos = vtx.position();
+      DV.vtxX     = vtx.x();
+      DV.vtxY     = vtx.y();
+      DV.vtxZ     = vtx.z();
+      DV.vtxXErr  = vtx.xError();
+      DV.vtxYErr  = vtx.yError();
+      DV.vtxZErr  = vtx.zError();
+      DV.vtxChisq = vtx.normalizedChi2();
+    }
+  }
+  //if(DV.vtxChisq!=-5000.) std::cout<<"vertex x/y/z/chisq is: "<<DV.vtxX<<"/"<<DV.vtxY<<"/"<<DV.vtxZ<<"/"<<DV.vtxChisq<<std::endl;
+
+  return DV;
 }
 
 void DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<string> &objectsToGet,

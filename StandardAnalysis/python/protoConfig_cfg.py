@@ -112,6 +112,8 @@ process.maxEvents = cms.untracked.PSet (
 )
 
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
+process.load("Configuration.StandardSequences.MagneticField_cff")
 
 ################################################################################
 ##### Set up the global tags ###################################################
