@@ -6223,6 +6223,13 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("vtxEEZ"),
         ),
         cms.PSet (
+            name = cms.string("eeVtxXY"),
+            title = cms.string("ee vtx x vs y; ee vtx x-coord [cm]; ee vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEX","vtxEEY"),
+        ),
+        cms.PSet (
             name = cms.string("eeVtxChisq"),
             title = cms.string("ee vtx chisq/dof; ee vtx chisq/dof"),
             binsX = cms.untracked.vdouble(100, 0, 20),
@@ -6252,6 +6259,13 @@ eventHistograms = cms.PSet(
             title = cms.string("mumu vtx z-coord; mumu vtx z-coord [cm]"),
             binsX = cms.untracked.vdouble(100, -10, 10),
             inputVariables = cms.vstring("vtxMuMuZ"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxXY"),
+            title = cms.string("mumu vtx x vs y; mumu vtx x-coord [cm]; mumu vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuX","vtxMuMuY"),
         ),
         cms.PSet (
             name = cms.string("mumuVtxChisq"),
@@ -6285,10 +6299,132 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("vtxEMuZ"),
         ),
         cms.PSet (
+            name = cms.string("emuVtxXY"),
+            title = cms.string("emu vtx x vs y; emu vtx x-coord [cm]; emu vtx y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuX","vtxEMuY"),
+        ),
+        cms.PSet (
             name = cms.string("emuVtxChisq"),
             title = cms.string("emu vtx chisq/dof; emu vtx chisq/dof"),
             binsX = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("vtxEMuChisq"),
+        ),
+
+        # disp vertices in material
+        cms.PSet (
+            name = cms.string("nEEVtxsInMaterial"),
+            title = cms.string("Number of ee vertices in tracker material; Number of ee vertices in tracker material"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispEEVtxsInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxXInMaterial"),
+            title = cms.string("ee vtx in material x-coord; ee vtx in material x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEXInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxYInMaterial"),
+            title = cms.string("ee vtx in material y-coord; ee vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxZInMaterial"),
+            title = cms.string("ee vtx in material z-coord; ee vtx in material z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEZInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxXYInMaterial"),
+            title = cms.string("ee vtx in material x vs y; ee vtx in material x-coord [cm]; ee vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEEXInMaterial","vtxEEYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("eeVtxChisqInMaterial"),
+            title = cms.string("ee vtx in material chisq/dof; ee vtx in material chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxEEChisqInMaterial"),
+        ),
+
+        cms.PSet (
+            name = cms.string("nMuMuVtxsInMaterial"),
+            title = cms.string("Number of mumu vertices in tracker material; Number of mumu vertices in tracker material"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispMuMuVtxsInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxXInMaterial"),
+            title = cms.string("mumu vtx in material x-coord; mumu vtx in material x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuXInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxYInMaterial"),
+            title = cms.string("mumu vtx in material y-coord; mumu vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxZInMaterial"),
+            title = cms.string("mumu vtx in material z-coord; mumu vtx in material z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuZInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxXYInMaterial"),
+            title = cms.string("mumu vtx in material x vs y; mumu vtx in material x-coord [cm]; mumu vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxMuMuXInMaterial","vtxMuMuYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("mumuVtxChisqInMaterial"),
+            title = cms.string("mumu vtx in material chisq/dof; mumu vtx in material chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxMuMuChisqInMaterial"),
+        ),
+
+        cms.PSet (
+            name = cms.string("nEMuVtxsInMaterial"),
+            title = cms.string("Number of emu vertices in tracker material; Number of emu vertices in tracker material"),
+            binsX = cms.untracked.vdouble(2, 0, 2),
+            inputVariables = cms.vstring("nDispEMuVtxsInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxXInMaterial"),
+            title = cms.string("emu vtx in material x-coord; emu vtx in material x-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuXInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxYInMaterial"),
+            title = cms.string("emu vtx in material y-coord; emu vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxZInMaterial"),
+            title = cms.string("emu vtx in material z-coord; emu vtx in material z-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuZInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxXYInMaterial"),
+            title = cms.string("emu vtx in material x vs y; emu vtx in material x-coord [cm]; emu vtx in material y-coord [cm]"),
+            binsX = cms.untracked.vdouble(100, -10, 10),
+            binsY = cms.untracked.vdouble(100, -10, 10),
+            inputVariables = cms.vstring("vtxEMuXInMaterial","vtxEMuYInMaterial"),
+        ),
+        cms.PSet (
+            name = cms.string("emuVtxChisqInMaterial"),
+            title = cms.string("emu vtx in material chisq/dof; emu vtx in material chisq/dof"),
+            binsX = cms.untracked.vdouble(100, 0, 20),
+            inputVariables = cms.vstring("vtxEMuChisqInMaterial"),
         ),
     )
 )

@@ -23,6 +23,48 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   l1Seeds_ = cfg.getParameter<std::vector<std::string> >("l1Seeds");
   //fill a map of l1 seeds
   for(unsigned int i = 0; i < l1Seeds_.size(); i++) L1BitsMap[ l1Seeds_[i] ] = false;
+
+  beamPipe_x_center_ = cfg.getParameter<double>("beamPipe_x_center");
+  beamPipe_y_center_ = cfg.getParameter<double>("beamPipe_y_center");
+  beamPipe_outerR_ = cfg.getParameter<double>("beamPipe_outerR");
+  beamPipe_innerR_ = cfg.getParameter<double>("beamPipe_innerR");
+
+  nearInnerShield_x_center_ = cfg.getParameter<double>("nearInnerShield_x_center");
+  nearInnerShield_y_center_ = cfg.getParameter<double>("nearInnerShield_y_center");
+  farInnerShield_x_center_ = cfg.getParameter<double>("farInnerShield_x_center");
+  farInnerShield_y_center_ = cfg.getParameter<double>("farInnerShield_y_center");
+  innerShield_outerR_ = cfg.getParameter<double>("innerShield_outerR");
+  innerShield_innerR_ = cfg.getParameter<double>("innerShield_innerR");
+
+  bpix_x_center_ = cfg.getParameter<double>("bpix_x_center");
+  bpix_y_center_ = cfg.getParameter<double>("bpix_y_center");
+  bpix_z_center_ = cfg.getParameter<double>("bpix_z_center");
+  bpix_z_halfLength_ = cfg.getParameter<double>("bpix_z_halfLength");
+  bpixL1_outerR_ = cfg.getParameter<double>("bpixL1_outerR");
+  bpixL1_innerR_ = cfg.getParameter<double>("bpixL1_innerR");
+  bpixL2_outerR_ = cfg.getParameter<double>("bpixL2_outerR");
+  bpixL2_innerR_ = cfg.getParameter<double>("bpixL2_innerR");
+  bpixL3_outerR_ = cfg.getParameter<double>("bpixL3_outerR");
+  bpixL3_innerR_ = cfg.getParameter<double>("bpixL3_innerR");
+  bpixL4_outerR_ = cfg.getParameter<double>("bpixL4_outerR");
+  bpixL4_innerR_ = cfg.getParameter<double>("bpixL4_innerR");
+
+  fpix_x_center_ = cfg.getParameter<double>("fpix_x_center");
+  fpix_y_center_ = cfg.getParameter<double>("fpix_y_center");
+  fpixD1_z_center_ = cfg.getParameter<double>("fpixD1_z_center");
+  fpixD2_z_center_ = cfg.getParameter<double>("fpixD2_z_center");
+  fpixD3_z_center_ = cfg.getParameter<double>("fpixD3_z_center");
+  fpix_outerR_ = cfg.getParameter<double>("fpix_outerR");
+  fpix_innerR_ = cfg.getParameter<double>("fpix_innerR");
+  fpix_z_halfThickness_ = cfg.getParameter<double>("fpix_z_halfThickness");
+
+  supportTube_x_center_ = cfg.getParameter<double>("supportTube_x_center");
+  supportTube_y_center_ = cfg.getParameter<double>("supportTube_y_center");
+  supportTube_outerRX_ = cfg.getParameter<double>("supportTube_outerRX");
+  supportTube_outerRY_ = cfg.getParameter<double>("supportTube_outerRY");
+  supportTube_innerRX_ = cfg.getParameter<double>("supportTube_innerRX");
+  supportTube_innerRY_ = cfg.getParameter<double>("supportTube_innerRY");
+
 }
 
 DisplacedSUSYEventVariableProducer::~DisplacedSUSYEventVariableProducer() {}
@@ -332,6 +374,12 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   //if(dvMuMu.vtxChisq!=-5000.) std::cout<<"mumu vertex x/y/z/chisq is: "<<dvMuMu.vtxX<<"/"<<dvMuMu.vtxY<<"/"<<dvMuMu.vtxZ<<"/"<<dvMuMu.vtxChisq<<std::endl;
   //if(dvEMu.vtxChisq!=-5000.) std::cout<<"emu vertex x/y/z/chisq is: "<<dvEMu.vtxX<<"/"<<dvEMu.vtxY<<"/"<<dvEMu.vtxZ<<"/"<<dvEMu.vtxChisq<<std::endl;
 
+  //vertices in tracker material?
+  bool dvEE_inMaterial = inMaterial(dvEE.vtxX, dvEE.vtxY, dvEE.vtxZ);
+  bool dvMuMu_inMaterial = inMaterial(dvMuMu.vtxX, dvMuMu.vtxY, dvMuMu.vtxZ);
+  bool dvEMu_inMaterial = inMaterial(dvEMu.vtxX, dvEMu.vtxY, dvEMu.vtxZ);
+
+
 #endif
 
 
@@ -426,6 +474,39 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["vtxEMuYErr"] = dvEMu.vtxYErr;
   (*eventvariables)["vtxEMuZErr"] = dvEMu.vtxZErr;
   (*eventvariables)["vtxEMuChisq"] = dvEMu.vtxChisq;
+  if(dvEE_inMaterial){
+    (*eventvariables)["nDispEEVtxsInMaterial"] = dvEE.nDispVtxs;
+    (*eventvariables)["vtxEEXInMaterial"] = dvEE.vtxX;
+    (*eventvariables)["vtxEEYInMaterial"] = dvEE.vtxY;
+    (*eventvariables)["vtxEEZInMaterial"] = dvEE.vtxZ;
+    (*eventvariables)["vtxEEXErrInMaterial"] = dvEE.vtxXErr;
+    (*eventvariables)["vtxEEYErrInMaterial"] = dvEE.vtxYErr;
+    (*eventvariables)["vtxEEZErrInMaterial"] = dvEE.vtxZErr;
+    (*eventvariables)["vtxEEChisqInMaterial"] = dvEE.vtxChisq;
+  }
+  else (*eventvariables)["nDispEEVtxsInMaterial"] = 0;
+  if(dvMuMu_inMaterial){
+    (*eventvariables)["nDispMuMuVtxsInMaterial"] = dvMuMu.nDispVtxs;
+    (*eventvariables)["vtxMuMuXInMaterial"] = dvMuMu.vtxX;
+    (*eventvariables)["vtxMuMuYInMaterial"] = dvMuMu.vtxY;
+    (*eventvariables)["vtxMuMuZInMaterial"] = dvMuMu.vtxZ;
+    (*eventvariables)["vtxMuMuXErrInMaterial"] = dvMuMu.vtxXErr;
+    (*eventvariables)["vtxMuMuYErrInMaterial"] = dvMuMu.vtxYErr;
+    (*eventvariables)["vtxMuMuZErrInMaterial"] = dvMuMu.vtxZErr;
+    (*eventvariables)["vtxMuMuChisqInMaterial"] = dvMuMu.vtxChisq;
+  }
+  else (*eventvariables)["nDispMuMuVtxsInMaterial"] = 0;
+  if(dvEMu_inMaterial){
+    (*eventvariables)["nDispEMuVtxsInMaterial"] = dvEMu.nDispVtxs;
+    (*eventvariables)["vtxEMuXInMaterial"] = dvEMu.vtxX;
+    (*eventvariables)["vtxEMuYInMaterial"] = dvEMu.vtxY;
+    (*eventvariables)["vtxEMuZInMaterial"] = dvEMu.vtxZ;
+    (*eventvariables)["vtxEMuXErrInMaterial"] = dvEMu.vtxXErr;
+    (*eventvariables)["vtxEMuYErrInMaterial"] = dvEMu.vtxYErr;
+    (*eventvariables)["vtxEMuZErrInMaterial"] = dvEMu.vtxZErr;
+    (*eventvariables)["vtxEMuChisqInMaterial"] = dvEMu.vtxChisq;
+  }
+  else (*eventvariables)["nDispEMuVtxsInMaterial"] = 0;
 
 }
 
@@ -500,6 +581,97 @@ DispVtx DisplacedSUSYEventVariableProducer::getDispVtx(vector<reco::TransientTra
 
   return DV;
 }
+
+bool DisplacedSUSYEventVariableProducer::inRectangle(double x_center, double y_center, double r, double x, double y) {
+  return x > x_center - r && x < x_center + r &&
+    y > y_center - r && y < y_center + r;
+}
+
+bool DisplacedSUSYEventVariableProducer::inRectangle(double x_min, double x_max, double y_min, double y_max, double x, double y) {
+  return x > x_min && x < x_max &&
+    y > y_min && y < y_max;
+}
+
+bool DisplacedSUSYEventVariableProducer::inCircle(double x_center, double y_center, double r, double x, double y) {
+  double dx = x_center - x;
+  double dy = y_center - y;
+  double square_dist = dx*dx + dy*dy;
+  return (square_dist < r*r);
+}
+
+bool DisplacedSUSYEventVariableProducer::inEllipse(double x_center, double y_center, double rX, double rY, double x, double y) {
+  double dx = x_center - x;
+  double dy = y_center - y;
+  double dist = 1.0*dx*dx/(rX*rX) + 1.0*dy*dy/(rY*rY);
+  return (dist < 1.0);
+}
+
+bool DisplacedSUSYEventVariableProducer::inMaterial(double vX, double vY, double vZ) {
+
+  //Bpix layer 4 and Fpix disk 3 only exist in Phase 1 detector (2017 and 2018)
+  bool inBpixL4, inFpixD3;
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
+  inBpixL4 = inCircle(bpix_x_center_, bpix_y_center_, bpixL4_outerR_, vX, vY)
+    && !inCircle(bpix_x_center_, bpix_y_center_, bpixL4_innerR_, vX, vY);
+  inFpixD3 = ((vZ > fpix_z_center_ + fpixD3_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ + fpixD3_z_center_ + fpix_z_halfThickness_)) ||
+    ((vZ > fpix_z_center_ - fpixD3_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ - fpixD3_z_center_ + fpix_z_halfThickness_));
+#else
+  inBpixL4 = false;
+  inFpixD3 = false;
+#endif
+
+  //see if vertices are within each piece of tracker material:
+  //in beam pipe: is vertex btw inner and outer circles (thickness) of beam pipe radius (x and y)? vertex can have any z
+  if(inCircle(beamPipe_x_center_, beamPipe_y_center_, beamPipe_outerR_, vX, vY)
+     && !inCircle(beamPipe_x_center_, beamPipe_y_center_, beamPipe_innerR_, vX, vY))
+    return true;
+
+  //in BPIX inner shield: is vertex in BPIX z range? is vertex btw inner and outer circles (thickness) of inner shield (x and y)?
+  //near half-circle: positive x
+  //far half-circle: negative x
+  //assume no gap between two half-circles
+  else if(((vZ > bpix_z_center_ - bpix_z_halfLength_) && (vZ < bpix_z_center_ + bpix_z_halfLength_)) &&
+	  ((vX > 0. && inCircle(nearInnerShield_x_center_, nearInnerShield_y_center_, innerShield_outerR_, vX, vY) &&
+	    !inCircle(nearInnerShield_x_center_, nearInnerShield_y_center_, innerShield_innerR_, vX, vY)) ||
+	   (vX < 0. && inCircle(farInnerShield_x_center_, farInnerShield_y_center_, innerShield_outerR_, vX, vY) &&
+	    !inCircle(farInnerShield_x_center_, farInnerShield_y_center_, innerShield_innerR_, vX, vY))))
+    return true;
+
+  //in BPIX layers: is vertex in BPIX z range? is vertex btw inner and outer circles (thickness) of BPIX layers?
+  else if(((vZ > bpix_z_center_ - bpix_z_halfLength_) && (vZ < bpix_z_center_ + bpix_z_halfLength_)) &&
+	  ((inCircle(bpix_x_center_, bpix_y_center_, bpixL1_outerR_, vX, vY)
+	    && !inCircle(bpix_x_center_, bpix_y_center_, bpixL1_innerR_, vX, vY)) ||
+	   (inCircle(bpix_x_center_, bpix_y_center_, bpixL2_outerR_, vX, vY)
+	    && !inCircle(bpix_x_center_, bpix_y_center_, bpixL2_innerR_, vX, vY)) ||
+	   (inCircle(bpix_x_center_, bpix_y_center_, bpixL3_outerR_, vX, vY)
+	    && !inCircle(bpix_x_center_, bpix_y_center_, bpixL3_innerR_, vX, vY)) ||
+	   inBpixL4))
+    return true;
+
+  //in FPIX disks: is vertex btw inner and outer circles of FPIX radii (x and y)? is vertex within FPIX disk thicknesses in z? (pos and neg side disks)
+  else if((inCircle(fpix_x_center_, fpix_y_center_, fpix_outerR_, vX, vY)
+	   && !inCircle(fpix_x_center_, fpix_y_center_, fpix_innerR_, vX, vY)) &&
+	  (((vZ > fpix_z_center_ + fpixD1_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ + fpixD1_z_center_ + fpix_z_halfThickness_)) ||
+	   ((vZ > fpix_z_center_ - fpixD1_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ - fpixD1_z_center_ + fpix_z_halfThickness_)) ||
+	   ((vZ > fpix_z_center_ + fpixD2_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ + fpixD2_z_center_ + fpix_z_halfThickness_)) ||
+	   ((vZ > fpix_z_center_ - fpixD2_z_center_ - fpix_z_halfThickness_) && (vZ < fpix_z_center_ - fpixD2_z_center_ + fpix_z_halfThickness_)) ||
+	   inFpixD3))
+    return true;
+
+  //BPIX outer shield?
+
+  //in pixel support tube: is vertex btw inner and outer ellipses (thickness) of pixel support tube radius (x and y)? vertex can have any z
+  else if(inEllipse(supportTube_x_center_, supportTube_y_center_, supportTube_outerRX_, supportTube_outerRY_, vX, vY)
+	  && !inEllipse(supportTube_x_center_, supportTube_y_center_, supportTube_innerRX_, supportTube_innerRY_, vX, vY))
+    return true;
+
+  //BPIX support rails?
+
+  else return false;
+}
+
+
+
 
 void DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered_set<string> &objectsToGet,
                                                                  const edm::ParameterSet &collections,

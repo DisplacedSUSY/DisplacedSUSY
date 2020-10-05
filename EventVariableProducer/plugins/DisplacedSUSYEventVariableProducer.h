@@ -85,7 +85,53 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
 	std::map<std::string, bool> L1BitsMap;
 	std::vector<bool> *l1Result_;
 
-	DispVtx getDispVtx(vector<reco::TransientTrack> t_tks);
+	double beamPipe_x_center_;
+	double beamPipe_y_center_;
+	double beamPipe_outerR_;
+	double beamPipe_innerR_;
 
+	double nearInnerShield_x_center_;
+	double nearInnerShield_y_center_;
+	double farInnerShield_x_center_;
+	double farInnerShield_y_center_;
+	double innerShield_outerR_;
+	double innerShield_innerR_;
+
+	double bpix_x_center_;
+	double bpix_y_center_;
+	double bpix_z_center_;
+	double bpix_z_halfLength_;
+	double bpixL1_outerR_;
+	double bpixL1_innerR_;
+	double bpixL2_outerR_;
+	double bpixL2_innerR_;
+	double bpixL3_outerR_;
+	double bpixL3_innerR_;
+	double bpixL4_outerR_;
+	double bpixL4_innerR_;
+
+	double fpix_x_center_;
+	double fpix_y_center_;
+	double fpix_z_center_;
+	double fpixD1_z_center_;
+	double fpixD2_z_center_;
+	double fpixD3_z_center_;
+	double fpix_outerR_;
+	double fpix_innerR_;
+	double fpix_z_halfThickness_;
+
+	double supportTube_x_center_;
+	double supportTube_y_center_;
+	double supportTube_outerRX_;
+	double supportTube_outerRY_;
+	double supportTube_innerRX_;
+	double supportTube_innerRY_;
+
+	DispVtx getDispVtx(vector<reco::TransientTrack>);
+	bool inRectangle(double, double, double, double, double);
+	bool inRectangle(double, double, double, double, double, double);
+	bool inCircle(double, double, double, double, double);
+	bool inEllipse(double, double, double, double, double, double);
+	bool inMaterial(double, double, double);
   };
 #endif
