@@ -90,7 +90,7 @@ foreach i (100 150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 
             sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py
             sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py
         else if ($j == '0p1') then
-            sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_st
+            sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py
             sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py
         else
             sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCUETP8M1_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py
