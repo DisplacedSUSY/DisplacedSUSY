@@ -46,14 +46,18 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   bpixL2_innerR_ = cfg.getParameter<double>("bpixL2_innerR");
   bpixL3_outerR_ = cfg.getParameter<double>("bpixL3_outerR");
   bpixL3_innerR_ = cfg.getParameter<double>("bpixL3_innerR");
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
   bpixL4_outerR_ = cfg.getParameter<double>("bpixL4_outerR");
   bpixL4_innerR_ = cfg.getParameter<double>("bpixL4_innerR");
+#endif
 
   fpix_x_center_ = cfg.getParameter<double>("fpix_x_center");
   fpix_y_center_ = cfg.getParameter<double>("fpix_y_center");
   fpixD1_z_center_ = cfg.getParameter<double>("fpixD1_z_center");
   fpixD2_z_center_ = cfg.getParameter<double>("fpixD2_z_center");
+#if CMSSW_VERSION_CODE >= CMSSW_VERSION(9,4,0)
   fpixD3_z_center_ = cfg.getParameter<double>("fpixD3_z_center");
+#endif
   fpix_outerR_ = cfg.getParameter<double>("fpix_outerR");
   fpix_innerR_ = cfg.getParameter<double>("fpix_innerR");
   fpix_z_halfThickness_ = cfg.getParameter<double>("fpix_z_halfThickness");
@@ -282,10 +286,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   reco::TransientTrack subleadingElectronTrack;
 
   for (const auto &electron1 : *handles_.electrons) {
-    if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
-        abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
-        abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
-        electron1.passConversionVeto()) {
+    //if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
+    //abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00308 && electron1.hadronicOverEm() < 0.0414 &&
+    //abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
+    //electron1.passConversionVeto()) {
       if (electron1.pt() > subleadingElectronPt) {
         if (electron1.pt() > leadingElectronPt) {
           subleadingElectronPt = leadingElectronPt;
@@ -309,7 +313,8 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 	  else std::cout<<"subleadingElectronTrack is null"<<std::endl;
         }
       }
-    }
+      //}
+      /*
     if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.0292 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0394 &&
         abs(electron1.deltaEtaSuperClusterTrackAtVtx()) < 0.00605 && electron1.hadronicOverEm() < 0.0641 &&
         abs(1/electron1.ecalEnergy() - electron1.eSuperClusterOverP()/electron1.ecalEnergy()) < 0.0129 &&
@@ -338,6 +343,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
         }
       }
     }
+      */
   }
 
   // try a vertex fit for the two leptons, to see if it overlaps with the tracker material
