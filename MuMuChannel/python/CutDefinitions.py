@@ -110,11 +110,17 @@ muon_gen_motherIsHeavyMeson_cut.alias = cms.string(">=2 muons from heavy mesons 
 muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
 muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
 
+muon_gen_motherIsBorCQuark_cut.numberRequired = cms.string(">= 2")
+muon_gen_motherIsBorCQuark_cut.alias = cms.string(">=2 muons from b or c quark (muon matched to gen particle whose mother's PDG ID is 4 or 5)")
+
 muon_gen_motherIsW_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsW_cut.alias = cms.string(">=2 muons from W (muon matched to gen particle whose mother has PDG ID of 24)")
 
 muon_gen_motherIsTau_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsTau_cut.alias = cms.string(">=2 muons from tau (muon matched to gen particle whose mother has PDG ID of 15)")
+
+muon_gen_motherIsNotTau_cut.numberRequired = cms.string(">= 2")
+muon_gen_motherIsNotTau_cut.alias = cms.string(">=2 muons not from Tau (muon matched to gen particle whose mother's PDG ID is not 15)")
 
 muon_fiducial_phi_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),

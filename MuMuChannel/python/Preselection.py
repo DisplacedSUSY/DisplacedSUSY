@@ -243,6 +243,13 @@ DisplacedHighPtControlRegionHighEta.cuts.append(muon_pt_100_cut)
 
 #################################################################
 
+PreselectionLeptonsFromBorCQuark = cms.PSet(
+    name = cms.string("PreselectionLeptonsFromBorCQuark"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsFromBorCQuark.cuts.append(muon_gen_motherIsBorCQuark_cut)
+
 PreselectionLeptonsFromW = cms.PSet(
     name = cms.string("PreselectionLeptonsFromW"),
     triggers = copy.deepcopy(Preselection.triggers),
@@ -263,6 +270,13 @@ PreselectionLeptonsFromTau = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionLeptonsFromTau.cuts.append(muon_gen_motherIsTau_cut)
+
+PreselectionLeptonsNotFromTau = cms.PSet(
+    name = cms.string("PreselectionLeptonsNotFromTau"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+PreselectionLeptonsNotFromTau.cuts.append(muon_gen_motherIsNotTau_cut)
 
 Preselection1LeptonFromTau = cms.PSet(
     name = cms.string("Preselection1LeptonFromTau"),

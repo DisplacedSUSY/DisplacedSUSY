@@ -1129,6 +1129,13 @@ muon_num_exactly_1_cut = cms.PSet(
 #####################
 #BEGIN GEN MUON CUTS
 
+muon_gen_motherIsBorCQuark_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 4 | abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 5"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons from b or c quark (muon matched to gen particle whose mother's PDG ID is 4 or 5)")
+)
+
 muon_gen_motherIsW_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 24"),
@@ -1148,6 +1155,13 @@ muon_gen_motherIsTau_cut = cms.PSet(
     cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) == 15"),
     numberRequired = cms.string(">= 1"),
     alias = cms.string(">=1 muons from Tau (muon matched to gen particle whose mother's PDG ID is 15)")
+)
+
+muon_gen_motherIsNotTau_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) != 15"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons not from Tau (muon matched to gen particle whose mother's PDG ID is not 15)")
 )
 
 muon_gen_motherIsLightMeson_cut = cms.PSet(
