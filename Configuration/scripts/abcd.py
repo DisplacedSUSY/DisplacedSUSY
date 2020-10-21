@@ -255,13 +255,15 @@ for z_lo, z_hi in z_regions:
         # calculate ratio of actual yield to estimate
         if abcd['val'] == 0:
             print "estimate is 0, setting ratio to 100 +/- 100"
+            ratio = {}
             ratio['val'] = 100
             ratio['err_lo'] = ratio['err_hi'] = 100
         elif count['val'] == 0:
             print "count_yield is 0, setting ratio uncertainty to 100"
+            ratio = {}
             ratio['val'] = 1.*count['val']/abcd['val']
-            ratio['lo'] = 0
-            ratio['hi'] = 100
+            ratio['err_lo'] = 0
+            ratio['err_hi'] = 100
         else:
             ratio = propagate_asymm_err("quotient", count['val'], count['err_lo'], count['err_hi'],
                                         abcd['val'], abcd['err_lo'], abcd['err_hi'])
@@ -357,6 +359,12 @@ for z_lo, z_hi in z_regions:
                 systematic = correlation_factor * correlation_factor_uncertainty
             else:
                 systematic = systematic_uncertainty
+            try:
+                err_lo = (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val']
+                err_hi = (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
+            except ZeroDivisionError:
+                print "Estimate is 0. Setting uncertainties to 0"
+                err_lo = err_hi = 0.0
             bg_estimate_output['background'].append(
                 {
                     'pt'   : (z_lo, z_hi),
@@ -365,8 +373,8 @@ for z_lo, z_hi in z_regions:
                     'd0_max' : bins_x[-1], # assume symmetric max d0 values
                     'estimate' : sr_abcd['val'],
                     # store uncertainties as multiplicative factors for makeDataCards
-                    'err_lo' : (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val'],
-                    'err_hi' : (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
+                    'err_lo' : err_lo,
+                    'err_hi' : err_hi,
                     'sys_err_lo' : 1 - systematic,
                     'sys_err_hi' : 1 + systematic,
                 }
