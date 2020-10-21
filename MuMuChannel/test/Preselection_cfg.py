@@ -50,6 +50,8 @@ eventSelections = [
     #PreselectionLeptonsFromWorZ,
     #PreselectionLeptonsFromTau,
     #PreselectionLeptonsNotFromTau,
+    #PreselectionLowEtaLeptonsNotFromTau,
+    #PreselectionHighEtaLeptonsNotFromTau,
     #Preselection1LeptonFromTau,
     #Preselection2LeptonsFromTau,
     #Preselection2TausFromZ,

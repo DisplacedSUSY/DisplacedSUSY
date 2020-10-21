@@ -278,6 +278,20 @@ PreselectionLeptonsNotFromTau = cms.PSet(
 )
 PreselectionLeptonsNotFromTau.cuts.append(muon_gen_motherIsNotTau_cut)
 
+PreselectionLowEtaLeptonsNotFromTau = cms.PSet(
+    name = cms.string("PreselectionLowEtaLeptonsNotFromTau"),
+    triggers = copy.deepcopy(PreselectionLowEta.triggers),
+    cuts = cms.VPSet (copy.deepcopy(PreselectionLowEta.cuts))
+)
+PreselectionLowEtaLeptonsNotFromTau.cuts.append(muon_gen_motherIsNotTau_cut)
+
+PreselectionHighEtaLeptonsNotFromTau = cms.PSet(
+    name = cms.string("PreselectionHighEtaLeptonsNotFromTau"),
+    triggers = copy.deepcopy(PreselectionHighEta.triggers),
+    cuts = cms.VPSet (copy.deepcopy(PreselectionHighEta.cuts))
+)
+PreselectionHighEtaLeptonsNotFromTau.cuts.append(muon_gen_motherIsNotTau_cut)
+
 Preselection1LeptonFromTau = cms.PSet(
     name = cms.string("Preselection1LeptonFromTau"),
     triggers = copy.deepcopy(Preselection.triggers),
