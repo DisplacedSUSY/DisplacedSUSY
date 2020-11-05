@@ -410,6 +410,12 @@ DiMuonHistograms = cms.PSet(
             inputVariables = cms.vstring("muon.charge * muon.charge"),
         ),
         cms.PSet (
+            name = cms.string("diMuonDeltaPt"),
+            title = cms.string("Di-muon Transverse Momentum Difference;|#Delta(p_{T}) [GeV]|"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("abs (muon.pt - muon.pt)"),
+        ),
+        cms.PSet (
             name = cms.string("diMuonDeltaPhi"),
             title = cms.string("Di-muon Phi Difference;|#Delta(#phi)|"),
             binsX = cms.untracked.vdouble(32, 0, 3.2),
@@ -882,6 +888,12 @@ DiElectronHistograms = cms.PSet(
             inputVariables = cms.vstring("electron.charge * electron.charge"),
         ),
         cms.PSet (
+            name = cms.string("diElectronDeltaPt"),
+            title = cms.string("Di-electron Transverse Momentum Difference;|#Delta(p_{T}) [GeV]|"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("abs (electron.pt - electron.pt)"),
+        ),
+        cms.PSet (
             name = cms.string("diElectronDeltaPhi"),
             title = cms.string("Di-electron Phi Difference;|#Delta(#phi)|"),
             binsX = cms.untracked.vdouble(32, 0, 3.2),
@@ -949,6 +961,12 @@ ElectronMuonHistograms = cms.PSet(
             title = cms.string("Electron-muon Charge Product;charge_{e}*charge_{#mu}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
             inputVariables = cms.vstring("electron.charge * muon.charge"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMuonDeltaPt"),
+            title = cms.string("Electron-muon Transverse Momentum Difference;|#Delta(p_{T}) [GeV]|"),
+            binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("abs (electron.pt - muon.pt)"),
         ),
         cms.PSet (
             name = cms.string("electronMuonDeltaPhi"),
