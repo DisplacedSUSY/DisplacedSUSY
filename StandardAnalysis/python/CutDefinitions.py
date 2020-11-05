@@ -701,7 +701,7 @@ electron_gen_motherIsHeavyMeson_cut = cms.PSet(
 
 muon_eta_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
-    cutString = cms.string("abs(muon.eta) < 2.4"),
+    cutString = cms.string("abs(muon.eta) < 1.5"),
     numberRequired = cms.string(">= 1")
     )
 
