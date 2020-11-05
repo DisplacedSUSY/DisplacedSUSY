@@ -234,6 +234,7 @@ for z_lo, z_hi in z_regions:
 
         # calculate abcd yield as d = c * b / a
         if x['val'] == 0 or y['val'] == 0:
+            abcd = {}
             abcd['val'] = 0
             abcd['err_lo'] = abcd['err_hi'] = 0
         else:
