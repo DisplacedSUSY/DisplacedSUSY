@@ -75,6 +75,9 @@ electron_gen_motherIsWorZ_cut.alias = cms.string(">=2 electrons from W or Z (ele
 electron_gen_motherIsTau_cut.numberRequired = cms.string(">= 2")
 electron_gen_motherIsTau_cut.alias = cms.string(">=2 electrons from tau (electron matched to gen particle whose mother has PDG ID of 15)")
 
+electron_gen_motherIsNotTau_cut.numberRequired = cms.string(">= 2")
+electron_gen_motherIsNotTau_cut.alias = cms.string(">=2 electrons not from tau (electron matched to gen particle whose mother's PDG ID is not 15)")
+
 electron_gen_motherIsLightMeson_cut.numberRequired = cms.string(">= 2")
 electron_gen_motherIsLightMeson_cut.alias = cms.string(">=2 electrons from light mesons (electron matched to gen particle whose mother has 111 <= PDG ID < 400)")
 

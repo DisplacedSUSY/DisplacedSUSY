@@ -681,6 +681,13 @@ electron_gen_motherIsTau_cut = cms.PSet(
     alias = cms.string(">=1 electrons from Tau (electron matched to gen particle whose mother has PDG ID of 15)")
 )
 
+electron_gen_motherIsNotTau_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons"),
+    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) != 15"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons not from Tau (electron matched to gen particle whose mother's PDG ID is not 15)")
+)
+
 electron_gen_motherIsLightMeson_cut = cms.PSet(
    inputCollection = cms.vstring("electrons"),
    cutString = cms.string("abs(genMatchedParticle.noFlags.uniqueMotherPdgId) >= 111 & abs(genMatchedParticle.noFlags.uniqueMotherPdgId) < 400"),

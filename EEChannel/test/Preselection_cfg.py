@@ -28,6 +28,7 @@ eventSelections = [
     #PreselectionLeptonsFromW,
     #PreselectionLeptonsFromWorZ,
     #PreselectionLeptonsFromTau,
+    #PreselectionLeptonsNotFromTau,
     #Preselection2TausFromZ,
     #PreselectionEleFromLightMeson,
     #PreselectionEleFromHeavyMeson,
