@@ -329,14 +329,14 @@ GenEMuFromStopsEleSelection = cms.PSet(
     triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
 )
-GenEMuFromStopsEleSelection.cuts.append(exactly1_genEle)
+GenEMuFromStopsEleSelection.cuts.append(exactly1_genEle_cut)
 
 GenEMuFromStopsMuSelection = cms.PSet(
     name = cms.string("GenEMuFromStopsMuSelection"),
     triggers = copy.deepcopy(GenEMuFromStopsSelection.triggers),
     cuts = cms.VPSet (copy.deepcopy(GenEMuFromStopsSelection.cuts))
 )
-GenEMuFromStopsMuSelection.cuts.append(exactly1_genMu)
+GenEMuFromStopsMuSelection.cuts.append(exactly1_genMu_cut)
 
 ######
 #HLT
