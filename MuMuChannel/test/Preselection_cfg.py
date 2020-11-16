@@ -67,17 +67,19 @@ eventSelections = [
     #PreselectionPromptMuonDisplacedTagMuon100um,
     #PreselectionPromptTagMuonDisplacedMuon100um,
     #PreselectionPromptMuonDisplacedTagMuon500um,
+    #GenMuSelection,
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors
 scalingfactorproducers = []
-scalingfactorproducers.append(MuonScaleFactorProducer)
+scalingfactorproducers.append(MuonScaleFactorProducer) # comment out for GenMuSelection test
 
+#weightsMuMuChannel = weights # make basically empty for GenMuSelection test
 ################################################################################
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers, branchSets = mumuBranchSets)
+add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers)#, branchSets = mumuBranchSets)
 #add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers)
 #add_channels (process, eventSelections, histograms, weightsMuMuChannelFluctuateMuSFs, scalingfactorproducers, collectionMap, variableProducers)
 

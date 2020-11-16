@@ -364,6 +364,16 @@ GenMuMuFromStopsAndL1TrigSelection.cuts.append(pass_L1DoubleMu_Seeds) #need L1 c
 GenMuMuFromStopsAndL1TrigSelection.cuts.extend(copy.deepcopy(GenMuMuFromStopsSelection.cuts))
 #################################################################
 
+# to check if cloud model turned on
+GenMuSelection = cms.PSet(
+    name = cms.string("GenMuSelection"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet([atLeastZero_genMu_cut,
+                  ])
+)
+#################################################################
+
+
 PreselectionOneLessThan40umOneGreaterThan100um = cms.PSet(
     name = cms.string("PreselectionOneLessThan40umOneGreaterThan100um"),
     triggers = copy.deepcopy(Preselection.triggers),

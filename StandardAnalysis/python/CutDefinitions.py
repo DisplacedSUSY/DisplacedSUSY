@@ -57,18 +57,26 @@ genEleMuChannel_cut = cms.PSet(
     alias = cms.string("Exactly 1 gen electron and 1 gen muon")
 )
 
-exactly1_genEle = cms.PSet(
+exactly1_genEle_cut = cms.PSet(
    inputCollection = cms.vstring("hardInteractionMcparticles"),
    cutString = cms.string("abs (pdgId) == 11"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string("Exactly 1 gen electron")
 )
 
-exactly1_genMu = cms.PSet(
+exactly1_genMu_cut = cms.PSet(
    inputCollection = cms.vstring("hardInteractionMcparticles"),
    cutString = cms.string("abs (pdgId) == 13"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string("Exactly 1 gen muon")
+)
+
+#to check if cloud model turned on
+atLeastZero_genMu_cut = cms.PSet(
+   inputCollection = cms.vstring("hardInteractionMcparticles"),
+   cutString = cms.string("abs (pdgId) == 13 & status==1"),
+   numberRequired = cms.string(">= 0"),
+   alias = cms.string("At least 0 gen muons with status==1")
 )
 
 atLeastTwo_genLxy_lessThan50cm_cut = cms.PSet(
