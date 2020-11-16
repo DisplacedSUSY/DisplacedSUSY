@@ -6493,6 +6493,12 @@ GenParticleHistograms = cms.PSet(
     inputCollection = cms.vstring("hardInteractionMcparticles"),
     histograms = cms.VPSet (
         cms.PSet (
+            name = cms.string("numGenParticles"),
+            title = cms.string("Number of Selected Gen Particles;# gen particles"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("number(hardInteractionMcparticle)"),
+        ),
+        cms.PSet (
             name = cms.string("GenPdgId"),
             title = cms.string("Gen PdgId;|PDG ID|"),
             binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
