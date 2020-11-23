@@ -142,34 +142,42 @@ def sum_regions(r1, r2):
     return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
                                       r2['val'], r2['err_lo'], r2['err_hi'])
 
-def linear_extrapolation(pol1,nPoints,d0Points,ratios,d0_err_lo,d0_err_hi,ratio_err_lo,ratio_err_hi,extrapolatedD0Point):
-    graph = TGraphAsymmErrors(nPoints, array('f',d0Points), array('f',ratios), array('f',d0_err_lo), array('f',d0_err_hi), array('f',ratio_err_lo), array('f',ratio_err_hi))
-    if pol1 is True:
-        fit = TF1("fit","pol1",0,extrapolatedD0Point)
-        graph.Fit(fit,"R")
-        print "pol1 chisq/dof is: {:.2f}".format(1.*fit.GetChisquare()/fit.GetNDF())
-        print "pol1 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
-        print "pol1 slope is: {:.2f}".format(fit.GetParameter(1))+" +/- {:.2f}".format(fit.GetParError(1))
-
+def linear_extrapolation(pol1, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi,
+                         extrapolated_d0):
+    tgraph_arrays = map(make_array, [d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi])
+    graph = TGraphAsymmErrors(len(d0s), *tgraph_arrays)
+    if pol1:
+        fit = TF1("fit", "pol1", 0, extrapolated_d0)
+        fit.SetParLimits(0, 0, 2)
+        fit.SetParLimits(1, 0, 1)
     else:
-        fit = TF1("fit","pol0",0,extrapolatedD0Point)
-        graph.Fit(fit,"R")
-        print "pol0 chisq/dof is: {:.2f}".format(1.*fit.GetChisquare()/fit.GetNDF())
-        print "pol0 y-intercept is: {:.2f}".format(fit.GetParameter(0))+" +/- {:.2f}".format(fit.GetParError(0))
+        fit = TF1("fit", "pol0", 0, extrapolated_d0)
+        fit.SetParLimits(0, 0, 2)
 
-    grConfInt1Sig = TGraphErrors(graph.GetN()+1)
-    for i in range(graph.GetN()):
-        grConfInt1Sig.SetPoint(i, graph.GetX()[i], 0 )
-    grConfInt1Sig.SetPoint(nPoints,extrapolatedD0Point, 0)
-    grConfInt2Sig = grConfInt1Sig.Clone()
+    fit_result = graph.Fit(fit, "S")
+    print "chisq/dof: {:.2f}".format(fit.GetChisquare()/fit.GetNDF())
+    print "p-value: {:.2f}".format(fit.GetProb())
+    print "y-intercept: {:.2f} +/- {:.2f}".format(fit.GetParameter(0), fit.GetParError(0))
+    if pol1:
+        print "slope: {:.2f} +/- {:.2f}".format(fit.GetParameter(1), fit.GetParError(1))
 
-    #Compute the 68% and 95% confidence intervals at the x points of the created graph
-    TVirtualFitter.GetFitter().GetConfidenceIntervals(grConfInt1Sig, 0.68)
-    TVirtualFitter.GetFitter().GetConfidenceIntervals(grConfInt2Sig, 0.95)
-    #Now the "grConfInt" graphs contains function values as its y-coordinates
-    #and confidence intervals as the errors on these coordinates
+    # compute the 68% and 95% confidence intervals of fit values at the x points of the ratio graph
+    all_d0s = make_array(d0s + [extrapolated_d0])
+    confInt1Sig = make_array([0.0]*len(all_d0s))
+    confInt2Sig = make_array([0.0]*len(all_d0s))
+    grConfInt1Sig = TGraphErrors()
+    grConfInt2Sig = TGraphErrors()
+    fit_result.GetConfidenceIntervals(len(all_d0s), 1, 1, all_d0s, confInt1Sig, Double(0.68), False)
+    fit_result.GetConfidenceIntervals(len(all_d0s), 1, 1, all_d0s, confInt2Sig, Double(0.95), False)
 
-    return (fit.Eval(extrapolatedD0Point),graph,grConfInt1Sig,grConfInt2Sig)
+    # create tgraphs w/ y-values set by fit values and y-errors set by confidence intervals
+    for i, (d0, ci1, ci2) in enumerate(zip(all_d0s, confInt1Sig, confInt2Sig)):
+        grConfInt1Sig.SetPoint(i, d0, fit.Eval(d0))
+        grConfInt1Sig.SetPointError(i, 0, ci1)
+        grConfInt2Sig.SetPoint(i, d0, fit.Eval(d0))
+        grConfInt2Sig.SetPointError(i, 0, ci2)
+
+    return (fit, graph, grConfInt1Sig, grConfInt2Sig)
 
 
 
@@ -427,15 +435,16 @@ for z_lo, z_hi in z_regions:
         else:
             print "problem with d0_mids"
 
-        #should really extrapolate using the center of gravity of each bin, but stats committee suggests using small bins to avoid the issue and the bin center. so we use the bin center here
-        #take no x-axis error bars because we assume the width of the bin center of gravity is small compared to the width of the bin
+        # should really extrapolate using the center of gravity of each bin, but stats committee
+        # suggests using small bins to avoid the issue and the bin center, so we use the bin center
+        # take no x-axis error bars because we assume the width of the bin center of gravity is
+        # small compared to the width of the bin
         extrapolatedD0Point = 200
-        (ratioProj_start, graph_start, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1,len(ratios),d0_mids,ratios,d0_0s,d0_0s,ratios_err_lo,ratios_err_hi,extrapolatedD0Point)
-        if pol1 is True:
-            line = "line with slope "
-        else:
-            line = "horizontal line "
-        print "The projected ratio is {:.2f}".format(ratioProj_start) + " +/- {:.2f}".format(grConfInt1Sig.GetErrorY(len(ratios))) +" when extrapolating with "+line+"at the center of the d0 bins to |d0|=" + str(extrapolatedD0Point)+ "um"
+        (ratio_fit, ratio_graph, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1, d0_mids,
+                            ratios, d0_0s, d0_0s, ratios_err_lo, ratios_err_hi, extrapolatedD0Point)
+        projected_ratio = ratio_fit.Eval(extrapolatedD0Point)
+        print "The projected ratio is {:.2f} +/- {:.2f} when extrapolating to |d0|={}".format(
+                   projected_ratio, grConfInt1Sig.GetErrorY(len(ratios)), extrapolatedD0Point)
         print
 
     # Format and export histograms
@@ -487,40 +496,42 @@ for z_lo, z_hi in z_regions:
         CanvasRatio.SaveAs(output_path+output_file.replace(".root", "_ratio.png"))
 
     if arguments.doExtrapolation:
-        graph_start.SetTitle("")
+        ratio_graph.SetTitle("")
         grConfInt1Sig.SetTitle("")
         grConfInt2Sig.SetTitle("")
-        graph_start.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
-        graph_start.GetYaxis().SetTitle("Actual/estimate ratios")
+        ratio_graph.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
+        ratio_graph.GetYaxis().SetTitle("Actual/estimate ratios")
         grConfInt1Sig.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
         grConfInt1Sig.GetYaxis().SetTitle("Actual/estimate ratios")
         grConfInt2Sig.GetXaxis().SetTitle("Prompt lepton |d_{0}| [#mum]")
         grConfInt2Sig.GetYaxis().SetTitle("Actual/estimate ratios")
-        graph_start.GetXaxis().SetTitleOffset(1.2)
-        graph_start.GetYaxis().SetTitleOffset(1.1)
+        ratio_graph.GetXaxis().SetTitleOffset(1.2)
+        ratio_graph.GetYaxis().SetTitleOffset(1.1)
         grConfInt1Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt1Sig.GetYaxis().SetTitleOffset(1.1)
         grConfInt2Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt2Sig.GetYaxis().SetTitleOffset(1.1)
         if pol1 is True:
-            graph_start.GetYaxis().SetRangeUser(0.,6.0)
+            ratio_graph.GetYaxis().SetRangeUser(0.,6.0)
             grConfInt1Sig.GetYaxis().SetRangeUser(0.,6.0)
             grConfInt2Sig.GetYaxis().SetRangeUser(0.,6.0)
         else:
-            graph_start.GetYaxis().SetRangeUser(0.6,2.0)
+            ratio_graph.GetYaxis().SetRangeUser(0.6,2.0)
             grConfInt1Sig.GetYaxis().SetRangeUser(0.6,2.0)
             grConfInt2Sig.GetYaxis().SetRangeUser(0.6,2.0)
-        graph_start.SetMarkerStyle(20)
+        ratio_graph.SetMarkerStyle(20)
         grConfInt1Sig.SetFillColor(3)
         grConfInt2Sig.SetFillColor(5)
-        CanvasGraphStart = TCanvas("CanvasGraphStart"+str(z_lo), "CanvasGraphStart"+str(z_lo), 100, 100, 700, 600)
-        CanvasGraphStart.cd()
+        title = "CanvasRatioGraph"+str(z_lo)
+        CanvasRatioGraph = TCanvas(title, title, 100, 100, 700, 600)
+        CanvasRatioGraph.cd()
         grConfInt2Sig.Draw("A3")
         grConfInt1Sig.Draw("3same")
-        graph_start.Draw("Psame")
-        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.pdf"))
-        CanvasGraphStart.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.png"))
-        graph_start.Write("graph_start")
+        ratio_graph.Draw("Psame")
+        ratio_fit.Draw("same")
+        CanvasRatioGraph.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.pdf"))
+        CanvasRatioGraph.SaveAs(output_path+output_file.replace(".root", "_ratiosVsPromptD0.png"))
+        ratio_graph.Write("ratio_graph")
         grConfInt1Sig.Write("grConfInt1Sig")
         grConfInt2Sig.Write("grConfInt2Sig")
 
