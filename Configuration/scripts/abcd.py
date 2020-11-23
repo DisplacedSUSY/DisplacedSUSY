@@ -56,6 +56,7 @@ if arguments.doExtrapolation and not arguments.doClosureTest:
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
+gStyle.SetOptFit(1111)
 gStyle.SetCanvasBorderMode(0)
 gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
@@ -64,13 +65,21 @@ gStyle.SetTextFont(42)
 gStyle.SetPaintTextFormat('.2f')
 gROOT.ForceStyle()
 
+
+def make_array(l):
+    return array('d', l)
+
 # make output histogram with bins for each ABCD region
 def make_output_hist(title, template_hist, x_bins, y_bins):
     #  include overflow in outermost bins if applicable
-    x_edges = array('d', [template_hist.GetXaxis().GetXmax() if x == -1 else x for x in bins_x])
-    y_edges = array('d', [template_hist.GetYaxis().GetXmax() if y == -1 else y for y in bins_y])
+    x_edges = make_array([template_hist.GetXaxis().GetXmax() if x == -1 else x for x in bins_x])
+    y_edges = make_array([template_hist.GetYaxis().GetXmax() if y == -1 else y for y in bins_y])
 
-    return TH2D(title, title, len(x_bins)-1, x_edges, len(y_bins)-1, y_edges)
+    x_axis_title = template_hist.GetXaxis().GetTitle()
+    y_axis_title = template_hist.GetYaxis().GetTitle()
+    title_string = "{};{};{}".format(title, x_axis_title, y_axis_title)
+
+    return TH2D(title, title_string, len(x_bins)-1, x_edges, len(y_bins)-1, y_edges)
 
 # get bin numbers associated with given values; account for possible overflow inclusion
 def get_bins(hist, axis_name, lo, hi):
@@ -195,8 +204,8 @@ for z_lo, z_hi in z_regions:
     else:
         in_th2 = in_hist
 
-    abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates",        in_th2, bins_x, bins_y)
-    count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields",       in_th2, bins_x, bins_y)
+    abcd_hist  = make_output_hist(str(z_lo)+"GeV ABCD Estimates", in_th2, bins_x, bins_y)
+    count_hist = make_output_hist(str(z_lo)+"GeV Counting Yields", in_th2, bins_x, bins_y)
     ratio_hist = make_output_hist("", in_th2, bins_x, bins_y)
 
     prompt = get_yields_and_errors(in_th2, bins_x[0], bins_x[1], bins_y[0], bins_y[1],
@@ -218,7 +227,9 @@ for z_lo, z_hi in z_regions:
                    "account for correlation").format(correlation_factor)
         print "[B]", output_file.replace(".root", ""), "[/B]"
         print '[TABLE border="1"]'
-        print "mu d0 range (#mum)|e d0 range (#mum)|A|B|C|D Estimate|D Actual|D Actual/Estimate"
+        x_label = in_th2.GetXaxis().GetTitle().replace("|", "\|")
+        y_label = in_th2.GetYaxis().GetTitle().replace("|", "\|")
+        print "{}|{}|A|B|C|D Estimate|D Actual|D Actual/Estimate".format(x_label, y_label)
 
     # iterate through all target regions and perform abcd estimate
     for (x_lo, x_hi), (y_lo, y_hi) in itertools.product(x_regions[1:], y_regions[1:]):
@@ -386,12 +397,11 @@ for z_lo, z_hi in z_regions:
             print "[/TABLE]"
             print
 
-    #do linear extrapolation to estimate systematic uncertainty
+    # do linear extrapolation to estimate systematic uncertainty
     if arguments.doExtrapolation:
-        #find if x's or y's are changing: the ones that change are the d0 values we want
-        d0_mids = array('f',[])
+        # find if x's or y's are changing: the ones that change are the d0 values we want
+        d0_mids = make_array([])
         d0_0s = [0.] * len(ratios)
-
         if x_mids.count(x_mid) > 1:
             d0_mids = y_mids
         elif y_mids.count(y_mid) > 1:
@@ -415,8 +425,6 @@ for z_lo, z_hi in z_regions:
 
     abcd_hist.SetMarkerSize(2)
     abcd_hist.SetOption("colz text45 e")
-    abcd_hist.GetXaxis().SetTitle(x_axis_title)
-    abcd_hist.GetYaxis().SetTitle(y_axis_title)
     abcd_hist.GetXaxis().SetTitleOffset(1.2)
     abcd_hist.GetYaxis().SetTitleOffset(1.1)
     abcd_hist.Write()
@@ -433,8 +441,6 @@ for z_lo, z_hi in z_regions:
     if arguments.doClosureTest:
         count_hist.SetMarkerSize(2)
         count_hist.SetOption("colz text45 e")
-        count_hist.GetXaxis().SetTitle(x_axis_title)
-        count_hist.GetYaxis().SetTitle(y_axis_title)
         count_hist.GetXaxis().SetTitleOffset(1.2)
         count_hist.GetYaxis().SetTitleOffset(1.1)
         count_hist.Write()
@@ -449,8 +455,6 @@ for z_lo, z_hi in z_regions:
 
         ratio_hist.SetMarkerSize(2)
         ratio_hist.SetOption("colz text45 e")
-        ratio_hist.GetXaxis().SetTitle(x_axis_title)
-        ratio_hist.GetYaxis().SetTitle(y_axis_title)
         ratio_hist.GetXaxis().SetTitleOffset(1.2)
         ratio_hist.GetYaxis().SetTitleOffset(1.1)
         ratio_hist.SetMinimum(0)
