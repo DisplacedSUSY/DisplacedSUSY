@@ -186,6 +186,7 @@ if type(in_hist) is TH2D and len(bins_z) != 2:
 
 abcd_yields = {}
 count_yields = {}
+count_totals = {}
 bg_estimate_output = {'background' : []} # strange structure to match makeDataCards expectation
 
 regions = lambda bins: zip(bins[:-1], bins[1:])
@@ -197,6 +198,7 @@ z_regions = regions(bins_z)
 for z_lo, z_hi in z_regions:
     abcd_yields[z_lo]  = {}
     count_yields[z_lo] = {}
+    count_totals[z_lo] = {}
 
     if type(in_hist) is TH3D:
         print "input hist is th3; converting to th2..."
@@ -264,6 +266,11 @@ for z_lo, z_hi in z_regions:
         else:
             count = copy.deepcopy(abcd)
 
+        # print low-stats warning if bin contains less than 5 effective events
+        eff_evts = (count['val']/count['err_hi'])**2
+        if eff_evts < 5 and not data:
+            print "Warning: bin contains only {:.1f} effective events".format(eff_evts)
+
         # calculate ratio of actual yield to estimate
         if abcd['val'] == 0:
             print "estimate is 0, setting ratio to 100 +/- 100"
@@ -288,6 +295,13 @@ for z_lo, z_hi in z_regions:
         count_yields[z_lo][x_lo][y_lo]['val']    = count['val']
         count_yields[z_lo][x_lo][y_lo]['err_lo'] = count['err_lo']
         count_yields[z_lo][x_lo][y_lo]['err_hi'] = count['err_hi']
+
+        if 'val' not in count_totals[z_lo]:
+            count_totals[z_lo] = copy.deepcopy(count)
+        else:
+            count_totals[z_lo] = propagate_asymm_err("sum", count_totals[z_lo]['val'],
+                                         count_totals[z_lo]['err_lo'], count_totals[z_lo]['err_hi'],
+                                         count['val'], count['err_lo'], count['err_hi'])
 
         # fill output hists
         out_bin = count_hist.FindBin(x_lo, y_lo)
@@ -333,6 +347,10 @@ for z_lo, z_hi in z_regions:
         print "[/TABLE]"
         print
 
+    # print total count yields
+    print "Total test region yield is {:.2f} +{:.2f}/-{:.2f}\n".format(count_totals[z_lo]['val'],
+                                         count_totals[z_lo]['err_hi'], count_totals[z_lo]['err_lo'])
+
     # get estimated and actual yields in L-shaped signal regions
     if len(bins_x) != len(bins_y):
         print
@@ -364,7 +382,7 @@ for z_lo, z_hi in z_regions:
                            sr, sr_abcd['val'], sr_abcd['err_hi'], sr_abcd['err_lo'], sr_count['val'])
                 else:
                     print "Region {} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}".format(
-                           sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_abcd['err_hi'])
+                          sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_count['err_hi'])
 
             # store estimated and actual yields with signal region info for json output
             if correlation_factor is not None and sr == 0:
