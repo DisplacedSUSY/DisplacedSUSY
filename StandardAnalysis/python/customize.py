@@ -78,24 +78,27 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
             process.DisplacedSUSYEventVariableProducer.innerShield_innerR = cms.double(2.36)
 
         #BPIX layers
-        #assume thickness of 0.15 cm
+        #assume module thickness of 0.15 cm
+        #L1 at 4.2 and 4.8 cm (2.8 and 3.1 cm) in phase 0 (phase 1)
+        #L2 at 6.6 and 7.0 cm in phase 1
+        #https://indico.cern.ch/event/750050/contributions/3229824/attachments/1761100/2857630/2018.11.28_PixelFit_kropiv.pdf
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             process.DisplacedSUSYEventVariableProducer.bpix_x_center = cms.double(-0.027)
             process.DisplacedSUSYEventVariableProducer.bpix_y_center = cms.double(-0.078)
             process.DisplacedSUSYEventVariableProducer.bpix_z_center = cms.double(-0.051)
             process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(26.5)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(4.475)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(4.325)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(4.875)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(4.125)
             process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.375)
             process.DisplacedSUSYEventVariableProducer.bpixL2_innerR = cms.double(7.225)
             process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.275)
             process.DisplacedSUSYEventVariableProducer.bpixL3_innerR = cms.double(10.125)
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(27.45)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(2.975)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(2.825)
-            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(6.875)
-            process.DisplacedSUSYEventVariableProducer.bpixL2_innerR = cms.double(6.725)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(3.175)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(2.725)
+            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.075)
+            process.DisplacedSUSYEventVariableProducer.bpixL2_innerR = cms.double(6.525)
             process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.975)
             process.DisplacedSUSYEventVariableProducer.bpixL3_innerR = cms.double(10.825)
             process.DisplacedSUSYEventVariableProducer.bpixL4_outerR = cms.double(16.075)
