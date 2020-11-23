@@ -1476,3 +1476,23 @@ diMuon_deltaTimeAtIpInOut_veto = cms.PSet(
    isVeto = cms.bool(True),
    alias = cms.string("veto events with leading muon pairs with timing consistent with cosmics (veto [#Delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7])")
 )
+
+# require no disp vertices in tracker material
+emu_noDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispEMuVtxsInMaterial == 0 || (nDispEMuVtxsInMaterial>0 & vtxEMuChisqInMaterial<20.)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("no emu vertices in material")
+)
+ee_noDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispEEVtxsInMaterial == 0 || (nDispEEVtxsInMaterial>0 & vtxEEChisqInMaterial<20.)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("no ee vertices in material")
+)
+mumu_noDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispMuMuVtxsInMaterial == 0 || (nDispMuMuVtxsInMaterial>0 & vtxMuMuChisqInMaterial<20.)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("no mumu vertices in material")
+)
