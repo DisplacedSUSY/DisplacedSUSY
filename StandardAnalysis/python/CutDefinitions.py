@@ -1480,19 +1480,19 @@ diMuon_deltaTimeAtIpInOut_veto = cms.PSet(
 # require no disp vertices in tracker material
 emu_noDispVtxsInMaterial_cut = cms.PSet(
    inputCollection = cms.vstring("eventvariables"),
-   cutString = cms.string("nDispEMuVtxsInMaterial == 0 || (nDispEMuVtxsInMaterial>0 & vtxEMuChisqInMaterial<20.)"),
-   numberRequired = cms.string(">= 1"),
+   cutString = cms.string("nDispEMuVtxsInMaterial == 0 || (nDispEMuVtxsInMaterial==1 & vtxEMuChisqInMaterial<20. & vtxEMuChisqInMaterial>0.)"),
+   numberRequired = cms.string("== 1"),
    alias = cms.string("no emu vertices in material")
 )
 ee_noDispVtxsInMaterial_cut = cms.PSet(
    inputCollection = cms.vstring("eventvariables"),
-   cutString = cms.string("nDispEEVtxsInMaterial == 0 || (nDispEEVtxsInMaterial>0 & vtxEEChisqInMaterial<20.)"),
-   numberRequired = cms.string(">= 1"),
+   cutString = cms.string("nDispEEVtxsInMaterial == 0 || (nDispEEVtxsInMaterial==1 & vtxEEChisqInMaterial<20. & vtxEEChisqInMaterial>0.)"),
+   numberRequired = cms.string("== 1"),
    alias = cms.string("no ee vertices in material")
 )
 mumu_noDispVtxsInMaterial_cut = cms.PSet(
    inputCollection = cms.vstring("eventvariables"),
-   cutString = cms.string("nDispMuMuVtxsInMaterial == 0 || (nDispMuMuVtxsInMaterial>0 & vtxMuMuChisqInMaterial<20.)"),
+   cutString = cms.string("nDispMuMuVtxsInMaterial == 0 || (nDispMuMuVtxsInMaterial==1 & vtxMuMuChisqInMaterial<20. & vtxMuMuChisqInMaterial>0.)"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string("no mumu vertices in material")
 )
