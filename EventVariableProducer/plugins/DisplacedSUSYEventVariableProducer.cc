@@ -490,7 +490,16 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["vtxEEZErrInMaterial"] = dvEE.vtxZErr;
     (*eventvariables)["vtxEEChisqInMaterial"] = dvEE.vtxChisq;
   }
-  else (*eventvariables)["nDispEEVtxsInMaterial"] = 0;
+  else{
+    (*eventvariables)["nDispEEVtxsInMaterial"] = 0;
+    (*eventvariables)["vtxEEXInMaterial"] = -10000;
+    (*eventvariables)["vtxEEYInMaterial"] = -10000;
+    (*eventvariables)["vtxEEZInMaterial"] = -10000;
+    (*eventvariables)["vtxEEXErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEEYErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEEZErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEEChisqInMaterial"] = -10000;
+  }
   if(dvMuMu_inMaterial){
     (*eventvariables)["nDispMuMuVtxsInMaterial"] = dvMuMu.nDispVtxs;
     (*eventvariables)["vtxMuMuXInMaterial"] = dvMuMu.vtxX;
@@ -501,7 +510,16 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["vtxMuMuZErrInMaterial"] = dvMuMu.vtxZErr;
     (*eventvariables)["vtxMuMuChisqInMaterial"] = dvMuMu.vtxChisq;
   }
-  else (*eventvariables)["nDispMuMuVtxsInMaterial"] = 0;
+  else{
+    (*eventvariables)["nDispMuMuVtxsInMaterial"] = 0;
+    (*eventvariables)["vtxMuMuXInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuYInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuZInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuXErrInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuYErrInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuZErrInMaterial"] = -10000;
+    (*eventvariables)["vtxMuMuChisqInMaterial"] = -10000;
+  }
   if(dvEMu_inMaterial){
     (*eventvariables)["nDispEMuVtxsInMaterial"] = dvEMu.nDispVtxs;
     (*eventvariables)["vtxEMuXInMaterial"] = dvEMu.vtxX;
@@ -512,7 +530,16 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["vtxEMuZErrInMaterial"] = dvEMu.vtxZErr;
     (*eventvariables)["vtxEMuChisqInMaterial"] = dvEMu.vtxChisq;
   }
-  else (*eventvariables)["nDispEMuVtxsInMaterial"] = 0;
+  else{
+    (*eventvariables)["nDispEMuVtxsInMaterial"] = 0;
+    (*eventvariables)["vtxEMuXInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuYInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuZInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuXErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuYErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuZErrInMaterial"] = -10000;
+    (*eventvariables)["vtxEMuChisqInMaterial"] = -10000;
+  }
 
 }
 
