@@ -28,6 +28,7 @@ elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW
 Preselection.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
 Preselection.cuts.append(electron_newIso_cut) #our custom rho-based iso
 Preselection.cuts.append(diElectron_deltaR_cut) # remove hypothetical electrons from mesons that are close to each other (loose dR>0.2)
+Preselection.cuts.append(ee_noDispVtxsInMaterial_cut)
 ### remove events with displaced muons that would pass the emu preselection
 Preselection.cuts.append(muon_emu_preselection_filter_part1)
 Preselection.cuts.append(muon_emu_preselection_filter_part2)

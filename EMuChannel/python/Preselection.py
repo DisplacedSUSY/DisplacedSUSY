@@ -44,7 +44,7 @@ Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
 Preselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
 Preselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
 Preselection.cuts.append(emu_deltaR_cut) #remove leptons from mesons that are very close to each other (loose dR>0.2)
-
+Preselection.cuts.append(emu_noDispVtxsInMaterial_cut)
 
 PromptControlRegion = cms.PSet(
     name = cms.string("PromptControlRegion"),

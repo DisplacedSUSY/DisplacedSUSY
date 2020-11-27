@@ -30,6 +30,7 @@ Preselection.cuts.append(muon_iso_cut) #our custom rho-based iso
 Preselection.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
 Preselection.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
 Preselection.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
+Preselection.cuts.append(mumu_noDispVtxsInMaterial_cut)
 ### remove events with displaced electrons that would pass the emu preselection
 Preselection.cuts.append(electron_emu_preselection_filter)
 Preselection.cuts.append(electron_d0_greaterThan100_veto)
