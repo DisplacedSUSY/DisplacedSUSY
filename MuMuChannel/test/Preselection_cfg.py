@@ -79,9 +79,9 @@ scalingfactorproducers.append(MuonScaleFactorProducer) # comment out for GenMuSe
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers)#, branchSets = mumuBranchSets)
-#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers)
-#add_channels (process, eventSelections, histograms, weightsMuMuChannelFluctuateMuSFs, scalingfactorproducers, collectionMap, variableProducers)
+add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingfactorproducers, collectionMap, variableProducers, branchSets=mumuBranchSets)
+#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, branchSets=mumuBranchSets)
+#add_channels (process, eventSelections, histograms, weightsMuMuChannelFluctuateMuSFs, scalingfactorproducers, collectionMap, variableProducers, branchSets=mumuBranchSets)
 
 # customize the process:
 # usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, sampleType = "bgMC")

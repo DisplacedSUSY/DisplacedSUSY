@@ -68,9 +68,9 @@ eventSelections = [
 ##### Attach the channels and histograms to the process ########################
 ################################################################################
 
-add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers) #, branchSets = emuBranchSets
-#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers)
-#add_channels (process, eventSelections, histograms, weightsEMuChannelFluctuateEleAndMuSFs, scalingfactorproducers, collectionMap, variableProducers)
+add_channels (process, eventSelections, histograms, weightsEMuChannel, scalingfactorproducers, collectionMap, variableProducers, branchSets=emuBranchSets)
+#add_channels (process, eventSelections, histograms, weightsFluctuatePileup, scalingfactorproducers, collectionMap, variableProducers, branchSets=emuBranchSets)
+#add_channels (process, eventSelections, histograms, weightsEMuChannelFluctuateEleAndMuSFs, scalingfactorproducers, collectionMap, variableProducers, branchSets=emuBranchSets)
 
 # customize the process:
 # usage: customize(process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC")
