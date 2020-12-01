@@ -161,21 +161,22 @@ def linear_extrapolation(pol1, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, 
     if pol1:
         print "slope: {:.2f} +/- {:.2f}".format(fit.GetParameter(1), fit.GetParError(1))
 
-    # compute the 68% and 95% confidence intervals of fit values at the x points of the ratio graph
+    # compute the 1- and 2-sigma confidence intervals of the fit at the x points of the ratio graph
+    # use 1-sigma intervals to construct 2-sigma intervals to avoid GetConfidenceIntervals bug
+    # see https://root-forum.cern.ch/t/fitresult-getconfidenceintervals-correction-factor/42552
     all_d0s = make_array(d0s + [extrapolated_d0])
+    num_points = len(all_d0s)
     confInt1Sig = make_array([0.0]*len(all_d0s))
-    confInt2Sig = make_array([0.0]*len(all_d0s))
-    grConfInt1Sig = TGraphErrors()
-    grConfInt2Sig = TGraphErrors()
-    fit_result.GetConfidenceIntervals(len(all_d0s), 1, 1, all_d0s, confInt1Sig, Double(0.68), False)
-    fit_result.GetConfidenceIntervals(len(all_d0s), 1, 1, all_d0s, confInt2Sig, Double(0.95), False)
+    fit_result.GetConfidenceIntervals(num_points, 1, 1, all_d0s, confInt1Sig, Double(0.683), False)
 
     # create tgraphs w/ y-values set by fit values and y-errors set by confidence intervals
-    for i, (d0, ci1, ci2) in enumerate(zip(all_d0s, confInt1Sig, confInt2Sig)):
+    grConfInt1Sig = TGraphErrors()
+    grConfInt2Sig = TGraphErrors()
+    for i, (d0, ci) in enumerate(zip(all_d0s, confInt1Sig)):
         grConfInt1Sig.SetPoint(i, d0, fit.Eval(d0))
-        grConfInt1Sig.SetPointError(i, 0, ci1)
+        grConfInt1Sig.SetPointError(i, 0, ci)
         grConfInt2Sig.SetPoint(i, d0, fit.Eval(d0))
-        grConfInt2Sig.SetPointError(i, 0, ci2)
+        grConfInt2Sig.SetPointError(i, 0, 2*ci) # 2-sigma ci width is twice 1-sigma ci width
 
     return (fit, graph, grConfInt1Sig, grConfInt2Sig)
 
