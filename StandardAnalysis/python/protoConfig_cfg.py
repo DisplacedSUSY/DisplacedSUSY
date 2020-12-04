@@ -189,6 +189,7 @@ from DisplacedSUSY.StandardAnalysis.TreeBranchDefinitions import *
 
 emuBranchSets = cms.VPSet (
     EventVariableBranches,
+    EMuEventVariableBranches,
     Electron0Branches,
     Electron0D0Branches,
     Muon0Branches,
@@ -197,6 +198,7 @@ emuBranchSets = cms.VPSet (
 
 eeBranchSets = cms.VPSet (
     EventVariableBranches,
+    EEEventVariableBranches,
     Electron0Branches,
     Electron0D0Branches,
     Electron1Branches,
@@ -205,6 +207,7 @@ eeBranchSets = cms.VPSet (
 
 mumuBranchSets = cms.VPSet (
     EventVariableBranches,
+    MuMuEventVariableBranches,
     Muon0Branches,
     Muon0D0Branches,
     Muon1Branches,

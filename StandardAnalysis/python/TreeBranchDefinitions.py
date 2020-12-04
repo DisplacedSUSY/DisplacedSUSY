@@ -1,7 +1,55 @@
+import os
 import FWCore.ParameterSet.Config as cms
 
 from OSUT3Analysis.Configuration.cutUtilities import *
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
+
+
+#######################################################
+# some stuff to set up first
+#######################################################
+
+# strings for lepton id/iso eventvariable branches
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    year = "2016"
+    suffix = "GH"
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    year = "2017"
+    suffix = ""
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    year = "2018"
+    suffix = ""
+else:
+    year = "2018"
+    suffix = ""
+    print "What CMSSW release are you in? We expect you to be in 80X or 94X or 102X"
+
+# for d0 smearing signal systematic uncertainty
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    electronD0SmearingWidth = 0.001475 #in cm; ave of values from e-e and e-mu pcr (elog 1281), also see elog 1760
+    electronD0SmearingWidthUncert = 0.000036
+    muonD0SmearingWidth = 0.000757 #in cm; ave of values from from e-mu and mu-mu pcr (elog 1281)
+    muonD0SmearingWidthUncert = 0.000012
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    electronD0SmearingWidth = 0.000918 #in cm; ave of values from e-e and e-mu pcr (elog 1359), also see elog 1760
+    electronD0SmearingWidthUncert = 0.000041
+    muonD0SmearingWidth = 0.000811 #in cm; ave of values from from e-mu and mu-mu pcr (elog 1359)
+    muonD0SmearingWidthUncert = 0.000008
+else:
+    electronD0SmearingWidth = 1.
+    electronD0SmearingWidthUncert = 0
+    muonD0SmearingWidth = 1
+    muonD0SmearingWidthUncert = 0
+
+electronD0SmearingWidthUp = electronD0SmearingWidth + electronD0SmearingWidthUncert
+electronD0SmearingWidthDown = electronD0SmearingWidth - electronD0SmearingWidthUncert
+muonD0SmearingWidthUp = muonD0SmearingWidth + muonD0SmearingWidthUncert
+muonD0SmearingWidthDown = muonD0SmearingWidth - muonD0SmearingWidthUncert
+
+electronD0SmearingWidthUpSF = str(1.0*electronD0SmearingWidthUp/electronD0SmearingWidth)
+electronD0SmearingWidthDownSF = str(1.0*electronD0SmearingWidthDown/electronD0SmearingWidth)
+muonD0SmearingWidthUpSF = str(1.0*muonD0SmearingWidthUp/muonD0SmearingWidth)
+muonD0SmearingWidthDownSF = str(1.0*muonD0SmearingWidthDown/muonD0SmearingWidth)
 
 #######################################################
 ##### Set up the branches to be added to the tree #####
@@ -41,6 +89,20 @@ EventVariableBranches_names = [
     "vtxEMuYErrInMaterial",
     "vtxEMuZErrInMaterial",
     "vtxEMuChisqInMaterial",
+    "puScalingFactor",
+    "puScalingFactorUp",
+    "puScalingFactorDown",
+    "cTau_1000006_0",
+    "cTau_1000006_1",
+    "cTau_1000006_2",
+    "cTau_1000006_3",
+    "cTau_1000006_4",
+    "cTau_1000006_5",
+    "cTau_1000006_6",
+    "cTau_1000006_7",
+    "cTau_1000006_8",
+    "cTau_1000006_9",
+    "lifetimeWeight",
 ]
 
 EventVariableBranches = cms.PSet(
@@ -48,7 +110,65 @@ EventVariableBranches = cms.PSet(
     branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in EventVariableBranches_names]),
 )
 
-#to do: add lifetime weights like in https://github.com/OSU-CMS/DisappTrks/blob/master/StandardAnalysis/python/TreeBranchDefinitions.py#L92-L104
+#everybody is in cm here
+for sourceCTau in [0.01, 0.1, 1, 10, 100]:
+    srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
+
+    destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
+    if sourceCTau == 0.01:
+        destinationCTaus.extend([0.001])
+    if sourceCTau == 100:
+        destinationCTaus.extend([float(1 * i * sourceCTau) for i in range(2, 11)])
+
+    for dst in destinationCTaus:
+        dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
+        thisName = "lifetimeWeight_1000006_" + srcCTau + "cmTo" + dstCTau + "cm"
+        #print thisName
+        EventVariableBranches.branches.append(
+            cms.PSet(
+                name = cms.string(thisName),
+                inputVariables = cms.vstring(thisName),
+            )
+        )
+
+###########################
+# electron event variables
+ElectronEventVariableBranches_names = [
+    "electronID"+year+"Tight",
+    "electronID"+year+"TightUp",
+    "electronID"+year+"TightDown",
+]
+
+EEEventVariableBranches = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in ElectronEventVariableBranches_names]),
+)
+
+###########################
+# muon event variables
+MuonEventVariableBranches_names = [
+    "muonIso"+year+"TightTightID"+suffix,
+    "muonIso"+year+"TightTightID"+suffix+"Up",
+    "muonIso"+year+"TightTightID"+suffix+"Down",
+]
+
+MuMuEventVariableBranches = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in MuonEventVariableBranches_names]),
+)
+
+###########################
+# emu event variables
+EMuEventVariableBranches_names = []
+EMuEventVariableBranches_names.extend(ElectronEventVariableBranches_names)
+EMuEventVariableBranches_names.extend(MuonEventVariableBranches_names)
+
+EMuEventVariableBranches = cms.PSet(
+    inputCollection = cms.vstring("eventvariables"),
+    branches = cms.VPSet ([cms.PSet(name = cms.string(x), inputVariables = cms.vstring(x)) for x in EMuEventVariableBranches_names]),
+)
+
+
 
 ###########################
 ######### Leptons #########
@@ -79,7 +199,6 @@ Electron1Branches = cms.PSet(
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(objectDefs.electron_newIso_string))])
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
 
-
 Electron0D0Branches = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
     branches = cms.VPSet (
@@ -102,6 +221,26 @@ Electron0D0Branches = cms.PSet(
             name = cms.string("absUnsmearedD0Electron0"),
             index = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+")"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedUpD0Electron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthUpSF+"*electron.d0SmearingVal)"), #unsmeared_d0 + UpSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedUpD0Electron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthUpSF+"*electron.d0SmearingVal)"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedDownD0Electron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthDownSF+"*electron.d0SmearingVal)"), #unsmeared_d0 + DownSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedDownD0Electron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthDownSF+"*electron.d0SmearingVal)"),
         ),
         cms.PSet(
             name = cms.string("d0SigElectron0"),
@@ -143,6 +282,26 @@ Electron1D0Branches = cms.PSet(
             name = cms.string("absUnsmearedD0Electron1"),
             index = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+")"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedUpD0Electron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthUpSF+"*electron.d0SmearingVal)"), #unsmeared_d0 + UpSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedUpD0Electron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthUpSF+"*electron.d0SmearingVal)"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedDownD0Electron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthDownSF+"*electron.d0SmearingVal)"), #unsmeared_d0 + DownSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedDownD0Electron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronD0WRTBeamspot+"+"+electronD0SmearingWidthDownSF+"*electron.d0SmearingVal)"),
         ),
         cms.PSet(
             name = cms.string("d0SigElectron1"),
@@ -212,6 +371,26 @@ Muon0D0Branches = cms.PSet(
             inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+")"),
         ),
         cms.PSet(
+            name = cms.string("smearedUpD0Muon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthUpSF+"*muon.d0SmearingVal)"), #unsmeared_d0 + UpSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedUpD0Muon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthUpSF+"*muon.d0SmearingVal)"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedDownD0Muon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthDownSF+"*muon.d0SmearingVal)"), #unsmeared_d0 + DownSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedDownD0Muon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthDownSF+"*muon.d0SmearingVal)"),
+        ),
+        cms.PSet(
             name = cms.string("d0SigMuon0"),
             index = cms.untracked.int32(0),
             inputVariables = cms.vstring(muonD0WRTBeamspotSig),
@@ -251,6 +430,26 @@ Muon1D0Branches = cms.PSet(
             name = cms.string("absUnsmearedD0Muon1"),
             index = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+")"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedUpD0Muon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthUpSF+"*muon.d0SmearingVal)"), #unsmeared_d0 + UpSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedUpD0Muon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthUpSF+"*muon.d0SmearingVal)"),
+        ),
+        cms.PSet(
+            name = cms.string("smearedDownD0Muon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthDownSF+"*muon.d0SmearingVal)"), #unsmeared_d0 + DownSF*d0_smearing_value
+        ),
+        cms.PSet(
+            name = cms.string("absSmearedDownD0Muon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonD0WRTBeamspot+"+"+muonD0SmearingWidthDownSF+"*muon.d0SmearingVal)"),
         ),
         cms.PSet(
             name = cms.string("d0SigMuon1"),

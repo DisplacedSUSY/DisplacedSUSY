@@ -6,6 +6,9 @@ import os
 
 def customize (process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC"):
 
+    process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
+    process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
+
 ################################################################################
 ##### remove isolation cut from electron VID  ##################################
 ################################################################################
