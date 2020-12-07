@@ -234,8 +234,8 @@ for z_lo, z_hi in z_regions:
         if not arguments.doClosureTest:
             print "Blinded: actual yields set equal to estimate."
         if correlation_factor is not None:
-            print ("Estimates and uncertainties in most-prompt region are scaled up by {} to "
-                   "account for correlation").format(correlation_factor)
+            print ("Estimates in most-prompt region are scaled by {} +- {} to account for "
+                   "correlation").format(correlation_factor, correlation_factor_uncertainty)
         print "[B]", output_file.replace(".root", ""), "[/B]"
         print '[TABLE border="1"]'
         x_label = in_th2.GetXaxis().GetTitle().replace("|", "\|")
@@ -267,7 +267,9 @@ for z_lo, z_hi in z_regions:
 
         # scale estimate and uncertainty by multiplicative factor in most-prompt region
         if correlation_factor is not None and x_lo is x_regions[1][0] and y_lo is y_regions[1][0]:
-            abcd.update((k, v*correlation_factor) for k, v in abcd.iteritems())
+            abcd = propagate_asymm_err("product", abcd['val'], abcd['err_lo'], abcd['err_hi'],
+                 correlation_factor, correlation_factor_uncertainty, correlation_factor_uncertainty)
+            #abcd.update((k, v*correlation_factor) for k, v in abcd.iteritems())
 
         # get count yields if unblinded; otherwise, set count yields equal to estimate
         if arguments.doClosureTest:
