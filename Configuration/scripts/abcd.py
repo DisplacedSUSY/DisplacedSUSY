@@ -276,7 +276,13 @@ for z_lo, z_hi in z_regions:
             count = copy.deepcopy(abcd)
 
         # print low-stats warning if bin contains less than 5 effective events
-        eff_evts = (count['val']/count['err_hi'])**2
+        try:
+            eff_evts = (count['val']/count['err_hi'])**2
+        except ZeroDivisionError:
+            if count['val'] == 0.0:
+                eff_evts = 0.0
+            else:
+                print "Actual event count is nonzero while error is 0. Something is wrong."
         if eff_evts < 5 and not data:
             print "Warning: bin contains only {:.1f} effective events".format(eff_evts)
 
