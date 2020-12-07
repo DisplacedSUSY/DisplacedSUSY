@@ -368,70 +368,6 @@ for z_lo, z_hi in z_regions:
     print "Total test region yield is {:.2f} +{:.2f}/-{:.2f}\n".format(count_totals[z_lo]['val'],
                                          count_totals[z_lo]['err_hi'], count_totals[z_lo]['err_lo'])
 
-    # get estimated and actual yields in L-shaped signal regions
-    if len(bins_x) != len(bins_y):
-        print
-        print "Not making L-shaped signal regions because x and y have different numbers of bins"
-    else:
-        # begin summary table
-        if arguments.makeTables:
-            print "[B]", output_file.replace(".root", " summary"), "[/B]"
-            print '[TABLE border="1"]'
-            print "Signal Region|Estimate|Actual"
-
-        for sr in range(0, len(bins_x)-2):
-            sr_count = {'val':0, 'err_lo':0, 'err_hi':0}
-            sr_abcd  = {'val':0, 'err_lo':0, 'err_hi':0}
-            for x_lo in bins_x[sr+1:-1]:
-                y_lo = bins_y[sr+1]
-                sr_count = sum_regions(sr_count, count_yields[z_lo][x_lo][y_lo])
-                sr_abcd = sum_regions(sr_abcd, abcd_yields[z_lo][x_lo][y_lo])
-            for y_lo in bins_y[sr+2:-1]: # +2 to not double count corner of L
-                x_lo = bins_x[sr+1]
-                sr_count = sum_regions(sr_count, count_yields[z_lo][x_lo][y_lo])
-                sr_abcd = sum_regions(sr_abcd, abcd_yields[z_lo][x_lo][y_lo])
-
-            # print summary table row
-            if arguments.makeTables:
-                print "|-"
-                if data:
-                    print "Region {} | {:.2f}+{:.2f}-{:.2f} | {:.0f}".format(
-                           sr, sr_abcd['val'], sr_abcd['err_hi'], sr_abcd['err_lo'], sr_count['val'])
-                else:
-                    print "Region {} | {:.2f}+-{:.2f} | {:.2f}+-{:.2f}".format(
-                          sr, sr_abcd['val'], sr_abcd['err_hi'], sr_count['val'], sr_count['err_hi'])
-
-            # store estimated and actual yields with signal region info for json output
-            if correlation_factor is not None and sr == 0:
-                systematic = correlation_factor * correlation_factor_uncertainty
-            else:
-                systematic = systematic_uncertainty
-            try:
-                err_lo = (sr_abcd['val'] - sr_abcd['err_lo']) / sr_abcd['val']
-                err_hi = (sr_abcd['val'] + sr_abcd['err_hi']) / sr_abcd['val'],
-            except ZeroDivisionError:
-                print "Estimate is 0. Setting uncertainties to 0"
-                err_lo = err_hi = 0.0
-            bg_estimate_output['background'].append(
-                {
-                    'pt'   : (z_lo, z_hi),
-                    'd0_0' : (bins_x[sr+1], bins_x[sr+2]),
-                    'd0_1' : (bins_y[sr+1], bins_y[sr+2]),
-                    'd0_max' : bins_x[-1], # assume symmetric max d0 values
-                    'estimate' : sr_abcd['val'],
-                    # store uncertainties as multiplicative factors for makeDataCards
-                    'err_lo' : err_lo,
-                    'err_hi' : err_hi,
-                    'sys_err_lo' : 1 - systematic,
-                    'sys_err_hi' : 1 + systematic,
-                }
-            )
-
-        # end summary table
-        if arguments.makeTables:
-            print "[/TABLE]"
-            print
-
     # do linear extrapolation to estimate systematic uncertainty
     if arguments.doExtrapolation:
         # find if x's or y's are changing: the ones that change are the d0 values we want
@@ -545,9 +481,3 @@ for z_lo, z_hi in z_regions:
         grConfInt2Sig.Write("grConfInt2Sig")
 
 out_file.Close()
-
-# export estimates as json for limit setting
-json_name = output_file.replace(".root", "_background_estimate.json")
-output_estimates = open(output_path+json_name, "w")
-json = json.dump(bg_estimate_output, output_estimates, sort_keys=True, indent=2)
-print "Storing estimates in", output_path+json_name
