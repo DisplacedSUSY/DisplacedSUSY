@@ -148,11 +148,8 @@ def linear_extrapolation(pol1, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, 
     graph = TGraphAsymmErrors(len(d0s), *tgraph_arrays)
     if pol1:
         fit = TF1("fit", "pol1", 0, extrapolated_d0)
-        fit.SetParLimits(0, 0, 2)
-        fit.SetParLimits(1, 0, 1)
     else:
         fit = TF1("fit", "pol0", 0, extrapolated_d0)
-        fit.SetParLimits(0, 0, 2)
 
     fit_result = graph.Fit(fit, "SFEM")
     print "chisq/dof: {:.2f}".format(fit.GetChisquare()/fit.GetNDF())
