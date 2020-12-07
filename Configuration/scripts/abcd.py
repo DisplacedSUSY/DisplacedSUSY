@@ -154,7 +154,7 @@ def linear_extrapolation(pol1, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, 
         fit = TF1("fit", "pol0", 0, extrapolated_d0)
         fit.SetParLimits(0, 0, 2)
 
-    fit_result = graph.Fit(fit, "S")
+    fit_result = graph.Fit(fit, "SFEM")
     print "chisq/dof: {:.2f}".format(fit.GetChisquare()/fit.GetNDF())
     print "p-value: {:.2f}".format(fit.GetProb())
     print "y-intercept: {:.2f} +/- {:.2f}".format(fit.GetParameter(0), fit.GetParError(0))
