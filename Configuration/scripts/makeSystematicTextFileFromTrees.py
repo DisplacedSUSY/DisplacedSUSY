@@ -205,7 +205,7 @@ hMinusSystVsMass = TH1F("hMinusSystVsMass","",3,0,3)
 hMinusSystVsMass.SetTitle(";Mass [GeV];Syst uncert [%]")
 hMinusSystVsMass.SetMarkerColor(6)
 hMinusSystVsMass.SetMarkerStyle(23)
-masses = ["100", "1000", "1800"]
+masses = ["200", "1000", "1800"]
 plusSystsVsMass = []
 minusSystsVsMass = []
 
@@ -217,8 +217,8 @@ for sample in datasets:
     central_yield = getSumOfWeights(sample,arguments.condorDir,central_variable)
     plus_yield = getSumOfWeights(sample,arguments.condorDir,plus_variable)
 
-    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
-    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 0.0
+    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
+    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
 
     if central_yield == 0:
         print "central yield is 0 for " + str(sample)
@@ -228,27 +228,25 @@ for sample in datasets:
 
     fout.write (sample+" "+minus_factor+" "+plus_factor+"\n")
 
-    minus_fraction = abs(minus_yield-central_yield)/central_yield if central_yield != 0 else 100
-    plus_fraction = abs(plus_yield-central_yield)/central_yield if central_yield != 0 else 100
+    minus_fraction = abs(minus_yield-central_yield)/central_yield if central_yield != 0 else 0.
+    plus_fraction = abs(plus_yield-central_yield)/central_yield if central_yield != 0 else 0.
     sum_fractions += minus_fraction
     sum_fractions += plus_fraction
 
-    if minus_fraction != 100:
-        if minus_fraction < lowest_fraction:
-            lowest_fraction = minus_fraction
-        if minus_fraction > highest_fraction:
-            highest_fraction = minus_fraction
-    if plus_fraction != 100:
-        if plus_fraction < lowest_fraction:
-            lowest_fraction = plus_fraction
-        if plus_fraction > highest_fraction:
-            highest_fraction = plus_fraction
+    if minus_fraction < lowest_fraction:
+        lowest_fraction = minus_fraction
+    if minus_fraction > highest_fraction:
+        highest_fraction = minus_fraction
+    if plus_fraction < lowest_fraction:
+        lowest_fraction = plus_fraction
+    if plus_fraction > highest_fraction:
+        highest_fraction = plus_fraction
 
     if sample=="stopToLB1000_0p1mm" or sample=="stopToLB1000_1mm" or sample=="stopToLB1000_10mm" or sample=="stopToLB1000_100mm" or sample=="stopToLB1000_1000mm":
         plusSystsVsLifetime.append(100.*plus_fraction)
         minusSystsVsLifetime.append(100.*minus_fraction)
 
-    if sample=="stopToLB100_1mm" or sample=="stopToLB1000_1mm" or sample=="stopToLB1800_1mm":
+    if sample=="stopToLB200_1mm" or sample=="stopToLB1000_1mm" or sample=="stopToLB1800_1mm":
         plusSystsVsMass.append(100.*plus_fraction)
         minusSystsVsMass.append(100.*minus_fraction)
 
