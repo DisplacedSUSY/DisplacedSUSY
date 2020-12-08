@@ -128,13 +128,15 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
 #taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working%20points%20for%2094X%20and%20later
 # Since you should use Fall17v2 VID for 94X and 102X, the isolation cuts are the same in the two releases
 
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+#if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_iso_cutstring = cms.string(
                          "(electron.isEB & electron.pfdRhoIsoCorr <= (0.0287+0.506/electron.pt)) | \
                           (electron.isEE & electron.pfdRhoIsoCorr <= (0.0445+0.963/electron.pt))")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     electron_iso_cutstring = cms.string("(electron.isEB & electron.pfdRhoIsoCorr <= 0.0588) | \
                                          (electron.isEE & electron.pfdRhoIsoCorr <= 0.0571)")
 else:
@@ -147,13 +149,15 @@ electron_iso_alias = cms.string(">=1 electrons with tight isolation (old def)")
 
 electron_newIso_string = "1/electron.pt * max(electron.pfIso_.sumChargedHadronPt + electron.pfIso_.sumPUPt + electron.pfIso_.sumNeutralHadronEt + electron.pfIso_.sumPhotonEt - electron.rho*0.283, 0)" # 0.283 = pi*0.3**2
 
-if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+#if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+if (os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
     electron_newIso_cutstring = cms.string(
                          "(electron.isEB & (" + electron_newIso_string + ") <= (0.0287+0.506/electron.pt)) | \
                           (electron.isEE & (" + electron_newIso_string + ") <= (0.0445+0.963/electron.pt))")
 
 # taken from here: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     electron_newIso_cutstring = cms.string("(electron.isEB & (" + electron_newIso_string + ") <= 0.0588) | \
                                             (electron.isEE & (" + electron_newIso_string + ") <= 0.0571)")
 else:

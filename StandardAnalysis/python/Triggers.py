@@ -6,7 +6,8 @@ import copy
 # Also see: https://twiki.cern.ch/twiki/bin/view/CMS/HLTPathsRunIIList
 ######################################################################
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Using 2016 triggers"
     #http://fwyzard.web.cern.ch/fwyzard/hlt/2016/summary
 
@@ -62,7 +63,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v"
         )
 
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+#elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# Using 2017 triggers"
     #http://fwyzard.web.cern.ch/fwyzard/hlt/2017/summary
 

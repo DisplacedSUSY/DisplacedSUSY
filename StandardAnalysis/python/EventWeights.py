@@ -6,7 +6,8 @@ import os
 ##### 2016/2017/2018 PAYLOADS ###################################
 #################################################################
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# EventWeights applied: 2016"
     electronRecoPayload = "electronReco2016"
     electronIdPayload = "electronID2016Tight"
@@ -18,7 +19,8 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     electronTriggerEMuPayload  = "electronTrigger2016emu"
     muonTriggerEMuPayload  = "muonTrigger2016emu"
 
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+#elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     print "# EventWeights applied: 2017"
     electronIdPayload = "electronID2017Tight"
     muonIdPayload = "muonID2017Tight"
@@ -88,7 +90,8 @@ electronWeightsFluctuate = cms.VPSet(
     ),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     electronWeights.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),
@@ -128,7 +131,8 @@ muonWeightsFluctuate = cms.VPSet(
     ),
 )
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     muonWeights.append(
         cms.PSet (
             inputCollections = cms.vstring("eventvariables"),

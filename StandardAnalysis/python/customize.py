@@ -30,9 +30,11 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
 
     if hasattr(process, "DisplacedSUSYEventVariableProducer"):
         process.DisplacedSUSYEventVariableProducer.type = cms.string(sampleType)
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        #if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_MET200", "HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET170_HBHECleaned", "HLT_PFMET300", "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
-        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        #elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET250_HBHECleaned","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.DisplacedSUSYEventVariableProducer.triggerPaths = cms.vstring("HLT_CaloMET350_HBHECleaned","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMET120_PFMHT120_IDTight","HLT_PFMET200_HBHE_BeamHaloCleaned","HLT_PFMET250_HBHECleaned","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight")
@@ -40,12 +42,14 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         process.DisplacedSUSYEventVariableProducer.AlgInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tAlgBlkInputTag = cms.InputTag("gtStage2Digis")
         process.DisplacedSUSYEventVariableProducer.l1tExtBlkInputTag = cms.InputTag("gtStage2Digis")
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        #if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG20","L1_Mu20_EG15",
                                                                              "L1_DoubleMu_11_4", "L1_DoubleMu_12_5", "L1_DoubleMu_13_6",
                                                                              "L1_SingleEG30", "L1_SingleEG40", "L1_SingleIsoEG22er", "L1_SingleIsoEG28",
                                                                              "L1_DoubleEG_15_10", "L1_DoubleEG_25_12", "L1_SingleJet200", "L1_SingleTau100er")
-        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        #elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.DisplacedSUSYEventVariableProducer.l1Seeds = cms.vstring("L1_Mu5_EG23","L1_Mu7_EG23","L1_Mu20_EG17","L1_Mu23_EG10",
                                                                              "L1_DoubleMu_12_5", "L1_DoubleMu_13_6", "L1_DoubleMu_15_5", "L1_DoubleMu_15_7",
                                                                              "L1_SingleEG30", "L1_SingleEG50", "L1_SingleIsoEG24", "L1_SingleIsoEG38",
@@ -181,13 +185,15 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         process.PUScalingFactorProducer.dataset = cms.string("SingleTop_tW") # default value, only used when running interactively
         process.PUScalingFactorProducer.type = cms.string(sampleType)
 
-        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        #if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
             process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2016.root')
             process.PUScalingFactorProducer.target = cms.string ("data2016_GH")
             process.PUScalingFactorProducer.targetUp = cms.string ("data2016_GHUp")
             process.PUScalingFactorProducer.targetDown = cms.string ("data2016_GHDown")
 
-        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        #elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             process.PUScalingFactorProducer.PU = cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/pu2017.root')
             if analysisChannel=="emu" or analysisChannel=="mumu":
                 process.PUScalingFactorProducer.target = cms.string ("data2017_CDEF")

@@ -8,8 +8,10 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
     print "using 80X samples"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    from DisplacedSUSY.Configuration.miniAODV2_94X_Samples import *
-    print "using 94X samples"
+    #from DisplacedSUSY.Configuration.miniAODV2_94X_Samples import *
+    from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import *
+    #print "using 94X samples"
+    print "using 80X samples"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     from DisplacedSUSY.Configuration.miniAODV2_102X_Samples import *
     print "using 102X samples"
