@@ -119,6 +119,8 @@ if arguments.systematicName == "electronD0Smearing" or arguments.systematicName 
                 var1 = "electron_beamspot_absD0Electron0"
                 var2 = "muon_beamspot_absD0Muon0"
 
+        #vary both muons and both electrons at the same time in the mumu and ee channels
+        #vary electron and muon one at at time in the emu channel
         elif smearingVar == "up":
             if analysisChannel == "mumu":
                 var1 = "muon_beamspot_absSmearedUpD0Muon0"
@@ -127,8 +129,12 @@ if arguments.systematicName == "electronD0Smearing" or arguments.systematicName 
                 var1 = "electron_beamspot_absSmearedUpD0Electron0"
                 var2 = "electron_beamspot_absSmearedUpD0Electron1"
             elif analysisChannel == "emu":
-                var1 = "electron_beamspot_absSmearedUpD0Electron0"
-                var2 = "muon_beamspot_absSmearedUpD0Muon0"
+                if arguments.systematicName == "electronD0Smearing":
+                    var1 = "electron_beamspot_absSmearedUpD0Electron0"
+                    var2 = "muon_beamspot_absD0Muon0"
+                elif arguments.systematicName == "muonD0Smearing":
+                    var1 = "electron_beamspot_absD0Electron0"
+                    var2 = "muon_beamspot_absSmearedUpD0Muon0"
 
         elif smearingVar == "down":
             if analysisChannel == "mumu":
@@ -138,8 +144,12 @@ if arguments.systematicName == "electronD0Smearing" or arguments.systematicName 
                 var1 = "electron_beamspot_absSmearedDownD0Electron0"
                 var2 = "electron_beamspot_absSmearedDownD0Electron1"
             elif analysisChannel == "emu":
-                var1 = "electron_beamspot_absSmearedDownD0Electron0"
-                var2 = "muon_beamspot_absSmearedDownD0Muon0"
+                if arguments.systematicName == "electronD0Smearing":
+                    var1 = "electron_beamspot_absSmearedDownD0Electron0"
+                    var2 = "muon_beamspot_absD0Muon0"
+                elif arguments.systematicName == "muonD0Smearing":
+                    var1 = "electron_beamspot_absD0Electron0"
+                    var2 = "muon_beamspot_absSmearedDownD0Muon0"
 
         for iEntry in tree:
             #get in inclusive signal region (leading leptons |d0| > 100 um) and get sum of weights
