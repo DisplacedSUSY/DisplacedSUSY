@@ -16,7 +16,6 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   //fill a map of HLT paths
   for(unsigned int i = 0; i < triggerPaths_.size(); i++) HLTBitsMap[ triggerPaths_[i] ] = false;
 
-  /*
   //L1 bits information, thanks to scouting dijet team
   //https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetScoutingTreeProducer.cc
   l1GtUtils_ = new l1t::L1TGlobalUtil(cfg,consumesCollector());
@@ -24,7 +23,6 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   l1Seeds_ = cfg.getParameter<std::vector<std::string> >("l1Seeds");
   //fill a map of l1 seeds
   for(unsigned int i = 0; i < l1Seeds_.size(); i++) L1BitsMap[ l1Seeds_[i] ] = false;
-  */
 
   beamPipe_x_center_ = cfg.getParameter<double>("beamPipe_x_center");
   beamPipe_y_center_ = cfg.getParameter<double>("beamPipe_y_center");
@@ -392,7 +390,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 
 
 
-  /*
+
   //L1 bits
   l1GtUtils_->retrieveL1(event,setup,algToken_);
   //std::cout<<"starting to loop over L1 seeds"<<std::endl;
@@ -405,7 +403,6 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
       L1BitsMap[l1Seeds_[iseed]] = true;
     }
   }
-  */
 
   (*eventvariables)["run"] = event.id().run();
   (*eventvariables)["ls"] = event.luminosityBlock();
@@ -456,9 +453,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   for( unsigned int ipath = 0; ipath < triggerPaths_.size(); ipath++ ) {
     (*eventvariables)[triggerPaths_[ipath].c_str()] = HLTBitsMap[triggerPaths_[ipath]];
   }
-  //for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
-  //(*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
-  //}
+  for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
+    (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
+  }
   (*eventvariables)["nDispEEVtxs"] = dvEE.nDispVtxs;
   (*eventvariables)["vtxEEX"] = dvEE.vtxX;
   (*eventvariables)["vtxEEY"] = dvEE.vtxY;

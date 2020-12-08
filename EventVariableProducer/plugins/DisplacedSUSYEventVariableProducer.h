@@ -77,7 +77,6 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
         edm::EDGetTokenT<vector<TYPE(jets)> > jetsToken_;
 	edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
 
-	/*
 	//L1 bits information; thanks to dijet scouting team
 	//https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetCaloScoutingTreeProducer.h
 	edm::EDGetToken algToken_;
@@ -85,7 +84,6 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
 	std::vector<std::string> l1Seeds_;
 	std::map<std::string, bool> L1BitsMap;
 	std::vector<bool> *l1Result_;
-	*/
 
 	double beamPipe_x_center_;
 	double beamPipe_y_center_;

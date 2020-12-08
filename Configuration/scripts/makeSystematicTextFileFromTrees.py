@@ -46,9 +46,9 @@ if not arguments.systematicName:
 
 from ROOT import TFile, TCanvas, TH1F, TLegend
 
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     year = "2016"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     year = "2017"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     year = "2018"
@@ -63,11 +63,11 @@ if arguments.systematicName == "electronD0Smearing" or arguments.systematicName 
     plus_variable = "up"
 
 elif arguments.systematicName == "electronIDandIso":
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         central_variable = "eventvariable_electronID2016Tight"
         minus_variable = "eventvariable_electronID2016TightDown"
         plus_variable = "eventvariable_electronID2016TightUp"
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         central_variable = "eventvariable_electronID2017Tight"
         minus_variable = "eventvariable_electronID2017TightDown"
         plus_variable = "eventvariable_electronID2017TightUp"
@@ -79,11 +79,11 @@ elif arguments.systematicName == "electronIDandIso":
         print "What CMSSW release are you in? We expect you to be in 80X or 94X or 102X"
 
 elif arguments.systematicName == "muonIDandIso":
-    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         central_variable = "eventvariable_muonIso2016TightTightIDGH"
         minus_variable = "eventvariable_muonIso2016TightTightIDGHDown"
         plus_variable = "eventvariable_muonIso2016TightTightIDGHUp"
-    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
         central_variable = "eventvariable_muonIso2017TightTightID"
         minus_variable = "eventvariable_muonIso2017TightTightIDDown"
         plus_variable = "eventvariable_muonIso2017TightTightIDUp"

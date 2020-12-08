@@ -10,10 +10,10 @@ import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 #######################################################
 
 # strings for lepton id/iso eventvariable branches
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     year = "2016"
     suffix = "GH"
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     year = "2017"
     suffix = ""
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -25,7 +25,7 @@ else:
     print "What CMSSW release are you in? We expect you to be in 80X or 94X or 102X"
 
 # for d0 smearing signal systematic uncertainty
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     electronD0SmearingWidth = 0.001475 #in cm; ave of values from e-e and e-mu pcr (elog 1281), also see elog 1760
     electronD0SmearingWidthUncert = 0.000036
     muonD0SmearingWidth = 0.000757 #in cm; ave of values from from e-mu and mu-mu pcr (elog 1281)
