@@ -127,8 +127,22 @@ def get_yields_and_errors(h, x_lo, x_hi, y_lo, y_hi, variable_bins, data):
         area = h.GetXaxis().GetBinWidth(nBins) ** 2
         integral *= area
         err *= area
-    # replace normal approxmation uncertainty with poisson uncertainty for unweighted hists
-    (err_lo, err_hi) = get_poisson_uncertainty(integral) if data else (err, err)
+
+    # replace normal approxmation uncertainty with poisson uncertainty
+    if data:
+        (err_lo, err_hi) = get_poisson_uncertainty(integral)
+    else:
+        try:
+            eff_evts = (integral/err)**2
+        except ZeroDivisionError:
+            if integral == 0.0:
+                return {'val':integral, 'err_lo':err, 'err_hi':err}
+            else:
+                print "Actual event count is nonzero while error is 0. Something is wrong."
+        eff_evts = round(eff_evts)
+        avg_weight = integral/eff_evts
+        (err_lo, err_hi) = get_poisson_uncertainty(eff_evts)
+        (err_lo, err_hi) = (err_lo * avg_weight, err_hi * avg_weight)
     return {'val':integral, 'err_lo':err_lo, 'err_hi':err_hi}
 
 # separately propagate lo and hi uncertaintanties
@@ -274,16 +288,14 @@ for z_lo, z_hi in z_regions:
         else:
             count = copy.deepcopy(abcd)
 
-        # print low-stats warning if bin contains less than 5 effective events
+        # print low-stats warning if bin contains less than 5 (effective) events
         try:
-            eff_evts = (count['val']/count['err_hi'])**2
+            lo_err_ratio = count['err_lo']/count['val']
         except ZeroDivisionError:
-            if count['val'] == 0.0:
-                eff_evts = 0.0
-            else:
-                print "Actual event count is nonzero while error is 0. Something is wrong."
-        if eff_evts < 5 and not data:
-            print "Warning: bin contains only {:.1f} effective events".format(eff_evts)
+            pass
+        (five_evt_err_lo, _) = get_poisson_uncertainty(5)
+        if lo_err_ratio > five_evt_err_lo/5:
+            print "Warning: the following bin contains less than five unweighted events"
 
         # calculate ratio of actual yield to estimate
         if abcd['val'] == 0:
@@ -349,12 +361,13 @@ for z_lo, z_hi in z_regions:
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
                                        y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
                                        count['val'], ratio['val'], ratio['err_hi'], ratio['err_lo'])
-            else: # use normal errors on estimate and actual count
+            else: # use asymmetric errors on estimate and actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
-                                 2 * " | {:.2f}+-{:.2f}" + " | {:.2f}+-{:.2f}")
+                                 3 * " | {:.2f}+{:.2f}-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
-                                       y['val'], abcd['val'], abcd['err_hi'], count['val'],
-                                       count['err_hi'], ratio['val'], ratio['err_hi'])
+                                           y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
+                                           count['val'], count['err_hi'], count['err_lo'],
+                                           ratio['val'], ratio['err_hi'], ratio['err_lo'])
 
     # finish table
     if arguments.makeTables:
