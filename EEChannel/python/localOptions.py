@@ -65,6 +65,8 @@ composite_dataset_definitions['DoubleEG_2016_2017_2018'] = [
     'EGamma_2018'
 ]
 
+analysisChannel = "ee"
+
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 
 InputCondorArguments = {}

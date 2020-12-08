@@ -92,6 +92,8 @@ composite_dataset_definitions['MuonEG_2016_2017_2018'] = [
     'MuonEG_2018'
 ]
 
+analysisChannel = "emu"
+
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 
 InputCondorArguments = {}

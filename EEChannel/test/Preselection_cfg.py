@@ -51,5 +51,5 @@ add_channels (process, eventSelections, histograms, weightsEEChannel, scalingfac
 #add_channels (process, eventSelections, histograms, weightsEEChannelFluctuateEleSFs, scalingfactorproducers, collectionMap, variableProducers, branchSets=eeBranchSets)
 
 # customize the process:
-# usage: customize(process, analysisChannel = "ee", applyPUReweighting = True, sampleType = "bgMC")
-customize (process, "ee", True, "data")
+# usage: customize(process, analysisChannel, applyPUReweighting = True, sampleType = "bgMC")
+customize (process, analysisChannel, True, "data")

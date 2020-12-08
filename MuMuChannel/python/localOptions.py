@@ -62,6 +62,8 @@ composite_dataset_definitions['DoubleMu_2016_2017_2018'] = [
     'DoubleMu_2018'
 ]
 
+analysisChannel = "mumu"
+
 print "normalizing MC to " + str(intLumi) + " 1/pb"
 
 InputCondorArguments = {}

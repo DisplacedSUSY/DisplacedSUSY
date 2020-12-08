@@ -84,5 +84,5 @@ add_channels (process, eventSelections, histograms, weightsMuMuChannel, scalingf
 #add_channels (process, eventSelections, histograms, weightsMuMuChannelFluctuateMuSFs, scalingfactorproducers, collectionMap, variableProducers, branchSets=mumuBranchSets)
 
 # customize the process:
-# usage: customize(process, analysisChannel = "mumu", applyPUReweighting = True, sampleType = "bgMC")
-customize (process, "mumu", True, "bgMC")
+# usage: customize(process, analysisChannel, applyPUReweighting = True, sampleType = "bgMC")
+customize (process, analysisChannel, True, "bgMC")
