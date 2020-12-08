@@ -1,6 +1,7 @@
 from DisplacedSUSY.StandardAnalysis.protoConfig_cfg import *
 from DisplacedSUSY.StandardAnalysis.customize import *
 from DisplacedSUSY.EEChannel.EEHistograms import *
+from DisplacedSUSY.EEChannel.localOptions import *
 
 ################################################################################
 ##### Import the channels to be run ############################################
