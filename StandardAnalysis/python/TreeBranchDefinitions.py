@@ -12,16 +12,12 @@ import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
 # strings for lepton id/iso eventvariable branches
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     year = "2016"
-    suffix = "GH"
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     year = "2017"
-    suffix = ""
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
     year = "2018"
-    suffix = ""
 else:
     year = "2018"
-    suffix = ""
     print "What CMSSW release are you in? We expect you to be in 80X or 94X or 102X"
 
 # for d0 smearing signal systematic uncertainty
@@ -147,9 +143,9 @@ EEEventVariableBranches = cms.PSet(
 ###########################
 # muon event variables
 MuonEventVariableBranches_names = [
-    "muonIso"+year+"TightTightID"+suffix,
-    "muonIso"+year+"TightTightID"+suffix+"Up",
-    "muonIso"+year+"TightTightID"+suffix+"Down",
+    "muonIso"+year+"TightTightID",
+    "muonIso"+year+"TightTightIDUp",
+    "muonIso"+year+"TightTightIDDown",
 ]
 
 MuMuEventVariableBranches = cms.PSet(
