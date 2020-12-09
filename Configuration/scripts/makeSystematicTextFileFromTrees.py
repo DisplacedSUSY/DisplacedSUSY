@@ -105,6 +105,19 @@ if arguments.systematicName == "electronD0Smearing" or arguments.systematicName 
     def getSumOfWeights(sample,condorDir,smearingVar): #smearingVar is minus, central, or plus
         fileName = "condor/%s/mergeOutputHadd/%s.root" % (condorDir,sample)
         inputFile = TFile(fileName)
+        if(inputFile.IsZombie()):
+            print "input file is zombie"
+            sys.exit(1)
+        inputFile.cd()
+        keys = []
+        for key in inputFile.GetListOfKeys():
+            keys.append(key.GetName())
+            if (key.GetClassName() != "TDirectoryFile"):
+                print "no TDirectoryFile"
+                sys.exit(1)
+        if not "PreselectionTreeMaker" in keys:
+            print "no Tree, setting getSumOfWeights to -1"
+            return -1.
         tree = inputFile.Get("PreselectionTreeMaker/Tree")
         sumOfWeights = 0.
 
@@ -164,6 +177,19 @@ else:
     def getSumOfWeights(sample,condorDir,weights): #weights are minus, central, or plus
         fileName = "condor/%s/mergeOutputHadd/%s.root" % (condorDir,sample)
         inputFile = TFile(fileName)
+        if(inputFile.IsZombie()):
+            print "input file is zombie"
+            sys.exit(1)
+        inputFile.cd()
+        keys = []
+        for key in inputFile.GetListOfKeys():
+            keys.append(key.GetName())
+            if (key.GetClassName() != "TDirectoryFile"):
+                print "no TDirectoryFile"
+                sys.exit(1)
+        if not "PreselectionTreeMaker" in keys:
+            print "no Tree, setting getSumOfWeights to -1"
+            return -1.
         tree = inputFile.Get("PreselectionTreeMaker/Tree")
         sumOfWeights = 0.
 
@@ -227,8 +253,15 @@ for sample in datasets:
     central_yield = getSumOfWeights(sample,arguments.condorDir,central_variable)
     plus_yield = getSumOfWeights(sample,arguments.condorDir,plus_variable)
 
-    minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
-    plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
+    if minus_yield == central_yield == plus_yield == -1.:
+        minus_factor = 0.01
+        plus_factor = 1.99
+        minus_fraction = plus_fraction = 0.99
+    else:
+        minus_factor = 1.0 + (minus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
+        plus_factor  = 1.0 + (plus_yield-central_yield)/central_yield if central_yield != 0 else 1.0
+        minus_fraction = abs(minus_yield-central_yield)/central_yield if central_yield != 0 else 0.
+        plus_fraction = abs(plus_yield-central_yield)/central_yield if central_yield != 0 else 0.
 
     if central_yield == 0:
         print "central yield is 0 for " + str(sample)
@@ -238,8 +271,6 @@ for sample in datasets:
 
     fout.write (sample+" "+minus_factor+" "+plus_factor+"\n")
 
-    minus_fraction = abs(minus_yield-central_yield)/central_yield if central_yield != 0 else 0.
-    plus_fraction = abs(plus_yield-central_yield)/central_yield if central_yield != 0 else 0.
     sum_fractions += minus_fraction
     sum_fractions += plus_fraction
 
@@ -292,14 +323,18 @@ LegMass = TLegend(0.15,0.7,0.50,0.85)
 LegMass.AddEntry(hPlusSystVsMass,"plus syst, stop -> lb, 1 mm","p")
 LegMass.AddEntry(hMinusSystVsMass,"minus syst, stop -> lb, 1 mm","p")
 
+output_path = "systs"+analysisChannel+year
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
+
 canvasVsLifetime.cd()
 hPlusSystVsLifetime.Draw("p")
 hMinusSystVsLifetime.Draw("psame")
 LegLifetime.Draw()
-canvasVsLifetime.SaveAs(arguments.systematicName + "_" + analysisChannel + "_" + year + "VsLifetime.pdf")
+canvasVsLifetime.SaveAs(output_path + "/" + arguments.systematicName + "_" + analysisChannel + "_" + year + "VsLifetime.pdf")
 
 canvasVsMass.cd()
 hPlusSystVsMass.Draw("p")
 hMinusSystVsMass.Draw("psame")
 LegMass.Draw()
-canvasVsMass.SaveAs(arguments.systematicName + "_" + analysisChannel + "_" + year + "VsMass.pdf")
+canvasVsMass.SaveAs(output_path + "/" + arguments.systematicName + "_" + analysisChannel + "_" + year + "VsMass.pdf")
