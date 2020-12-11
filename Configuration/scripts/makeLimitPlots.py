@@ -26,13 +26,6 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-if not arguments.era in validEras:
-  print
-  print "Invalid or empty data-taking era specific (-E). Allowed eras:"
-  print str(validEras)
-  print
-  sys.exit(0)
-
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV
 signal_cross_sections = {}
 

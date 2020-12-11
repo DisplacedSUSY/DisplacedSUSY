@@ -22,13 +22,6 @@ if not arguments.condorDir:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-if not arguments.era in validEras:
-  print
-  print "Invalid or empty data-taking era specific (-E). Allowed eras:"
-  print str(validEras)
-  print
-  sys.exit(0)
-
 def output_condor(command, options):
     cmssw_tarball = os.environ["CMSSW_VERSION"] + '.tar.gz'
     script = "#!/usr/bin/env bash\n\n"
