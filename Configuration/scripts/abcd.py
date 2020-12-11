@@ -204,8 +204,6 @@ if type(in_hist) is TH2D and len(bins_z) != 2:
     print
     sys.exit(1)
 
-abcd_yields = {}
-count_yields = {}
 count_totals = {}
 bg_estimate_output = {'background' : []} # strange structure to match makeDataCards expectation
 
@@ -216,8 +214,6 @@ z_regions = regions(bins_z)
 
 # perform abcd estimate separately for each region in z
 for z_lo, z_hi in z_regions:
-    abcd_yields[z_lo]  = {}
-    count_yields[z_lo] = {}
     count_totals[z_lo] = {}
 
     if type(in_hist) is TH3D:
@@ -255,11 +251,6 @@ for z_lo, z_hi in z_regions:
 
     # iterate through all target regions and perform abcd estimate
     for (x_lo, x_hi), (y_lo, y_hi) in itertools.product(x_regions[1:], y_regions[1:]):
-        if not x_lo in abcd_yields[z_lo]:
-            abcd_yields[z_lo][x_lo]  = {}
-            count_yields[z_lo][x_lo] = {}
-        abcd_yields[z_lo][x_lo][y_lo]  = {}
-        count_yields[z_lo][x_lo][y_lo] = {}
 
         # Get yield and error in x and y sidebands
         x = get_yields_and_errors(in_th2, x_lo, x_hi, bins_y[0], bins_y[1], variable_bins, data)
@@ -312,15 +303,6 @@ for z_lo, z_hi in z_regions:
         else:
             ratio = propagate_asymm_err("quotient", count['val'], count['err_lo'], count['err_hi'],
                                         abcd['val'], abcd['err_lo'], abcd['err_hi'])
-
-        # store results in dictionaries
-        abcd_yields[z_lo][x_lo][y_lo]['val']    = abcd['val']
-        abcd_yields[z_lo][x_lo][y_lo]['err_lo'] = abcd['err_lo']
-        abcd_yields[z_lo][x_lo][y_lo]['err_hi'] = abcd['err_hi']
-
-        count_yields[z_lo][x_lo][y_lo]['val']    = count['val']
-        count_yields[z_lo][x_lo][y_lo]['err_lo'] = count['err_lo']
-        count_yields[z_lo][x_lo][y_lo]['err_hi'] = count['err_hi']
 
         if 'val' not in count_totals[z_lo]:
             count_totals[z_lo] = copy.deepcopy(count)
