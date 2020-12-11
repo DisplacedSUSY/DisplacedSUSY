@@ -46,6 +46,7 @@ def makeCombinedCard (i, N, combinedCard, sample):
         inputCardFile = 'limits/' + inputDir + '/datacard_' + sample + '.txt'
         # if an input card is missing, skip this bin in the combined card
         if not os.path.isfile(inputCardFile):
+            print "can't find", inputCardFile
             continue
         else:
             cardsExist = True
@@ -53,6 +54,7 @@ def makeCombinedCard (i, N, combinedCard, sample):
 
     # if no input cards exist, there's nothing to combine
     if not cardsExist:
+        print "no cards exist"
         semaphore.release()
         return
 
@@ -68,25 +70,24 @@ nCards = len(signal_points)
 progressTitle = 'Combining ' + str(nCards) + ' datacards into "{0}"'
 progress = ProgressIndicator("")
 
-for combinedCard in datacardCombinations:
-    progress = ProgressIndicator(progressTitle.format(combinedCard))
-    progress.printProgress(False)
+progress = ProgressIndicator(progressTitle.format(arguments.condorDir))
+progress.printProgress(False)
 
-    threads = []
-    i = 0
+threads = []
+i = 0
 
-    for signal in signal_points:
-        # rename sub-mm samples to match sample names
-        signal = signal.replace('.', 'p')
-        i += 1
-        threads.append(Thread(target = makeCombinedCard, args = (i, nCards, arguments.condorDir, signal)))
-        threads[-1].start()
+for signal in signal_points:
+    # rename sub-mm samples to match sample names
+    signal = signal.replace('.', 'p')
+    i += 1
+    threads.append(Thread(target = makeCombinedCard, args = (i, nCards, arguments.condorDir, signal)))
+    threads[-1].start()
 
-    for thread in threads:
-        thread.join()
+for thread in threads:
+    thread.join()
 
-    progress.setPercentDone(100.0)
-    progress.printProgress(True)
+progress.setPercentDone(100.0)
+progress.printProgress(True)
 
 print
 print 'All done!'

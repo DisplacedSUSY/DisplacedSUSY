@@ -338,7 +338,7 @@ global_systematic_uncertainties = {
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.024',
-            'applyList' : ['signal'],
+            'applyList' : mc_normalized_processes,
             'channels' : ['ee', 'emu', 'mumu'],
         }
     }
@@ -376,7 +376,7 @@ external_systematic_uncertainties = [
         'electronIDandIso_ee_2018',
         'muonIDandIso_mumu_2018',
 
-    # there was no d0 smearing in 2016
+        # there was no d0 smearing in 2016
         'electronD0Smearing_emu_2017',
         'muonD0Smearing_emu_2017',
         'electronD0Smearing_ee_2017',

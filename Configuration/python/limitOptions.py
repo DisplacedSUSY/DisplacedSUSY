@@ -27,20 +27,29 @@ parser.add_option("-q", "--quick", action="store_true", dest="quick", default=Fa
 
 (arguments, args) = parser.parse_args()
 
-validEras = ["2016",
-             "2017",
-             "2018",
-             "run2"]
+validEras = [
+    "2016",
+    "2017",
+    "2018",
+    "2017_18",
+    "run2",
+]
 
 datacardCombinations = {
-    'run2' : ['2016',
-              '2017',
-              '2018'],
+    '2017_18' : [
+        '2017',
+        '2018',
+    ],
+    'run2' : [
+        '2016',
+        '2017',
+        '2018',
+    ],
 }
 
 processes = ['stopToLB']
 masses = [m for m in range(100, 1801, 100)]
-lifetimes = [10**e for e in range(-2, 5)]
+lifetimes = [10**e for e in range(-1, 4)]
 #lifetimes = [b*10**e for e in range(-2, 5) for b in range(1, 10)] + [10000]
 signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 #signal_points = [
