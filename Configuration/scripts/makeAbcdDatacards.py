@@ -8,6 +8,7 @@
 # sample config: EEChannel/test/abcd_limit_cfg.py
 
 import sys
+import copy
 from collections import OrderedDict
 from ROOT import TFile, Double
 from DisplacedSUSY.Configuration.limitOptions import *
@@ -35,14 +36,15 @@ if not arguments.era in validEras:
   print str(validEras)
   print
   sys.exit(0)
+else:
+    era = arguments.era
 
 
 # class to represent rectangular prisms in d0-d0-pT space
 class Region(object):
     def __init__(self, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
-        self.name = "{}_{:d}to{:d}um_{:d}to{:d}um_{:d}to{:d}GeV".format(name, d0_0_lo, d0_0_hi,
-                                                                        d0_1_lo, d0_1_hi,
-                                                                        pt_lo, pt_hi)
+        name_string = "{}_{:d}to{:d}um_{:d}to{:d}um_{:d}to{:d}GeV"
+        self.name = name_string.format(name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
         self.name = self.name.replace('-1', 'Inf')
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
@@ -125,13 +127,16 @@ class Region(object):
 
     # get A, B, and C regions used in D=B*C/A; assume self is region D
     def get_control_regions(self, cr_min, cr_max):
+        (d0_0_lo, d0_0_hi) = (self.d0_0_lo, self.d0_0_hi)
+        (d0_1_lo, d0_1_hi) = (self.d0_1_lo, self.d0_1_hi)
+        (pt_lo, pt_hi) = (self.pt_lo, self.pt_hi)
         self.control_regions = {
             # prompt region
-            'A' : Region("A", cr_min, cr_max, cr_min, cr_max, self.pt_lo, self.pt_hi),
+            'A' : Region("A", cr_min, cr_max, cr_min, cr_max, pt_lo, pt_hi),
             # displaced-x/prompt-y sideband
-            'B' : Region("B", self.d0_0_lo, self.d0_0_hi, cr_min, cr_max, self.pt_lo, self.pt_hi),
+            'B' : Region("B", d0_0_lo, d0_0_hi, cr_min, cr_max, pt_lo, pt_hi),
             # prompt-x/displaced-y sideband
-            'C' : Region("C", cr_min, cr_max, self.d0_1_lo, self.d0_1_hi, self.pt_lo, self.pt_hi),
+            'C' : Region("C", cr_min, cr_max, d0_1_lo, d0_1_hi, pt_lo, pt_hi),
         }
 
     def get_abcd_estimate(self, hist, correction=1.0):
@@ -154,6 +159,9 @@ class SignalRegion(Region):
     def __init__(self, d0_min, d0_max, shape, cr_d0_min, cr_d0_max, d0_0_lo, d0_0_hi,
                  d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         super(SignalRegion, self).__init__("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
+        # rename standard regions for legibility
+        for name, nickname, in predefined_sr_names.iteritems():
+            self.name = self.name.replace(name, nickname)
         self.d0_min = d0_min
         self.d0_max = d0_max
         self.correction = None
@@ -171,44 +179,44 @@ class SignalRegion(Region):
 
     # get rectangular regions that make up rectangular or L-shaped region
     def get_L_subregions(self):
+        (d0_0_lo, d0_0_hi) = (self.d0_0_lo, self.d0_0_hi)
+        (d0_1_lo, d0_1_hi) = (self.d0_1_lo, self.d0_1_hi)
+        (pt_lo, pt_hi) = (self.pt_lo, self.pt_hi)
         subregions = []
         # most-displaced region is rectangular and composed of only one subregion
-        if self.d0_0_hi == self.d0_1_hi == self.d0_max:
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
+        if d0_0_hi == d0_1_hi == d0_max:
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
         # all other regions are L-shaped and therefore composed of three rectangular subregions
         else:
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
-            subregions.append(Region("SR", self.d0_0_hi, self.d0_max, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_hi, self.d0_max,
-                                     self.pt_lo, self.pt_hi))
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
+            subregions.append(Region("SR", d0_0_hi, d0_max, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_hi, d0_max, pt_lo, pt_hi))
         return subregions
 
     # get rectangular regions that make up rectangular or inverted-L shaped region
     def get_invL_subregions(self):
+        (d0_0_lo, d0_0_hi) = (self.d0_0_lo, self.d0_0_hi)
+        (d0_1_lo, d0_1_hi) = (self.d0_1_lo, self.d0_1_hi)
+        (pt_lo, pt_hi) = (self.pt_lo, self.pt_hi)
         subregions = []
         # most-prompt region is rectangular and composed of only one subregion
-        if self.d0_0_lo == self.d0_1_lo == self.d0_min:
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
+        if d0_0_lo == d0_1_lo == d0_min:
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
         # more-displaced regions are shaped like an inverted L and composed of three subregions
         else:
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
-            subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_min, self.d0_1_lo,
-                                     self.pt_lo, self.pt_hi))
-            subregions.append(Region("SR", self.d0_min, self.d0_1_lo, self.d0_1_lo, self.d0_1_hi,
-                                     self.pt_lo, self.pt_hi))
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
+            subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_min, d0_1_lo, pt_lo, pt_hi))
+            subregions.append(Region("SR", d0_min, d0_1_lo, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
         return subregions
 
     # get single rectangular subregion that makes up rectangular signal region
     def get_grid_subregions(self):
+        (d0_0_lo, d0_0_hi) = (self.d0_0_lo, self.d0_0_hi)
+        (d0_1_lo, d0_1_hi) = (self.d0_1_lo, self.d0_1_hi)
+        (pt_lo, pt_hi) = (self.pt_lo, self.pt_hi)
         subregions = []
         # all regions are rectangular and composed of only one subregion
-        subregions.append(Region("SR", self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi,
-                                 self.pt_lo, self.pt_hi))
+        subregions.append(Region("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi))
         return subregions
 
     # get integral and number of unweighted events in entire signal region
@@ -258,6 +266,7 @@ class SignalRegion(Region):
 
         # find unique regions that are equivalent to currently associated control regions
         for r in self.subregions:
+            # fixme: doesn't equality checking already use the name?
             a = next(cr.param for cr in unique_regions if cr.name == r.control_regions['A'].name)
             b = next(cr.param for cr in unique_regions if cr.name == r.control_regions['B'].name)
             c = next(cr.param for cr in unique_regions if cr.name == r.control_regions['C'].name)
@@ -340,13 +349,28 @@ def combine_systematics(uncertainties, yields, years):
     weighted_systematics = {}
     for name, years_applied in all_uncertainties.iteritems():
         weighted_systematics[name] = {}
-        val = 0
+        lo_total, hi_total = 0, 0
         for year in years:
             if year in years_applied:
-                val += float(uncertainties[year][name]['value']) * weights[year]
+                # handle both symmetric and asymmetric uncertainties
+                sys = uncertainties[year][name]['value'].split('/')
+                if len(sys) == 1:
+                    lo, hi = 2 - float(sys[0]), float(sys[0]) # assume systematic is < 100%
+                elif len(sys) == 2:
+                    lo, hi = float(sys[0]), float(sys[1])
+                else:
+                    print "Warning: invalid systematic value"
             else:
-                val += weights[year]
-        weighted_systematics[name]['value'] = str(round(val, 3))
+                lo, hi = 1, 1
+            lo_total += lo*weights[year]
+            hi_total += hi*weights[year]
+
+        if round(1 - lo_total, 3) == round(hi_total - 1, 3):
+            sys_val = str(round(hi_total, 3))
+        else:
+            sys_val = "{}/{}".format(round(lo_total, 3), round(hi_total, 3))
+
+        weighted_systematics[name]['value'] = sys_val
         weighted_systematics[name]['applyList'] = uncertainties[years_applied[0]][name]['applyList']
         weighted_systematics[name]['channels'] = uncertainties[years_applied[0]][name]['channels']
 
@@ -371,66 +395,99 @@ sr_d0_max = d0_0_bin_edges[-1]
 
 # define signal regions and associated control regions
 signal_regions = []
-for pt_bin in pt_bins:
-    for d0_0_bin, d0_1_bin in d0_bins:
+for d0_0_bin, d0_1_bin in d0_bins:
+    # only bin most-prompt region in pT
+    if (d0_0_bin, d0_1_bin) == d0_bins[0]:
+        for pt_bin in pt_bins:
+            print "making signal region:", d0_0_bin, d0_1_bin, pt_bin
+            signal_regions.append(SignalRegion(sr_d0_min, sr_d0_max, sr_shapes,
+                                               *cr_d0_range + d0_0_bin + d0_1_bin + pt_bin))
+    else:
+        pt_bin = (pt_bin_edges[0], pt_bin_edges[-1])
+        print "making signal region:", d0_0_bin, d0_1_bin, pt_bin
         signal_regions.append(SignalRegion(sr_d0_min, sr_d0_max, sr_shapes,
                                            *cr_d0_range + d0_0_bin + d0_1_bin + pt_bin))
 
 # check that all signal regions have either a systematic uncertainty or correction
+abcd_correlation_factors = abcd_correlation_factors[era]
+abcd_systematics = abcd_systematics[era]
 regions_in_cfg = abcd_correlation_factors.keys() + abcd_systematics.keys()
 signal_region_names = [sr.name for sr in signal_regions]
 if sorted(signal_region_names) != sorted(regions_in_cfg):
     raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
                        "abcd_systematics")
 
-# get data yields and abcd estimates in all signal regions
+# get data yields and abcd estimates
+# loop through regions in this particular order to build ordered list
+years = datacardCombinations[era] if era in datacardCombinations else [era]
+data_hists = {}
+for year in years:
+    data_hists[year] = Hist(data_samples[year])
 data_yields = {}
-data_hist = Hist(data)
 ordered_regions = [sr for sr in signal_regions]
 for sr in signal_regions:
     if sr.name in abcd_correlation_factors:
         sr.set_abcd_correction(abcd_correlation_factors[sr.name][0])
-    data_yields[sr.name] = sr.get_yield(data_hist)
+
+    # get data yields in all signal regions
+    data_yields[sr.name] = {}
+    for year in years:
+        data_yields[sr.name][year] = sr.get_yield(data_hists[year])
+    data_yields[sr.name]['total'] = sum(data_yields[sr.name].itervalues())
+
     # get data yields in all control regions
     for subregion in sr.subregions:
         for _, cr in sorted(subregion.control_regions.iteritems()):
             ordered_regions.append(cr)
-            data_yields[cr.name] = cr.get_yield(data_hist) if arguments.era == "run2" else 0.0
+            data_yields[cr.name] = {}
+            for year in years:
+                data_yields[cr.name][year] = cr.get_yield(data_hists[year])
+            data_yields[cr.name]['total'] = sum(data_yields[cr.name].itervalues())
 
-# create duplicate-free list of signal and control regions to use in datacards
+# create ordered, duplicate-free list of signal and control regions to use in datacards
 unique_regions = list(OrderedDict.fromkeys(ordered_regions))
 
 # associate unique rateParam name to each unique region
-region_ixs = {'a':0, 'b' : 0, 'c' : 0, 'd' : 0}
+region_ixs = {'a' : 0, 'b' : 0, 'c' : 0, 'd' : 0}
 for r in unique_regions:
     region_type = r.name[0].lower() if r.cr else 'd'
-    r.set_param(region_type + str(region_ixs[region_type]))
+    ix = str(region_ixs[region_type])
+    r.set_param("{}{}_{}".format(region_type, ix, era))
     region_ixs[region_type] += 1
 
 # create ABCD and correlation correction associations between params
 for sr in signal_regions:
     sr.build_rate_param_func(unique_regions)
 
-# get all the external systematic errors and put them in a dictionary
-# fixme: this needs to be tested after external systematics files are updated
-systematics_dictionary = {}
-for sys_name in external_systematic_uncertainties:
-    systematics_dictionary[sys_name] = {}
-    base_path = os.environ['CMSSW_BASE'] + "/src/DisplacedSUSY/Configuration/data/systematic_values"
-    with open("{}__{}_{}.txt".format(base_path, sys_name, arguments.era)) as sys_file:
-        for r in unique_regions:
-            systematic[r.name] = {}
-            for line in sys_file:
-                line = line.rstrip("\n").split(" ")
-                dataset = line[0]
-                if len(line) is 2:
-                    systematic[r.name][dataset] = line[1]
-                elif len(line) is 3:
-                    systematic[r.name][dataset]= line[1]+"/"+line[2]
+# get all the relevant external systematic errors and put them in a dictionary
+# match structure of global_systematic_uncertainties
+external_systematics = {y : {} for y in years}
+base_path = os.environ['CMSSW_BASE'] + "/src/DisplacedSUSY/Configuration/data/systematic_values"
+for sys in external_systematic_uncertainties:
+    sys_name, sys_channel, sys_year = sys.split('_')
+    # skip systematics that don't apply to the current channel or era
+    if sys_channel != channel or sys_year not in years:
+        continue
 
-                # turn off systematic when the central yield is zero
-                if (systematic[r.name][dataset] == '0' or systematic[r.name][dataset] == '0/0'):
-                    systematic[r.name][dataset] = '-'
+    value_dict = {}
+    with open("{}__{}.txt".format(base_path, sys)) as sys_file:
+        for line in sys_file:
+            line = line.rstrip("\n").split()
+            dataset = line[0]
+            if len(line) is 2:
+                value_dict[dataset] = line[1]
+            elif len(line) is 3:
+                value_dict[dataset]= line[1]+"/"+line[2]
+            else:
+                print len(line)
+            # turn off systematic when the central yield is zero
+            if (value_dict[dataset] == '0' or value_dict[dataset] == '0/0'):
+                value_dict[dataset] = '-'
+    external_systematics[sys_year][sys_name] = {
+        'value' : value_dict,
+        'applyList' : mc_normalized_processes,
+        'channels' : [sys_channel],
+    }
 
 # build datacard elements that don't depend on signal
 # build header
@@ -445,12 +502,11 @@ bin_row = ["bin"]
 obs_row = ["observation"]
 for r in unique_regions:
     bin_row.append(r.name)
-    obs_row.append(str(int(round(data_yields[r.name]))))
+    obs_row.append(str(int(round(data_yields[r.name]['total']))))
 observed_table = fancyTable([bin_row, obs_row])
 
 # build abcd systematics row
-# fixme: these values will probably be moved to systematicsDefinitions or an external file
-abcd_systematic_row = ["abcd_method", "lnN", ""]
+abcd_systematic_row = ["abcd_method_" + era, "lnN", ""]
 for r in unique_regions:
     abcd_systematic_row.append("-")
     if r.name in abcd_systematics:
@@ -465,19 +521,19 @@ correlation_correction_rows = []
 for r in unique_regions:
     abcd_row = [r.param, "rateParam", r.name, "background"]
     if r.cr:
-        abcd_row.append(str(int(round(data_yields[r.name]))))
+        abcd_row.append(str(int(round(data_yields[r.name]['total']))))
     else:
         abcd_row.append(r.param_func)
     abcd_rows.append(abcd_row)
     if not r.cr and r.correction is not None:
-        correction_string = "{} {}".format(*abcd_correlation_factors[r.name])
+        correction_string = "{} -{}/+{}".format(*abcd_correlation_factors[r.name])
         correction_row = [r.correction_param, "param", "", "", correction_string]
         correlation_correction_rows.append(correction_row)
 abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
 # write a datacard for each signal point
-years = ['2016', '2017', '2018'] if arguments.era == 'run2' else [arguments.era]
 for signal_name in signal_points:
+    # fixme: update to handle interpolated lifetimes
     # get basic signal info
     signal_name = signal_name.replace('.', 'p') # rename sub-mm samples to match sample names
     signal_file = signal_name + ".root"
@@ -534,7 +590,7 @@ for signal_name in signal_points:
     stat_uncertainties_rows = []
     for r in unique_regions:
         # add row for each region
-        name = 'signal_stat_' + r.name
+        name = "signal_stat_{}_{}".format(era, r.name)
         row = [name, 'gmN', str(signal_num_evts[r.name]['total'])]
         # place scale factor in correct column and dashes in all others
         r_ix = unique_regions.index(r)
@@ -546,10 +602,22 @@ for signal_name in signal_points:
         stat_uncertainties_rows.append(row)
     stat_uncertainties_table = [empty_row, empty_row, label_row] + stat_uncertainties_rows
 
-    # build global systematics rows
-    global_systematics = combine_systematics(global_systematic_uncertainties, signal_yields, years)
-    global_systematics_rows = []
-    for name, uncertainty in sorted(global_systematics.iteritems()):
+    # combine global and external systematics
+    systematic_uncertainties = copy.deepcopy(global_systematic_uncertainties)
+    for year in years:
+        # add external systematics with proper value for the current signal point
+        for name, sys in external_systematics[year].iteritems():
+            systematic_uncertainties[year][name] = {
+                'value'     : sys['value'][signal_name],
+                'applyList' : sys['applyList'],
+                'channels'  : sys['channels'],
+            }
+    all_systematics = combine_systematics(systematic_uncertainties, signal_yields, years)
+
+    # build systematic uncertainties table
+    label_row = ["-----SYSTEMATIC UNCERTAINTIES-----", "", ""] + len(unique_regions)*["", ""]
+    systematics_rows = []
+    for name, uncertainty in sorted(all_systematics.iteritems()):
         # skip uncertainties that don't apply to the current channel
         if channel not in uncertainty['channels']:
             continue
@@ -559,31 +627,13 @@ for signal_name in signal_points:
                 row.append(uncertainty['value'])
             else:
                 row.append('-')
-            if (arguments.era == "run2" and "background" in uncertainty['applyList']):
+            if "background" in uncertainty['applyList']:
                 row.append(uncertainty['value'])
             else:
                 row.append('-')
-        global_systematics_rows.append(row)
-
-    # build systematic uncertainties table
-    label_row = ["-----SYSTEMATIC UNCERTAINTIES-----", "", ""] + len(unique_regions)*["", ""]
-    external_systematics_rows = []
-    for name, uncertainty in systematics_dictionary.iteritems():
-        row = [name,"lnN",""]
-        for r in unique_regions:
-            # append signal column
-            if signal_name in uncertainty[r.name]:
-                row.append(uncertainty[r.name][signal_name])
-            else:
-                row.append('-')
-            # append background column
-            if (arguments.era == "run2" and "background" in uncertainty[r.name]):
-                row.append(uncertainty[r.name]["background"])
-            else:
-                row.append('-')
-        external_systematics_rows.append(row)
+        systematics_rows.append(row)
     sys_uncertainties_table = [empty_row, empty_row, label_row, abcd_systematic_row]
-    sys_uncertainties_table += global_systematics_rows + external_systematics_rows
+    sys_uncertainties_table += systematics_rows
 
     # build combined rates and uncertainties table
     main_tables = fancyTable(rate_table + stat_uncertainties_table + sys_uncertainties_table)
