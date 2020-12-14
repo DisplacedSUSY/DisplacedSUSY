@@ -238,12 +238,15 @@ for z_lo, z_hi in z_regions:
 
     if arguments.makeTables:
         print
+        print "[B]", output_file.replace(".root", ""), "[/B]"
         if not arguments.doClosureTest:
             print "Blinded: actual yields set equal to estimate."
-        if correlation_factor is not None:
-            print ("Estimates in most-prompt region are scaled by {} +- {} to account for "
-                   "correlation").format(correlation_factor, correlation_factor_uncertainty)
-        print "[B]", output_file.replace(".root", ""), "[/B]"
+        if prompt_sys is not None:
+            print ("Most-prompt SR estimate is scaled by {}+{}-{} to account for "
+                "correlation").format(prompt_sys['val'], prompt_sys['err_hi'], prompt_sys['err_lo'])
+        if displaced_sys is not None:
+            print ("Estimates in more-displaced SRs include systematic uncertainty of "
+                   "+{}-{}").format(displaced_sys['err_hi'], displaced_sys['err_lo'])
         print '[TABLE border="1"]'
         x_label = in_th2.GetXaxis().GetTitle().replace("|", "\|")
         y_label = in_th2.GetYaxis().GetTitle().replace("|", "\|")
@@ -267,11 +270,12 @@ for z_lo, z_hi in z_regions:
             abcd = propagate_asymm_err("quotient", cb['val'], cb['err_lo'], cb['err_hi'],
                                        prompt['val'], prompt['err_lo'], prompt['err_hi'])
 
-        # scale estimate and uncertainty by multiplicative factor in most-prompt region
-        if correlation_factor is not None and x_lo is x_regions[1][0] and y_lo is y_regions[1][0]:
+        # account for correction and/or systematic uncertainty on estimate
+        prompt_region = x_lo is x_regions[1][0] and y_lo is y_regions[1][0]
+        sys = prompt_sys if prompt_region else displaced_sys
+        if sys is not None:
             abcd = propagate_asymm_err("product", abcd['val'], abcd['err_lo'], abcd['err_hi'],
-                 correlation_factor, correlation_factor_uncertainty, correlation_factor_uncertainty)
-            #abcd.update((k, v*correlation_factor) for k, v in abcd.iteritems())
+                                                   sys['val'],  sys['err_lo'],  sys['err_hi'])
 
         # get count yields if unblinded; otherwise, set count yields equal to estimate
         if arguments.doClosureTest:
@@ -283,7 +287,8 @@ for z_lo, z_hi in z_regions:
         try:
             lo_err_ratio = count['err_lo']/count['val']
         except ZeroDivisionError:
-            pass
+            lo_err_ratio = 0.0
+            print "Warning: the following bin contains zero unweighted events"
         (five_evt_err_lo, _) = get_poisson_uncertainty(5)
         if lo_err_ratio > five_evt_err_lo/5:
             print "Warning: the following bin contains less than five unweighted events"
@@ -337,13 +342,13 @@ for z_lo, z_hi in z_regions:
 
         if arguments.makeTables:
             print "|-"
-            if data: # use asymmetric errors on estimate and no uncertainty on actual count
+            if data: # display asymmetric errors on estimate and no uncertainty on actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
                                  " | {:.2f}+{:.2f}-{:.2f} | {:.0f} | {:.2f}+{:.2f}-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
                                        y['val'], abcd['val'], abcd['err_hi'], abcd['err_lo'],
                                        count['val'], ratio['val'], ratio['err_hi'], ratio['err_lo'])
-            else: # use asymmetric errors on estimate and actual count
+            else: # display asymmetric errors on estimate and actual count
                 format_string = ("{:d}-{:d} | {:d}-{:d}" + 3 * " | {:.0f}" +
                                  3 * " | {:.2f}+{:.2f}-{:.2f}")
                 print format_string.format(x_lo, x_hi, y_lo, y_hi, prompt['val'], x['val'],
