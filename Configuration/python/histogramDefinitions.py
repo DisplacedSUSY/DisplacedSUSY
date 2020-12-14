@@ -5896,22 +5896,22 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("electronID2016Tight"),
         ),
         cms.PSet (
-            name = cms.string("muonTracking2016GH"),
+            name = cms.string("muonTracking2016"),
             title = cms.string("Muon Tracking SF; Muon Tracking SF"),
             binsX = cms.untracked.vdouble(100, 0.5, 1.5),
-            inputVariables = cms.vstring("muonTracking2016GH"),
+            inputVariables = cms.vstring("muonTracking2016"),
         ),
         cms.PSet (
-            name = cms.string("muonID2016TightGH"),
+            name = cms.string("muonID2016Tight"),
             title = cms.string("Muon ID SF; Muon ID SF"),
             binsX = cms.untracked.vdouble(100, 0.5, 1.5),
-            inputVariables = cms.vstring("muonID2016TightGH"),
+            inputVariables = cms.vstring("muonID2016Tight"),
         ),
         cms.PSet (
-            name = cms.string("muonIso2016TightTightIDGH"),
+            name = cms.string("muonIso2016TightTightID"),
             title = cms.string("Muon Iso SF; Muon Iso SF"),
             binsX = cms.untracked.vdouble(100, 0.5, 1.5),
-            inputVariables = cms.vstring("muonIso2016TightTightIDGH"),
+            inputVariables = cms.vstring("muonIso2016TightTightID"),
         ),
         cms.PSet (
             name = cms.string("electronID2017Tight"),
