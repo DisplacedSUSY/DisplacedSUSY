@@ -244,6 +244,7 @@ class SignalRegion(Region):
                 estimate += r.get_abcd_estimate(hist, self.correction)
             else:
                 estimate += r.get_abcd_estimate(hist)
+            print "ABCD estimate in {} is {:.2f}".format(self.name, estimate)
         return estimate
 
     # specify D=B*C/A relationship using combine rateParameters
