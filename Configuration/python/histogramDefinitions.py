@@ -62,20 +62,20 @@ MuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonEta"),
             title = cms.string("Muon Eta;Muon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
             name = cms.string("muonLeadingEta"),
             title = cms.string("Leading Muon Eta;Muon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(0),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
             name = cms.string("muonSubleadingEta"),
             title = cms.string("Subleading Muon Eta;Muon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("eta"),
         ),
@@ -324,7 +324,7 @@ MuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonGenMatchEta"),
             title = cms.string("Gen Muon Eta;Gen muon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("genMatchedParticle.noFlags.eta"),
         ),
         cms.PSet (
@@ -361,7 +361,7 @@ MuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonGenMatchOfSameTypeEta"),
             title = cms.string("Gen Muon Eta;Gen muon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("genMatchedParticleOfSameType.noFlags.eta"),
         ),
         cms.PSet (
@@ -489,14 +489,14 @@ ElectronHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronLeadingEta"),
             title = cms.string("Leading Electron Eta;Electron #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(0),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
             name = cms.string("electronSubleadingEta"),
             title = cms.string("Subleading Electron Eta;Electron #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("eta"),
         ),
@@ -808,7 +808,7 @@ ElectronHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronGenMatchEta"),
             title = cms.string("Gen Electron Eta;Gen electron #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("genMatchedParticle.noFlags.eta"),
         ),
         cms.PSet (
@@ -845,7 +845,7 @@ ElectronHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("electronGenMatchOfSameTypeEta"),
             title = cms.string("Gen Electron Eta;Gen electron #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("genMatchedParticleOfSameType.noFlags.eta"),
         ),
         cms.PSet (
@@ -1500,7 +1500,7 @@ PhotonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("photonGenMatchEta"),
             title = cms.string("Gen Photon Eta;Gen photon #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("genMatchedParticle.noFlags.eta"),
         ),
         cms.PSet (
@@ -6525,7 +6525,7 @@ GenParticleHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("GenEta"),
             title = cms.string("Gen Eta;Gen #eta"),
-            binsX = cms.untracked.vdouble(80, -4, 4),
+            binsX = cms.untracked.vdouble(60, -3, 3),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
