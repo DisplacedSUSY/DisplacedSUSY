@@ -9,6 +9,7 @@
 
 import sys
 import copy
+import DisplacedSUSY.StandardAnalysis.TreeBranchDefinitions as treeDefs
 from collections import OrderedDict
 from ROOT import TFile, Double
 from DisplacedSUSY.Configuration.limitOptions import *
@@ -278,11 +279,17 @@ class SignalRegion(Region):
 
 
 class Hist(object):
-    def __init__(self, sample_info, blinded=True):
+    def __init__(self, sample_info, blinded=True, interpolated=False):
         file_path = "condor/{}/{}".format(sample_info['dir'], sample_info['file'])
-        self.hist = self.get_hist(file_path, sample_info['hist'])
+        hist_path = sample_info['hist']
         self.var_bins = sample_info['var_bins']
         self.blinded = sample_info['blinded']
+        self.hist = self.get_hist(file_path, hist_path)
+        if interpolated:
+            self.reweight_hist(file_path, hist_path, sample_info['name'])
+            self.var_bins = False
+        else:
+            self.var_bins = sample_info['var_bins']
 
     def get_hist(self, file_path, hist_path):
         f = TFile(file_path)
@@ -292,6 +299,63 @@ class Hist(object):
             raise IOError("Could not load {} from {}".format(hist_path, file_path))
         h.SetDirectory(0)
         return h
+
+    # update contents of d0-d0-pT hist to include lifetime weights for interpolated points
+    def reweight_hist(self, file_path, hist_path, name):
+        # access tree
+        tree_file_path = file_path.replace("mergeOut", "mergeOutputHadd")
+        channel = hist_path.split("Plotter")[0].split('/')[-1]
+        tree_path = channel + "TreeMaker/Tree"
+        tree_file = TFile(tree_file_path)
+        try:
+            tree = tree_file.Get(tree_path)
+        except ReferenceError:
+            raise IOError("Could not load {} from {}".format(tree_path, tree_file_path))
+
+        # get lumi*xs weight
+        f = TFile(file_path)
+        try:
+            h = f.Get(channel+"CutFlowPlotter/eventCounter").Clone()
+        except ReferenceError:
+            raise IOError("Could not load {} from {}".format(hist_path, file_path))
+        lumi_xs_weight = h.Integral() / h.GetEntries()
+
+        # identify proper lifetime weight
+        src_ctau = get_ctau(file_path.split('/')[3])
+        dst_ctau = get_ctau(name)
+        weight_branch_template = "eventvariable_lifetimeWeight_1000006_{}cmTo{}cm"
+        weight_branch_name = weight_branch_template.format(mm_to_cm(src_ctau), mm_to_cm(dst_ctau))
+
+        # identify branches that correspond to hist axes
+        hist_name = hist_path.split('/')[-1]
+        hist_legs = [x.split('_')[0] for x in hist_name.split("_vs_")]
+        # fixme: wasteful to redefine this every time method is called
+        hist_to_branch_mapping = {
+            'electronAbsD0[0]' : 'electron_beamspot_absD0Electron0',
+            'electronAbsD0[1]' : 'electron_beamspot_absD0Electron1',
+            'electronPt[0]'    : 'electron_ptElectron0',
+            'electronPt[1]'    : 'electron_ptElectron1',
+            'muonAbsD0[0]'     : 'muon_beamspot_absD0Muon0',
+            'muonAbsD0[1]'     : 'muon_beamspot_absD0Muon1',
+            'muonPt[0]'        : 'muon_ptMuon0',
+            'muonPt[1]'        : 'muon_ptMuon1',
+        }
+        branches = [hist_to_branch_mapping[l] for l in hist_legs]
+
+        # loop over events
+        self.hist.Reset()
+        for evt_ix in range(tree.GetEntries()):
+            # get total event weight, including lifetime weight
+            tree.GetEntry(evt_ix)
+            lifetime_weight = getattr(tree, weight_branch_name)
+            weight_product = getattr(tree, "weights_weightProduct")
+            weight_product *= lumi_xs_weight
+            weight_product *= lifetime_weight
+
+            # fill hist at proper d0, d0, pT point using new weight product
+            (x, y, z) = tuple(map(lambda a: getattr(tree, a), branches))
+            self.hist.Fill(x, y, z, weight_product)
+
 
 def fancyTable(arrays):
     def areAllEqual(lst):
@@ -376,6 +440,47 @@ def combine_systematics(uncertainties, yields, years):
         weighted_systematics[name]['channels'] = uncertainties[years_applied[0]][name]['channels']
 
     return weighted_systematics
+
+# extract ctau from signal name
+# assume signal name includes the ctau preceded by "_" and followed by "mm"
+def get_ctau(name):
+    ctau = name.split('_')[1].split('mm')[0]
+    # check that ctau is just a number
+    try:
+        float(ctau.replace('p','.'))
+    except ValueError:
+        raise RuntimeError("Cannot parse {}; getting ctau of {}".format(name, ctau))
+    return ctau
+
+def cm_to_mm(name):
+    val = float(name.replace('p', '.'))
+    val *= 10
+    # write as integer if possible
+    if int(val) == val:
+        val = int(val)
+    return str(val).replace('.', 'p')
+
+def mm_to_cm(name):
+    val = float(name.replace('p', '.'))
+    val *= 0.1
+    # write as integer if possible
+    if int(val) == val:
+        val = int(val)
+    return str(val).replace('.', 'p')
+
+# get signal file; handle interpolated points where filename and signal point name don't match
+# assume branch definitions in TreeBranchDefinitions.py match current signal files
+def find_signal_file(name):
+    ctau = get_ctau(name)
+    reweighting_pairs_mm = [(cm_to_mm(x), cm_to_mm(y)) for (x, y) in treeDefs.reweighting_pairs]
+    try:
+        src_ctau = next(x for (x, y) in reweighting_pairs_mm if y == ctau)
+    except StopIteration:
+        raise RuntimeError("Couldn't find source signal file for signal point " + name)
+
+    return name.replace(ctau+"mm", src_ctau+"mm") + ".root"
+
+
 
 ####################################################################################################
 
@@ -480,7 +585,7 @@ for sys in external_systematic_uncertainties:
             elif len(line) is 3:
                 value_dict[dataset]= line[1]+"/"+line[2]
             else:
-                print len(line)
+                raise RuntimeError("Unrecognized external systematic: ", line)
             # turn off systematic when the central yield is zero
             if (value_dict[dataset] == '0' or value_dict[dataset] == '0/0'):
                 value_dict[dataset] = '-'
@@ -534,15 +639,15 @@ abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
 # write a datacard for each signal point
 for signal_name in signal_points:
-    # fixme: update to handle interpolated lifetimes
-    # get basic signal info
+    # get basic signal info; name and file may differ due to lifetime interpolation
     signal_name = signal_name.replace('.', 'p') # rename sub-mm samples to match sample names
-    signal_file = signal_name + ".root"
+    signal_file = find_signal_file(signal_name)
+    interpolated = get_ctau(signal_name) != get_ctau(signal_file)
     signal_hists = {}
     for year in years:
         signal_samples[year]['name'] = signal_name
         signal_samples[year]['file'] = signal_file
-        signal_hists[year] = Hist(signal_samples[year])
+        signal_hists[year] = Hist(signal_samples[year], interpolated=interpolated)
 
     # get signal yields
     signal_yields = {}

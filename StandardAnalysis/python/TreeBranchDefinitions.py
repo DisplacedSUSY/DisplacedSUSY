@@ -107,6 +107,7 @@ EventVariableBranches = cms.PSet(
 )
 
 #everybody is in cm here
+reweighting_pairs = []
 for sourceCTau in [0.01, 0.1, 1, 10, 100]:
     srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
 
@@ -119,6 +120,7 @@ for sourceCTau in [0.01, 0.1, 1, 10, 100]:
     for dst in destinationCTaus:
         dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
         thisName = "lifetimeWeight_1000006_" + srcCTau + "cmTo" + dstCTau + "cm"
+        reweighting_pairs.append((srcCTau, dstCTau))
         #print thisName
         EventVariableBranches.branches.append(
             cms.PSet(
