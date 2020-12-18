@@ -653,6 +653,7 @@ for signal_name in signal_points:
     signal_yields = {}
     signal_num_evts = {}
     signal_sf = {}
+    signal_exists = False
     for r in unique_regions:
         signal_yields[r.name] = {}
         signal_num_evts[r.name] = {}
@@ -666,9 +667,14 @@ for signal_name in signal_points:
             signal_sf[r.name][year] = get_gamma_sf(y, e)
             total_yield += y
             total_events += e
+            if y > 0:
+                signal_exists = True
         signal_yields[r.name]['total'] = round(total_yield, 7)
         signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
+    if not signal_exists:
+        print "skipping {} because signal yields are 0".format(signal_name)
+        continue
 
     # build datacard elements that depend on signal
     # build rate table
