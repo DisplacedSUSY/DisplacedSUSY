@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 import math
 import os
@@ -7,7 +8,13 @@ import os
 def customize (process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC"):
 
     process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
-    process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
+
+    #need special R-hadron flag for stop samples but not for H to SS samples
+    if(HToSS):
+        process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
+    else:
+        process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
+
 
 ################################################################################
 ##### remove isolation cut from electron VID  ##################################

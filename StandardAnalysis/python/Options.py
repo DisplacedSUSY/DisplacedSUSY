@@ -42,3 +42,6 @@ composite_dataset_definitions['QCD_MuEnriched'] = [
     'QCD_MuEnriched_800to1000',
     'QCD_MuEnriched_1000toInf',
 ]
+
+# default to false, turn to true if you want to process HToSSTo4L samples
+HToSS = False
