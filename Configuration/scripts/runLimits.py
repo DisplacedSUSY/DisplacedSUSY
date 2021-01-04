@@ -174,7 +174,7 @@ for signal_name in signal_points:
 
     else:
         print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
-        shutil.copy("../"+os.environ["CMSSW_VERSION"]+".tar.gz", os.environ["CMSSW_VERSION"]+".tar.gz")
+        os.symlink ("../"+os.environ["CMSSW_VERSION"]+".tar.gz",os.environ["CMSSW_VERSION"]+".tar.gz")
         output_condor("combine", datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
         os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
     os.chdir("../../..")
