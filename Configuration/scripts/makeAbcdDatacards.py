@@ -344,6 +344,11 @@ class Hist(object):
 
         # loop over events
         self.hist.Reset()
+        try:
+            n_evts = tree.GetEntries()
+        except AttributeError:
+            print "Unable to read ttree"
+            return
         for evt_ix in range(tree.GetEntries()):
             # get total event weight, including lifetime weight
             tree.GetEntry(evt_ix)
@@ -558,7 +563,7 @@ region_ixs = {'a' : 0, 'b' : 0, 'c' : 0, 'd' : 0}
 for r in unique_regions:
     region_type = r.name[0].lower() if r.cr else 'd'
     ix = str(region_ixs[region_type])
-    r.set_param("{}{}_{}".format(region_type, ix, era))
+    r.set_param("{}{}_{}_{}".format(region_type, ix, era, channel))
     region_ixs[region_type] += 1
 
 # create ABCD and correlation correction associations between params
@@ -612,7 +617,7 @@ for r in unique_regions:
 observed_table = fancyTable([bin_row, obs_row])
 
 # build abcd systematics row
-abcd_systematic_row = ["abcd_method_" + era, "lnN", ""]
+abcd_systematic_row = ["abcd_method_{}_{}".format(era, channel), "lnN", ""]
 for r in unique_regions:
     abcd_systematic_row.append("-")
     if r.name in abcd_systematics:
@@ -702,7 +707,7 @@ for signal_name in signal_points:
     stat_uncertainties_rows = []
     for r in unique_regions:
         # add row for each region
-        name = "signal_stat_{}_{}".format(era, r.name)
+        name = "signal_stat_{}_{}_{}".format(era, channel, r.name)
         row = [name, 'gmN', str(signal_num_evts[r.name]['total'])]
         # place scale factor in correct column and dashes in all others
         r_ix = unique_regions.index(r)
