@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
+# enter lumi valus as a list to display a range
 intLumi = 112800 # full RunII
+#intLumi = [112800, 117600] # full RunII for channel combination
 energy = '13'
 channel = 'e#mu'
+#channel = None # set to None for multi-channel plots
 
 process = 'stopToLB'
 masses = [str(m) for m in range(100, 1801, 100)]
