@@ -176,7 +176,7 @@ def extrapolate(fit_func, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio
     # compute the 1- and 2-sigma confidence intervals of the fit at the x points of the ratio graph
     # use 1-sigma intervals to construct 2-sigma intervals to avoid GetConfidenceIntervals bug
     # see https://root-forum.cern.ch/t/fitresult-getconfidenceintervals-correction-factor/42552
-    all_d0s = make_array(d0s + [extrapolated_d0])
+    all_d0s = make_array(range(int(d0s[0]), extrapolated_d0+1))
     num_points = len(all_d0s)
     confInt1Sig = make_array([0.0]*len(all_d0s))
     fit_result.GetConfidenceIntervals(num_points, 1, 1, all_d0s, confInt1Sig, Double(0.683), False)
