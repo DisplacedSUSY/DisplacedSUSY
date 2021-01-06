@@ -161,11 +161,13 @@ def extrapolate(fit_func, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio
     if fit_func not in ["pol0", "pol1", "expo"]:
         raise RuntimeError("Unrecognized fit function: {}".format(fit_func))
 
+    # perform fit
     tgraph_arrays = map(make_array, [d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi])
     graph = TGraphAsymmErrors(len(d0s), *tgraph_arrays)
     fit = TF1("fit", fit_func, 0, extrapolated_d0)
-
     fit_result = graph.Fit(fit, "SFEM")
+
+    # report fit results
     print "Performing fit with f = {}".format(fit.GetExpFormula())
     print "chisq/dof: {:.2f}".format(fit.GetChisquare()/fit.GetNDF())
     print "p-value: {:.2f}".format(fit.GetProb())
@@ -388,8 +390,9 @@ for z_lo, z_hi in z_regions:
                                            ratios_err_hi, extrapolated_d0)
         (ratio_fit, ratio_graph, grConfInt1Sig, grConfInt2Sig) = extrapolation_result
         projected_ratio = ratio_fit.Eval(extrapolated_d0)
+        projected_err = grConfInt1Sig.GetErrorY(grConfInt1Sig.GetN()-1)
         print "The projected ratio is {:.2f} +/- {:.2f} when extrapolating to |d0|={}".format(
-                   projected_ratio, grConfInt1Sig.GetErrorY(len(ratios)), extrapolated_d0)
+                                                    projected_ratio, projected_err, extrapolated_d0)
         print
 
     # Format and export histograms
@@ -456,14 +459,18 @@ for z_lo, z_hi in z_regions:
         grConfInt1Sig.GetYaxis().SetTitleOffset(1.1)
         grConfInt2Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt2Sig.GetYaxis().SetTitleOffset(1.1)
-        if fit_func in ["pol1", "expo"]:
-            ratio_graph.GetYaxis().SetRangeUser(0.,6.0)
-            grConfInt1Sig.GetYaxis().SetRangeUser(0.,6.0)
-            grConfInt2Sig.GetYaxis().SetRangeUser(0.,6.0)
+        if projected_ratio > 5.0:
+            y_min = 0.0
+            y_max = projected_ratio + projected_err
+        elif fit_func in ["pol1", "expo"]:
+            y_min = 0.0
+            y_max = 6.0
         else:
-            ratio_graph.GetYaxis().SetRangeUser(0.6,2.0)
-            grConfInt1Sig.GetYaxis().SetRangeUser(0.6,2.0)
-            grConfInt2Sig.GetYaxis().SetRangeUser(0.6,2.0)
+            y_min = 0.6
+            y_max = 2.0
+        ratio_graph.GetYaxis().SetRangeUser(y_min, y_max)
+        grConfInt1Sig.GetYaxis().SetRangeUser(y_min, y_max)
+        grConfInt2Sig.GetYaxis().SetRangeUser(y_min, y_max)
         ratio_graph.SetMarkerStyle(20)
         grConfInt1Sig.SetFillColor(3)
         grConfInt2Sig.SetFillColor(5)
