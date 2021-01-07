@@ -101,10 +101,10 @@ colorSchemes = {
 #set the text for the luminosity label
 if isinstance(intLumi, list):
     LumiInFb = [l/1000. for l in intLumi]
-    LumiText = "{:.1f}-{:.1f} fb^{{-1}}".format(*LumiInFb)
+    LumiText = "{:d}-{:d} fb^{{-1}}".format(*int(round(LumiInFb)))
 else:
     LumiInFb = intLumi/1000.
-    LumiText = "{:.1f} fb^{{-1}}".format(LumiInFb)
+    LumiText = "{:d} fb^{{-1}}".format(int(round(LumiInFb)))
 
 HeaderText = LumiText + " (" + energy + " TeV)"
 
