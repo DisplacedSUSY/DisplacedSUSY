@@ -34,6 +34,19 @@ abcd_correlation_factors = { # from elog 1852
     },
 }
 
+# systematic uncertainty to account for uncertainty in extrapolation point used in determining
+# correlation factor; enter as single number (e.g. 0.5 = 50% uncertainty)
+abcd_extrapolation_systematics = { # from elog 1872
+    '2016' : {
+        'SR_I_0to100GeV'   : 0.20,
+        'SR_I_100toInfGeV' : 0.20,
+    },
+    '2017_18' : {
+        'SR_I_0to100GeV'   : 0.24,
+        'SR_I_100toInfGeV' : 0.24,
+    }
+}
+
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
 # only list regions in which you want to apply a systematic (as opposed to a correction)
 abcd_systematics = { # from elog 1860

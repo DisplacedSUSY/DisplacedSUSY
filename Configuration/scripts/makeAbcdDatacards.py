@@ -528,6 +528,11 @@ if sorted(signal_region_names) != sorted(regions_in_cfg):
     raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
                        "abcd_systematics")
 
+# check that all regions with a correction also have an extrapolation systematic
+abcd_extrapolation_systematics = abcd_extrapolation_systematics[era]
+if abcd_correlation_factors.keys() != abcd_extrapolation_systematics.keys():
+    raise RuntimeError("Every SR with a correction must also have an extrapolation systematic")
+
 # get data yields and abcd estimates
 # loop through regions in this particular order to build ordered list
 years = datacardCombinations[era] if era in datacardCombinations else [era]
@@ -616,15 +621,23 @@ for r in unique_regions:
     obs_row.append(str(int(round(data_yields[r.name]['total']))))
 observed_table = fancyTable([bin_row, obs_row])
 
-# build abcd systematics row
+# build abcd systematics rows
 abcd_systematic_row = ["abcd_method_{}_{}".format(era, channel), "lnN", ""]
+abcd_extrapolation_row = ["abcd_extrapolation_point_{}_{}".format(era, channel), "lnN", ""]
 for r in unique_regions:
     abcd_systematic_row.append("-")
+    abcd_extrapolation_row.append("-")
     if r.name in abcd_systematics:
         uncertainty = str(round(1+abcd_systematics[r.name], 2))
         abcd_systematic_row.append(uncertainty)
     else:
         abcd_systematic_row.append("-")
+    if r.name in abcd_extrapolation_systematics:
+        uncertainty = str(round(1+abcd_extrapolation_systematics[r.name], 2))
+        abcd_extrapolation_row.append(uncertainty)
+    else:
+        abcd_extrapolation_row.append("-")
+abcd_sys_rows = [abcd_systematic_row, abcd_extrapolation_row]
 
 # build abcd table
 abcd_rows = []
@@ -749,8 +762,7 @@ for signal_name in signal_points:
             else:
                 row.append('-')
         systematics_rows.append(row)
-    sys_uncertainties_table = [empty_row, empty_row, label_row, abcd_systematic_row]
-    sys_uncertainties_table += systematics_rows
+    sys_uncertainties_table = [empty_row, empty_row, label_row] + abcd_sys_rows + systematics_rows
 
     # build combined rates and uncertainties table
     main_tables = fancyTable(rate_table + stat_uncertainties_table + sys_uncertainties_table)
