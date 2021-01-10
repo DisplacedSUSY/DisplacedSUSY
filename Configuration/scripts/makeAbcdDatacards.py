@@ -47,6 +47,9 @@ class Region(object):
         name_string = "{}_{:d}to{:d}um_{:d}to{:d}um_{:d}to{:d}GeV"
         self.name = name_string.format(name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
         self.name = self.name.replace('-1', 'Inf')
+        # rename standard regions for brevity and legibility
+        for name, nickname, in predefined_region_names.iteritems():
+            self.name = self.name.replace(name, nickname)
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
         self.d0_1_lo = d0_1_lo
@@ -160,7 +163,7 @@ class SignalRegion(Region):
     def __init__(self, d0_min, d0_max, shape, cr_d0_min, cr_d0_max, d0_0_lo, d0_0_hi,
                  d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         super(SignalRegion, self).__init__("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
-        # rename standard regions for legibility
+        # rename standard regions for brevity and legibility
         for name, nickname, in predefined_sr_names.iteritems():
             self.name = self.name.replace(name, nickname)
         self.d0_min = d0_min
