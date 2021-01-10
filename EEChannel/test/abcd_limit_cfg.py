@@ -36,7 +36,7 @@ abcd_correlation_factors = { # from elog 1852
 }
 
 # systematic uncertainty to account for uncertainty in extrapolation point used in determining
-#correlation factor; enter as single number (e.g. 0.5 = 50% uncertainty)
+# correlation factor; enter as single number (e.g. 0.5 = 50% uncertainty)
 abcd_extrapolation_systematics = { # from elog 1872
     '2016' : {
         'SR_I_0to300GeV'   : 0.00,
