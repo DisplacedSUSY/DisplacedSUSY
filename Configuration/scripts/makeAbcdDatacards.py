@@ -387,7 +387,7 @@ def make_bins(bin_edges):
 # get factor to go between unweighted events and yields for rates taken from MC
 def get_gamma_sf(y, e):
     try:
-        return round(y/e, 7)
+        return y/e
     except ZeroDivisionError:
         # the yield is necessarily 0 in this case
         return 0.0
@@ -680,14 +680,14 @@ for signal_name in signal_points:
         total_events = 0.0
         for year in years:
             (y, e) = r.get_yield_and_num_events(signal_hists[year])
-            signal_yields[r.name][year] = round(y, 7)
+            signal_yields[r.name][year] = y
             signal_num_evts[r.name][year] = int(round(e))
             signal_sf[r.name][year] = get_gamma_sf(y, e)
             total_yield += y
             total_events += e
             if y > 0:
                 signal_exists = True
-        signal_yields[r.name]['total'] = round(total_yield, 7)
+        signal_yields[r.name]['total'] = total_yield
         signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
     if not signal_exists:
@@ -707,7 +707,7 @@ for signal_name in signal_points:
         bin_row.append(r.name)
         process_row.append(signal_name)
         process_ix_row.append("0")
-        rate_row.append(str(signal_yields[r.name]['total']))
+        rate_row.append("{:.3g}".format(signal_yields[r.name]['total']))
         # append background column
         bin_row.append(r.name)
         process_row.append("background")
@@ -727,7 +727,7 @@ for signal_name in signal_points:
         dashes_before = 2*r_ix
         dashes_after = 2*(len(unique_regions)-r_ix) - 1
         row.extend(dashes_before*["-"])
-        row.append(str(signal_sf[r.name]['total']))
+        row.append("{:.3g}".format(signal_sf[r.name]['total']))
         row.extend(dashes_after*["-"])
         stat_uncertainties_rows.append(row)
     stat_uncertainties_table = [empty_row, empty_row, label_row] + stat_uncertainties_rows
