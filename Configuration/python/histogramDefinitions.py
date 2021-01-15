@@ -46,7 +46,7 @@ MuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("muonPt[0]_vs_muonPt[1]"),
-            title = cms.string("Leading Transverse Momentum vs Subleading Transverse Momentum; Subleading muon p_{T} [GeV]; Leading muon p_{T} [GeV]"),
+            title = cms.string("Leading Transverse Momentum vs Subleading Transverse Momentum; Subleading Muon p_{T} [GeV]; Leading Muon p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             binsY = cms.untracked.vdouble(100, 0, 500),
             indexX = cms.untracked.int32(1),
@@ -67,14 +67,14 @@ MuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("muonLeadingEta"),
-            title = cms.string("Leading muon Eta;Muon #eta"),
+            title = cms.string("Leading Muon Eta;Muon #eta"),
             binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(0),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
             name = cms.string("muonSubleadingEta"),
-            title = cms.string("Subleading muon Eta;Muon #eta"),
+            title = cms.string("Subleading Muon Eta;Muon #eta"),
             binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("eta"),
@@ -488,14 +488,14 @@ ElectronHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronLeadingEta"),
-            title = cms.string("Leading electron Eta;Electron #eta"),
+            title = cms.string("Leading Electron Eta;Electron #eta"),
             binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(0),
             inputVariables = cms.vstring("eta"),
         ),
         cms.PSet (
             name = cms.string("electronSubleadingEta"),
-            title = cms.string("Subleading electron Eta;Electron #eta"),
+            title = cms.string("Subleading Electron Eta;Electron #eta"),
             binsX = cms.untracked.vdouble(60, -3, 3),
             indexX = cms.untracked.int32(1),
             inputVariables = cms.vstring("eta"),
@@ -928,7 +928,7 @@ ElectronMuonHistograms = cms.PSet(
     histograms = cms.VPSet (
         cms.PSet (
             name = cms.string("electronPt[0]_vs_MuonPt[0]"),
-            title = cms.string("Leading electron Momentum vs Leading muon Momentum;Leading muon p_{T} [GeV];Leading electron p_{T} [GeV]"),
+            title = cms.string("Leading Electron Momentum vs Leading Muon Momentum;Leading Muon p_{T} [GeV];Leading Electron p_{T} [GeV]"),
             binsX = cms.untracked.vdouble(100,0,500),
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(0),
@@ -937,7 +937,7 @@ ElectronMuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronEta[0]_vs_MuonEta[0]"),
-            title = cms.string("Leading electron Eta vs Leading muon Eta;Leading muon #eta;Leading electron #eta"),
+            title = cms.string("Leading Electron Eta vs Leading Muon Eta;Leading Muon #eta;Leading Electron #eta"),
             binsX = cms.untracked.vdouble(25,0,2.5),
             binsY = cms.untracked.vdouble(25,0,2.5),
             indexX = cms.untracked.int32(0),
@@ -5222,7 +5222,7 @@ ElectronMuonD0Histograms = cms.PSet(
         #
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_10um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,10),
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(0),
@@ -5231,7 +5231,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_50um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,50),
             binsY = cms.untracked.vdouble(100,0,50),
             indexX = cms.untracked.int32(0),
@@ -5240,7 +5240,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_100um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,100),
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(0),
@@ -5249,7 +5249,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_200um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,200),
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(0),
@@ -5258,7 +5258,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_500um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,500),
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(0),
@@ -5267,7 +5267,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_1000um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,1000),
             binsY = cms.untracked.vdouble(100,0,1000),
             indexX = cms.untracked.int32(0),
@@ -5276,7 +5276,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_10000um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,10000),
             binsY = cms.untracked.vdouble(100,0,10000),
             indexX = cms.untracked.int32(0),
@@ -5285,7 +5285,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_100000um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(fine_100000um_bins),
             binsY = cms.untracked.vdouble(fine_100000um_bins),
             indexX = cms.untracked.int32(0),
@@ -5294,7 +5294,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_200000um"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(100,0,200000),
             binsY = cms.untracked.vdouble(100,0,200000),
             indexX = cms.untracked.int32(0),
@@ -5304,7 +5304,7 @@ ElectronMuonD0Histograms = cms.PSet(
 
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_10um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,10),
             binsY = cms.untracked.vdouble(10,0,10),
             indexX = cms.untracked.int32(0),
@@ -5313,7 +5313,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_50um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,50),
             binsY = cms.untracked.vdouble(10,0,50),
             indexX = cms.untracked.int32(0),
@@ -5322,7 +5322,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_100um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,100),
             binsY = cms.untracked.vdouble(10,0,100),
             indexX = cms.untracked.int32(0),
@@ -5331,7 +5331,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_200um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,200),
             binsY = cms.untracked.vdouble(10,0,200),
             indexX = cms.untracked.int32(0),
@@ -5340,7 +5340,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_500um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,500),
             binsY = cms.untracked.vdouble(10,0,500),
             indexX = cms.untracked.int32(0),
@@ -5349,7 +5349,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_1000um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,1000),
             binsY = cms.untracked.vdouble(10,0,1000),
             indexX = cms.untracked.int32(0),
@@ -5358,7 +5358,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_10000um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,10000),
             binsY = cms.untracked.vdouble(10,0,10000),
             indexX = cms.untracked.int32(0),
@@ -5367,7 +5367,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0[0]_vs_muonAbsD0[0]_200000um_coarse"),
-            title = cms.string("Leading electron |d_{0}| vs. Leading muon |d_{0}|;Leading muon |d_{0}| [#mum];Leading electron |d_{0}| [#mum]"),
+            title = cms.string("Leading Electron |d_{0}| vs. Leading Muon |d_{0}|;Leading Muon |d_{0}| [#mum];Leading Electron |d_{0}| [#mum]"),
             binsX = cms.untracked.vdouble(10,0,200000),
             binsY = cms.untracked.vdouble(10,0,200000),
             indexX = cms.untracked.int32(0),
@@ -5377,7 +5377,7 @@ ElectronMuonD0Histograms = cms.PSet(
 
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_5"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,5),
             binsY = cms.untracked.vdouble(100,0,5),
             indexX = cms.untracked.int32(0),
@@ -5386,7 +5386,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_10"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,10),
             binsY = cms.untracked.vdouble(100,0,10),
             indexX = cms.untracked.int32(0),
@@ -5395,7 +5395,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_20"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,20),
             binsY = cms.untracked.vdouble(100,0,20),
             indexX = cms.untracked.int32(0),
@@ -5404,7 +5404,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_50"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,50),
             binsY = cms.untracked.vdouble(100,0,50),
             indexX = cms.untracked.int32(0),
@@ -5413,7 +5413,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_100"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,100),
             binsY = cms.untracked.vdouble(100,0,100),
             indexX = cms.untracked.int32(0),
@@ -5422,7 +5422,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_200"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,200),
             binsY = cms.untracked.vdouble(100,0,200),
             indexX = cms.untracked.int32(0),
@@ -5431,7 +5431,7 @@ ElectronMuonD0Histograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronAbsD0Sig[0]_vs_muonAbsD0Sig[0]_500"),
-            title = cms.string("Leading electron |d_{0}/#sigma(d_{0})| vs. Leading muon |d_{0}/#sigma(d_{0})|;Leading muon |d_{0}/#sigma(d_{0})|;Leading electron |d_{0}/#sigma(d_{0})|"),
+            title = cms.string("Leading Electron |d_{0}/#sigma(d_{0})| vs. Leading Muon |d_{0}/#sigma(d_{0})|;Leading Muon |d_{0}/#sigma(d_{0})|;Leading Electron |d_{0}/#sigma(d_{0})|"),
             binsX = cms.untracked.vdouble(100,0,500),
             binsY = cms.untracked.vdouble(100,0,500),
             indexX = cms.untracked.int32(0),
@@ -5648,7 +5648,7 @@ ElectronPhotonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronPt[0]_vs_photonPt[0]"),
-            title = cms.string("Leading electron p_{T} vs. Leading Photon p_{T};Leading Photon p_{T} [GeV];Leading electron p_{T} [GeV];"),
+            title = cms.string("Leading Electron p_{T} vs. Leading Photon p_{T};Leading Photon p_{T} [GeV];Leading Electron p_{T} [GeV];"),
             binsX = cms.untracked.vdouble(100, 0, 500),
             binsY = cms.untracked.vdouble(100, 0, 500),
             indexX = cms.untracked.int32(0),

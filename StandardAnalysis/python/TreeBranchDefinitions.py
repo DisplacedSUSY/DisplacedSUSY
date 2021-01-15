@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 
 from OSUT3Analysis.Configuration.cutUtilities import *
 import DisplacedSUSY.StandardAnalysis.objectDefinitions as objectDefs
-from DisplacedSUSY.StandardAnalysis.Options import *
+
 
 #######################################################
 # some stuff to set up first
@@ -98,16 +98,6 @@ EventVariableBranches_names = [
     "cTau_1000006_7",
     "cTau_1000006_8",
     "cTau_1000006_9",
-    "cTau_9000006_0",
-    "cTau_9000006_1",
-    "cTau_9000006_2",
-    "cTau_9000006_3",
-    "cTau_9000006_4",
-    "cTau_9000006_5",
-    "cTau_9000006_6",
-    "cTau_9000006_7",
-    "cTau_9000006_8",
-    "cTau_9000006_9",
     "lifetimeWeight",
 ]
 
@@ -118,47 +108,26 @@ EventVariableBranches = cms.PSet(
 
 #everybody is in cm here
 reweighting_pairs = []
-if(HToSS):
-    for sourceCTau in [0.1, 1, 10, 100, 1000, 10000, 100000]:
-        srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
+for sourceCTau in [0.01, 0.1, 1, 10, 100]:
+    srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
 
-        destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
-        if sourceCTau == 0.1:
-            destinationCTaus.extend([0.01])
+    destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
+    if sourceCTau == 0.01:
+        destinationCTaus.extend([0.001])
+    if sourceCTau == 100:
+        destinationCTaus.extend([float(1 * i * sourceCTau) for i in range(2, 11)])
 
-        for dst in destinationCTaus:
-            dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
-            thisName = "lifetimeWeight_9000006_" + srcCTau + "cmTo" + dstCTau + "cm"
-            reweighting_pairs.append((srcCTau, dstCTau))
-            #print thisName
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName),
-                    inputVariables = cms.vstring(thisName),
-                )
+    for dst in destinationCTaus:
+        dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
+        thisName = "lifetimeWeight_1000006_" + srcCTau + "cmTo" + dstCTau + "cm"
+        reweighting_pairs.append((srcCTau, dstCTau))
+        #print thisName
+        EventVariableBranches.branches.append(
+            cms.PSet(
+                name = cms.string(thisName),
+                inputVariables = cms.vstring(thisName),
             )
-
-else:
-    for sourceCTau in [0.01, 0.1, 1, 10, 100]:
-        srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
-
-        destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
-        if sourceCTau == 0.01:
-            destinationCTaus.extend([0.001])
-        if sourceCTau == 100:
-            destinationCTaus.extend([float(1 * i * sourceCTau) for i in range(2, 11)])
-
-        for dst in destinationCTaus:
-            dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
-            thisName = "lifetimeWeight_1000006_" + srcCTau + "cmTo" + dstCTau + "cm"
-            reweighting_pairs.append((srcCTau, dstCTau))
-            #print thisName
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName),
-                    inputVariables = cms.vstring(thisName),
-                )
-            )
+        )
 
 ###########################
 # electron event variables

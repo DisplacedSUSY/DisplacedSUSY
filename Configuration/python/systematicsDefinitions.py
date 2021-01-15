@@ -13,64 +13,6 @@ from DisplacedSUSY.Configuration.limitOptions import *
 ### signal cross sections and their uncertainties ###
 #####################################################
 
-#
-signal_cross_sections_HToSS_13TeV = {
-
-    '110' : {
-        'value' : '26.722390956061719',
-        'error' : '1.0929',
-    },
-    '125' : {
-        'value' : '21.459897483726280',
-        'error' : '1.0740',
-    },
-    '150' : {
-        'value' : '15.614146187994139',
-        'error' : '1.0699',
-    },
-    '200' : {
-        'value' : '8.7322438914694018',
-        'error' : '1.0717',
-    },
-    '300' : {
-        'value' : '4.9382937444987762',
-        'error' : '1.0683',
-    },
-    '400' : {
-        'value' : '5.0403083882366619',
-        'error' : '1.0678',
-    },
-    '450' : {
-        'value' : '3.7768002561767382',
-        'error' : '1.0680',
-    },
-    '500' : {
-        'value' : '2.5884317279268005',
-        'error' : '1.0678',
-    },
-    '600' : {
-        'value' : '1.1784666241700483',
-        'error' : '1.0673',
-    },
-    '750' : {
-        'value' : '0.41086256828334200',
-        'error' : '1.0666',
-    },
-    '800' : {
-        'value' : '0.30253991148407361',
-        'error' : '1.0664',
-    },
-    '900' : {
-        'value' : '0.17493668485618005',
-        'error' : '1.0661',
-    },
-    '1000' : {
-        'value' : '0.10770210813460095',
-        'error' : '1.0663',
-    },
-
-}
-
 #taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom (NLO+NLL)
 signal_cross_sections_13TeV = {
 

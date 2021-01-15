@@ -3,22 +3,12 @@ from DisplacedSUSY.Configuration.limitOptions import *
 
 channel = "emu"
 
-# make the following substitutions for datacard brevity and legibility
-predefined_region_names = {
-    '_0to100um'     : '',
-    '100to500um'    : 'i',
-    '500to100000um' : 'ii',
-    '0to90GeV'      : 'loPt',
-    '0to140GeV'     : 'loPt',
-    '90toInfGeV'    : 'hiPt',
-    '140toInfGeV'   : 'hiPt',
-    '_0toInfGeV'    : '',
-}
+# make the following substitutions for datacard legibility
 predefined_sr_names = {
-    'i_i'   : 'I',
-    'i_ii'  : 'II',
-    'ii_i'  : 'III',
-    'ii_ii' : 'IV',
+    '100to500um_100to500um'       : 'I',
+    '100to500um_500to100000um'    : 'II',
+    '500to100000um_100to500um'    : 'III',
+    '500to100000um_500to100000um' : 'IV',
 }
 
 # choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
@@ -26,8 +16,8 @@ sr_shapes = 'grid'
 # signal region binning; enter -1 to include overflow
 d0_0_bin_edges = [100, 500, 100000] # um
 d0_1_bin_edges = [100, 500, 100000] # um
-pt_bin_edges = [0, 90, -1] # GeV; only the most-prompt region will be binned in pT
-#pt_bin_edges = [0, 140, -1] # GeV; only the most-prompt region will be binned in pT
+#pt_bin_edges = [0, 90, -1] # GeV; only the most-prompt region will be binned in pT
+pt_bin_edges = [0, 140, -1] # GeV; only the most-prompt region will be binned in pT
 # |d0| range of prompt lepton in prompt/displaced control regions
 cr_d0_range = (0, 100) # um
 
@@ -36,25 +26,12 @@ cr_d0_range = (0, 100) # um
 # see predefined_sr_names for naming convention
 abcd_correlation_factors = { # from elog 1852
     '2016' : {
-        'SR_I_loPt' : (1.00, 1.00, 1.19),
-        'SR_I_hiPt' : (1.00, 1.00, 1.19),
+        'SR_I_0to90GeV'   : (1.00, 1.00, 1.19),
+        'SR_I_90toInfGeV' : (1.00, 1.00, 1.19),
     },
     '2017_18' : {
-        'SR_I_loPt' : (3.07, 0.77, 0.77),
-        'SR_I_hiPt' : (3.07, 0.77, 0.77),
-    }
-}
-
-# systematic uncertainty to account for uncertainty in extrapolation point used in determining
-#correlation factor; enter as single number (e.g. 0.5 = 50% uncertainty)
-abcd_extrapolation_systematics = { # from elog 1872
-    '2016' : {
-        'SR_I_loPt' : 0.00,
-        'SR_I_hiPt' : 0.00,
-    },
-    '2017_18' : {
-        'SR_I_loPt' : 0.22,
-        'SR_I_hiPt' : 0.22,
+        'SR_I_0to140GeV'   : (3.07, 0.77, 0.77),
+        'SR_I_140toInfGeV' : (3.07, 0.77, 0.77),
     }
 }
 
@@ -62,14 +39,14 @@ abcd_extrapolation_systematics = { # from elog 1872
 # only list regions in which you want to apply a systematic (as opposed to a correction)
 abcd_systematics = { # from elog 1860
     '2016' : {
-        'SR_II'  : 0.98,
-        'SR_III' : 0.98,
-        'SR_IV'  : 0.98,
+        'SR_II_0toInfGeV'  : 0.98,
+        'SR_III_0toInfGeV' : 0.98,
+        'SR_IV_0toInfGeV'  : 0.98,
     },
     '2017_18' : {
-        'SR_II'  : 1.06,
-        'SR_III' : 1.06,
-        'SR_IV'  : 1.06,
+        'SR_II_0toInfGeV'  : 1.06,
+        'SR_III_0toInfGeV' : 1.06,
+        'SR_IV_0toInfGeV'  : 1.06,
     },
 }
 

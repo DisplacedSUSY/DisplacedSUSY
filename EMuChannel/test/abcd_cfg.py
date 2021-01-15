@@ -13,8 +13,8 @@ input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_e
 data = False
 # Was the histogram constructed with TH2(name,title,nbinsx,xbins,nbinsy,ybins)
 variable_bins = True
-# Specify fit function for extrapolation. Currently supported functions are pol0, pol1, and expo
-fit_func = "pol1"
+# do pol0 (False) or pol1 (True) fit for extrapolation?
+pol1 = True
 
 # uncertainty info
 # mutliplicative correction to the most-prompt signal region estimate to account for correlation

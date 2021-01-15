@@ -55,12 +55,11 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
       fileNames = cms.untracked.vstring (
             #input MINIAOD files
             #'/store/data/Run2017D/MuonEG/MINIAOD/31Mar2018-v1/100000/CC4BAF57-C437-E811-81E1-B496910A9A9C.root'
-            #'/store/data/Run2017D/DoubleMuon/MINIAOD/31Mar2018-v1/100000/00915A1A-C937-E811-B03A-009C02AAB484.root'
+            '/store/data/Run2017D/DoubleMuon/MINIAOD/31Mar2018-v1/100000/00915A1A-C937-E811-B03A-009C02AAB484.root'
             #'/store/data/Run2017D/DoubleEG/MINIAOD/31Mar2018-v1/00000/002F7CD1-9D37-E811-A03E-B499BAABCF1A.root'
           #'/store/data/Run2017F/MET/MINIAOD/31Mar2018-v1/00001/804EFF7E-B338-E811-A67D-38EAA7A6DCF0.root'
             #'/store/mc/RunIIFall17MiniAODv2/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/143D9394-AF60-E811-96DC-0025904C641E.root'
           #'/store/mc/RunIISummer16MiniAODv3/DisplacedSUSY_stopToBottom_M_1400_1mm_TuneCUETP8M1_13TeV_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/110000/182C45DE-E6E9-E811-895B-001EC9ADC226.root'
-          '/store/mc/RunIIFall17MiniAODv2/ggH_HToSSTo4l_MH-500_MS-150_ctauS-10_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/260000/A285B521-79F5-EA11-AE5A-782BCB539A7E.root'
 
             #initial skim files
             #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2017Analysis_11July2018/MuonEG_2017C/EMuSkim/skim_0.root'

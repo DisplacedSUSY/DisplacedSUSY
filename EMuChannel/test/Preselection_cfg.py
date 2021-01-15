@@ -44,7 +44,6 @@ eventSelections = [
 
     #PreselectionLeptonsFromW,
     #PreselectionLeptonsFromWorZ,
-    #PreselectionLeptonsFromTau,
     #PreselectionLeptonsNotFromTau,
     #PreselectionMuFromTau,
     #PreselectionEFromTau,

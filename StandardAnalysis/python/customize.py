@@ -1,6 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 from OSUT3Analysis.Configuration.processingUtilities import *
-from DisplacedSUSY.StandardAnalysis.Options import *
 
 import math
 import os
@@ -8,13 +7,7 @@ import os
 def customize (process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC"):
 
     process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
-
-    #need special R-hadron flag for stop samples but not for H to SS samples
-    if(HToSS):
-        process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
-    else:
-        process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
-
+    process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
 
 ################################################################################
 ##### remove isolation cut from electron VID  ##################################
@@ -61,7 +54,6 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         process.DisplacedSUSYEventVariableProducer.ReadPrescalesFromFile = cms.bool(False)
 
         #all tracker material values in cm
-        #increased the size of each volume by 10 microns in each direction to account for vertex resolution
         #beam pipe
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             process.DisplacedSUSYEventVariableProducer.beamPipe_x_center = cms.double(0.124)
@@ -72,7 +64,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.DisplacedSUSYEventVariableProducer.beamPipe_x_center = cms.double(0.171)
             process.DisplacedSUSYEventVariableProducer.beamPipe_y_center = cms.double(-0.176)
-        process.DisplacedSUSYEventVariableProducer.beamPipe_outerR = cms.double(2.251)
+        process.DisplacedSUSYEventVariableProducer.beamPipe_outerR = cms.double(2.25)
         process.DisplacedSUSYEventVariableProducer.beamPipe_innerR = cms.double(2.17)
 
         #BPIX inner shield
@@ -82,10 +74,10 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         process.DisplacedSUSYEventVariableProducer.farInnerShield_y_center = cms.double(-0.098)
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             #assume inner shield has the same thickness as the beam pipe
-            process.DisplacedSUSYEventVariableProducer.innerShield_outerR = cms.double(3.815)
+            process.DisplacedSUSYEventVariableProducer.innerShield_outerR = cms.double(3.814)
             process.DisplacedSUSYEventVariableProducer.innerShield_innerR = cms.double(3.734)
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-            process.DisplacedSUSYEventVariableProducer.innerShield_outerR = cms.double(2.441)
+            process.DisplacedSUSYEventVariableProducer.innerShield_outerR = cms.double(2.44)
             process.DisplacedSUSYEventVariableProducer.innerShield_innerR = cms.double(2.36)
 
         #BPIX layers
@@ -97,22 +89,22 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
             process.DisplacedSUSYEventVariableProducer.bpix_x_center = cms.double(-0.027)
             process.DisplacedSUSYEventVariableProducer.bpix_y_center = cms.double(-0.078)
             process.DisplacedSUSYEventVariableProducer.bpix_z_center = cms.double(-0.051)
-            process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(26.5005)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(4.876)
+            process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(26.5)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(4.875)
             process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(4.125)
-            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.376)
+            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.375)
             process.DisplacedSUSYEventVariableProducer.bpixL2_innerR = cms.double(7.225)
-            process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.276)
+            process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.275)
             process.DisplacedSUSYEventVariableProducer.bpixL3_innerR = cms.double(10.125)
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-            process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(27.4505)
-            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(3.176)
+            process.DisplacedSUSYEventVariableProducer.bpix_z_halfLength = cms.double(27.45)
+            process.DisplacedSUSYEventVariableProducer.bpixL1_outerR = cms.double(3.175)
             process.DisplacedSUSYEventVariableProducer.bpixL1_innerR = cms.double(2.725)
-            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.076)
+            process.DisplacedSUSYEventVariableProducer.bpixL2_outerR = cms.double(7.075)
             process.DisplacedSUSYEventVariableProducer.bpixL2_innerR = cms.double(6.525)
-            process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.976)
+            process.DisplacedSUSYEventVariableProducer.bpixL3_outerR = cms.double(10.975)
             process.DisplacedSUSYEventVariableProducer.bpixL3_innerR = cms.double(10.825)
-            process.DisplacedSUSYEventVariableProducer.bpixL4_outerR = cms.double(16.076)
+            process.DisplacedSUSYEventVariableProducer.bpixL4_outerR = cms.double(16.075)
             process.DisplacedSUSYEventVariableProducer.bpixL4_innerR = cms.double(15.925)
             if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
                 process.DisplacedSUSYEventVariableProducer.bpix_x_center = cms.double(0.109725)
@@ -128,12 +120,12 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
             process.DisplacedSUSYEventVariableProducer.fpix_x_center = cms.double(-0.027)
             process.DisplacedSUSYEventVariableProducer.fpix_y_center = cms.double(-0.078)
             process.DisplacedSUSYEventVariableProducer.fpix_z_center = cms.double(-0.051)
-            process.DisplacedSUSYEventVariableProducer.fpix_outerR = cms.double(14.461)
+            process.DisplacedSUSYEventVariableProducer.fpix_outerR = cms.double(14.46)
             process.DisplacedSUSYEventVariableProducer.fpix_innerR = cms.double(5.97)
             process.DisplacedSUSYEventVariableProducer.fpixD1_z_center = cms.double(34.5)
             process.DisplacedSUSYEventVariableProducer.fpixD2_z_center = cms.double(46.5)
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-            process.DisplacedSUSYEventVariableProducer.fpix_outerR = cms.double(16.101)
+            process.DisplacedSUSYEventVariableProducer.fpix_outerR = cms.double(16.1)
             process.DisplacedSUSYEventVariableProducer.fpix_innerR = cms.double(4.5)
             process.DisplacedSUSYEventVariableProducer.fpixD1_z_center = cms.double(29.1)
             process.DisplacedSUSYEventVariableProducer.fpixD2_z_center = cms.double(39.6)
@@ -147,14 +139,14 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
                 process.DisplacedSUSYEventVariableProducer.fpix_y_center = cms.double(-0.106233)
                 process.DisplacedSUSYEventVariableProducer.fpix_z_center = cms.double(-0.338382)
         #assume thickness of 0.15 cm
-        process.DisplacedSUSYEventVariableProducer.fpix_z_halfThickness = cms.double(0.0755)
+        process.DisplacedSUSYEventVariableProducer.fpix_z_halfThickness = cms.double(0.075)
 
         #pixel support tube
         process.DisplacedSUSYEventVariableProducer.supportTube_x_center = cms.double(-0.08)
         process.DisplacedSUSYEventVariableProducer.supportTube_y_center = cms.double(-0.32)
         #assume thickness of 0.15 cm
-        process.DisplacedSUSYEventVariableProducer.supportTube_outerRX = cms.double(21.776)
-        process.DisplacedSUSYEventVariableProducer.supportTube_outerRY = cms.double(21.876)
+        process.DisplacedSUSYEventVariableProducer.supportTube_outerRX = cms.double(21.775)
+        process.DisplacedSUSYEventVariableProducer.supportTube_outerRY = cms.double(21.875)
         process.DisplacedSUSYEventVariableProducer.supportTube_innerRX = cms.double(21.625)
         process.DisplacedSUSYEventVariableProducer.supportTube_innerRY = cms.double(21.725)
 

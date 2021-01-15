@@ -11,15 +11,10 @@ TrigEffDen = cms.PSet(
 )
 ### passes OR of unprescaled MET triggers (use eventvariable so that OR of MET triggers can be ANDed with analysis trigger)
 TrigEffDen.cuts.append(pass_HLTMET_paths)
-### at least two good muons
+### at least 2 good muons
 TrigEffDen.cuts.append(muon_eta_cut)
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    TrigEffDen.cuts.append(muon_eta_phi_veto_2017) #veto region with pixel power supply issues
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    TrigEffDen.cuts.append(muon_eta_phi_veto_2018) #veto region with pixel power supply issues
 TrigEffDen.cuts.append(muon_global_cut)
 TrigEffDen.cuts.append(muon_id_cut)
-TrigEffDen.cuts.append(muon_iso_cut) #our custom rho-based iso
 
 # Numerator: basic 2 muon selection+(MET triggers)+(analysis trigger)
 TrigEffNum = cms.PSet(
