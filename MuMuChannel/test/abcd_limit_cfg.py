@@ -3,12 +3,20 @@ from DisplacedSUSY.Configuration.limitOptions import *
 
 channel = "mumu"
 
-# make the following substitutions for datacard legibility
+# make the following substitutions for datacard brevity and legibility
+predefined_region_names = {
+    '_0to100um'     : '',
+    '100to500um'    : 'i',
+    '500to100000um' : 'ii',
+    '0to100GeV'     : 'loPt',
+    '100toInfGeV'   : 'hiPt',
+    '_0toInfGeV'    : '',
+}
 predefined_sr_names = {
-    '100to500um_100to500um'       : 'I',
-    '100to500um_500to100000um'    : 'II',
-    '500to100000um_100to500um'    : 'III',
-    '500to100000um_500to100000um' : 'IV',
+    'i_i'   : 'I',
+    'i_ii'  : 'II',
+    'ii_i'  : 'III',
+    'ii_ii' : 'IV',
 }
 
 # choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
@@ -25,27 +33,40 @@ cr_d0_range = (0, 100) # um
 # see predefined_sr_names for naming convention
 abcd_correlation_factors = { # from elog 1852
     '2016' : {
-        'SR_I_0to100GeV'   : (2.51, 0.87, 0.87),
-        'SR_I_100toInfGeV' : (2.51, 0.87, 0.87),
+        'SR_I_loPt' : (2.51, 0.87, 0.87),
+        'SR_I_hiPt' : (2.51, 0.87, 0.87),
     },
     '2017_18' : {
-        'SR_I_0to100GeV'   : (4.20, 1.51, 1.51),
-        'SR_I_100toInfGeV' : (4.20, 1.51, 1.51),
+        'SR_I_loPt' : (4.20, 1.51, 1.51),
+        'SR_I_hiPt' : (4.20, 1.51, 1.51),
     },
+}
+
+# systematic uncertainty to account for uncertainty in extrapolation point used in determining
+# correlation factor; enter as single number (e.g. 0.5 = 50% uncertainty)
+abcd_extrapolation_systematics = { # from elog 1872
+    '2016' : {
+        'SR_I_loPt' : 0.20,
+        'SR_I_hiPt' : 0.20,
+    },
+    '2017_18' : {
+        'SR_I_loPt' : 0.24,
+        'SR_I_hiPt' : 0.24,
+    }
 }
 
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
 # only list regions in which you want to apply a systematic (as opposed to a correction)
 abcd_systematics = { # from elog 1860
     '2016' : {
-        'SR_II_0toInfGeV'  : 0.64,
-        'SR_III_0toInfGeV' : 0.64,
-        'SR_IV_0toInfGeV'  : 0.64,
+        'SR_II'  : 0.64,
+        'SR_III' : 0.64,
+        'SR_IV'  : 0.64,
     },
     '2017_18' : {
-        'SR_II_0toInfGeV'  : 1.40,
-        'SR_III_0toInfGeV' : 1.40,
-        'SR_IV_0toInfGeV'  : 1.40,
+        'SR_II'  : 1.40,
+        'SR_III' : 1.40,
+        'SR_IV'  : 1.40,
     },
 }
 

@@ -29,8 +29,8 @@ def output_condor(command, options):
     script += 'source /cvmfs/cms.cern.ch/crab3/crab.sh\n'
     script += 'tar -xzf '+cmssw_tarball+'\n'
     script += 'rm -f '+cmssw_tarball+'\n'
-    script += 'SCRAM_ARCH=slc7_amd64_gcc700\n'
-    script += 'cd CMSSW_10_2_12/\n'
+    script += 'SCRAM_ARCH=' + os.environ["SCRAM_ARCH"] + '\n'
+    script += 'cd ' + os.environ["CMSSW_VERSION"] + '/src/\n'
     script += 'scramv1 b ProjectRename\n'
     script += 'eval `scramv1 runtime -sh`\n'
     script += 'cd -\n\n'
@@ -45,7 +45,7 @@ def output_condor(command, options):
     sub_file += "Executable              = "+command+"\n"
     sub_file += "Universe                = vanilla\n"
     sub_file += "Getenv                  = True\n"
-    sub_file += "request_memory            = 2048MB\n"
+    sub_file += "request_memory          = 2048MB\n"
     sub_file += "Should_Transfer_Files   = YES\n"
     sub_file += "Transfer_Input_Files    = "+combine_command+", "+cmssw_tarball+", "+datacard_name+"\n"
     sub_file += "\n"
@@ -92,6 +92,7 @@ def scaleSignal(src, dst):
                 try:
                     gammaLine[process + 2] = str (signalSF * float (gammaLine[process + 2]))
                 except ValueError:
+                    print "value error when updating gamma line"
                     pass
 
     fin = open (src, "r")
@@ -119,6 +120,7 @@ methodFile.write(arguments.method)
 methodFile.close()
 
 
+# fixme: update to only make one tarball per directory (instead of one per signal point)
 if arguments.batchMode:
     os.system('tar -zc --exclude="*git*" --exclude="test" --exclude="tmp" -C $CMSSW_BASE/../ -f limits/'+arguments.condorDir+'/$CMSSW_VERSION.tar.gz $CMSSW_VERSION')
 
@@ -134,28 +136,32 @@ for signal_name in signal_points:
     datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
     datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
 
-    combine_expected_options = combine_observed_options = "-M " + arguments.method
-    if arguments.method == "HybridNew":
-        # hybrid-bayesian (recommended for low bg)
-        combine_expected_options = combine_expected_options + " --testStat LEP --generateNuisances=1 --generateExternalMeasurements=0 --fitNuisances=0 -H AsymptoticLimits --expectedFromGrid=0.5" + " -t " + arguments.Ntoys
-    elif arguments.method == "MarkovChainMC":
-        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-        combine_observed_options = combine_observed_options + " --tries " + arguments.Ntries + " -i " + arguments.Niterations + " "
-    elif arguments.method == "BayesianSimple":
-        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " "
-    elif arguments.method == "BayesianToyMC":
-        combine_expected_options = combine_expected_options + " -t " + arguments.Ntoys + " "
-    else:
+    if arguments.method == "AsymptoticLimits":
         print "Defaulting to AsymptoticLimits"
-        combine_expected_options += " --picky "
-        combine_observed_options += " --picky "
+        common_options = ""
+        method_options = ""
+        expected_only_options = ""
+    else:
+        common_options = "-H AsymptoticLimits "
+
+        # fixme: do we need something fancier for blinded expected limits?
+        if arguments.method == "HybridNew":
+            # fixme: not yet sure if fork is necessary or if strategy 0 has any adverse effects
+            # tests thus far suggest strategy 0 gives similar results in much less time
+            method_options = "--fork 4 --LHCmode LHC-limits --cminDefaultMinimizerStrategy 0 "
+            expected_only_options = "--expectedFromGrid 0.500 "
+        else:
+            raise RuntimeError("Unrecognized method:", arguments.method)
+
+    combine_observed_options = "-M {} ".format(arguments.method) + common_options + method_options
+    combine_expected_options = combine_observed_options + expected_only_options
 
     combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
     combine_command = combine_command.rstrip()
 
     shutil.rmtree(condor_expected_dir, True)
     os.mkdir(condor_expected_dir)
-    if arguments.maxSignalRate < 0.0:
+    if float(arguments.maxSignalRate) < 0.0:
         shutil.copy(datacard_src_name, datacard_dst_expected_name)
     else:
         scaleSignal(datacard_src_name, datacard_dst_expected_name)
@@ -168,7 +174,7 @@ for signal_name in signal_points:
 
     else:
         print "combine "+datacard_name+" "+combine_expected_options+" --name "+signal_name
-        shutil.copy("../"+os.environ["CMSSW_VERSION"]+".tar.gz", os.environ["CMSSW_VERSION"]+".tar.gz")
+        os.symlink ("../"+os.environ["CMSSW_VERSION"]+".tar.gz",os.environ["CMSSW_VERSION"]+".tar.gz")
         output_condor("combine", datacard_name+" "+combine_expected_options+" --name "+signal_name+" | tee /dev/null")
         os.system("LD_LIBRARY_PATH=/usr/lib64/condor:$LD_LIBRARY_PATH condor_submit condor.sub")
     os.chdir("../../..")
@@ -178,7 +184,7 @@ for signal_name in signal_points:
 
         shutil.rmtree(condor_observed_dir, True)
         os.mkdir(condor_observed_dir)
-        if arguments.maxSignalRate < 0.0:
+        if float(arguments.maxSignalRate) < 0.0:
             shutil.copy(datacard_src_name, datacard_dst_observed_name)
         else:
             scaleSignal(datacard_src_name, datacard_dst_observed_name)

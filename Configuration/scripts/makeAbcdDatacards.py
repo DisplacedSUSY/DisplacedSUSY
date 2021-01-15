@@ -47,6 +47,9 @@ class Region(object):
         name_string = "{}_{:d}to{:d}um_{:d}to{:d}um_{:d}to{:d}GeV"
         self.name = name_string.format(name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
         self.name = self.name.replace('-1', 'Inf')
+        # rename standard regions for brevity and legibility
+        for name, nickname, in predefined_region_names.iteritems():
+            self.name = self.name.replace(name, nickname)
         self.d0_0_lo = d0_0_lo
         self.d0_0_hi = d0_0_hi
         self.d0_1_lo = d0_1_lo
@@ -160,7 +163,7 @@ class SignalRegion(Region):
     def __init__(self, d0_min, d0_max, shape, cr_d0_min, cr_d0_max, d0_0_lo, d0_0_hi,
                  d0_1_lo, d0_1_hi, pt_lo, pt_hi):
         super(SignalRegion, self).__init__("SR", d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi)
-        # rename standard regions for legibility
+        # rename standard regions for brevity and legibility
         for name, nickname, in predefined_sr_names.iteritems():
             self.name = self.name.replace(name, nickname)
         self.d0_min = d0_min
@@ -344,6 +347,11 @@ class Hist(object):
 
         # loop over events
         self.hist.Reset()
+        try:
+            n_evts = tree.GetEntries()
+        except AttributeError:
+            print "Unable to read ttree"
+            return
         for evt_ix in range(tree.GetEntries()):
             # get total event weight, including lifetime weight
             tree.GetEntry(evt_ix)
@@ -382,7 +390,7 @@ def make_bins(bin_edges):
 # get factor to go between unweighted events and yields for rates taken from MC
 def get_gamma_sf(y, e):
     try:
-        return round(y/e, 7)
+        return y/e
     except ZeroDivisionError:
         # the yield is necessarily 0 in this case
         return 0.0
@@ -523,6 +531,11 @@ if sorted(signal_region_names) != sorted(regions_in_cfg):
     raise RuntimeError("Signal regions do not match those listed in abcd_correlation_factors and "
                        "abcd_systematics")
 
+# check that all regions with a correction also have an extrapolation systematic
+abcd_extrapolation_systematics = abcd_extrapolation_systematics[era]
+if abcd_correlation_factors.keys() != abcd_extrapolation_systematics.keys():
+    raise RuntimeError("Every SR with a correction must also have an extrapolation systematic")
+
 # get data yields and abcd estimates
 # loop through regions in this particular order to build ordered list
 years = datacardCombinations[era] if era in datacardCombinations else [era]
@@ -558,7 +571,7 @@ region_ixs = {'a' : 0, 'b' : 0, 'c' : 0, 'd' : 0}
 for r in unique_regions:
     region_type = r.name[0].lower() if r.cr else 'd'
     ix = str(region_ixs[region_type])
-    r.set_param("{}{}_{}".format(region_type, ix, era))
+    r.set_param("{}{}_{}_{}".format(region_type, ix, era, channel))
     region_ixs[region_type] += 1
 
 # create ABCD and correlation correction associations between params
@@ -611,15 +624,23 @@ for r in unique_regions:
     obs_row.append(str(int(round(data_yields[r.name]['total']))))
 observed_table = fancyTable([bin_row, obs_row])
 
-# build abcd systematics row
-abcd_systematic_row = ["abcd_method_" + era, "lnN", ""]
+# build abcd systematics rows
+abcd_systematic_row = ["abcd_method_{}_{}".format(era, channel), "lnN", ""]
+abcd_extrapolation_row = ["abcd_extrapolation_point_{}_{}".format(era, channel), "lnN", ""]
 for r in unique_regions:
     abcd_systematic_row.append("-")
+    abcd_extrapolation_row.append("-")
     if r.name in abcd_systematics:
         uncertainty = str(round(1+abcd_systematics[r.name], 2))
         abcd_systematic_row.append(uncertainty)
     else:
         abcd_systematic_row.append("-")
+    if r.name in abcd_extrapolation_systematics:
+        uncertainty = str(round(1+abcd_extrapolation_systematics[r.name], 2))
+        abcd_extrapolation_row.append(uncertainty)
+    else:
+        abcd_extrapolation_row.append("-")
+abcd_sys_rows = [abcd_systematic_row, abcd_extrapolation_row]
 
 # build abcd table
 abcd_rows = []
@@ -653,6 +674,7 @@ for signal_name in signal_points:
     signal_yields = {}
     signal_num_evts = {}
     signal_sf = {}
+    signal_exists = False
     for r in unique_regions:
         signal_yields[r.name] = {}
         signal_num_evts[r.name] = {}
@@ -661,14 +683,19 @@ for signal_name in signal_points:
         total_events = 0.0
         for year in years:
             (y, e) = r.get_yield_and_num_events(signal_hists[year])
-            signal_yields[r.name][year] = round(y, 7)
+            signal_yields[r.name][year] = y
             signal_num_evts[r.name][year] = int(round(e))
             signal_sf[r.name][year] = get_gamma_sf(y, e)
             total_yield += y
             total_events += e
-        signal_yields[r.name]['total'] = round(total_yield, 7)
+            if y > 0:
+                signal_exists = True
+        signal_yields[r.name]['total'] = total_yield
         signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
+    if not signal_exists:
+        print "skipping {} because signal yields are 0".format(signal_name)
+        continue
 
     # build datacard elements that depend on signal
     # build rate table
@@ -683,7 +710,7 @@ for signal_name in signal_points:
         bin_row.append(r.name)
         process_row.append(signal_name)
         process_ix_row.append("0")
-        rate_row.append(str(signal_yields[r.name]['total']))
+        rate_row.append("{:.3g}".format(signal_yields[r.name]['total']))
         # append background column
         bin_row.append(r.name)
         process_row.append("background")
@@ -696,14 +723,14 @@ for signal_name in signal_points:
     stat_uncertainties_rows = []
     for r in unique_regions:
         # add row for each region
-        name = "signal_stat_{}_{}".format(era, r.name)
+        name = "signal_stat_{}_{}_{}".format(era, channel, r.name)
         row = [name, 'gmN', str(signal_num_evts[r.name]['total'])]
         # place scale factor in correct column and dashes in all others
         r_ix = unique_regions.index(r)
         dashes_before = 2*r_ix
         dashes_after = 2*(len(unique_regions)-r_ix) - 1
         row.extend(dashes_before*["-"])
-        row.append(str(signal_sf[r.name]['total']))
+        row.append("{:.3g}".format(signal_sf[r.name]['total']))
         row.extend(dashes_after*["-"])
         stat_uncertainties_rows.append(row)
     stat_uncertainties_table = [empty_row, empty_row, label_row] + stat_uncertainties_rows
@@ -738,8 +765,7 @@ for signal_name in signal_points:
             else:
                 row.append('-')
         systematics_rows.append(row)
-    sys_uncertainties_table = [empty_row, empty_row, label_row, abcd_systematic_row]
-    sys_uncertainties_table += systematics_rows
+    sys_uncertainties_table = [empty_row, empty_row, label_row] + abcd_sys_rows + systematics_rows
 
     # build combined rates and uncertainties table
     main_tables = fancyTable(rate_table + stat_uncertainties_table + sys_uncertainties_table)
