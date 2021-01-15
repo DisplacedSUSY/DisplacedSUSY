@@ -156,26 +156,29 @@ def sum_regions(r1, r2):
     return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
                                       r2['val'], r2['err_lo'], r2['err_hi'])
 
-def linear_extrapolation(pol1, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi,
-                         extrapolated_d0):
+def extrapolate(fit_func, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi,
+                extrapolated_d0):
+    if fit_func not in ["pol0", "pol1", "expo"]:
+        raise RuntimeError("Unrecognized fit function: {}".format(fit_func))
+
+    # perform fit
     tgraph_arrays = map(make_array, [d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi])
     graph = TGraphAsymmErrors(len(d0s), *tgraph_arrays)
-    if pol1:
-        fit = TF1("fit", "pol1", 0, extrapolated_d0)
-    else:
-        fit = TF1("fit", "pol0", 0, extrapolated_d0)
-
+    fit = TF1("fit", fit_func, 0, extrapolated_d0)
     fit_result = graph.Fit(fit, "SFEM")
+
+    # report fit results
+    print "Performing fit with f = {}".format(fit.GetExpFormula())
     print "chisq/dof: {:.2f}".format(fit.GetChisquare()/fit.GetNDF())
     print "p-value: {:.2f}".format(fit.GetProb())
-    print "y-intercept: {:.2f} +/- {:.2f}".format(fit.GetParameter(0), fit.GetParError(0))
-    if pol1:
-        print "slope: {:.2f} +/- {:.2f}".format(fit.GetParameter(1), fit.GetParError(1))
+    par_names = [fit.GetParName(i) for i in range(fit.GetNpar())]
+    for name, val, err in zip(par_names, fit.GetParameters(), fit.GetParErrors()):
+        print "{}: {:.2f} +- {:.2f}".format(name, val, err)
 
     # compute the 1- and 2-sigma confidence intervals of the fit at the x points of the ratio graph
     # use 1-sigma intervals to construct 2-sigma intervals to avoid GetConfidenceIntervals bug
     # see https://root-forum.cern.ch/t/fitresult-getconfidenceintervals-correction-factor/42552
-    all_d0s = make_array(d0s + [extrapolated_d0])
+    all_d0s = make_array(range(int(d0s[0]), extrapolated_d0+1))
     num_points = len(all_d0s)
     confInt1Sig = make_array([0.0]*len(all_d0s))
     fit_result.GetConfidenceIntervals(num_points, 1, 1, all_d0s, confInt1Sig, Double(0.683), False)
@@ -381,12 +384,15 @@ for z_lo, z_hi in z_regions:
         # suggests using small bins to avoid the issue and the bin center, so we use the bin center
         # take no x-axis error bars because we assume the width of the bin center of gravity is
         # small compared to the width of the bin
-        extrapolatedD0Point = 200
-        (ratio_fit, ratio_graph, grConfInt1Sig, grConfInt2Sig) = linear_extrapolation(pol1, d0_mids,
-                            ratios, d0_0s, d0_0s, ratios_err_lo, ratios_err_hi, extrapolatedD0Point)
-        projected_ratio = ratio_fit.Eval(extrapolatedD0Point)
+        extrapolated_d0 = 200
+
+        extrapolation_result = extrapolate(fit_func, d0_mids, ratios, d0_0s, d0_0s, ratios_err_lo,
+                                           ratios_err_hi, extrapolated_d0)
+        (ratio_fit, ratio_graph, grConfInt1Sig, grConfInt2Sig) = extrapolation_result
+        projected_ratio = ratio_fit.Eval(extrapolated_d0)
+        projected_err = grConfInt1Sig.GetErrorY(grConfInt1Sig.GetN()-1)
         print "The projected ratio is {:.2f} +/- {:.2f} when extrapolating to |d0|={}".format(
-                   projected_ratio, grConfInt1Sig.GetErrorY(len(ratios)), extrapolatedD0Point)
+                                                    projected_ratio, projected_err, extrapolated_d0)
         print
 
     # Format and export histograms
@@ -453,14 +459,18 @@ for z_lo, z_hi in z_regions:
         grConfInt1Sig.GetYaxis().SetTitleOffset(1.1)
         grConfInt2Sig.GetXaxis().SetTitleOffset(1.2)
         grConfInt2Sig.GetYaxis().SetTitleOffset(1.1)
-        if pol1 is True:
-            ratio_graph.GetYaxis().SetRangeUser(0.,6.0)
-            grConfInt1Sig.GetYaxis().SetRangeUser(0.,6.0)
-            grConfInt2Sig.GetYaxis().SetRangeUser(0.,6.0)
+        if projected_ratio > 5.0:
+            y_min = 0.0
+            y_max = projected_ratio + projected_err
+        elif fit_func in ["pol1", "expo"]:
+            y_min = 0.0
+            y_max = 6.0
         else:
-            ratio_graph.GetYaxis().SetRangeUser(0.6,2.0)
-            grConfInt1Sig.GetYaxis().SetRangeUser(0.6,2.0)
-            grConfInt2Sig.GetYaxis().SetRangeUser(0.6,2.0)
+            y_min = 0.6
+            y_max = 2.0
+        ratio_graph.GetYaxis().SetRangeUser(y_min, y_max)
+        grConfInt1Sig.GetYaxis().SetRangeUser(y_min, y_max)
+        grConfInt2Sig.GetYaxis().SetRangeUser(y_min, y_max)
         ratio_graph.SetMarkerStyle(20)
         grConfInt1Sig.SetFillColor(3)
         grConfInt2Sig.SetFillColor(5)

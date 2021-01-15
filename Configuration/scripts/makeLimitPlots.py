@@ -99,13 +99,12 @@ colorSchemes = {
 }
 
 #set the text for the luminosity label
-if(intLumi < 1000.):
-    LumiInPb = intLumi
-    LumiText = str(intLumi) + " pb^{-1}"
-    LumiText = str.format('{0:.1f}', LumiInPb) + " pb^{-1}"
+if isinstance(intLumi, list):
+    LumiInFb = [l/1000. for l in intLumi]
+    LumiText = "{:d}-{:d} fb^{{-1}}".format(*int(round(LumiInFb)))
 else:
     LumiInFb = intLumi/1000.
-    LumiText = str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
+    LumiText = "{:d} fb^{{-1}}".format(int(round(LumiInFb)))
 
 HeaderText = LumiText + " (" + energy + " TeV)"
 

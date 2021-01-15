@@ -13,8 +13,24 @@ TrigEffDen = cms.PSet(
 )
 ### passes OR of unprescaled MET triggers (use eventvariable so that OR of MET triggers can be ANDed with analysis trigger)
 TrigEffDen.cuts.append(pass_HLTMET_paths)
-TrigEffDen.cuts.extend(atLeastOne_electron_basic_selection_cuts)
-TrigEffDen.cuts.extend(atLeastOne_muon_basic_selection_cuts)
+TrigEffDen.cuts.append(electron_eta_cut)
+TrigEffDen.cuts.append(electron_gap_veto)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    TrigEffDen.cuts.append(electron_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    TrigEffDen.cuts.append(electron_eta_phi_veto_2018) #veto region with pixel power supply issues
+TrigEffDen.cuts.append(electron_id_cut) #electron vid normally includes isolation, but we take it out in customize.py
+TrigEffDen.cuts.append(electron_newIso_cut) #our custom rho-based iso
+### at least one good muon
+TrigEffDen.cuts.append(muon_eta_cut)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    TrigEffDen.cuts.append(muon_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    TrigEffDen.cuts.append(muon_eta_phi_veto_2018) #veto region with pixel power supply issues
+TrigEffDen.cuts.append(muon_global_cut)
+TrigEffDen.cuts.append(muon_id_cut)
+TrigEffDen.cuts.append(muon_iso_cut) #our custom rho-based iso
+
 
 ### Require high-pt electron when looking at muon leg eff, to separate out effects
 TrigEffHighPtEleDen = cms.PSet(
