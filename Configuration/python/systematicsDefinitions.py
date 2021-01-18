@@ -252,24 +252,24 @@ global_systematic_uncertainties = {
             'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # taken from the error on the trigger effieciency scale factor
+        # taken from the error on the trigger effieciency scale factor, see elog 1875
         'trigger_emu_electron' :  {
-            'value' : '1.010',
+            'value' : '1.016',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
-            'value' : '1.010',
+            'value' : '1.016',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_ee' :  {
-            'value' : '1.090',
+            'value' : '1.099',
             'applyList' : mc_normalized_processes,
             'channels' : ['ee'],
         },
         'trigger_mumu' :  {
-            'value' : '1.006',
+            'value' : '1.012',
             'applyList' : mc_normalized_processes,
             'channels' : ['mumu'],
         },
@@ -319,24 +319,24 @@ global_systematic_uncertainties = {
             'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # taken from the error on the trigger effieciency scale factor
+        # taken from the error on the trigger effieciency scale factor, see elog 1875
         'trigger_emu_electron' :  {
-            'value' : '1.008',
+            'value' : '1.013',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
-            'value' : '1.008',
+            'value' : '1.014',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_ee' :  {
-            'value' : '1.092',
+            'value' : '1.131',
             'applyList' : mc_normalized_processes,
             'channels' : ['ee'],
         },
         'trigger_mumu' :  {
-            'value' : '1.009',
+            'value' : '1.010',
             'applyList' : mc_normalized_processes,
             'channels' : ['mumu'],
         },
@@ -371,24 +371,24 @@ global_systematic_uncertainties = {
             'channels' : ['ee', 'emu', 'mumu'],
         },
 
-        # taken from the error on the trigger effieciency scale factor
+        # taken from the error on the trigger effieciency scale factor, see elog 1875
         'trigger_emu_electron' :  {
-            'value' : '1.006',
+            'value' : '1.012',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_emu_muon' :  {
-            'value' : '1.007',
+            'value' : '1.012',
             'applyList' : mc_normalized_processes,
             'channels' : ['emu'],
         },
         'trigger_ee' :  {
-            'value' : '1.106',
+            'value' : '1.185',
             'applyList' : mc_normalized_processes,
             'channels' : ['ee'],
         },
         'trigger_mumu' :  {
-            'value' : '1.008',
+            'value' : '1.011',
             'applyList' : mc_normalized_processes,
             'channels' : ['mumu'],
         },
