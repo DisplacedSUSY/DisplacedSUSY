@@ -328,16 +328,15 @@ veto_3orMore_bjets = cms.PSet(
     )
 
 #BEGIN B-JET CombinedSecondaryVertexv2 CUTS
-#FIXME: should be applied to "bjets" instead of "jets" ?
 jet_btag_twp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
+        inputCollection = cms.vstring("bjets"),
         cutString = objectDefs.btag_tightCSVv2_cutstring,
         numberRequired = cms.string(">= 1"),
         alias = cms.string('>= 1 tight b tags (CSVv2)')
     )
 
 jet_btag_mwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
+        inputCollection = cms.vstring("bjets"),
         cutString = objectDefs.btag_mediumCSVv2_cutstring,
         numberRequired = cms.string(">= 1"),
         alias = cms.string('>= 1 medium b tags (CSVv2)')
@@ -353,7 +352,7 @@ jet_btag_mwp_veto.alias = cms.string('no medium b tags (CSVv2)')
 jet_btag_mwp_veto.isVeto = cms.bool(True)
 
 jet_btag_lwp_cut = cms.PSet (
-        inputCollection = cms.vstring("jets"),
+        inputCollection = cms.vstring("bjets"),
         cutString = objectDefs.btag_looseCSVv2_cutstring,
         numberRequired = cms.string(">= 1"),
         alias = cms.string('>= 1 loose b tags (CSVv2)')
@@ -367,6 +366,17 @@ jet_btag_lwp_veto = copy.deepcopy(jet_btag_lwp_cut)
 jet_btag_lwp_veto.numberRequired = cms.string("== 0")
 jet_btag_lwp_veto.alias = cms.string('no loose b tags (CSVv2)')
 jet_btag_lwp_veto.isVeto = cms.bool(True)
+
+
+##########################################################################
+#jet and b-jet back-to-back
+
+jet_bjet_deltaPhi_cut = cms.PSet (
+   inputCollection = cms.vstring("jets", "bjets"),
+   cutString = cms.string("abs(deltaPhi(jet, bjet)) > 2.5"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 bjet back-to-back with jet (|#Delta#phi| > 2.5))")
+)
 
 
 ##########################################################################
@@ -1355,6 +1365,27 @@ muon_jet_deltaR_overlap_veto = cms.PSet (
 
 ##########################################################################
 
+
+##########################################################################
+# ELECTRON NEAR JET (HF)
+electron_jet_deltaR_cut = cms.PSet (
+   inputCollection = cms.vstring("electrons", "jets"),
+   cutString = cms.string("deltaR(electron, jet) < 0.5"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 electron near jet (#DeltaR < 0.5))")
+)
+
+##########################################################################
+# MUON NEAR JET (HF)
+muon_jet_deltaR_cut = cms.PSet (
+   inputCollection = cms.vstring("muons", "jets"),
+   cutString = cms.string("deltaR(muon, jet) < 0.5"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 muon near jet (#DeltaR < 0.5)")
+)
+
+##########################################################################
+
 # BEGIN MET CUTS
 
 met_pt_40_cut = cms.PSet(
@@ -1495,4 +1526,25 @@ mumu_noDispVtxsInMaterial_cut = cms.PSet(
    cutString = cms.string("nDispMuMuVtxsInMaterial == 0 || (nDispMuMuVtxsInMaterial==1 & vtxMuMuChisqInMaterial>20.)"),
    numberRequired = cms.string(">= 1"),
    alias = cms.string("no good mumu vertices in material")
+)
+
+
+# invert no disp vertices in tracker material cuts:
+emu_invertNoDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispEMuVtxsInMaterial==1 & vtxEMuChisqInMaterial<20."),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 good emu vertices in material")
+)
+ee_invertNoDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispEEVtxsInMaterial==1 & vtxEEChisqInMaterial<20."),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 good ee vertices in material")
+)
+mumu_invertNoDispVtxsInMaterial_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("nDispMuMuVtxsInMaterial==1 & vtxMuMuChisqInMaterial<20."),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string(">=1 good mumu vertices in material")
 )
