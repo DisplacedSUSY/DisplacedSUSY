@@ -170,6 +170,13 @@ AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(muon_d0_lessThan200_cut)
 AntiIsoPromptMuonDisplacedElectronRegion.cuts.append(electron_d0_greaterThan100_cut)
 
 
+InvertDispVtxInMaterialPreselection = cms.PSet(
+    name = cms.string("InvertDispVtxInMaterialPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+replaceSingleCut(InvertDispVtxInMaterialPreselection.cuts, emu_invertNoDispVtxsInMaterial_cut, emu_noDispVtxsInMaterial_cut)
+
 
 
 PreselectionElectronBarrel = cms.PSet(

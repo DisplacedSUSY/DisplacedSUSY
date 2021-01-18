@@ -34,6 +34,7 @@ eventSelections = [
     #PreselectionEleFromLightMeson,
     #PreselectionEleFromHeavyMeson,
     #DisplacedHighPtL1PrefiringCheck,
+    #InvertDispVtxInMaterialPreselection,
     #GenEEFromStopsSelection,
     #GenEEFromStopsAndHLTTrigSelection,
     #GenEEFromStopsAndL1TrigSelection,

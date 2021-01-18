@@ -164,6 +164,15 @@ PreselectionEleFromHeavyMeson = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 PreselectionEleFromHeavyMeson.cuts.append(electron_gen_motherIsHeavyMeson_cut)
+
+
+
+InvertDispVtxInMaterialPreselection = cms.PSet(
+    name = cms.string("InvertDispVtxInMaterialPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+replaceSingleCut(InvertDispVtxInMaterialPreselection.cuts, ee_invertNoDispVtxsInMaterial_cut, ee_noDispVtxsInMaterial_cut)
 #################################################################
 
 GenEEFromStopsSelection = cms.PSet(

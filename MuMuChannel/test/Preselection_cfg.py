@@ -58,6 +58,7 @@ eventSelections = [
     #Preselection2TausFromZ,
     #PreselectionMuFromLightMeson,
     #PreselectionMuFromHeavyMeson,
+    #InvertDispVtxInMaterialPreselection,
     #puScalingFactorNegative,
     #lifetimeWeightNegative,
     #GenMuMuFromStopsSelection,

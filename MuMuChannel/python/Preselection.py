@@ -165,6 +165,14 @@ InclusiveSignalRegionHighEta = copy.deepcopy(PreselectionHighEta)
 InclusiveSignalRegionHighEta.name = cms.string("InclusiveSignalRegionHighEta")
 InclusiveSignalRegionHighEta.cuts.append(muon_d0_greaterThan50_cut)
 
+
+
+InvertDispVtxInMaterialPreselection = cms.PSet(
+    name = cms.string("InvertDispVtxInMaterialPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+replaceSingleCut(InvertDispVtxInMaterialPreselection.cuts, mumu_invertNoDispVtxsInMaterial_cut, mumu_noDispVtxsInMaterial_cut)
 #################################################################
 
 ZControlRegion = copy.deepcopy(Preselection)

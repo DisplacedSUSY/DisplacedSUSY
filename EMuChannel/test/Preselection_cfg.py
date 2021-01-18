@@ -57,6 +57,8 @@ eventSelections = [
     #PreselectionEFromHeavyMeson,
     #PreselectionEOrMuFromHeavyMeson,
 
+    #InvertDispVtxInMaterialPreselection,
+
     #GenEMuFromStopsSelection,
     #GenEMuFromStopsEleSelection,
     #GenEMuFromStopsMuSelection,
