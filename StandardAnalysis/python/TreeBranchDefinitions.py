@@ -204,7 +204,13 @@ EMuEventVariableBranches = cms.PSet(
 ###########################
 
 LeptonBranches_names = [
+    "p",
     "pt",
+    "px",
+    "py",
+    "pz",
+    "energy",
+    "et",
     "eta",
     "phi",
     "charge",
