@@ -166,10 +166,8 @@ muonScaleFactors2018 = cms.VPSet (
 
 ElectronScaleFactorProducer = {
     'name'         : 'ObjectScalingFactorProducer',
-    #'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
-    #'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root'),
-    'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/electronSFs.root'),
-    'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/DisplacedSUSY/StandardAnalysis/data/muonSFs.root'),
+    'electronFile' : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/electronSFs.root'),
+    'muonFile'     : cms.string(os.environ['CMSSW_BASE'] + '/src/OSUT3Analysis/AnaTools/data/muonSFs.root'),
     'scaleFactors' : electronScaleFactors2016,
 }
 
