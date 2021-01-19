@@ -2,7 +2,7 @@ from CRABClient.UserUtilities import config
 config = config()
 
 
-config.General.requestName = 'stopToLBottom_M_XXX_YYYmm_13TeV_2018MC_withCloudModel_Reco'
+config.General.requestName = 'stopToLB_M_XXX_YYYmm_13TeV_2018MC_withCloudModel_Reco'
 config.General.workArea = 'crab'
 config.General.transferOutputs = True
 config.General.transferLogs = True
@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 config.JobType.allowUndistributedCMSSW = True
 
-config.Data.inputDataset = '/StopToLB_M_XXX_YYYmm_13TeV_2018MC/jalimena-DigiRawHlt-98b2ebbf2a73ad4baba14fc5516a6604/USER'
+config.Data.inputDataset = '/StopToLB_M_XXX_YYYmm_13TeV_2018MC_withCloudModel/jalimena-DigiRawHlt-98b2ebbf2a73ad4baba14fc5516a6604/USER'
 config.Data.outputDatasetTag = 'Reco'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
