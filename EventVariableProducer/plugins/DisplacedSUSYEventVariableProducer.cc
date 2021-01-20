@@ -1,5 +1,6 @@
 #include "OSUT3Analysis/AnaTools/interface/CommonUtils.h"
 #include "DisplacedSUSY/EventVariableProducer/plugins/DisplacedSUSYEventVariableProducer.h"
+#include <cmath>
 
 DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm::ParameterSet &cfg) : EventVariableProducer(cfg) {
 
@@ -172,6 +173,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 
   // Store leading and subleading muon properties
   double leadingMuonPt = 0;
+  double leadingMuonPx = 0;
+  double leadingMuonPy = 0;
+  double leadingMuonPz = 0;
   double leadingMuonEta = 0;
   double leadingMuonPhi = -4; // -pi < phi < pi
   double leadingMuonUnsmearedD0 = 0;
@@ -179,6 +183,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   int    leadingMuonTimeNDof = 0;
   reco::TransientTrack leadingMuonTrack;
   double subleadingMuonPt = 0;
+  double subleadingMuonPx = 0;
+  double subleadingMuonPy = 0;
+  double subleadingMuonPz = 0;
   double subleadingMuonEta = 0;
   double subleadingMuonPhi = -4; // -pi < phi < pi
   double subleadingMuonUnsmearedD0 = 0;
@@ -191,6 +198,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
        if (muon1.pt() > subleadingMuonPt) {
 	if (muon1.pt() > leadingMuonPt) {
 	  subleadingMuonPt = leadingMuonPt;
+	  subleadingMuonPx = leadingMuonPx;
+	  subleadingMuonPy = leadingMuonPy;
+	  subleadingMuonPz = leadingMuonPz;
 	  subleadingMuonEta = leadingMuonEta;
 	  subleadingMuonPhi = leadingMuonPhi;
           subleadingMuonUnsmearedD0 = leadingMuonUnsmearedD0;
@@ -198,6 +208,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 	  subleadingMuonTimeNDof = leadingMuonTimeNDof;
 	  subleadingMuonTrack = leadingMuonTrack;
           leadingMuonPt = muon1.pt();
+          leadingMuonPx = muon1.px();
+          leadingMuonPy = muon1.py();
+          leadingMuonPz = muon1.pz();
           leadingMuonEta = muon1.eta();
           leadingMuonPhi = muon1.phi();
           leadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
@@ -208,6 +221,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
         }
         else {
           subleadingMuonPt = muon1.pt();
+          subleadingMuonPx = muon1.px();
+          subleadingMuonPy = muon1.py();
+          subleadingMuonPz = muon1.pz();
           subleadingMuonEta = muon1.eta();
           subleadingMuonPhi = muon1.phi();
           subleadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
@@ -234,6 +250,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
 
   bool vetoTiming = false;
   if (deltaT < -20.0 && leadingMuonTimeNDof > 7 && subleadingMuonTimeNDof > 7) vetoTiming = true;
+
+  double cosA = -1000.;
+  double den = sqrt(leadingMuonPx*leadingMuonPx + leadingMuonPy*leadingMuonPy + leadingMuonPz*leadingMuonPz)*sqrt(subleadingMuonPx*subleadingMuonPx + subleadingMuonPy*subleadingMuonPy + subleadingMuonPz*subleadingMuonPz);
+  if(den!=0.) cosA = (leadingMuonPx*subleadingMuonPx + leadingMuonPy*subleadingMuonPy + leadingMuonPz*subleadingMuonPz)/den;
 
   // Identify tag electron for trigger efficiency plotting
 #if DATA_FORMAT_FROM_MINIAOD
@@ -444,6 +464,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["deltaT_leadingTwoMuons"] = deltaT;
     (*eventvariables)["upperMuonTime"] = upperMuonTime;
     (*eventvariables)["lowerMuonTime"] = lowerMuonTime;
+    (*eventvariables)["cosAlpha_leadingTwoMuons"] = cosA;
   }
   (*eventvariables)["upperMuonTimeNDof"] = upperMuonTimeNDof;
   (*eventvariables)["lowerMuonTimeNDof"] = lowerMuonTimeNDof;

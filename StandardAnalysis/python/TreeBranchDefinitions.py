@@ -61,6 +61,7 @@ EventVariableBranches_names = [
     "event",
     "numPV",
     "deltaT_leadingTwoMuons",
+    "cosAlpha_leadingTwoMuons",
     "nDispEEVtxsInMaterial",
     "vtxEEXInMaterial",
     "vtxEEYInMaterial",

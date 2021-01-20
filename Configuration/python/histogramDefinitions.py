@@ -6215,6 +6215,19 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(40, -100, 100),
             inputVariables = cms.vstring("deltaT_leadingTwoMuons"),
         ),
+        cms.PSet (
+            name = cms.string("cosAlpha_leadingTwoMuons"),
+            title = cms.string("cos(#alpha) of leading two muons; cos(#alpha)"),
+            binsX = cms.untracked.vdouble(100, -5, 5),
+            inputVariables = cms.vstring("cosAlpha_leadingTwoMuons"),
+        ),
+        cms.PSet (
+            name = cms.string("cosAlpha_vs_deltaT_leadingTwoMuons"),
+            title = cms.string("#Delta timeAtIpInOut vs cos(#alpha) of leading two muons; #Delta t [ns]; cos(#alpha)"),
+            binsX = cms.untracked.vdouble(40, -100, 100),
+            binsY = cms.untracked.vdouble(100, -1, 1),
+            inputVariables = cms.vstring("deltaT_leadingTwoMuons", "cosAlpha_leadingTwoMuons"),
+        ),
         #disp vertex histograms
         cms.PSet (
             name = cms.string("nEEVtxs"),
