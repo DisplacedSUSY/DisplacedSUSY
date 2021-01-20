@@ -1343,6 +1343,13 @@ diMuon_cosAlpha_veto = cms.PSet (
     alias = cms.string("veto back-to-back muons (0 pairs with cos(3D angle) < -0.99)")
     )
 
+diMuon_cosAlpha_invertVeto = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("cosAlpha(muon, muon) < -0.99"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string("require back-to-back muons (>=1 pairs with cos(3D angle) < -0.99)")
+    )
+
 ##########################################################################
 # ELECTRON-JET OVERLAP VETO
 electron_jet_deltaR_overlap_veto = cms.PSet (
@@ -1506,6 +1513,13 @@ diMuon_deltaTimeAtIpInOut_veto = cms.PSet(
    numberRequired = cms.string("== 0"),
    isVeto = cms.bool(True),
    alias = cms.string("veto events with leading muon pairs with timing consistent with cosmics (veto [#Delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7])")
+)
+
+diMuon_deltaTimeAtIpInOut_invertVeto = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("deltaT_leadingTwoMuons < -20."),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("leading two muons with timing consistent with cosmics (#Delta timeAtIpInOut(upper, lower) < -20.0 & each timeNDof>7)")
 )
 
 # require no disp vertices in tracker material

@@ -37,6 +37,7 @@ Preselection.cuts.append(electron_d0_greaterThan100_veto)
 
 
 
+
 PreselectionPt75 = copy.deepcopy(Preselection)
 PreselectionPt75.name = cms.string("PreselectionPt75")
 PreselectionPt75.cuts.append(muon_pt_75_cut)
@@ -173,6 +174,16 @@ InvertDispVtxInMaterialPreselection = cms.PSet(
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
 replaceSingleCut(InvertDispVtxInMaterialPreselection.cuts, mumu_invertNoDispVtxsInMaterial_cut, mumu_noDispVtxsInMaterial_cut)
+
+CosmicPreselection = cms.PSet(
+    name = cms.string("CosmicPreselection"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+replaceSingleCut(CosmicPreselection.cuts, diMuon_cosAlpha_invertVeto, diMuon_cosAlpha_veto)
+replaceSingleCut(CosmicPreselection.cuts, diMuon_deltaTimeAtIpInOut_invertVeto, diMuon_deltaTimeAtIpInOut_veto)
+CosmicPreselection.cuts.append(muon_d0_greaterThan100_cut)
+
 #################################################################
 
 ZControlRegion = copy.deepcopy(Preselection)
