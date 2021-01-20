@@ -57,7 +57,9 @@ process.source = cms.Source("PoolSource",
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_19.root',
         #'file:/data/users/jalimena/condor/DisplacedLeptons2016/EMuSkim_Preselection/QCD_MuEnriched_800to1000/Preselection/skim_28.root',
 
-        'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
+        #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
+
+        #'/store/mc/RunIIAutumn18MiniAOD/ggH_HToSSTo4l_MH-400_MS-10_ctauS-1000_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/110000/EF6B0BBD-BDEF-F84E-8E2C-2D58F2DEEF61.root'
         )
 )
 
@@ -66,6 +68,7 @@ process.printTree1 = cms.EDAnalyzer("ParticleListDrawer",
     src = cms.InputTag("prunedGenParticles"), #MINIAOD, skim files
     maxEventsToPrint  = cms.untracked.int32(-1),
     printVertex = cms.untracked.bool(True),
+    printFlags  = cms.untracked.bool(True),
 )
 
 process.printTree2 = cms.EDAnalyzer("ParticleTreeDrawer",
