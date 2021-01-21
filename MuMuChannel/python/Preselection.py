@@ -184,6 +184,36 @@ replaceSingleCut(CosmicPreselection.cuts, diMuon_cosAlpha_invertVeto, diMuon_cos
 replaceSingleCut(CosmicPreselection.cuts, diMuon_deltaTimeAtIpInOut_invertVeto, diMuon_deltaTimeAtIpInOut_veto)
 CosmicPreselection.cuts.append(muon_d0_greaterThan100_cut)
 
+
+
+PreselectionForCosmics = cms.PSet(
+    name = cms.string("PreselectionForCosmics"),
+    triggers = triggersNoBPTX,
+    cuts = cms.VPSet()
+)
+### jet selection (just for plotting purposes, doesn't make event cuts)
+PreselectionForCosmics.cuts.extend(atLeastZero_jet_basic_selection_cuts)
+### at least two good muons
+PreselectionForCosmics.cuts.append(muon_eta_cut)
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
+    PreselectionForCosmics.cuts.append(muon_eta_phi_veto_2017) #veto region with pixel power supply issues
+elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+    PreselectionForCosmics.cuts.append(muon_eta_phi_veto_2018) #veto region with pixel power supply issues
+if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+    PreselectionForCosmics.cuts.append(muon_pt_35_cut) #plateau of trigger turn on
+elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
+    PreselectionForCosmics.cuts.append(muon_pt_45_cut) #pleateau of trigger turn on
+PreselectionForCosmics.cuts.append(muon_global_cut)
+PreselectionForCosmics.cuts.append(muon_id_cut)
+PreselectionForCosmics.cuts.append(muon_iso_cut) #our custom rho-based iso
+PreselectionForCosmics.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
+PreselectionForCosmics.cuts.append(mumu_noDispVtxsInMaterial_cut)
+### remove events with displaced electrons that would pass the emu preselection
+PreselectionForCosmics.cuts.append(electron_emu_preselection_filter)
+PreselectionForCosmics.cuts.append(electron_d0_greaterThan100_veto)
+PreselectionForCosmics.cuts.append(diMuon_cosAlpha_veto) #remove cosmics that are back-to-back
+PreselectionForCosmics.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons with delta time consistent with cosmics
+
 #################################################################
 
 ZControlRegion = copy.deepcopy(Preselection)

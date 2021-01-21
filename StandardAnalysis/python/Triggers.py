@@ -62,6 +62,18 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
         "HLT_IsoTkMu24_v"
         )
 
+    triggersNoBPTX = cms.vstring(
+        "HLT_JetE30_NoBPTX_v",
+        "HLT_JetE30_NoBPTX3BX_v",
+        "HLT_JetE50_NoBPTX3BX_v",
+        "HLT_JetE70_NoBPTX3BX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX3BX_v",
+        "HLT_L2Mu35_NoVertex_3Sta_NoBPTX3BX_v",
+        "HLT_L2Mu40_NoVertex_3Sta_NoBPTX3BX_v",
+        "HLT_L2Mu45_NoVertex_3Sta_NoBPTX3BX_v",
+        )
+
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
     print "# Using 2017 triggers"
     #http://fwyzard.web.cern.ch/fwyzard/hlt/2017/summary
@@ -111,6 +123,17 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
 
     triggersIsoSingleMuon = cms.vstring(
         "HLT_IsoMu27_v"
+        )
+
+    triggersNoBPTX = cms.vstring(
+        "HLT_UncorrectedJetE30_NoBPTX_v",
+        "HLT_UncorrectedJetE30_NoBPTX3BX_v",
+        "HLT_UncorrectedJetE60_NoBPTX3BX_v",
+        "HLT_UncorrectedJetE70_NoBPTX3BX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX3BX_v",
+        "HLT_L2Mu40_NoVertex_3Sta_NoBPTX3BX_v",
+        "HLT_L2Mu45_NoVertex_3Sta_NoBPTX3BX_v",
         )
 
 elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
@@ -174,6 +197,17 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
 
     triggersIsoSingleMuon = cms.vstring(
         "HLT_IsoMu24_v"
+        )
+
+    triggersNoBPTX = cms.vstring(
+        "HLT_UncorrectedJetE30_NoBPTX_v",
+        "HLT_UncorrectedJetE30_NoBPTX3BX_v",
+        "HLT_UncorrectedJetE60_NoBPTX3BX_v",
+        "HLT_UncorrectedJetE70_NoBPTX3BX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX_v",
+        "HLT_L2Mu10_NoVertex_NoBPTX3BX_v",
+        "HLT_L2Mu40_NoVertex_3Sta_NoBPTX3BX_v",
+        "HLT_L2Mu45_NoVertex_3Sta_NoBPTX3BX_v",
         )
 
 else:

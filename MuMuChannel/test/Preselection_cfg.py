@@ -12,6 +12,7 @@ from DisplacedSUSY.MuMuChannel.Preselection import *
 eventSelections = [
     Preselection,
     #CosmicPreselection,
+    #PreselectionForCosmics,
     #MuonD00to40MuonD00to100Region,
     #MuonD00to40MuonD0100to500Region,
     #MuonD00to40MuonD0500to1000Region,
