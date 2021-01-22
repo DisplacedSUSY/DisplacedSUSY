@@ -191,6 +191,13 @@ diMuon_deltaR_cut = cms.PSet (
     alias = cms.string(">=1 mu-mu pair with #DeltaR > 0.2")
     )
 
+diMuon_invertedDeltaR_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("deltaR(muon, muon) <= 0.2"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 mu-mu pair with #DeltaR <= 0.2")
+    )
+
 ##########################################################################
 
 # BEGIN EVENTVARIABLE CUTS
