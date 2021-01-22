@@ -398,6 +398,12 @@ DiMuonHistograms = cms.PSet(
             inputVariables = cms.vstring("invMass (muon, muon)"),
         ),
         cms.PSet (
+            name = cms.string("diMuonInvMass_12GeV"),
+            title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
+            binsX = cms.untracked.vdouble(60, 0, 12),
+            inputVariables = cms.vstring("invMass (muon, muon)"),
+        ),
+        cms.PSet (
             name = cms.string("diMuonInvMassZmassWindow"),
             title = cms.string("Di-muon Invariant Mass;M_{#mu#mu} [GeV]"),
             binsX = cms.untracked.vdouble(100, 50, 150),
@@ -882,6 +888,12 @@ DiElectronHistograms = cms.PSet(
             inputVariables = cms.vstring("invMass(electron, electron)"),
         ),
         cms.PSet (
+            name = cms.string("diElectronInvMass_12GeV"),
+            title = cms.string("Di-electron Invariant Mass;M_{ee} [GeV]"),
+            binsX = cms.untracked.vdouble(60, 0, 12),
+            inputVariables = cms.vstring("invMass(electron, electron)"),
+        ),
+        cms.PSet (
             name = cms.string("diElectronChargeProduct"),
             title = cms.string("Di-electron Charge Product;charge_{e}_{1}*charge_{e}_{2}"),
             binsX = cms.untracked.vdouble(3, -1.5, 1.5),
@@ -954,6 +966,12 @@ ElectronMuonHistograms = cms.PSet(
             name = cms.string("electronMuonInvMass"),
             title = cms.string("Electron-muon Invariant Mass;M_{e#mu} [GeV]"),
             binsX = cms.untracked.vdouble(100, 0, 500),
+            inputVariables = cms.vstring("invMass(electron, muon)"),
+        ),
+        cms.PSet (
+            name = cms.string("electronMuonInvMass_12GeV"),
+            title = cms.string("Electron-muon Invariant Mass;M_{e#mu} [GeV]"),
+            binsX = cms.untracked.vdouble(60, 0, 12),
             inputVariables = cms.vstring("invMass(electron, muon)"),
         ),
         cms.PSet (
