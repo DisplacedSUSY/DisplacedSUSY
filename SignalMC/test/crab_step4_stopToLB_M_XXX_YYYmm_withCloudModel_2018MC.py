@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 config.JobType.allowUndistributedCMSSW = True
 
-config.Data.inputDataset = ''
+config.Data.inputDataset = '/StopToLB_M_XXX_YYYmm_13TeV_2018MC_withCloudModel/bcardwel-Reco-2f1667a4ab974bdf4cb2916f291c3603/USER'
 config.Data.outputDatasetTag = 'MiniAod'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
