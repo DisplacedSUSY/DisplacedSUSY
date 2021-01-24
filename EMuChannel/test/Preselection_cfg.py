@@ -28,6 +28,7 @@ eventSelections = [
     #DisplacedHighPtControlRegion,
     #InclusiveSignalRegion,
     #pfBetaIsoCorrPreselection,
+    #PreselectionNoIso,
     #AntiIsoPreselection,
     #AntiIsoPromptElectronDisplacedMuonRegion,
     #AntiIsoPromptMuonDisplacedElectronRegion,

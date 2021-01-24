@@ -139,6 +139,14 @@ pfBetaIsoCorrPreselection = cms.PSet(
 )
 replaceSingleCut(pfBetaIsoCorrPreselection.cuts, muon_pfBetaIsoCorr_cut, muon_iso_cut)
 
+PreselectionNoIso = cms.PSet(
+    name = cms.string("PreselectionNoIso"),
+    triggers = copy.deepcopy(Preselection.triggers),
+    cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
+)
+removeCuts(PreselectionNoIso.cuts, [electron_newIso_cut, muon_iso_cut])
+
+
 AntiIsoPreselection = cms.PSet(
     name = cms.string("AntiIsoPreselection"),
     triggers = copy.deepcopy(Preselection.triggers),
