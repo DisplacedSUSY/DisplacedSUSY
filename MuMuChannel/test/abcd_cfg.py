@@ -5,8 +5,10 @@ input_file = "/uscms_data/d3/cardwell/condor/mumu_closureTests_07Dec2020/Backgro
 #input_file = "/uscms_data/d3/cardwell/condor/mumu_closureTests_07Dec2020/Background_2017_2018.root"
 #input_file = "/uscms_data/d3/cardwell/condor/mumu_closureTests_07Dec2020/DoubleMu_2016_postHIP.root"
 #input_file = "/uscms_data/d3/cardwell/condor/mumu_closureTests_07Dec2020/DoubleMu_2017_2018.root"
+#input_file = "/uscms_data/d3/cardwell/condor/MuMuPreselectionOneBJet_2018Analysis_21Jan2021/DoubleMu_2018.root"
 
 input_hist = "PreselectionPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]"
+#input_hist = "PreselectionOneBJetPlotter/Muon-beamspot Plots/muonAbsD0[0]_vs_muonAbsD0[1]_100000um_vs_muonPt[0]"
 
 # Is the sample data? This affects how the poisson uncertainty is calculated
 data = False
@@ -67,6 +69,7 @@ output_file  = "mumu_bgMC_2016_promptRegion.root"
 #output_file  = "mumu_data_2017_2018_displacedSubleading.root"
 #output_file  = "mumu_data_2016_displacedLeading500um.root"
 #output_file  = "mumu_data_2017_2018_displacedSubleading500um.root"
+#output_file  = "mumu_data_oneBJet_2018_signalRegion.root"
 
 # region definitions
 # set last bin to -1 on any axis to include overflow along that axis
