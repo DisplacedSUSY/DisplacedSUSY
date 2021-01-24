@@ -282,6 +282,31 @@ signal_mc_samples = {
     'stopToLB1800_1mm'   : "/DisplacedSUSY_stopToBottom_M_1800_1mm_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM",
     'stopToLB1800_0p1mm' : "/StopToLBottom_M_1800_0p1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 
+
+    'stopToLB200_0p01mm_withCloudModel'  : "/StopToLB_M_200_0p01mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_0p1mm_withCloudModel'   : "/StopToLB_M_200_0p1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_1mm_withCloudModel'     : "/StopToLB_M_200_1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_10mm_withCloudModel'    : "/StopToLB_M_200_10mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_100mm_withCloudModel'   : "/StopToLB_M_200_100mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_1000mm_withCloudModel'  : "/StopToLB_M_200_1000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB200_10000mm_withCloudModel' : "/StopToLB_M_200_10000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_0p01mm_withCloudModel' : "/StopToLB_M_1000_0p01mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_0p1mm_withCloudModel'  : "/StopToLB_M_1000_0p1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_1mm_withCloudModel'    : "/StopToLB_M_1000_1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_10mm_withCloudModel'   : "/StopToLB_M_1000_10mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_100mm_withCloudModel'  : "/StopToLB_M_1000_100mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_1000mm_withCloudModel' : "/StopToLB_M_1000_1000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1000_10000mm_withCloudModel': "/StopToLB_M_1000_10000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_0p01mm_withCloudModel' : "/StopToLB_M_1800_0p01mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_0p1mm_withCloudModel'  : "/StopToLB_M_1800_0p1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_1mm_withCloudModel'    : "/StopToLB_M_1800_1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_10mm_withCloudModel'   : "/StopToLB_M_1800_10mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_100mm_withCloudModel'  : "/StopToLB_M_1800_100mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_1000mm_withCloudModel' : "/StopToLB_M_1800_1000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLB1800_10000mm_withCloudModel': "/StopToLB_M_1800_10000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+
+
+
     'stopToLD100_1000mm' : "/StopToLD_M_100_1000mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
     'stopToLD100_100mm'  : "/StopToLD_M_100_100mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
     'stopToLD100_10mm'   : "/StopToLD_M_100_10mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
