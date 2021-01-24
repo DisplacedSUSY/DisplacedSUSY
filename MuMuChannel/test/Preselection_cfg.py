@@ -28,7 +28,6 @@ eventSelections = [
     #pfBetaIsoCorrPreselection,
     #PreselectionOneBJet,
     #PreselectionBTagVeto,
-    #PromptControlRegion,
     #AntiIsoPromptControlRegion,
     #DisplacedControlRegion,
     #AntiIsoDisplacedControlRegion,
