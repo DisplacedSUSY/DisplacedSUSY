@@ -81,6 +81,8 @@ composite_dataset_definitions['QCD_MuEnriched'] = [
 composite_dataset_definitions['Background'] = [x for x in default_datasets if not (x.startswith('MuonEG') or x.startswith('DisplacedSUSYSignal'))]
 composite_dataset_definitions['NonQcdBackground'] = [x for x in composite_dataset_definitions['Background'] if not x.startswith('QCD')]
 
+composite_dataset_definitions['Background_noDYTauTau'] = ["DYJetsToLL_noDYTauTau" if x == "DYJetsToLL" else x for x in composite_dataset_definitions['Background']]
+
 # Define combined-across-years data datasets
 composite_dataset_definitions['MuonEG_2017_2018'] = [
     'MuonEG_2017_withoutB',
@@ -90,6 +92,16 @@ composite_dataset_definitions['MuonEG_2016_2017_2018'] = [
     'MuonEG_2016_postHIP',
     'MuonEG_2017_withoutB',
     'MuonEG_2018'
+]
+
+composite_dataset_definitions['DYJetsToLL_2017_2018'] = [
+    'DYJetsToLL_2017',
+    'DYJetsToLL_2018'
+]
+
+composite_dataset_definitions['Background_noDYTauTau_2017_2018'] = [
+    'Background_noDYTauTau_2017',
+    'Background_noDYTauTau_2018'
 ]
 
 analysisChannel = "emu"
