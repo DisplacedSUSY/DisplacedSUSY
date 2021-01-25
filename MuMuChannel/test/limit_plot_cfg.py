@@ -9,8 +9,8 @@ process = 'stopToLB'
 masses = [str(m) for m in range(100, 1801, 100)]
 #masses = ['50']
 #masses = ['20']
-lifetimes = [str(10**e) for e in range(-2, 5)]
-#lifetimes = [str(b*10**e) for e in range(-2, 4) for b in range(1, 10)] + [str(10000)]
+lifetimes = [str(10**e) for e in range(-1, 5)]
+#lifetimes = [str(b*10**e) for e in range(-1, 4) for b in range(1, 10)] + [str(10000)]
 #lifetimes = ['50','500','5000']
 #lifetimes = ['13','130','1300']
 
