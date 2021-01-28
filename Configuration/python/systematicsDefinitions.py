@@ -274,6 +274,19 @@ global_systematic_uncertainties = {
             'channels' : ['mumu'],
         },
 
+        #additional systematic to cover drop in muon trigger efficiency at large d0, see elog 1889
+        'additional_trigger_emu_muon' :  {
+            'value' : '1.20',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
+        },
+        'additional_trigger_mumu' :  {
+            'value' : '1.20',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
+        },
+
+
         #taken from Ian's study
         'track_reco2016' :  { #2016 uncorrelated with 2017 and 2018 due to different pixel detector in 2016
             'value' : '1.141',
@@ -341,6 +354,18 @@ global_systematic_uncertainties = {
             'channels' : ['mumu'],
         },
 
+        #additional systematic to cover drop in muon trigger efficiency at large d0, see elog 1889
+        'additional_trigger_emu_muon' :  {
+            'value' : '1.20',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
+        },
+        'additional_trigger_mumu' :  {
+            'value' : '1.20',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
+        },
+
         #taken from Ian's study
         'track_reco' :  {
             'value' : '1.058',
@@ -389,6 +414,18 @@ global_systematic_uncertainties = {
         },
         'trigger_mumu' :  {
             'value' : '1.011',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['mumu'],
+        },
+
+        #additional systematic to cover drop in muon trigger efficiency at large d0, see elog 1889
+        'additional_trigger_emu_muon' :  {
+            'value' : '1.20',
+            'applyList' : mc_normalized_processes,
+            'channels' : ['emu'],
+        },
+        'additional_trigger_mumu' :  {
+            'value' : '1.20',
             'applyList' : mc_normalized_processes,
             'channels' : ['mumu'],
         },
