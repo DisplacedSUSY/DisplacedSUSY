@@ -92,7 +92,6 @@ def scaleSignal(src, dst):
                 try:
                     gammaLine[process + 2] = str (signalSF * float (gammaLine[process + 2]))
                 except ValueError:
-                    print "value error when updating gamma line"
                     pass
 
     fin = open (src, "r")
@@ -140,21 +139,20 @@ for signal_name in signal_points:
         print "Defaulting to AsymptoticLimits"
         common_options = ""
         method_options = ""
-        expected_only_options = ""
+        expected_only_options = "--noFitAsimov"
     else:
-        common_options = "-H AsymptoticLimits "
+        common_options = "-H AsymptoticLimits"
 
         # fixme: do we need something fancier for blinded expected limits?
         if arguments.method == "HybridNew":
-            # fixme: not yet sure if fork is necessary or if strategy 0 has any adverse effects
-            # tests thus far suggest strategy 0 gives similar results in much less time
-            method_options = "--fork 4 --LHCmode LHC-limits --cminDefaultMinimizerStrategy 0 "
-            expected_only_options = "--expectedFromGrid 0.500 "
+            method_options = "--LHCmode LHC-limits --cminDefaultMinimizerStrategy 0 --fork 4"
+            #method_options = ""
+            expected_only_options = "-t -1 --expectedFromGrid 0.500"
         else:
             raise RuntimeError("Unrecognized method:", arguments.method)
 
-    combine_observed_options = "-M {} ".format(arguments.method) + common_options + method_options
-    combine_expected_options = combine_observed_options + expected_only_options
+    combine_observed_options = "-M {} {} {}".format(arguments.method, common_options, method_options)
+    combine_expected_options = combine_observed_options + " " + expected_only_options
 
     combine_command = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE).communicate()[0]
     combine_command = combine_command.rstrip()
