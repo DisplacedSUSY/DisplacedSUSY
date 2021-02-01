@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 inputDirs = [
-    'test_ee_2016_300GeV',
-    'test_ee_2017_18_400GeV',
+    'ee_lb_2016_29Jan2021',
+    'ee_lb_2017_18_29Jan2021',
+    #'ee_ld_2016_29Jan2021',
+    #'ee_ld_2017_18_29Jan2021',
 ]

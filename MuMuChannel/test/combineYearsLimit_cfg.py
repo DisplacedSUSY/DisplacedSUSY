@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 inputDirs = [
-    'test_mumu_2016',
-    'test_mumu_2017_18',
+    'mumu_lb_2016_29Jan2021',
+    'mumu_lb_2017_18_29Jan2021',
+    #'mumu_ld_2016_29Jan2021',
+    #'mumu_ld_2017_18_29Jan2021',
 ]
