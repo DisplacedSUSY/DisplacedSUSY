@@ -128,6 +128,10 @@ PreselectionHighEta = copy.deepcopy(Preselection)
 PreselectionHighEta.name = cms.string("PreselectionHighEta")
 PreselectionHighEta.cuts.append(muon_eta_greaterThan1_cut)
 
+PreselectionInvertedIso= copy.deepcopy(Preselection)
+PreselectionInvertedIso.name = cms.string("PreselectionInvertedIso")
+replaceSingleCut(PreselectionInvertedIso.cuts, muon_antiiso_cut, muon_iso_cut)
+
 PreselectionInvertedIsoDeltaR = copy.deepcopy(Preselection)
 PreselectionInvertedIsoDeltaR.name = cms.string("PreselectionInvertedIsoDeltaR")
 replaceSingleCut(PreselectionInvertedIsoDeltaR.cuts, muon_antiiso_cut, muon_iso_cut)

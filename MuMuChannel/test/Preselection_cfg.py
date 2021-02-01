@@ -23,6 +23,7 @@ eventSelections = [
     #pT50to60GenPromptRegion,
     #pTGreaterThan150GenPromptRegion,
     #PromptControlRegion,
+    #PreselectionInvertedIso,
     #PreselectionInvertedIsoDeltaR,
     #PreselectionNoIsoCut,
     #pfBetaIsoCorrPreselection,
