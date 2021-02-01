@@ -101,7 +101,8 @@ colorSchemes = {
 #set the text for the luminosity label
 if isinstance(intLumi, list):
     LumiInFb = [l/1000. for l in intLumi]
-    LumiText = "{:d}-{:d} fb^{{-1}}".format(*int(round(LumiInFb)))
+    LumiInFb = [int(round(l)) for l in LumiInFb]
+    LumiText = "{:d}-{:d} fb^{{-1}}".format(*LumiInFb)
 else:
     LumiInFb = intLumi/1000.
     LumiText = "{:d} fb^{{-1}}".format(int(round(LumiInFb)))
