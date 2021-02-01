@@ -9,6 +9,7 @@
 
 import sys
 import copy
+import math
 import DisplacedSUSY.StandardAnalysis.TreeBranchDefinitions as treeDefs
 from collections import OrderedDict
 from ROOT import TFile, Double
@@ -57,8 +58,11 @@ class Region(object):
         self.pt_lo = pt_lo
         self.pt_hi = pt_hi
         self.cr = self.name[:1] in ['A', 'B', 'C']
+        self.label = self.name[0].lower() if self.cr else 'd'
+        self.pt_subregions = None
 
     # only use name for equality checking because name uniquely defines region in d0-d0-pT space
+    # fixme: update to handle nicknames properly
     def __eq__(self, other):
         return self.name == other.name
 
@@ -68,9 +72,16 @@ class Region(object):
     def __hash__(self):
         return hash(self.name)
 
+    def get_d0s(self):
+        return (self.d0_0_lo, self.d0_0_hi, self.d0_1_lo, self.d0_1_hi)
+
     # associate rate parameter name with region
     def set_param(self, rate_param):
         self.param = rate_param
+
+    # identify regions that comprise self when added along pT axis
+    def find_pt_subregions(self, unique_regions):
+        self.pt_subregions = [r for r in unique_regions if r.get_d0s() == self.get_d0s() and self != r]
 
     # get bin numbers associated with given values; account for possible overflow inclusion
     def get_bins(self, hist, axis_name, lo, hi):
@@ -245,39 +256,64 @@ class SignalRegion(Region):
         estimate = 0.0
         for r in self.subregions:
             if self.correction is not None:
-                estimate += r.get_abcd_estimate(hist, self.correction)
+                estimate += r.get_abcd_estimate(hist, self.correction[0])
             else:
                 estimate += r.get_abcd_estimate(hist)
             print "ABCD estimate in {} is {:.2f}".format(self.name, estimate)
         return estimate
 
+
     # specify D=B*C/A relationship using combine rateParameters
     # relationship will be more complex for non-rectangular regions
-    def build_rate_param_func(self, unique_regions):
+    def build_rate_param_func(self, unique_regions, pt_binned_crs):
+
+        # add single control region (with possible subregions) to function string and arg list
+        def add_cr(region, func, args):
+            if region.pt_subregions:
+                func += "("
+                for r_pt in region.pt_subregions:
+                    func += "@{}+".format(len(args))
+                    args.append(next(x.param for x in unique_regions if x == r_pt))
+                func = func[:-1] + ")"
+            else:
+                func += "@{}".format(len(args))
+                args.append(region.param)
+            return func, args
+
+        # begin function string with correction, if applicable
+        args = []
         if self.correction is not None:
-            func = "(@0*(@1*@2"
-            ix = 3
+            # if multiple regions have the same correction, they should refer to a single param
+            duplicates = [r for r in unique_regions if not r.cr and r.correction == self.correction]
+            if len(duplicates) > 1:
+                self.correction_param = self.label + self.param[self.param.index('_'):]
+            else:
+                self.correction_param = self.param
+            self.correction_param += "_correction"
+            args.append(self.correction_param)
+            func = "(@0*("
         else:
-            func = "((@0*@1"
-            ix = 2
-        for r in self.subregions[1:]:
-            func += "+@{}*@{}".format(ix, ix+1)
-            ix +=2
-        func += ")/@{}) ".format(ix)
+            func = "(("
 
-        if self.correction is not None:
-            self.correction_param = self.param+"_correction"
-            func += "{},".format(self.correction_param)
-
-        # find unique regions that are equivalent to currently associated control regions
+        # add B and C regions
+        # use params from unique regions that are equivalent to currently associated CRs
+        all_regions = unique_regions + pt_binned_crs
         for r in self.subregions:
-            # fixme: doesn't equality checking already use the name?
-            a = next(cr.param for cr in unique_regions if cr.name == r.control_regions['A'].name)
-            b = next(cr.param for cr in unique_regions if cr.name == r.control_regions['B'].name)
-            c = next(cr.param for cr in unique_regions if cr.name == r.control_regions['C'].name)
-            func += "{},{},".format(b, c)
-        func += a
+            a = next(cr for cr in all_regions if cr == r.control_regions['A'])
+            b = next(cr for cr in all_regions if cr == r.control_regions['B'])
+            c = next(cr for cr in all_regions if cr == r.control_regions['C'])
+            (func, args) = add_cr(b, func, args)
+            func += "*"
+            (func, args) = add_cr(c, func, args)
+            func += ")+"
 
+        # add A region
+        func = func[:-1] + "/"
+        (func, args) = add_cr(a, func, args)
+        func += ") {}".format(args[0])
+
+        for arg in args[1:]:
+            func += ",{}".format(arg)
         self.param_func = func
 
 
@@ -489,7 +525,6 @@ def find_signal_file(name):
     return name.replace(ctau+"mm", src_ctau+"mm") + ".root"
 
 
-
 ####################################################################################################
 
 # put bin edges in more useful form
@@ -546,7 +581,7 @@ data_yields = {}
 ordered_regions = [sr for sr in signal_regions]
 for sr in signal_regions:
     if sr.name in abcd_correlation_factors:
-        sr.set_abcd_correction(abcd_correlation_factors[sr.name][0])
+        sr.set_abcd_correction(abcd_correlation_factors[sr.name])
 
     # get data yields in all signal regions
     data_yields[sr.name] = {}
@@ -566,17 +601,26 @@ for sr in signal_regions:
 # create ordered, duplicate-free list of signal and control regions to use in datacards
 unique_regions = list(OrderedDict.fromkeys(ordered_regions))
 
+# account for CRs that can be constructed from combinations of other CRs along the pT axis
+(pt_min, pt_max) = (pt_bin_edges[0], pt_bin_edges[-1])
+max_pt_range_crs = [r for r in unique_regions if r.cr and r.pt_lo == pt_min and r.pt_hi == pt_max]
+pt_binned_crs = []
+for cr in max_pt_range_crs:
+    cr.find_pt_subregions(unique_regions)
+    if cr.pt_subregions:
+        pt_binned_crs.append(cr)
+        unique_regions.remove(cr)
+
 # associate unique rateParam name to each unique region
 region_ixs = {'a' : 0, 'b' : 0, 'c' : 0, 'd' : 0}
 for r in unique_regions:
-    region_type = r.name[0].lower() if r.cr else 'd'
-    ix = str(region_ixs[region_type])
-    r.set_param("{}{}_{}_{}".format(region_type, ix, era, channel))
-    region_ixs[region_type] += 1
+    ix = str(region_ixs[r.label])
+    r.set_param("{}{}_{}_{}".format(r.label, ix, era, channel))
+    region_ixs[r.label] += 1
 
 # create ABCD and correlation correction associations between params
 for sr in signal_regions:
-    sr.build_rate_param_func(unique_regions)
+    sr.build_rate_param_func(unique_regions, pt_binned_crs)
 
 # get all the relevant external systematic errors and put them in a dictionary
 # match structure of global_systematic_uncertainties
@@ -648,14 +692,23 @@ correlation_correction_rows = []
 for r in unique_regions:
     abcd_row = [r.param, "rateParam", r.name, "background"]
     if r.cr:
-        abcd_row.append(str(int(round(data_yields[r.name]['total']))))
+        cr_yield = int(round(data_yields[r.name]['total']))
+        # constrain rateParams to +- ~5 sigma
+        err = math.sqrt(cr_yield)
+        lo_bound = int(round(max(0, cr_yield - 5*err)))
+        hi_bound = int(round(cr_yield + 5*err))
+        abcd_row.append("{} [{},{}]".format(cr_yield, lo_bound, hi_bound))
     else:
         abcd_row.append(r.param_func)
     abcd_rows.append(abcd_row)
     if not r.cr and r.correction is not None:
-        correction_string = "{} -{}/+{}".format(*abcd_correlation_factors[r.name])
+        # constrain params to +- ~5 sigma
+        lo_bound = max(0, r.correction[0] - 5*r.correction[1])
+        hi_bound = r.correction[0] + 5*r.correction[2]
+        correction_string = "{} -{}/+{} [{lo},{hi}]".format(*r.correction, lo=lo_bound, hi=hi_bound)
         correction_row = [r.correction_param, "param", "", "", correction_string]
-        correlation_correction_rows.append(correction_row)
+        if correction_row not in correlation_correction_rows:
+            correlation_correction_rows.append(correction_row)
 abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
 # write a datacard for each signal point
