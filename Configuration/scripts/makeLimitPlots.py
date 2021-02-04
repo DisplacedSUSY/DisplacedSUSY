@@ -118,7 +118,7 @@ def makeSignalName(process, mass, lifetime, use_miniAOD):
     name = name.replace('.', 'p')
     return name
 
-def makeSignalRootFileName(process,mass,lifetime,directory,limit_type,use_miniAOD):
+def makeSignalRootFileName(process, mass, lifetime, directory, limit_type, use_miniAOD):
     signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/higgsCombine"+signal_name+".*.root limits/"+directory+"/"+signal_name+"_"+limit_type+"/limits_"+signal_name+".root")
@@ -129,7 +129,7 @@ def makeSignalRootFileName(process,mass,lifetime,directory,limit_type,use_miniAO
     else:
         return False
 
-def makeSignalLogFileName(process,mass,lifetime,directory,limit_type,use_miniAOD):
+def makeSignalLogFileName(process, mass, lifetime, directory, limit_type, use_miniAOD):
     signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     if glob.glob("limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0*.out"):
         os.system ("mv -f limits/"+directory+"/"+signal_name+"_"+limit_type+"/condor_0.out limits/"+directory+"/"+signal_name+"_"+limit_type+"/combine_log_"+signal_name+".log")
@@ -140,7 +140,7 @@ def makeSignalLogFileName(process,mass,lifetime,directory,limit_type,use_miniAOD
     else:
         return False
 
-def getSignalSF(mass,lifetime,directory,type_,use_miniAOD):
+def getSignalSF(mass, lifetime, directory, type_, use_miniAOD):
     signal_name = makeSignalName(process, mass,lifetime,use_miniAOD)
     signalSFFile = glob.glob("limits/"+directory+"/"+signal_name+"_"+type_+"/*.sf")
     if not signalSFFile:
@@ -223,66 +223,52 @@ def getGraph(limits, x_key, y_key):
     graph = TGraph(len(x), array('d', x), array('d', y))
     return graph
 
-def getTH2F(limits,x_key,y_key,experiment_key,theory_key):
-    BinContent = []
-    xBin_tmp = []
-    yBin_tmp = []
+def getBinArray(key, dictionaries):
+    bins = [float(d[key]) for d in dictionaries]
+    bins = list(set(bins))
+    bins.sort()
+    bins.append(bins[-1] + 100.0)
+    return array("d", bins)
+
+def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
+    x_bins = getBinArray('mass', limits)
+    y_bins = getBinArray('lifetime', limits)
+    RatioPlot = TH2F("", "", len(x_bins)-1, x_bins, len(y_bins)-1, y_bins)
+    bin_content = []
     limit_dict = {}
     for limit in limits:
-	xBin_tmp.append(float(limit['mass']))
-        yBin_tmp.append(float(limit['lifetime']))
-    xBin = list(set(xBin_tmp))
-    yBin = list(set(yBin_tmp))
-    xBin.sort()
-    yBin.sort()
-    xBin.append(xBin[len(xBin)-1] + float(100))
-    yBin.append(yBin[len(yBin)-1] + float(100))
-    yBinArray = array("d", yBin)
-    xBinArray = array("d", xBin)
-    RatioPlot = TH2F("","",int(len(xBin)-1),xBinArray,int(len(yBin)-1),yBinArray)
-    for limit in limits:
-        mass = float (limit['mass'])
-        lifetime = float (limit['lifetime'])
+        mass = float(limit['mass'])
+        lifetime = float(limit['lifetime'])
         if lifetime not in limit_dict:
             limit_dict[lifetime] = {}
         if mass not in limit_dict[lifetime]:
             limit_dict[lifetime][mass] = {}
         limit_dict[lifetime][mass]['experiment'] = limit[experiment_key]
-        if experiment_key is 'up1' or experiment_key is 'up2':
+        if experiment_key == 'up1' or experiment_key == 'up2':
             limit_dict[lifetime][mass]['experiment'] += limit['expected']
-        if experiment_key is 'down1' or experiment_key is 'down2':
+        if experiment_key == 'down1' or experiment_key == 'down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
-            if abs (float (theory_mass) - mass) < 1.0e-3:
-                limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
-                theory_error = float (signal_cross_sections[theory_mass]['error'])
-                if theory_key is 'up2' or theory_key is 'down2':
+            if abs(float(theory_mass) - mass) < 1.0e-3:
+                limit_dict[lifetime][mass]['theory'] = float(signal_cross_sections[theory_mass]['value'])
+                theory_error = float(signal_cross_sections[theory_mass]['error'])
+                if theory_key == 'up2' or theory_key == 'down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
-                if theory_key is 'up1' or theory_key is 'up2':
+                if theory_key == 'up1' or theory_key == 'up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
-                if theory_key is 'down1' or theory_key is 'down2':
+                if theory_key == 'down1' or theory_key == 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
-    for lifetime in sorted (limit_dict.keys ()):
-        ordered_masses = sorted (limit_dict[lifetime].keys ())
-        first_allowed_mass = ordered_masses[0]
-        previous_mass = ordered_masses[0]
+    for lifetime in sorted(limit_dict.keys()):
+        ordered_masses = sorted(limit_dict[lifetime].keys())
         for mass in ordered_masses:
-		BinContent.append(limit_dict[lifetime][mass]['experiment']/limit_dict[lifetime][mass]['theory'])
-		RatioPlot.Fill(mass,lifetime, limit_dict[lifetime][mass]['experiment']/limit_dict[lifetime][mass]['theory'])
-    BinContent.sort()
-    Min = 0
-    for bin in BinContent:
-	if bin is not 0.0:
-		Min = bin
-		break
+            ratio = limit_dict[lifetime][mass]['experiment']/limit_dict[lifetime][mass]['theory']
+            bin_content.append(ratio)
+            RatioPlot.Fill(mass, lifetime, ratio)
     th2f = RatioPlot
     th2f.SetDirectory(0)
-    #th2f.SetTitleOffset(1.2)
     th2f.SetMaximum(th2f.GetMaximum())
-    th2f.SetMinimum(Min)
-    #th2f.GetYaxis().SetTitleOffset(1.5)
-    #th2f.GetXaxis().SetTitle(x_key)
-    #th2f.GetYaxis().SetTitle(y_key)
+    min_val = 0.9*min(c for c in bin_content if c > 0)
+    th2f.SetMinimum(min_val)
     return th2f
 
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
@@ -290,8 +276,8 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     y = array ('d')
     limit_dict = {}
     for limit in limits:
-        mass = float (limit['mass'])
-        lifetime = float (limit['lifetime'])
+        mass = float(limit['mass'])
+        lifetime = float(limit['lifetime'])
         if lifetime not in limit_dict:
             limit_dict[lifetime] = {}
         if mass not in limit_dict[lifetime]:
@@ -302,17 +288,17 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
         if experiment_key is 'down1' or experiment_key is 'down2':
             limit_dict[lifetime][mass]['experiment'] = limit['expected'] - limit_dict[lifetime][mass]['experiment']
         for theory_mass in signal_cross_sections:
-            if abs (float (theory_mass) - mass) < 1.0e-3:
-                limit_dict[lifetime][mass]['theory'] = float (signal_cross_sections[theory_mass]['value'])
-                theory_error = float (signal_cross_sections[theory_mass]['error'])
+            if abs(float(theory_mass) - mass) < 1.0e-3:
+                limit_dict[lifetime][mass]['theory'] = float(signal_cross_sections[theory_mass]['value'])
+                theory_error = float(signal_cross_sections[theory_mass]['error'])
                 if theory_key is 'up2' or theory_key is 'down2':
                     theory_error = 1.0 + 2.0 * (theory_error - 1.0)
                 if theory_key is 'up1' or theory_key is 'up2':
                     limit_dict[lifetime][mass]['theory'] *= theory_error
                 if theory_key is 'down1' or theory_key is 'down2':
                     limit_dict[lifetime][mass]['theory'] *= (2.0 - theory_error)
-    for lifetime in sorted (limit_dict.keys ()):
-        ordered_masses = sorted (limit_dict[lifetime].keys ())
+    for lifetime in sorted(limit_dict.keys()):
+        ordered_masses = sorted(limit_dict[lifetime].keys())
         first_allowed_mass = ordered_masses[0]
         previous_mass = ordered_masses[0]
         for mass in ordered_masses:
@@ -344,7 +330,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     graph = TGraph (len (x), x, y)
     return graph
 
-def getObservedGraph(limits,xAxisType,colorScheme,lineStyle=1):
+def getObservedGraph(limits, xAxisType, colorScheme, lineStyle=1):
     graph = getGraph(limits, xAxisType, 'observed')
     graph.SetLineWidth(5)
     graph.SetLineStyle(lineStyle)
@@ -355,7 +341,8 @@ def getObservedGraph(limits,xAxisType,colorScheme,lineStyle=1):
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
-def getObservedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme,lineStyle=1):
+def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key, colorScheme,
+                       lineStyle=1):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
     graph.SetLineWidth(5)
     graph.SetLineStyle(lineStyle)
@@ -366,7 +353,7 @@ def getObservedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colo
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
-def getExpectedGraph(limits,xAxisType,colorScheme, lineStyle=2):
+def getExpectedGraph(limits, xAxisType, colorScheme, lineStyle=2):
     graph = getGraph(limits, xAxisType, 'expected')
     graph.SetLineWidth(5)
     graph.SetLineStyle(lineStyle)
@@ -377,7 +364,8 @@ def getExpectedGraph(limits,xAxisType,colorScheme, lineStyle=2):
     graph.SetMarkerColor(colorSchemes[colorScheme]['exp'])
     return graph
 
-def getExpectedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colorScheme,lineStyle=2):
+def getExpectedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key, colorScheme,
+                       lineStyle=2):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
     graph.SetLineWidth(5)
     graph.SetLineStyle(lineStyle)
@@ -389,12 +377,12 @@ def getExpectedGraph2D(limits,xAxisType,yAxisType,experiment_key,theory_key,colo
     return graph
 
 def getGraphAsymmErrors(limits, x_key, y_key, up_key, down_key):
-    x = [ ]
-    up = [ ]
-    down = [ ]
-    y = [ ]
+    x = []
+    up = []
+    down = []
+    y = []
     for limit in limits:
-        if not limit.has_key(x_key) or not limit.has_key(up_key) or not limit.has_key(down_key) or not limit.has_key(y_key):
+        if not all(k in limit for k in [x_key, y_key, up_key, down_key]):
             continue
         x.append(float(limit[x_key]))
         up.append(float(limit[up_key]))
@@ -404,8 +392,8 @@ def getGraphAsymmErrors(limits, x_key, y_key, up_key, down_key):
         len(x),
         array('d', x),
         array('d', y),
-        array('d', [0 for i in range(0, len(x))]),
-        array('d', [0 for i in range(0, len(x))]),
+        array('d', [0 for i in range(len(x))]),
+        array('d', [0 for i in range(len(x))]),
         array('d', down),
         array('d', up)
         )
@@ -415,95 +403,90 @@ def getBorderGraph(graph, errorType):
     N = graph.GetN ()
     otherSideX = []
     otherSideY = []
-    x = array ('d')
-    y = array ('d')
-    for i in range (0, N):
-        xPoint = Double (0.0)
-        yPoint = Double (0.0)
-        graph.GetPoint (i, xPoint, yPoint)
-        if errorType is 'horizontal':
-            eHigh = graph.GetErrorXhigh (i)
-            eLow = graph.GetErrorXlow (i)
-            otherSideX.append (xPoint - eLow)
-            otherSideY.append (yPoint)
-            x.append (xPoint + eHigh)
-            y.append (yPoint)
-        if errorType is 'vertical':
-            eHigh = graph.GetErrorYhigh (i)
-            eLow = graph.GetErrorYlow (i)
-            otherSideX.append (xPoint)
-            otherSideY.append (yPoint - eLow)
-            x.append (xPoint)
-            y.append (yPoint + eHigh)
-    for i in range (0, -N, -1):
-        x.append (otherSideX[i - 1])
-        y.append (otherSideY[i - 1])
+    x = array('d')
+    y = array('d')
+    for i in range(N):
+        xPoint = Double(0.0)
+        yPoint = Double(0.0)
+        graph.GetPoint(i, xPoint, yPoint)
+        if errorType == 'horizontal':
+            eHigh = graph.GetErrorXhigh(i)
+            eLow = graph.GetErrorXlow(i)
+            otherSideX.append(xPoint - eLow)
+            otherSideY.append(yPoint)
+            x.append(xPoint + eHigh)
+            y.append(yPoint)
+        if errorType == 'vertical':
+            eHigh = graph.GetErrorYhigh(i)
+            eLow = graph.GetErrorYlow(i)
+            otherSideX.append(xPoint)
+            otherSideY.append(yPoint - eLow)
+            x.append(xPoint)
+            y.append(yPoint + eHigh)
+    for i in range(0, -N, -1):
+        x.append(otherSideX[i - 1])
+        y.append(otherSideY[i - 1])
 
-    borderGraph = TGraph (len (x), x, y)
+    borderGraph = TGraph(len(x), x, y)
     return borderGraph
 
 def getGraphAsymmErrors2D(limits, x_key, y_key, experiment_key, up_key, down_key):
-    central = getGraph2D (limits, x_key, y_key, experiment_key, 'theory')
-    up = TGraph ()
-    down = TGraph ()
-    if experiment_key is 'expected':
-        up = getGraph2D (limits, x_key, y_key, down_key, 'theory')
-        down = getGraph2D (limits, x_key, y_key, up_key, 'theory')
-    if experiment_key is 'observed':
-        up = getGraph2D (limits, x_key, y_key, 'observed', up_key)
-        down = getGraph2D (limits, x_key, y_key, 'observed', down_key)
+    central = getGraph2D(limits, x_key, y_key, experiment_key, 'theory')
+    up = TGraph()
+    down = TGraph()
+    if experiment_key == 'expected':
+        up = getGraph2D(limits, x_key, y_key, down_key, 'theory')
+        down = getGraph2D(limits, x_key, y_key, up_key, 'theory')
+    if experiment_key == 'observed':
+        up = getGraph2D(limits, x_key, y_key, 'observed', up_key)
+        down = getGraph2D(limits, x_key, y_key, 'observed', down_key)
     x = []
     y = []
     eXLow = []
     eXHigh = []
     eYLow = []
     eYHigh = []
-    for i in range (0, central.GetN ()):
-        xPoint = Double (0.0)
-        yPoint = Double (0.0)
-        upXPoint = Double (0.0)
-        upYPoint = Double (0.0)
-        downXPoint = Double (0.0)
-        downYPoint = Double (0.0)
-        central.GetPoint (i, xPoint, yPoint)
-        up.GetPoint (i, upXPoint, upYPoint)
+    for i in range(central.GetN()):
+        xPoint = Double(0.0)
+        yPoint = Double(0.0)
+        upXPoint = Double(0.0)
+        upYPoint = Double(0.0)
+        downXPoint = Double(0.0)
+        downYPoint = Double(0.0)
+        central.GetPoint(i, xPoint, yPoint)
+        up.GetPoint(i, upXPoint, upYPoint)
         down.GetPoint (i, downXPoint, downYPoint)
-        x.append (xPoint)
-        y.append (yPoint)
-        if y_key is 'lifetime':
-            eXHigh.append (upXPoint)
-            eXLow.append (downXPoint)
-            eYHigh.append (0.0)
-            eYLow.append (0.0)
-        if x_key is 'lifetime':
-            eXHigh.append (0.0)
-            eXLow.append (0.0)
-            eYHigh.append (upYPoint)
-            eYLow.append (downYPoint)
+        x.append(xPoint)
+        y.append(yPoint)
+        if y_key == 'lifetime':
+            eXHigh.append(upXPoint)
+            eXLow.append(downXPoint)
+            eYHigh.append(0.0)
+            eYLow.append(0.0)
+        elif x_key == 'lifetime':
+            eXHigh.append(0.0)
+            eXLow.append(0.0)
+            eYHigh.append(upYPoint)
+            eYLow.append(downYPoint)
 
-    for i in range (0, len (x)):
-        if y_key is 'lifetime':
-            eXHigh[i] -= x[i]
-            eXLow[i] = x[i] - eXLow[i]
-        if x_key is 'lifetime':
+    for i in range(len(x)):
+        if x_key == 'lifetime':
             eYHigh[i] -= y[i]
             eYLow[i] = y[i] - eYLow[i]
+        elif y_key == 'lifetime':
+            eXHigh[i] -= x[i]
+            eXLow[i] = x[i] - eXLow[i]
 
-    graph = TGraphAsymmErrors (len (x),
-                               array ('d', x),
-                               array ('d', y),
-                               array ('d', eXLow),
-                               array ('d', eXHigh),
-                               array ('d', eYLow),
-                               array ('d', eYHigh))
+    graph_arrays = [array('d', arg) for arg in [x, y, eXLow, eXHigh, eYLow, eYHigh]]
+    graph = TGraphAsymmErrors(len(x), *graph_arrays)
     borderGraph = TGraphAsymmErrors ()
-    if y_key is 'lifetime':
-        borderGraph = getBorderGraph (graph, 'horizontal')
-    if x_key is 'lifetime':
-        borderGraph = getBorderGraph (graph, 'vertical')
+    if x_key == 'lifetime':
+        borderGraph = getBorderGraph(graph, 'vertical')
+    elif y_key == 'lifetime':
+        borderGraph = getBorderGraph(graph, 'horizontal')
     return borderGraph
 
-def getOneSigmaGraph(limits,xAxisType,colorScheme):
+def getOneSigmaGraph(limits, xAxisType, colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up1', 'down1')
     graph.SetFillColor(colorSchemes[colorScheme]['oneSigma'])
     graph.SetFillStyle(1001)
@@ -511,7 +494,7 @@ def getOneSigmaGraph(limits,xAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['oneSigma'])
     return graph
 
-def getOneSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
+def getOneSigmaGraph2D(limits, xAxisType, yAxisType, colorScheme):
     graph = getGraphAsymmErrors2D(limits, xAxisType, yAxisType, 'expected', 'up1', 'down1')
     graph.SetFillColor(colorSchemes[colorScheme]['oneSigma'])
     graph.SetFillStyle(1001)
@@ -519,7 +502,7 @@ def getOneSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['oneSigma'])
     return graph
 
-def getTwoSigmaGraph(limits,xAxisType,colorScheme):
+def getTwoSigmaGraph(limits, xAxisType, colorScheme):
     graph = getGraphAsymmErrors(limits, xAxisType, 'expected', 'up2', 'down2')
     graph.SetFillColor(colorSchemes[colorScheme]['twoSigma'])
     graph.SetFillStyle(1001)
@@ -527,7 +510,7 @@ def getTwoSigmaGraph(limits,xAxisType,colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma'])
     return graph
 
-def getTwoSigmaGraph2D(limits,xAxisType,yAxisType,colorScheme):
+def getTwoSigmaGraph2D(limits, xAxisType, yAxisType, colorScheme):
     graph = getGraphAsymmErrors2D(limits, xAxisType, yAxisType, 'expected', 'up2', 'down2')
     graph.SetFillColor(colorSchemes[colorScheme]['twoSigma'])
     graph.SetFillStyle(1001)
@@ -678,11 +661,11 @@ def drawPlot(plot):
     generalCanvas.append(canvas)
     if plot.has_key('th2fs'):
         hasRatioTH2F = True
-	for source in plot['th2fs']:
+        for source in plot['th2fs']:
             for th2f in source['th2fsToInclude']:
-                if th2f is 'obs':
+                if th2f == 'obs':
                     canvasName = plot['title'] + ' with_ratio_of_observed_to_theory_limits'
-                elif th2f is 'exp':
+                elif th2f == 'exp':
                     canvasName = plot['title'] + ' with_ratio_of_expected_to_theory_limits'
                 tmp_canvas = TCanvas(canvasName)
                 generalCanvas.append(tmp_canvas)
@@ -698,35 +681,35 @@ def drawPlot(plot):
         yAxisBins = array('d')
         nBinsX = 1
         nBinsY = 1
-        if plot['xAxisType'] is 'mass':
+        if plot['xAxisType'] == 'mass':
             xAxisMin = float(masses[0])
             xAxisMax = float(masses[-1])
-        elif plot['xAxisType'] is 'lifetime':
+        elif plot['xAxisType'] == 'lifetime':
             canvas.SetLogx()
             # convert lifetime to cm
             xAxisMin = 0.1*float(lifetimes[0])
             xAxisMax = 0.1*float(lifetimes[-1])
         if is2D:
             canvas.SetLogz()
-            if plot['yAxisType'] is 'mass':
+            if plot['yAxisType'] == 'mass':
                 yAxisMin = float(masses[0])
                 yAxisMax = float(masses[-1])
-                xAxisBins.extend ([0.1 * float (lifetime) for lifetime in lifetimes])
-                xAxisBins.append (0.1 * 2.0 * float (lifetimes[-1]))
-                yAxisBins.extend ([float (mass) for mass in masses])
-                yAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
-                yAxisBins.append (8.0 * float (masses[-1]) - 4.0 * float (masses[-2]))
-            elif plot['yAxisType'] is 'lifetime':
+                xAxisBins.extend([0.1 * float (lifetime) for lifetime in lifetimes])
+                xAxisBins.append(0.1 * 2.0 * float (lifetimes[-1]))
+                yAxisBins.extend([float (mass) for mass in masses])
+                yAxisBins.append(2.0 * float (masses[-1]) - float (masses[-2]))
+                yAxisBins.append(8.0 * float (masses[-1]) - 4.0 * float (masses[-2]))
+            elif plot['yAxisType'] == 'lifetime':
                 yAxisMin = 0.1*float(lifetimes[0])
                 yAxisMax = 0.1*float(lifetimes[-1])
                 canvas.SetLogy()
-                xAxisBins.extend ([float (mass) for mass in masses])
-                xAxisBins.append (2.0 * float (masses[-1]) - float (masses[-2]))
-                yAxisBins.extend ([0.1 * float (lifetime) for lifetime in lifetimes])
-                yAxisBins.append (0.1 * 2.0 * float (lifetimes[-1]))
-                yAxisBins.append (0.1 * 8.0 * float (lifetimes[-1]))
-            nBinsX = len (xAxisBins) - 1
-            nBinsY = len (yAxisBins) - 1
+                xAxisBins.extend([float (mass) for mass in masses])
+                xAxisBins.append(2.0 * float (masses[-1]) - float (masses[-2]))
+                yAxisBins.extend([0.1 * float (lifetime) for lifetime in lifetimes])
+                yAxisBins.append(0.1 * 2.0 * float (lifetimes[-1]))
+                yAxisBins.append(0.1 * 8.0 * float (lifetimes[-1]))
+            nBinsX = len(xAxisBins) - 1
+            nBinsY = len(yAxisBins) - 1
         else:
             canvas.SetLogy()
         legend = TLegend(topLeft_x_left, 0.3, 0.5, 0.6)
@@ -738,8 +721,8 @@ def drawPlot(plot):
         tGraphs = []
         tTh2fs = []
         plotDrawn = False
-        if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' in plot and plot['showTheoryError']):
-            if plot['xAxisType'] is 'mass':
+        if (not is2D) and plot.get('showTheory') and plot.get('showTheoryError'):
+            if plot['xAxisType'] == 'mass':
                 tGraphs.append(getTheoryOneSigmaGraph())
                 if plotDrawn:
                     tGraphs[-1].Draw('3')
@@ -755,175 +738,175 @@ def drawPlot(plot):
                 plotDrawn = True
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
         if plot.has_key('graphs'):
-                   for graph in plot['graphs']:
-                       colorScheme = graph.get('colorScheme', 'brazilian')
-                       if not is2D:
-                           for graphName in graph['graphsToInclude']:
-                               setCrossSections(graph)
-                               if graphName is 'twoSigma':
-                                   tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('3')
-                                   else:
-                                       tGraphs[-1].Draw('A3')
-                                   plotDrawn = True
-                                   legendEntry = '#pm 2 std. deviation'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-                               if graphName is 'oneSigma':
-                                   tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('3')
-                                   else:
-                                       tGraphs[-1].Draw('A3')
-                                   plotDrawn = True
+            for graph in plot['graphs']:
+                colorScheme = graph.get('colorScheme', 'brazilian')
+                if not is2D:
+                    for graphName in graph['graphsToInclude']:
+                        setCrossSections(graph)
+                        if graphName is 'twoSigma':
+                            tGraphs.append(getTwoSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('3')
+                            else:
+                                tGraphs[-1].Draw('A3')
+                            plotDrawn = True
+                            legendEntry = '#pm 2 std. deviation'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        if graphName is 'oneSigma':
+                            tGraphs.append(getOneSigmaGraph(graph['limits'],plot['xAxisType'],colorScheme))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('3')
+                            else:
+                                tGraphs[-1].Draw('A3')
+                            plotDrawn = True
 
-                                   legendEntry = '#pm 1 std. deviation'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-                               if graphName is 'exp':
-                                   lineStyle = 2
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
+                            legendEntry = '#pm 1 std. deviation'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                        if graphName is 'exp':
+                            lineStyle = 2
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getExpectedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
 
-                                   legendEntry = 'Expected'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                               if graphName is 'obs':
-                                   lineStyle = 1
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
+                            legendEntry = 'Expected'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        if graphName is 'obs':
+                            lineStyle = 1
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getObservedGraph(graph['limits'],plot['xAxisType'],colorScheme,lineStyle))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
 
-                                   legendEntry = 'Observed'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                       else:
-                           for graphName in graph['graphsToInclude']:
-                               setCrossSections(graph)
-                               if graphName is 'twoSigma':
-                                   tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('F')
-                                   else:
-                                       tGraphs[-1].Draw('AF')
-                                   plotDrawn = True
-                                   legendEntry = '#pm 2 std. deviation'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-                                   tGraphs[-1].SetName('F')
-                               if graphName is 'oneSigma':
-                                   tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('F')
-                                   else:
-                                       tGraphs[-1].Draw('AF')
-                                   plotDrawn = True
-                                   legendEntry = '#pm 1 std. deviation'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'F')
-                                   tGraphs[-1].SetName('F')
-                               if graphName is 'exp':
-                                   lineStyle = 2
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme,lineStyle))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
-                                   legendEntry = 'Expected'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                                   tGraphs[-1].SetName('L')
-                               if graphName is 'twoSigmaTheory':
-                                   lineStyle = 1
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme,lineStyle))
-                                   lineWidth = tGraphs[-1].GetLineWidth ()
-                                   tGraphs[-1].SetLineWidth (lineWidth - 4)
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
-                                   tGraphs[-1].SetName('L')
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme,lineStyle))
-                                   tGraphs[-1].SetLineWidth (lineWidth - 4)
-                                   tGraphs[-1].Draw('L')
-                                   legendEntry = '#pm 2 #sigma_{theory}'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                                   tGraphs[-1].SetName('L')
-                               if graphName is 'oneSigmaTheory':
-                                   lineStyle = 1
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme,lineStyle))
-                                   lineWidth = tGraphs[-1].GetLineWidth ()
-                                   tGraphs[-1].SetLineWidth (lineWidth - 2)
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
-                                   tGraphs[-1].SetName('L')
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme,lineStyle))
-                                   tGraphs[-1].SetLineWidth (lineWidth - 2)
-                                   tGraphs[-1].Draw('L')
-                                   legendEntry = '#pm 1 #sigma_{theory}'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                                   tGraphs[-1].SetName('L')
-                               if graphName is 'obs':
-                                   lineStyle = 1
-                                   if 'lineStyle' in graph:
-                                       lineStyle = graph['lineStyle']
-                                   tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme,lineStyle))
-                                   if plotDrawn:
-                                       tGraphs[-1].Draw('L')
-                                   else:
-                                       tGraphs[-1].Draw('AL')
-                                   plotDrawn = True
-                                   legendEntry = 'Observed'
-                                   if 'legendEntry' in graph:
-                                       legendEntry = legendEntry + ": " + graph['legendEntry']
-                                   legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                                   tGraphs[-1].SetName('L')
+                            legendEntry = 'Observed'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                else:
+                    for graphName in graph['graphsToInclude']:
+                        setCrossSections(graph)
+                        if graphName is 'twoSigma':
+                            tGraphs.append(getTwoSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('F')
+                            else:
+                                tGraphs[-1].Draw('AF')
+                            plotDrawn = True
+                            legendEntry = '#pm 2 std. deviation'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                            tGraphs[-1].SetName('F')
+                        if graphName is 'oneSigma':
+                            tGraphs.append(getOneSigmaGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],colorScheme))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('F')
+                            else:
+                                tGraphs[-1].Draw('AF')
+                            plotDrawn = True
+                            legendEntry = '#pm 1 std. deviation'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                            tGraphs[-1].SetName('F')
+                        if graphName is 'exp':
+                            lineStyle = 2
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getExpectedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'expected','theory',colorScheme,lineStyle))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
+                            legendEntry = 'Expected'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                            tGraphs[-1].SetName('L')
+                        if graphName is 'twoSigmaTheory':
+                            lineStyle = 1
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down2',colorScheme,lineStyle))
+                            lineWidth = tGraphs[-1].GetLineWidth ()
+                            tGraphs[-1].SetLineWidth (lineWidth - 4)
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
+                            tGraphs[-1].SetName('L')
+                            tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up2',colorScheme,lineStyle))
+                            tGraphs[-1].SetLineWidth (lineWidth - 4)
+                            tGraphs[-1].Draw('L')
+                            legendEntry = '#pm 2 #sigma_{theory}'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                            tGraphs[-1].SetName('L')
+                        if graphName is 'oneSigmaTheory':
+                            lineStyle = 1
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','down1',colorScheme,lineStyle))
+                            lineWidth = tGraphs[-1].GetLineWidth ()
+                            tGraphs[-1].SetLineWidth (lineWidth - 2)
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
+                            tGraphs[-1].SetName('L')
+                            tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','up1',colorScheme,lineStyle))
+                            tGraphs[-1].SetLineWidth (lineWidth - 2)
+                            tGraphs[-1].Draw('L')
+                            legendEntry = '#pm 1 #sigma_{theory}'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                            tGraphs[-1].SetName('L')
+                        if graphName is 'obs':
+                            lineStyle = 1
+                            if 'lineStyle' in graph:
+                                lineStyle = graph['lineStyle']
+                            tGraphs.append(getObservedGraph2D(graph['limits'],plot['xAxisType'],plot['yAxisType'],'observed','theory',colorScheme,lineStyle))
+                            if plotDrawn:
+                                tGraphs[-1].Draw('L')
+                            else:
+                                tGraphs[-1].Draw('AL')
+                            plotDrawn = True
+                            legendEntry = 'Observed'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                            tGraphs[-1].SetName('L')
         if hasRatioTH2F:
             for th2f in plot['th2fs']:
                 setCrossSections(th2f)
-         	for type in th2f['th2fsToInclude']:
-                    if type is 'exp':
+                for type in th2f['th2fsToInclude']:
+                    if type == 'exp':
                         tTh2fs.append(getTH2F(th2f['limits'],plot['xAxisType'],plot['yAxisType'],'expected', 'theory'))
                         if 'exp' in canvas.GetName():
                             tTh2fs[-1].Draw('colz')
                             for tGraph in tGraphs:
                                 drawOption = tGraph.GetName() + ' same'
                                 tGraph.Draw(drawOption)
-                    if type is 'obs':
+                    elif type == 'obs':
                         tTh2fs.append(getTH2F(th2f['limits'],plot['xAxisType'],plot['yAxisType'],'observed', 'theory'))
                         if 'obs' in canvas.GetName():
                             tTh2fs[-1].Draw('colz')
@@ -931,8 +914,8 @@ def drawPlot(plot):
                                 drawOption = tGraph.GetName() + ' same'
                                 tGraph.Draw(drawOption)
 
-        if (not is2D) and ('showTheory' in plot and plot['showTheory']) and ('showTheoryError' not in plot or not plot['showTheoryError']):
-            if plot['xAxisType'] is 'mass':
+        if (not is2D) and plot.get('showTheory') and (not plot.get('showTheoryError')):
+            if plot['xAxisType'] == 'mass':
                 tGraphs.append(getTheoryGraph())
                 if plotDrawn:
                     tGraphs[-1].Draw('L')
@@ -957,39 +940,38 @@ def drawPlot(plot):
             tGraph.SetTitle("")
             tGraph.GetXaxis().SetTitle(plot['xAxisLabel'])
             tGraph.GetXaxis().SetTitleOffset(1.2)
-            tGraph.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
-            tGraph.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
+            tGraph.GetXaxis().SetLimits(0.9*xAxisMin, 1.1*xAxisMax)
+            tGraph.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
             if not is2D:
                 tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
-                #tGraph.GetYaxis().SetTitle('#sigma_{95%CL}(H #rightarrow XX) B(X #rightarrow #mu#mu) [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.4)
                 if 'yAxis' in plot:
-                    tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0],plot['yAxis'][1])
+                    tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0], plot['yAxis'][1])
                 else:
-                    tGraph.GetYaxis().SetRangeUser(0.9*absMin,1.1*absMax)
+                    tGraph.GetYaxis().SetRangeUser(0.9*absMin, 1.1*absMax)
             else:
                 tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
                 tGraph.GetYaxis().SetTitleOffset(1.5)
-                tGraph.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
-                tGraph.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
+                tGraph.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
+                tGraph.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
         legend.Draw()
         canvas.SetTitle('')
         for th2f in tTh2fs:
             th2f.SetTitle("")
             th2f.GetXaxis().SetTitle(plot['xAxisLabel'])
-            th2f.GetXaxis().SetLimits(0.9*xAxisMin,1.1*xAxisMax)
-            th2f.GetXaxis().SetRangeUser(xAxisMin,xAxisMax)
+            th2f.GetXaxis().SetLimits(0.9*xAxisMin, 1.1*xAxisMax)
+            th2f.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
             th2f.GetYaxis().SetTitle(plot['yAxisLabel'])
             th2f.GetXaxis().SetTitleOffset(1.2)
             th2f.GetYaxis().SetTitleOffset(1.5)
-            th2f.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
-            th2f.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
+            th2f.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
+            th2f.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
             th2f.GetZaxis().SetTitle('#sigma_{expected}/#sigma_{theory}')
             th2f.GetZaxis().SetTitleOffset(1.5)
 
 
         #draw the header label
-        HeaderLabel = TPaveLabel(0.88,0.9,0.90,0.94,HeaderText,"NDC")
+        HeaderLabel = TPaveLabel(0.88, 0.9, 0.90, 0.94, HeaderText, "NDC")
         HeaderLabel.SetTextAlign(32)
         HeaderLabel.SetTextFont(42)
         HeaderLabel.SetTextSize(1)
@@ -997,12 +979,12 @@ def drawPlot(plot):
         HeaderLabel.SetFillColor(0)
         HeaderLabel.SetFillStyle(0)
         HeaderLabel.Draw()
-        LumiLabel = TPaveLabel(topLeft_x_left,topLeft_y_bottom,topLeft_x_right,topLeft_y_top,"CMS","NDC")
+        LumiLabel = TPaveLabel(topLeft_x_left, topLeft_y_bottom, topLeft_x_right, topLeft_y_top, "CMS", "NDC")
         LumiLabel.SetTextFont(61)
         LumiLabel.SetTextSize(0.75)
         LumiLabel.SetTextAlign(12)
-        #extraLabel = TPaveLabel(topLeft_x_left_extra,topLeft_y_bottom_extra,topLeft_x_right_extra,topLeft_y_top_extra,"Preliminary","NDC")
-        extraLabel = TPaveLabel(topLeft_x_left_extra,topLeft_y_bottom_extra,topLeft_x_right_extra,topLeft_y_top_extra,"Internal","NDC")
+        extraLabel = TPaveLabel(topLeft_x_left_extra, topLeft_y_bottom_extra, topLeft_x_right_extra, topLeft_y_top_extra,
+                                "Internal", "NDC")
         extraLabel.SetTextFont(52)
         extraLabel.SetTextSize(0.57)
         extraLabel.SetTextAlign(12)
@@ -1020,7 +1002,7 @@ def drawPlot(plot):
             processText = "#tilde{t}#tilde{t} #rightarrow ld ld"
         else:
             processText = ''
-        processLabel = TPaveLabel(0.15,0.7,0.25,0.8,processText,"NDC")
+        processLabel = TPaveLabel(0.15, 0.7, 0.25, 0.8, processText, "NDC")
         processLabel.SetTextFont(52)
         processLabel.SetTextSize(0.4)
         processLabel.SetTextAlign(12)
@@ -1029,7 +1011,7 @@ def drawPlot(plot):
         processLabel.SetFillStyle(0)
         processLabel.Draw()
         if channel:
-            channelLabel = TPaveLabel(0.15,0.65,0.25,0.75,channel+" channel","NDC")
+            channelLabel = TPaveLabel(0.15, 0.65, 0.25, 0.75, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
             channelLabel.SetTextSize(0.4)
             channelLabel.SetTextAlign(12)
@@ -1038,7 +1020,7 @@ def drawPlot(plot):
             channelLabel.SetFillStyle(0)
             channelLabel.Draw()
         if 'massLabel' in plot:
-            MassLabel = TPaveLabel(0.1637931,0.8220339,0.362069,0.8919492,plot['massLabel'],"NDC")
+            MassLabel = TPaveLabel(0.1637931, 0.8220339, 0.362069, 0.8919492, plot['massLabel'], "NDC")
             MassLabel.SetTextSize(0.5454546)
             MassLabel.SetTextAlign(12)
             MassLabel.SetBorderSize(0)
@@ -1046,7 +1028,7 @@ def drawPlot(plot):
             MassLabel.SetFillStyle(0)
             MassLabel.Draw()
         if 'brLabel' in plot:
-            BRLabel = TPaveLabel(0.1609195,0.779661,0.5014368,0.8368644,plot['brLabel'],"NDC")
+            BRLabel = TPaveLabel(0.1609195, 0.779661, 0.5014368, 0.8368644, plot['brLabel'], "NDC")
             BRLabel.SetTextSize(0.6666667)
             BRLabel.SetTextAlign(12)
             BRLabel.SetBorderSize(0)
@@ -1058,13 +1040,8 @@ def drawPlot(plot):
         canvas.RedrawAxis('g')
         canvas.Write()
         canvas.Close()
-    # canvas.SaveAs("test.pdf")
-
-
-
 
 ######################################################################################################
-
 
 outputFileName = "limits/"+arguments.condorDir+"/limit_plot.root"
 outputFile = TFile(outputFileName, "RECREATE")
