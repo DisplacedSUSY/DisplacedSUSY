@@ -27,13 +27,13 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'th2fsToInclude' : ['exp'],
             },
         ],
         'graphs' : [
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'red',
             },
@@ -53,35 +53,35 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'lifetime' : '0.1',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '0.01 cm',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'lifetime' : '1',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '0.1 cm',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'lifetime' : '10',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '1 cm',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'lifetime' : '100',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'red',
                 'legendEntry' : '10 cm',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'lifetime' : '1000',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'green',
@@ -103,35 +103,35 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'mass' : '100',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '100 GeV',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'mass' : '400',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '400 GeV',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'mass' : '1000',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'red',
                 'legendEntry' : '1000 GeV',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'mass' : '1400',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'green',
                 'legendEntry' : '1400 GeV',
             },
             {
-                'source' : ['emu_ld_runII_03Feb2021'],
+                'source' : 'emu_ld_runII_03Feb2021',
                 'mass' : '1800',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'purple',

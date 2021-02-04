@@ -31,13 +31,13 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'th2fsToInclude' : ['exp'],
             },
         ],
         'graphs' : [
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'graphsToInclude' : ['twoSigma', 'oneSigma', 'exp'],
                 'colorScheme' : 'brazilian',
             },
@@ -57,35 +57,35 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'lifetime' : '0.1',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '0.01 cm',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'lifetime' : '1',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '0.1 cm',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'lifetime' : '10',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '1 cm',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'lifetime' : '100',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'red',
                 'legendEntry' : '10 cm',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'lifetime' : '1000',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'green',
@@ -107,35 +107,35 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'mass' : '200',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '200 GeV',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'mass' : '600',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '600 GeV',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'mass' : '1000',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'red',
                 'legendEntry' : '1000 GeV',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'mass' : '1400',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'green',
                 'legendEntry' : '1400 GeV',
             },
             {
-                'source' : ['MuMu_run2_21Sep2020'],
+                'source' : 'MuMu_run2_21Sep2020',
                 'mass' : '1800',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'purple',
