@@ -110,7 +110,7 @@ data_samples = {
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EEPreselection_2016Analysis_Signal_5Dec2020/mergeOut',
+        'dir'  : 'EEPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -118,7 +118,7 @@ signal_samples = {
     },
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EEPreselection_2017Analysis_Signal_5Dec2020/mergeOut',
+        'dir'  : 'EEPreselection_2017Analysis_Signal_29Jan2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -126,7 +126,7 @@ signal_samples = {
     },
     '2018' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EEPreselection_2018Analysis_Signal_5Dec2020/mergeOut',
+        'dir'  : 'EEPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
