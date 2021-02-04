@@ -686,8 +686,8 @@ def drawPlot(plot):
                     canvasName = plot['title'] + ' with_ratio_of_expected_to_theory_limits'
                 tmp_canvas = TCanvas(canvasName)
                 generalCanvas.append(tmp_canvas)
-# canvas.SetGridx()
-# canvas.SetGridy()
+
+    # set up axes and legend
     for canvas in generalCanvas:
         canvas.cd()
         xAxisMin = 1
@@ -729,11 +729,12 @@ def drawPlot(plot):
             nBinsY = len (yAxisBins) - 1
         else:
             canvas.SetLogy()
-        legend = TLegend(0.5, 0.6, 0.9, 0.88)
+        legend = TLegend(topLeft_x_left, 0.3, 0.5, 0.6)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
-        #construct tGraph objects for all curves and draw them
+
+        #construct TGraph objects for all curves and draw them
         tGraphs = []
         tTh2fs = []
         plotDrawn = False
@@ -755,9 +756,7 @@ def drawPlot(plot):
                 legend.AddEntry(tGraphs[-1], 'theory prediction', 'L')
         if plot.has_key('graphs'):
                    for graph in plot['graphs']:
-                       colorScheme = 'brazilian'
-                       if 'colorScheme' in graph:
-                           colorScheme = graph['colorScheme']
+                       colorScheme = graph.get('colorScheme', 'brazilian')
                        if not is2D:
                            for graphName in graph['graphsToInclude']:
                                setCrossSections(graph)
@@ -985,6 +984,8 @@ def drawPlot(plot):
             th2f.GetYaxis().SetTitleOffset(1.5)
             th2f.GetYaxis().SetLimits(0.9*yAxisMin,1.1*yAxisMax)
             th2f.GetYaxis().SetRangeUser(yAxisMin,yAxisMax)
+            th2f.GetZaxis().SetTitle('#sigma_{expected}/#sigma_{theory}')
+            th2f.GetZaxis().SetTitleOffset(1.5)
 
 
         #draw the header label
