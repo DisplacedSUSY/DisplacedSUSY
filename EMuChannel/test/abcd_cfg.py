@@ -37,6 +37,16 @@ prompt_sys = None # needed for closure tests
     #'err_hi' : 0.77,
     #'err_lo' : 0.77,
 #}
+# additional systematic to apply in the most-prompt signal region
+# derived from varying extrapolation point
+extrapolation_sys = None # needed for closure tests
+#extrapolation_sys = { # from elog 1872
+    # 2016 data: no extrapolation systematic
+    # 2017+18 data
+    #'val'    : 1.00,
+    #'err_hi' : 0.22,
+    #'err_lo' : 0.22,
+#}
 # multiplicative correction to more-displaced signal region estimates
 # we generally set the central value to 1.00 and use the uncertainty as a systematic
 displaced_sys = None # needed for closure tests

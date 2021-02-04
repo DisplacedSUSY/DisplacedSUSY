@@ -146,15 +146,14 @@ def get_yields_and_errors(h, x_lo, x_hi, y_lo, y_hi, variable_bins, data):
     return {'val':integral, 'err_lo':err_lo, 'err_hi':err_hi}
 
 # separately propagate lo and hi uncertaintanties
-def propagate_asymm_err(func, a, a_err_lo, a_err_hi, b, b_err_lo, b_err_hi):
-    (result, err_lo) = propagateError(func, a, a_err_lo, b, b_err_lo)
-    (result, err_hi) = propagateError(func, a, a_err_hi, b, b_err_hi)
+def propagate_asymm_err(func, a, b):
+    (result, err_lo) = propagateError(func, a['val'], a['err_lo'], b['val'], b['err_lo'])
+    (result, err_hi) = propagateError(func, a['val'], a['err_hi'], b['val'], b['err_hi'])
     return {'val':result, 'err_lo':err_lo, 'err_hi':err_hi}
 
 # sum events from different regions while accounting for asymmetric uncertainties
 def sum_regions(r1, r2):
-    return propagate_asymm_err("sum", r1['val'], r1['err_lo'], r1['err_hi'],
-                                      r2['val'], r2['err_lo'], r2['err_hi'])
+    return propagate_asymm_err("sum", r1, r2)
 
 def extrapolate(fit_func, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio_err_hi,
                 extrapolated_d0):
@@ -194,7 +193,7 @@ def extrapolate(fit_func, d0s, ratios, d0_err_lo, d0_err_hi, ratio_err_lo, ratio
 
     return (fit, graph, grConfInt1Sig, grConfInt2Sig)
 
-
+####################################################################################################
 
 out_file = TFile(output_path + output_file, "recreate")
 in_file = TFile(input_file)
@@ -214,6 +213,10 @@ regions = lambda bins: zip(bins[:-1], bins[1:])
 x_regions = regions(bins_x)
 y_regions = regions(bins_y)
 z_regions = regions(bins_z)
+
+# combine systematics that apply to the most-prompt signal region
+if prompt_sys is not None and extrapolation_sys is not None:
+    prompt_sys = propagate_asymm_err("product", prompt_sys, extrapolation_sys)
 
 # perform abcd estimate separately for each region in z
 for z_lo, z_hi in z_regions:
@@ -245,11 +248,11 @@ for z_lo, z_hi in z_regions:
         if not arguments.doClosureTest:
             print "Blinded: actual yields set equal to estimate."
         if prompt_sys is not None:
-            print ("Most-prompt SR estimate is scaled by {}+{}-{} to account for "
+            print ("Most-prompt SR estimate is scaled by {:.2f}+{:.2f}-{:.2f} to account for "
                 "correlation").format(prompt_sys['val'], prompt_sys['err_hi'], prompt_sys['err_lo'])
         if displaced_sys is not None:
             print ("Estimates in more-displaced SRs include systematic uncertainty of "
-                   "+{}-{}").format(displaced_sys['err_hi'], displaced_sys['err_lo'])
+                   "+{:.2f}-{:.2f}").format(displaced_sys['err_hi'], displaced_sys['err_lo'])
         print '[TABLE border="1"]'
         x_label = in_th2.GetXaxis().GetTitle().replace("|", "\|")
         y_label = in_th2.GetYaxis().GetTitle().replace("|", "\|")
@@ -268,17 +271,14 @@ for z_lo, z_hi in z_regions:
             abcd['val'] = 0
             abcd['err_lo'] = abcd['err_hi'] = 0
         else:
-            cb = propagate_asymm_err("product", x['val'], x['err_lo'], x['err_hi'],
-                                                y['val'], y['err_lo'], y['err_hi'])
-            abcd = propagate_asymm_err("quotient", cb['val'], cb['err_lo'], cb['err_hi'],
-                                       prompt['val'], prompt['err_lo'], prompt['err_hi'])
+            cb = propagate_asymm_err("product", x, y)
+            abcd = propagate_asymm_err("quotient", cb, prompt)
 
         # account for correction and/or systematic uncertainty on estimate
         prompt_region = x_lo is x_regions[1][0] and y_lo is y_regions[1][0]
         sys = prompt_sys if prompt_region else displaced_sys
         if sys is not None:
-            abcd = propagate_asymm_err("product", abcd['val'], abcd['err_lo'], abcd['err_hi'],
-                                                   sys['val'],  sys['err_lo'],  sys['err_hi'])
+            abcd = propagate_asymm_err("product", abcd, sys)
 
         # get count yields if unblinded; otherwise, set count yields equal to estimate
         if arguments.doClosureTest:
@@ -309,15 +309,12 @@ for z_lo, z_hi in z_regions:
             ratio['err_lo'] = 0
             ratio['err_hi'] = 100
         else:
-            ratio = propagate_asymm_err("quotient", count['val'], count['err_lo'], count['err_hi'],
-                                        abcd['val'], abcd['err_lo'], abcd['err_hi'])
+            ratio = propagate_asymm_err("quotient", count, abcd)
 
         if 'val' not in count_totals[z_lo]:
             count_totals[z_lo] = copy.deepcopy(count)
         else:
-            count_totals[z_lo] = propagate_asymm_err("sum", count_totals[z_lo]['val'],
-                                         count_totals[z_lo]['err_lo'], count_totals[z_lo]['err_hi'],
-                                         count['val'], count['err_lo'], count['err_hi'])
+            count_totals[z_lo] = propagate_asymm_err("sum", count_totals[z_lo], count)
 
         # fill output hists
         out_bin = count_hist.FindBin(x_lo, y_lo)
