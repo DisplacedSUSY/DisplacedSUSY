@@ -914,6 +914,20 @@ muon_tightID_dummy = cms.PSet(
     numberRequired = cms.string(">= 0"),
     )
 
+muon_idExcept1PixelHit_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = objectDefs.muon_idExcept1PixelHit_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.muon_idExcept1PixelHit_alias
+    )
+
+muon_1PixelHit_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = objectDefs.muon_1PixelHit_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.muon_1PixelHit_alias
+    )
+
 muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_id_impact_parameter_cutstring,
@@ -1561,4 +1575,52 @@ mumu_invertNoDispVtxsInMaterial_cut = cms.PSet(
    cutString = cms.string("nDispMuMuVtxsInMaterial==1 & vtxMuMuChisqInMaterial<20."),
    numberRequired = cms.string(">= 1"),
    alias = cms.string(">=1 good mumu vertices in material")
+)
+
+
+#r-hadron pdg id cuts
+bothStopRhadronsAre1000612_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000612 "),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("both R^{+}_\tilde{t_1}dbar (1000612)")
+)
+bothStopRhadronsAre1000622_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("abs (rhadronFinalId_0) ==1000622 & abs (rhadronFinalId_1) ==1000622 "),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("both R^{0}_\tilde{t_1}ubar (1000622)")
+)
+bothStopRhadronsAre1000632_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("abs (rhadronFinalId_0) ==1000632 & abs (rhadronFinalId_1) ==1000632 "),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("both R^{+}_\tilde{t_1}sbar (1000632)")
+)
+
+stopRhadron_1000612_or_1000622_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("(abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000622) || (abs (rhadronFinalId_1) ==1000612 & abs (rhadronFinalId_0) ==1000622)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("R^{+}_\tilde{t_1}dbar (1000612) or R^{0}_\tilde{t_1}ubar (1000622)")
+)
+stopRhadron_1000612_or_1000632_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("(abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000632) || (abs (rhadronFinalId_1) ==1000612 & abs (rhadronFinalId_0) ==1000632)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("R^{+}_\tilde{t_1}dbar (1000612) or R^{+}_\tilde{t_1}sbar (1000632)")
+)
+stopRhadron_1000622_or_1000632_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("(abs (rhadronFinalId_0) ==1000622 & abs (rhadronFinalId_1) ==1000632) || (abs (rhadronFinalId_1) ==1000622 & abs (rhadronFinalId_0) ==1000632)"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("R^{0}_\tilde{t_1}ubar (1000622) or R^{+}_\tilde{t_1}sbar (1000632)")
+)
+
+
+stopRhadronEverythingElse_cut = cms.PSet(
+   inputCollection = cms.vstring("eventvariables"),
+   cutString = cms.string("!(abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000612) & !(abs (rhadronFinalId_0) ==1000622 & abs (rhadronFinalId_1) ==1000622) & !(abs (rhadronFinalId_0) ==1000632 & abs (rhadronFinalId_1) ==1000632) & !(abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000622) & !(abs (rhadronFinalId_1) ==1000612 & abs (rhadronFinalId_0) ==1000622) & !(abs (rhadronFinalId_0) ==1000612 & abs (rhadronFinalId_1) ==1000632) & !(abs (rhadronFinalId_1) ==1000612 & abs (rhadronFinalId_0) ==1000632) & !(abs (rhadronFinalId_0) ==1000622 & abs (rhadronFinalId_1) ==1000632) & !(abs (rhadronFinalId_1) ==1000622 & abs (rhadronFinalId_0) ==1000632) & rhadronFinalId_0!=0 & rhadronFinalId_1!=0"),
+   numberRequired = cms.string(">= 1"),
+   alias = cms.string("other r-hadron stops")
 )

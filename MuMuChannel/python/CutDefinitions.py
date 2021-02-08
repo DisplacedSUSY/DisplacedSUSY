@@ -58,6 +58,12 @@ muon_global_cut.alias = cms.string(">=2 global PF muons")
 muon_id_cut.numberRequired = cms.string(">= 2")
 muon_id_cut.alias = cms.string(">=2 muons with tight ID")
 
+muon_idExcept1PixelHit_cut.numberRequired = cms.string(">= 2")
+muon_idExcept1PixelHit_cut.alias = cms.string(">=2 muons with tight ID except 1 pixel hit requirement")
+
+muon_1PixelHit_cut.numberRequired = cms.string(">= 2")
+muon_1PixelHit_cut.alias = cms.string(">=2 muons with at least 1 pixel hit")
+
 muon_iso_cut.numberRequired = cms.string(">= 2")
 muon_iso_cut.alias = cms.string(">=2 muons with tight rho-based isolation")
 

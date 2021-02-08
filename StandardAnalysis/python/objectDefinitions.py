@@ -210,6 +210,17 @@ muon_id_cutstring = cms.string("muon.globalTrack.normalizedChi2 < 10 & \
 
 muon_id_alias = cms.string(">=1 muons with tight ID")
 
+
+muon_idExcept1PixelHit_cutstring = cms.string("muon.globalTrack.normalizedChi2 < 10 & \
+                                muon.globalTrack.hitPattern_.numberOfValidMuonHits > 0 & \
+                                muon.numberOfMatchedStations > 1 & \
+                                muon.innerTrack.hitPattern_.trackerLayersWithMeasurement > 5")
+
+muon_idExcept1PixelHit_alias = cms.string(">=1 muons with tight ID except 1 pixel hit requirement")
+
+muon_1PixelHit_cutstring = cms.string("muon.innerTrack.hitPattern_.numberOfValidPixelHits > 0")
+muon_1PixelHit_alias = cms.string(">=1 muons with at least 1 pixel hit")
+
 ##########################################################################
 
 # MUON ID IMPACT PARAMETER CUTS

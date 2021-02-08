@@ -74,6 +74,9 @@ eventSelections = [
     #PreselectionPromptTagMuonDisplacedMuon100um,
     #PreselectionPromptMuonDisplacedTagMuon500um,
     #GenMuSelection,
+
+    #Den1PixelHitSelWithCosmics,
+    #Num1PixelHitSelWithCosmics,
     ]
 
 # Redefine scalingfactorproducers to not include electron scale factors
