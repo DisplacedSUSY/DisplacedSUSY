@@ -477,6 +477,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   for( unsigned int iseed = 0; iseed < l1Seeds_.size(); iseed++ ) {
     (*eventvariables)[l1Seeds_[iseed].c_str()] = L1BitsMap[l1Seeds_[iseed]];
   }
+#if DATA_FORMAT_FROM_MINIAOD
   (*eventvariables)["nDispEEVtxs"] = dvEE.nDispVtxs;
   (*eventvariables)["vtxEEX"] = dvEE.vtxX;
   (*eventvariables)["vtxEEY"] = dvEE.vtxY;
@@ -561,6 +562,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["vtxEMuZErrInMaterial"] = -10000;
     (*eventvariables)["vtxEMuChisqInMaterial"] = -10000;
   }
+#endif
 
 }
 

@@ -234,24 +234,18 @@ PreselectionForCosmics.cuts.append(diMuon_deltaTimeAtIpInOut_veto) #remove muons
 
 Den1PixelHitSelWithCosmics = cms.PSet(
     name = cms.string("Den1PixelHitSelWithCosmics"),
-    triggers = triggersNoBPTX,
+    #triggers = triggersNoBPTX,
+    triggers = cms.vstring(),
     cuts = cms.VPSet()
 )
 ### jet selection (just for plotting purposes, doesn't make event cuts)
 Den1PixelHitSelWithCosmics.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least two good muons
-Den1PixelHitSelWithCosmics.cuts.append(muon_eta_cut)
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_"):
-    Den1PixelHitSelWithCosmics.cuts.append(muon_eta_phi_veto_2017) #veto region with pixel power supply issues
-elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    Den1PixelHitSelWithCosmics.cuts.append(muon_eta_phi_veto_2018) #veto region with pixel power supply issues
-if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
-    Den1PixelHitSelWithCosmics.cuts.append(muon_pt_35_cut) #plateau of trigger turn on
-elif (os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_")):
-    Den1PixelHitSelWithCosmics.cuts.append(muon_pt_45_cut) #pleateau of trigger turn on
-Den1PixelHitSelWithCosmics.cuts.append(muon_global_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_eta1p9_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_pt_20_cut)
+#Den1PixelHitSelWithCosmics.cuts.append(muon_global_cut)
 Den1PixelHitSelWithCosmics.cuts.append(muon_idExcept1PixelHit_cut)
-Den1PixelHitSelWithCosmics.cuts.append(muon_iso_cut) #our custom rho-based iso
+#Den1PixelHitSelWithCosmics.cuts.append(muon_iso_cut) #our custom rho-based iso
 Den1PixelHitSelWithCosmics.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
 Den1PixelHitSelWithCosmics.cuts.append(mumu_noDispVtxsInMaterial_cut)
 
