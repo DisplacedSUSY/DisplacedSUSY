@@ -9,6 +9,14 @@ datasets = default_datasets
 datasets.remove('DisplacedSUSYSignal')
 #datasets.append()
 
+#datasets = [
+    #'Cosmics',
+    #'NoBPTX_2016_postHIP',
+    #'NoBPTX_2017',
+    #'NoBPTX_2018',
+    #'DoubleMu_2016_postHIP',
+#]
+
 # full list of signal jobs we need to run,
 # now that lifetime reweighting is in trees
 #processes = ['stopToLB','stopToLD']
