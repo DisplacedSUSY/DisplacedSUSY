@@ -241,9 +241,9 @@ Den1PixelHitSelWithCosmics = cms.PSet(
 ### jet selection (just for plotting purposes, doesn't make event cuts)
 Den1PixelHitSelWithCosmics.cuts.extend(atLeastZero_jet_basic_selection_cuts)
 ### at least two good muons
-Den1PixelHitSelWithCosmics.cuts.append(muon_eta1p9_cut)
-Den1PixelHitSelWithCosmics.cuts.append(muon_pt_20_cut)
-#Den1PixelHitSelWithCosmics.cuts.append(muon_global_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_eta_lessThan1_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_pt_25_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_global_cut)
 Den1PixelHitSelWithCosmics.cuts.append(muon_idExcept1PixelHit_cut)
 #Den1PixelHitSelWithCosmics.cuts.append(muon_iso_cut) #our custom rho-based iso
 Den1PixelHitSelWithCosmics.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
