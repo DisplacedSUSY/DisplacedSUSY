@@ -86,6 +86,8 @@ EventVariableBranches_names = [
     "vtxEMuYErrInMaterial",
     "vtxEMuZErrInMaterial",
     "vtxEMuChisqInMaterial",
+    "rhadronId_0",#the initial stop r-hadron pdgid from pythia/gen (could flip charge in geant/sim) #r-hadron from stop_0
+    "rhadronId_1",#r-hadron from stop_1
     "puScalingFactor",
     "puScalingFactorUp",
     "puScalingFactorDown",

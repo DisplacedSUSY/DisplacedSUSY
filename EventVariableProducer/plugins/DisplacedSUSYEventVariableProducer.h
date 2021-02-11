@@ -28,6 +28,7 @@ struct OriginalCollections
   edm::Handle<vector<reco::Vertex> >        primaryvertexs;
   edm::Handle<vector<PileupSummaryInfo>>    pileupinfos;
   edm::Handle<edm::TriggerResults>          triggers;
+  edm::Handle<vector<reco::GenParticle>>    hardInteractionMcparticles;
 
 #if DATA_FORMAT_FROM_AOD
   edm::Handle<vector<reco::GsfElectron> >    electrons;
@@ -76,6 +77,7 @@ class DisplacedSUSYEventVariableProducer : public EventVariableProducer
         edm::EDGetTokenT<vector<TYPE(electrons)> > electronsToken_;
         edm::EDGetTokenT<vector<TYPE(jets)> > jetsToken_;
 	edm::EDGetTokenT<edm::TriggerResults> triggersToken_;
+        edm::EDGetTokenT<vector<TYPE(hardInteractionMcparticles)> > hardInteractionMcparticlesToken_;
 
 	//L1 bits information; thanks to dijet scouting team
 	//https://github.com/CMSDIJET/DijetScoutingRootTreeMaker/blob/master/plugins/DijetCaloScoutingTreeProducer.h

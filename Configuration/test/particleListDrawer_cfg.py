@@ -60,6 +60,9 @@ process.source = cms.Source("PoolSource",
         #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_9_4_8/src/DisplacedSUSY/StandardAnalysis/python/MINIAODSIM_stopToLD_M_1000_1mm.root'
 
         #'/store/mc/RunIIAutumn18MiniAOD/ggH_HToSSTo4l_MH-400_MS-10_ctauS-1000_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/110000/EF6B0BBD-BDEF-F84E-8E2C-2D58F2DEEF61.root'
+
+        #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/EECE29A6-583E-3247-9693-E1954C2540CF.root"
+        "file:/eos/uscms/store/user/alimena/StopToLB_M_200_1000mm_13TeV_2018MC_withCloudModel/MiniAod/210123_095528/0000/step0_1.root"
         )
 )
 

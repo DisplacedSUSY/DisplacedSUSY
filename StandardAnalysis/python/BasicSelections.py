@@ -74,3 +74,63 @@ L1PrefiringCheck_cuts = cms.VPSet()
 L1PrefiringCheck_cuts.append(zero_jet_pt_100_cut)
 L1PrefiringCheck_cuts.append(zero_jet_eta_greaterThan2p25_cut)
 L1PrefiringCheck_cuts.append(zero_jet_eta_lessThan3_cut)
+
+##########################################################################
+
+
+bothStopRhadronsAre1000612 = cms.PSet(
+    name = cms.string("bothStopRhadronsAre1000612"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+bothStopRhadronsAre1000612.cuts.append(cutDummy)
+bothStopRhadronsAre1000612.cuts.append(bothStopRhadronsAre1000612_cut)
+
+bothStopRhadronsAre1000622 = cms.PSet(
+    name = cms.string("bothStopRhadronsAre1000622"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+bothStopRhadronsAre1000622.cuts.append(cutDummy)
+bothStopRhadronsAre1000622.cuts.append(bothStopRhadronsAre1000622_cut)
+
+bothStopRhadronsAre1000632 = cms.PSet(
+    name = cms.string("bothStopRhadronsAre1000632"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+bothStopRhadronsAre1000632.cuts.append(cutDummy)
+bothStopRhadronsAre1000632.cuts.append(bothStopRhadronsAre1000632_cut)
+
+stopRhadron1000612or1000622 = cms.PSet(
+    name = cms.string("stopRhadron1000612or1000622"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+stopRhadron1000612or1000622.cuts.append(cutDummy)
+stopRhadron1000612or1000622.cuts.append(stopRhadron_1000612_or_1000622_cut)
+
+stopRhadron1000612or1000632 = cms.PSet(
+    name = cms.string("stopRhadron1000612or1000632"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+stopRhadron1000612or1000632.cuts.append(cutDummy)
+stopRhadron1000612or1000632.cuts.append(stopRhadron_1000612_or_1000632_cut)
+
+stopRhadron1000622or1000632 = cms.PSet(
+    name = cms.string("stopRhadron1000622or1000632"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+stopRhadron1000622or1000632.cuts.append(cutDummy)
+stopRhadron1000622or1000632.cuts.append(stopRhadron_1000622_or_1000632_cut)
+
+
+stopRhadronEverythingElse = cms.PSet(
+    name = cms.string("stopRhadronEverythingElse"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet()
+)
+stopRhadronEverythingElse.cuts.append(cutDummy)
+stopRhadronEverythingElse.cuts.append(stopRhadronEverythingElse_cut)

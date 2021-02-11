@@ -11,6 +11,7 @@ DisplacedSUSYEventVariableProducer::DisplacedSUSYEventVariableProducer(const edm
   beamspotsToken_ = consumes<TYPE(beamspots)> (collections_.getParameter<edm::InputTag> ("beamspots"));
   primaryVertexsToken_ = consumes<vector<TYPE(primaryvertexs)> > (collections_.getParameter<edm::InputTag> ("primaryvertexs"));
   triggersToken_ = consumes<edm::TriggerResults> (collections_.getParameter<edm::InputTag> ("triggers"));
+  hardInteractionMcparticlesToken_ = consumes<vector<TYPE(hardInteractionMcparticles)> > (collections_.getParameter<edm::InputTag> ("hardInteractionMcparticles"));
 
   type_ = cfg.getParameter<string>("type");
   triggerPaths_ = cfg.getParameter<std::vector<std::string> >("triggerPaths");
@@ -83,6 +84,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   objectsToGet_.insert ("triggers");
   if(type_.find("MC") < type_.length()) {
     objectsToGet_.insert ("pileupinfos");
+    objectsToGet_.insert ("hardInteractionMcparticles");
   }
   getOriginalCollections (objectsToGet_, collections_, handles_, event);
 
@@ -424,6 +426,31 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     }
   }
 
+  //loop over "all" gen particles in the event (prunedGenParticles)
+  //to find generated stop r-hadrons (from pythia. this doesn't look at the "final" r-hadrons after eg any charge flipping that might happen with cloud model in geant)
+  int rhadronId_0 = 0;
+  int rhadronId_1 = 0;
+  if(type_.find("MC") < type_.length()) {
+    for (const auto &hardIntMcpart1 : *handles_.hardInteractionMcparticles) {
+      if(fabs(hardIntMcpart1.pdgId())==1000006 && hardIntMcpart1.isLastCopy() && hardIntMcpart1.statusFlags().isFirstCopy()){ //find stops (the magic ones that are both first and last copy, which are the ones that appear AFTER the r-hadrons in the decay chain)
+	//std::cout<<"found a stop"<<std::endl;
+	const reco::Candidate* mother = hardIntMcpart1.mother();
+	int partId = mother->pdgId();
+
+	if( (fabs(partId)>1000600 && fabs(partId)<1000700) || (fabs(partId)>1006000 && fabs(partId)<1007000)){ //if mother of stop is stop r-hadron
+	  //std::cout<<"its mother is a r-hadron with id "<<partId<<std::endl;
+	  if(rhadronId_0==0 && rhadronId_1==0) rhadronId_0 = partId;
+	  else if(rhadronId_0!=0 && rhadronId_1==0) rhadronId_1 = partId;
+	  else std::cout<<"you have a third r-hadron??"<<std::endl;
+
+	}
+	else std::cout<<"stop has no r-hadron mother!!!"<<std::endl;
+	//std::cout<<""<<std::endl;
+      }
+    }
+  }
+
+
   (*eventvariables)["run"] = event.id().run();
   (*eventvariables)["ls"] = event.luminosityBlock();
   (*eventvariables)["event"] = event.id().event();
@@ -563,6 +590,9 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
     (*eventvariables)["vtxEMuChisqInMaterial"] = -10000;
   }
 #endif
+  (*eventvariables)["rhadronId_0"] = rhadronId_0;
+  (*eventvariables)["rhadronId_1"] = rhadronId_1;
+
 
 }
 
@@ -738,13 +768,14 @@ void DisplacedSUSYEventVariableProducer::getOriginalCollections (const unordered
   // Retrieve each object collection which we need and print a warning if it is
   // missing.
   //////////////////////////////////////////////////////////////////////////////
-  if  (VEC_CONTAINS  (objectsToGet,  "electrons"))       event.getByToken  (electronsToken_, handles.electrons);
-  if  (VEC_CONTAINS  (objectsToGet,  "jets"))            event.getByToken  (jetsToken_, handles.jets);
-  if  (VEC_CONTAINS  (objectsToGet,  "muons"))           event.getByToken  (muonsToken_, handles.muons);
-  if  (VEC_CONTAINS  (objectsToGet,  "beamspots"))       event.getByToken  (beamspotsToken_, handles.beamspots);
-  if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs"))  event.getByToken  (primaryVertexsToken_, handles.primaryvertexs);
-  if  (VEC_CONTAINS  (objectsToGet,  "pileupinfos"))     event.getByToken  (pileUpInfosToken_, handles.pileupinfos);
-  if  (VEC_CONTAINS  (objectsToGet,  "triggers"))        event.getByToken  (triggersToken_, handles.triggers);
+  if  (VEC_CONTAINS  (objectsToGet,  "electrons"))                  event.getByToken  (electronsToken_, handles.electrons);
+  if  (VEC_CONTAINS  (objectsToGet,  "jets"))                       event.getByToken  (jetsToken_, handles.jets);
+  if  (VEC_CONTAINS  (objectsToGet,  "muons"))                      event.getByToken  (muonsToken_, handles.muons);
+  if  (VEC_CONTAINS  (objectsToGet,  "beamspots"))                  event.getByToken  (beamspotsToken_, handles.beamspots);
+  if  (VEC_CONTAINS  (objectsToGet,  "primaryvertexs"))             event.getByToken  (primaryVertexsToken_, handles.primaryvertexs);
+  if  (VEC_CONTAINS  (objectsToGet,  "pileupinfos"))                event.getByToken  (pileUpInfosToken_, handles.pileupinfos);
+  if  (VEC_CONTAINS  (objectsToGet,  "triggers"))                   event.getByToken  (triggersToken_, handles.triggers);
+  if  (VEC_CONTAINS  (objectsToGet,  "hardInteractionMcparticles")) event.getByToken  (hardInteractionMcparticlesToken_, handles.hardInteractionMcparticles);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

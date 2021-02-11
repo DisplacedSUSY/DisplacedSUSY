@@ -6475,6 +6475,62 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 20),
             inputVariables = cms.vstring("vtxEMuChisqInMaterial"),
         ),
+
+
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_10006XX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (1st range)"),
+            binsX = cms.untracked.vdouble(100,1000600,1000700),
+            inputVariables = cms.vstring("abs (rhadronId_0)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_1006XXX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (2nd range)"),
+            binsX = cms.untracked.vdouble(1000,1006000,1007000),
+            inputVariables = cms.vstring("abs (rhadronId_0)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop1_10006XX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_1 (1st range)"),
+            binsX = cms.untracked.vdouble(100,1000600,1000700),
+            inputVariables = cms.vstring("abs (rhadronId_1)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop1_1006XXX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_1 (2nd range)"),
+            binsX = cms.untracked.vdouble(1000,1006000,1007000),
+            inputVariables = cms.vstring("abs (rhadronId_1)"),
+        ),
+        #2D
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_vs_stop1_10006XX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (1st range);|PDG ID| of gen stop r-hadron for stop_1 (1st range)"),
+            binsX = cms.untracked.vdouble(100,1000600,1000700),
+            binsY = cms.untracked.vdouble(100,1000600,1000700),
+            inputVariables = cms.vstring("abs (rhadronId_0)","abs (rhadronId_1)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_vs_stop1_1006XXX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (2nd range);|PDG ID| of gen stop r-hadron for stop_1 (2nd range)"),
+            binsX = cms.untracked.vdouble(1000,1006000,1007000),
+            binsY = cms.untracked.vdouble(1000,1006000,1007000),
+            inputVariables = cms.vstring("abs (rhadronId_0)","abs (rhadronId_1)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_vs_stop1_10006XX_vs_1006XXX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (1st range);|PDG ID| of gen stop r-hadron for stop_1 (2nd range)"),
+            binsX = cms.untracked.vdouble(100,1000600,1000700),
+            binsY = cms.untracked.vdouble(1000,1006000,1007000),
+            inputVariables = cms.vstring("abs (rhadronId_0)","abs (rhadronId_1)"),
+        ),
+        cms.PSet (
+            name = cms.string("stopRhadronId_gen_stop0_vs_stop1_1006XXX_vs_10006XX"),
+            title = cms.string("Gen PdgId;|PDG ID| of gen stop r-hadron for stop_0 (2nd range);|PDG ID| of gen stop r-hadron for stop_1 (1st range)"),
+            binsX = cms.untracked.vdouble(1000,1006000,1007000),
+            binsY = cms.untracked.vdouble(100,1000600,1000700),
+            inputVariables = cms.vstring("abs (rhadronId_0)","abs (rhadronId_1)"),
+        ),
+
     )
 )
 
@@ -6533,6 +6589,18 @@ GenParticleHistograms = cms.PSet(
             name = cms.string("GenPdgId"),
             title = cms.string("Gen PdgId;|PDG ID|"),
             binsX = cms.untracked.vdouble(getPdgBins(["unmatched", "quarks", "leptons", "bosons"])),
+            inputVariables = cms.vstring("abs (pdgId)"),
+            ),
+        cms.PSet (
+            name = cms.string("GenPdgId_stopRhadrons_10006XX"),
+            title = cms.string("Gen PdgId;|PDG ID| of stop r-hadrons (1)"),
+            binsX = cms.untracked.vdouble(100,1000600,1000700),
+            inputVariables = cms.vstring("abs (pdgId)"),
+            ),
+        cms.PSet (
+            name = cms.string("GenPdgId_stopRhadrons_1006XXX"),
+            title = cms.string("Gen PdgId;|PDG ID| of stop r-hadrons (2)"),
+            binsX = cms.untracked.vdouble(1000,1006000,1007000),
             inputVariables = cms.vstring("abs (pdgId)"),
             ),
         cms.PSet (
