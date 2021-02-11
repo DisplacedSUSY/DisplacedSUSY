@@ -447,6 +447,7 @@ unique_systematic_uncertainties = {
 
 
 # defined in external text files (located in DisplacedSUSY/Configuration/data)
+# external systematics with the same base name (i.e. BASE_CHANNEL_YEAR) will be treated as correlated across years
 external_systematic_uncertainties = [
         'pileup_emu_2016',
         'pileup_ee_2016',
@@ -481,8 +482,9 @@ external_systematic_uncertainties = [
         'electronD0Smearing_ee_2018',
         'muonD0Smearing_mumu_2018',
 
-    'muonPixelHitEff_emu_2016',
-    'muonPixelHitEff_mumu_2016',
+    #make 2016 not correlated with (2017+2018) due to different pixel detectors
+    'muonPixelHitEff16_emu_2016',
+    'muonPixelHitEff16_mumu_2016',
     'muonPixelHitEff_emu_2017',
     'muonPixelHitEff_mumu_2017',
     'muonPixelHitEff_emu_2018',
