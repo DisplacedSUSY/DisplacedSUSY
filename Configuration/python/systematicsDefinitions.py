@@ -480,4 +480,11 @@ external_systematic_uncertainties = [
         'muonD0Smearing_emu_2018',
         'electronD0Smearing_ee_2018',
         'muonD0Smearing_mumu_2018',
+
+    'muonPixelHitEff_emu_2016',
+    'muonPixelHitEff_mumu_2016',
+    'muonPixelHitEff_emu_2017',
+    'muonPixelHitEff_mumu_2017',
+    'muonPixelHitEff_emu_2018',
+    'muonPixelHitEff_mumu_2018',
 ]
