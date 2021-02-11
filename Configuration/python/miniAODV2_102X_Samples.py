@@ -112,6 +112,8 @@ bg_mc_samples = {
     'QCD_bcToE_80to170'  : "",#'/QCD_Pt_80to170_bcToE_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#16M DOESN'T EXIST YET
     'QCD_bcToE_170to250' : "",#'/QCD_Pt_170to250_bcToE_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#10M DOESN'T EXIST YET
     'QCD_bcToE_250toInf' : "",#'/QCD_Pt_250toInf_bcToE_TuneCP5_13TeV_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM',#10M DOESN'T EXIST YET
+
+    'Cosmics' : "/Cosmic_MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 }
 
 parkedData_samples = {
