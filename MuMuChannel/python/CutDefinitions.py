@@ -116,6 +116,12 @@ muon_gen_motherIsHeavyMeson_cut.alias = cms.string(">=2 muons from heavy mesons 
 muon_dZ_lessThan5000_cut.numberRequired = cms.string(">= 2")
 muon_dZ_lessThan5000_cut.alias = cms.string(">=2 muons with dZ < 0.5 cm")
 
+muon_dZ_lessThan20cm_cut.numberRequired = cms.string(">= 2")
+muon_dZ_lessThan20cm_cut.alias = cms.string(">=2 muons with |d_Z| < 20 cm")
+
+muon_dZ_lessThan15cm_cut.numberRequired = cms.string(">= 2")
+muon_dZ_lessThan15cm_cut.alias = cms.string(">=2 muons with |d_Z| < 15 cm")
+
 muon_gen_motherIsBorCQuark_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsBorCQuark_cut.alias = cms.string(">=2 muons from b or c quark (muon matched to gen particle whose mother's PDG ID is 4 or 5)")
 

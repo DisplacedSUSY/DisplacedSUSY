@@ -1151,6 +1151,20 @@ muon_dZ_lessThan5000_cut = cms.PSet(
     alias = cms.string(">=1 muons with dZ < 0.5 cm")
     )
 
+muon_dZ_lessThan20cm_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("abs("+muonDZWRTBeamspot+") < 20."),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_Z| < 20 cm")
+    )
+
+muon_dZ_lessThan15cm_cut = cms.PSet(
+    inputCollection = cms.vstring("muons","beamspots"),
+    cutString = cms.string("abs("+muonDZWRTBeamspot+") < 15."),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 muons with |d_Z| < 15 cm")
+    )
+
 muon_mt_cut = cms.PSet (
     inputCollection = cms.vstring("muons","mets"),
     cutString = cms.string("transMass(muon, met) < 50"),

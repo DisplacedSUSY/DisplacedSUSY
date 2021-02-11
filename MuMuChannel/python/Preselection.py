@@ -248,6 +248,7 @@ Den1PixelHitSelWithCosmics.cuts.append(muon_idExcept1PixelHit_cut)
 #Den1PixelHitSelWithCosmics.cuts.append(muon_iso_cut) #our custom rho-based iso
 Den1PixelHitSelWithCosmics.cuts.append(diMuon_deltaR_cut) #remove muons from heavy mesons that are very close to each other (loose dR>0.2)
 Den1PixelHitSelWithCosmics.cuts.append(mumu_noDispVtxsInMaterial_cut)
+Den1PixelHitSelWithCosmics.cuts.append(muon_dZ_lessThan15cm_cut)
 
 Num1PixelHitSelWithCosmics = cms.PSet(
     name = cms.string("Num1PixelHitSelWithCosmics"),
