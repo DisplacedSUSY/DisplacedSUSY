@@ -21,6 +21,9 @@ if arguments.condorDir:
 else:
     raise RuntimeError("No output directory specified")
 
+if arguments.add and arguments.rerun:
+    raise RuntimeError("Cannot apply --add and --rerun flags simultaneously")
+
 def output_condor(name, options, inputs, toys):
     cmssw_tarball = os.environ["CMSSW_VERSION"] + '.tar.gz'
     script = "#!/usr/bin/env bash\n\n"
@@ -60,9 +63,16 @@ def output_condor(name, options, inputs, toys):
     with open("condor_{}.sub".format(name), "w") as f:
         f.write (sub_file)
 
-# use expected asymptotic results to determine set of r-values to use for a particular signal point
-# when producing grid of hybridNew test statistic distributions
-def get_r_vals(in_dir, signal_point, n_points):
+def ceil_div(a, b):
+    if a/b == float(a)/float(b):
+        return a/b
+    else:
+        return int(float(a)/float(b)) + 1
+
+def first_half(l):
+    return l[:ceil_div(len(l), 2)]
+
+def get_asymptotic_limits(in_dir, signal_point):
     file_name_template = "{0}/{1}_expected/higgsCombine{1}.AsymptoticLimits.mH120.root"
     file_name = file_name_template.format(in_dir, signal_point)
     try:
@@ -73,44 +83,44 @@ def get_r_vals(in_dir, signal_point, n_points):
     except ReferenceError:
         return False
 
-    # get +-2 sigma range
-    r_lo, r_mid, r_hi = None, None, None
+    limits = {q : None for q in (0.025, 0.160, 0.500, 0.840, 0.975)}
     for i in range(limit_tree.GetEntries()):
         limit_tree.GetEntry(i)
         quantile = round(limit_tree.quantileExpected, 3)
-        if quantile == 0.025:
-            r_lo = limit_tree.limit
-        elif quantile == 0.500:
-            r_mid = limit_tree.limit
-        elif quantile == 0.975:
-            r_hi = limit_tree.limit
+        limits[quantile] = limit_tree.limit
 
     # check that combine results exist and are at least vaguely reasonable
-    if not all((r_lo, r_mid, r_hi)):
+    if not all(limits.values()):
         return False
-    if not (r_lo < r_mid < r_hi):
+    if not (limits[0.025] < limits[0.500] < limits[0.975]):
         return False
 
+    return limits
+
+# use expected asymptotic results to determine set of r-values to use for a particular signal point
+def get_r_vals(limits, n_points, lower_half):
     # set r range from approximately -3 to +2 sigma around asymptotic mean because, empirically,
     # hybridNew r-values tend to be slightly lower and more toys are needed for the lower quantiles
     n_points = int(n_points)
-    r_min = max(0, r_lo - (r_mid - r_lo)/2.)
-    r_max = r_hi
+    r_min = max(0.0001, limits[0.025] - (limits[0.500] - limits[0.025])/2.)
+    r_max = limits[0.975]
     step = (r_max - r_min) / (n_points - 1)
     r_vals = [r_min + step*n for n in range(n_points)]
+
     # round to 3 sig figs
     r_vals = [float("{:.3g}".format(r)) for r in r_vals]
+
+    # discard upper half of r values if user wants to build up toys for lower quantiles
+    r_vals = r_vals if not lower_half else first_half(r_vals)
+
     return r_vals
 
-def set_toys(toys, r_vals, sf_file_path):
+def set_toys(toys, near_curve):
     if arguments.toys > 0:
         return arguments.toys
     # default to 2000 toys in region near limit curve and 500 toys elsewhere
     else:
-        with open(sf_file_path) as sf_file:
-            sf = float(sf_file.readline().rstrip())
-        true_r = sf * (r_vals[0] + r_vals[-1]) / 2.
-        return 2000 if 0.1 < true_r < 10 else 500
+        return 2000 if near_curve else 500
 
 def check_log(log_file):
     with open(log_file, 'r') as f:
@@ -144,13 +154,14 @@ for signal_name in signal_points:
 
     # set up output directory
     expected_dir = "{}/{}_expected".format(output_dir, signal_name)
+    # handle cases where directory doesn't yet exist
     if not os.path.exists(expected_dir):
         if arguments.rerun:
             continue
         else:
             os.mkdir(expected_dir)
             first_ix = 0
-    # fixme: the add vs rerun logic still isn't quite right
+    # handle cases where directory already exists
     else:
         print expected_dir + " already exists"
 
@@ -182,31 +193,47 @@ for signal_name in signal_points:
                 os.mkdir(expected_dir)
                 first_ix = 0
             # when failures and successes coexist, remove failures and launch new jobs
+            # fixme: check that this doesn't harm currently running jobs
             else:
                 for log in failed_logs:
                     os.remove(log)
                 first_ix = last_ix + 1
 
-    # copy over scaled datacard and scale-factor file
-    datacard_name = "datacard_{}.txt".format(signal_name)
-    datacard_path = "{}/{}_expected/{}".format(input_dir, signal_name, datacard_name)
-    sf_file_path = datacard_path.replace('.txt', '.sf')
-    shutil.copy(datacard_path, expected_dir)
-    shutil.copy(sf_file_path, expected_dir)
-
-    # get list of r values to run for the current signal point
-    r_vals = get_r_vals(input_dir, signal_name, arguments.nPoints)
-    if not r_vals:
+    # get asymptotic limits
+    limits = get_asymptotic_limits(input_dir, signal_name)
+    if not limits:
         print "Couldn't read input combine results for {}; skipping.".format(signal_name)
         continue
 
-    # set number of toys
-    toys = set_toys(arguments.toys, r_vals, sf_file_path)
+    # check if signal point is near expected limit curve
+    datacard_name = "datacard_{}.txt".format(signal_name)
+    datacard_path = "{}/{}_expected/{}".format(input_dir, signal_name, datacard_name)
+    if not os.path.isfile(datacard_path):
+        print "Can't find input datacard for {}; skipping.". format(signal_name)
+        continue
+    sf_file_path = datacard_path.replace('.txt', '.sf')
+    try:
+        with open(sf_file_path) as sf_file:
+            sf = float(sf_file.readline().rstrip())
+    except IOError:
+        print "No input signal SF found. Defaulting to 1"
+        sf = 1.0
+    true_r = sf * limits[0.500]
+    near_curve = 0.1 < true_r < 10
+    if arguments.nearCurveOnly and not near_curve:
+        print "{} too far from limit curve; skipping".format(signal_name)
+        continue
+
+    # copy over scaled datacard and scale-factor file
+    shutil.copy(datacard_path, expected_dir)
+    shutil.copy(sf_file_path, expected_dir)
 
     # run one job for each r value
     os.chdir(expected_dir)
     link_tarball(tarball_name)
+    toys = set_toys(arguments.toys, near_curve)
     inputs = [combine_executable, tarball_name, datacard_name]
+    r_vals = get_r_vals(limits, arguments.nPoints, arguments.lowerHalf)
     for ix, r in enumerate(r_vals):
         output_name = ".{}.{}".format(signal_name, r)
         options = options_template.format(datacard=datacard_name, r=r, r_max=2*r, name=output_name,

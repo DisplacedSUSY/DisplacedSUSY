@@ -29,7 +29,11 @@ parser.add_option("-r", "--rerun", action="store_true", dest="rerun", default=Fa
 parser.add_option("-a", "--add", action="store_true", dest="add", default=False,
                   help="run more toys and/or r-values in already existant output directories")
 parser.add_option("-t", "--toys", dest="toys", default=-1,
-                  help="number of toys to run for each r value. default is 500 and 2000 when 0.1<r<10")
+                  help="number of toys to run for each r value. default is 2000 near limit curve and 500 otherwise")
+parser.add_option("--lowerHalf", action="store_true", dest="lowerHalf", default=False,
+                  help="only run jobs for lower half of r values, generally used to build up toys for lower uncertainty bands")
+parser.add_option("--nearCurveOnly", action="store_true", dest="nearCurveOnly", default=False,
+                  help="only run signal points w/ 0.1 < asymptotic expected r < 10")
 
 (arguments, args) = parser.parse_args()
 
