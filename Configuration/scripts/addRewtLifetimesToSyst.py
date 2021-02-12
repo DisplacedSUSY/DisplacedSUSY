@@ -27,6 +27,8 @@ systs = [
     'muonD0Smearing',
     'electronIDandIso',
     'muonIDandIso',
+    'muonPixelHitEff',
+    'muonPixelHitEff16',
 ]
 
 analysisChannels = [
@@ -44,9 +46,11 @@ years = [
 for syst in systs:
     for analysisChannel in analysisChannels:
         for year in years:
-            if year == '2016' and (syst == 'electronD0Smearing' or syst == 'muonD0Smearing'):
+            if year == '2016' and (syst == 'electronD0Smearing' or syst == 'muonD0Smearing' or syst == 'muonPixelHitEff'):
                 continue #no d0 smearing in 2016
-            elif analysisChannel == 'ee' and (syst == 'muonD0Smearing' or syst == 'muonIDandIso'):
+            elif (year == '2017' or year == '2018') and syst == 'muonPixelHitEff16':
+                continue #muonPixelHitEff16 in 2016 only, muonPixelHitEff in 2017 and 2018
+            elif analysisChannel == 'ee' and (syst == 'muonD0Smearing' or syst == 'muonIDandIso' or syst == 'muonPixelHitEff' or syst == 'muonPixelHitEff16'):
                 continue #no muon systematics in ee channel
             elif analysisChannel == 'mumu' and (syst == 'electronD0Smearing' or syst == 'electronIDandIso'):
                 continue #no electron systs in mumu channel
