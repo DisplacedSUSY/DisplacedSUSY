@@ -11,15 +11,25 @@ parser.add_option("-E", "--era", dest="era", default="",
 parser.add_option("-M", "--method", dest="method", default="AsymptoticLimits",
                   help="which method of combine to use: currently supported options are AsymptoticLimits (default) and HybridNew")
 parser.add_option("-b", "--batchMode", action="store_true", dest="batchMode", default=False,
-                                    help="run on the condor queue")
+                  help="run on the condor queue")
 parser.add_option("-s", "--scaleSignalRate", dest="maxSignalRate", default="-1",
                   help="scale all signal rates so the maximum is MAXSIGNALRATE, default = -1; negative values turn off scaling")
 parser.add_option("-e", "--expectedOnly", action="store_true", dest="expectedOnly", default=False,
-                                    help="only run expected limits (skip observed)")
+                  help="only run expected limits (skip observed)")
 parser.add_option("-q", "--quick", action="store_true", dest="quick", default=False,
                   help="run only a single sample, for testing")
 parser.add_option("--separateFileQuantiles", action="store_true", dest="separateFileQuantiles", default=False,
                   help="Fetch quantiles from separate root files")
+parser.add_option("-i", "--inputDir", dest="inputDir", default=None,
+                  help="input directory containing asymptotic results to guide grid production")
+parser.add_option("-n", "--nPoints", dest="nPoints", default=5,
+                  help="number of r values to use when producing grid")
+parser.add_option("-r", "--rerun", action="store_true", dest="rerun", default=False,
+                  help="rerun signal points that already have an output directory")
+parser.add_option("-a", "--add", action="store_true", dest="add", default=False,
+                  help="run more toys and/or r-values in already existant output directories")
+parser.add_option("-t", "--toys", dest="toys", default=-1,
+                  help="number of toys to run for each r value. default is 500 and 2000 when 0.1<r<10")
 
 (arguments, args) = parser.parse_args()
 
