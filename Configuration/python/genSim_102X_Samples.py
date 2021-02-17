@@ -17,7 +17,3 @@ signal_mc_samples = {
 dataset_names = {}
 dataset_names.update(bg_mc_samples)
 dataset_names.update(signal_mc_samples)
-
-# Propagate displaced SUSY sample names to the lifetime-reweighted samples
-from DisplacedSUSY.Configuration.miniAODV2_80X_Samples import renameReweightedSamples
-renameReweightedSamples(dataset_names)
