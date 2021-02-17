@@ -13,7 +13,72 @@ from DisplacedSUSY.Configuration.limitOptions import *
 ### signal cross sections and their uncertainties ###
 #####################################################
 
-#
+#taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVslepslep#NLO_NLL_any_single_generation_su
+signal_cross_sections_sleptons_13TeV = {
+
+    '50' : {
+        'value' : '5.368',
+        'error' : '1.039',
+    },
+    '100' : {
+        'value' : '0.3657',
+        'error' : '1.018',
+    },
+    '150' : {
+        'value' : '0.08712',
+        'error' : '1.017',
+    },
+    '200' : {
+        'value' : '0.03031',
+        'error' : '1.020',
+    },
+    '250' : {
+        'value' : '0.01292',
+        'error' : '1.021',
+    },
+    '300' : {
+        'value' : '0.006254',
+        'error' : '1.023',
+    },
+    '350' : {
+        'value' : '0.002931',
+        'error' : '1.026',
+    },
+    '400' : {
+        'value' : '0.001859',
+        'error' : '1.029',
+    },
+    '450' : {
+        'value' : '0.001216',
+        'error' : '1.031',
+    },
+    '500' : {
+        'value' : '0.0006736',
+        'error' : '1.033',
+    },
+    '600' : {
+        'value' : '0.0002763',
+        'error' : '1.036',
+    },
+    '700' : {
+        'value' : '0.0001235',
+        'error' : '1.038',
+    },
+    '800' : {
+        'value' : '5.863e-05',
+        'error' : '1.042',
+    },
+    '900' : {
+        'value' : '2.918e-05',
+        'error' : '1.046',
+    },
+    '1000' : {
+        'value' : '1.504e-05',
+        'error' : '1.052',
+    },
+}
+
+#from gridpacks
 signal_cross_sections_HToSS_13TeV = {
 
     '110' : {
