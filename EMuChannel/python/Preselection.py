@@ -109,8 +109,8 @@ InclusiveSignalRegion = cms.PSet(
     triggers = copy.deepcopy(Preselection.triggers),
     cuts = cms.VPSet (copy.deepcopy(Preselection.cuts))
 )
-InclusiveSignalRegion.cuts.append(electron_d0_greaterThan200_cut)
-InclusiveSignalRegion.cuts.append(muon_d0_greaterThan200_cut)
+InclusiveSignalRegion.cuts.append(electron_d0_greaterThan100_cut)
+InclusiveSignalRegion.cuts.append(muon_d0_greaterThan100_cut)
 
 PromptLowPtControlRegion = copy.deepcopy(PromptControlRegion)
 PromptLowPtControlRegion.name = cms.string("PromptLowPtControlRegion")
