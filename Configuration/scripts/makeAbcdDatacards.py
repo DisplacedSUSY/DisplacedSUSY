@@ -318,25 +318,41 @@ class SignalRegion(Region):
 
 
 class Hist(object):
-    def __init__(self, sample_info, blinded=True, interpolated=False):
+    def __init__(self, sample_info, blinded=True, interpolated=False, swap_axes=False):
         file_path = "condor/{}/{}".format(sample_info['dir'], sample_info['file'])
         hist_path = sample_info['hist']
         self.var_bins = sample_info['var_bins']
         self.blinded = sample_info['blinded']
-        self.hist = self.get_hist(file_path, hist_path)
+        self.hist = self.get_hist(file_path, hist_path, swap_axes)
         if interpolated:
             self.reweight_hist(file_path, hist_path, sample_info['name'])
             self.var_bins = False
         else:
             self.var_bins = sample_info['var_bins']
 
-    def get_hist(self, file_path, hist_path):
+    def get_hist(self, file_path, hist_path, swap_axes):
         f = TFile(file_path)
         try:
             h = f.Get(hist_path).Clone()
         except ReferenceError:
             raise IOError("Could not load {} from {}".format(hist_path, file_path))
         h.SetDirectory(0)
+
+        # swap x and y axes if necessary
+        if swap_axes:
+            h_old = h.Clone()
+            h.Reset()
+            h.GetXaxis().SetTitle(h_old.GetYaxis().GetTitle())
+            h.GetYaxis().SetTitle(h_old.GetXaxis().GetTitle())
+            # swap bin content to match new axes
+            for z in range(1, h_old.GetNbinsZ()+1):
+                for y in range(1, h_old.GetNbinsY()+1):
+                    for x in range(1, h_old.GetNbinsX()+1):
+                        c = h_old.GetBinContent(x, y, z)
+                        e = h_old.GetBinError(x, y, z)
+                        h.SetBinContent(y, x, z, c)
+                        h.SetBinError(y, x, z, e)
+
         return h
 
     # update contents of d0-d0-pT hist to include lifetime weights for interpolated points
@@ -368,7 +384,6 @@ class Hist(object):
         # identify branches that correspond to hist axes
         hist_name = hist_path.split('/')[-1]
         hist_legs = [x.split('_')[0] for x in hist_name.split("_vs_")]
-        # fixme: wasteful to redefine this every time method is called
         hist_to_branch_mapping = {
             'electronAbsD0[0]' : 'electron_beamspot_absD0Electron0',
             'electronAbsD0[1]' : 'electron_beamspot_absD0Electron1',
@@ -576,7 +591,7 @@ if abcd_correlation_factors.keys() != abcd_extrapolation_systematics.keys():
 years = datacardCombinations[era] if era in datacardCombinations else [era]
 data_hists = {}
 for year in years:
-    data_hists[year] = Hist(data_samples[year])
+    data_hists[year] = Hist(data_samples[year], swap_axes=swap_axes)
 data_yields = {}
 ordered_regions = [sr for sr in signal_regions]
 for sr in signal_regions:
@@ -721,7 +736,8 @@ for signal_name in signal_points:
     for year in years:
         signal_samples[year]['name'] = signal_name
         signal_samples[year]['file'] = signal_file
-        signal_hists[year] = Hist(signal_samples[year], interpolated=interpolated)
+        signal_hists[year] = Hist(signal_samples[year], interpolated=interpolated,
+                                  swap_axes=swap_axes)
 
     # get signal yields
     signal_yields = {}

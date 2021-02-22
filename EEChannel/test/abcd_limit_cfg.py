@@ -77,6 +77,10 @@ abcd_systematics = { # from elog 1860
 # this can be overridden in individual dictionaries if desired
 hist = 'PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]'
 
+# swap x and y axes to match regions defined in AN and paper
+# currently only necessary in the emu channel
+swap_axes = False
+
 # list separate dictionaries for each year; they will be combined by makeAbcdDatacards if necessary
 data_samples = {
     '2016' : {
