@@ -48,7 +48,7 @@ def output_condor(name, options, inputs, toys):
     sub_file += "Executable              = "+command+"\n"
     sub_file += "Universe                = vanilla\n"
     sub_file += "Getenv                  = True\n"
-    sub_file += "request_memory          = "+str(int(3*toys))+"MB\n" # empirically determined
+    sub_file += "request_memory          = "+str(3*int(toys))+"MB\n" # empirically determined
     sub_file += "Should_Transfer_Files   = YES\n"
     sub_file += "Transfer_Input_Files    = "+input_list+"\n"
     sub_file += "\n"
@@ -102,7 +102,8 @@ def get_r_vals(limits, n_points, lower_half):
     # set r range from approximately -3 to +2 sigma around asymptotic mean because, empirically,
     # hybridNew r-values tend to be slightly lower and more toys are needed for the lower quantiles
     n_points = int(n_points)
-    r_min = max(0.0001, limits[0.025] - (limits[0.500] - limits[0.025])/2.)
+    r_min = limits[0.025] - (limits[0.500] - limits[0.025])/2.
+    r_min = r_min if r_min > 0 else limits[0.025]/2.
     r_max = limits[0.975]
     step = (r_max - r_min) / (n_points - 1)
     r_vals = [r_min + step*n for n in range(n_points)]
@@ -175,7 +176,7 @@ for signal_name in signal_points:
         successful_logs = filter(check_log, previous_logs)
         failed_logs = [l for l in previous_logs if l not in successful_logs]
         log_labels = [name.split(".")[0].split("_")[-1] for name in previous_logs]
-        last_ix = max(int(l) for l in log_labels if l.isdigit())
+        last_ix = max(int(l) for l in log_labels if l.isdigit()) if log_labels else -1
         print "contains {} successes and {} failures".format(len(successful_logs), len(failed_logs))
 
         if arguments.add:
