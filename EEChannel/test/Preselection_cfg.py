@@ -11,6 +11,8 @@ from DisplacedSUSY.EEChannel.Preselection import *
 
 eventSelections = [
     Preselection,
+    #DenMissingInnerHitsSel,
+    #NumMissingInnerHitsSel,
     #ElectronD00to40ElectronD0Above100Region,
     #ElectronD00to40ElectronD00to100Region,
     #ElectronD00to40ElectronD0100to500Region,
