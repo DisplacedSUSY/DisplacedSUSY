@@ -90,7 +90,7 @@ data_samples = {
         'file' : 'MuonEG_2016_postHIP.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2017' : {
         'name' : 'MuonEG_2017_withoutB',
@@ -98,7 +98,7 @@ data_samples = {
         'file' : 'MuonEG_2017_withoutB.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2018' : {
         'name' : 'MuonEG_2018',
@@ -106,7 +106,7 @@ data_samples = {
         'file' : 'MuonEG_2018.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
 }
 

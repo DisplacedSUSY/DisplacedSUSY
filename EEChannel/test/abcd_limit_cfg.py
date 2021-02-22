@@ -89,7 +89,7 @@ data_samples = {
         'file' : 'DoubleEG_2016_postHIP.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2017' : {
         'name' : 'DoubleEG_2017',
@@ -97,7 +97,7 @@ data_samples = {
         'file' : 'DoubleEG_2017.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2018' : {
         'name' : 'EGamma_2018',
@@ -105,7 +105,7 @@ data_samples = {
         'file' : 'EGamma_2018.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
 }
 

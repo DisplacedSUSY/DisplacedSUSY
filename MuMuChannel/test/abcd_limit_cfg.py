@@ -86,7 +86,7 @@ data_samples = {
         'file' : 'DoubleMu_2016_postHIP.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2017' : {
         'name' : 'DoubleMu_2017_withoutB',
@@ -94,7 +94,7 @@ data_samples = {
         'file' : 'DoubleMu_2017_withoutB.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
     '2018' : {
         'name' : 'DoubleMu_2018',
@@ -102,7 +102,7 @@ data_samples = {
         'file' : 'DoubleMu_2018.root',
         'hist' : hist,
         'var_bins' : True,
-        'blinded'  : True,
+        'blinded'  : False,
     },
 }
 
