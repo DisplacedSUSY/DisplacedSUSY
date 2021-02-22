@@ -256,7 +256,8 @@ for z_lo, z_hi in z_regions:
         print '[TABLE border="1"]'
         x_label = in_th2.GetXaxis().GetTitle().replace("|", "\|")
         y_label = in_th2.GetYaxis().GetTitle().replace("|", "\|")
-        print "{}|{}|A|B|C|D Estimate|D Actual|D Actual/Estimate".format(x_label, y_label)
+        print "{0}|{1}|A|displaced {0}|displaced {1}|D Estimate|D Actual|D Actual/Estimate".format(
+                                                                                   x_label, y_label)
 
     # iterate through all target regions and perform abcd estimate
     for (x_lo, x_hi), (y_lo, y_hi) in itertools.product(x_regions[1:], y_regions[1:]):
