@@ -294,7 +294,7 @@ for sample in datasets:
 fout.close()
 
 print "systematic uncertainty ranges from " + str(100.*lowest_fraction) + " to " + str(100.*highest_fraction) + "%"
-print "average syst uncert is " + str(100.*sum_fractions/(2*num_samples)) + "%"
+print "average syst uncert is " + str(100.*sum_fractions/(2*num_samples)) + "%" #need to multiply num_samples by 2 because added minus_fractions and plus_fractions together
 print "######"
 
 for b in range(0,hPlusSystVsLifetime.GetNbinsX()):
