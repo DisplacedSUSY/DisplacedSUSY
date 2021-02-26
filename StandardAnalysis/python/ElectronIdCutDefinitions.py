@@ -6,7 +6,7 @@ import os
 from OSUT3Analysis.Configuration.cutUtilities import *
 
 ##########################################################################################
-#USE THIS CONFIG ONLY FOR ELECTRON TIGHT ID TESTS! 
+#USE THIS CONFIG ONLY FOR ELECTRON TIGHT ID TESTS!
 ##########################################################################################
 
 #barrel or endcap
@@ -101,7 +101,7 @@ electron_hadronicOverEmEB_cut = cms.PSet(
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
     electron_hadronicOverEmEB_cut.cutString = "hadronicOverEm < 0.026 + 1.12/ecalEnergy + 0.0368*rho/ecalEnergy"
     electron_hadronicOverEmEB_cut.alias = ">= 1 electrons with hadronicOverEm < 0.026 + 1.12/ecalEnergy + 0.0368*rho/ecalEnergy"
-    
+
 
 electron_hadronicOverEmEE_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
@@ -142,9 +142,9 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
 #same for EB and EE
 electron_missingInnerHits_cut = cms.PSet(
     inputCollection = cms.vstring("electrons"),
-    cutString = cms.string("missingInnerHitsFromAllHits <= 1"),
+    cutString = cms.string("missingInnerHitsFromLostHits <= 1"),
     numberRequired = cms.string(">= 1"),
-    alias = cms.string(">= 1 electrons with missing inner hits <= 1")
+    alias = cms.string(">= 1 electrons with expected missing inner hits <= 1")
     )
 
 ##########################################################################################

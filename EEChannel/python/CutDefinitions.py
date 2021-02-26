@@ -297,7 +297,7 @@ if os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_"):
 #missingInnerHits
 #same for EB and EE
 electron_missingInnerHits_cut.numberRequired = cms.string(">= 2")
-electron_missingInnerHits_cut.alias = cms.string(">= 2 electrons with missing inner hits <= 1")
+electron_missingInnerHits_cut.alias = cms.string(">= 2 electrons with expected missing inner hits <= 1")
 
 ##########################################################################################
 #passConversionVeto
