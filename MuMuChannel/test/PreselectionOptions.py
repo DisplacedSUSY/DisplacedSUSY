@@ -4,6 +4,11 @@ from DisplacedSUSY.MuMuChannel.localOptions import *
 # specify which config file to pass to cmsRun
 config_file = "Preselection_cfg.py"
 
+
+dataset = "Background"
+#dataset = "DoubleMu_2016_2017_2018"
+
+
 # create list of datasets to process
 datasets = default_datasets
 datasets.remove('DisplacedSUSYSignal')
@@ -15,6 +20,9 @@ datasets.remove('DisplacedSUSYSignal')
     #'NoBPTX_2017',
     #'NoBPTX_2018',
     #'DoubleMu_2016_postHIP',
+    #'DoubleMu_2017',
+    #'DoubleMu_2018',
+    #'DoubleMu_2016_2017_2018',
 #]
 
 # full list of signal jobs we need to run,
