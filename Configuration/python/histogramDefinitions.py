@@ -112,6 +112,24 @@ MuonHistograms = cms.PSet(
             inputVariables = cms.vstring("phi","eta"),
         ),
         cms.PSet (
+            name = cms.string("muonLeadingEtaLeadingPhi"),
+            title = cms.string("Leading Muon Eta vs. Leading Muon Phi;Leading muon #phi;Leading muon #eta"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(60, -3, 3),
+            indexX = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("phi","eta"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingEtaSubleadingPhi"),
+            title = cms.string("Subleading muon Eta vs. Subleading muon Phi;Subleading muon #phi;Subleading muon #eta"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(60, -3, 3),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(1),
+            inputVariables = cms.vstring("phi","eta"),
+        ),
+        cms.PSet (
             name = cms.string("muonNumberOfMissingInnerHits"),
             title = cms.string("Muon Number of Missing Inner Hits;Muon number of missing inner silicon hits"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
@@ -137,7 +155,7 @@ MuonHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("muonNormalizedChi2"),
-            title = cms.string("Muon Chi Squared;Muon #chi^{2}/ndf"),
+            title = cms.string("Muon Global Track Normalized Chi Squared;Muon global track #chi^{2}/ndf"),
             binsX = cms.untracked.vdouble(20, 0, 20),
             inputVariables = cms.vstring("globalTrack.normalizedChi2"),
         ),
@@ -150,8 +168,33 @@ MuonHistograms = cms.PSet(
         cms.PSet (
             name = cms.string("muonNumberOfValidPixelHits"),
             title = cms.string("Muon Number of Valid Pixel Hits;Muon number of valid pixel hits"),
-            binsX = cms.untracked.vdouble(30, 0, 30),
+            binsX = cms.untracked.vdouble(10, 0, 10),
             inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits"),
+        ),
+        cms.PSet (
+            name = cms.string("muonNumberOfValidPixelHitsPhi"),
+            title = cms.string("Muon number of valid pixel hits vs. Muon Phi;Muon #phi;Muon number of valid pixel hits"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("phi","innerTrack.hitPattern_.numberOfValidPixelHits"),
+        ),
+        cms.PSet (
+            name = cms.string("muonLeadingNumberOfValidPixelHitsLeadingPhi"),
+            title = cms.string("Leading muon number of valid pixel hits vs. Leading muon Phi;Leading muon #phi;Leading muon number of valid pixel hits"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(10, 0, 10),
+            indexX = cms.untracked.int32(0),
+            indexY = cms.untracked.int32(0),
+            inputVariables = cms.vstring("phi","innerTrack.hitPattern_.numberOfValidPixelHits"),
+        ),
+        cms.PSet (
+            name = cms.string("muonSubleadingNumberOfValidPixelHitsSubleadingPhi"),
+            title = cms.string("Subleading muon number of valid pixel hits vs. Subleading muon Phi;Subleading muon #phi;Subleading muon number of valid pixel hits"),
+            binsX = cms.untracked.vdouble(64, -3.2, 3.2),
+            binsY = cms.untracked.vdouble(10, 0, 10),
+            indexX = cms.untracked.int32(1),
+            indexY = cms.untracked.int32(1),
+            inputVariables = cms.vstring("phi","innerTrack.hitPattern_.numberOfValidPixelHits"),
         ),
         cms.PSet (
             name = cms.string("muonTrackerLayersWithMeasurement"),
@@ -159,6 +202,14 @@ MuonHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(30, 0, 30),
             inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement"),
             ),
+        cms.PSet (
+            #returns the layer number of the first valid pixel hit
+            #if it is 0, then there are no valid pixel hits
+            name = cms.string("muonLayerOfFirstValidPixelHit"),
+            title = cms.string("Layer Number of First Valid Pixel Hit for Muons;Layer number of first valid pixel hit for muons"),
+            binsX = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("layerOfFirstValidPixelHit"),
+        ),
         cms.PSet (
             name = cms.string("muonIsGlobalMuon"),
             title = cms.string("Muon isGlobalMuon;Muon is global"),
@@ -539,6 +590,32 @@ ElectronHistograms = cms.PSet(
             inputVariables = cms.vstring("phi","eta"),
         ),
         cms.PSet (
+            name = cms.string("electronNumberOfValidHits"),
+            title = cms.string("Electron Number of Valid Hits;Electron number of valid Hits"),
+            binsX = cms.untracked.vdouble(40, 0, 40),
+            inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidHits"),
+        ),
+        cms.PSet (
+            name = cms.string("electronNumberOfValidPixelHits"),
+            title = cms.string("Electron Number of Valid Pixel Hits;Electron number of valid pixel hits"),
+            binsX = cms.untracked.vdouble(10, 0, 10),
+            inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidPixelHits"),
+        ),
+        cms.PSet (
+            name = cms.string("electronTrackerLayersWithMeasurement"),
+            title = cms.string("Electron Number of Tracker Layer with Measurement;Electron tracker layers with measurement"),
+            binsX = cms.untracked.vdouble(30, 0, 30),
+            inputVariables = cms.vstring("gsfTrack.hitPattern_.trackerLayersWithMeasurement"),
+            ),
+        cms.PSet (
+            #returns the layer number of the first valid pixel hit
+            #if it is 0, then there are no valid pixel hits
+            name = cms.string("electronLayerOfFirstValidPixelHit"),
+            title = cms.string("Layer Number of First Valid Pixel Hit for Electrons;Layer number of first valid pixel hit for electrons"),
+            binsX = cms.untracked.vdouble(5, -0.5, 4.5),
+            inputVariables = cms.vstring("layerOfFirstValidPixelHit"),
+        ),
+        cms.PSet (
             name = cms.string("electronNumberOfMissingInnerHits"),
             title = cms.string("Electron Number of Missing Inner Hits;Electron number of missing inner hits"),
             binsX = cms.untracked.vdouble(6, -0.5, 5.5),
@@ -564,7 +641,7 @@ ElectronHistograms = cms.PSet(
         ),
         cms.PSet (
             name = cms.string("electronDeltaEtaSuperClusterTrackAtVtx"),
-            title = cms.string("Electron deltaEtaSuperClusterTrackAtVtx;#Delta#eta(SC, track) at vertex"),
+            title = cms.string("Electron deltaEtaSuperClusterTrackAtVtx;Electron #Delta#eta(SC, track) at vertex"),
             binsX = cms.untracked.vdouble(100, 0, 0.01),
             inputVariables = cms.vstring("abs(deltaEtaSuperClusterTrackAtVtx)"),
         ),
@@ -577,47 +654,40 @@ ElectronHistograms = cms.PSet(
         #),
         cms.PSet (
             name = cms.string("electronDeltaPhiSuperClusterTrackAtVtx"),
-            title = cms.string("Electron deltaPhiSuperClusterTrackAtVtx;#Delta#phi(SC, track) at vertex"),
+            title = cms.string("Electron deltaPhiSuperClusterTrackAtVtx;Electron #Delta#phi(SC, track) at vertex"),
             binsX = cms.untracked.vdouble(100, 0, 0.1),
             inputVariables = cms.vstring("abs(deltaPhiSuperClusterTrackAtVtx)"),
         ),
         cms.PSet (
             name = cms.string("electronFull5x5_sigmaIetaIeta"),
-            title = cms.string("Electron full5x5_sigmaIetaIeta;#sigmai#etai#eta"),
+            title = cms.string("Electron full5x5_sigmaIetaIeta;Electron #sigmai#etai#eta"),
             binsX = cms.untracked.vdouble(100, 0, 0.1),
             inputVariables = cms.vstring("full5x5_sigmaIetaIeta"),
         ),
         cms.PSet (
             name = cms.string("electronHadronicOverEm"),
-            title = cms.string("Electron H/E;H/E"),
+            title = cms.string("Electron H/E;Electron H/E"),
             binsX = cms.untracked.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("hadronicOverEm"),
         ),
         cms.PSet (
             name = cms.string("electronOoEmooP"),
-            title = cms.string("Electron 1/E - 1/p;1/E - 1/p [GeV^{-1}]"),
+            title = cms.string("Electron 1/E - 1/p;Electron 1/E - 1/p [GeV^{-1}]"),
             binsX = cms.untracked.vdouble(100, 0, 0.5),
             inputVariables = cms.vstring("abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy)"),
         ),
         cms.PSet (
             name = cms.string("electronVtxFitConversion"),
-            title = cms.string("Electron Pass Conversion Veto;Pass Conversion Veto"),
+            title = cms.string("Electron Pass Conversion Veto;Electron passes conversion veto"),
             binsX = cms.untracked.vdouble(2, 0, 2),
             inputVariables = cms.vstring("passConversionVeto"),
         ),
-
-#        cms.PSet (
-#            name = cms.string("electronTkNormChi2"),
-#            title = cms.string("Electron Track NormChi2;#chi^{2}"),
-#            binsX = cms.untracked.vdouble(50, 0, 50),
-#            inputVariables = cms.vstring("gsfTrack.normalizedChi2"),
-#        ),
-#        cms.PSet (
-#            name = cms.string("electronTkValidHits"),
-#            title = cms.string("Electron Track Number of Valid Hits;# Hits"),
-#            binsX = cms.untracked.vdouble(20, 0, 20),
-#            inputVariables = cms.vstring("gsfTrack.numberOfValidHits"),
-#        ),
+        cms.PSet (
+            name = cms.string("electronNormalizedChi2"),
+            title = cms.string("Electron Track Normalized Chi Squared;Electron GSF track #chi^{2}/ndof"),
+            binsX = cms.untracked.vdouble(50, 0, 50),
+            inputVariables = cms.vstring("gsfTrack.normalizedChi2"),
+        ),
         cms.PSet (
             name = cms.string("ElectronNewRhoBasedIsolation"),
             title = cms.string("Electron new rho-based Isolation;Electron new rho-based isolation"),

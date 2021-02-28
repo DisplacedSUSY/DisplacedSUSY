@@ -217,6 +217,7 @@ LeptonBranches_names = [
     "eta",
     "phi",
     "charge",
+    "layerOfFirstValidPixelHit",
 ]
 
 ###########################
@@ -229,13 +230,33 @@ Electron0Branches = cms.PSet(
 )
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(objectDefs.electron_newIso_string))])
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidHitsElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidHits"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidPixelHits"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.hitPattern_.trackerLayersWithMeasurement"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("missingInnerHitsFromLostHitsElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("missingInnerHitsFromLostHits"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Electron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.normalizedChi2"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("absDeltaEtaSuperClusterTrackAtVtxElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("abs(deltaEtaSuperClusterTrackAtVtx)"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("full5x5sigmaIetaIetaElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("full5x5_sigmaIetaIeta"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("hOverEElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("hadronicOverEm"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("abs1OverEMinus1OverPElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy)"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("passConversionVetoElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("passConversionVeto"))])
 
 Electron1Branches = cms.PSet(
     inputCollection = cms.vstring("electrons"),
     branches = cms.VPSet ([cms.PSet(name = cms.string(x+"Electron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(x)) for x in LeptonBranches_names]),
 )
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(objectDefs.electron_newIso_string))])
-Electron0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidHitsElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidHits"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.hitPattern_.numberOfValidPixelHits"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.hitPattern_.trackerLayersWithMeasurement"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("missingInnerHitsFromLostHitsElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("missingInnerHitsFromLostHits"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Electron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.normalizedChi2"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("absDeltaEtaSuperClusterTrackAtVtxElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("abs(deltaEtaSuperClusterTrackAtVtx)"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("full5x5sigmaIetaIetaElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("full5x5_sigmaIetaIeta"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("hOverEElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("hadronicOverEm"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("abs1OverEMinus1OverPElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy)"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("passConversionVetoElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("passConversionVeto"))])
 
 Electron0D0Branches = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
@@ -294,6 +315,17 @@ Electron0D0Branches = cms.PSet(
             name = cms.string("unsmearedD0ErrorElectron0"),
             index = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*"+electronD0WRTBeamspotErr),
+        ),
+
+        cms.PSet(
+            name = cms.string("DzElectron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*"+electronDZWRTBeamspot),
+        ),
+        cms.PSet(
+            name = cms.string("absDzElectron0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+electronDZWRTBeamspot+")"),
         ),
     )
 )
@@ -356,6 +388,17 @@ Electron1D0Branches = cms.PSet(
             index = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*"+electronD0WRTBeamspotErr),
         ),
+
+        cms.PSet(
+            name = cms.string("DzElectron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*"+electronDZWRTBeamspot),
+        ),
+        cms.PSet(
+            name = cms.string("absDzElectron1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+electronDZWRTBeamspot+")"),
+        ),
     )
 )
 
@@ -367,6 +410,7 @@ Electron1D0Branches = cms.PSet(
 AdditionalMuonBranches_names = [
     "isGlobalMuon",
     "isPFMuon",
+    "numberOfValidHits",
 ]
 
 Muon0Branches = cms.PSet(
@@ -376,6 +420,9 @@ Muon0Branches = cms.PSet(
 Muon0Branches.branches.extend([cms.PSet(name = cms.string(x+"0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(x)) for x in AdditionalMuonBranches_names])
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring(objectDefs.muon_iso_string))])
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits"))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement"))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Muon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("globalTrack.normalizedChi2"))])
 
 Muon1Branches = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -383,7 +430,10 @@ Muon1Branches = cms.PSet(
 )
 Muon1Branches.branches.extend([cms.PSet(name = cms.string(x+"1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(x)) for x in AdditionalMuonBranches_names])
 Muon1Branches.branches.extend([cms.PSet(name = cms.string("rhoBasedIsolationMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring(objectDefs.muon_iso_string))])
-Muon0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("genMatchedParticle.noFlags.uniqueMotherPdgId"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Muon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("globalTrack.normalizedChi2"))])
 
 Muon0D0Branches = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
@@ -442,6 +492,17 @@ Muon0D0Branches = cms.PSet(
             name = cms.string("unsmearedD0ErrorMuon0"),
             index = cms.untracked.int32(0),
             inputVariables = cms.vstring("10000*"+muonD0WRTBeamspotErr),
+        ),
+
+        cms.PSet(
+            name = cms.string("DzMuon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*"+muonDZWRTBeamspot),
+        ),
+        cms.PSet(
+            name = cms.string("absDzMuon0"),
+            index = cms.untracked.int32(0),
+            inputVariables = cms.vstring("10000*abs("+muonDZWRTBeamspot+")"),
         ),
     )
 )
@@ -503,6 +564,17 @@ Muon1D0Branches = cms.PSet(
             name = cms.string("unsmearedD0ErrorMuon1"),
             index = cms.untracked.int32(1),
             inputVariables = cms.vstring("10000*"+muonD0WRTBeamspotErr),
+        ),
+
+        cms.PSet(
+            name = cms.string("DzMuon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*"+muonDZWRTBeamspot),
+        ),
+        cms.PSet(
+            name = cms.string("absDzMuon1"),
+            index = cms.untracked.int32(1),
+            inputVariables = cms.vstring("10000*abs("+muonDZWRTBeamspot+")"),
         ),
     )
 )
