@@ -5,16 +5,14 @@ from DisplacedSUSY.EEChannel.localOptions import *
 config_file = "Preselection_cfg.py"
 
 
-dataset = "Background"
-#dataset = "DoubleEG_2016_2017_2018"
-
-
 # create list of datasets to process
 datasets = default_datasets
 datasets.remove('DisplacedSUSYSignal')
 #datasets.append()
 
 #datasets = [
+    #'DoubleEG_2016_postHIP',
+    #'DoubleEG_2017',
     #'EGamma_2018',
     #'DoubleEG_2016_2017_2018',
 #]

@@ -285,36 +285,46 @@ log_100000um_bins = [1,10,100,500,1000,5000,10000,50000,100000]
 nbins = int(len(log_100000um_bins)-1)
 h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
 h.SetTitle(";"+xTitle+";"+yTitle)
+totalCount = 0
+srCount = 0
 
-fileName = "condor/%s/mergeOutputHadd/%s.root" % (arguments.condorDir,dataset)
-inputFile = TFile(fileName)
-if(inputFile.IsZombie()):
-    print "input file is zombie"
-    sys.exit(1)
-inputFile.cd()
-keys = []
-for key in inputFile.GetListOfKeys():
-    keys.append(key.GetName())
-    if (key.GetClassName() != "TDirectoryFile"):
-        print "no TDirectoryFile"
+for dataset in datasets:
+    fileName = "condor/%s/mergeOutputHadd/%s.root" % (arguments.condorDir,dataset)
+    inputFile = TFile(fileName)
+    if(inputFile.IsZombie()):
+        print "input file is zombie"
         sys.exit(1)
-if not "PreselectionTreeMaker" in keys:
-    print "no Tree, setting getMeanEfficiency to -1"
-    sys.exit(1)
-tree = inputFile.Get("PreselectionTreeMaker/Tree")
+    inputFile.cd()
+    keys = []
+    for key in inputFile.GetListOfKeys():
+        keys.append(key.GetName())
+        if (key.GetClassName() != "TDirectoryFile"):
+            print "no TDirectoryFile"
+            sys.exit(1)
+    if not "PreselectionTreeMaker" in keys:
+        print "no Tree, setting getMeanEfficiency to -1"
+        sys.exit(1)
+    tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
-for iEntry in tree:
-    d01 = getattr(iEntry,var1)
-    d02 = getattr(iEntry,var2)
-    if d01<1.:
-        d01 = 1.1
-    if d02<1.:
-        d02 = 1.1
-    #print "d01 is: " + str(d01) + " d02 is: " + str(d02)
-    h.Fill(d01,d02)
+    for iEntry in tree:
+        totalCount += 1
+        d01 = getattr(iEntry,var1)
+        d02 = getattr(iEntry,var2)
+        if d01<1.:
+            d01 = 1.1
+        if d02<1.:
+            d02 = 1.1
+        #print "d01 is: " + str(d01) + " d02 is: " + str(d02)
+        h.Fill(d01,d02)
+        if d01>100. and d02>100.:
+            srCount += 1
 
-inputFile.Close()
+    inputFile.Close()
 
+h.GetZaxis().SetRangeUser(1,2000000)
+print "total number of events is: " + str(totalCount)
+print "total number of events in inclusive SR is: " + str(srCount)
+print "maximum bin content is: "+str(h.GetBinContent(h.GetMaximumBin()))
 
 Canvas.cd()
 h.Draw("colz")
