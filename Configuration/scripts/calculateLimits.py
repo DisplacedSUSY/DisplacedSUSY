@@ -69,7 +69,9 @@ def link_tarball(tarball_name):
 
 quantiles = [0.025, 0.160, 0.500, 0.840, 0.975]
 combine_template = ("combine {datacard} -M HybridNew --LHCmode LHC-limits --grid grid.root "
-                    "--readHybridResults --expectedFromGrid {quantile} --plot cls_{quantile}.pdf")
+                    "--readHybridResults")
+observed_template = combine_template
+expected_template = combine_template + " --expectedFromGrid {quantile} --plot cls_{quantile}.pdf"
 
 if arguments.batchMode:
     combine_executable = subprocess.Popen(["which", "combine"], stdout=subprocess.PIPE)
@@ -92,9 +94,10 @@ for signal_name in signal_points:
     commands = []
     commands.append("hadd -f grid.root higgsCombine.{}*.root".format(signal_name))
     datacard_name = "datacard_{}.txt".format(signal_name)
+    commands.append(observed_template.format(datacard=datacard_name))
     for q in quantiles:
-        commands.append(combine_template.format(datacard=datacard_name, quantile=q))
-    commands.append("hadd -f merged.root higgsCombineTest.*quant0*.root")
+        commands.append(expected_template.format(datacard=datacard_name, quantile=q))
+    commands.append("hadd -f merged.root higgsCombineTest.*.root")
 
     # run commands
     if arguments.batchMode:
