@@ -719,8 +719,8 @@ for r in unique_regions:
     if not r.cr and r.correction is not None:
         # constrain params to +- ~5 sigma
         lo_bound = max(0, r.correction[0] - 5*r.correction[1])
-        hi_bound = r.correction[0] + 5*r.correction[2]
-        correction_string = "{} -{}/+{} [{lo},{hi}]".format(*r.correction, lo=lo_bound, hi=hi_bound)
+        hi_bound = r.correction[0] + 5*r.correction[1]
+        correction_string = "{} {} [{lo},{hi}]".format(*r.correction, lo=lo_bound, hi=hi_bound)
         correction_row = [r.correction_param, "param", "", "", correction_string]
         if correction_row not in correlation_correction_rows:
             correlation_correction_rows.append(correction_row)

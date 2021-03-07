@@ -34,14 +34,14 @@ cr_d0_range = (0, 100) # um
 # multiplicative corrections to account for correlation; enter as (value, err_lo, err_hi)
 # only list regions in which you want to apply a correction
 # see predefined_sr_names for naming convention
-abcd_correlation_factors = { # from elog 1852
+abcd_correlation_factors = { # from elog 1852 and 1919
     '2016' : {
-        'SR_I_loPt' : (1.00, 0.97, 0.23),
-        'SR_I_hiPt' : (1.00, 0.97, 0.23),
+        'SR_I_loPt' : (1.00, 0.60),
+        'SR_I_hiPt' : (1.00, 0.60),
     },
     '2017_18' : {
-        'SR_I_loPt' : (1.51, 0.39, 0.39),
-        'SR_I_hiPt' : (1.51, 0.39, 0.39),
+        'SR_I_loPt' : (1.51, 0.39),
+        'SR_I_hiPt' : (1.51, 0.39),
     }
 }
 

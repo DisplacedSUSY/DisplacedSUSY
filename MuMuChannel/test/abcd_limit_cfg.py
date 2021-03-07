@@ -33,12 +33,12 @@ cr_d0_range = (0, 100) # um
 # see predefined_sr_names for naming convention
 abcd_correlation_factors = { # from elog 1852
     '2016' : {
-        'SR_I_loPt' : (2.51, 0.87, 0.87),
-        'SR_I_hiPt' : (2.51, 0.87, 0.87),
+        'SR_I_loPt' : (2.51, 0.87),
+        'SR_I_hiPt' : (2.51, 0.87),
     },
     '2017_18' : {
-        'SR_I_loPt' : (4.20, 1.51, 1.51),
-        'SR_I_hiPt' : (4.20, 1.51, 1.51),
+        'SR_I_loPt' : (4.20, 1.51),
+        'SR_I_hiPt' : (4.20, 1.51),
     },
 }
 
