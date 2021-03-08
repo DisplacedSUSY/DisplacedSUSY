@@ -240,6 +240,9 @@ Electron0Branches.branches.extend([cms.PSet(name = cms.string("full5x5sigmaIetaI
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("hOverEElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("hadronicOverEm"))])
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("abs1OverEMinus1OverPElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy)"))])
 Electron0Branches.branches.extend([cms.PSet(name = cms.string("passConversionVetoElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("passConversionVeto"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("originalTrackAlgorithmElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.originalAlgorithm_"))])
+Electron0Branches.branches.extend([cms.PSet(name = cms.string("trackAlgorithmElectron0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("gsfTrack.algorithm_"))])
+
 
 Electron1Branches = cms.PSet(
     inputCollection = cms.vstring("electrons"),
@@ -257,6 +260,8 @@ Electron1Branches.branches.extend([cms.PSet(name = cms.string("full5x5sigmaIetaI
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("hOverEElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("hadronicOverEm"))])
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("abs1OverEMinus1OverPElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("abs(1/ecalEnergy - eSuperClusterOverP/ecalEnergy)"))])
 Electron1Branches.branches.extend([cms.PSet(name = cms.string("passConversionVetoElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("passConversionVeto"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("originalTrackAlgorithmElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.originalAlgorithm_"))])
+Electron1Branches.branches.extend([cms.PSet(name = cms.string("trackAlgorithmElectron1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("gsfTrack.algorithm_"))])
 
 Electron0D0Branches = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
@@ -423,6 +428,8 @@ Muon0Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMu
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits"))])
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement"))])
 Muon0Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Muon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("globalTrack.normalizedChi2"))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("originalTrackAlgorithmMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.originalAlgorithm_"))])
+Muon0Branches.branches.extend([cms.PSet(name = cms.string("trackAlgorithmMuon0"), index = cms.untracked.int32(0), inputVariables = cms.vstring("innerTrack.algorithm_"))])
 
 Muon1Branches = cms.PSet(
     inputCollection = cms.vstring("muons"),
@@ -434,6 +441,8 @@ Muon1Branches.branches.extend([cms.PSet(name = cms.string("genMatchMotherPdgIdMu
 Muon1Branches.branches.extend([cms.PSet(name = cms.string("numberOfValidPixelHitsMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.hitPattern_.numberOfValidPixelHits"))])
 Muon1Branches.branches.extend([cms.PSet(name = cms.string("trackerLayersWithMeasurementMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.hitPattern_.trackerLayersWithMeasurement"))])
 Muon1Branches.branches.extend([cms.PSet(name = cms.string("normalizedChi2Muon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("globalTrack.normalizedChi2"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("originalTrackAlgorithmMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.originalAlgorithm_"))])
+Muon1Branches.branches.extend([cms.PSet(name = cms.string("trackAlgorithmMuon1"), index = cms.untracked.int32(1), inputVariables = cms.vstring("innerTrack.algorithm_"))])
 
 Muon0D0Branches = cms.PSet(
     inputCollection = cms.vstring("muons","beamspots"),
