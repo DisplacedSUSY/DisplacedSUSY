@@ -50,6 +50,7 @@ eventSelections = [
     #DisplacedHighPtControlRegionHighEta,
     #ZControlRegion,
     #InclusiveSignalRegion,
+    #InclusiveSignalRegionAtLeast2PixelHits,
     #PreselectionLeptonsFromBorCQuark,
     #PreselectionLeptonsFromW,
     #PreselectionLeptonsFromWorZ,

@@ -182,6 +182,10 @@ InclusiveSignalRegionHighEta = copy.deepcopy(PreselectionHighEta)
 InclusiveSignalRegionHighEta.name = cms.string("InclusiveSignalRegionHighEta")
 InclusiveSignalRegionHighEta.cuts.append(muon_d0_greaterThan100_cut)
 
+InclusiveSignalRegionAtLeast2PixelHits = copy.deepcopy(InclusiveSignalRegion)
+InclusiveSignalRegionAtLeast2PixelHits.name = cms.string("InclusiveSignalRegionAtLeast2PixelHits")
+InclusiveSignalRegionAtLeast2PixelHits.cuts.append(muon_2PixelHit_cut)
+
 
 
 InvertDispVtxInMaterialPreselection = cms.PSet(

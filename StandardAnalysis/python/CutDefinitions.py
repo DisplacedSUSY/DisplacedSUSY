@@ -928,6 +928,13 @@ muon_1PixelHit_cut = cms.PSet(
     alias = objectDefs.muon_1PixelHit_alias
     )
 
+muon_2PixelHit_cut = cms.PSet(
+    inputCollection = cms.vstring("muons"),
+    cutString = objectDefs.muon_2PixelHit_cutstring,
+    numberRequired = cms.string(">= 1"),
+    alias = objectDefs.muon_2PixelHit_alias
+    )
+
 muon_id_impact_parameter_cut = cms.PSet(
     inputCollection = cms.vstring("muons"),
     cutString = objectDefs.muon_id_impact_parameter_cutstring,

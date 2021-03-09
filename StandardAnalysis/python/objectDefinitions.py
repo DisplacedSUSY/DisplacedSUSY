@@ -221,6 +221,9 @@ muon_idExcept1PixelHit_alias = cms.string(">=1 muons with tight ID except 1 pixe
 muon_1PixelHit_cutstring = cms.string("muon.innerTrack.hitPattern_.numberOfValidPixelHits > 0")
 muon_1PixelHit_alias = cms.string(">=1 muons with at least 1 pixel hit")
 
+muon_2PixelHit_cutstring = cms.string("muon.innerTrack.hitPattern_.numberOfValidPixelHits > 1")
+muon_2PixelHit_alias = cms.string(">=1 muons with at least 2 pixel hits")
+
 ##########################################################################
 
 # MUON ID IMPACT PARAMETER CUTS
