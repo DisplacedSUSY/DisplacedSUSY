@@ -29,8 +29,8 @@ prompt_sys = None # needed for closure tests
     #'err_lo' : ,
     ## 2016 data
     #'val'    : 1.00,
-    #'err_hi' : 0.23,
-    #'err_lo' : 0.97,
+    #'err_hi' : 0.60,
+    #'err_lo' : 0.60,
     ## 2017+18 data
     #'val'    : 1.51,
     #'err_hi' : 0.39,
