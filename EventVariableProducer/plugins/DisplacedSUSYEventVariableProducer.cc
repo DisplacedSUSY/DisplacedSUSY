@@ -184,6 +184,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double leadingMuonTime = -100;
   int    leadingMuonTimeNDof = 0;
   reco::TransientTrack leadingMuonTrack;
+  double leadingMuonZPointOnBeamLine = -1000;
   double subleadingMuonPt = 0;
   double subleadingMuonPx = 0;
   double subleadingMuonPy = 0;
@@ -194,6 +195,7 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double subleadingMuonTime = 100;
   int    subleadingMuonTimeNDof = 0;
   reco::TransientTrack subleadingMuonTrack;
+  double subleadingMuonZPointOnBeamLine = -1000;
 
   for (const auto &muon1 : *handles_.muons) {
     if (muon1.isGlobalMuon() && muon1.isPFMuon() && muon1.numberOfMatchedStations() > 1) {
@@ -218,7 +220,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           leadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
 	  leadingMuonTime = muon1.time().timeAtIpInOut;
 	  leadingMuonTimeNDof = muon1.time().nDof;
-	  if (!muon1.innerTrack().isNull()) leadingMuonTrack = (*theB).build(muon1.innerTrack());
+	  if (!muon1.innerTrack().isNull()){
+	    leadingMuonTrack = (*theB).build(muon1.innerTrack());
+	    leadingMuonZPointOnBeamLine = leadingMuonTrack.stateAtBeamLine().beamLinePCA().z();
+	  }
 	  else std::cout<<"leadingMuonTrack is null"<<std::endl;
         }
         else {
@@ -231,7 +236,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingMuonUnsmearedD0 = (-(muon1.vx() - beamspot.x0())*muon1.py() + (muon1.vy() - beamspot.y0())*muon1.px())/muon1.pt();
 	  subleadingMuonTime = muon1.time().timeAtIpInOut;
 	  subleadingMuonTimeNDof = muon1.time().nDof;
-	  if (!muon1.innerTrack().isNull()) subleadingMuonTrack = (*theB).build(muon1.innerTrack());
+	  if (!muon1.innerTrack().isNull()){
+	    subleadingMuonTrack = (*theB).build(muon1.innerTrack());
+	    subleadingMuonZPointOnBeamLine = subleadingMuonTrack.stateAtBeamLine().beamLinePCA().z();
+	  }
 	  else std::cout<<"subleadingMuonTrack is null"<<std::endl;
         }
       }
@@ -301,11 +309,13 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   double leadingElectronPhi = -4; // -pi < phi < pi
   double leadingElectronUnsmearedD0 = 0;
   reco::TransientTrack leadingElectronTrack;
+  double leadingElectronZPointOnBeamLine = -1000;
   double subleadingElectronPt = 0;
   double subleadingElectronEta = 0;
   double subleadingElectronPhi = -4; // -pi < phi < pi
   double subleadingElectronUnsmearedD0 = 0;
   reco::TransientTrack subleadingElectronTrack;
+  double subleadingElectronZPointOnBeamLine = -1000;
 
   for (const auto &electron1 : *handles_.electrons) {
     //if (abs(electron1.eta()) < 1.479 && electron1.full5x5_sigmaIetaIeta() < 0.00998 && abs(electron1.deltaPhiSuperClusterTrackAtVtx()) < 0.0816 &&
@@ -323,7 +333,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           leadingElectronEta = electron1.eta();
           leadingElectronPhi = electron1.phi();
           leadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
-	  if (!electron1.gsfTrack().isNull()) leadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  if (!electron1.gsfTrack().isNull()){
+	    leadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	    leadingElectronZPointOnBeamLine = leadingElectronTrack.stateAtBeamLine().beamLinePCA().z();
+	  }
 	  else std::cout<<"leadingElectronTrack is null"<<std::endl;
         }
         else {
@@ -331,7 +344,10 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
           subleadingElectronEta = electron1.eta();
           subleadingElectronPhi = electron1.phi();
           subleadingElectronUnsmearedD0 = (-(electron1.vx() - beamspot.x0())*electron1.py() + (electron1.vy() - beamspot.y0())*electron1.px())/electron1.pt();
-	  if (!electron1.gsfTrack().isNull()) subleadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	  if (!electron1.gsfTrack().isNull()){
+	    subleadingElectronTrack = (*theB).build(electron1.gsfTrack());
+	    subleadingElectronZPointOnBeamLine = subleadingElectronTrack.stateAtBeamLine().beamLinePCA().z();
+	  }
 	  else std::cout<<"subleadingElectronTrack is null"<<std::endl;
         }
       }
@@ -464,10 +480,12 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["leadingMuonEta"] = leadingMuonEta;
   (*eventvariables)["leadingMuonPhi"] = leadingMuonPhi;
   (*eventvariables)["leadingMuonUnsmearedD0"] = leadingMuonUnsmearedD0;
+  (*eventvariables)["leadingMuonZPointOnBeamLine"] = leadingMuonZPointOnBeamLine;
   (*eventvariables)["subleadingMuonPt"] = subleadingMuonPt;
   (*eventvariables)["subleadingMuonEta"] = subleadingMuonEta;
   (*eventvariables)["subleadingMuonPhi"] = subleadingMuonPhi;
   (*eventvariables)["subleadingMuonUnsmearedD0"] = subleadingMuonUnsmearedD0;
+  (*eventvariables)["subleadingMuonZPointOnBeamLine"] = subleadingMuonZPointOnBeamLine;
 #if DATA_FORMAT_FROM_MINIAOD
   (*eventvariables)["tagElectronExists"] = tagElectronExists;
   (*eventvariables)["tagElectronPt"] = tagElectronPt;
@@ -479,10 +497,12 @@ void DisplacedSUSYEventVariableProducer::AddVariables (const edm::Event &event, 
   (*eventvariables)["leadingElectronEta"] = leadingElectronEta;
   (*eventvariables)["leadingElectronPhi"] = leadingElectronPhi;
   (*eventvariables)["leadingElectronUnsmearedD0"] = leadingElectronUnsmearedD0;
+  (*eventvariables)["leadingElectronZPointOnBeamLine"] = leadingElectronZPointOnBeamLine;
   (*eventvariables)["subleadingElectronPt"] = subleadingElectronPt;
   (*eventvariables)["subleadingElectronEta"] = subleadingElectronEta;
   (*eventvariables)["subleadingElectronPhi"] = subleadingElectronPhi;
   (*eventvariables)["subleadingElectronUnsmearedD0"] = subleadingElectronUnsmearedD0;
+  (*eventvariables)["subleadingElectronZPointOnBeamLine"] = subleadingElectronZPointOnBeamLine;
   (*eventvariables)["sumJetPt"] = sumJetPt;
   (*eventvariables)["numSoftMuons"] = numSoftMuons;
   (*eventvariables)["numTightMuons"] = numTightMuons;

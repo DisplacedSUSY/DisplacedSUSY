@@ -6095,6 +6095,12 @@ eventHistograms = cms.PSet(
             inputVariables = cms.vstring("10000*abs(leadingMuonUnsmearedD0)"),
         ),
         cms.PSet (
+            name = cms.string("leadingMuonZPointOnBeamLine"),
+            title = cms.string("z coord along beam line of leading muon inner track;z coord along beam line of leading muon inner track [cm]"),
+            binsX = cms.untracked.vdouble(200, -50, 50),
+            inputVariables = cms.vstring("leadingMuonZPointOnBeamLine"),
+        ),
+        cms.PSet (
             name = cms.string("subleadingMuonPt"),
             title = cms.string("Muon p_{T}; Subleading muon p_{T}"),
             binsX = cms.untracked.vdouble(100, 0, 500),
@@ -6118,6 +6124,25 @@ eventHistograms = cms.PSet(
             binsX = cms.untracked.vdouble(100, 0, 2000),
             inputVariables = cms.vstring("10000*abs(subleadingMuonUnsmearedD0)"),
         ),
+        cms.PSet (
+            name = cms.string("subleadingMuonZPointOnBeamLine"),
+            title = cms.string("z coord along beam line of subleading muon inner track;z coord along beam line of subleading muon inner track [cm]"),
+            binsX = cms.untracked.vdouble(200, -50, 50),
+            inputVariables = cms.vstring("subleadingMuonZPointOnBeamLine"),
+        ),
+        cms.PSet (
+            name = cms.string("leadingElectronZPointOnBeamLine"),
+            title = cms.string("z coord along beam line of leading electron gsf track;z coord along beam line of leading electron gsf track [cm]"),
+            binsX = cms.untracked.vdouble(200, -50, 50),
+            inputVariables = cms.vstring("leadingElectronZPointOnBeamLine"),
+        ),
+        cms.PSet (
+            name = cms.string("subleadingElectronZPointOnBeamLine"),
+            title = cms.string("z coord along beam line of subleading electron gsf track;z coord along beam line of subleading electron gsf track [cm]"),
+            binsX = cms.untracked.vdouble(200, -50, 50),
+            inputVariables = cms.vstring("subleadingElectronZPointOnBeamLine"),
+        ),
+
         cms.PSet (
             name = cms.string("triggerScaleFactor"),
             title = cms.string("Trigger Scale Factor; Trigger Scale Factor"),
