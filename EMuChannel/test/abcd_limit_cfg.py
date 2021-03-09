@@ -26,8 +26,10 @@ sr_shapes = 'grid'
 # signal region binning; enter -1 to include overflow
 d0_0_bin_edges = [100, 500, 100000] # um
 d0_1_bin_edges = [100, 500, 100000] # um
-pt_bin_edges = [0, 90, -1] # GeV; only the most-prompt region will be binned in pT
-#pt_bin_edges = [0, 140, -1] # GeV; only the most-prompt region will be binned in pT
+pt_bin_edges = {
+    '2016'    : [0, 90, -1], # GeV
+    '2017_18' : [0, 140, -1], # GeV
+}
 # |d0| range of prompt lepton in prompt/displaced control regions
 cr_d0_range = (0, 100) # um
 

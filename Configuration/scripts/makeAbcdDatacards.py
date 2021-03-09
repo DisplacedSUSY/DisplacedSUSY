@@ -552,6 +552,7 @@ elif sr_shapes == 'grid':
 else:
     raise RuntimeError("Unrecognized SR shape. Please enter 'L', 'L_inv', or 'grid'")
 
+pt_bin_edges = pt_bin_edges[era]
 pt_bins = make_bins(pt_bin_edges)
 # assume inclusive signal region is symmetric in d0_0 and d0_1
 sr_d0_min = d0_0_bin_edges[0]
