@@ -7,7 +7,7 @@ channel = None # set to None for multi-channel plots
 
 process = 'stopToLB'
 masses = [str(m) for m in range(100, 1801, 100)]
-#lifetimes = [str(10**e) for e in range(-2, 5)]
+#lifetimes = [str(10**e) for e in range(-1, 5)]
 lifetimes = [str(b*10**e) for e in range(-1, 4) for b in range(1, 10)] + [str(10000)]
 
 # description of all the plots to be made
@@ -27,15 +27,15 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'th2fsToInclude' : ['exp'],
             },
         ],
         'graphs' : [
             {
-                'source' : 'combined_lb_runII_03Feb2021',
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'red',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
+                'graphsToInclude' : ['exp', 'oneSigma', 'obs'],
+                'colorScheme' : 'ratio_2D',
             },
         ],
     },
@@ -55,35 +55,35 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : '2015_AN_bg_estimate_12Sep2019',
                 'graphsToInclude' : ['exp'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'channel combination'
+                'colorScheme' : 'black',
+                'legendEntry' : '2015 e#mu analysis'
             },
             {
-                'source' : 'emu_lb_runII_03Feb2021',
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'yellow',
+                'source' : 'emu_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'graphsToInclude' : ['exp', 'obs'],
+                'colorScheme' : 'magenta',
                 'legendEntry' : 'e#mu channel'
             },
             {
-                'source' : 'ee_lb_runII_03Feb2021',
-                'graphsToInclude' : ['exp'],
+                'source' : 'ee_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : 'ee channel'
             },
             {
-                'source' : 'mumu_lb_runII_03Feb2021',
-                'graphsToInclude' : ['exp'],
+                'source' : 'mumu_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '#mu#mu channel'
             },
-            #{
-            #    'source' : '2015_AN_bg_estimate_12Sep2019',
-            #    'graphsToInclude' : ['exp'],
-            #    'colorScheme' : 'purple',
-            #    'legendEntry' : '2015 analysis (e#mu only)'
-            #},
+            {
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
+                'graphsToInclude' : ['exp', 'obs'],
+                'colorScheme' : 'red',
+                'legendEntry' : 'channel combination'
+            },
         ],
     },
     {
@@ -100,37 +100,37 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'lifetime' : '0.1',
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'yellow',
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
+                'colorScheme' : 'magenta',
                 'legendEntry' : '0.01 cm',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'lifetime' : '1',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '0.1 cm',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'lifetime' : '10',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '1 cm',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'lifetime' : '100',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '10 cm',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'lifetime' : '1000',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '100 cm',
             },
@@ -150,37 +150,37 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'mass' : '100',
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'yellow',
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
+                'colorScheme' : 'magenta',
                 'legendEntry' : '100 GeV',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'mass' : '400',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '400 GeV',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'mass' : '1000',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '1000 GeV',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'mass' : '1400',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '1400 GeV',
             },
             {
-                'source' : 'combined_lb_runII_03Feb2021',
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'mass' : '1800',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '1800 GeV',
             },
