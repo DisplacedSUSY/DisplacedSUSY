@@ -75,6 +75,10 @@ def first_half(l):
 def get_asymptotic_limits(in_dir, signal_point):
     file_name_template = "{0}/{1}_expected/higgsCombine{1}.AsymptoticLimits.mH120.root"
     file_name = file_name_template.format(in_dir, signal_point)
+    # if file doesn't exist, check for input file created by makeLimitPlots
+    if not os.path.isfile(file_name):
+        file_name = "{0}/{1}_expected/limits_{1}.root".format(in_dir, signal_point)
+        print file_name
     try:
         f = TFile(file_name)
         limit_tree = f.Get('limit').Clone()
