@@ -39,20 +39,42 @@ gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
 gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
-gStyle.SetTextFont(42)
-gStyle.SetOptTitle(0)
+gStyle.SetCanvasDefX(0)
+gStyle.SetCanvasDefY(0)
+gStyle.SetPadTopMargin(0.20)
+gStyle.SetPadBottomMargin(0.20)
+gStyle.SetPadLeftMargin(0.20)
+gStyle.SetPadRightMargin(0.20)
+gStyle.SetTitleColor(1, "XYZ")
+gStyle.SetTitleFont(42, "XYZ")
+gStyle.SetTitleSize(0.05, "XYZ")
+gStyle.SetTitleXSize(0.04)
+gStyle.SetTitleXOffset(1.25)
+gStyle.SetTitleYSize(0.04)
+gStyle.SetTitleYOffset(1.5)
+gStyle.SetTextAlign(12)
+gStyle.SetLabelColor(1, "XYZ")
+gStyle.SetLabelFont(42, "XYZ")
+gStyle.SetLabelOffset(0.005, "XYZ")
+gStyle.SetLabelSize(0.04, "YZ")
+gStyle.SetLabelSize(0.03, "X")
+gStyle.SetAxisColor(1, "XYZ")
+gStyle.SetStripDecimals(True)
+gStyle.SetTickLength(0.03, "XYZ")
+gStyle.SetPadTickX(1)
+gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
 
-topLeft_x_left    = 0.127333
-topLeft_y_bottom  = 0.840805
-topLeft_x_right   = 0.479333
-topLeft_y_top     = 0.900483
-topLeft_y_offset  = 0.04
-topLeft_x_left_extra    = 0.127333
-topLeft_y_bottom_extra  = 0.795724
-topLeft_x_right_extra  = 0.479333
-topLeft_y_top_extra     = 0.85599
-topLeft_y_offset_extra  = 0.04
+#bestest place for lumi. label, in top left corner
+topLeft_x_left    = 0.2
+y_bottom  = 0.8
+topLeft_x_right   = 0.6
+y_top     = 0.85
+
+#position for header
+header_x_left    = 0.50
+header_x_right   = 0.86
+
 colorSchemes = {
     'ratio_2D' : {
         'obs' : 1,
@@ -349,7 +371,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
 
 def getObservedGraph(limits, xAxisType, colorScheme, lineStyle=1):
     graph = getGraph(limits, xAxisType, 'observed')
-    graph.SetLineWidth(3)
+    graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
@@ -361,7 +383,7 @@ def getObservedGraph(limits, xAxisType, colorScheme, lineStyle=1):
 def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key, colorScheme,
                        lineStyle=1):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
-    graph.SetLineWidth(3)
+    graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
@@ -370,9 +392,9 @@ def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key,
     graph.SetMarkerColor(colorSchemes[colorScheme]['obs'])
     return graph
 
-def getExpectedGraph(limits, xAxisType, colorScheme, lineStyle=2):
+def getExpectedGraph(limits, xAxisType, colorScheme, lineStyle=7):
     graph = getGraph(limits, xAxisType, 'expected')
-    graph.SetLineWidth(3)
+    graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['exp'])
@@ -382,9 +404,9 @@ def getExpectedGraph(limits, xAxisType, colorScheme, lineStyle=2):
     return graph
 
 def getExpectedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key, colorScheme,
-                       lineStyle=2):
+                       lineStyle=7):
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
-    graph.SetLineWidth(3)
+    graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
     graph.SetLineColor(colorSchemes[colorScheme]['exp'])
@@ -702,10 +724,17 @@ def drawPlot(plot):
                 yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
         else:
             canvas.SetLogy()
-        legend = TLegend(topLeft_x_left, 0.3, 0.5, 0.6)
+        legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6)
+        legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
+        if process in ['stopToLB', 'stopToLD']:
+            quark = 'b' if process == 'stopToLB' else 'd'
+            processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
+            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+        else:
+            legend.SetHeader("95% CL upper limits")
 
         # construct TGraph objects for all curves and draw them
         tGraphs = []
@@ -737,7 +766,7 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = '#pm 2 std. deviation'
+                        legendEntry = '95% expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -747,21 +776,21 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = '#pm 1 std. deviation'
+                        legendEntry = '68% expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
                     # draw expected limit
                     elif graphName == 'exp':
-                        lineStyle = graph.get('lineStyle', 2)
+                        lineStyle = graph.get('lineStyle', 7)
                         g = getExpectedGraph(graph['limits'], plot['xAxisType'], colorScheme,
                                              lineStyle)
                         tGraphs.append(g)
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = 'Expected'
+                        legendEntry = 'Median expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -789,7 +818,7 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = '#pm 2 std. deviation'
+                        legendEntry = '95% expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
@@ -801,13 +830,13 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = '#pm 1 std. deviation'
+                        legendEntry = '68% expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName('L')
                     if graphName == 'exp':
-                        lineStyle = graph.get('lineStyle', 2)
+                        lineStyle = graph.get('lineStyle', 7)
                         g = getExpectedGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], 'expected', 'theory', colorScheme,
                                                lineStyle)
@@ -815,7 +844,7 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = 'Expected'
+                        legendEntry = 'Median expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                             #legendEntry = graph['legendEntry']
@@ -952,43 +981,25 @@ def drawPlot(plot):
             th2f.GetZaxis().SetTitleOffset(1.5)
 
         # draw header label
-        LumiLabel = TPaveLabel(0.88, 0.9, 0.90, 0.94, HeaderText, "NDC")
-        LumiLabel.SetTextAlign(32)
-        LumiLabel.SetTextFont(42)
-        LumiLabel.SetTextSize(1)
+        HeaderLabel = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText,"NDC")
+        HeaderLabel.SetTextAlign(32)
+        HeaderLabel.SetTextFont(42)
+        HeaderLabel.SetTextSize(0.697674)
+        HeaderLabel.SetBorderSize(0)
+        HeaderLabel.SetFillColor(0)
+        HeaderLabel.SetFillStyle(0)
+        HeaderLabel.Draw()
+
+        #LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
+        LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Preliminary","NDC")
+        LumiLabel.SetTextFont(62)
+        LumiLabel.SetTextSize(0.8)
+        LumiLabel.SetTextAlign(12)
         LumiLabel.SetBorderSize(0)
         LumiLabel.SetFillColor(0)
         LumiLabel.SetFillStyle(0)
         LumiLabel.Draw()
-        HeaderLabel = TPaveLabel(topLeft_x_left, 0.96, topLeft_x_right, 1.02,
-                               "CMS", "NDC")
-        HeaderLabel.SetTextFont(61)
-        HeaderLabel.SetTextSize(0.75)
-        HeaderLabel.SetTextAlign(12)
-        extraLabel = TPaveLabel(topLeft_x_left_extra, 0.9, topLeft_x_right_extra,
-                                0.96, "Preliminary", "NDC")
-        extraLabel.SetTextFont(52)
-        extraLabel.SetTextSize(0.57)
-        extraLabel.SetTextAlign(12)
-        HeaderLabel.SetBorderSize(0)
-        HeaderLabel.SetFillColor(0)
-        HeaderLabel.SetFillStyle(0)
-        extraLabel.SetBorderSize(0)
-        extraLabel.SetFillColor(0)
-        extraLabel.SetFillStyle(0)
-        HeaderLabel.Draw()
-        extraLabel.Draw()
-        if process in ['stopToLB', 'stopToLD']:
-            quark = 'b' if process == 'stopToLB' else 'd'
-            processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
-            processLabel = TPaveLabel(0.7, 0.8, 0.9, 0.9, processText, "NDC")
-            processLabel.SetTextFont(52)
-            processLabel.SetTextSize(0.4)
-            processLabel.SetTextAlign(12)
-            processLabel.SetBorderSize(0)
-            processLabel.SetFillColor(0)
-            processLabel.SetFillStyle(0)
-            processLabel.Draw()
+
         if channel:
             channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
