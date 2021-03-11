@@ -300,6 +300,9 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     th2f.SetMaximum(th2f.GetMaximum())
     min_val = 0.9*min(c for c in bin_content if c > 0)
     th2f.SetMinimum(min_val)
+    print "maximum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMaximumBin()))
+    print "minimum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMinimumBin()))
+    th2f.GetZaxis().SetRangeUser(0.000001,10000) #based on max and min, need to always check! the point is to normalize all similar 2D histograms
     return th2f
 
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
