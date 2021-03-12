@@ -8,6 +8,7 @@ import copy
 import re
 import subprocess
 import glob
+import numpy as np
 from array import *
 from operator import itemgetter
 
@@ -810,6 +811,54 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+
+                        #print summary of limits for paper Summary section:
+                        #find lifetime exclusion range for 1000 GeV mass point
+                        if legendEntry=='Observed: 1000 GeV':
+                            xs = 0.00615134 #1000 GeV stop cross section in pb
+                            allXPoints = []
+                            allYPoints = []
+                            x1Points = []
+                            x2Points = []
+                            y1Points = []
+                            y2Points = []
+                            for i in range(tGraphs[-1].GetN()):
+                                xPoint = Double(0.0)
+                                yPoint = Double(0.0)
+                                tGraphs[-1].GetPoint(i, xPoint, yPoint)
+                                allXPoints.append(xPoint)
+                                allYPoints.append(yPoint)
+
+                            #in the tgraph parabola of cross section vs lifetime, find the "falling" and "rising" points,
+                            #separated by the minimum of the parabola
+                            npAllYPoints = np.array(allYPoints)
+                            index_minYPoints=np.argmin(npAllYPoints)
+                            fallingYPoints=npAllYPoints[:index_minYPoints+1]
+                            risingYPoints=npAllYPoints[index_minYPoints:]
+
+                            #get the x and y values for the y points on either side of the 1000 GeV cross section
+                            y1Points.append(fallingYPoints[fallingYPoints<xs].max())
+                            y2Points.append(fallingYPoints[fallingYPoints>xs].min())
+                            y1Points.append(risingYPoints[risingYPoints<xs].max())
+                            y2Points.append(risingYPoints[risingYPoints>xs].min())
+
+                            for i, y in enumerate(allYPoints):
+                                for y1 in y1Points:
+                                    if y==y1:
+                                        x1Points.append(allXPoints[i])
+                                for y2 in y2Points:
+                                    if y==y2:
+                                        x2Points.append(allXPoints[i])
+
+                            #find the intersection of the lines:
+                            #in y=mx+b, b=xs, m=dY/dX
+                            print "For 1000 GeV observed curve, exclude lifetimes between: "
+                            for i in range(len(y2Points)):
+                                dY = y2Points[i]-y1Points[i]
+                                dX = x2Points[i]-x1Points[i]
+                                lifetime = (xs - y2Points[i] + x2Points[i]*dY/dX)*(dX/dY)
+                                print "  " +str(lifetime)+"cm"
+
 
             # draw 2D graphs
             else:
