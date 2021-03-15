@@ -78,7 +78,6 @@ def get_asymptotic_limits(in_dir, signal_point):
     # if file doesn't exist, check for input file created by makeLimitPlots
     if not os.path.isfile(file_name):
         file_name = "{0}/{1}_expected/limits_{1}.root".format(in_dir, signal_point)
-        print file_name
     try:
         f = TFile(file_name)
         limit_tree = f.Get('limit').Clone()
@@ -231,7 +230,8 @@ for signal_name in signal_points:
 
     # copy over scaled datacard and scale-factor file
     shutil.copy(datacard_path, expected_dir)
-    shutil.copy(sf_file_path, expected_dir)
+    if sf != 1.0:
+        shutil.copy(sf_file_path, expected_dir)
 
     # run one job for each r value
     os.chdir(expected_dir)
