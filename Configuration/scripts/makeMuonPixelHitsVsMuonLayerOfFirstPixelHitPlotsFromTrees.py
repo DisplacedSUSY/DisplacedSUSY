@@ -130,19 +130,26 @@ if analysisChannel == "mumu":
     #yTitle = "Subleading muon number of valid pixel hits"
 
     #var1 = "muon_layerOfFirstValidPixelHitMuon0"
-    var1 = "muon_etaMuon0"
+    #var1 = "muon_etaMuon0"
     #var2 = "muon_numberOfValidPixelHitsMuon0"
-    var2 = "muon_phiMuon0"
+    var1 = "muon_phiMuon0"
     #varA = "muon_layerOfFirstValidPixelHitMuon1"
-    varA = "muon_etaMuon1"
+    #varA = "muon_etaMuon1"
     #varB = "muon_numberOfValidPixelHitsMuon1"
-    varB = "muon_phiMuon1"
+    #varB = "muon_phiMuon1"
     #xTitle = "Layer number of first valid pixel hit for muons"
-    xTitle = "Muon #eta"
+    #xTitle = "Muon #eta"
     #xTitle = "Run number"
     #yTitle = "Muon number of valid pixel hits"
     #xTitle = "M_{#mu#mu} [GeV]"
-    yTitle = "Muon #phi"
+    xTitle = "Leading muon #phi"
+
+    var2 = "muon_beamspot_d0Muon0"
+    #varA = "muon_beamspot_d0Muon1"
+    yTitle = "Muon d_{0} [#mum]"
+
+    varA = "muon_beamspot_absD0Muon0"
+    varB = "muon_beamspot_absD0Muon1"
 
     #xTitle = "Muon #phi"
     #xTitle = "Muon #eta"
@@ -151,7 +158,7 @@ else:
     print "wrong analysis channel, exiting"
     sys.exit(1)
 
-CanvasPrelim = TCanvas("canvasPreliminary","")
+CanvasPrelim = TCanvas("CanvasPreliminary","")
 CanvasPrelim.SetHighLightColor(2)
 CanvasPrelim.Range(-72.16495,-10.50091,516.9367,82.84142)
 CanvasPrelim.SetFillColor(0)
@@ -160,11 +167,29 @@ CanvasPrelim.SetBorderSize(2)
 CanvasPrelim.SetFrameBorderMode(0)
 CanvasPrelim.SetFrameBorderMode(0)
 
+CanvasMean = TCanvas("CanvasMean","")
+CanvasMean.SetHighLightColor(2)
+CanvasMean.Range(-72.16495,-10.50091,516.9367,82.84142)
+CanvasMean.SetFillColor(0)
+CanvasMean.SetBorderMode(0)
+CanvasMean.SetBorderSize(2)
+CanvasMean.SetFrameBorderMode(0)
+CanvasMean.SetFrameBorderMode(0)
+
+CanvasStdDev = TCanvas("CanvasStdDev","")
+CanvasStdDev.SetHighLightColor(2)
+CanvasStdDev.Range(-72.16495,-10.50091,516.9367,82.84142)
+CanvasStdDev.SetFillColor(0)
+CanvasStdDev.SetBorderMode(0)
+CanvasStdDev.SetBorderSize(2)
+CanvasStdDev.SetFrameBorderMode(0)
+CanvasStdDev.SetFrameBorderMode(0)
+
 #h = TH2F("h","",5, -0.5, 4.5, 6, 0, 6) #layer of first valid pixel hit vs number of valid pixel hits
 #h = TH2F("h","",5, -0.5, 4.5, 64, -3.2, 3.2) #layer of first valid pixel hit vs phi
 #h = TH2F("h","", 64, -3.2, 3.2, 64, -3.2, 3.2) #phi vs phi
 #h = TH2F("h","", 60, -3, 3, 60, -3, 3) #eta vs eta
-h = TH2F("h","", 60, -3, 3, 64, -3.2, 3.2) #eta vs phi
+#h = TH2F("h","", 60, -3, 3, 64, -3.2, 3.2) #eta vs phi
 #h = TH2F("h","", 5, -0.5, 4.5, 5, -0.5, 4.5) #layer of first valid pixel hit vs layer of first valid pixel hit
 #h = TH2F("h","", 6, 0, 6, 6, 0, 6) #num of valid pixel hits vs num of valid pixel hits
 #h = TH1F("h","", 92, 278000, 324000) #run number
@@ -174,12 +199,20 @@ h = TH2F("h","", 60, -3, 3, 64, -3.2, 3.2) #eta vs phi
 #h = TH1F("h","", 5, -0.5, 4.5) #layer of first valid pixel hit
 #h = TH1F("h","", 6, 0, 6) #num of valid pixel hits
 #h = TH1F("h","", 40, 70, 110) #invariant mass
-h.SetMarkerStyle(20)
-h.SetLineColor(1)
-h.SetTitle(";"+xTitle+";"+yTitle)
+#h.SetMarkerStyle(20)
+#h.SetLineColor(1)
+#h.SetTitle(";"+xTitle+";"+yTitle)
 totalCount = 0
+nDatasets = 0
+
+Hists = []
+MeanHists = []
+SDHists = []
 
 for dataset in datasets:
+    h = TH2F("h","", 64, -3.2, 3.2, 100, -500, 500 ) #phi vs d0
+    h.SetTitle(";"+xTitle+";"+yTitle)
+
     fileName = "condor/%s/mergeOutputHadd/%s.root" % (arguments.condorDir,dataset)
     inputFile = TFile(fileName)
     if(inputFile.IsZombie()):
@@ -192,10 +225,12 @@ for dataset in datasets:
         if (key.GetClassName() != "TDirectoryFile"):
             print "no TDirectoryFile"
             sys.exit(1)
-    if not "InclusiveSignalRegionTreeMaker" in keys:
+    #if not "InclusiveSignalRegionTreeMaker" in keys:
+    if not "PreselectionTreeMaker" in keys:
         print "no Tree, setting getMeanEfficiency to -1"
         sys.exit(1)
-    tree = inputFile.Get("InclusiveSignalRegionTreeMaker/Tree")
+    #tree = inputFile.Get("InclusiveSignalRegionTreeMaker/Tree")
+    tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
     for iEntry in tree:
         totalCount += 1
@@ -203,42 +238,92 @@ for dataset in datasets:
         var2_ = getattr(iEntry,var2)
         varA_ = getattr(iEntry,varA)
         varB_ = getattr(iEntry,varB)
+
+        if(varA_ < 50. and varB_ < 50.): #PCR
+            h.Fill(var1_,var2_)
+
         #print "run is: "+ str(getattr(iEntry,"eventvariable_run"))
         #print "muon_ptMuon0 is: " + str(getattr(iEntry,"muon_ptMuon0")) + " muon_etaMuon0 is: " + str(getattr(iEntry,"muon_etaMuon0")) + " muon_phiMuon0 is: " + str(getattr(iEntry,"muon_phiMuon0"))
         #print "muon_layerOfFirstValidPixelHitMuon0 is: " + str(var1_) + " muon_numberOfValidPixelHitsMuon0 is: " + str(var2_)
         #print "muon_ptMuon1 is: " + str(getattr(iEntry,"muon_ptMuon1")) + " muon_etaMuon1 is: " + str(getattr(iEntry,"muon_etaMuon1")) + " muon_phiMuon1 is: " + str(getattr(iEntry,"muon_phiMuon1"))
         #print "muon_layerOfFirstValidPixelHitMuon1 is: " + str(varA_) + " muon_numberOfValidPixelHitsMuon1 is: " + str(varB_)
-        phi0_ = getattr(iEntry, "muon_phiMuon0")
-        phi1_ = getattr(iEntry, "muon_phiMuon1")
-        energy0_ = getattr(iEntry, "muon_energyMuon0")
-        energy1_ = getattr(iEntry, "muon_energyMuon1")
-        px0_ = getattr(iEntry, "muon_pxMuon0")
-        px1_ = getattr(iEntry, "muon_pxMuon1")
-        py0_ = getattr(iEntry, "muon_pyMuon0")
-        py1_ = getattr(iEntry, "muon_pyMuon1")
-        pz0_ = getattr(iEntry, "muon_pzMuon0")
-        pz1_ = getattr(iEntry, "muon_pzMuon1")
-        eSum_ = energy0_ + energy1_
-        pxSum_ = px0_ + px1_
-        pySum_ = py0_ + py1_
-        pzSum_ = pz0_ + pz1_
-        invMass_ = math.sqrt(eSum_*eSum_ - pxSum_*pxSum_ - pySum_*pySum_ - pzSum_*pzSum_)
+
+        #phi0_ = getattr(iEntry, "muon_phiMuon0")
+        #phi1_ = getattr(iEntry, "muon_phiMuon1")
+        #energy0_ = getattr(iEntry, "muon_energyMuon0")
+        #energy1_ = getattr(iEntry, "muon_energyMuon1")
+        #px0_ = getattr(iEntry, "muon_pxMuon0")
+        #px1_ = getattr(iEntry, "muon_pxMuon1")
+        #py0_ = getattr(iEntry, "muon_pyMuon0")
+        #py1_ = getattr(iEntry, "muon_pyMuon1")
+        #pz0_ = getattr(iEntry, "muon_pzMuon0")
+        #pz1_ = getattr(iEntry, "muon_pzMuon1")
+        #eSum_ = energy0_ + energy1_
+        #pxSum_ = px0_ + px1_
+        #pySum_ = py0_ + py1_
+        #pzSum_ = pz0_ + pz1_
+        #invMass_ = math.sqrt(eSum_*eSum_ - pxSum_*pxSum_ - pySum_*pySum_ - pzSum_*pzSum_)
         #print "invariant mass is: " + str(invMass_)
         #print "########"
         #print ""
         #if(invMass_>70. and invMass_<110.):
-        if(abs(phi0_)>1.34 and abs(phi0_)<1.67 and abs(phi1_)>1.34 and abs(phi1_)<1.67):
-            print "invariant mass is: " + str(invMass_)
-            h.Fill(var1_,var2_)
-            h.Fill(varA_,varB_)
+        #if(abs(phi0_)>1.34 and abs(phi0_)<1.67 and abs(phi1_)>1.34 and abs(phi1_)<1.67):
+            #print "invariant mass is: " + str(invMass_)
+            #h.Fill(var1_,var2_)
+            #h.Fill(varA_,varB_)
             #h.Fill(var1_)
             #h.Fill(var2_)
             #h.Fill(invMass_)
 
     inputFile.Close()
 
-#h.GetYaxis().SetRangeUser(0,6)
-print "total number of events is: " + str(totalCount)
+    #h.GetYaxis().SetRangeUser(0,6)
+    print "total number of events is: " + str(totalCount)
+
+    # get y projections
+    y_projections = []
+    for bin_ix in range(1, h.GetXaxis().GetNbins()+1):
+        y_projections.append(h.ProjectionY(str(bin_ix), bin_ix, bin_ix))
+
+    # plot y-projection stats vs x
+    mean_plot = h.ProjectionX("mean")
+    std_dev_plot = h.ProjectionX("standard deviation")
+
+    for bin_ix, y_projection in enumerate(y_projections):
+        mean_plot.SetBinContent(bin_ix+1, y_projection.GetMean())
+        mean_plot.SetBinError(bin_ix+1, y_projection.GetMeanError())
+        std_dev_plot.SetBinContent(bin_ix+1, y_projection.GetStdDev())
+        std_dev_plot.SetBinError(bin_ix+1, y_projection.GetStdDevError())
+    for plot in [mean_plot, std_dev_plot]:
+        plot.SetStats(False)
+        plot.SetMarkerStyle(20+nDatasets)
+        plot.SetLineColor(1+nDatasets)
+        plot.SetMarkerColor(1+nDatasets)
+
+    mean_plot.GetYaxis().SetTitle("d_0 mean [#mum]")
+    std_dev_plot.GetYaxis().SetRangeUser(0,20)
+    std_dev_plot.GetYaxis().SetTitle("d_0 standard deviation [#mum]")
+
+    Hists.append(h)
+    MeanHists.append(mean_plot)
+    SDHists.append(std_dev_plot)
+    nDatasets += 1
+
+CanvasMean.cd()
+MeanHists[0].Draw()
+for i in range(len(MeanHists)-1):
+    MeanHists[i+1].Draw("same")
+LumiPrelimLabel.Draw()
+HeaderLabel.Draw()
+CanvasMean.SaveAs("./meanLeadingMuonD0_vs_leadingMuonPhi.pdf")
+
+CanvasStdDev.cd()
+SDHists[0].Draw()
+for i in range(len(SDHists)-1):
+    SDHists[i+1].Draw("same")
+LumiPrelimLabel.Draw()
+HeaderLabel.Draw()
+CanvasStdDev.SaveAs("./stdDevLeadingMuonD0_vs_leadingMuonPhi.pdf")
 
 CanvasPrelim.cd()
 h.Draw("colz")
@@ -255,8 +340,9 @@ HeaderLabel.Draw()
 #CanvasPrelim.SaveAs("./invMass_8events.pdf")
 #CanvasPrelim.SaveAs("./muonLayerOfFirstValidPixelHit_vs_muonNumberOfValidPixelHits_8events.pdf")
 #CanvasPrelim.SaveAs("./muonLayerOfFirstValidPixelHit_vs_muonPhi_8events.pdf")
-CanvasPrelim.SaveAs("./muonEta_vs_muonPhi_8events.pdf")
+#CanvasPrelim.SaveAs("./muonEta_vs_muonPhi_8events.pdf")
 #CanvasPrelim.SaveAs("./zMassWindow_Muon0PhiVsMuon1Phi.pdf")
 #CanvasPrelim.SaveAs("./zMassWindow_Muon0EtaVsMuon1Eta.pdf")
 #CanvasPrelim.SaveAs("./zMassWindow_Muon0LayerOfFirstValidPixelHitVsMuon1LayerOfFirstValidPixelHit.pdf")
 #CanvasPrelim.SaveAs("./zMassWindow_Muon0NumberOfValidPixelHitsVsMuon1NumberOfValidPixelHits.pdf")
+CanvasPrelim.SaveAs("./leadingMuonD0_vs_leadingMuonPhi.pdf")
