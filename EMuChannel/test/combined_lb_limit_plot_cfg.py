@@ -55,34 +55,34 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
+                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
+                'graphsToInclude' : ['exp', 'obs'],
+                'colorScheme' : 'red',
+                'legendEntry' : 'channel combination'
+            },
+            {
                 'source' : '2015_AN_bg_estimate_12Sep2019',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'black',
                 'legendEntry' : '2015 e#mu analysis'
             },
             {
-                'source' : 'emu_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'source' : 'emu_lb_runII_unblinded_hybridNew_09Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'magenta',
                 'legendEntry' : 'e#mu channel'
             },
             {
-                'source' : 'ee_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'source' : 'ee_lb_runII_unblinded_hybridNew_09Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : 'ee channel'
             },
             {
-                'source' : 'mumu_lb_runII_hybridNew_hackObserved_23Feb2021',
+                'source' : 'mumu_lb_runII_unblinded_hybridNew_09Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '#mu#mu channel'
-            },
-            {
-                'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
-                'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'channel combination'
             },
         ],
     },
