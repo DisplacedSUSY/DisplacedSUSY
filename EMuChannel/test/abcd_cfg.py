@@ -19,15 +19,15 @@ fit_func = "pol1"
 # uncertainty info
 # mutliplicative correction to the most-prompt signal region estimate to account for correlation
 prompt_sys = None # needed for closure tests
-#prompt_sys = { # from elogs 1852 and 1854
+#prompt_sys = { # from elogs 1919 and 1926
     ## 2016 MC
-    #'val'    : 1.17,
-    #'err_hi' : 0.58,
-    #'err_lo' : 0.58,
-    ## 2017+18 MC
-    #'val'    : 1.42,
+    #'val'    : 1.61,
     #'err_hi' : 0.64,
     #'err_lo' : 0.64,
+    ## 2017+18 MC
+    #'val'    : 1.58,
+    #'err_hi' : 0.66,
+    #'err_lo' : 0.66,
     ## 2016 data
     #'val'    : 1.00,
     #'err_hi' : 1.27,
