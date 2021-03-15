@@ -25,7 +25,10 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
 parser.add_option("-d", "--diagramPlot", action="store_true", dest="diagramPlot", default=False,
                   help="make diagram version of d0-d0 plot")
 parser.add_option("-m", "--mc", action="store_true", dest="mc", default=False,
-                  help="make MC simulation version of d0-d0 plot")
+                  help="make bkg MC simulation version of d0-d0 plot")
+parser.add_option("-s", "--signal", action="store_true", dest="signal", default=False,
+                  help="add signal to data d0-d0 plot")
+
 
 (arguments, args) = parser.parse_args()
 
@@ -43,7 +46,7 @@ else:
     condirDir = arguments.condorDir
 
 
-from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel
+from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel, TLegend
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -51,7 +54,10 @@ gStyle.SetCanvasBorderMode(0)
 gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
-gStyle.SetCanvasDefH(600)
+if arguments.signal:
+    gStyle.SetCanvasDefH(700)
+else:
+    gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 gStyle.SetCanvasDefX(0)
 gStyle.SetCanvasDefY(0)
@@ -281,14 +287,26 @@ CanvasPrelim.SetLogx()
 CanvasPrelim.SetLogy()
 CanvasPrelim.SetLogz()
 
-log_100000um_bins = [1,10,100,500,1000,5000,10000,50000,100000]
+log_100000um_bins = [1,10,100,500,1000,5000,10000,100000]
+y_log_100000um_bins = [1,10,100,500,1000,5000,10000,100000,900000]
 nbins = int(len(log_100000um_bins)-1)
-h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
+nbinsY = int(len(y_log_100000um_bins)-1)
+if arguments.signal:
+    h = TH2F("h","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
+else:
+    h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
 h.SetTitle(";"+xTitle+";"+yTitle)
+h.SetFillColor(4)
+h.SetLineWidth(0)
 totalCount = 0
 srCount = 0
 
+hSignal = TH2F("hSignal","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
+hSignal.SetTitle(";"+xTitle+";"+yTitle)
+hSignal.SetLineColor(1)
+
 for dataset in datasets:
+
     fileName = "condor/%s/mergeOutputHadd/%s.root" % (arguments.condorDir,dataset)
     inputFile = TFile(fileName)
     if(inputFile.IsZombie()):
@@ -307,7 +325,8 @@ for dataset in datasets:
     tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
     for iEntry in tree:
-        totalCount += 1
+        if not dataset.startswith("stopTo"):
+            totalCount += 1
         d01 = getattr(iEntry,var1)
         d02 = getattr(iEntry,var2)
         if d01<1.:
@@ -315,16 +334,32 @@ for dataset in datasets:
         if d02<1.:
             d02 = 1.1
         #print "d01 is: " + str(d01) + " d02 is: " + str(d02)
-        h.Fill(d01,d02)
-        if d01>100. and d02>100.:
+        if dataset.startswith("stopTo"):
+            hSignal.Fill(d01,d02)
+        else:
+            h.Fill(d01,d02)
+
+        if (not dataset.startswith("stopTo")) and d01>100. and d02>100.:
             srCount += 1
 
+    #Hists.append(h)
     inputFile.Close()
 
 h.GetZaxis().SetRangeUser(1,2000000)
 print "total number of events is: " + str(totalCount)
 print "total number of events in inclusive SR is: " + str(srCount)
 print "maximum bin content is: "+str(h.GetBinContent(h.GetMaximumBin()))
+
+
+if arguments.signal:
+    legend = TLegend(topLeft_x_left, 0.738, 0.85, 0.85)
+    legend.SetTextSize(0.033)
+    legend.SetBorderSize(1)
+    legend.SetFillColor(0)
+    legend.SetLineWidth(2)
+    legend.SetFillStyle(1001)
+    legend.AddEntry(h, "Data", 'f')
+    legend.AddEntry(hSignal, "#tilde{t}#tilde{t}#rightarrow lb lb, m_{#tilde{t}} = 1500 GeV, c#tau_{#tilde{t}} = 1 cm", 'f')
 
 Canvas.cd()
 h.Draw("colz")
@@ -339,6 +374,10 @@ if(arguments.diagramPlot):
     IIIBox.Draw()
     IVBox.Draw()
     Canvas.SaveAs("./abcdMethod.pdf")
+elif arguments.signal:
+    hSignal.Draw("boxsame")
+    legend.Draw()
+    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.pdf")
 else:
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".pdf")
 
@@ -355,5 +394,9 @@ if(arguments.diagramPlot):
     IIIBox.Draw()
     IVBox.Draw()
     CanvasPrelim.SaveAs("./abcdMethod_CMSPreliminary.pdf")
+elif arguments.signal:
+    hSignal.Draw("boxsame")
+    legend.Draw()
+    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.pdf")
 else:
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.pdf")
