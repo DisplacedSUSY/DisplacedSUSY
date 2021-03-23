@@ -143,7 +143,8 @@ for signal_name in signal_points:
     elif arguments.method == "Significance":
         common_options = ""
         method_options = ""
-        expected_only_options = "-t -1 --expectSignal=1"
+        expected_only_options = ""
+        #expected_only_options = "-t -1 --expectSignal=1"
     else:
         common_options = "-H AsymptoticLimits"
 
