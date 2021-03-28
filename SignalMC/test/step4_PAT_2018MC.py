@@ -1,8 +1,8 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v15 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --filein file:step-1.root --fileout file:step0.root
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
+# with command line options: step1 --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v15 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --filein file:step-1.root --fileout file:step0.root --customise DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeMiniAOD
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -23,12 +23,16 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(-1)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/eos/uscms/store/user/manunezo/StopToLBottom_M_150_1mm_13TeV_2018MC/Reco/191024_141656/0000/step1_1.root'),
+    fileNames = cms.untracked.vstring(
+        "file:step3.root",
+        #"/store/user/tomalin/Cosmic_MC/CMSSW_10_2_5_AOD_v1c/200901_001748/0000/cosmic_AOD_1.root"
+        #'file:/eos/uscms/store/user/manunezo/StopToLBottom_M_150_1mm_13TeV_2018MC/Reco/191024_141656/0000/step1_1.root'
+    ),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -55,53 +59,53 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(-900),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('file:step0.root'),
+    fileName = cms.untracked.string('file:step4.root'),
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideBranchesSplitLevel = cms.untracked.VPSet(
         cms.untracked.PSet(
             branch = cms.untracked.string('patPackedCandidates_packedPFCandidates__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('recoGenParticles_prunedGenParticles__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('patTriggerObjectStandAlones_slimmedPatTrigger__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('patPackedGenParticles_packedGenParticles__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('patJets_slimmedJets__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('recoVertexs_offlineSlimmedPrimaryVertices__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('recoCaloClusters_reducedEgamma_reducedESClusters_*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedEBRecHits_*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedEERecHits_*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('recoGenJets_slimmedGenJets__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('patJets_slimmedJetsPuppi__*'),
             splitLevel = cms.untracked.int32(99)
-        ), 
+        ),
         cms.untracked.PSet(
             branch = cms.untracked.string('EcalRecHitsSorted_reducedEgamma_reducedESRecHits_*'),
             splitLevel = cms.untracked.int32(99)
@@ -165,10 +169,17 @@ process=convertToUnscheduled(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from PhysicsTools.PatAlgos.slimming.miniAOD_tools
-from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC 
+from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)
+
+# Automatic addition of the customisation function from DisplacedSUSY.SignalMC.genParticlePlusGeant
+from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep,customizeMiniAOD
+
+#call to customisation function customizeKeep imported from DisplacedSUSY.SignalMC.genParticlePlusGeant
+process = customizeMiniAOD(process)
+process = customizeKeep(process)
 
 # End of customisation functions
 
