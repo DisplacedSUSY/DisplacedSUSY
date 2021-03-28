@@ -4,7 +4,7 @@ MASS_POINT = XXX   # GeV
 CROSS_SECTION = ZZZ # pb
 CTAU_POINT = YYY # mm
 PROCESS_FILE = 'SimG4Core/CustomPhysics/data/stophadronProcessList.txt'
-PARTICLE_FILE = 'Configuration/Generator/data/particles_%s_%d_GeV.txt'  % (FLAVOR, MASS_POINT)
+PARTICLE_FILE = 'DisplacedSUSY/SignalMC/data/geant4_stopToLB_%d_%dmm.txt'  % (MASS_POINT, CTAU_POINT) #do decay in geant
 PDT_FILE = 'Configuration/Generator/data/hscppythiapdt%s%d.tbl'  % (FLAVOR, MASS_POINT)
 USE_REGGE = False
 SLHA_TABLE = """## Important note!
@@ -779,9 +779,9 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
             'SUSY:gg2squarkantisquark  = on',
             'SUSY:qqbar2squarkantisquark= on',
             'RHadrons:allow  = on',
-            'RHadrons:allowDecay = on',
+            'RHadrons:allowDecay = off', #decay now done in geant
             'RHadrons:setMasses = on',
-            '1000006:tau0 = %.1f' % CTAU_POINT,
+            '1000006:mayDecay = false', #decay now done in geant
         ),
         parameterSets = cms.vstring(
             'pythia8CommonSettings',

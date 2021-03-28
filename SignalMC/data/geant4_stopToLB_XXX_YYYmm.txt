@@ -1,0 +1,160 @@
+# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc
+# The strings "decay", "pdg code", and "block", with correct capitalization, are used
+# to control the data input, so do not use these in any comments.
+
+BLOCK MASS  # Mass Spectrum
+# PDG code           mass       particle
+        1000006 XXX.000   # ~t_1
+	1000612 XXX.325   # ~T+
+	1000622 XXX.325   # ~T0
+	1000632 XXX.500   # ~T_s+
+	1000642 BB1.500   # ~T_c0
+	1000652 BB4.800   # ~T_b+
+	1006113 XXX.650   # ~T_dd10
+	1006211 XXX.650   # ~T_ud0+
+	1006213 XXX.650   # ~T_ud1+
+	1006223 XXX.650   # ~T_uu1++
+	1006311 XXX.825   # ~T_sd00
+	1006313 XXX.825   # ~T_sd10
+	1006321 XXX.825   # ~T_su0+
+	1006323 XXX.825   # ~T_su1+
+	1006333 BB1.000   # ~T_ss10
+        -1000006 XXX.000   # ~t_1bar
+	-1000612 XXX.325   # ~Tbar-
+	-1000622 XXX.325   # ~Tbar0
+	-1000632 XXX.500   # ~Tbar_s-
+	-1000642 BB1.500   # ~Tbar_c0
+	-1000652 BB4.800   # ~Tbar_b-
+	-1006113 XXX.650   # ~Tbar_dd10
+	-1006211 XXX.650   # ~Tbar_ud0-
+	-1006213 XXX.650   # ~Tbar_ud1-
+	-1006223 XXX.650   # ~Tbar_uu1--
+	-1006311 XXX.825   # ~Tbar_sd00
+	-1006313 XXX.825   # ~Tbar_sd10
+	-1006321 XXX.825   # ~Tbar_su0-
+	-1006323 XXX.825   # ~Tbar_su1-
+	-1006333 BB1.000   # ~Tbar_ss10
+Block
+
+
+#         PDG            Width
+DECAY  1000006      1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY  1000612      1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1000622       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1000632       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1000642       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1000652       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006113       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006211       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006213       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006223       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006311       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006313       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006321       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006323       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+#         PDG            Width
+DECAY 1006333       1.97326971684839e-AAA   # stop1 decays
+#          BR         NDA      ID1       ID2
+      3.33333333E-01  2  5  -11
+      3.33333333E-01  2  5  -13
+      3.33333333E-01  2  5  -15
+Block
+
+EOF
