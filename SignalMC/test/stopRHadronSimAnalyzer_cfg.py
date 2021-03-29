@@ -6,8 +6,8 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process ('test')
 process.load ('FWCore.MessageService.MessageLogger_cfi')
-#process.MessageLogger.cerr.FwkReport.reportEvery = 1
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
+#process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.maxEvents = cms.untracked.PSet (
     #input = cms.untracked.int32 (100)
@@ -16,8 +16,7 @@ process.maxEvents = cms.untracked.PSet (
 
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
-                                 "file:/eos/uscms/store/user/alimena/StopToLB_M_1800_1000mm_13TeV_2018MC_withCloudModel/GenSim/210212_133719/0000/stopToLB1800_1000mm_withCloudModel_1.root",
-                                 "file:/eos/uscms/store/user/alimena/StopToLB_M_1800_1000mm_13TeV_2018MC_withCloudModel/GenSim/210212_133719/0000/stopToLB1800_1000mm_withCloudModel_2.root",
+                                 'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_0/src/DisplacedSUSY/SignalMC/test/stopToLB1800_1000mm_withCloudModel.root',
                              ),
                         )
 process.TFileService = cms.Service ('TFileService',
@@ -30,7 +29,8 @@ process.TFileService = cms.Service ('TFileService',
 
 process.stopRHadronSimAnalyzer = cms.EDAnalyzer ("StopRHadronSimAnalyzer",
                                           #tracks = cms.InputTag ("generalTracks", ""),
-                                          genParticles = cms.InputTag ("genParticles", ""),
+                                          #genParticles = cms.InputTag ("genParticles", ""), #decay done in pythia
+                                          genParticles = cms.InputTag ("genParticlePlusGeant", ""), #decay done in geant
                                           simTracks = cms.InputTag ("g4SimHits", "", "SIM"),
                                           simVertexs = cms.InputTag ("g4SimHits", "", "SIM"),
                                           hepMC = cms.InputTag ("generatorSmeared", "", "SIM"),

@@ -51,6 +51,8 @@ StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["genRhadronId_10006XX"] = fs_->make<TH1D>("genRhadronId_10006XX", ";generator r-hadron pdgid (1st range)", 100, 1000600,1000700);
   oneDHists_["genRhadronId_1006XXX"] = fs_->make<TH1D>("genRhadronId_1006XXX", ";generator r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
 
+  oneDHists_["nSimTracks"] = fs_->make<TH1D>("nSimTracks", ";number of sim tracks per gen stop r-hadron", 10, -0.5, 9.5);
+
   oneDHists_["simTrackRhadronId_10006XX"] = fs_->make<TH1D>("simTrackRhadronId_10006XX", ";sim track r-hadron pdgid (1st range)", 100, 1000600,1000700);
   oneDHists_["simTrackRhadronId_1006XXX"] = fs_->make<TH1D>("simTrackRhadronId_1006XXX", ";sim track r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
 
@@ -951,47 +953,55 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
   double genRhadronPhi_0 = -10.;
   double genRhadronPhi_1 = -10.;
   for(const auto &genParticle : *genParticles) {
-      //find stops (the magic ones that are both first and last copy, which are the ones that appear AFTER the r-hadrons in the decay chain)
-      if(abs(genParticle.pdgId()) != 1000006) continue;
-      if(!genParticle.isLastCopy()) continue;
-      if(!genParticle.statusFlags().isFirstCopy()) continue;
+    //if decay is done in pythia:
+    //find stops (the magic ones that are both first and last copy, which are the ones that appear AFTER the r-hadrons in the decay chain)
+    //if(abs(genParticle.pdgId()) != 1000006) continue;
+    //if(!genParticle.isLastCopy()) continue;
+    //if(!genParticle.statusFlags().isFirstCopy()) continue;
 
-      nStops++;
+    //if decay is done in geant:
+    //find stops that have status 101
+    if(abs(genParticle.pdgId()) != 1000006) continue;
+    if(genParticle.status() != 102) continue;
 
-      TVector3 x(genParticle.vx(), genParticle.vy(), genParticle.vz()),
-	y(0.0, 0.0, 0.0);
-      double boost = 1.0 /(genParticle.p4().Beta() * genParticle.p4().Gamma());
-      getEndVertex(genParticle, y);
+    nStops++;
 
-      oneDHists_.at("genCharge")->Fill(genParticle.charge());
-      oneDHists_.at("genMass")->Fill(genParticle.mass());
-      oneDHists_.at("genPt")->Fill(genParticle.pt());
-      oneDHists_.at("genPhi")->Fill(genParticle.phi());
-      oneDHists_.at("genEta")->Fill(genParticle.eta());
-      oneDHists_.at("genP")->Fill(genParticle.p());
-      oneDHists_.at("genBeta")->Fill(genParticle.p4().Beta());
-      oneDHists_.at("genGamma")->Fill(genParticle.p4().Gamma());
-      oneDHists_.at("genBetaGamma")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma());
-      oneDHists_.at("genBetaGammaM")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma() * genParticle.mass());
+    TVector3 x(genParticle.vx(), genParticle.vy(), genParticle.vz()),
+      y(0.0, 0.0, 0.0);
+    double boost = 1.0 /(genParticle.p4().Beta() * genParticle.p4().Gamma());
+    getEndVertex(genParticle, y);
 
-      oneDHists_.at("genDecayLength_10")->Fill((x - y).Mag());
-      oneDHists_.at("genDecayLength_100")->Fill((x - y).Mag());
-      oneDHists_.at("genDecayLength_1000")->Fill((x - y).Mag());
-      oneDHists_.at("genDecayLength_10000")->Fill((x - y).Mag());
-      oneDHists_.at("genDecayLength_100000")->Fill((x - y).Mag());
+    oneDHists_.at("genCharge")->Fill(genParticle.charge());
+    oneDHists_.at("genMass")->Fill(genParticle.mass());
+    oneDHists_.at("genPt")->Fill(genParticle.pt());
+    oneDHists_.at("genPhi")->Fill(genParticle.phi());
+    oneDHists_.at("genEta")->Fill(genParticle.eta());
+    oneDHists_.at("genP")->Fill(genParticle.p());
+    oneDHists_.at("genBeta")->Fill(genParticle.p4().Beta());
+    oneDHists_.at("genGamma")->Fill(genParticle.p4().Gamma());
+    oneDHists_.at("genBetaGamma")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma());
+    oneDHists_.at("genBetaGammaM")->Fill(genParticle.p4().Beta() * genParticle.p4().Gamma() * genParticle.mass());
 
-      oneDHists_.at("genCTau_10")->Fill((x - y).Mag() * boost);
-      oneDHists_.at("genCTau_100")->Fill((x - y).Mag() * boost);
-      oneDHists_.at("genCTau_1000")->Fill((x - y).Mag() * boost);
-      oneDHists_.at("genCTau_10000")->Fill((x - y).Mag() * boost);
-      oneDHists_.at("genCTau_100000")->Fill((x - y).Mag() * boost);
+    oneDHists_.at("genDecayLength_10")->Fill((x - y).Mag());
+    oneDHists_.at("genDecayLength_100")->Fill((x - y).Mag());
+    oneDHists_.at("genDecayLength_1000")->Fill((x - y).Mag());
+    oneDHists_.at("genDecayLength_10000")->Fill((x - y).Mag());
+    oneDHists_.at("genDecayLength_100000")->Fill((x - y).Mag());
 
-      /*
+    oneDHists_.at("genCTau_10")->Fill((x - y).Mag() * boost);
+    oneDHists_.at("genCTau_100")->Fill((x - y).Mag() * boost);
+    oneDHists_.at("genCTau_1000")->Fill((x - y).Mag() * boost);
+    oneDHists_.at("genCTau_10000")->Fill((x - y).Mag() * boost);
+    oneDHists_.at("genCTau_100000")->Fill((x - y).Mag() * boost);
+
+    LogDebug("StopRHadronSimAnalyzer")<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status();
+    //std::cout<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status()<<std::endl;
+    /*
       if(genParticle.pt() < 10.0)
-        {
-          oneDHists_.at("matchedTrack")->Fill(-1.0);
-          continue;
-        }
+      {
+      oneDHists_.at("matchedTrack")->Fill(-1.0);
+      continue;
+      }
 
       const reco::Track *track = getMatchedTrack(genParticle, tracks);
 
@@ -1013,11 +1023,14 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       }
       */
 
+      /*
+      //if decay done in pythia, find r-hadron mother particle
       const reco::Candidate* mother = genParticle.mother();
       int partId = mother->pdgId();
 
       if( (abs(partId)>1000600 && abs(partId)<1000700) || (abs(partId)>1006000 && abs(partId)<1007000)){ //if mother of stop is stop r-hadron
-	LogDebug("StopRHadronSimAnalyzer")<<"gen stop mother is a gen r-hadron with id "<<partId<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi();
+	LogDebug("StopRHadronSimAnalyzer")<<"gen stop mother is a gen r-hadron with id "<<partId<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status();
+	std::cout<<" stop mother is a gen r-hadron with id "<<partId<<", pt is: "<<mother->pt()<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status()<<std::endl;
 	if(genRhadronId_0==0 && genRhadronId_1==0){
 	  genRhadronId_0 = partId;
 	  genRhadronEta_0 = mother->eta();
@@ -1030,10 +1043,58 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	}
 	else edm::LogInfo("StopRHadronSimAnalyzer")<<"you have a third gen r-hadron??";
 
-      }
+	}
       else edm::LogInfo("StopRHadronSimAnalyzer")<<"stop has no gen r-hadron mother!!!";
 
-    }//end loop over gen particles
+
+      //daughter particles
+      for(size_t j=0; j<genParticle.numberOfDaughters(); j++){
+	const reco::Candidate* daughter = genParticle.daughter(j);
+	int daughterId = daughter->pdgId();
+	LogDebug("StopRHadronSimAnalyzer")<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughter->pt()<<"/"<<daughter->eta()<<"/"<<daughter->phi()<<"/"<<daughter->status();
+	std::cout<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughter->pt()<<"/"<<daughter->eta()<<"/"<<daughter->phi()<<"/"<<daughter->status()<<std::endl;
+
+	if(abs(daughterId)==5){ //if b-quark, does it decay?
+	  for(size_t k=0; k<daughter->numberOfDaughters(); k++){
+	    const reco::Candidate* bQuarkDaughter = daughter->daughter(k);
+	    LogDebug("StopRHadronSimAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status();
+	    std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<std::endl;
+	  }
+	}
+	else if(abs(daughterId)==15){ //if tau, does it decay?
+	  for(size_t k=0; k<daughter->numberOfDaughters(); k++){
+	    const reco::Candidate* tauDaughter = daughter->daughter(k);
+	    LogDebug("StopRHadronSimAnalyzer")<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status();
+	    std::cout<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status()<<std::endl;
+	  }
+	}
+      }
+      */
+
+    //if decay done in geant, find r-hadron daughter particles
+    for(size_t j=0; j<genParticle.numberOfDaughters(); j++){
+      const reco::Candidate* daughter = genParticle.daughter(j);
+      int partId = daughter->pdgId();
+
+      if( (abs(partId)>1000600 && abs(partId)<1000700) || (abs(partId)>1006000 && abs(partId)<1007000)){ //if daughter of stop is stop r-hadron
+	LogDebug("StopRHadronSimAnalyzer")<<"gen stop daughter is a gen r-hadron with id "<<partId<<", eta is: "<<daughter->eta()<<", phi is: "<<daughter->phi()<<", status is: "<<daughter->status();
+	//std::cout<<" stop daughter is a gen r-hadron with id "<<partId<<", pt is: "<<daughter->pt()<<", eta is: "<<daughter->eta()<<", phi is: "<<daughter->phi()<<", status is: "<<daughter->status()<<std::endl;
+	if(genRhadronId_0==0 && genRhadronId_1==0){
+	  genRhadronId_0 = partId;
+	  genRhadronEta_0 = daughter->eta();
+	  genRhadronPhi_0 = daughter->phi();
+	}
+	else if(genRhadronId_0!=0 && genRhadronId_1==0){
+	  genRhadronId_1 = partId;
+	  genRhadronEta_1 = daughter->eta();
+	  genRhadronPhi_1 = daughter->phi();
+	}
+	else edm::LogInfo("StopRHadronSimAnalyzer")<<"you have a third gen r-hadron??";
+      }
+    }
+
+
+  }//end loop over gen particles
   oneDHists_.at("nStops")->Fill(nStops);
   if(!nStops) edm::LogInfo("StopRHadronSimAnalyzer") << "[" << event.id() << "] No stops found!";
 
@@ -1134,6 +1195,7 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       double simTrackEta = simTrack.momentum().eta();
       double simTrackPhi = simTrack.momentum().phi();
       LogDebug("StopRHadronSimAnalyzer")<<"sim track id "<<simTrack.trackId()<<", type is: "<<simTrack.type()<<", gen particle index is: "<<simTrack.genpartIndex()<<", vertex index is: "<<simTrack.vertIndex()<<", eta is: "<<simTrack.momentum().eta()<<", phi is: "<<simTrack.momentum().phi();
+      //std::cout<<"sim track id "<<simTrack.trackId()<<", type is: "<<simTrack.type()<<", gen particle index is: "<<simTrack.genpartIndex()<<", vertex index is: "<<simTrack.vertIndex()<<", eta is: "<<simTrack.momentum().eta()<<", phi is: "<<simTrack.momentum().phi()<<std::endl;
 
       if(deltaR(simTrackEta, simTrackPhi, genRhadronEta_0, genRhadronPhi_0)<0.1){ //match sim track r-hadron to gen r-hadron 0 in deltaR
 	atLeastOneSimTrackMatchedToGen0 = true;
@@ -1221,14 +1283,19 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       for(const auto &simVertex : *simVertexs) {
 	if(vertexCounter == vertexIndex) {
 	  LogDebug("StopRHadronSimAnalyzer")<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex();
+	  //std::cout<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex()<<std::endl;
 	}//end if vertexCounter == vertexIndex
 	if(simVertex.parentIndex() == trackId){
 	  LogDebug("StopRHadronSimAnalyzer")<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex();
+	  //std::cout<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex()<<std::endl;
 	}
 	vertexCounter++;
       }//end loop over sim vertexs
     }//end if sim track is r-hadron
   }//end loop over sim tracks
+
+  oneDHists_.at("nSimTracks")->Fill(gen0_nSimTracks);
+  oneDHists_.at("nSimTracks")->Fill(gen1_nSimTracks);
 
   if(atLeastOneSimTrackMatchedToGen0){
     LogDebug("StopRHadronSimAnalyzer")<<"gen0_1000612flip is: "<<gen0_1000612flip;
@@ -1386,7 +1453,8 @@ void StopRHadronSimAnalyzer::doSimHits(const edm::Handle<edm::PSimHitContainer> 
       if( (partId>1000600 && partId<1000700) || (partId>1006000 && partId<1007000)){ //stop r-hadron produced this sim hit
 	nSimHits++;
 
-	LogDebug("StopRHadronSimAnalyzer")<<"sim r-hadron with id "<<partId<<" in collection "<<simHitCollection<<", trackId is: "<<hit.trackId();
+	LogDebug("StopRHadronSimAnalyzer")<<"sim hit r-hadron with id "<<partId<<" in collection "<<simHitCollection<<", trackId is: "<<hit.trackId();
+	//std::cout<<"sim hit r-hadron with id "<<partId<<" in collection "<<simHitCollection<<", trackId is: "<<hit.trackId()<<std::endl;
 
 	oneDHists_.at(simHitCollection+"SimHitRhadronId_10006XX")->Fill(partId);
 	oneDHists_.at(simHitCollection+"SimHitRhadronId_1006XXX")->Fill(partId);
