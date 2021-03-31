@@ -77,7 +77,7 @@ header_x_left    = 0.50
 header_x_right   = 0.86
 
 colorSchemes = {
-    'ratio_2D' : {
+    'susy_pag' : {
         'obs' : 1,
         'exp' : 632,
         'oneSigma' : 632,
@@ -263,7 +263,7 @@ def getBinArray(key, dictionaries):
 def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     x_bins = getBinArray('mass', limits)
     y_bins = getBinArray('lifetime', limits)
-    RatioPlot = TH2F("", "", len(x_bins)-1, x_bins, len(y_bins)-1, y_bins)
+    gridPlot = TH2F("", "", len(x_bins)-1, x_bins, len(y_bins)-1, y_bins)
     bin_content = []
     limit_dict = {}
     for limit in limits:
@@ -293,17 +293,17 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     for lifetime in sorted(limit_dict.keys()):
         ordered_masses = sorted(limit_dict[lifetime].keys())
         for mass in ordered_masses:
-            ratio = limit_dict[lifetime][mass]['experiment']/limit_dict[lifetime][mass]['theory']
-            bin_content.append(ratio)
-            RatioPlot.Fill(mass, lifetime, ratio)
-    th2f = RatioPlot
+            limit_point = limit_dict[lifetime][mass]['experiment']
+            bin_content.append(limit_point)
+            gridPlot.Fill(mass, lifetime, limit_point)
+    th2f = gridPlot
     th2f.SetDirectory(0)
     th2f.SetMaximum(th2f.GetMaximum())
     min_val = 0.9*min(c for c in bin_content if c > 0)
     th2f.SetMinimum(min_val)
     print "maximum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMaximumBin()))
     print "minimum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMinimumBin()))
-    th2f.GetZaxis().SetRangeUser(0.000001,10000) #based on max and min, need to always check! the point is to normalize all similar 2D histograms
+    th2f.GetZaxis().SetRangeUser(0.0001,10) #based on max and min, need to always check! the point is to normalize all similar 2D histograms
     return th2f
 
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
@@ -687,9 +687,9 @@ def drawPlot(plot):
         for th2f in source['th2fsToInclude']:
             print th2f
             if th2f == 'obs':
-                canvasName = plot['title'] + ' with_ratio_of_observed_to_theory_limits'
+                canvasName = plot['title'] + ' with_observed_limits'
             elif th2f == 'exp':
-                canvasName = plot['title'] + ' with_ratio_of_expected_to_theory_limits'
+                canvasName = plot['title'] + ' with_expected_limits'
             tmp_canvas = TCanvas(canvasName)
             canvases.append(tmp_canvas)
 
@@ -1029,7 +1029,10 @@ def drawPlot(plot):
             th2f.GetYaxis().SetTitleOffset(1.5)
             th2f.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
             th2f.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
-            th2f.GetZaxis().SetTitle('#sigma_{expected}/#sigma_{theory}')
+            if 'exp' in canvas.GetName():
+                th2f.GetZaxis().SetTitle('Expected #sigma_{95%CL} [pb]')
+            elif 'obs' in canvas.GetName():
+                th2f.GetZaxis().SetTitle('Observed #sigma_{95%CL} [pb]')
             th2f.GetZaxis().SetTitleOffset(1.5)
 
         # draw header label

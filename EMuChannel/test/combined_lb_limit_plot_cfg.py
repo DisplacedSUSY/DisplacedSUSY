@@ -28,14 +28,14 @@ plotDefinitions = [
         'th2fs' : [
             {
                 'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
-                'th2fsToInclude' : ['exp'],
+                'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
                 'source' : 'combined_lb_runII_unblinded_hybridNew_scaled_09Mar2021',
                 'graphsToInclude' : ['exp', 'oneSigma', 'obs'],
-                'colorScheme' : 'ratio_2D',
+                'colorScheme' : 'susy_pag',
             },
         ],
     },
