@@ -61,19 +61,19 @@ plotDefinitions = [
                 'legendEntry' : 'channel combination'
             },
             {
-                'source' : 'emu_ld_runII_03Feb2021',
+                'source' : 'HN_emu_ld_runII_unblinded_10Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'yellow',
+                'colorScheme' : 'magenta',
                 'legendEntry' : 'e#mu channel'
             },
             {
-                'source' : 'ee_ld_runII_03Feb2021',
+                'source' : 'HN_ee_ld_runII_unblinded_10Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : 'ee channel'
             },
             {
-                'source' : 'mumu_ld_runII_03Feb2021',
+                'source' : 'HN_mumu_ld_runII_unblinded_10Mar2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '#mu#mu channel'
