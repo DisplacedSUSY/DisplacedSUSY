@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 # makes plot of yields in SR
-# TO DO: add signal
 # usage: python makeSRYieldsPlots.py
 
 import sys
@@ -240,6 +239,76 @@ hExp201718.SetBinContent(13,0.08)#mumu SR II
 hExp201718.SetBinContent(14,0.14)#mumu SR III
 hExp201718.SetBinContent(15,0.01)#mumu SR IV
 
+hSig2016 = TH1F("hSig2016","",15,0,15)
+hSig2016.SetLineColor(2)
+hSig2016.SetLineWidth(3)
+hSig2016.SetBinContent(1,0.) #emu SR I low pt
+hSig2016.SetBinContent(2,0.02) #emu SR I high pt
+hSig2016.SetBinContent(3,0.07) #emu SR II
+hSig2016.SetBinContent(4,0.05) #emu SR III
+hSig2016.SetBinContent(5,0.19) #emu SR IV
+hSig2016.SetBinContent(6,0.) #ee SR I low pt
+hSig2016.SetBinContent(7,0.01) #ee SR I high pt
+hSig2016.SetBinContent(8,0.03) #ee SR II
+hSig2016.SetBinContent(9,0.02) #ee SR III
+hSig2016.SetBinContent(10,0.07)#ee SR IV
+hSig2016.SetBinContent(11,0.)#mumu SR I low pt
+hSig2016.SetBinContent(12,0.01)#mumu SR I high pt
+hSig2016.SetBinContent(13,0.04)#mumu SR II
+hSig2016.SetBinContent(14,0.03)#mumu SR III
+hSig2016.SetBinContent(15,0.14)#mumu SR IV
+
+hSig2016.SetBinError(1,0.) #emu SR I low pt
+hSig2016.SetBinError(2,0.008) #emu SR I high pt
+hSig2016.SetBinError(3,0.027) #emu SR II
+hSig2016.SetBinError(4,0.020) #emu SR III
+hSig2016.SetBinError(5,0.074) #emu SR IV
+hSig2016.SetBinError(6,0.) #ee SR I low pt
+hSig2016.SetBinError(7,0.002) #ee SR I high pt
+hSig2016.SetBinError(8,0.005) #ee SR II
+hSig2016.SetBinError(9,0.004) #ee SR III
+hSig2016.SetBinError(10,0.012)#ee SR IV
+hSig2016.SetBinError(11,0.)#mumu SR I low pt
+hSig2016.SetBinError(12,0.007)#mumu SR I high pt
+hSig2016.SetBinError(13,0.028)#mumu SR II
+hSig2016.SetBinError(14,0.021)#mumu SR III
+hSig2016.SetBinError(15,0.099)#mumu SR IV
+
+hSig201718 = TH1F("hSig201718","",15,0,15)
+hSig201718.SetLineColor(2)
+hSig201718.SetLineWidth(3)
+hSig201718.SetBinContent(1,0.01) #emu SR I low pt
+hSig201718.SetBinContent(2,0.13) #emu SR I high pt
+hSig201718.SetBinContent(3,0.42) #emu SR II
+hSig201718.SetBinContent(4,0.31) #emu SR III
+hSig201718.SetBinContent(5,1.15) #emu SR IV
+hSig201718.SetBinContent(6,0.) #ee SR I low pt
+hSig201718.SetBinContent(7,0.06) #ee SR I high pt
+hSig201718.SetBinContent(8,0.19) #ee SR II
+hSig201718.SetBinContent(9,0.15) #ee SR III
+hSig201718.SetBinContent(10,0.44)#ee SR IV
+hSig201718.SetBinContent(11,0.)#mumu SR I low pt
+hSig201718.SetBinContent(12,0.07)#mumu SR I high pt
+hSig201718.SetBinContent(13,0.23)#mumu SR II
+hSig201718.SetBinContent(14,0.18)#mumu SR III
+hSig201718.SetBinContent(15,0.78)#mumu SR IV
+
+hSig201718.SetBinError(1,0.004) #emu SR I low pt
+hSig201718.SetBinError(2,0.046) #emu SR I high pt
+hSig201718.SetBinError(3,0.147) #emu SR II
+hSig201718.SetBinError(4,0.109) #emu SR III
+hSig201718.SetBinError(5,0.4) #emu SR IV
+hSig201718.SetBinError(6,0.) #ee SR I low pt
+hSig201718.SetBinError(7,0.016) #ee SR I high pt
+hSig201718.SetBinError(8,0.051) #ee SR II
+hSig201718.SetBinError(9,0.039) #ee SR III
+hSig201718.SetBinError(10,0.115)#ee SR IV
+hSig201718.SetBinError(11,0.)#mumu SR I low pt
+hSig201718.SetBinError(12,0.032)#mumu SR I high pt
+hSig201718.SetBinError(13,0.104)#mumu SR II
+hSig201718.SetBinError(14,0.081)#mumu SR III
+hSig201718.SetBinError(15,0.351)#mumu SR IV
+
 def makeTGraphAsymmErrors(x, y, x_errDown, x_errUp, y_errDown, y_errUp):
     graph_arrays = [array('d', arg) for arg in [x, y, x_errDown, x_errUp, y_errDown, y_errUp]]
     return TGraphAsymmErrors(int(len(x)), *graph_arrays)
@@ -268,6 +337,8 @@ hists = [
     hObs201718,
     hExp2016,
     hExp201718,
+    hSig2016,
+    hSig201718,
 ]
 
 for hist in hists:
@@ -288,22 +359,22 @@ for hist in hists:
     hist.GetXaxis().SetBinLabel(14,"III")
     hist.GetXaxis().SetBinLabel(15,"IV")
     #hist.GetYaxis().SetRangeUser(-0.1,100) # linear y axis
-    #hist.GetYaxis().SetRangeUser(-0.1,100)
     hist.GetYaxis().SetRangeUser(0.001,100000) #log y axis
-    hist.GetYaxis().SetRangeUser(0.001,100000)
     for i in range(hist.GetNbinsX()):
         hist.GetXaxis().ChangeLabel(i,-1,-1,1,2)
     #hist.GetXaxis().Paint("L")
 
-Leg = TLegend(0.2,0.6,0.6,0.8)
+Leg = TLegend(0.2,0.6,0.8,0.8)
 Leg.AddEntry(hObs2016,"Data","p")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
+Leg.AddEntry(hSig2016,"#tilde{t}#tilde{t} #rightarrow lb lb, M = 1500 GeV, c#tau = 10 mm","l")
 Leg.SetBorderSize(0)
 
 Canvas2016.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
+hSig2016.Draw("histesame")
 hObs2016.Draw("psame")
 LumiLabel.Draw()
 HeaderLabel2016.Draw()
@@ -318,6 +389,7 @@ Canvas2016.SaveAs("./SR2016yields.pdf")
 Canvas2016Prelim.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
+hSig2016.Draw("histesame")
 hObs2016.Draw("psame")
 LumiPrelimLabel.Draw()
 HeaderLabel2016.Draw()
@@ -332,6 +404,7 @@ Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary.pdf")
 Canvas201718.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
+hSig201718.Draw("histesame")
 hObs201718.Draw("psame")
 LumiLabel.Draw()
 HeaderLabel201718.Draw()
@@ -346,6 +419,7 @@ Canvas201718.SaveAs("./SR201718yields.pdf")
 Canvas201718Prelim.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
+hSig201718.Draw("histesame")
 hObs201718.Draw("psame")
 LumiPrelimLabel.Draw()
 HeaderLabel201718.Draw()
