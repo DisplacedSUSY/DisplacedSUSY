@@ -17,6 +17,12 @@ eventSelections = [
 
     #TrigEffNumInPtPlateau,
     #TrigEffDenInPtPlateau,
+
+    #TrigEffHighPtEleNumD0GreaterThan20,
+    #TrigEffHighPtEleDenD0GreaterThan20,
+
+    #TrigEffHighPtMuNumD0GreaterThan20,
+    #TrigEffHighPtMuDenD0GreaterThan20,
 ]
 
 ################################################################################

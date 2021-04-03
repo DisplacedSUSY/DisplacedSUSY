@@ -43,3 +43,18 @@ TrigEffNumInPtPlateau = cms.PSet(
     triggers = triggersDoublePhoton,
     cuts = cms.VPSet(copy.deepcopy(TrigEffDenInPtPlateau.cuts))
 )
+
+#######################################
+# add d0 cut to get closer to signal region
+TrigEffDenD0GreaterThan10 = cms.PSet(
+    name = cms.string("TrigEffDenD0GreaterThan10"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
+)
+TrigEffDenD0GreaterThan10.cuts.append(electron_d0_greaterThan10_cut)
+
+TrigEffNumD0GreaterThan10 = cms.PSet(
+    name = cms.string("TrigEffNumD0GreaterThan10"),
+    triggers = triggersDoublePhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDenD0GreaterThan10.cuts))
+)

@@ -42,3 +42,18 @@ TrigEffNumInPtPlateau = cms.PSet(
     triggers = triggersDoubleMuon,
     cuts = cms.VPSet(copy.deepcopy(TrigEffDenInPtPlateau.cuts))
 )
+
+#######################################
+# add d0 cut to get closer to signal region
+TrigEffDenD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffDenD0GreaterThan20"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDen.cuts))
+)
+TrigEffDenD0GreaterThan20.cuts.append(muon_d0_greaterThan20_cut)
+
+TrigEffNumD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffNumD0GreaterThan20"),
+    triggers = triggersDoubleMuon,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffDenD0GreaterThan20.cuts))
+)

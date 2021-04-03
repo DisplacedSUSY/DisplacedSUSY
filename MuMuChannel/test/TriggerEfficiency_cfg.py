@@ -11,6 +11,9 @@ eventSelections = [
 
     #TrigEffNumInPtPlateau,
     #TrigEffDenInPtPlateau,
+
+    #TrigEffNumD0GreaterThan20,
+    #TrigEffDenD0GreaterThan20,
 ]
 
 ################################################################################

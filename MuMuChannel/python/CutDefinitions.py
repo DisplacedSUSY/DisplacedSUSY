@@ -79,6 +79,9 @@ muon_pfBetaIsoCorr_cut.alias = cms.string(">=2 muons with pfBetaIsoCorr tight is
 muon_d0_lessThan10_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan10_cut.alias = cms.string(">=2 muons with |d_0| < 10 mum")
 
+muon_d0_greaterThan20_cut.numberRequired = cms.string(">= 2")
+muon_d0_greaterThan20_cut.alias = cms.string(">=2 muons with |d_0| > 20 mum")
+
 muon_d0_lessThan50_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan50_cut.alias = cms.string(">=2 muons with |d_0| < 50 mum")
 

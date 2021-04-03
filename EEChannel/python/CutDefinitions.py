@@ -46,6 +46,12 @@ electron_d0_lessThan10_cut.alias = cms.string(">=2 electrons with |d_0| < 10 mum
 electron_d0_lessThan50_cut.numberRequired = cms.string(">= 2")
 electron_d0_lessThan50_cut.alias = cms.string(">=2 electrons with |d_0| < 50 mum")
 
+electron_d0_greaterThan10_cut.numberRequired = cms.string(">= 2")
+electron_d0_greaterThan10_cut.alias = cms.string(">=2 electrons with |d_0| > 10 mum")
+
+electron_d0_greaterThan20_cut.numberRequired = cms.string(">= 2")
+electron_d0_greaterThan20_cut.alias = cms.string(">=2 electrons with |d_0| > 20 mum")
+
 electron_d0_greaterThan50_cut.numberRequired = cms.string(">= 2")
 electron_d0_greaterThan50_cut.alias = cms.string(">=2 electrons with |d_0| > 50 mum")
 

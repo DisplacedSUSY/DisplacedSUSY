@@ -40,6 +40,7 @@ TrigEffHighPtEleDen = cms.PSet(
 )
 TrigEffHighPtEleDen.cuts.append(electron_pt_50_cut)
 
+
 # Numerator: basic selection+high pt other leg+(MET triggers)+(analysis trigger)
 TrigEffHighPtEleNum = cms.PSet(
     name = cms.string("TrigEffHighPtEleNum"),
@@ -78,4 +79,36 @@ TrigEffNumInPtPlateau = cms.PSet(
     name = cms.string("TrigEffNumInPtPlateau"),
     triggers = triggersMuonPhoton,
     cuts = cms.VPSet(copy.deepcopy(TrigEffDenInPtPlateau.cuts))
+)
+
+
+#######################################
+# add d0 cut to get closer to signal region
+
+TrigEffHighPtEleDenD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffHighPtEleDenD0GreaterThan20"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtEleDen.cuts))
+)
+TrigEffHighPtEleDenD0GreaterThan20.cuts.append(muon_d0_greaterThan20_cut)
+TrigEffHighPtEleDenD0GreaterThan20.cuts.append(electron_d0_greaterThan20_cut)
+
+TrigEffHighPtEleNumD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffHighPtEleNumD0GreaterThan20"),
+    triggers = triggersMuonPhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtEleDenD0GreaterThan20.cuts))
+)
+
+TrigEffHighPtMuDenD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffHighPtMuDenD0GreaterThan20"),
+    triggers = cms.vstring(),
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtMuDen.cuts))
+)
+TrigEffHighPtMuDenD0GreaterThan20.cuts.append(muon_d0_greaterThan20_cut)
+TrigEffHighPtMuDenD0GreaterThan20.cuts.append(electron_d0_greaterThan20_cut)
+
+TrigEffHighPtMuNumD0GreaterThan20 = cms.PSet(
+    name = cms.string("TrigEffHighPtMuNumD0GreaterThan20"),
+    triggers = triggersMuonPhoton,
+    cuts = cms.VPSet(copy.deepcopy(TrigEffHighPtMuDenD0GreaterThan20.cuts))
 )
