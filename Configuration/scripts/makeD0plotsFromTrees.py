@@ -55,16 +55,16 @@ gStyle.SetPadBorderMode(0)
 gStyle.SetPadColor(0)
 gStyle.SetCanvasColor(0)
 if arguments.signal:
-    gStyle.SetCanvasDefH(700)
+    gStyle.SetCanvasDefH(675)
 else:
     gStyle.SetCanvasDefH(600)
 gStyle.SetCanvasDefW(600)
 gStyle.SetCanvasDefX(0)
 gStyle.SetCanvasDefY(0)
-gStyle.SetPadTopMargin(0.15)
-gStyle.SetPadBottomMargin(0.15)
-gStyle.SetPadLeftMargin(0.15)
-gStyle.SetPadRightMargin(0.15)
+gStyle.SetPadTopMargin(0.2)
+gStyle.SetPadBottomMargin(0.2)
+gStyle.SetPadLeftMargin(0.2)
+gStyle.SetPadRightMargin(0.2)
 gStyle.SetTitleColor(1, "XYZ")
 gStyle.SetTitleFont(42, "XYZ")
 gStyle.SetTitleSize(0.05, "XYZ")
@@ -72,6 +72,7 @@ gStyle.SetTitleXSize(0.04)
 gStyle.SetTitleXOffset(1.25)
 gStyle.SetTitleYSize(0.04)
 gStyle.SetTitleYOffset(1.5)
+gStyle.SetTitleOffset(1.25,"Z")
 gStyle.SetTextAlign(12)
 gStyle.SetLabelColor(1, "XYZ")
 gStyle.SetLabelFont(42, "XYZ")
@@ -86,14 +87,14 @@ gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
-topLeft_x_left    = 0.15
-y_bottom  = 0.85
-topLeft_x_right   = 0.50
-y_top     = 0.9
+topLeft_x_left    = 0.2
+y_bottom  = 0.8
+topLeft_x_right   = 0.6
+y_top     = 0.85
 
 #position for header
-header_x_left    = 0.55
-header_x_right   = 0.91
+header_x_left    = 0.50
+header_x_right   = 0.86
 
 #position for A region (user coord)
 A_x_left = 1
@@ -288,21 +289,22 @@ CanvasPrelim.SetLogy()
 CanvasPrelim.SetLogz()
 
 log_100000um_bins = [1,10,100,500,1000,5000,10000,100000]
-y_log_100000um_bins = [1,10,100,500,1000,5000,10000,100000,900000]
+y_log_100000um_bins = [1,10,100,500,1000,5000,10000,100000,300000]
 nbins = int(len(log_100000um_bins)-1)
 nbinsY = int(len(y_log_100000um_bins)-1)
 if arguments.signal:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
+    h.SetTitle(";"+xTitle+";"+yTitle+";Events in data")
 else:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
-h.SetTitle(";"+xTitle+";"+yTitle)
+    h.SetTitle(";"+xTitle+";"+yTitle+";Events")
 h.SetFillColor(4)
 h.SetLineWidth(0)
 totalCount = 0
 srCount = 0
 
 hSignal = TH2F("hSignal","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
-hSignal.SetTitle(";"+xTitle+";"+yTitle)
+hSignal.SetTitle(";"+xTitle+";"+yTitle+";Events in data")
 hSignal.SetLineColor(1)
 
 for dataset in datasets:
@@ -345,20 +347,20 @@ for dataset in datasets:
     #Hists.append(h)
     inputFile.Close()
 
-h.GetZaxis().SetRangeUser(1,2000000)
+if not arguments.mc:
+    h.GetZaxis().SetRangeUser(1,2000000)
 print "total number of events is: " + str(totalCount)
 print "total number of events in inclusive SR is: " + str(srCount)
 print "maximum bin content is: "+str(h.GetBinContent(h.GetMaximumBin()))
 
 
 if arguments.signal:
-    legend = TLegend(topLeft_x_left, 0.738, 0.85, 0.85)
-    legend.SetTextSize(0.033)
+    legend = TLegend(topLeft_x_left, 0.75, 0.8, 0.8)
+    legend.SetTextSize(0.025)
     legend.SetBorderSize(1)
     legend.SetFillColor(0)
     legend.SetLineWidth(2)
     legend.SetFillStyle(1001)
-    legend.AddEntry(h, "Data", 'f')
     legend.AddEntry(hSignal, "#tilde{t}#tilde{t}#rightarrow lb lb, m_{#tilde{t}} = 1500 GeV, c#tau_{#tilde{t}} = 1 cm", 'f')
 
 Canvas.cd()
