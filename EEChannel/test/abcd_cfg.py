@@ -5,6 +5,8 @@ input_file = "/uscms_data/d3/cardwell/condor/ee_closureTests_07Dec2020/Backgroun
 #input_file = "/uscms_data/d3/cardwell/condor/ee_closureTests_07Dec2020/Background_2017_2018.root"
 #input_file = "/uscms_data/d3/cardwell/condor/ee_closureTests_07Dec2020/DoubleEG_2016_postHIP.root"
 #input_file = "/uscms_data/d3/cardwell/condor/ee_closureTests_07Dec2020/DoubleEG_2017_2018.root"
+#input_file = "/uscms_data/d3/alimena/condor/EEPreselection_2016Analysis_Signal_30Jan2021/mergeOut/stopToLB1500_10mm.root" #to find amount of signal in each SR bin
+#input_file = "/uscms_data/d3/alimena/condor/EEPreselection_2018Analysis_Signal_28Jan2021/mergeOut/stopToLB1500_10mm_201718.root"
 
 input_hist = "PreselectionPlotter/Electron-beamspot Plots/electronAbsD0[0]_vs_electronAbsD0[1]_100000um_vs_electronPt[0]"
 
@@ -87,6 +89,8 @@ output_file  = "ee_bgMC_2016_promptRegion.root"
 #bins_x = [0, 100, 500, 100000]
 #bins_y = [0, 100, 500, 100000]
 #bins_z = [0, -1]
+#bins_z = [0, 300, -1] #2016
+#bins_z = [0, 400, -1] #201718
 
 # prompt-e/prompt-e region
 bins_x = [20, 50, 100]

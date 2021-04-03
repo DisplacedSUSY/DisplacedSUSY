@@ -5,6 +5,8 @@ input_file = "/uscms_data/d3/cardwell/condor/emu_closureTests_07Dec2020/Backgrou
 #input_file = "/uscms_data/d3/cardwell/condor/emu_closureTests_07Dec2020/Background_2017_2018.root"
 #input_file = "/uscms_data/d3/cardwell/condor/emu_closureTests_07Dec2020/MuonEG_2016_postHIP.root"
 #input_file = "/uscms_data/d3/cardwell/condor/emu_closureTests_07Dec2020/MuonEG_2017_2018.root"
+#input_file = "/uscms_data/d3/alimena/condor/EMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut/stopToLB1500_10mm.root" #to find amount of signal in each SR bin
+#input_file = "/uscms_data/d3/alimena/condor/EMuPreselection_2018Analysis_Signal_28Jan2021/mergeOut/stopToLB1500_10mm_201718.root"
 
 #input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_electronPt[0]"
 input_hist = "PreselectionPlotter/Electron-muon-beamspot Plots/muonAbsD0[0]_vs_electronAbsD0[0]_100000um_vs_muonPt[0]"
@@ -88,6 +90,11 @@ output_file  = "emu_bgMC_2016_promptRegion.root"
 #bins_x = [0, 100, 500, 100000]
 #bins_y = [0, 100, 500, 100000]
 #bins_z = [0, -1]
+
+#bins_x = [0, 100, 500, 100000]
+#bins_y = [0, 100, 500, 100000]
+#bins_z = [0, 90, -1] #2016
+#bins_z = [0, 140, -1] #2017, 2018
 
 # prompt-subleading-mu/prompt-leading-mu region
 bins_x = [20, 50, 100]
