@@ -48,18 +48,50 @@ StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["genCTau_10000"] = fs_->make<TH1D>("genCTau_10000", ";generator stop c#tau [cm]", 1000, 0.0, 10000.0);
   oneDHists_["genCTau_100000"] = fs_->make<TH1D>("genCTau_100000", ";generator stop c#tau [cm]", 1000, 0.0, 100000.0);
 
-  oneDHists_["genRhadronId_10006XX"] = fs_->make<TH1D>("genRhadronId_10006XX", ";generator r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["genRhadronId_1006XXX"] = fs_->make<TH1D>("genRhadronId_1006XXX", ";generator r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["genRhadronId_10006XX"] = fs_->make<TH1D>("genRhadronId_10006XX", ";generator r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["genRhadronId_1006XXX"] = fs_->make<TH1D>("genRhadronId_1006XXX", ";generator r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
+
+  oneDHists_["nGeantDaughters"] = fs_->make<TH1D>("nGeantDaughters", ";number of initial r-hadron daughters", 5, -0.5, 4.5);
+
+  oneDHists_["geantDaughterPt"] = fs_->make<TH1D>("geantDaughterPt", ";r-hadron daughter p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["geantDaughterP"] = fs_->make<TH1D>("geantDaughterP", ";r-hadron daughter p [GeV]", 200, 0, 2000);
+  oneDHists_["geantDaughterEta"] = fs_->make<TH1D>("geantDaughterEta", ";r-hadron daughter #eta", 100, -5.0, 5.0);
+  oneDHists_["geantDaughterPhi"] = fs_->make<TH1D>("geantDaughterPhi", ";r-hadron daughter #phi", 100, -3.2, 3.2);
+  oneDHists_["geantDaughterStatus"] = fs_->make<TH1D>("geantDaughterStatus", ";r-hadron daughter status",10, -0.5, 9.5);
+  oneDHists_["genRHadron_GeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, daughter)|",60,0,6);
+  oneDHists_["genRHadron_GeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, daughter)|",32, 0, 3.2);
+  oneDHists_["genRHadron_GeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaR", ";#DeltaR(r-hadron, daughter)",60,0,6);
+
+  oneDHists_["SMGeantDaughterId"] = fs_->make<TH1D>("SMGeantDaughterId", ";SM r-hadron daughter |pdgid| (1st range)",20,0,20);
+  oneDHists_["SMGeantDaughterPt"] = fs_->make<TH1D>("SMGeantDaughterPt", ";SM r-hadron daughter p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["SMGeantDaughterP"] = fs_->make<TH1D>("SMGeantDaughterP", ";SM r-hadron daughter p [GeV]", 200, 0, 2000);
+  oneDHists_["SMGeantDaughterEta"] = fs_->make<TH1D>("SMGeantDaughterEta", ";SM r-hadron daughter #eta", 100, -5.0, 5.0);
+  oneDHists_["SMGeantDaughterPhi"] = fs_->make<TH1D>("SMGeantDaughterPhi", ";SM r-hadron daughter #phi", 100, -3.2, 3.2);
+  oneDHists_["SMGeantDaughterStatus"] = fs_->make<TH1D>("SMGeantDaughterStatus", ";SM r-hadron daughter status",10, -0.5, 9.5);
+  oneDHists_["genRHadron_SMGeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, SM daughter)|",60,0,6);
+  oneDHists_["genRHadron_SMGeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, SM daughter)|",32, 0, 3.2);
+  oneDHists_["genRHadron_SMGeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaR", ";#DeltaR(r-hadron, SM daughter)",60,0,6);
+
+  oneDHists_["rhadronGeantDaughterId_10006XX"] = fs_->make<TH1D>("rhadronGeantDaughterId_10006XX", ";r-hadron r-hadron daughter |pdgid| (2nd range)", 100, 1000600,1000700);
+  oneDHists_["rhadronGeantDaughterId_1006XXX"] = fs_->make<TH1D>("rhadronGeantDaughterId_1006XXX", ";r-hadron r-hadron daughter |pdgid| (3rd range)", 1000, 1006000,1007000);
+  oneDHists_["rhadronGeantDaughterPt"] = fs_->make<TH1D>("rhadronGeantDaughterPt", ";r-hadron r-hadron daughter p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["rhadronGeantDaughterP"] = fs_->make<TH1D>("rhadronGeantDaughterP", ";r-hadron r-hadron daughter p [GeV]", 200, 0, 2000);
+  oneDHists_["rhadronGeantDaughterEta"] = fs_->make<TH1D>("rhadronGeantDaughterEta", ";r-hadron r-hadron daughter #eta", 100, -5.0, 5.0);
+  oneDHists_["rhadronGeantDaughterPhi"] = fs_->make<TH1D>("rhadronGeantDaughterPhi", ";r-hadron r-hadron daughter #phi", 100, -3.2, 3.2);
+  oneDHists_["rhadronGeantDaughterStatus"] = fs_->make<TH1D>("rhadronGeantDaughterStatus", ";r-hadron r-hadron daughter status",10, -0.5, 9.5);
+  oneDHists_["genRHadron_rhadronGeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_rhadronGeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, r-hadron daughter)|",60,0,6);
+  oneDHists_["genRHadron_rhadronGeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_rhadronGeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, r-hadron daughter)|",32, 0, 3.2);
+  oneDHists_["genRHadron_rhadronGeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_rhadronGeantDaughter_deltaR", ";#DeltaR(r-hadron, r-hadron daughter)",60,0,6);
 
   oneDHists_["nSimTracks"] = fs_->make<TH1D>("nSimTracks", ";number of sim tracks per gen stop r-hadron", 10, -0.5, 9.5);
 
-  oneDHists_["simTrackRhadronId_10006XX"] = fs_->make<TH1D>("simTrackRhadronId_10006XX", ";sim track r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["simTrackRhadronId_1006XXX"] = fs_->make<TH1D>("simTrackRhadronId_1006XXX", ";sim track r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["simTrackRhadronId_10006XX"] = fs_->make<TH1D>("simTrackRhadronId_10006XX", ";sim track r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["simTrackRhadronId_1006XXX"] = fs_->make<TH1D>("simTrackRhadronId_1006XXX", ";sim track r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  twoDHists_["genRhadronId_10006XX_vs_simTrackRhadronId_10006XX_matched"] = fs_->make<TH2D>("genRhadronId_10006XX_vs_simTrackRhadronId_10006XX_matched", ";generator r-hadron pdgid (1st range);sim track r-hadron pdgid (1st range)", 100, 1000600,1000700, 100, 1000600,1000700);
-  twoDHists_["genRhadronId_1006XXX_vs_simTrackRhadronId_1006XXX_matched"] = fs_->make<TH2D>("genRhadronId_1006XXX_vs_simTrackRhadronId_1006XXX_matched", ";generator r-hadron pdgid (2nd range);sim track r-hadron pdgid (2nd range)", 1000, 1006000,1007000, 1000, 1006000,1007000);
-  twoDHists_["genRhadronId_10006XX_vs_simTrackRhadronId_1006XXX_matched"] = fs_->make<TH2D>("genRhadronId_10006XX_vs_simTrackRhadronId_1006XXX_matched", ";generator r-hadron pdgid (1st range);sim track r-hadron pdgid (2nd range)", 100, 1000600,1000700, 1000, 1006000,1007000);
-  twoDHists_["genRhadronId_1006XXX_vs_simTrackRhadronId_10006XX_matched"] = fs_->make<TH2D>("genRhadronId_1006XXX_vs_simTrackRhadronId_10006XX_matched", ";generator r-hadron pdgid (2nd range);sim track r-hadron pdgid (1st range)", 1000, 1006000,1007000, 100, 1000600,1000700);
+  twoDHists_["genRhadronId_10006XX_vs_simTrackRhadronId_10006XX_matched"] = fs_->make<TH2D>("genRhadronId_10006XX_vs_simTrackRhadronId_10006XX_matched", ";generator r-hadron |pdgid| (1st range);sim track r-hadron |pdgid| (1st range)", 100, 1000600,1000700, 100, 1000600,1000700);
+  twoDHists_["genRhadronId_1006XXX_vs_simTrackRhadronId_1006XXX_matched"] = fs_->make<TH2D>("genRhadronId_1006XXX_vs_simTrackRhadronId_1006XXX_matched", ";generator r-hadron |pdgid| (2nd range);sim track r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000, 1000, 1006000,1007000);
+  twoDHists_["genRhadronId_10006XX_vs_simTrackRhadronId_1006XXX_matched"] = fs_->make<TH2D>("genRhadronId_10006XX_vs_simTrackRhadronId_1006XXX_matched", ";generator r-hadron |pdgid| (1st range);sim track r-hadron |pdgid| (2nd range)", 100, 1000600,1000700, 1000, 1006000,1007000);
+  twoDHists_["genRhadronId_1006XXX_vs_simTrackRhadronId_10006XX_matched"] = fs_->make<TH2D>("genRhadronId_1006XXX_vs_simTrackRhadronId_10006XX_matched", ";generator r-hadron |pdgid| (2nd range);sim track r-hadron |pdgid| (1st range)", 1000, 1006000,1007000, 100, 1000600,1000700);
 
   oneDHists_["gen1000612_simTrackFlipping"] = fs_->make<TH1D>("gen1000612_simTrackFlipping", ";number of times gen id 1000612 flips",10,0,10);
   oneDHists_["gen1000622_simTrackFlipping"] = fs_->make<TH1D>("gen1000622_simTrackFlipping", ";number of times gen id 1000622 flips",10,0,10);
@@ -77,95 +109,95 @@ StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["gen1006333_simTrackFlipping"] = fs_->make<TH1D>("gen1006333_simTrackFlipping", ";number of times gen id 1006333 flips",10,0,10);
 
 
-  oneDHists_["PixelBarrelHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelBarrelHighTofSimHitRhadronId_10006XX", ";pixel barrel high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["PixelBarrelHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelBarrelHighTofSimHitRhadronId_1006XXX", ";pixel barrel high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["PixelBarrelHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelBarrelHighTofSimHitRhadronId_10006XX", ";pixel barrel high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["PixelBarrelHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelBarrelHighTofSimHitRhadronId_1006XXX", ";pixel barrel high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["PixelBarrelLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelBarrelLowTofSimHitRhadronId_10006XX", ";pixel barrel low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["PixelBarrelLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelBarrelLowTofSimHitRhadronId_1006XXX", ";pixel barrel low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["PixelBarrelLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelBarrelLowTofSimHitRhadronId_10006XX", ";pixel barrel low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["PixelBarrelLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelBarrelLowTofSimHitRhadronId_1006XXX", ";pixel barrel low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["PixelEndcapHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelEndcapHighTofSimHitRhadronId_10006XX", ";pixel endcap high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["PixelEndcapHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelEndcapHighTofSimHitRhadronId_1006XXX", ";pixel endcap high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["PixelEndcapHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelEndcapHighTofSimHitRhadronId_10006XX", ";pixel endcap high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["PixelEndcapHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelEndcapHighTofSimHitRhadronId_1006XXX", ";pixel endcap high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["PixelEndcapLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelEndcapLowTofSimHitRhadronId_10006XX", ";pixel endcap low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["PixelEndcapLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelEndcapLowTofSimHitRhadronId_1006XXX", ";pixel endcap low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["PixelEndcapLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("PixelEndcapLowTofSimHitRhadronId_10006XX", ";pixel endcap low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["PixelEndcapLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("PixelEndcapLowTofSimHitRhadronId_1006XXX", ";pixel endcap low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TECHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TECHighTofSimHitRhadronId_10006XX", ";TEC high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TECHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TECHighTofSimHitRhadronId_1006XXX", ";TEC high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TECHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TECHighTofSimHitRhadronId_10006XX", ";TEC high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TECHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TECHighTofSimHitRhadronId_1006XXX", ";TEC high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TECLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TECLowTofSimHitRhadronId_10006XX", ";TEC low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TECLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TECLowTofSimHitRhadronId_1006XXX", ";TEC low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TECLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TECLowTofSimHitRhadronId_10006XX", ";TEC low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TECLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TECLowTofSimHitRhadronId_1006XXX", ";TEC low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TIBHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIBHighTofSimHitRhadronId_10006XX", ";TIB high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TIBHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIBHighTofSimHitRhadronId_1006XXX", ";TIB high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TIBHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIBHighTofSimHitRhadronId_10006XX", ";TIB high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TIBHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIBHighTofSimHitRhadronId_1006XXX", ";TIB high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TIBLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIBLowTofSimHitRhadronId_10006XX", ";TIB low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TIBLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIBLowTofSimHitRhadronId_1006XXX", ";TIB low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TIBLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIBLowTofSimHitRhadronId_10006XX", ";TIB low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TIBLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIBLowTofSimHitRhadronId_1006XXX", ";TIB low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TIDHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIDHighTofSimHitRhadronId_10006XX", ";TID high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TIDHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIDHighTofSimHitRhadronId_1006XXX", ";TID high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TIDHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIDHighTofSimHitRhadronId_10006XX", ";TID high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TIDHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIDHighTofSimHitRhadronId_1006XXX", ";TID high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TIDLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIDLowTofSimHitRhadronId_10006XX", ";TID low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TIDLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIDLowTofSimHitRhadronId_1006XXX", ";TID low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TIDLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TIDLowTofSimHitRhadronId_10006XX", ";TID low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TIDLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TIDLowTofSimHitRhadronId_1006XXX", ";TID low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TOBHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TOBHighTofSimHitRhadronId_10006XX", ";TOB high tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TOBHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TOBHighTofSimHitRhadronId_1006XXX", ";TOB high tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TOBHighTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TOBHighTofSimHitRhadronId_10006XX", ";TOB high tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TOBHighTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TOBHighTofSimHitRhadronId_1006XXX", ";TOB high tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["TOBLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TOBLowTofSimHitRhadronId_10006XX", ";TOB low tof sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["TOBLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TOBLowTofSimHitRhadronId_1006XXX", ";TOB low tof sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["TOBLowTofSimHitRhadronId_10006XX"] = fs_->make<TH1D>("TOBLowTofSimHitRhadronId_10006XX", ";TOB low tof sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["TOBLowTofSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("TOBLowTofSimHitRhadronId_1006XXX", ";TOB low tof sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["CSCSimHitRhadronId_10006XX"] = fs_->make<TH1D>("CSCSimHitRhadronId_10006XX", ";CSC sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["CSCSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("CSCSimHitRhadronId_1006XXX", ";CSC sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["CSCSimHitRhadronId_10006XX"] = fs_->make<TH1D>("CSCSimHitRhadronId_10006XX", ";CSC sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["CSCSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("CSCSimHitRhadronId_1006XXX", ";CSC sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["DTSimHitRhadronId_10006XX"] = fs_->make<TH1D>("DTSimHitRhadronId_10006XX", ";DT sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["DTSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("DTSimHitRhadronId_1006XXX", ";DT sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["DTSimHitRhadronId_10006XX"] = fs_->make<TH1D>("DTSimHitRhadronId_10006XX", ";DT sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["DTSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("DTSimHitRhadronId_1006XXX", ";DT sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["RPCSimHitRhadronId_10006XX"] = fs_->make<TH1D>("RPCSimHitRhadronId_10006XX", ";RPC sim hit r-hadron pdgid (1st range)", 100, 1000600,1000700);
-  oneDHists_["RPCSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("RPCSimHitRhadronId_1006XXX", ";RPC sim hit r-hadron pdgid (2nd range)", 1000, 1006000,1007000);
+  oneDHists_["RPCSimHitRhadronId_10006XX"] = fs_->make<TH1D>("RPCSimHitRhadronId_10006XX", ";RPC sim hit r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
+  oneDHists_["RPCSimHitRhadronId_1006XXX"] = fs_->make<TH1D>("RPCSimHitRhadronId_1006XXX", ";RPC sim hit r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  twoDHists_["SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1000612_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000612_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1000612_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000612_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1000612_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000612_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1000612_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000612_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1000622_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000622_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1000622_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000622_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1000622_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000622_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1000622_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000622_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1000632_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000632_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1000632_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000632_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1000632_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000632_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1000632_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000632_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1000642_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000642_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1000642_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000642_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1000642_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000642_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1000642_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000642_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1000652_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000652_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1000652_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000652_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1000652_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000652_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1000652_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1000652_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006113_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006113_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006113_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006113_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006113_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006113_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006113_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006113_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006211_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006211_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006211_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006211_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006211_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006211_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006211_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006211_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006213_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006213_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006213_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006213_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006213_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006213_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006213_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006213_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006223_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006223_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006223_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006223_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006223_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006223_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006223_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006223_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006311_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006311_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006311_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006311_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006311_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006311_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006311_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006311_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006313_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006313_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006313_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006313_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006313_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006313_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006313_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006313_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006321_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006321_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006321_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006321_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006321_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006321_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006321_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006321_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006323_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006323_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006323_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006323_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006323_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006323_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006323_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006323_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
-  twoDHists_["gen1006333_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006333_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron pdgid (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
-  twoDHists_["gen1006333_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006333_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron pdgid (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
+  twoDHists_["gen1006333_SimHitRhadronId_10006XX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006333_SimHitRhadronId_10006XX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (1st range); sim hit collection", 100, 1000600,1000700, 15, 0, 15);
+  twoDHists_["gen1006333_SimHitRhadronId_1006XXX_vs_SimHitCollection"] = fs_->make<TH2D>("gen1006333_SimHitRhadronId_1006XXX_vs_SimHitCollection", ";sim hit r-hadron |pdgid| (2nd range); sim hit collection", 1000, 1006000,1007000, 15, 0, 15);
 
   oneDHists_["gen1000612_SimHitCollection"] = fs_->make<TH1D>("gen1000612_SimHitCollection", ";sim hit collection for gen id 1000612", 15, 0, 15);
   oneDHists_["gen1000622_SimHitCollection"] = fs_->make<TH1D>("gen1000622_SimHitCollection", ";sim hit collection for gen id 1000622", 15, 0, 15);
@@ -1090,6 +1122,69 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	  genRhadronPhi_1 = daughter->phi();
 	}
 	else edm::LogInfo("StopRHadronSimAnalyzer")<<"you have a third gen r-hadron??";
+
+	//find daughters of r-hadron
+	oneDHists_.at("nGeantDaughters")->Fill(daughter->numberOfDaughters());
+
+	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
+	  const reco::Candidate* daughterOfRHadron = daughter->daughter(k);
+	  int partIdDaughterOfRHadron = daughterOfRHadron->pdgId();
+	  int ptDaughterOfRHadron = daughterOfRHadron->pt();
+	  int etaDaughterOfRHadron = daughterOfRHadron->eta();
+	  int phiDaughterOfRHadron = daughterOfRHadron->phi();
+	  LogDebug("StopRHadronSimAnalyzer")<<"   R-hadron daughter has id "<<partIdDaughterOfRHadron<<", pt is: "<<ptDaughterOfRHadron<<", eta is: "<<etaDaughterOfRHadron<<", phi is: "<<phiDaughterOfRHadron<<", status is: "<<daughterOfRHadron->status();
+	  //std::cout<<"   R-hadron daughter has id "<<partIdDaughterOfRHadron<<", pt is: "<<ptDaughterOfRHadron<<", eta is: "<<etaDaughterOfRHadron<<", phi is: "<<phiDaughterOfRHadron<<", status is: "<<daughterOfRHadron->status()<<std::endl;
+
+	  //fill hists for when daughter of r-hadron is anythng
+	  oneDHists_.at("SMGeantDaughterId")->Fill(abs(partIdDaughterOfRHadron));
+	  oneDHists_.at("rhadronGeantDaughterId_10006XX")->Fill(abs(partIdDaughterOfRHadron));
+	  oneDHists_.at("rhadronGeantDaughterId_1006XXX")->Fill(abs(partIdDaughterOfRHadron));
+
+	  oneDHists_.at("geantDaughterPt")->Fill(ptDaughterOfRHadron);
+	  oneDHists_.at("geantDaughterP")->Fill(daughterOfRHadron->p());
+	  oneDHists_.at("geantDaughterEta")->Fill(etaDaughterOfRHadron);
+	  oneDHists_.at("geantDaughterPhi")->Fill(phiDaughterOfRHadron);
+	  oneDHists_.at("geantDaughterStatus")->Fill(daughterOfRHadron->status());
+
+	  oneDHists_.at("genRHadron_GeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
+	  oneDHists_.at("genRHadron_GeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
+	  oneDHists_.at("genRHadron_GeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+
+
+	  //fill hists for when daughter of r-hadron is SM particle (b/q quark or lepton)
+	  if(abs(partIdDaughterOfRHadron)<20){
+	    oneDHists_.at("SMGeantDaughterPt")->Fill(ptDaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterP")->Fill(daughterOfRHadron->p());
+	    oneDHists_.at("SMGeantDaughterEta")->Fill(etaDaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterPhi")->Fill(phiDaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterStatus")->Fill(daughterOfRHadron->status());
+
+	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
+	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
+	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+	  }
+
+
+	  //fill hists for when daughter of r-hadron is another r-hadron
+	  bool geantDaughterId_10006XX = false;
+	  bool geantDaughterId_1006XXX = false;
+	  if(abs(partIdDaughterOfRHadron)>1000600 && abs(partIdDaughterOfRHadron)<1000700) geantDaughterId_10006XX = true;
+	  else if(abs(partIdDaughterOfRHadron)>1006000 && abs(partIdDaughterOfRHadron)<1007000) geantDaughterId_1006XXX = true;
+
+	  if(geantDaughterId_10006XX || geantDaughterId_1006XXX){
+	    oneDHists_.at("rhadronGeantDaughterPt")->Fill(ptDaughterOfRHadron);
+	    oneDHists_.at("rhadronGeantDaughterP")->Fill(daughterOfRHadron->p());
+	    oneDHists_.at("rhadronGeantDaughterEta")->Fill(etaDaughterOfRHadron);
+	    oneDHists_.at("rhadronGeantDaughterPhi")->Fill(phiDaughterOfRHadron);
+	    oneDHists_.at("rhadronGeantDaughterStatus")->Fill(daughterOfRHadron->status());
+
+	    oneDHists_.at("genRHadron_rhadronGeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
+	    oneDHists_.at("genRHadron_rhadronGeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
+	    oneDHists_.at("genRHadron_rhadronGeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+	  }
+
+	}
+
       }
     }
 
