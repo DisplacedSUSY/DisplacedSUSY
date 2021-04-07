@@ -7,6 +7,7 @@ import sys
 import os
 import re
 import math
+from math import *
 from array import *
 from decimal import *
 from optparse import OptionParser
@@ -80,6 +81,7 @@ mumu_x_right = 14
 
 HeaderText2016 = "16 fb^{-1} (13 TeV)"
 HeaderText201718 = "97-102 fb^{-1} (13 TeV)"
+HeaderTextRun2 = "113-118 fb^{-1} (13 TeV)"
 
 HeaderLabel2016 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText2016,"NDC")
 HeaderLabel2016.SetTextAlign(32)
@@ -90,6 +92,11 @@ HeaderLabel201718 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,Heade
 HeaderLabel201718.SetTextAlign(32)
 HeaderLabel201718.SetTextFont(42)
 HeaderLabel201718.SetTextSize(0.697674)
+
+HeaderLabelRun2 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderTextRun2,"NDC")
+HeaderLabelRun2.SetTextAlign(32)
+HeaderLabelRun2.SetTextFont(42)
+HeaderLabelRun2.SetTextSize(0.697674)
 
 LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
 LumiLabel.SetTextFont(62)
@@ -119,6 +126,7 @@ MuMuLabel.SetTextAlign(22)
 labels = [
     HeaderLabel2016,
     HeaderLabel201718,
+    HeaderLabelRun2,
     LumiLabel,
     LumiPrelimLabel,
     EMuLabel,
@@ -140,12 +148,16 @@ Canvas2016 = TCanvas("canvas2016","")
 Canvas2016Prelim = TCanvas("canvas2016Preliminary","")
 Canvas201718 = TCanvas("canvas201718","")
 Canvas201718Prelim = TCanvas("canvas201718Preliminary","")
+CanvasRun2 = TCanvas("canvasRun2","")
+CanvasRun2Prelim = TCanvas("canvasRun2Preliminary","")
 
 canvases = [
     Canvas2016,
     Canvas2016Prelim,
     Canvas201718,
     Canvas201718Prelim,
+    CanvasRun2,
+    CanvasRun2Prelim,
     ]
 
 for canvas in canvases:
@@ -160,154 +172,77 @@ for canvas in canvases:
     canvas.SetFrameBorderMode(0)
     canvas.SetLogy()
 
+#central values
+#          emu SR I low pt, emu SR I high pt, emu SR II, emu SR III, emu SR IV, ee SR I low pt, ee SR I high pt, ee SR II, ee SR III, ee SR IV, mumu SR I low pt, mumu SR I high pt, mumu SR II, mumu SR III, mumu SR IV
+Obs2016 = [8,               1,                0,         0,          0,         40,             0,               0,        1,         0,        15,               0,                 0,          1,           0]
+Obs201718 = [28, 3, 0, 1, 0, 48, 0, 1, 4, 0, 1, 1, 1, 1, 0]
+ObsRun2 = [i+j for i,j in zip(Obs2016,Obs201718)]
+
+Exp2016 = [3.8, 0.41, 0.09, 0.15, 0.003, 18.1, 0.22, 0.51, 0.43, 0.01, 7.4, 0.25, 0.17, 0.19, 0.01]
+Exp201718 = [37.9, 0.75, 0.23, 0.71, 0.01, 62, 0.85, 2.8, 3.6, 0.24, 3.5, 0.69, 0.08, 0.14, 0.01]
+ExpRun2 = [i+j for i,j in zip(Exp2016,Exp201718)]
+
+Sig2016 = [0., 0.02, 0.07, 0.05, 0.19, 0., 0.01, 0.03, 0.02, 0.07, 0., 0.01, 0.04, 0.03, 0.14]
+Sig201718 = [0.01, 0.13, 0.42, 0.31, 1.15, 0., 0.06, 0.19, 0.15, 0.44, 0., 0.07, 0.23, 0.18, 0.78]
+SigRun2 = [i+j for i,j in zip(Sig2016,Sig201718)]
+
+#uncertainties
+Sig2016err = [0., 0.008, 0.027, 0.020, 0.074, 0., 0.002, 0.005, 0.004, 0.012, 0., 0.007, 0.028, 0.021, 0.099]
+Sig201718err = [0.004, 0.046, 0.147, 0.109, 0.4, 0., 0.016, 0.051, 0.039, 0.115, 0., 0.032, 0.104, 0.081, 0.351]
+SigRun2err = [sqrt(i*i+j*j) for i,j in zip(Sig2016err,Sig201718err)]
 
 hObs2016 = TH1F("hObs2016","",15,0,15)
 hObs2016.SetMarkerStyle(20)
 hObs2016.SetMarkerColor(1)
-hObs2016.SetBinContent(1,8)   #emu SR I low pt
-hObs2016.SetBinContent(2,1)   #emu SR I high pt
-hObs2016.SetBinContent(3,0)   #emu SR II
-hObs2016.SetBinContent(4,0)   #emu SR III
-hObs2016.SetBinContent(5,0)   #emu SR IV
-hObs2016.SetBinContent(6,40)  #ee SR I low pt
-hObs2016.SetBinContent(7,0)   #ee SR I high pt
-hObs2016.SetBinContent(8,0)   #ee SR II
-hObs2016.SetBinContent(9,1)   #ee SR III
-hObs2016.SetBinContent(10,0)  #ee SR IV
-hObs2016.SetBinContent(11,15) #mumu SR I low pt
-hObs2016.SetBinContent(12,0)  #mumu SR I high pt
-hObs2016.SetBinContent(13,0)  #mumu SR II
-hObs2016.SetBinContent(14,1)  #mumu SR III
-hObs2016.SetBinContent(15,0)  #mumu SR IV
 
 hObs201718 = TH1F("hObs201718","",15,0,15)
 hObs201718.SetMarkerStyle(20)
 hObs201718.SetMarkerColor(1)
-hObs201718.SetBinContent(1,28) #emu SR I low pt
-hObs201718.SetBinContent(2,3) #emu SR I high pt
-hObs201718.SetBinContent(3,0) #emu SR II
-hObs201718.SetBinContent(4,1) #emu SR III
-hObs201718.SetBinContent(5,0) #emu SR IV
-hObs201718.SetBinContent(6,48) #ee SR I low pt
-hObs201718.SetBinContent(7,0) #ee SR I high pt
-hObs201718.SetBinContent(8,1) #ee SR II
-hObs201718.SetBinContent(9,4) #ee SR III
-hObs201718.SetBinContent(10,0)#ee SR IV
-hObs201718.SetBinContent(11,1)#mumu SR I low pt
-hObs201718.SetBinContent(12,1)#mumu SR I high pt
-hObs201718.SetBinContent(13,1)#mumu SR II
-hObs201718.SetBinContent(14,1)#mumu SR III
-hObs201718.SetBinContent(15,0)#mumu SR IV
+
+hObsRun2 = TH1F("hObsRun2","",15,0,15)
+hObsRun2.SetMarkerStyle(20)
+hObsRun2.SetMarkerColor(1)
 
 hExp2016 = TH1F("hExp2016","",15,0,15)
 hExp2016.SetFillStyle(1001)
 hExp2016.SetFillColor(866)#kAzure+6
 hExp2016.SetLineWidth(0)
-hExp2016.SetBinContent(1,3.8) #emu SR I low pt
-hExp2016.SetBinContent(2,0.41) #emu SR I high pt
-hExp2016.SetBinContent(3,0.09) #emu SR II
-hExp2016.SetBinContent(4,0.15) #emu SR III
-hExp2016.SetBinContent(5,0.003) #emu SR IV
-hExp2016.SetBinContent(6,18.1) #ee SR I low pt
-hExp2016.SetBinContent(7,0.22) #ee SR I high pt
-hExp2016.SetBinContent(8,0.51) #ee SR II
-hExp2016.SetBinContent(9,0.43) #ee SR III
-hExp2016.SetBinContent(10,0.01)#ee SR IV
-hExp2016.SetBinContent(11,7.4)#mumu SR I low pt
-hExp2016.SetBinContent(12,0.25)#mumu SR I high pt
-hExp2016.SetBinContent(13,0.17)#mumu SR II
-hExp2016.SetBinContent(14,0.19)#mumu SR III
-hExp2016.SetBinContent(15,0.01)#mumu SR IV
 
 hExp201718 = TH1F("hExp201718","",15,0,15)
 hExp201718.SetFillStyle(1001)
 hExp201718.SetFillColor(866)#kAzure+6
 hExp201718.SetLineWidth(0)
-hExp201718.SetBinContent(1,37.9) #emu SR I low pt
-hExp201718.SetBinContent(2,0.75) #emu SR I high pt
-hExp201718.SetBinContent(3,0.23) #emu SR II
-hExp201718.SetBinContent(4,0.71) #emu SR III
-hExp201718.SetBinContent(5,0.01) #emu SR IV
-hExp201718.SetBinContent(6,62) #ee SR I low pt
-hExp201718.SetBinContent(7,0.85) #ee SR I high pt
-hExp201718.SetBinContent(8,2.8) #ee SR II
-hExp201718.SetBinContent(9,3.6) #ee SR III
-hExp201718.SetBinContent(10,0.24)#ee SR IV
-hExp201718.SetBinContent(11,3.5)#mumu SR I low pt
-hExp201718.SetBinContent(12,0.69)#mumu SR I high pt
-hExp201718.SetBinContent(13,0.08)#mumu SR II
-hExp201718.SetBinContent(14,0.14)#mumu SR III
-hExp201718.SetBinContent(15,0.01)#mumu SR IV
+
+hExpRun2 = TH1F("hExpRun2","",15,0,15)
+hExpRun2.SetFillStyle(1001)
+hExpRun2.SetFillColor(866)#kAzure+6
+hExpRun2.SetLineWidth(0)
 
 hSig2016 = TH1F("hSig2016","",15,0,15)
 hSig2016.SetLineColor(2)
 hSig2016.SetLineWidth(3)
-hSig2016.SetBinContent(1,0.) #emu SR I low pt
-hSig2016.SetBinContent(2,0.02) #emu SR I high pt
-hSig2016.SetBinContent(3,0.07) #emu SR II
-hSig2016.SetBinContent(4,0.05) #emu SR III
-hSig2016.SetBinContent(5,0.19) #emu SR IV
-hSig2016.SetBinContent(6,0.) #ee SR I low pt
-hSig2016.SetBinContent(7,0.01) #ee SR I high pt
-hSig2016.SetBinContent(8,0.03) #ee SR II
-hSig2016.SetBinContent(9,0.02) #ee SR III
-hSig2016.SetBinContent(10,0.07)#ee SR IV
-hSig2016.SetBinContent(11,0.)#mumu SR I low pt
-hSig2016.SetBinContent(12,0.01)#mumu SR I high pt
-hSig2016.SetBinContent(13,0.04)#mumu SR II
-hSig2016.SetBinContent(14,0.03)#mumu SR III
-hSig2016.SetBinContent(15,0.14)#mumu SR IV
-
-hSig2016.SetBinError(1,0.) #emu SR I low pt
-hSig2016.SetBinError(2,0.008) #emu SR I high pt
-hSig2016.SetBinError(3,0.027) #emu SR II
-hSig2016.SetBinError(4,0.020) #emu SR III
-hSig2016.SetBinError(5,0.074) #emu SR IV
-hSig2016.SetBinError(6,0.) #ee SR I low pt
-hSig2016.SetBinError(7,0.002) #ee SR I high pt
-hSig2016.SetBinError(8,0.005) #ee SR II
-hSig2016.SetBinError(9,0.004) #ee SR III
-hSig2016.SetBinError(10,0.012)#ee SR IV
-hSig2016.SetBinError(11,0.)#mumu SR I low pt
-hSig2016.SetBinError(12,0.007)#mumu SR I high pt
-hSig2016.SetBinError(13,0.028)#mumu SR II
-hSig2016.SetBinError(14,0.021)#mumu SR III
-hSig2016.SetBinError(15,0.099)#mumu SR IV
 
 hSig201718 = TH1F("hSig201718","",15,0,15)
 hSig201718.SetLineColor(2)
 hSig201718.SetLineWidth(3)
-hSig201718.SetBinContent(1,0.01) #emu SR I low pt
-hSig201718.SetBinContent(2,0.13) #emu SR I high pt
-hSig201718.SetBinContent(3,0.42) #emu SR II
-hSig201718.SetBinContent(4,0.31) #emu SR III
-hSig201718.SetBinContent(5,1.15) #emu SR IV
-hSig201718.SetBinContent(6,0.) #ee SR I low pt
-hSig201718.SetBinContent(7,0.06) #ee SR I high pt
-hSig201718.SetBinContent(8,0.19) #ee SR II
-hSig201718.SetBinContent(9,0.15) #ee SR III
-hSig201718.SetBinContent(10,0.44)#ee SR IV
-hSig201718.SetBinContent(11,0.)#mumu SR I low pt
-hSig201718.SetBinContent(12,0.07)#mumu SR I high pt
-hSig201718.SetBinContent(13,0.23)#mumu SR II
-hSig201718.SetBinContent(14,0.18)#mumu SR III
-hSig201718.SetBinContent(15,0.78)#mumu SR IV
 
-hSig201718.SetBinError(1,0.004) #emu SR I low pt
-hSig201718.SetBinError(2,0.046) #emu SR I high pt
-hSig201718.SetBinError(3,0.147) #emu SR II
-hSig201718.SetBinError(4,0.109) #emu SR III
-hSig201718.SetBinError(5,0.4) #emu SR IV
-hSig201718.SetBinError(6,0.) #ee SR I low pt
-hSig201718.SetBinError(7,0.016) #ee SR I high pt
-hSig201718.SetBinError(8,0.051) #ee SR II
-hSig201718.SetBinError(9,0.039) #ee SR III
-hSig201718.SetBinError(10,0.115)#ee SR IV
-hSig201718.SetBinError(11,0.)#mumu SR I low pt
-hSig201718.SetBinError(12,0.032)#mumu SR I high pt
-hSig201718.SetBinError(13,0.104)#mumu SR II
-hSig201718.SetBinError(14,0.081)#mumu SR III
-hSig201718.SetBinError(15,0.351)#mumu SR IV
+hSigRun2 = TH1F("hSigRun2","",15,0,15)
+hSigRun2.SetLineColor(2)
+hSigRun2.SetLineWidth(3)
+
+for i in range(1,16):
+    hObs2016.SetBinContent(i,Obs2016[i-1])
+    hObs201718.SetBinContent(i,Obs201718[i-1])
+    hObsRun2.SetBinContent(i,ObsRun2[i-1])
+    hExp2016.SetBinContent(i,Exp2016[i-1])
+    hExp201718.SetBinContent(i,Exp201718[i-1])
+    hExpRun2.SetBinContent(i,ExpRun2[i-1])
+    hSig2016.SetBinContent(i,Sig2016[i-1])
+    hSig201718.SetBinContent(i,Sig201718[i-1])
+    hSigRun2.SetBinContent(i,SigRun2[i-1])
+    hSig2016.SetBinError(i,Sig2016err[i-1])
+    hSig201718.SetBinError(i,Sig201718err[i-1])
+    hSigRun2.SetBinError(i,SigRun2err[i-1])
 
 def makeTGraphAsymmErrors(x, y, x_errDown, x_errUp, y_errDown, y_errUp):
     graph_arrays = [array('d', arg) for arg in [x, y, x_errDown, x_errUp, y_errDown, y_errUp]]
@@ -316,29 +251,38 @@ def makeTGraphAsymmErrors(x, y, x_errDown, x_errUp, y_errDown, y_errUp):
 ExpUncert_x = [0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,12.5,13.5,14.5]
 ExpUncert_xErr = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
 
-ExpUncert2016_y = [3.8, 0.41, 0.09, 0.15, 0.003, 18.1, 0.22, 0.51, 0.43, 0.01,7.4,0.25,0.17,0.19,0.01]
-ExpUncert2016_yErrDown = [3.8,0.41,0.09,0.15,0.003,  17.6,0.22,0.51,0.43,0.01,   3,0.11,0.11,0.12,0.01]
-ExpUncert2016_yErrUp = [4.6,0.50,0.12,0.15,0.004, 4.3, 0.11, 1.02, 0.85, 0.02, 3,0.11,0.11,0.12,0.01]
-hExpUncert2016 = makeTGraphAsymmErrors(ExpUncert_x, ExpUncert2016_y, ExpUncert_xErr, ExpUncert_xErr, ExpUncert2016_yErrDown, ExpUncert2016_yErrUp)
+Exp2016ErrUp = [4.8,0.53,0.12,0.15,0.004, 11, 0.17, 1.02, 0.85, 0.02, 3,0.11,0.11,0.12,0.01]
+Exp2016ErrDown = [3.8,0.41,0.09,0.15,0.003,  11,0.16,0.51,0.43,0.01,   3,0.11,0.11,0.12,0.01]
+hExpUncert2016 = makeTGraphAsymmErrors(ExpUncert_x, Exp2016, ExpUncert_xErr, ExpUncert_xErr, Exp2016ErrDown, Exp2016ErrUp)
 hExpUncert2016.SetFillStyle(3002)
 hExpUncert2016.SetFillColor(13)
 hExpUncert2016.SetLineWidth(0)
 
-ExpUncert201718_y = [37.9,0.75,0.23,0.71,0.01,62,0.85,2.8,3.6,0.24,3.5,0.69,0.08,0.14,0.01]
-ExpUncert201718_yErrDown = [12.8,0.34,0.23,0.71,0.01,  17, 0.35, 1.1, 1.4, 0.09,  1.5, 0.31, 0.08, 0.14, 0.01]
-ExpUncert201718_yErrUp = [12.8, 0.41, 0.27, 0.76, 0.02,   18, 0.33, 1.1, 1.4, 0.10,   1.5, 0.31, 0.12, 0.19, 0.02]
-hExpUncert201718 = makeTGraphAsymmErrors(ExpUncert_x, ExpUncert201718_y, ExpUncert_xErr, ExpUncert_xErr, ExpUncert201718_yErrDown, ExpUncert201718_yErrUp)
+Exp201718ErrUp = [13, 0.41, 0.27, 0.76, 0.02,   18, 0.33, 1.1, 1.4, 0.10,   1.5, 0.31, 0.12, 0.19, 0.02]
+Exp201718ErrDown = [13,0.34,0.23,0.71,0.01,  17, 0.35, 1.1, 1.4, 0.09,  1.5, 0.31, 0.08, 0.14, 0.01]
+hExpUncert201718 = makeTGraphAsymmErrors(ExpUncert_x, Exp201718, ExpUncert_xErr, ExpUncert_xErr, Exp201718ErrDown, Exp201718ErrUp)
 hExpUncert201718.SetFillStyle(3002)
 hExpUncert201718.SetFillColor(13)
 hExpUncert201718.SetLineWidth(0)
 
+#simply sum upper and lower uncertainties in quadrature: not quite right, but good enough here
+ExpRun2ErrDown = [sqrt(i*i+j*j) for i,j in zip(Exp2016ErrDown,Exp201718ErrDown)]
+ExpRun2ErrUp = [sqrt(i*i+j*j) for i,j in zip(Exp2016ErrUp,Exp201718ErrUp)]
+hExpUncertRun2 = makeTGraphAsymmErrors(ExpUncert_x, ExpRun2, ExpUncert_xErr, ExpUncert_xErr, ExpRun2ErrDown, ExpRun2ErrUp)
+hExpUncertRun2.SetFillStyle(3002)
+hExpUncertRun2.SetFillColor(13)
+hExpUncertRun2.SetLineWidth(0)
+
 hists = [
     hObs2016,
     hObs201718,
+    hObsRun2,
     hExp2016,
     hExp201718,
+    hExpRun2,
     hSig2016,
     hSig201718,
+    hSigRun2,
 ]
 
 for hist in hists:
@@ -430,3 +374,33 @@ MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
 Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary.pdf")
+
+CanvasRun2.cd()
+hExpRun2.Draw()
+hExpUncertRun2.Draw("e2same")
+hSigRun2.Draw("histesame")
+hObsRun2.Draw("psame")
+LumiLabel.Draw()
+HeaderLabelRun2.Draw()
+Leg.Draw()
+EMuLabel.Draw()
+EELabel.Draw()
+MuMuLabel.Draw()
+emueeLine.Draw()
+eemumuLine.Draw()
+CanvasRun2.SaveAs("./SRRun2yields.pdf")
+
+CanvasRun2Prelim.cd()
+hExpRun2.Draw()
+hExpUncertRun2.Draw("e2same")
+hSigRun2.Draw("histesame")
+hObsRun2.Draw("psame")
+LumiPrelimLabel.Draw()
+HeaderLabelRun2.Draw()
+Leg.Draw()
+EMuLabel.Draw()
+EELabel.Draw()
+MuMuLabel.Draw()
+emueeLine.Draw()
+eemumuLine.Draw()
+CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary.pdf")
