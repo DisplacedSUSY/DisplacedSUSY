@@ -1,3 +1,5 @@
+//makes plots at gen and sim level for stops with cloud model turned on and decay done in geant
+
 #include "DisplacedSUSY/SignalMC/plugins/StopRHadronSimAnalyzer.h"
 
 StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
@@ -58,6 +60,10 @@ StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["geantDaughterEta"] = fs_->make<TH1D>("geantDaughterEta", ";r-hadron daughter #eta", 100, -5.0, 5.0);
   oneDHists_["geantDaughterPhi"] = fs_->make<TH1D>("geantDaughterPhi", ";r-hadron daughter #phi", 100, -3.2, 3.2);
   oneDHists_["geantDaughterStatus"] = fs_->make<TH1D>("geantDaughterStatus", ";r-hadron daughter status",10, -0.5, 9.5);
+  oneDHists_["geantDaughterAbsD0_100um"] = fs_->make<TH1D>("geantDaughterAbsD0_100um", ";r-hadron daughter |d0|", 100, 0, 100);
+  oneDHists_["geantDaughterAbsD0_1000um"] = fs_->make<TH1D>("geantDaughterAbsD0_1000um", ";r-hadron daughter |d0|", 100, 0, 1000);
+  oneDHists_["geantDaughterAbsD0_10000um"] = fs_->make<TH1D>("geantDaughterAbsD0_10000um", ";r-hadron daughter |d0|", 100, 0, 10000);
+  oneDHists_["geantDaughterAbsD0_100000um"] = fs_->make<TH1D>("geantDaughterAbsD0_100000um", ";r-hadron daughter |d0|", 1000, 0, 100000);
   oneDHists_["genRHadron_GeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, daughter)|",60,0,6);
   oneDHists_["genRHadron_GeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, daughter)|",32, 0, 3.2);
   oneDHists_["genRHadron_GeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_GeantDaughter_deltaR", ";#DeltaR(r-hadron, daughter)",60,0,6);
@@ -68,9 +74,37 @@ StopRHadronSimAnalyzer::StopRHadronSimAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["SMGeantDaughterEta"] = fs_->make<TH1D>("SMGeantDaughterEta", ";SM r-hadron daughter #eta", 100, -5.0, 5.0);
   oneDHists_["SMGeantDaughterPhi"] = fs_->make<TH1D>("SMGeantDaughterPhi", ";SM r-hadron daughter #phi", 100, -3.2, 3.2);
   oneDHists_["SMGeantDaughterStatus"] = fs_->make<TH1D>("SMGeantDaughterStatus", ";SM r-hadron daughter status",10, -0.5, 9.5);
+  oneDHists_["SMGeantDaughterAbsD0_100um"] = fs_->make<TH1D>("SMGeantDaughterAbsD0_100um", ";r-hadron daughter |d0|", 100, 0, 100);
+  oneDHists_["SMGeantDaughterAbsD0_1000um"] = fs_->make<TH1D>("SMGeantDaughterAbsD0_1000um", ";r-hadron daughter |d0|", 100, 0, 1000);
+  oneDHists_["SMGeantDaughterAbsD0_10000um"] = fs_->make<TH1D>("SMGeantDaughterAbsD0_10000um", ";r-hadron daughter |d0|", 100, 0, 10000);
+  oneDHists_["SMGeantDaughterAbsD0_100000um"] = fs_->make<TH1D>("SMGeantDaughterAbsD0_100000um", ";r-hadron daughter |d0|", 1000, 0, 100000);
   oneDHists_["genRHadron_SMGeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, SM daughter)|",60,0,6);
   oneDHists_["genRHadron_SMGeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, SM daughter)|",32, 0, 3.2);
   oneDHists_["genRHadron_SMGeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_SMGeantDaughter_deltaR", ";#DeltaR(r-hadron, SM daughter)",60,0,6);
+
+  oneDHists_["electronGeantDaughterPt"] = fs_->make<TH1D>("electronGeantDaughterPt", ";sim electron p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["electronGeantDaughterP"] = fs_->make<TH1D>("electronGeantDaughterP", ";sim electron p [GeV]", 200, 0, 2000);
+  oneDHists_["electronGeantDaughterEta"] = fs_->make<TH1D>("electronGeantDaughterEta", ";sim electron #eta", 100, -5.0, 5.0);
+  oneDHists_["electronGeantDaughterPhi"] = fs_->make<TH1D>("electronGeantDaughterPhi", ";sim electron #phi", 100, -3.2, 3.2);
+  oneDHists_["electronGeantDaughterAbsD0_100um"] = fs_->make<TH1D>("electronGeantDaughterAbsD0_100um", ";r-hadron daughter |d0|", 100, 0, 100);
+  oneDHists_["electronGeantDaughterAbsD0_1000um"] = fs_->make<TH1D>("electronGeantDaughterAbsD0_1000um", ";r-hadron daughter |d0|", 100, 0, 1000);
+  oneDHists_["electronGeantDaughterAbsD0_10000um"] = fs_->make<TH1D>("electronGeantDaughterAbsD0_10000um", ";r-hadron daughter |d0|", 100, 0, 10000);
+  oneDHists_["electronGeantDaughterAbsD0_100000um"] = fs_->make<TH1D>("electronGeantDaughterAbsD0_100000um", ";r-hadron daughter |d0|", 1000, 0, 100000);
+  oneDHists_["genRHadron_electronGeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_electronGeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, daughter electron)|",60,0,6);
+  oneDHists_["genRHadron_electronGeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_electronGeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, daughter electron)|",32, 0, 3.2);
+  oneDHists_["genRHadron_electronGeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_electronGeantDaughter_deltaR", ";#DeltaR(r-hadron, daughter electron)",60,0,6);
+
+  oneDHists_["muonGeantDaughterPt"] = fs_->make<TH1D>("muonGeantDaughterPt", ";sim muon p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["muonGeantDaughterP"] = fs_->make<TH1D>("muonGeantDaughterP", ";sim muon p [GeV]", 200, 0, 2000);
+  oneDHists_["muonGeantDaughterEta"] = fs_->make<TH1D>("muonGeantDaughterEta", ";sim muon #eta", 100, -5.0, 5.0);
+  oneDHists_["muonGeantDaughterPhi"] = fs_->make<TH1D>("muonGeantDaughterPhi", ";sim muon #phi", 100, -3.2, 3.2);
+  oneDHists_["muonGeantDaughterAbsD0_100um"] = fs_->make<TH1D>("muonGeantDaughterAbsD0_100um", ";r-hadron daughter |d0|", 100, 0, 100);
+  oneDHists_["muonGeantDaughterAbsD0_1000um"] = fs_->make<TH1D>("muonGeantDaughterAbsD0_1000um", ";r-hadron daughter |d0|", 100, 0, 1000);
+  oneDHists_["muonGeantDaughterAbsD0_10000um"] = fs_->make<TH1D>("muonGeantDaughterAbsD0_10000um", ";r-hadron daughter |d0|", 100, 0, 10000);
+  oneDHists_["muonGeantDaughterAbsD0_100000um"] = fs_->make<TH1D>("muonGeantDaughterAbsD0_100000um", ";r-hadron daughter |d0|", 1000, 0, 100000);
+  oneDHists_["genRHadron_muonGeantDaughter_deltaEta"] = fs_->make<TH1D>("genRHadron_muonGeantDaughter_deltaEta", ";|#Delta#eta(r-hadron, daughter muon)|",60,0,6);
+  oneDHists_["genRHadron_muonGeantDaughter_deltaPhi"] = fs_->make<TH1D>("genRHadron_muonGeantDaughter_deltaPhi", ";|#Delta#phi(r-hadron, daughter muon)|",32, 0, 3.2);
+  oneDHists_["genRHadron_muonGeantDaughter_deltaR"] = fs_->make<TH1D>("genRHadron_muonGeantDaughter_deltaR", ";#DeltaR(r-hadron, daughter muon)",60,0,6);
 
   oneDHists_["rhadronGeantDaughterId_10006XX"] = fs_->make<TH1D>("rhadronGeantDaughterId_10006XX", ";r-hadron r-hadron daughter |pdgid| (2nd range)", 100, 1000600,1000700);
   oneDHists_["rhadronGeantDaughterId_1006XXX"] = fs_->make<TH1D>("rhadronGeantDaughterId_1006XXX", ";r-hadron r-hadron daughter |pdgid| (3rd range)", 1000, 1006000,1007000);
@@ -985,12 +1019,6 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
   double genRhadronPhi_0 = -10.;
   double genRhadronPhi_1 = -10.;
   for(const auto &genParticle : *genParticles) {
-    //if decay is done in pythia:
-    //find stops (the magic ones that are both first and last copy, which are the ones that appear AFTER the r-hadrons in the decay chain)
-    //if(abs(genParticle.pdgId()) != 1000006) continue;
-    //if(!genParticle.isLastCopy()) continue;
-    //if(!genParticle.statusFlags().isFirstCopy()) continue;
-
     //if decay is done in geant:
     //find stops that have status 101
     if(abs(genParticle.pdgId()) != 1000006) continue;
@@ -1055,54 +1083,6 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       }
       */
 
-      /*
-      //if decay done in pythia, find r-hadron mother particle
-      const reco::Candidate* mother = genParticle.mother();
-      int partId = mother->pdgId();
-
-      if( (abs(partId)>1000600 && abs(partId)<1000700) || (abs(partId)>1006000 && abs(partId)<1007000)){ //if mother of stop is stop r-hadron
-	LogDebug("StopRHadronSimAnalyzer")<<"gen stop mother is a gen r-hadron with id "<<partId<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status();
-	std::cout<<" stop mother is a gen r-hadron with id "<<partId<<", pt is: "<<mother->pt()<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status()<<std::endl;
-	if(genRhadronId_0==0 && genRhadronId_1==0){
-	  genRhadronId_0 = partId;
-	  genRhadronEta_0 = mother->eta();
-	  genRhadronPhi_0 = mother->phi();
-	}
-	else if(genRhadronId_0!=0 && genRhadronId_1==0){
-	  genRhadronId_1 = partId;
-	  genRhadronEta_1 = mother->eta();
-	  genRhadronPhi_1 = mother->phi();
-	}
-	else edm::LogInfo("StopRHadronSimAnalyzer")<<"you have a third gen r-hadron??";
-
-	}
-      else edm::LogInfo("StopRHadronSimAnalyzer")<<"stop has no gen r-hadron mother!!!";
-
-
-      //daughter particles
-      for(size_t j=0; j<genParticle.numberOfDaughters(); j++){
-	const reco::Candidate* daughter = genParticle.daughter(j);
-	int daughterId = daughter->pdgId();
-	LogDebug("StopRHadronSimAnalyzer")<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughter->pt()<<"/"<<daughter->eta()<<"/"<<daughter->phi()<<"/"<<daughter->status();
-	std::cout<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughter->pt()<<"/"<<daughter->eta()<<"/"<<daughter->phi()<<"/"<<daughter->status()<<std::endl;
-
-	if(abs(daughterId)==5){ //if b-quark, does it decay?
-	  for(size_t k=0; k<daughter->numberOfDaughters(); k++){
-	    const reco::Candidate* bQuarkDaughter = daughter->daughter(k);
-	    LogDebug("StopRHadronSimAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status();
-	    std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<std::endl;
-	  }
-	}
-	else if(abs(daughterId)==15){ //if tau, does it decay?
-	  for(size_t k=0; k<daughter->numberOfDaughters(); k++){
-	    const reco::Candidate* tauDaughter = daughter->daughter(k);
-	    LogDebug("StopRHadronSimAnalyzer")<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status();
-	    std::cout<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status()<<std::endl;
-	  }
-	}
-      }
-      */
-
     //if decay done in geant, find r-hadron daughter particles
     for(size_t j=0; j<genParticle.numberOfDaughters(); j++){
       const reco::Candidate* daughter = genParticle.daughter(j);
@@ -1129,9 +1109,11 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
 	  const reco::Candidate* daughterOfRHadron = daughter->daughter(k);
 	  int partIdDaughterOfRHadron = daughterOfRHadron->pdgId();
-	  int ptDaughterOfRHadron = daughterOfRHadron->pt();
-	  int etaDaughterOfRHadron = daughterOfRHadron->eta();
-	  int phiDaughterOfRHadron = daughterOfRHadron->phi();
+	  double ptDaughterOfRHadron = daughterOfRHadron->pt();
+	  double etaDaughterOfRHadron = daughterOfRHadron->eta();
+	  double phiDaughterOfRHadron = daughterOfRHadron->phi();
+	  double absd0DaughterOfRHadron = 10000*abs((-(daughterOfRHadron->vx())*daughterOfRHadron->py() + daughterOfRHadron->vy()*daughterOfRHadron->px())/ptDaughterOfRHadron);
+
 	  LogDebug("StopRHadronSimAnalyzer")<<"   R-hadron daughter has id "<<partIdDaughterOfRHadron<<", pt is: "<<ptDaughterOfRHadron<<", eta is: "<<etaDaughterOfRHadron<<", phi is: "<<phiDaughterOfRHadron<<", status is: "<<daughterOfRHadron->status();
 	  //std::cout<<"   R-hadron daughter has id "<<partIdDaughterOfRHadron<<", pt is: "<<ptDaughterOfRHadron<<", eta is: "<<etaDaughterOfRHadron<<", phi is: "<<phiDaughterOfRHadron<<", status is: "<<daughterOfRHadron->status()<<std::endl;
 
@@ -1145,6 +1127,10 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	  oneDHists_.at("geantDaughterEta")->Fill(etaDaughterOfRHadron);
 	  oneDHists_.at("geantDaughterPhi")->Fill(phiDaughterOfRHadron);
 	  oneDHists_.at("geantDaughterStatus")->Fill(daughterOfRHadron->status());
+	  oneDHists_.at("geantDaughterAbsD0_100um")->Fill(absd0DaughterOfRHadron);
+	  oneDHists_.at("geantDaughterAbsD0_1000um")->Fill(absd0DaughterOfRHadron);
+	  oneDHists_.at("geantDaughterAbsD0_10000um")->Fill(absd0DaughterOfRHadron);
+	  oneDHists_.at("geantDaughterAbsD0_100000um")->Fill(absd0DaughterOfRHadron);
 
 	  oneDHists_.at("genRHadron_GeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
 	  oneDHists_.at("genRHadron_GeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
@@ -1158,10 +1144,47 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	    oneDHists_.at("SMGeantDaughterEta")->Fill(etaDaughterOfRHadron);
 	    oneDHists_.at("SMGeantDaughterPhi")->Fill(phiDaughterOfRHadron);
 	    oneDHists_.at("SMGeantDaughterStatus")->Fill(daughterOfRHadron->status());
+	    oneDHists_.at("SMGeantDaughterAbsD0_100um")->Fill(absd0DaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterAbsD0_1000um")->Fill(absd0DaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterAbsD0_10000um")->Fill(absd0DaughterOfRHadron);
+	    oneDHists_.at("SMGeantDaughterAbsD0_100000um")->Fill(absd0DaughterOfRHadron);
 
 	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
 	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
 	    oneDHists_.at("genRHadron_SMGeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+
+	    //fill hists when daughter of r-hadron is electron
+	    if(abs(partIdDaughterOfRHadron)==11){
+	      oneDHists_.at("electronGeantDaughterPt")->Fill(ptDaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterP")->Fill(daughterOfRHadron->p());
+	      oneDHists_.at("electronGeantDaughterEta")->Fill(etaDaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterPhi")->Fill(phiDaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterAbsD0_100um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterAbsD0_1000um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterAbsD0_10000um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("electronGeantDaughterAbsD0_100000um")->Fill(absd0DaughterOfRHadron);
+
+	      oneDHists_.at("genRHadron_electronGeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
+	      oneDHists_.at("genRHadron_electronGeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
+	      oneDHists_.at("genRHadron_electronGeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+	    }
+
+	    //fill hists when daughter of r-hadron is muon
+	    else if(abs(partIdDaughterOfRHadron)==13){
+	      oneDHists_.at("muonGeantDaughterPt")->Fill(ptDaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterP")->Fill(daughterOfRHadron->p());
+	      oneDHists_.at("muonGeantDaughterEta")->Fill(etaDaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterPhi")->Fill(phiDaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterAbsD0_100um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterAbsD0_1000um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterAbsD0_10000um")->Fill(absd0DaughterOfRHadron);
+	      oneDHists_.at("muonGeantDaughterAbsD0_100000um")->Fill(absd0DaughterOfRHadron);
+
+	      oneDHists_.at("genRHadron_muonGeantDaughter_deltaEta")->Fill(abs(daughter->eta()-etaDaughterOfRHadron));
+	      oneDHists_.at("genRHadron_muonGeantDaughter_deltaPhi")->Fill(abs(daughter->phi()-phiDaughterOfRHadron));
+	      oneDHists_.at("genRHadron_muonGeantDaughter_deltaR")->Fill(deltaR(daughter->eta(),daughter->phi(),etaDaughterOfRHadron,phiDaughterOfRHadron));
+	    }
+
 	  }
 
 
@@ -1382,7 +1405,7 @@ StopRHadronSimAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	}//end if vertexCounter == vertexIndex
 	if(simVertex.parentIndex() == trackId){
 	  LogDebug("StopRHadronSimAnalyzer")<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex();
-	  //std::cout<<"vertex number "<<vertexCounter<<" has trackId of "<<simVertex.parentIndex()<<std::endl;
+	  //std::cout<<"vertex number of decay is "<<vertexCounter<<", and has trackId of "<<simVertex.parentIndex()<<std::endl;
 	}
 	vertexCounter++;
       }//end loop over sim vertexs
