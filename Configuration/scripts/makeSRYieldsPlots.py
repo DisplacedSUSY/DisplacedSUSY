@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # makes plot of yields in SR
+# all numbers in these plots are obtained from the output of the abcd script
 # usage: python makeSRYieldsPlots.py
 
 import sys
