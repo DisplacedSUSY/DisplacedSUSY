@@ -12,7 +12,9 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
-#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
+#include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/BeamSpot/interface/BeamSpot.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/Math/interface/deltaR.h"
 
@@ -34,10 +36,14 @@ class StopRHadronGenAnalyzer : public edm::EDAnalyzer {
  private:
   void analyze (const edm::Event &, const edm::EventSetup &);
 
-  //edm::InputTag tracks_;
+  edm::InputTag electrons_;
+  edm::InputTag muons_;
+  edm::InputTag beamspots_;
   edm::InputTag genParticles_;
 
-  //edm::EDGetTokenT<vector<reco::Track> > tracksToken_;
+  edm::EDGetTokenT<vector<pat::Electron> > electronsToken_;
+  edm::EDGetTokenT<vector<pat::Muon> > muonsToken_;
+  edm::EDGetTokenT<reco::BeamSpot> beamspotsToken_;
   edm::EDGetTokenT<vector<reco::GenParticle> > genParticlesToken_;
 
   //bool cutPythia8Flag_;
@@ -47,8 +53,8 @@ class StopRHadronGenAnalyzer : public edm::EDAnalyzer {
   map<string, TH2D *> twoDHists_;
 
   void getEndVertex (const reco::GenParticle &, TVector3 &) const;
-
-  //const reco::Track * getMatchedTrack (const reco::GenParticle &, const edm::Handle<vector<reco::Track> > &) const;
+  const pat::Electron * getMatchedElectron (const reco::Candidate &, const edm::Handle<vector<pat::Electron> > &) const;
+  const pat::Muon * getMatchedMuon (const reco::Candidate &, const edm::Handle<vector<pat::Muon> > &) const;
 };
 
 #endif

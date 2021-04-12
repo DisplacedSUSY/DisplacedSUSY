@@ -28,7 +28,9 @@ process.TFileService = cms.Service ('TFileService',
 ###########################################################
 
 process.stopRHadronGenAnalyzer = cms.EDAnalyzer ("StopRHadronGenAnalyzer",
-                                          #tracks = cms.InputTag ("generalTracks", ""),
+                                          electrons = cms.InputTag ("slimmedElectrons", ""),
+                                          muons = cms.InputTag ("slimmedMuons", ""),
+                                          beamspots = cms.InputTag ("offlineBeamSpot", ""),
                                           genParticles = cms.InputTag ("prunedGenParticles", ""), #decay done in pythia, from miniaod
                                           #cutPythia8Flag = cms.untracked.bool (True), # genParticle.fromHardProcessBeforeFSR()
                                       )

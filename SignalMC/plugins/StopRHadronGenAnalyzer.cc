@@ -1,9 +1,12 @@
 //makes plots at gen level for stops WITHOUT cloud model turned on and decay done in pythia
+//matches the gen electrons and muons from the decay to pat electrons and muons, and makes plots of those
 
 #include "DisplacedSUSY/SignalMC/plugins/StopRHadronGenAnalyzer.h"
 
 StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
-  //tracks_                    (cfg.getParameter<edm::InputTag>("tracks")),
+  electrons_                 (cfg.getParameter<edm::InputTag>("electrons")),
+  muons_                     (cfg.getParameter<edm::InputTag>("muons")),
+  beamspots_                 (cfg.getParameter<edm::InputTag>("beamspots")),
   genParticles_              (cfg.getParameter<edm::InputTag>("genParticles"))
 //cutPythia8Flag_            (cfg.getUntrackedParameter<bool>("cutPythia8Flag", false))
 {
@@ -43,10 +46,10 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["genElectronEta"] = fs_->make<TH1D>("genElectronEta", ";gen electron #eta", 100, -5.0, 5.0);
   oneDHists_["genElectronPhi"] = fs_->make<TH1D>("genElectronPhi", ";gen electron #phi", 100, -3.2, 3.2);
   oneDHists_["genElectronStatus"] = fs_->make<TH1D>("genElectronStatus", ";gen electron status",10, -0.5, 9.5);
-  oneDHists_["genElectronAbsD0_100um"] = fs_->make<TH1D>("genElectronAbsD0_100um", ";gen electron |d0|", 100, 0, 100);
-  oneDHists_["genElectronAbsD0_1000um"] = fs_->make<TH1D>("genElectronAbsD0_1000um", ";gen electron |d0|", 100, 0, 1000);
-  oneDHists_["genElectronAbsD0_10000um"] = fs_->make<TH1D>("genElectronAbsD0_10000um", ";gen electron |d0|", 100, 0, 10000);
-  oneDHists_["genElectronAbsD0_100000um"] = fs_->make<TH1D>("genElectronAbsD0_100000um", ";gen electron |d0|", 1000, 0, 100000);
+  oneDHists_["genElectronAbsD0_100um"] = fs_->make<TH1D>("genElectronAbsD0_100um", ";gen electron |d_{0}| [#mum]", 100, 0, 100);
+  oneDHists_["genElectronAbsD0_1000um"] = fs_->make<TH1D>("genElectronAbsD0_1000um", ";gen electron |d_{0}| [#mum]", 100, 0, 1000);
+  oneDHists_["genElectronAbsD0_10000um"] = fs_->make<TH1D>("genElectronAbsD0_10000um", ";gen electron |d_{0}| [#mum]", 100, 0, 10000);
+  oneDHists_["genElectronAbsD0_100000um"] = fs_->make<TH1D>("genElectronAbsD0_100000um", ";gen electron |d_{0}| [#mum]", 1000, 0, 100000);
   oneDHists_["genRHadron_genElectron_deltaEta"] = fs_->make<TH1D>("genRHadron_genElectron_deltaEta", ";|#Delta#eta(r-hadron, daughter electron)|",60,0,6);
   oneDHists_["genRHadron_genElectron_deltaPhi"] = fs_->make<TH1D>("genRHadron_genElectron_deltaPhi", ";|#Delta#phi(r-hadron, daughter electron)|",32, 0, 3.2);
   oneDHists_["genRHadron_genElectron_deltaR"] = fs_->make<TH1D>("genRHadron_genElectron_deltaR", ";#DeltaR(r-hadron, daughter electron)",60,0,6);
@@ -56,28 +59,45 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["genMuonEta"] = fs_->make<TH1D>("genMuonEta", ";gen muon #eta", 100, -5.0, 5.0);
   oneDHists_["genMuonPhi"] = fs_->make<TH1D>("genMuonPhi", ";gen muon #phi", 100, -3.2, 3.2);
   oneDHists_["genMuonStatus"] = fs_->make<TH1D>("genMuonStatus", ";gen muon status",10, -0.5, 9.5);
-  oneDHists_["genMuonAbsD0_100um"] = fs_->make<TH1D>("genMuonAbsD0_100um", ";gen muon |d0|", 100, 0, 100);
-  oneDHists_["genMuonAbsD0_1000um"] = fs_->make<TH1D>("genMuonAbsD0_1000um", ";gen muon |d0|", 100, 0, 1000);
-  oneDHists_["genMuonAbsD0_10000um"] = fs_->make<TH1D>("genMuonAbsD0_10000um", ";gen muon |d0|", 100, 0, 10000);
-  oneDHists_["genMuonAbsD0_100000um"] = fs_->make<TH1D>("genMuonAbsD0_100000um", ";gen muon |d0|", 1000, 0, 100000);
+  oneDHists_["genMuonAbsD0_100um"] = fs_->make<TH1D>("genMuonAbsD0_100um", ";gen muon |d_{0}| [#mum]", 100, 0, 100);
+  oneDHists_["genMuonAbsD0_1000um"] = fs_->make<TH1D>("genMuonAbsD0_1000um", ";gen muon |d_{0}| [#mum]", 100, 0, 1000);
+  oneDHists_["genMuonAbsD0_10000um"] = fs_->make<TH1D>("genMuonAbsD0_10000um", ";gen muon |d_{0}| [#mum]", 100, 0, 10000);
+  oneDHists_["genMuonAbsD0_100000um"] = fs_->make<TH1D>("genMuonAbsD0_100000um", ";gen muon |d_{0}| [#mum]", 1000, 0, 100000);
   oneDHists_["genRHadron_genMuon_deltaEta"] = fs_->make<TH1D>("genRHadron_genMuon_deltaEta", ";|#Delta#eta(r-hadron, daughter muon)|",60,0,6);
   oneDHists_["genRHadron_genMuon_deltaPhi"] = fs_->make<TH1D>("genRHadron_genMuon_deltaPhi", ";|#Delta#phi(r-hadron, daughter muon)|",32, 0, 3.2);
   oneDHists_["genRHadron_genMuon_deltaR"] = fs_->make<TH1D>("genRHadron_genMuon_deltaR", ";#DeltaR(r-hadron, daughter muon)",60,0,6);
 
-  /*
-  oneDHists_["matchedTrack"] = fs_->make<TH1D>("matchedTrack", ";matched track found", 2, -0.5, 1.5);
-  oneDHists_["charge"] = fs_->make<TH1D>("charge", ";track charge", 3, -1.5, 1.5);
-  oneDHists_["pt"] = fs_->make<TH1D>("pt", ";track p_{T} [GeV]", 500, 0.0, 1000.0);
-  oneDHists_["phi"] = fs_->make<TH1D>("phi", ";track #phi", 100, -3.2, 3.2);
-  oneDHists_["eta"] = fs_->make<TH1D>("eta", ";track #eta", 100, -5.0, 5.0);
+  oneDHists_["matchedElectron"] = fs_->make<TH1D>("matchedElectron", ";matched electron found", 2, -0.5, 1.5);
+  oneDHists_["electronPt"] = fs_->make<TH1D>("electronPt", ";electron p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["electronP"] = fs_->make<TH1D>("electronP", ";electron p [GeV]", 200, 0, 2000);
+  oneDHists_["electronEta"] = fs_->make<TH1D>("electronEta", ";electron #eta", 100, -5.0, 5.0);
+  oneDHists_["electronPhi"] = fs_->make<TH1D>("electronPhi", ";electron #phi", 100, -3.2, 3.2);
+  oneDHists_["electronCharge"] = fs_->make<TH1D>("electronCharge", ";electron charge", 3, -1.5, 1.5);
+  oneDHists_["electronNumberOfValidHits"] = fs_->make<TH1D>("electronNumberOfValidHits", ";electron number of valid hits", 100, -0.5, 99.5);
+  oneDHists_["electronNumberOfValidPixelHits"] = fs_->make<TH1D>("electronNumberOfValidPixelHits", ";electron number of valid pixel hits", 10, -0.5, 9.5);
+  oneDHists_["electronAbsD0_100um"] = fs_->make<TH1D>("electronAbsD0_100um", ";electron |d_{0}| [#mum]", 100, 0, 100);
+  oneDHists_["electronAbsD0_1000um"] = fs_->make<TH1D>("electronAbsD0_1000um", ";electron |d_{0}| [#mum]", 100, 0, 1000);
+  oneDHists_["electronAbsD0_10000um"] = fs_->make<TH1D>("electronAbsD0_10000um", ";electron |d_{0}| [#mum]", 100, 0, 10000);
+  oneDHists_["electronAbsD0_100000um"] = fs_->make<TH1D>("electronAbsD0_100000um", ";electron |d_{0}| [#mum]", 1000, 0, 100000);
 
-  oneDHists_["numberOfValidHits"] = fs_->make<TH1D>("numberOfValidHits", ";track number of valid hits", 100, -0.5, 99.5);
-  oneDHists_["numberOfMissingInnerHits"] = fs_->make<TH1D>("numberOfMissingInnerHits", ";track number of missing inner hits", 20, -0.5, 19.5);
-  oneDHists_["numberOfMissingMiddleHits"] = fs_->make<TH1D>("numberOfMissingMiddleHits", ";track number of missing middle hits", 20, -0.5, 19.5);
-  oneDHists_["numberOfMissingOuterHits"] = fs_->make<TH1D>("numberOfMissingOuterHits", ";track number of missing outer hits", 20, -0.5, 19.5);
+  oneDHists_["matchedMuon"] = fs_->make<TH1D>("matchedMuon", ";matched muon found", 2, -0.5, 1.5);
+  oneDHists_["muonPt"] = fs_->make<TH1D>("muonPt", ";muon p_{T} [GeV]", 200, 0, 2000);
+  oneDHists_["muonP"] = fs_->make<TH1D>("muonP", ";muon p [GeV]", 200, 0, 2000);
+  oneDHists_["muonEta"] = fs_->make<TH1D>("muonEta", ";muon #eta", 100, -5.0, 5.0);
+  oneDHists_["muonPhi"] = fs_->make<TH1D>("muonPhi", ";muon #phi", 100, -3.2, 3.2);
+  oneDHists_["muonCharge"] = fs_->make<TH1D>("muonCharge", ";muon charge", 3, -1.5, 1.5);
+  oneDHists_["muonNumberOfValidHits"] = fs_->make<TH1D>("muonNumberOfValidHits", ";muon number of valid hits", 100, -0.5, 99.5);
+  oneDHists_["muonNumberOfValidPixelHits"] = fs_->make<TH1D>("muonNumberOfValidPixelHits", ";muon number of valid pixel hits", 10, -0.5, 9.5);
+  oneDHists_["muonIsGlobal"] = fs_->make<TH1D>("muonIsGlobal", ";muon is global", 2, -0.5, 1.5);
+  oneDHists_["muonIsPF"] = fs_->make<TH1D>("muonIsPF", ";muon is PF", 2, -0.5, 1.5);
+  oneDHists_["muonAbsD0_100um"] = fs_->make<TH1D>("muonAbsD0_100um", ";muon |d_{0}| [#mum]", 100, 0, 100);
+  oneDHists_["muonAbsD0_1000um"] = fs_->make<TH1D>("muonAbsD0_1000um", ";muon |d_{0}| [#mum]", 100, 0, 1000);
+  oneDHists_["muonAbsD0_10000um"] = fs_->make<TH1D>("muonAbsD0_10000um", ";muon |d_{0}| [#mum]", 100, 0, 10000);
+  oneDHists_["muonAbsD0_100000um"] = fs_->make<TH1D>("muonAbsD0_100000um", ";muon |d_{0}| [#mum]", 1000, 0, 100000);
 
-  tracksToken_         = consumes<vector<reco::Track> >          (tracks_);
-  */
+  electronsToken_      = consumes<vector<pat::Electron> >        (electrons_);
+  muonsToken_          = consumes<vector<pat::Muon> >            (muons_);
+  beamspotsToken_      = consumes<reco::BeamSpot>                (beamspots_);
   genParticlesToken_   = consumes<vector<reco::GenParticle> >    (genParticles_);
 
 }
@@ -89,8 +109,15 @@ StopRHadronGenAnalyzer::~StopRHadronGenAnalyzer()
 void
 StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &setup)
 {
-  //edm::Handle<vector<reco::Track> > tracks;
-  //event.getByToken(tracksToken_, tracks);
+  edm::Handle<vector<pat::Electron> > electrons;
+  event.getByToken(electronsToken_, electrons);
+
+  edm::Handle<vector<pat::Muon> > muons;
+  event.getByToken(muonsToken_, muons);
+
+  edm::Handle<reco::BeamSpot> beamspots;
+  event.getByToken(beamspotsToken_, beamspots);
+  auto beamspot = *beamspots;
 
   //////////////////////////////////////////////////////////
 
@@ -143,32 +170,6 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 
     LogDebug("StopRHadronGenAnalyzer")<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status();
     //std::cout<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status()<<std::endl;
-    /*
-      if(genParticle.pt() < 10.0)
-      {
-      oneDHists_.at("matchedTrack")->Fill(-1.0);
-      continue;
-      }
-
-      const reco::Track *track = getMatchedTrack(genParticle, tracks);
-
-      if(track)
-        {
-          oneDHists_.at("matchedTrack")->Fill(1.0);
-          oneDHists_.at("charge")->Fill(track->charge());
-          oneDHists_.at("pt")->Fill(track->pt());
-          oneDHists_.at("phi")->Fill(track->phi());
-          oneDHists_.at("eta")->Fill(track->eta());
-
-          oneDHists_.at("numberOfValidHits")->Fill(track->numberOfValidHits());
-          oneDHists_.at("numberOfMissingInnerHits")->Fill(track->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_INNER_HITS));
-          oneDHists_.at("numberOfMissingMiddleHits")->Fill(track->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS));
-          oneDHists_.at("numberOfMissingOuterHits")->Fill(track->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::MISSING_OUTER_HITS));
-        }
-      else {
-        oneDHists_.at("matchedTrack")->Fill(0.0);
-      }
-    */
 
     //if decay done in pythia, find r-hadron mother particle
     const reco::Candidate* mother = genParticle.mother();
@@ -237,7 +238,37 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	oneDHists_.at("genRHadron_genElectron_deltaEta")->Fill(abs(mother->eta()-daughterEta));
 	oneDHists_.at("genRHadron_genElectron_deltaPhi")->Fill(abs(mother->phi()-daughterPhi));
 	oneDHists_.at("genRHadron_genElectron_deltaR")->Fill(deltaR(mother->eta(),mother->phi(),daughterEta,daughterPhi));
-      }
+
+	//match gen electron to reco electron
+	if(daughterPt < 10.0){
+	  oneDHists_.at("matchedElectron")->Fill(-1.0);
+	  continue;
+	}
+
+	const pat::Electron *electron = getMatchedElectron(*daughter, electrons);
+
+	if(electron){
+	  double electronAbsD0 = 10000*abs((-(electron->vx() - beamspot.x0())*electron->py() + (electron->vy() - beamspot.y0())*electron->px())/electron->pt());
+
+          oneDHists_.at("matchedElectron")->Fill(1.0);
+          oneDHists_.at("electronPt")->Fill(electron->pt());
+          oneDHists_.at("electronP")->Fill(electron->p());
+          oneDHists_.at("electronEta")->Fill(electron->eta());
+          oneDHists_.at("electronPhi")->Fill(electron->phi());
+          oneDHists_.at("electronCharge")->Fill(electron->charge());
+          oneDHists_.at("electronNumberOfValidHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidHits());
+          oneDHists_.at("electronNumberOfValidPixelHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidPixelHits());
+	  oneDHists_.at("electronAbsD0_100um")->Fill(electronAbsD0);
+	  oneDHists_.at("electronAbsD0_1000um")->Fill(electronAbsD0);
+	  oneDHists_.at("electronAbsD0_10000um")->Fill(electronAbsD0);
+	  oneDHists_.at("electronAbsD0_100000um")->Fill(electronAbsD0);
+        }
+	else {
+	  oneDHists_.at("matchedElectron")->Fill(0.0);
+	}
+
+      } //end if daughter of r-hadron is an electron
+
 
       //fill hists when daughter of r-hadron is muon
       else if(abs(daughterId)==13){
@@ -254,7 +285,38 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	oneDHists_.at("genRHadron_genMuon_deltaEta")->Fill(abs(mother->eta()-daughterEta));
 	oneDHists_.at("genRHadron_genMuon_deltaPhi")->Fill(abs(mother->phi()-daughterPhi));
 	oneDHists_.at("genRHadron_genMuon_deltaR")->Fill(deltaR(mother->eta(),mother->phi(),daughterEta,daughterPhi));
-      }
+
+	//match gen muon to reco muon
+	if(daughterPt < 10.0){
+	  oneDHists_.at("matchedMuon")->Fill(-1.0);
+	  continue;
+	}
+
+	const pat::Muon *muon = getMatchedMuon(*daughter, muons);
+
+	if(muon){
+	  double muonAbsD0 = 10000*abs((-(muon->vx() - beamspot.x0())*muon->py() + (muon->vy() - beamspot.y0())*muon->px())/muon->pt());
+
+          oneDHists_.at("matchedMuon")->Fill(1.0);
+          oneDHists_.at("muonPt")->Fill(muon->pt());
+          oneDHists_.at("muonP")->Fill(muon->p());
+          oneDHists_.at("muonEta")->Fill(muon->eta());
+          oneDHists_.at("muonPhi")->Fill(muon->phi());
+          oneDHists_.at("muonCharge")->Fill(muon->charge());
+          oneDHists_.at("muonNumberOfValidHits")->Fill(muon->numberOfValidHits());
+          oneDHists_.at("muonNumberOfValidPixelHits")->Fill(muon->innerTrack()->hitPattern().numberOfValidPixelHits());
+          oneDHists_.at("muonIsGlobal")->Fill(muon->isGlobalMuon());
+          oneDHists_.at("muonIsPF")->Fill(muon->isPFMuon());
+	  oneDHists_.at("muonAbsD0_100um")->Fill(muonAbsD0);
+	  oneDHists_.at("muonAbsD0_1000um")->Fill(muonAbsD0);
+	  oneDHists_.at("muonAbsD0_10000um")->Fill(muonAbsD0);
+	  oneDHists_.at("muonAbsD0_100000um")->Fill(muonAbsD0);
+        }
+	else {
+	  oneDHists_.at("matchedMuon")->Fill(0.0);
+	}
+
+      }//end if daughter of r-hadron is a muon
 
     } //end loop over daughters
   }//end loop over gen particles
@@ -285,25 +347,44 @@ void StopRHadronGenAnalyzer::getEndVertex(const reco::GenParticle &genParticle, 
       }
 }
 
-/*
-const reco::Track * StopRHadronGenAnalyzer::getMatchedTrack(const reco::GenParticle &genParticle, const edm::Handle<vector<reco::Track> > &tracks) const
+
+const pat::Electron * StopRHadronGenAnalyzer::getMatchedElectron(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Electron> > &electrons) const
 {
-  const reco::Track *matchedTrack = NULL;
+  const pat::Electron *matchedElectron = NULL;
   double minDR = -1.0;
   int i = -1;
-  for(const auto &track : *tracks) {
+  for(const auto &electron : *electrons) {
     i++;
-    if(track.pt() < 10.0) continue;
-    const double dR = deltaR(genParticle, track);
+    if(electron.pt() < 10.0) continue;
+    const double dR = deltaR(genParticle, electron);
     if(dR > 0.1) continue;
-    if(!matchedTrack || dR < minDR) {
-      matchedTrack = &(tracks->at(i));
+    if(!matchedElectron || dR < minDR) {
+      matchedElectron = &(electrons->at(i));
       minDR = dR;
     }
   }
 
-  return matchedTrack;
+  return matchedElectron;
 }
-*/
+
+const pat::Muon * StopRHadronGenAnalyzer::getMatchedMuon(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Muon> > &muons) const
+{
+  const pat::Muon *matchedMuon = NULL;
+  double minDR = -1.0;
+  int i = -1;
+  for(const auto &muon : *muons) {
+    i++;
+    if(muon.pt() < 10.0) continue;
+    const double dR = deltaR(genParticle, muon);
+    if(dR > 0.1) continue;
+    if(!matchedMuon || dR < minDR) {
+      matchedMuon = &(muons->at(i));
+      minDR = dR;
+    }
+  }
+
+  return matchedMuon;
+}
+
 
 DEFINE_FWK_MODULE(StopRHadronGenAnalyzer);
