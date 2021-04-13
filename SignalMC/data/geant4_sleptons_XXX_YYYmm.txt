@@ -1,0 +1,44 @@
+el# This file is read by SimG4Core/CustomPhysics/src/CustomParticleFactory.cc
+# The strings "decay", "pdg code", and "block", with correct capitalization, are used
+# to control the data input, so do not use these in any comments.
+# Furthermore, the particle name in the mass block (e.g. ~t_1) is used in the physics list
+# and needs to be consistent. It is not just a comment!
+
+BLOCK MASS  # Mass Spectrum
+# PDG code    mass		particle
+   1000011    XXX    		# ~e_L-
+   -1000011   XXX    		# ~e_L+
+   2000011    XXX  		# ~e_R-
+   -2000011   XXX  		# ~e_R+
+   1000013    XXX  		# ~mu_L-
+   -1000013   XXX  		# ~mu_L+
+   2000013    XXX  		# ~mu_R-
+   -2000013   XXX  		# ~mu_R+
+   1000039    1.00000000E-07	# gravitino
+Block
+
+#         PDG            Width
+DECAY   1000039     0.00000000E+00   # stable gravitino
+#
+#         PDG            Width
+DECAY   1000011     1.97326971684839e-AAA   # decay selectron_L
+#  BR        NDA      ID1       ID2
+   1.0000    2     1000039    11
+#
+#         PDG            Width
+DECAY   2000011     1.97326971684839e-AAA   # decay selectron_R
+#  BR        NDA      ID1       ID2
+   1.0000    2     1000039    11
+#
+#         PDG            Width
+DECAY   1000013     1.97326971684839e-AAA   # decay smuon_L
+#  BR        NDA      ID1       ID2
+   1.0000    2     1000039    13
+#
+#         PDG            Width
+DECAY   2000013     1.97326971684839e-AAA   # decay smuon_R
+#  BR        NDA      ID1       ID2
+   1.0000    2     1000039    13
+#
+
+EOF

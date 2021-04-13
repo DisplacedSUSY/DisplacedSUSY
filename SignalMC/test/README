@@ -1,2 +1,4 @@
 #2018 GEN-SIM
 cmsDriver.py Configuration/Generator/python/DisplacedSUSY_stopToBottom_M_1000_0p01mm_TuneCP5_13TeV_pythia8_cff.py --fileout file:stopToLB1000_0p01mm.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018
+
+cmsDriver Configuration/Generator/python/Staus_M_100_10mm_TuneCP5_13TeV_pythia8_cff.py --fileout file:staus_100_10mm.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018 --no_exec --customise SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi.customise,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeProduce -n 1
