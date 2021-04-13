@@ -1,7 +1,7 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
 # with command line options: Configuration/Generator/python/DisplacedSUSY_stopToLB_M_1800_0p1mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py --fileout file:stopToLB1800_0p1mm_withCloudModel.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018 --customise SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi.customise,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeProduce --no_exec
 import FWCore.ParameterSet.Config as cms
 
@@ -72,58 +72,58 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '102X_upgrade2018_realistic_v11
 process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     PythiaParameters = cms.PSet(
         parameterSets = cms.vstring(
-            'pythia8CommonSettings', 
-            'pythia8CP5Settings', 
-            'pythia8PSweightsSettings', 
+            'pythia8CommonSettings',
+            'pythia8CP5Settings',
+            'pythia8PSweightsSettings',
             'processParameters'
         ),
         processParameters = cms.vstring(
-            'SUSY:all = off', 
-            'SUSY:gg2squarkantisquark  = on', 
-            'SUSY:qqbar2squarkantisquark= on', 
-            'RHadrons:allow  = on', 
-            'RHadrons:allowDecay = off', 
-            'RHadrons:setMasses = on', 
+            'SUSY:all = off',
+            'SUSY:gg2squarkantisquark  = on',
+            'SUSY:qqbar2squarkantisquark= on',
+            'RHadrons:allow  = on',
+            'RHadrons:allowDecay = off',
+            'RHadrons:setMasses = on',
             '1000006:mayDecay = false'
         ),
         pythia8CP5Settings = cms.vstring(
-            'Tune:pp 14', 
-            'Tune:ee 7', 
-            'MultipartonInteractions:ecmPow=0.03344', 
-            'PDF:pSet=20', 
-            'MultipartonInteractions:bProfile=2', 
-            'MultipartonInteractions:pT0Ref=1.41', 
-            'MultipartonInteractions:coreRadius=0.7634', 
-            'MultipartonInteractions:coreFraction=0.63', 
-            'ColourReconnection:range=5.176', 
-            'SigmaTotal:zeroAXB=off', 
-            'SpaceShower:alphaSorder=2', 
-            'SpaceShower:alphaSvalue=0.118', 
-            'SigmaProcess:alphaSvalue=0.118', 
-            'SigmaProcess:alphaSorder=2', 
-            'MultipartonInteractions:alphaSvalue=0.118', 
-            'MultipartonInteractions:alphaSorder=2', 
-            'TimeShower:alphaSorder=2', 
+            'Tune:pp 14',
+            'Tune:ee 7',
+            'MultipartonInteractions:ecmPow=0.03344',
+            'PDF:pSet=20',
+            'MultipartonInteractions:bProfile=2',
+            'MultipartonInteractions:pT0Ref=1.41',
+            'MultipartonInteractions:coreRadius=0.7634',
+            'MultipartonInteractions:coreFraction=0.63',
+            'ColourReconnection:range=5.176',
+            'SigmaTotal:zeroAXB=off',
+            'SpaceShower:alphaSorder=2',
+            'SpaceShower:alphaSvalue=0.118',
+            'SigmaProcess:alphaSvalue=0.118',
+            'SigmaProcess:alphaSorder=2',
+            'MultipartonInteractions:alphaSvalue=0.118',
+            'MultipartonInteractions:alphaSorder=2',
+            'TimeShower:alphaSorder=2',
             'TimeShower:alphaSvalue=0.118'
         ),
         pythia8CommonSettings = cms.vstring(
-            'Tune:preferLHAPDF = 2', 
-            'Main:timesAllowErrors = 10000', 
-            'Check:epTolErr = 0.01', 
-            'Beams:setProductionScalesFromLHEF = off', 
-            'SLHA:keepSM = on', 
-            'SLHA:minMassSM = 1000.', 
-            'ParticleDecays:limitTau0 = on', 
-            'ParticleDecays:tau0Max = 10', 
+            'Tune:preferLHAPDF = 2',
+            'Main:timesAllowErrors = 10000',
+            'Check:epTolErr = 0.01',
+            'Beams:setProductionScalesFromLHEF = off',
+            'SLHA:keepSM = on',
+            'SLHA:minMassSM = 1000.',
+            'ParticleDecays:limitTau0 = on',
+            'ParticleDecays:tau0Max = 10',
             'ParticleDecays:allowPhotonRadiation = on'
         ),
         pythia8PSweightsSettings = cms.vstring(
-            'UncertaintyBands:doVariations = on', 
-            'UncertaintyBands:List = {isrRedHi isr:muRfac=0.707,fsrRedHi fsr:muRfac=0.707,isrRedLo isr:muRfac=1.414,fsrRedLo fsr:muRfac=1.414,isrDefHi isr:muRfac=0.5, fsrDefHi fsr:muRfac=0.5,isrDefLo isr:muRfac=2.0,fsrDefLo fsr:muRfac=2.0,isrConHi isr:muRfac=0.25, fsrConHi fsr:muRfac=0.25,isrConLo isr:muRfac=4.0,fsrConLo fsr:muRfac=4.0}', 
-            'UncertaintyBands:MPIshowers = on', 
-            'UncertaintyBands:overSampleFSR = 10.0', 
-            'UncertaintyBands:overSampleISR = 10.0', 
-            'UncertaintyBands:FSRpTmin2Fac = 20', 
+            'UncertaintyBands:doVariations = on',
+            'UncertaintyBands:List = {isrRedHi isr:muRfac=0.707,fsrRedHi fsr:muRfac=0.707,isrRedLo isr:muRfac=1.414,fsrRedLo fsr:muRfac=1.414,isrDefHi isr:muRfac=0.5, fsrDefHi fsr:muRfac=0.5,isrDefLo isr:muRfac=2.0,fsrDefLo fsr:muRfac=2.0,isrConHi isr:muRfac=0.25, fsrConHi fsr:muRfac=0.25,isrConLo isr:muRfac=4.0,fsrConLo fsr:muRfac=4.0}',
+            'UncertaintyBands:MPIshowers = on',
+            'UncertaintyBands:overSampleFSR = 10.0',
+            'UncertaintyBands:overSampleISR = 10.0',
+            'UncertaintyBands:FSRpTmin2Fac = 20',
             'UncertaintyBands:ISRpTmin2Fac = 1'
         )
     ),
@@ -134,7 +134,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     hscpFlavor = cms.untracked.string('stop'),
     massPoint = cms.untracked.int32(1800),
     maxEventsToPrint = cms.untracked.int32(0),
-    particleFile = cms.untracked.string('DisplacedSUSY/SignalMC/data/geant4_stopToLB_1800_0mm.txt'),
+    particleFile = cms.untracked.string('DisplacedSUSY/SignalMC/data/geant4_stopToLB_1800_0p1mm.txt'),
     pdtFile = cms.FileInPath('Configuration/Generator/data/hscppythiapdtstop1800.tbl'),
     processFile = cms.untracked.string('SimG4Core/CustomPhysics/data/stophadronProcessList.txt'),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
@@ -162,18 +162,18 @@ process.options.numberOfThreads=cms.untracked.uint32(8)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 # filter all path with the production filter sequence
 for path in process.paths:
-	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq 
+	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq
 
 # customisation of the process.
 
 # Automatic addition of the customisation function from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi
-from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise 
+from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi import customise
 
 #call to customisation function customise imported from SimG4Core.CustomPhysics.Exotica_HSCP_SIM_cfi
 process = customise(process)
 
 # Automatic addition of the customisation function from DisplacedSUSY.SignalMC.genParticlePlusGeant
-from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep,customizeProduce 
+from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep,customizeProduce
 
 #call to customisation function customizeKeep imported from DisplacedSUSY.SignalMC.genParticlePlusGeant
 process = customizeKeep(process)
