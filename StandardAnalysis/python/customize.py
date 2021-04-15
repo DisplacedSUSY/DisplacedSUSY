@@ -7,12 +7,20 @@ import os
 
 def customize (process, analysisChannel = "emu", applyPUReweighting = True, sampleType = "bgMC"):
 
-    process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
-
-    #need special R-hadron flag for stop samples but not for H to SS samples
-    if(HToSS):
+    #stops and HToSS can use last AND first copy
+    #GMSB signal needs last copy only
+    #need special R-hadron flag for stop samples but not for H to SS or GMSB samples
+    if(GMSB):
+        process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(False)
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True)
         process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
-    else:
+    elif(HToSS):
+        process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)
+        process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
+    elif(stops):
+        process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
+        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)
         process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(True)
 
 

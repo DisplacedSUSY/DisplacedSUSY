@@ -45,3 +45,9 @@ composite_dataset_definitions['QCD_MuEnriched'] = [
 
 # default to false, turn to true if you want to process HToSSTo4L samples
 HToSS = False
+
+# default to false, turn to true if you want to process GMSB samples
+GMSB = False
+
+#default to true, to process stop samples
+stops = True
