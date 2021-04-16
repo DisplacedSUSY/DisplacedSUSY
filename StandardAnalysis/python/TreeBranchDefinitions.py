@@ -145,6 +145,33 @@ if(HToSS):
                 )
             )
 
+elif(GMSB):
+    for sourceCTau in [0.01, 0.1, 1, 10, 100]:
+        srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
+
+        destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
+        if sourceCTau == 0.01:
+            destinationCTaus.extend([0.001])
+        if sourceCTau == 100:
+            destinationCTaus.extend([float(1 * i * sourceCTau) for i in range(2, 11)])
+
+        for dst in destinationCTaus:
+            dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
+            thisName = "lifetimeWeight_1000011_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_2000011_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_1000013_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_2000013_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_1000015_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_2000015_" + srcCTau + "cmTo" + dstCTau + "cm"
+            reweighting_pairs.append((srcCTau, dstCTau))
+            #print thisName
+            EventVariableBranches.branches.append(
+                cms.PSet(
+                    name = cms.string(thisName),
+                    inputVariables = cms.vstring(thisName),
+                )
+            )
+
 else:
     for sourceCTau in [0.01, 0.1, 1, 10, 100]:
         srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
