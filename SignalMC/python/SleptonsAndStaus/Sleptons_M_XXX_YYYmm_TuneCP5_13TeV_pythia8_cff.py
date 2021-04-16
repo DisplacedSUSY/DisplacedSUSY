@@ -4,9 +4,9 @@ MASS_POINT = XXX   # GeV
 CROSS_SECTION = ZZZ # pb
 CTAU_POINT = YYY # mm
 PROCESS_FILE = 'SimG4Core/CustomPhysics/data/RhadronProcessList.txt'
-PARTICLE_FILE = 'DisplacedSUSY/SignalMC/data/geant4_sleptons_%s_%smm.txt'  % (MASS_POINT, CTAU_POINT)
+PARTICLE_FILE = 'DisplacedSUSY/SignalMC/data/geant4_sleptons_%s_BBBmm.txt'  % (MASS_POINT)
 USE_REGGE = False
-GRIDPACK = '/eos/uscms/store/user/lpclonglived/DisplacedLeptons/GMSBgridpacks/sleptons_%s_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MASS_POINT)
+GRIDPACK = '/srv/sleptons_%s_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' % (MASS_POINT)
 SLHA_TABLE="""
 ##******************************************************************
 ##                      MadGraph/MadEvent                          *

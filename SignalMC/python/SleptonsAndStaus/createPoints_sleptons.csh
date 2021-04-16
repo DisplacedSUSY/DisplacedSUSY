@@ -60,15 +60,15 @@ foreach i (50 100 200 300 400 500 600 700 800 900 1000) #selectrons and smuons
 	endif
 
 	if ($j == '0p01') then
-	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    sed "s/XXX/$i/" ../../data/geant4_sleptons_XXX_YYYmm.txt | sed "s/YYY/0.01/" | sed "s/AAA/$exp/" > ../../data/geant4_sleptons_${i}_${j}mm.txt
 
 	else if ($j == '0p1') then
-	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    sed "s/XXX/$i/" ../../data/geant4_sleptons_XXX_YYYmm.txt | sed "s/YYY/0.1/" | sed "s/AAA/$exp/" > ../../data/geant4_sleptons_${i}_${j}mm.txt
 
 	else
-	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
+	    sed "s/XXX/$i/" Sleptons_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > Sleptons_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    sed "s/XXX/$i/" ../../data/geant4_sleptons_XXX_YYYmm.txt | sed "s/YYY/$j/" | sed "s/AAA/$exp/" > ../../data/geant4_sleptons_${i}_${j}mm.txt
 
 	endif

@@ -109,17 +109,17 @@ foreach i (100 150 175 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 
 	if ($j == '0p01') then
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
-	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/0.01/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
 	    sed "s/XXX/$i/" ../data/geant4_stopToLB_XXX_YYYmm.txt | sed "s/BB/$bb/" | sed "s/YYY/0.01/" | sed "s/AAA/$exp/" > ../data/geant4_stopToLB_${i}_${j}mm.txt
 	else if ($j == '0p1') then
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
-	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/0.1/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
 	    sed "s/XXX/$i/" ../data/geant4_stopToLB_XXX_YYYmm.txt | sed "s/BB/$bb/" | sed "s/YYY/0.1/" | sed "s/AAA/$exp/" > ../data/geant4_stopToLB_${i}_${j}mm.txt
 	else
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToBottom_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToBottom_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
 	    #sed "s/XXX/$i/" DisplacedSUSY_stopToLD_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLD_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_cff.py
-	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
+	    sed "s/XXX/$i/" DisplacedSUSY_stopToLB_M_XXX_YYYmm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py | sed "s/YYY/$j/" | sed "s/ZZZ/$xs/" | sed "s/AAA/$exp/" | sed "s/BBB/$j/" > DisplacedSUSY_stopToLB_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_withCloudModel_cff.py
 	    sed "s/XXX/$i/" ../data/geant4_stopToLB_XXX_YYYmm.txt | sed "s/BB/$bb/" | sed "s/YYY/$j/" | sed "s/AAA/$exp/" > ../data/geant4_stopToLB_${i}_${j}mm.txt
 	endif
     end
