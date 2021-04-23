@@ -287,7 +287,7 @@ hists = [
 ]
 
 for hist in hists:
-    hist.SetTitle(";SR;Events / bin")
+    hist.SetTitle(";SR;Events")
     hist.GetXaxis().SetBinLabel(1,"I, low p_{T}")
     hist.GetXaxis().SetBinLabel(2,"I, high p_{T}")
     hist.GetXaxis().SetBinLabel(3,"II")
