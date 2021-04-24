@@ -109,6 +109,9 @@ muon_d0_lessThan200_cut.alias = cms.string(">=2 muons with |d_0| < 200 mum")
 muon_d0_lessThan2000_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan2000_cut.alias = cms.string(">=2 muons with |d_0| < 0.2 cm")
 
+muon_d0_lessThan10cm_cut.numberRequired = cms.string(">= 2")
+muon_d0_lessThan10cm_cut.alias = cms.string(">=2 muons with |d_0| < 10 cm")
+
 muon_gen_motherIsWorZ_cut.numberRequired = cms.string(">= 2")
 muon_gen_motherIsWorZ_cut.alias = cms.string(">=2 muons from W or Z (muons matched to gen particles whose mother's PDG ID is 23 or 24")
 
