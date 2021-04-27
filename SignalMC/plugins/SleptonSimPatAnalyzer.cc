@@ -311,6 +311,7 @@ SleptonSimPatAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &s
 	oneDHists_.at("genSlepton_simTau_deltaR")->Fill(deltaR(genParticle.eta(),genParticle.phi(),eta,phi));
 
 	for(size_t k=0; j<daughter->numberOfDaughters(); k++){
+	  if(!daughter->daughter(k)) continue;
 	  const reco::Candidate* daughterOfTau = daughter->daughter(k);
 
 	  int partIdOfDaughterOfTau = daughterOfTau->pdgId();

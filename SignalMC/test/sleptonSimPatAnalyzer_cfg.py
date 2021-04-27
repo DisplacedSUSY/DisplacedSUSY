@@ -16,8 +16,8 @@ process.maxEvents = cms.untracked.PSet (
 
 process.source = cms.Source ("PoolSource",
                              fileNames = cms.untracked.vstring (
-                                 #'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_0/src/DisplacedSUSY/SignalMC/test/sleptons_700_10mm.root', #gen-sim, need to comment out reco parts of analyzer
                                  'file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_5/src/DisplacedSUSY/SignalMC/test/step4.root', #miniaod
+                                 #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_100mm_13TeV_2018MC/MiniAod/210421_105715/0000/step4_1.root'
                              ),
                         )
 process.TFileService = cms.Service ('TFileService',
