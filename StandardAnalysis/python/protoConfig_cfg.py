@@ -3,6 +3,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 import OSUT3Analysis.DBTools.osusub_cfg as osusub
 from OSUT3Analysis.Configuration.configurationOptions import *
 from OSUT3Analysis.Configuration.LifetimeWeightProducer_cff import *
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 import math
 import os
@@ -20,6 +21,7 @@ process = cms.Process ('OSUAnalysis')
 # how often to print a log message
 process.load ('FWCore.MessageService.MessageLogger_cfi')
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+#process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # suppress gen-matching errors
 process.MessageLogger.categories.append ("osu_GenMatchable")
 process.MessageLogger.cerr.osu_GenMatchable = cms.untracked.PSet(
@@ -76,6 +78,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_9_4_"):
 elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_VERSION"].startswith("CMSSW_10_6_"):
     process.source = cms.Source ('PoolSource',
       fileNames = cms.untracked.vstring (
+
           #input MINIAOD files
           #"/store/data/Run2018D/MuonEG/MINIAOD/PromptReco-v2/000/325/172/00000/C31B5583-B5A6-034D-A38C-66D11A21D9A9.root"
           #"/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/325/175/00000/ACD8ED9B-F9B0-AE44-B0FD-E20DAB363018.root"
@@ -83,9 +86,30 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #"/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6391FD45-7256-EC45-B6D4-3DEF9DDCCF90.root"
           #"/store/data/Run2018D/ParkingBPH5/MINIAOD/20Mar2019-v1/60003/FD6BDA2E-F9B0-1D47-B915-73614A217E25.root"
           #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToLD_M_1200_10mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/33568D74-1FF4-5E4F-A5D8-09CDFC436439.root"
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_5/src/DisplacedSUSY/SignalMC/test/step4_stopToLB1800_1000mm_nominal.root"
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_5/src/DisplacedSUSY/SignalMC/test/step4_stopToLB1800_1000mm_withCloudModel_withGeantDecay.root"
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_1.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_2.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_3.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_4.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_5.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_6.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_7.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_8.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_9.root",
+          #"file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/Staus_M_500_1mm_13TeV_2018MC/MiniAod/210422_065442/0000/step4_10.root",
+
+          #"/store/mc/RunIIAutumn18MiniAOD/DisplacedSUSY_stopToBottom_M_200_1000mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/50000/EECE29A6-583E-3247-9693-E1954C2540CF.root"
+
           #"/store/mc/RunIIAutumn18MiniAOD/TTJets_DiLept_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/90000/FF8CA354-EA2A-CA48-B634-59EC7DE358E6.root"
           "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFDCFC59-4ABE-0646-AABE-BD5D65301169.root",
           #"/store/data/Run2018D/MET/MINIAOD/PromptReco-v2/000/325/175/00000/BB60D29A-1476-4B4C-882E-4856877B06D0.root"
+
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test/step4_stopToLB1000_500mm.root"
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test/step4_stopToLB1000_500mm_withCloudModel.root"
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test/step4_stopToLB1000_500mm_withCSModel.root"
+
+          #"file:/uscms_data/d3/alimena/DisplacedLeptons/CMSSW_10_2_5/src/DisplacedSUSY/SignalMC/test/step0.root"
 
           #initial skim files
 
@@ -94,6 +118,7 @@ elif os.environ["CMSSW_VERSION"].startswith("CMSSW_10_2_") or os.environ["CMSSW_
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/MuonEG_2018C/EMuSkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/EMuInitialSkim_2018Analysis_15Mar2019/TTJets_DiLept/EMuSkim/skim_1.root'
           #'file:/eos/uscms/store/user/lpclonglived/DisplacedLeptons/MuMuInitialSkim_2018Analysis_15Mar2019/DoubleMu_2018C/MuMuSkim/skim_1.root'
+
       )
     )
 else:
@@ -110,6 +135,8 @@ process.TFileService = cms.Service ('TFileService',
 # number of events to process when running interactively
 process.maxEvents = cms.untracked.PSet (
     input = cms.untracked.int32 (1000)
+    #input = cms.untracked.int32 (100)
+    #input = cms.untracked.int32 (-1)
 )
 
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
@@ -153,6 +180,10 @@ else:
 
 # Import MiniAOD collection map from OSUT3Analysis
 from OSUT3Analysis.AnaTools.osuAnalysis_cfi import collectionMap
+
+if GMSB:
+    print "# hardInteractionMcparticles is set to genParticlePlusGeant"
+    collectionMap.hardInteractionMcparticles = cms.InputTag ('genParticlePlusGeant')
 
 ################################################################################
 ##### Set up any user-defined variable producers ###############################
