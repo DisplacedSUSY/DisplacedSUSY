@@ -41,6 +41,23 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["nStopDaughters"] = fs_->make<TH1D>("nStopDaughters", ";number of initial stop r-hadron daughters", 5, -0.5, 4.5);
   oneDHists_["stopDaughterId"] = fs_->make<TH1D>("stopDaughterId", ";stop r-hadron daughter |pdgid|",20,0,20);
 
+  oneDHists_["bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons)",50,500,550);
+  oneDHists_["bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons)",500,5100,5600);
+  oneDHists_["bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid)",23,0,23);
+
+  oneDHists_["gen1000612_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000612",50,500,550);
+  oneDHists_["gen1000612_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000612",500,5100,5600);
+  oneDHists_["gen1000612_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000612",23,0,23);
+
+  oneDHists_["gen1000622_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000622",50,500,550);
+  oneDHists_["gen1000622_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000622",500,5100,5600);
+  oneDHists_["gen1000622_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000622",23,0,23);
+
+  oneDHists_["gen1000632_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000632",50,500,550);
+  oneDHists_["gen1000632_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000632",500,5100,5600);
+  oneDHists_["gen1000632_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000632",23,0,23);
+
+
   oneDHists_["genElectronPt"] = fs_->make<TH1D>("genElectronPt", ";gen electron p_{T} [GeV]", 200, 0, 2000);
   oneDHists_["genElectronP"] = fs_->make<TH1D>("genElectronP", ";gen electron p [GeV]", 200, 0, 2000);
   oneDHists_["genElectronEta"] = fs_->make<TH1D>("genElectronEta", ";gen electron #eta", 100, -5.0, 5.0);
@@ -209,12 +226,45 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       //std::cout<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughterPt<<"/"<<daughterEta<<"/"<<daughterPhi<<"/"<<daughterStatus<<std::endl;
 
       if(abs(daughterId)==5){ //if b-quark, does it decay?
+	double ptBQuarkDaughterWithLargestPt = 0.;
+	int pdgIdBQuarkDaughterWithLargestPt = 0;
+
 	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
 	  const reco::Candidate* bQuarkDaughter = daughter->daughter(k);
-	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status();
-	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<std::endl;
+	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
+	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt()<<std::endl;
+
+	  //find daughter of b-quark (that isn't another b-quark) that carries most of the momentum
+	  if (abs(bQuarkDaughter->pdgId())==5) continue;
+	  if (bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
+	    ptBQuarkDaughterWithLargestPt = bQuarkDaughter->pt();
+	    pdgIdBQuarkDaughterWithLargestPt = abs(bQuarkDaughter->pdgId());
+	  }
+
+	}//end loop over daughters of b quark
+
+	oneDHists_.at("bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	oneDHists_.at("bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	oneDHists_.at("bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+
+	if(abs(partId)==1000612){
+	  oneDHists_.at("gen1000612_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000612_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000612_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	}
-      }
+	else if(abs(partId)==1000622){
+	  oneDHists_.at("gen1000622_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000622_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000622_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	}
+	else if(abs(partId)==1000632){
+	  oneDHists_.at("gen1000632_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000632_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	  oneDHists_.at("gen1000632_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
+	}
+
+      }//end if daughter is b quark
+
       else if(abs(daughterId)==15){ //if tau, does it decay?
 	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
 	  const reco::Candidate* tauDaughter = daughter->daughter(k);
