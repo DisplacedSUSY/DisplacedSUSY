@@ -55,6 +55,7 @@ class StopRHadronGenAnalyzer : public edm::EDAnalyzer {
   void getEndVertex (const reco::GenParticle &, TVector3 &) const;
   const pat::Electron * getMatchedElectron (const reco::Candidate &, const edm::Handle<vector<pat::Electron> > &) const;
   const pat::Muon * getMatchedMuon (const reco::Candidate &, const edm::Handle<vector<pat::Muon> > &) const;
+  const reco::Candidate * getFinalParticle(const reco::Candidate &genParticle) const;
 };
 
 #endif

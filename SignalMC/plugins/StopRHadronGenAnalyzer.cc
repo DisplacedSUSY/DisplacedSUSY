@@ -229,14 +229,16 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	double ptBQuarkDaughterWithLargestPt = 0.;
 	int pdgIdBQuarkDaughterWithLargestPt = 0;
 
-	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
-	  const reco::Candidate* bQuarkDaughter = daughter->daughter(k);
+        //descend decay chain until no daughters are themselves b quarks
+        const reco::Candidate* finalBQuark = getFinalParticle(*daughter);
+
+	for(size_t k=0; k<finalBQuark->numberOfDaughters(); k++){
+	  const reco::Candidate* bQuarkDaughter = finalBQuark->daughter(k);
 	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
 	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt()<<std::endl;
 
-	  //find daughter of b-quark (that isn't another b-quark) that carries most of the momentum
-	  if (abs(bQuarkDaughter->pdgId())==5) continue;
-	  if (bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
+	  //find daughter of final b-quark that carries most of the momentum
+      if(bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
 	    ptBQuarkDaughterWithLargestPt = bQuarkDaughter->pt();
 	    pdgIdBQuarkDaughterWithLargestPt = abs(bQuarkDaughter->pdgId());
 	  }
@@ -434,6 +436,20 @@ const pat::Muon * StopRHadronGenAnalyzer::getMatchedMuon(const reco::Candidate &
   }
 
   return matchedMuon;
+}
+
+//get final particle of same type by continuing along decay chain until daughters do not include a particle with the same pdgID as the initial particle
+const reco::Candidate * StopRHadronGenAnalyzer::getFinalParticle(const reco::Candidate &genParticle) const
+{
+  const reco::Candidate *finalParticle = &genParticle;
+
+  for(const auto &daughter : genParticle) {
+    if(daughter.pdgId() == genParticle.pdgId()) {
+      finalParticle = getFinalParticle(daughter);
+      break;
+    }
+  }
+  return finalParticle;
 }
 
 
