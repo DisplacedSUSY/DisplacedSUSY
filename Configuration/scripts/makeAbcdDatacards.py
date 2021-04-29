@@ -15,6 +15,7 @@ from collections import OrderedDict
 from ROOT import TFile, Double
 from DisplacedSUSY.Configuration.limitOptions import *
 from DisplacedSUSY.Configuration.systematicsDefinitions import *
+from DisplacedSUSY.StandardAnalysis.Options import *
 from OSUT3Analysis.Configuration.configurationOptions import *
 
 
@@ -378,7 +379,12 @@ class Hist(object):
         # identify proper lifetime weight
         src_ctau = get_ctau(file_path.split('/')[3])
         dst_ctau = get_ctau(name)
-        weight_branch_template = "eventvariable_lifetimeWeight_1000006_{}cmTo{}cm"
+        if(stops):
+            weight_branch_template = "eventvariable_lifetimeWeight_1000006_{}cmTo{}cm"
+        elif(HToSS):
+            weight_branch_template = "eventvariable_lifetimeWeight_9000006_{}cmTo{}cm"
+        elif(GMSB):
+            weight_branch_template = "eventvariable_lifetimeWeight_1000011_{}cmTo{}cm"
         weight_branch_name = weight_branch_template.format(mm_to_cm(src_ctau), mm_to_cm(dst_ctau))
 
         # identify branches that correspond to hist axes
@@ -503,7 +509,10 @@ def combine_systematics(uncertainties, yields, years):
 # extract ctau from signal name
 # assume signal name includes the ctau preceded by "_" and followed by "mm"
 def get_ctau(name):
-    ctau = name.split('_')[1].split('mm')[0]
+    if(HToSS):
+        ctau = name.split('_')[2].split('mm')[0]
+    else:
+        ctau = name.split('_')[1].split('mm')[0]
     # check that ctau is just a number
     try:
         float(ctau.replace('p','.'))
