@@ -468,7 +468,7 @@ signal_mc_samples = {
     'HToSSTo4L1000_30_10mm'       : "/ggH_HToSSTo4l_MH-1000_MS-30_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L1000_30_1mm'        : "/ggH_HToSSTo4l_MH-1000_MS-30_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
 
-    'HToSSTo4L1000_150_10000mm'   : "/ggH_HToSSTo4l_MH-1000_MS-350_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'HToSSTo4L1000_150_10000mm'   : "/ggH_HToSSTo4l_MH-1000_MS-150_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L1000_150_1000mm'    : "/ggH_HToSSTo4l_MH-1000_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L1000_150_100mm'     : "/ggH_HToSSTo4l_MH-1000_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L1000_150_10mm'      : "/ggH_HToSSTo4l_MH-1000_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
