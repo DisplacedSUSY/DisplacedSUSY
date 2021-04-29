@@ -117,7 +117,8 @@ data_samples = {
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
-        'dir'  : 'EMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
+        #'dir'  : 'EMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
+        'dir'  : 'EMuPreselection_2016Analysis_HToSS_19Apr2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
