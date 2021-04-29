@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # computes the signal systematic on the muon pixel hit efficiency from the cosmic MC/NoBPTX efficiency plots and signal from the trees
 # signal trees made from events that pass the Preselection
 
@@ -232,10 +231,14 @@ def getMeanEfficiency(signalSample,condorDir,cosmicSample): #cosmicSample is cos
     #print "sumOfEffProduct is: " + str(sumOfEffProduct)
     #print "sumOfWeights is: " + str(sumOfWeights)
     #print "sumOfEffProduct/sumOfWeights is: " + str(1.0*sumOfEffProduct/sumOfWeights)
-    return 1.0*sumOfEffProduct/sumOfWeights
+    if sumOfEffProduct == sumOfWeights == 0.:
+        return 1.0
+    else:
+        return 1.0*sumOfEffProduct/sumOfWeights
 
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__muonPixelHitEff_" + analysisChannel + "_" + year + ".txt"
+#outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__HToSS_muonPixelHitEff_" + analysisChannel + "_" + year + ".txt"
 fout = open (outputFile, "w")
 print "now starting muon pixel hit efficiency systematic for " + analysisChannel + " and " + year
 
@@ -267,6 +270,7 @@ masses = ["200", "1000", "1800"]
 SystsVsMass = []
 
 for signalSample in datasets:
+    print "starting "+signalSample
     num_signalSamples += 1
 
     #find relative difference in mean efficiency, and write to a text file
