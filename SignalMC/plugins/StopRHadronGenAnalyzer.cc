@@ -330,8 +330,10 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
           oneDHists_.at("electronEta")->Fill(electron->eta());
           oneDHists_.at("electronPhi")->Fill(electron->phi());
           oneDHists_.at("electronCharge")->Fill(electron->charge());
-          //oneDHists_.at("electronNumberOfValidHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidHits());
-          //oneDHists_.at("electronNumberOfValidPixelHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidPixelHits());
+          if (!electron->gsfTrack().isNull()){
+            oneDHists_.at("electronNumberOfValidHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidHits());
+            oneDHists_.at("electronNumberOfValidPixelHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidPixelHits());
+          }
 	  oneDHists_.at("electronAbsD0_100um")->Fill(electronAbsD0);
 	  oneDHists_.at("electronAbsD0_1000um")->Fill(electronAbsD0);
 	  oneDHists_.at("electronAbsD0_10000um")->Fill(electronAbsD0);
@@ -378,7 +380,9 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
           oneDHists_.at("muonPhi")->Fill(muon->phi());
           oneDHists_.at("muonCharge")->Fill(muon->charge());
           oneDHists_.at("muonNumberOfValidHits")->Fill(muon->numberOfValidHits());
-          //oneDHists_.at("muonNumberOfValidPixelHits")->Fill(muon->innerTrack()->hitPattern().numberOfValidPixelHits());
+          if (!muon->innerTrack().isNull()){
+            oneDHists_.at("muonNumberOfValidPixelHits")->Fill(muon->innerTrack()->hitPattern().numberOfValidPixelHits());
+          }
           oneDHists_.at("muonIsGlobal")->Fill(muon->isGlobalMuon());
           oneDHists_.at("muonIsPF")->Fill(muon->isPFMuon());
 	  oneDHists_.at("muonAbsD0_100um")->Fill(muonAbsD0);
