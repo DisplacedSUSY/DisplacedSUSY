@@ -135,6 +135,10 @@ for signal_name in signal_points:
     datacard_dst_expected_name = condor_expected_dir+"/"+datacard_name
     datacard_dst_observed_name = condor_observed_dir+"/"+datacard_name
 
+    if not os.path.isfile(datacard_src_name):
+        print datacard_src_name + " doesn't exist, skipping it"
+        continue
+
     if arguments.method == "AsymptoticLimits":
         print "Defaulting to AsymptoticLimits"
         common_options = ""
