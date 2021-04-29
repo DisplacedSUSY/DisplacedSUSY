@@ -38,21 +38,31 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["genRhadronId_10006XX"] = fs_->make<TH1D>("genRhadronId_10006XX", ";generator r-hadron |pdgid| (1st range)", 100, 1000600,1000700);
   oneDHists_["genRhadronId_1006XXX"] = fs_->make<TH1D>("genRhadronId_1006XXX", ";generator r-hadron |pdgid| (2nd range)", 1000, 1006000,1007000);
 
-  oneDHists_["nStopDaughters"] = fs_->make<TH1D>("nStopDaughters", ";number of initial stop r-hadron daughters", 5, -0.5, 4.5);
-  oneDHists_["stopDaughterId"] = fs_->make<TH1D>("stopDaughterId", ";stop r-hadron daughter |pdgid|",20,0,20);
+  oneDHists_["nRhadronDaughters"] = fs_->make<TH1D>("nRhadronDaughters", ";number of initial r-hadron daughters", 10, -0.5, 9.5);
+  oneDHists_["rHadronDaughterId"] = fs_->make<TH1D>("rHadronDaughterId", ";r-hadron daughter |pdgid|",600,0,600);
 
+  oneDHists_["nStopDaughters"] = fs_->make<TH1D>("nStopDaughters", ";number of initial stop daughters", 5, -0.5, 4.5);
+  oneDHists_["stopDaughterId"] = fs_->make<TH1D>("stopDaughterId", ";stop daughter |pdgid|",20,0,20);
+
+  oneDHists_["nBQuarkDaughters"] = fs_->make<TH1D>("nBQuarkDaughters", ";number of daughters resulting from b quark hadronization", 10, -0.5, 9.5);
+  oneDHists_["bQuarkAllDaughterId"] = fs_->make<TH1D>("bQuarkAllDaughterId", ";|pdgid| of daughters resulting from b quark hadronization",600,0,600);
+
+  oneDHists_["bQuarkDaughterId"] = fs_->make<TH1D>("bQuarkDaughterId", ";|pdgid| of daughter of b quark with largest pt",600,0,600);
   oneDHists_["bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons)",50,500,550);
   oneDHists_["bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons)",500,5100,5600);
   oneDHists_["bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid)",23,0,23);
 
+  oneDHists_["gen1000612_bQuarkDaughterId"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId", ";|pdgid| of daughter of b quark with largest pt for gen id 1000612",600,0,600);
   oneDHists_["gen1000612_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000612",50,500,550);
   oneDHists_["gen1000612_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000612",500,5100,5600);
   oneDHists_["gen1000612_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000612_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000612",23,0,23);
 
+  oneDHists_["gen1000622_bQuarkDaughterId"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId", ";|pdgid| of daughter of b quark with largest pt for gen id 1000622",600,0,600);
   oneDHists_["gen1000622_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000622",50,500,550);
   oneDHists_["gen1000622_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000622",500,5100,5600);
   oneDHists_["gen1000622_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000622_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000622",23,0,23);
 
+  oneDHists_["gen1000632_bQuarkDaughterId"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId", ";|pdgid| of daughter of b quark with largest pt for gen id 1000632",600,0,600);
   oneDHists_["gen1000632_bQuarkDaughterId_bottomMesons"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_bottomMesons", ";|pdgid| of daughter of b quark with largest pt (bottom mesons) for gen id 1000632",50,500,550);
   oneDHists_["gen1000632_bQuarkDaughterId_bottomBaryons"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_bottomBaryons", ";|pdgid| of daughter of b quark with largest pt (bottom baryons) for gen id 1000632",500,5100,5600);
   oneDHists_["gen1000632_bQuarkDaughterId_lowPdgid"] = fs_->make<TH1D>("gen1000632_bQuarkDaughterId_lowPdgid", ";|pdgid| of daughter of b quark with largest pt (low pdgid) for gen id 1000632",23,0,23);
@@ -206,8 +216,12 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
     }
     else edm::LogInfo("StopRHadronGenAnalyzer")<<"stop has no gen r-hadron mother!!!";
 
-
+    oneDHists_.at("nRhadronDaughters")->Fill(mother->numberOfDaughters());
     oneDHists_.at("nStopDaughters")->Fill(genParticle.numberOfDaughters());
+
+    for(auto &rHadronDaughter : *mother){
+      oneDHists_.at("rHadronDaughterId")->Fill(abs(rHadronDaughter.pdgId()));
+    }
 
     //find stop daughter particles (from pythia)
     for(size_t j=0; j<genParticle.numberOfDaughters(); j++){
@@ -232,10 +246,14 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
         //descend decay chain until no daughters are themselves b quarks
         const reco::Candidate* finalBQuark = getFinalParticle(*daughter);
 
+        oneDHists_.at("nBQuarkDaughters")->Fill(finalBQuark->numberOfDaughters());
+
 	for(size_t k=0; k<finalBQuark->numberOfDaughters(); k++){
 	  const reco::Candidate* bQuarkDaughter = finalBQuark->daughter(k);
 	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
 	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt()<<std::endl;
+
+      oneDHists_.at("bQuarkAllDaughterId")->Fill(abs(bQuarkDaughter->pdgId()));
 
 	  //find daughter of final b-quark that carries most of the momentum
       if(bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
@@ -245,21 +263,25 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 
 	}//end loop over daughters of b quark
 
+	oneDHists_.at("bQuarkDaughterId")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	oneDHists_.at("bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	oneDHists_.at("bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	oneDHists_.at("bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 
 	if(abs(partId)==1000612){
+	  oneDHists_.at("gen1000612_bQuarkDaughterId")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000612_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000612_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000612_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	}
 	else if(abs(partId)==1000622){
+	  oneDHists_.at("gen1000622_bQuarkDaughterId")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000622_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000622_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000622_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	}
 	else if(abs(partId)==1000632){
+	  oneDHists_.at("gen1000632_bQuarkDaughterId")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000632_bQuarkDaughterId_bottomMesons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000632_bQuarkDaughterId_bottomBaryons")->Fill(pdgIdBQuarkDaughterWithLargestPt);
 	  oneDHists_.at("gen1000632_bQuarkDaughterId_lowPdgid")->Fill(pdgIdBQuarkDaughterWithLargestPt);
@@ -308,8 +330,8 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
           oneDHists_.at("electronEta")->Fill(electron->eta());
           oneDHists_.at("electronPhi")->Fill(electron->phi());
           oneDHists_.at("electronCharge")->Fill(electron->charge());
-          oneDHists_.at("electronNumberOfValidHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidHits());
-          oneDHists_.at("electronNumberOfValidPixelHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidPixelHits());
+          //oneDHists_.at("electronNumberOfValidHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidHits());
+          //oneDHists_.at("electronNumberOfValidPixelHits")->Fill(electron->gsfTrack()->hitPattern().numberOfValidPixelHits());
 	  oneDHists_.at("electronAbsD0_100um")->Fill(electronAbsD0);
 	  oneDHists_.at("electronAbsD0_1000um")->Fill(electronAbsD0);
 	  oneDHists_.at("electronAbsD0_10000um")->Fill(electronAbsD0);
@@ -356,7 +378,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
           oneDHists_.at("muonPhi")->Fill(muon->phi());
           oneDHists_.at("muonCharge")->Fill(muon->charge());
           oneDHists_.at("muonNumberOfValidHits")->Fill(muon->numberOfValidHits());
-          oneDHists_.at("muonNumberOfValidPixelHits")->Fill(muon->innerTrack()->hitPattern().numberOfValidPixelHits());
+          //oneDHists_.at("muonNumberOfValidPixelHits")->Fill(muon->innerTrack()->hitPattern().numberOfValidPixelHits());
           oneDHists_.at("muonIsGlobal")->Fill(muon->isGlobalMuon());
           oneDHists_.at("muonIsPF")->Fill(muon->isPFMuon());
 	  oneDHists_.at("muonAbsD0_100um")->Fill(muonAbsD0);
@@ -438,7 +460,7 @@ const pat::Muon * StopRHadronGenAnalyzer::getMatchedMuon(const reco::Candidate &
   return matchedMuon;
 }
 
-//get final particle of same type by continuing along decay chain until daughters do not include a particle with the same pdgID as the initial particle
+//get final particle of same type by continuing along decay chain until daughters do not include a particle with the same pdgId as the initial particle
 const reco::Candidate * StopRHadronGenAnalyzer::getFinalParticle(const reco::Candidate &genParticle) const
 {
   const reco::Candidate *finalParticle = &genParticle;
