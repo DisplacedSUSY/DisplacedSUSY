@@ -13,6 +13,7 @@ from array import *
 from operator import itemgetter
 
 from DisplacedSUSY.Configuration.limitOptions import *
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 if arguments.localConfig:
     sys.path.append(os.getcwd())
@@ -27,7 +28,7 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV
+from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV, signal_cross_sections_sleptons_13TeV, signal_cross_sections_HToSS_13TeV
 signal_cross_sections = {}
 
 from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree
@@ -150,16 +151,24 @@ else:
 
 HeaderText = LumiText + " (" + energy + " TeV)"
 
-def makeSignalName(process, mass, lifetime):
-    name = process + str(mass) + "_" + str(lifetime) + "mm"
-    # rename sub-mm samples to match sample names
-    name = name.replace('.', 'p')
-    return name
+if(HToSS):
+    massesNames = []
+    for H, S in zip(bareMasses.keys(),bareMasses.values()):
+        for i in S:
+            massesNames.append(str(H)+"_"+str(i))
+else:
+    massesNames = masses
 
 def moveFile(old_name, new_name):
     if glob.glob(old_name):
         os.system("mv -f {} {}".format(old_name, new_name))
     return new_name if os.path.isfile(new_name) else False
+
+def makeSignalName(process, mass, lifetime):
+    name = process + str(mass) + "_" + str(lifetime) + "mm"
+    # rename sub-mm samples to match sample names
+    name = name.replace('.', 'p')
+    return name
 
 def makeSignalRootFileName(process, mass, lifetime, directory, limit_type):
     signal_name = makeSignalName(process, mass, lifetime)
@@ -190,9 +199,14 @@ def setCrossSections():
     if energy == '8':
         signal_cross_sections = signal_cross_sections_8TeV
     elif energy == '13':
-        signal_cross_sections = signal_cross_sections_13TeV
+        if(HToSS):
+            signal_cross_sections = signal_cross_sections_HToSS_13TeV
+        elif(GMSB):
+            signal_cross_sections = signal_cross_sections_sleptons_13TeV
+        else:
+            signal_cross_sections = signal_cross_sections_13TeV #stops
     else:  # use run2 by default
-        print "invalid energy = " + energy + " -- using default cross sections"
+        print "invalid energy = " + energy + " -- using default stop 13 TeV cross sections"
         signal_cross_sections = signal_cross_sections_13TeV
 
     # convert all values and uncertainties to floats
@@ -203,10 +217,16 @@ def setCrossSections():
 def getTheoryGraph():
     x = [ ]
     y = [ ]
-    for mass in masses:
-        xSection = signal_cross_sections[str(mass)]['value']
-        x.append(float(mass))
-        y.append(xSection)
+    if HToSS:
+        for mass in masses.keys():
+            xSection = signal_cross_sections[str(mass)]['value']
+            x.append(float(mass))
+            y.append(xSection)
+    else:
+        for mass in masses:
+            xSection = signal_cross_sections[str(mass)]['value']
+            x.append(float(mass))
+            y.append(xSection)
 
     graph = TGraph(len(x), array('d', x), array('d', y))
     graph.SetLineWidth(3)
@@ -227,13 +247,22 @@ def getTheoryOneSigmaGraph():
     y = []
     up = []
     down = []
-    for mass in masses:
-        xSection = signal_cross_sections[str(mass)]['value']
-        xSectionError = signal_cross_sections[str(mass)]['error']
-        x.append(float(mass))
-        y.append(xSection)
-        up.append((xSectionError - 1.0)*xSection)
-        down.append((xSectionError - 1.0)*xSection)
+    if HToSS:
+        for mass in masses.keys():
+            xSection = signal_cross_sections[str(mass)]['value']
+            xSectionError = signal_cross_sections[str(mass)]['error']
+            x.append(float(mass))
+            y.append(xSection)
+            up.append((xSectionError - 1.0)*xSection)
+            down.append((xSectionError - 1.0)*xSection)
+    else:
+        for mass in masses:
+            xSection = signal_cross_sections[str(mass)]['value']
+            xSectionError = signal_cross_sections[str(mass)]['error']
+            x.append(float(mass))
+            y.append(xSection)
+            up.append((xSectionError - 1.0)*xSection)
+            down.append((xSectionError - 1.0)*xSection)
 
     graph = makeTGraphAsymmErrors(x, y, [0]*len(x), [0]*len(x), down, up)
     graph.SetFillColor(colorSchemes['theory']['oneSigma'])
@@ -255,7 +284,13 @@ def getGraph(limits, x_key, y_key):
     return graph
 
 def getBinArray(key, dictionaries):
-    bins = [float(d[key]) for d in dictionaries]
+    if(HToSS):
+        bins = []
+        for d in dictionaries:
+            end = str(d[key]).find("_")
+            bins.append(float(str(d[key])[:end]))
+    else:
+        bins = [float(d[key]) for d in dictionaries]
     bins = sorted(list(set(bins)))
     bins.append(bins[-1] + 100.0)
     return array("d", bins)
@@ -267,7 +302,11 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     bin_content = []
     limit_dict = {}
     for limit in limits:
-        mass = float(limit['mass'])
+        if(HToSS):
+            end = str(limit['mass']).find("_")
+            mass = float(limit['mass'][:end])
+        else:
+            mass = float(limit['mass'])
         lifetime = float(limit['lifetime'])
         if lifetime not in limit_dict:
             limit_dict[lifetime] = {}
@@ -311,7 +350,11 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     y = array('d')
     limit_dict = {}
     for limit in limits:
-        mass = float(limit['mass'])
+        if(HToSS):
+            end = str(limit['mass']).find("_")
+            mass = float(limit['mass'][:end])
+        else:
+            mass = float(limit['mass'])
         lifetime = float(limit['lifetime'])
         if lifetime not in limit_dict:
             limit_dict[lifetime] = {}
@@ -562,7 +605,7 @@ def getTwoSigmaGraph2D(limits, xAxisType, yAxisType, colorScheme):
     graph.SetMarkerColor(colorSchemes[colorScheme]['twoSigma'])
     return graph
 
-def fetchLimits(process, mass, lifetime, directory, limits_to_include):
+def fetchLimits(process, mass, m, lifetime, directory, limits_to_include):
     print "fetching limits for mass = " + mass + " GeV, ctau = " + lifetime + " mm"
     limit_types = {
         'obs' : ['observed'],
@@ -668,7 +711,7 @@ def fetchLimits(process, mass, lifetime, directory, limits_to_include):
 
     if method != "Significance":
         # scale by xsection
-        x_section = signal_cross_sections[str(mass)]['value']
+        x_section = signal_cross_sections[str(m)]['value']
         limit.update((k, v*x_section) for k, v in limit.iteritems())
         # scale by signal scale factor introduced by runLimits
         signal_sf = getSignalSF(mass, lifetime, directory, 'expected')
@@ -701,7 +744,10 @@ def drawPlot(plot):
         if plot['xAxisType'] == 'mass':
             #xAxisMin = float(masses[0])
             xAxisMin = 0.0
-            xAxisMax = float(masses[-1])
+            if(HToSS):
+                xAxisMax = float(masses.keys()[-1])
+            else:
+                xAxisMax = float(masses[-1])
         elif plot['xAxisType'] == 'lifetime':
             canvas.SetLogx()
             # convert lifetime to cm
@@ -710,22 +756,33 @@ def drawPlot(plot):
         if is2D:
             canvas.SetLogz()
             if plot['yAxisType'] == 'mass':
-                yAxisMin = float(masses[0])
-                yAxisMax = float(masses[-1])
                 xAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                 xAxisBins.append(0.1*2.0*float(lifetimes[-1]))
-                yAxisBins.extend([float(mass) for mass in masses])
-                yAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
-                yAxisBins.append(8.0*float(masses[-1]) - 4.0*float(masses[-2]))
+                if(HToSS):
+                    yAxisMin = float(masses.keys()[0])
+                    yAxisMax = float(masses.keys()[-1])
+                    yAxisBins.extend([float(mass) for mass in masses.keys()])
+                    yAxisBins.append(2.0*float(masses.keys()[-1]) - float(masses.keys()[-2]))
+                    yAxisBins.append(8.0*float(masses.keys()[-1]) - 4.0*float(masses.keys()[-2]))
+                else:
+                    yAxisMin = float(masses[0])
+                    yAxisMax = float(masses[-1])
+                    yAxisBins.extend([float(mass) for mass in masses])
+                    yAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
+                    yAxisBins.append(8.0*float(masses[-1]) - 4.0*float(masses[-2]))
             elif plot['yAxisType'] == 'lifetime':
                 yAxisMin = 0.1*float(lifetimes[0])
                 yAxisMax = 0.1*float(lifetimes[-1])
                 canvas.SetLogy()
-                xAxisBins.extend([float(mass) for mass in masses])
-                xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
                 yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                 yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
                 yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
+                if(HToSS):
+                    xAxisBins.extend([float(mass) for mass in masses.keys()])
+                    xAxisBins.append(2.0*float(masses.keys()[-1]) - float(masses.keys()[-2]))
+                else:
+                    xAxisBins.extend([float(mass) for mass in masses])
+                    xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
         else:
             canvas.SetLogy()
         legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6)
@@ -737,6 +794,8 @@ def drawPlot(plot):
             quark = 'b' if process == 'stopToLB' else 'd'
             processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+        elif process == 'HToSSTo4L':
+            legend.SetHeader("#splitline{H #rightarrow SS #rightarrow 4l}{95% CL upper limits}")
         else:
             legend.SetHeader("95% CL upper limits")
 
@@ -763,6 +822,7 @@ def drawPlot(plot):
             # draw 1D graphs
             if not is2D:
                 for graphName in graph['graphsToInclude']:
+                    print "graphName is: "+str(graphName)
                     # draw uncertainty bands
                     if graphName == 'twoSigma':
                         g = getTwoSigmaGraph(graph['limits'], plot['xAxisType'], colorScheme)
@@ -1089,6 +1149,7 @@ def drawPlot(plot):
 def add_limit(limit, l, mass, lifetime):
     if limit != -1:
         l.append(limit)
+        print "limit is: " +str(limit)
     else:
         print "WARNING: not plotting {}GeV, {}mm point".format(mass, lifetime)
 
@@ -1108,29 +1169,51 @@ for plot in plotDefinitions:
         if 'xAxisType' not in plot or 'yAxisType' not in plot:
             print "You want to draw a 2D plot but either X or Y axis is not defined."
             continue
-        for mass in masses:
-            for lifetime in lifetimes:
-                limit = fetchLimits(process, mass, lifetime, th2f['source'], th2f['th2fsToInclude'])
-                add_limit(limit, th2f['limits'], mass, lifetime)
+        if(HToSS):
+            for mass, m in zip(massesNames, masses.keys()):
+                for lifetime in lifetimes:
+                    limit = fetchLimits(process, mass, m, lifetime, th2f['source'], th2f['th2fsToInclude'])
+                    add_limit(limit, th2f['limits'], mass, lifetime)
+        else:
+            for mass in masses:
+                for lifetime in lifetimes:
+                    limit = fetchLimits(process, mass, mass, lifetime, th2f['source'], th2f['th2fsToInclude'])
+                    add_limit(limit, th2f['limits'], mass, lifetime)
+
 
     for graph in plot.get('graphs', []):
         graph['limits'] = []
         if plot['xAxisType'] == 'lifetime' and 'yAxisType' not in plot:
             for lifetime in lifetimes:
-                limit = fetchLimits(process, graph['mass'], lifetime, graph['source'],
-                                    graph['graphsToInclude'])
+                if(HToSS):
+                    limit = fetchLimits(process, graph['mass'], graph['m'], lifetime, graph['source'], graph['graphsToInclude'])
+                else:
+                    limit = fetchLimits(process, graph['mass'], graph['mass'], lifetime, graph['source'], graph['graphsToInclude'])
                 add_limit(limit, graph['limits'], graph['mass'], lifetime)
         elif plot['xAxisType'] == 'mass' and 'yAxisType' not in plot:
-            for mass in masses:
-                limit = fetchLimits(process, mass, graph['lifetime'], graph['source'],
-                                    graph['graphsToInclude'])
-                add_limit(limit, graph['limits'], mass, graph['lifetime'])
-        elif 'yAxisType' in plot:
-            for mass in masses:
-                for lifetime in lifetimes:
-                    limit = fetchLimits(process, mass, lifetime, graph['source'],
+            if(HToSS):
+                for mass, m in zip(massesNames, masses.keys()):
+                    limit = fetchLimits(process, mass, m, graph['lifetime'], graph['source'],
                                         graph['graphsToInclude'])
-                    add_limit(limit, graph['limits'], mass, lifetime)
+                    add_limit(limit, graph['limits'], mass, graph['lifetime'])
+            else:
+                for mass in masses:
+                    limit = fetchLimits(process, mass, mass, graph['lifetime'], graph['source'],
+                                        graph['graphsToInclude'])
+                    add_limit(limit, graph['limits'], mass, graph['lifetime'])
+        elif 'yAxisType' in plot:
+            if(HToSS):
+                for mass, m in zip(massesNames, masses.keys()):
+                    for lifetime in lifetimes:
+                        limit = fetchLimits(process, mass, m, lifetime, graph['source'],
+                                            graph['graphsToInclude'])
+                        add_limit(limit, graph['limits'], mass, lifetime)
+            else:
+                for mass in masses:
+                    for lifetime in lifetimes:
+                        limit = fetchLimits(process, mass, mass, lifetime, graph['source'],
+                                            graph['graphsToInclude'])
+                        add_limit(limit, graph['limits'], mass, lifetime)
 
 
     #now that all the limits are in place, draw the plot
