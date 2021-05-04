@@ -864,6 +864,7 @@ def drawPlot(plot):
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph(graph['limits'], plot['xAxisType'], colorScheme,
                                              lineStyle)
+                        tGraphs.append(g)
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
