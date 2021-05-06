@@ -111,6 +111,8 @@ InclusiveSignalRegion = cms.PSet(
 )
 InclusiveSignalRegion.cuts.append(electron_d0_greaterThan100_cut)
 InclusiveSignalRegion.cuts.append(muon_d0_greaterThan100_cut)
+InclusiveSignalRegion.cuts.append(electron_d0_lessThan10cm_cut)
+InclusiveSignalRegion.cuts.append(muon_d0_lessThan10cm_cut)
 
 PromptLowPtControlRegion = copy.deepcopy(PromptControlRegion)
 PromptLowPtControlRegion.name = cms.string("PromptLowPtControlRegion")

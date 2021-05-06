@@ -169,18 +169,22 @@ replaceSingleCut(AntiIsoDisplacedControlRegion.cuts, muon_antiiso_cut, muon_iso_
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
 InclusiveSignalRegion.cuts.append(muon_d0_greaterThan100_cut)
+InclusiveSignalRegion.cuts.append(muon_d0_lessThan10cm_cut)
 
 InclusiveSignalRegionNoIsoCut = copy.deepcopy(PreselectionNoIsoCut)
 InclusiveSignalRegionNoIsoCut.name = cms.string("InclusiveSignalRegionNoIsoCut")
 InclusiveSignalRegionNoIsoCut.cuts.append(muon_d0_greaterThan100_cut)
+InclusiveSignalRegionNoIsoCut.cuts.append(muon_d0_lessThan10cm_cut)
 
 InclusiveSignalRegionLowEta = copy.deepcopy(PreselectionLowEta)
 InclusiveSignalRegionLowEta.name = cms.string("InclusiveSignalRegionLowEta")
 InclusiveSignalRegionLowEta.cuts.append(muon_d0_greaterThan100_cut)
+InclusiveSignalRegionLowEta.cuts.append(muon_d0_lessThan10cm_cut)
 
 InclusiveSignalRegionHighEta = copy.deepcopy(PreselectionHighEta)
 InclusiveSignalRegionHighEta.name = cms.string("InclusiveSignalRegionHighEta")
 InclusiveSignalRegionHighEta.cuts.append(muon_d0_greaterThan100_cut)
+InclusiveSignalRegionHighEta.cuts.append(muon_d0_lessThan10cm_cut)
 
 InclusiveSignalRegionAtLeast2PixelHits = copy.deepcopy(InclusiveSignalRegion)
 InclusiveSignalRegionAtLeast2PixelHits.name = cms.string("InclusiveSignalRegionAtLeast2PixelHits")

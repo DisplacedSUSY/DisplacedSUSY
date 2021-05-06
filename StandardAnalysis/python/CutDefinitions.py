@@ -662,6 +662,13 @@ electron_d0_500to1000_cut = cms.PSet(
     alias = cms.string(">=1 electrons with 500 < |d_0| < 1000 mum")
     )
 
+electron_d0_lessThan10cm_cut = cms.PSet(
+    inputCollection = cms.vstring("electrons","beamspots"),
+    cutString = cms.string("abs("+electronSmearedD0WRTBeamspot+") < 10"),
+    numberRequired = cms.string(">= 1"),
+    alias = cms.string(">=1 electrons with |d_0| < 10 cm")
+    )
+
 electron_absD0Pull_lessThan50_cut = cms.PSet(
     inputCollection = cms.vstring("electrons","beamspots"),
     cutString = cms.string("10000*abs("+electronSmearedD0WRTBeamspot+") - 10000*abs(electron.genD0) < 50"),

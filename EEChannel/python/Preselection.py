@@ -129,6 +129,7 @@ ZControlRegion.cuts.append(electron_fiducial_phi_cut)
 InclusiveSignalRegion = copy.deepcopy(Preselection)
 InclusiveSignalRegion.name = cms.string("InclusiveSignalRegion")
 InclusiveSignalRegion.cuts.append(electron_d0_greaterThan100_cut)
+InclusiveSignalRegion.cuts.append(electron_d0_lessThan10cm_cut)
 
 #################################################################
 
