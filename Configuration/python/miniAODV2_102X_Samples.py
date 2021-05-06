@@ -946,6 +946,8 @@ signal_mc_samples = {
     'HToSSTo4L1000_350_10mm'      : "/ggH_HToSSTo4l_MH-1000_MS-350_ctauS-10_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
     'HToSSTo4L1000_350_1mm'       : "/ggH_HToSSTo4l_MH-1000_MS-350_ctauS-1_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM",
 
+    'sleptons200_10mm'  : "/Sleptons_M_200_10mm_13TeV_2018MC/bcardwel-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+
     'staus500_0p01mm'  : "/Staus_M_500_0p01mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'staus500_0p1mm'   : "/Staus_M_500_0p1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'staus500_1mm'     : "/Staus_M_500_1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
