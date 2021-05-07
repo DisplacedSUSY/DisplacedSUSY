@@ -2,7 +2,7 @@ from CRABClient.UserUtilities import config
 config = config()
 
 
-config.General.requestName = 'staus_M_XXX_YYYmm_13TeV_2018MC_MiniAod'
+config.General.requestName = 'staus_leptonFilter_M_XXX_YYYmm_13TeV_2018MC_MiniAod'
 config.General.workArea = 'crab'
 config.General.transferOutputs = True
 config.General.transferLogs = True
@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 config.JobType.allowUndistributedCMSSW = True
 
-config.Data.inputDataset = '/Staus_M_XXX_YYYmm_13TeV_2018MC/bcardwel-Reco-/USER'
+config.Data.inputDataset = '/Staus_LeptonFilter_M_XXX_YYYmm_13TeV_2018MC/jalimena-Reco-/USER'
 config.Data.outputDatasetTag = 'MiniAod'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
