@@ -307,6 +307,8 @@ signal_mc_samples = {
     'stopToLB1800_1000mm_withCloudModel' : "/StopToLB_M_1800_1000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'stopToLB1800_10000mm_withCloudModel': "/StopToLB_M_1800_10000mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 
+    'stopToLpi200_0p1mm_withCloudModel' : "/StopToLpi_M_200_0p1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'stopToLpi1000_0p1mm_withCloudModel' : "/StopToLpi_M_1000_0p1mm_13TeV_2018MC_withCloudModel/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 
 
     'stopToLD100_1000mm' : "/StopToLD_M_100_1000mm_13TeV_2018MC/bcardwel-MiniAod-3ee3afd6b5a1410aea6d0b4d52723d06/USER",
