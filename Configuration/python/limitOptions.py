@@ -36,6 +36,8 @@ parser.add_option("--nearCurveOnly", action="store_true", dest="nearCurveOnly", 
                   help="only run signal points w/ 0.1 < asymptotic expected r < 10")
 parser.add_option("--doBR", action="store_true", dest="doBR", default=False,
                   help="make 1D branching ratio limit plots")
+parser.add_option("--mm", action="store_true", dest="mm", default=False,
+                  help="make limit plots vs lifetime in mm rather than cm")
 
 (arguments, args) = parser.parse_args()
 

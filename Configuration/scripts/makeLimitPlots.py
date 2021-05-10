@@ -296,7 +296,10 @@ def getBRGraph(limits, x_key, y_key): #branching ratio 1D graph
             mass = int(limit['mass'])
         xSection = signal_cross_sections[str(mass)]['value']
 
-        x.append(float(limit[x_key]))
+        if arguments.mm:
+            x.append(10.*float(limit[x_key])) #convert lifetimes from cm to mm
+        else:
+            x.append(float(limit[x_key])) #convert lifetimes from cm to mm
         y.append(float(limit[y_key])/xSection) #exp or obs limit divided by theory cross section
 
     graph = TGraph(len(x), array('d', x), array('d', y))
@@ -775,9 +778,13 @@ def drawPlot(plot):
                 xAxisMax = float(masses[-1])
         elif plot['xAxisType'] == 'lifetime':
             canvas.SetLogx()
-            # convert lifetime to cm
-            xAxisMin = 0.1*float(lifetimes[0])
-            xAxisMax = 0.1*float(lifetimes[-1])
+            if arguments.mm:
+                xAxisMin = float(lifetimes[0])
+                xAxisMax = float(lifetimes[-1])
+            else:
+                # convert lifetime to cm
+                xAxisMin = 0.1*float(lifetimes[0])
+                xAxisMax = 0.1*float(lifetimes[-1])
         if is2D:
             canvas.SetLogz()
             if plot['yAxisType'] == 'mass':
