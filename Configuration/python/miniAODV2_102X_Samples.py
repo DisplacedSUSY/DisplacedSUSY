@@ -954,6 +954,8 @@ signal_mc_samples = {
 
     'sleptons200_10mm'  : "/Sleptons_M_200_10mm_13TeV_2018MC/bcardwel-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 
+    'staus100_1mm'     : "/Staus_LeptonFilter_M_100_1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+
     'staus500_0p01mm'  : "/Staus_M_500_0p01mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'staus500_0p1mm'   : "/Staus_M_500_0p1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'staus500_1mm'     : "/Staus_M_500_1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
