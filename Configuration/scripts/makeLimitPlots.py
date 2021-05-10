@@ -808,9 +808,10 @@ def drawPlot(plot):
                 else:
                     xAxisBins.extend([float(mass) for mass in masses])
                     xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
+            legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-        legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6)
+            legend = TLegend(topLeft_x_left+0.05, 0.50, 0.55, 0.75) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
@@ -1099,7 +1100,7 @@ def drawPlot(plot):
                 if 'yAxis' in plot:
                     tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0], plot['yAxis'][1])
                 else:
-                    tGraph.GetYaxis().SetRangeUser(0.9*absMin, 1.1*absMax)
+                    tGraph.GetYaxis().SetRangeUser(0.9*absMin, 1000.1*absMax)
             else:
                 tGraph.GetYaxis().SetTitle(plot['yAxisLabel'])
                 tGraph.GetYaxis().SetTitleOffset(1.5)
