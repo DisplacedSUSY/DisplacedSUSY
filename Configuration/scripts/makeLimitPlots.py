@@ -283,6 +283,25 @@ def getGraph(limits, x_key, y_key):
     graph = TGraph(len(x), array('d', x), array('d', y))
     return graph
 
+def getBRGraph(limits, x_key, y_key): #branching ratio 1D graph
+    x = []
+    y = []
+    for limit in limits:
+        if not limit.has_key(x_key) or not limit.has_key(y_key):
+            continue
+        if(HToSS):
+            end = str(limit['mass']).find("_")
+            mass = int(limit['mass'][:end])
+        else:
+            mass = int(limit['mass'])
+        xSection = signal_cross_sections[str(mass)]['value']
+
+        x.append(float(limit[x_key]))
+        y.append(float(limit[y_key])/xSection) #exp or obs limit divided by theory cross section
+
+    graph = TGraph(len(x), array('d', x), array('d', y))
+    return graph
+
 def getBinArray(key, dictionaries):
     if(HToSS):
         bins = []
@@ -417,7 +436,10 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
     return graph
 
 def getObservedGraph(limits, xAxisType, colorScheme, lineStyle=1):
-    graph = getGraph(limits, xAxisType, 'observed')
+    if(arguments.doBR):
+        graph = getBRGraph(limits, xAxisType, 'observed')
+    else:
+        graph = getGraph(limits, xAxisType, 'observed')
     graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
@@ -440,7 +462,10 @@ def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key,
     return graph
 
 def getExpectedGraph(limits, xAxisType, colorScheme, lineStyle=7):
-    graph = getGraph(limits, xAxisType, 'expected')
+    if(arguments.doBR):
+        graph = getBRGraph(limits, xAxisType, 'expected')
+    else:
+        graph = getGraph(limits, xAxisType, 'expected')
     graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(0)
@@ -822,7 +847,6 @@ def drawPlot(plot):
             # draw 1D graphs
             if not is2D:
                 for graphName in graph['graphsToInclude']:
-                    print "graphName is: "+str(graphName)
                     # draw uncertainty bands
                     if graphName == 'twoSigma':
                         g = getTwoSigmaGraph(graph['limits'], plot['xAxisType'], colorScheme)
@@ -1067,7 +1091,10 @@ def drawPlot(plot):
             tGraph.GetXaxis().SetLimits(0.9*xAxisMin, 1.1*xAxisMax)
             tGraph.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
             if not is2D:
-                tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
+                if(arguments.doBR):
+                    tGraph.GetYaxis().SetTitle('#sigma_{95%CL}/#sigma_{theory}')
+                else:
+                    tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.4)
                 if 'yAxis' in plot:
                     tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0], plot['yAxis'][1])

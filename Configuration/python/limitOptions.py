@@ -34,6 +34,8 @@ parser.add_option("--lowerHalf", action="store_true", dest="lowerHalf", default=
                   help="only run jobs for lower half of r values, generally used to build up toys for lower uncertainty bands")
 parser.add_option("--nearCurveOnly", action="store_true", dest="nearCurveOnly", default=False,
                   help="only run signal points w/ 0.1 < asymptotic expected r < 10")
+parser.add_option("--doBR", action="store_true", dest="doBR", default=False,
+                  help="make 1D branching ratio limit plots")
 
 (arguments, args) = parser.parse_args()
 
