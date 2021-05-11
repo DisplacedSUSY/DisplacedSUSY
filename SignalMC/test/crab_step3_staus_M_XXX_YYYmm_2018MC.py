@@ -13,7 +13,7 @@ config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 8
 config.JobType.allowUndistributedCMSSW = True
 
-config.Data.inputDataset = '/Staus_LeptonFilter_M_XXX_YYYmm_13TeV_2018MC/jalimena-DigiRawHlt-/USER'
+config.Data.inputDataset = '/Staus_LeptonFilter_M_XXX_YYYmm_13TeV_2018MC/jalimena-DigiRawHlt-98b2ebbf2a73ad4baba14fc5516a6604/USER'
 config.Data.outputDatasetTag = 'Reco'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
@@ -22,5 +22,5 @@ config.Data.publication = True
 config.Data.ignoreLocality = True
 config.Data.outLFNDirBase = '/store/group/lpclonglived/DisplacedLeptons/'
 
-config.Site.whitelist = ["T1_US_FNAL"]
+config.Site.whitelist = ["T1_US_FNAL","T2_US_Nebraska","T2_US_Vanderbilt"]
 config.Site.storageSite = 'T3_US_FNALLPC'
