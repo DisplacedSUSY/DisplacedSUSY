@@ -8,21 +8,21 @@ foreach i (50 100 200 300 400 500) #bryan
 	sed "s/XXX/$i/" crab_step1_sleptons_M_XXX_YYYmm_2018MC.py | sed "s/YYY/$j/" > crab_step1_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab submit crab_step1_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab status -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_GenSim
-	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_GenSim
+	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_GenSim --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
 
 	#sed "s/XXX/$i/" crab_step2_sleptons_M_XXX_YYYmm_2018MC.py | sed "s/YYY/$j/" > crab_step2_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab submit crab_step2_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab status -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_DigiRawHlt
-	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_DigiRawHlt
+	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_DigiRawHlt --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
 
 	#sed "s/XXX/$i/" crab_step3_sleptons_M_XXX_YYYmm_2018MC.py | sed "s/YYY/$j/" > crab_step3_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab submit crab_step3_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab status -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_Reco
-	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_Reco
+	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_Reco --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
 
 	#sed "s/XXX/$i/" crab_step4_sleptons_M_XXX_YYYmm_2018MC.py | sed "s/YYY/$j/" > crab_step4_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab submit crab_step4_sleptons_M_${i}_${j}mm_2018MC.py
 	#crab status -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_MiniAod
-	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_MiniAod
+	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2018MC_MiniAod --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
     end
 end
