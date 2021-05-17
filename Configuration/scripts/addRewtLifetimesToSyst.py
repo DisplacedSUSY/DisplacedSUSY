@@ -10,10 +10,7 @@
 import sys
 import math
 import functools
-
-#need to set this!!
-HToSS = True
-#HToSS = False
+from DisplacedSUSY.StandardAnalysis.Options import *
 
 
 
@@ -52,14 +49,26 @@ if HToSS:
         datasets.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
   datasets = [lt.replace(".", "p") for lt in datasets]
 
-else:
+elif stops:
   processes = ['stopToLB','stopToLD']
   masses = [m for m in range(100, 1801, 100)]
   lifetimes = [10**e for e in range(-1, 4)]     #now with reweighting in trees
   datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
   datasets = [lt.replace(".", "p") for lt in datasets]
 
+elif GMSB:
+  processes = ['sleptons']
+  masses = [50]
+  for m in range(100, 501, 100): #should eventually go to 1000 GeV with Estefany's samples
+    masses.append(m)
+  lifetimes = [10**e for e in range(0, 4)]     #now with reweighting in trees, should eventually be extended
 
+  #processes = ['staus']
+  #masses = [m for m in range(200, 401, 100)] #should eventually go from 100 to 500 GeV
+  #lifetimes = [10**e for e in range(-1, 3)]     #now with reweighting in trees, should eventually be extended
+
+  datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+  datasets = [lt.replace(".", "p") for lt in datasets]
 
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10']
 lifetimes0p1 = ['0p01', '0p02', '0p03', '0p04', '0p05', '0p06', '0p07', '0p08', '0p09', '0p1']
@@ -106,6 +115,8 @@ for syst in systs:
               #read in original text file, split into 3 "words": original dataset name, down error, up error
               if HToSS:
                 infile = "../data/systematic_values__HToSS_" + syst + "_" + analysisChannel + "_" + year + ".txt"
+              elif GMSB:
+                infile = "../data/systematic_values__sleptons__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               else:
                 infile = "../data/systematic_values__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               fin = open(infile, "r")
