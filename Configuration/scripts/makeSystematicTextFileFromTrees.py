@@ -24,6 +24,8 @@ parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
 parser.add_option("-s", "--systematicName", dest="systematicName",
                   help="the systematic uncertainty you want to calculate (pileup, electronIDandIso, muonIDandIso, electronD0Smearing, or muonD0Smearing)")
+parser.add_option("-a", "--append", action="store_true", dest="append", default=False,
+                  help="append to systematic text file instead of overwriting")
 
 (arguments, args) = parser.parse_args()
 
@@ -44,7 +46,9 @@ if not arguments.systematicName:
     print "you forgot to specify a systematic (pileup, electronIDandIso, muonIDandIso, electronD0Smearing, or muonD0Smearing) with -s"
     sys.exit(1)
 
-from ROOT import TFile, TCanvas, TH1F, TLegend
+from ROOT import TFile, TCanvas, TH1F, TLegend, gROOT
+
+gROOT.SetBatch()
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     year = "2016"
@@ -205,7 +209,8 @@ else:
 
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__" + arguments.systematicName + "_" + analysisChannel + "_" + year + ".txt"
-fout = open (outputFile, "w")
+open_mode = "a" if arguments.append else "w"
+fout = open (outputFile, open_mode)
 print "now starting " + arguments.systematicName + " systematic for " + analysisChannel + " and " + year
 
 lowest_fraction = 1.
