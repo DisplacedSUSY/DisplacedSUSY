@@ -78,15 +78,16 @@ def scaleSignal(src, dst):
 
     signalRate = []
     signalAlpha = []
+    signals = ("stop", "sleptons", "staus", "HTo")
     for process in range (0, len (processLine)):
-        if (re.search (r"^stop", processLine[process]) or re.search (r"^HTo", processLine[process])):
+        if processLine[process].startswith(signals):
             signalRate.append (float (rateLine[process]))
     signalSF = 1.0
     if len (signalRate) > 0:
         largestSignalRate = sorted (signalRate)[-1]
         signalSF = float (arguments.maxSignalRate) / largestSignalRate if largestSignalRate > 0 else 0.0
     for process in range (0, len (processLine)):
-        if (re.search (r"^stop", processLine[process]) or re.search (r"^HTo", processLine[process])):
+        if processLine[process].startswith(signals):
             rateLine[process] = str (signalSF * float (rateLine[process]))
             for gammaLine in gammaLines:
                 try:
@@ -143,7 +144,8 @@ for signal_name in signal_points:
         print "Defaulting to AsymptoticLimits"
         common_options = ""
         method_options = ""
-        expected_only_options = "--noFitAsimov"
+        #expected_only_options = "--noFitAsimov"
+        expected_only_options = ""
     elif arguments.method == "Significance":
         common_options = ""
         method_options = ""
