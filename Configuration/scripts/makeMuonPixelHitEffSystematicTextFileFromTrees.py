@@ -21,6 +21,8 @@ parser.add_option("-l", "--localConfig", dest="localConfig",
                   help="local configuration file")
 parser.add_option("-w", "--workDirectory", dest="condorDir",
                   help="condor working directory")
+parser.add_option("-a", "--append", action="store_true", dest="append", default=False,
+                  help="append to systematic text file instead of overwriting")
 
 (arguments, args) = parser.parse_args()
 
@@ -38,7 +40,9 @@ else:
     condirDir = arguments.condorDir
 
 
-from ROOT import TFile, TCanvas, TH1F, TLegend
+from ROOT import TFile, TCanvas, TH1F, TLegend, gROOT
+
+gROOT.SetBatch()
 
 if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
     year = "2016"
@@ -238,8 +242,8 @@ def getMeanEfficiency(signalSample,condorDir,cosmicSample): #cosmicSample is cos
 
 
 outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__muonPixelHitEff_" + analysisChannel + "_" + year + ".txt"
-#outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__HToSS_muonPixelHitEff_" + analysisChannel + "_" + year + ".txt"
-fout = open (outputFile, "w")
+open_mode = "a" if arguments.append else "w"
+fout = open (outputFile, open_mode)
 print "now starting muon pixel hit efficiency systematic for " + analysisChannel + " and " + year
 
 lowest_fraction = 1.
