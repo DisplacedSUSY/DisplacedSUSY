@@ -61,7 +61,7 @@ elif GMSB:
   masses = [50]
   for m in range(100, 501, 100): #should eventually go to 1000 GeV with Estefany's samples
     masses.append(m)
-  lifetimes = [10**e for e in range(0, 4)]     #now with reweighting in trees, should eventually be extended
+  lifetimes = [10**e for e in range(-1, 5)]     #now with reweighting in trees, should eventually be extended
 
   #processes = ['staus']
   #masses = [m for m in range(200, 401, 100)] #should eventually go from 100 to 500 GeV
