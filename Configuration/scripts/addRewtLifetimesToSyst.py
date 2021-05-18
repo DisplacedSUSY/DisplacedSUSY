@@ -142,7 +142,7 @@ for syst in systs:
                       for l in range(10):
                           newLifetime0p1 = oldLifetime.replace("0p1",lifetimes0p1[l])
                           newDataset = dataset.replace(oldLifetime,newLifetime0p1)
-                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + '{0: <8}'.format(errUp) + "\n"
+                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                           contentNew += line
                   else:
                       newLifetimes = []
@@ -150,26 +150,26 @@ for syst in systs:
                         for l in range(9):
                           newLifetimes.append(oldLifetime.replace("10",lifetimes[l]))
                           newDataset = dataset.replace(oldLifetime,newLifetimes[l])
-                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + '{0: <8}'.format(errUp) + "\n"
+                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                           contentNew += line
                       elif oldLifetime.find("1mm")>=0:
                         if HToSS:
                           for l in range(10): #H to SS
                             newLifetimes.append(oldLifetime.replace("1",lifetimes1[l]))
                             newDataset = dataset.replace(oldLifetime,newLifetimes[l])
-                            line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + '{0: <8}'.format(errUp) + "\n"
+                            line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                             contentNew += line
                         else:
                           for l in range(9): #stops and GMSB
                             newLifetimes.append(oldLifetime.replace("1",lifetimes1[l]))
                             newDataset = dataset.replace(oldLifetime,newLifetimes[l])
-                            line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + '{0: <8}'.format(errUp) + "\n"
+                            line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                             contentNew += line
                       elif oldLifetime.find("1000mm")>=0:
                         for l in range(9):
                           newLifetime1000mm = oldLifetime.replace("1",lifetimes[l])
                           newDataset = dataset.replace(oldLifetime,newLifetime1000mm)
-                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + '{0: <8}'.format(errUp) + "\n"
+                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                           contentNew += line
 
                   #replace old line with new content
