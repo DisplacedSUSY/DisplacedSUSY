@@ -28,7 +28,7 @@ else:
     print "No output directory specified, shame on you"
     sys.exit(0)
 
-from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV, signal_cross_sections_sleptons_13TeV, signal_cross_sections_HToSS_13TeV
+from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV, signal_cross_sections_sleptons_13TeV, signal_cross_sections_staus_13TeV, signal_cross_sections_HToSS_13TeV
 signal_cross_sections = {}
 
 from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree
@@ -203,6 +203,8 @@ def setCrossSections():
             signal_cross_sections = signal_cross_sections_HToSS_13TeV
         elif(GMSB):
             signal_cross_sections = signal_cross_sections_sleptons_13TeV
+        elif(GMSBstaus):
+            signal_cross_sections = signal_cross_sections_staus_13TeV
         else:
             signal_cross_sections = signal_cross_sections_13TeV #stops
     else:  # use run2 by default

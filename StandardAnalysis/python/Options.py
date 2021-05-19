@@ -48,6 +48,7 @@ HToSS = False
 
 # default to false, turn to true if you want to process GMSB samples
 GMSB = False
+GMSBstaus = False
 
 #default to true, to process stop samples
 stops = True

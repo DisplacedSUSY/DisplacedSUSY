@@ -78,6 +78,73 @@ signal_cross_sections_sleptons_13TeV = {
     },
 }
 
+#xs for sleptons * (BF tau-->electron/muon)^2,
+#i.e. (.1782+.1739)^2 = 0.124
+#because apply a lepton filter that only accepts events in which both taus decay leptonically
+signal_cross_sections_staus_13TeV = {
+
+    '50' : {
+        'value' : '0.6656',
+        'error' : '0.129',
+    },
+    '100' : {
+        'value' : '0.04535',
+        'error' : '0.126',
+    },
+    '150' : {
+        'value' : '0.01080',
+        'error' : '0.126',
+    },
+    '200' : {
+        'value' : '0.003758',
+        'error' : '0.126',
+    },
+    '250' : {
+        'value' : '0.001602',
+        'error' : '0.127',
+    },
+    '300' : {
+        'value' : '0.0007755',
+        'error' : '0.127',
+    },
+    '350' : {
+        'value' : '0.0003634',
+        'error' : '0.127',
+    },
+    '400' : {
+        'value' : '0.0002305',
+        'error' : '0.128',
+    },
+    '450' : {
+        'value' : '0.0001508',
+        'error' : '0.128',
+    },
+    '500' : {
+        'value' : '0.00008353',
+        'error' : '0.128',
+    },
+    '600' : {
+        'value' : '0.00003426',
+        'error' : '0.128',
+    },
+    '700' : {
+        'value' : '0.00001531',
+        'error' : '0.129',
+    },
+    '800' : {
+        'value' : '7.270e-06',
+        'error' : '0.129',
+    },
+    '900' : {
+        'value' : '3.618e-06',
+        'error' : '0.130',
+    },
+    '1000' : {
+        'value' : '1.865e-06',
+        'error' : '0.130',
+    },
+}
+
 #from gridpacks
 signal_cross_sections_HToSS_13TeV = {
 
