@@ -360,8 +360,8 @@ class Hist(object):
     def reweight_hist(self, file_path, hist_path, name):
         # access tree
         tree_file_path = file_path.replace("mergeOut", "mergeOutputHadd")
-        channel = hist_path.split("Plotter")[0].split('/')[-1]
-        tree_path = channel + "TreeMaker/Tree"
+        selection = hist_path.split("Plotter")[0].split('/')[-1]
+        tree_path = selection + "TreeMaker/Tree"
         tree_file = TFile(tree_file_path)
         try:
             tree = tree_file.Get(tree_path)
@@ -371,7 +371,7 @@ class Hist(object):
         # get lumi*xs weight
         f = TFile(file_path)
         try:
-            h = f.Get(channel+"CutFlowPlotter/eventCounter").Clone()
+            h = f.Get(selection+"CutFlowPlotter/eventCounter").Clone()
         except ReferenceError:
             raise IOError("Could not load {} from {}".format(hist_path, file_path))
         lumi_xs_weight = h.Integral() / h.GetEntries()
@@ -384,7 +384,12 @@ class Hist(object):
         elif(HToSS):
             weight_branch_template = "eventvariable_lifetimeWeight_9000006_{}cmTo{}cm"
         elif(GMSB):
-            weight_branch_template = "eventvariable_lifetimeWeight_1000011_{}cmTo{}cm"
+            if name.startswith("staus"):
+                weight_branch_template = "eventvariable_lifetimeWeight_1000015_{}cmTo{}cm"
+            elif channel == "ee":
+                weight_branch_template = "eventvariable_lifetimeWeight_1000011_{}cmTo{}cm"
+            elif channel == "mumu":
+                weight_branch_template = "eventvariable_lifetimeWeight_1000013_{}cmTo{}cm"
         weight_branch_name = weight_branch_template.format(mm_to_cm(src_ctau), mm_to_cm(dst_ctau))
 
         # identify branches that correspond to hist axes
