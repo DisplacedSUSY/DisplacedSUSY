@@ -62,48 +62,53 @@ datacardCombinations = {
 }
 
 #stops
-#processes = [
-    #'stopToLB',
-    #'stopToLD',
-#]
-#masses = [m for m in range(100, 1801, 100)]
-#lifetimes = [10**e for e in range(-1, 5)] #just major decades
+processes = [
+   #'stopToLB',
+   #'stopToLD',
+]
+masses = [m for m in range(100, 1801, 100)]
+lifetimes = [10**e for e in range(-1, 5)] #just major decades
+lifetimes = [b*10**e for e in range(-1, 4) for b in range(1, 10)] + [10000] #all lifetimes
+signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+
+
+# gmsb
+#processes = ['sleptons']
+#masses = [50] + [m for m in range(100, 501, 100)]
 #lifetimes = [b*10**e for e in range(-1, 4) for b in range(1, 10)] + [10000] #all lifetimes
 #signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 
 
-
-
-processes = ['HToSSTo4L']
-massesH = ["125","300","400","600","800","1000"]
-massesS = []#minimum list of S masses that exist for every H mass
-lifetimes = [b*10**e for e in range(0, 4) for b in range(1, 10)] + [10000] #all lifetimes
-signal_points = ["{}{}_{}_{}mm".format(p, mH, mS, l) for p in processes for mH in massesH for mS in massesS for l in lifetimes]
-for mH in massesH:
-  if int(mH)==125:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
-  elif int(mH)==300:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-  elif int(mH)==400:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-  elif int(mH)==600:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-  elif int(mH)==800:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_250_"+str(ctau)+"mm")
-  elif int(mH)==1000:
-    for ctau in lifetimes:
-      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-      signal_points.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
-signal_points = [lt.replace(".", "p") for lt in signal_points]
+#processes = ['HToSSTo4L']
+#massesH = ["125","300","400","600","800","1000"]
+#massesS = []#minimum list of S masses that exist for every H mass
+#lifetimes = [b*10**e for e in range(0, 4) for b in range(1, 10)] + [10000] #all lifetimes
+#signal_points = ["{}{}_{}_{}mm".format(p, mH, mS, l) for p in processes for mH in massesH for mS in massesS for l in lifetimes]
+#for mH in massesH:
+#  if int(mH)==125:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+#  elif int(mH)==300:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+#  elif int(mH)==400:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+#  elif int(mH)==600:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+#  elif int(mH)==800:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_250_"+str(ctau)+"mm")
+#  elif int(mH)==1000:
+#    for ctau in lifetimes:
+#      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
+#signal_points = [lt.replace(".", "p") for lt in signal_points]
