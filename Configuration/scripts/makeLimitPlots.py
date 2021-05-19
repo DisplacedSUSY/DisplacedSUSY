@@ -829,6 +829,12 @@ def drawPlot(plot):
             quark = 'b' if process == 'stopToLB' else 'd'
             processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+        elif process == 'sleptons': # fixme: separate selectrons and smuons
+            processText = "#tilde{e}#tilde{e} (#tilde{#mu}#tilde{#mu}) #rightarrow e(#mu)#tilde{G} e(#mu)#tilde{G}"
+            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+        elif process == 'staus':
+            processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}, M=%s GeV, c#tau=%s mm"
+            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'HToSSTo4L':
             legend.SetHeader("#splitline{H #rightarrow SS #rightarrow 4l}{95% CL upper limits}")
         else:
