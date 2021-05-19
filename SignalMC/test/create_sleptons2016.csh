@@ -8,8 +8,8 @@ foreach i (600 700 800 900 1000) #estefany
 	cmsDriver.py Configuration/Generator/python/Sleptons_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py --fileout file:sleptons${i}_${j}mm.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi.customise,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeProduce --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step LHE,GEN,SIM --magField 38T_PostLS1 --no_exec
 	#sed "s/XXX/$i/" crab_step1_sleptons_M_XXX_YYYmm_2016MC.py | sed "s/YYY/$j/" > crab_step1_sleptons_M_${i}_${j}mm_2016MC.py
         #bash -c "crab submit --proxy=`voms-proxy-info -path` crab_step1_sleptons_M_${i}_${j}mm_2016MC.py"
-        #bash -c "crab status  --proxy=`voms-proxy-info -path` -d crab/crab_sleptons_leptonFilter_M_${i}_${j}mm_13TeV_2016MC_GenSim"
-        #bash -c "crab resubmit  --proxy=`voms-proxy-info -path` --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt -d crab/crab_sleptons_leptonFilter_M_${i}_${j}mm_13TeV_2016MC_GenSim"
+        #bash -c "crab status  --proxy=`voms-proxy-info -path` -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_GenSim"
+        #bash -c "crab resubmit  --proxy=`voms-proxy-info -path` --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_GenSim"
 
 	#sed "s/XXX/$i/" crab_step2_sleptons_M_XXX_YYYmm_2016MC.py | sed "s/YYY/$j/" > crab_step2_sleptons_M_${i}_${j}mm_2016MC.py
 	#crab submit crab_step2_sleptons_M_${i}_${j}mm_2016MC.py
