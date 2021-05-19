@@ -150,6 +150,7 @@ signal_samples = {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EMuPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
         #'dir'  : 'EMuPreselection_2018Analysis_sleptons_17May2021/mergeOut',
+        #'dir'  : 'EMuPreselection_2018Analysis_staus_19May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
