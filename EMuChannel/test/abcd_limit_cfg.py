@@ -29,6 +29,7 @@ d0_1_bin_edges = [100, 500, 100000] # um
 pt_bin_edges = {
     '2016'    : [0, 90, -1], # GeV
     '2017_18' : [0, 140, -1], # GeV
+    '2018' : [0, 140, -1], # GeV
 }
 # |d0| range of prompt lepton in prompt/displaced control regions
 cr_d0_range = (0, 100) # um
@@ -44,7 +45,11 @@ abcd_correlation_factors = { # from elog 1852 and 1919
     '2017_18' : {
         'SR_I_loPt' : (3.07, 0.77),
         'SR_I_hiPt' : (3.07, 0.77),
-    }
+    },
+    '2018' : {
+        'SR_I_loPt' : (3.07, 0.77),
+        'SR_I_hiPt' : (3.07, 0.77),
+    },
 }
 
 # systematic uncertainty to account for uncertainty in extrapolation point used in determining
@@ -57,7 +62,11 @@ abcd_extrapolation_systematics = { # from elog 1872
     '2017_18' : {
         'SR_I_loPt' : 0.22,
         'SR_I_hiPt' : 0.22,
-    }
+    },
+    '2018' : {
+        'SR_I_loPt' : 0.22,
+        'SR_I_hiPt' : 0.22,
+    },
 }
 
 # systematic uncertainty on abcd estimate in each signal region (e.g. 0.5 = 50% uncertainty)
@@ -69,6 +78,11 @@ abcd_systematics = { # from elog 1860
         'SR_IV'  : 0.98,
     },
     '2017_18' : {
+        'SR_II'  : 1.06,
+        'SR_III' : 1.06,
+        'SR_IV'  : 1.06,
+    },
+    '2018' : {
         'SR_II'  : 1.06,
         'SR_III' : 1.06,
         'SR_IV'  : 1.06,
@@ -117,8 +131,8 @@ data_samples = {
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
-        #'dir'  : 'EMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
-        'dir'  : 'EMuPreselection_2016Analysis_HToSS_19Apr2021/mergeOut',
+        'dir'  : 'EMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
+        #'dir'  : 'EMuPreselection_2016Analysis_HToSS_19Apr2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
@@ -135,6 +149,7 @@ signal_samples = {
     '2018' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EMuPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
+        #'dir'  : 'EMuPreselection_2018Analysis_sleptons_17May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
