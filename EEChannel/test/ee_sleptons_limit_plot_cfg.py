@@ -104,7 +104,7 @@ plotDefinitions = [
         'graphs' : [
             {
                 'source' : 'sleptons_ee_2018_18May2021',
-                'mass' : '100',
+                'mass' : '50',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '50 GeV',
