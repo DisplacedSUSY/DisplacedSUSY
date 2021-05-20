@@ -760,9 +760,9 @@ def drawPlot(plot):
         for th2f in source['th2fsToInclude']:
             print th2f
             if th2f == 'obs':
-                canvasName = plot['title'] + ' with_observed_limits'
+                canvasName = plot['title'] + '_with_observed_limits'
             elif th2f == 'exp':
-                canvasName = plot['title'] + ' with_expected_limits'
+                canvasName = plot['title'] + '_with_expected_limits'
             tmp_canvas = TCanvas(canvasName)
             canvases.append(tmp_canvas)
 
@@ -818,7 +818,7 @@ def drawPlot(plot):
                     xAxisBins.extend([float(mass) for mass in masses])
                     xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
             if process == 'staus':
-                legend = TLegend(0.45, 0.2, 0.75, 0.45) #legend on the bottom right for stau 2D plot
+                legend = TLegend(0.45, 0.53, 0.75, 0.78) #legend on the top right for stau 2D plot
             else:
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
