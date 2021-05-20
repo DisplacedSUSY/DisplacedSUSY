@@ -201,10 +201,10 @@ def setCrossSections():
     elif energy == '13':
         if(HToSS):
             signal_cross_sections = signal_cross_sections_HToSS_13TeV
-        elif(GMSB):
-            signal_cross_sections = signal_cross_sections_sleptons_13TeV
         elif(GMSBstaus):
             signal_cross_sections = signal_cross_sections_staus_13TeV
+        elif(GMSB):
+            signal_cross_sections = signal_cross_sections_sleptons_13TeV
         else:
             signal_cross_sections = signal_cross_sections_13TeV #stops
     else:  # use run2 by default
@@ -817,7 +817,10 @@ def drawPlot(plot):
                 else:
                     xAxisBins.extend([float(mass) for mass in masses])
                     xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
-            legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
+            if process == 'staus':
+                legend = TLegend(0.45, 0.2, 0.75, 0.45) #legend on the bottom right for stau 2D plot
+            else:
+                legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
             legend = TLegend(topLeft_x_left+0.05, 0.50, 0.55, 0.75) #legend at the top for 1D plot
@@ -833,7 +836,7 @@ def drawPlot(plot):
             processText = "#tilde{e}#tilde{e} (#tilde{#mu}#tilde{#mu}) #rightarrow e(#mu)#tilde{G} e(#mu)#tilde{G}"
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'staus':
-            processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}, M=%s GeV, c#tau=%s mm"
+            processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'HToSSTo4L':
             legend.SetHeader("#splitline{H #rightarrow SS #rightarrow 4l}{95% CL upper limits}")
