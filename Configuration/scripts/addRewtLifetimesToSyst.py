@@ -64,8 +64,8 @@ elif GMSB:
   lifetimes = [10**e for e in range(-1, 5)]     #now with reweighting in trees, should eventually be extended
 
   #processes = ['staus']
-  #masses = [m for m in range(200, 401, 100)] #should eventually go from 100 to 500 GeV
-  #lifetimes = [10**e for e in range(-1, 3)]     #now with reweighting in trees, should eventually be extended
+  #masses = [m for m in range(100, 501, 100)]
+  #lifetimes = [10**e for e in range(-1, 4)]     #now with reweighting in trees
 
   datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
   datasets = [lt.replace(".", "p") for lt in datasets]
