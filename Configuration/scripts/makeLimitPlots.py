@@ -832,8 +832,10 @@ def drawPlot(plot):
             quark = 'b' if process == 'stopToLB' else 'd'
             processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
-        elif process == 'sleptons': # fixme: separate selectrons and smuons
-            processText = "#tilde{e}#tilde{e} (#tilde{#mu}#tilde{#mu}) #rightarrow e(#mu)#tilde{G} e(#mu)#tilde{G}"
+        elif process == 'sleptons' and channel == 'ee':
+            processText = "#tilde{e}#tilde{e} #rightarrow e#tilde{G} e#tilde{G}"
+        elif process == 'sleptons' and channel == '#mu#mu':
+            processText = "#tilde{#mu}#tilde{#mu} #rightarrow #mu#tilde{G} #mu#tilde{G}"
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'staus':
             processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
@@ -1162,7 +1164,7 @@ def drawPlot(plot):
         LumiLabel.SetFillStyle(0)
         LumiLabel.Draw()
 
-        if channel:
+        if channel and process != "sleptons":
             channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
             channelLabel.SetTextSize(0.4)
