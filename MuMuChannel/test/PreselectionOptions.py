@@ -6,19 +6,58 @@ config_file = "Preselection_cfg.py"
 
 
 # create list of datasets to process
-datasets = default_datasets
-datasets.remove('DisplacedSUSYSignal')
+#datasets = default_datasets
+#datasets.remove('DisplacedSUSYSignal')
+#datasets.remove('DoubleMu_2017_withoutB')
 #datasets.append()
 
 #datasets = [
+    #'Background',
     #'Cosmics',
     #'NoBPTX_2016_postHIP',
     #'NoBPTX_2017',
     #'NoBPTX_2018',
     #'DoubleMu_2016_postHIP',
     #'DoubleMu_2017_withoutB',
+    #'DoubleMu_2017C',
+    #'DoubleMu_2017D',
+    #'DoubleMu_2017E',
+    #'DoubleMu_2017F',
     #'DoubleMu_2018',
     #'DoubleMu_2016_2017_2018',
+
+#'DYJetsToLL_10to50',
+#'DYJetsToLL_50',
+#'QCD_MuEnriched_1000toInf',
+#'QCD_MuEnriched_120to170',
+#'QCD_MuEnriched_170to300',
+#'QCD_MuEnriched_20to30',
+#'QCD_MuEnriched_300to470',
+#'QCD_MuEnriched_30to50',
+#'QCD_MuEnriched_470to600',
+#'QCD_MuEnriched_50to80',
+#'QCD_MuEnriched_600to800',
+#'QCD_MuEnriched_800to1000',
+#'QCD_MuEnriched_80to120',
+#'SingleTop_s_channel',
+#'SingleTop_tW',
+#'SingleTop_t_channel_antitop',
+#'SingleTop_t_channel_top',
+#'SingleTop_tbarW',
+#'TTJets_DiLept',
+#'TTJets_SingleLeptFromT',
+#'TTJets_SingleLeptFromTbar',
+#'WG',
+#'WWToLNuLNu',
+#'WWToLNuQQ',
+#'WZToLLLNu',
+#'WZToLNu2QorQQ2L',
+#'WZToLNuNuNu',
+#'ZG',
+#'ZZToLLLL',
+#'ZZToLLNuNu',
+#'ZZToLLQQ',
+#'ZZToNuNuQQ',
 #]
 
 # full list of signal jobs we need to run,
@@ -29,26 +68,36 @@ datasets.remove('DisplacedSUSYSignal')
 #datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 #datasets = [lt.replace(".", "p") for lt in datasets]
 
-#processes = ['HToSSTo4L']
-#massesH = ["110","125","150","200","300","400","450","500","600","750","800","900","1000"]
-#massesS = ["10","20","30","50"] #minimum list of S masses that exist for every H mass
-#lifetimes = [10**e for e in range(0, 6)]
-#datasets = ["{}{}_{}_{}mm".format(p, mH, mS, l) for p in processes for mH in massesH for mS in massesS for l in lifetimes]
-#for mH in massesH:
-#  if int(mH)>=300:
-#    for ctau in lifetimes:
-#      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
-#  if int(mH)>=750:
-#    for ctau in lifetimes:
-#      datasets.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
-#datasets = [lt.replace(".", "p") for lt in datasets]
-
-#if os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
-    #datasets = [
-    #'HTo4Mu125_50_50mm',
-    #'HTo4Mu125_50_500mm',
-    #'HTo4Mu125_50_5000mm',
-    #'HTo4Mu125_20_13mm',
-    #'HTo4Mu125_20_130mm',
-    #'HTo4Mu125_20_1300mm',
-    #]
+processes = ['HToSSTo4L']
+massesH = ["125","300","400","600","800","1000"]
+massesS = []#minimum list of S masses that exist for every H mass
+lifetimes = [10**e for e in range(0, 5)]
+datasets = ["{}{}_{}_{}mm".format(p, mH, mS, l) for p in processes for mH in massesH for mS in massesS for l in lifetimes]
+for mH in massesH:
+  if int(mH)==125:
+    for ctau in lifetimes:
+      datasets.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+  elif int(mH)==300:
+    for ctau in lifetimes:
+      datasets.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+  elif int(mH)==400:
+    for ctau in lifetimes:
+      datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+  elif int(mH)==600:
+    for ctau in lifetimes:
+      datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+  elif int(mH)==800:
+    for ctau in lifetimes:
+      datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_250_"+str(ctau)+"mm")
+  elif int(mH)==1000:
+    for ctau in lifetimes:
+      #datasets.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
+datasets = [lt.replace(".", "p") for lt in datasets]
