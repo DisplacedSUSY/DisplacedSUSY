@@ -59,7 +59,7 @@ elif stops:
 elif GMSB:
   processes = ['sleptons']
   masses = [50]
-  for m in range(100, 501, 100): #should eventually go to 1000 GeV with Estefany's samples
+  for m in range(100, 1001, 100):
     masses.append(m)
   lifetimes = [10**e for e in range(-1, 5)]     #now with reweighting in trees, should eventually be extended
 
