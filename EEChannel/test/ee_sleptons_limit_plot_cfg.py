@@ -6,7 +6,7 @@ energy = '13'
 channel = 'ee'
 
 process = 'sleptons'
-masses = [str(50)] + [str(m) for m in range(100, 501, 100)]
+masses = [str(50)] + [str(m) for m in range(100, 1001, 100)]
 #lifetimes = [str(10**e) for e in range(-1, 5)]
 lifetimes = [str(b*10**e) for e in range(-1, 4) for b in range(1, 10)] + [str(10000)]
 
@@ -125,10 +125,10 @@ plotDefinitions = [
             },
             {
                 'source' : 'sleptons_ee_2018_18May2021',
-                'mass' : '500',
+                'mass' : '600',
                 'graphsToInclude' : ['exp'],
                 'colorScheme' : 'green',
-                'legendEntry' : '500 GeV',
+                'legendEntry' : '600 GeV',
             },
         ],
     },
