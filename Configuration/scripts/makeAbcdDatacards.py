@@ -754,6 +754,15 @@ for signal_name in signal_points:
         signal_hists[year] = Hist(signal_samples[year], interpolated=interpolated,
                                   swap_axes=swap_axes)
 
+    # replace specific gmsb signal names with generic "gmsb" to facilitate channel combination
+    datacard_signal_name = signal_name.replace("staus", "gmsb").replace("sleptons", "gmsb")
+    # get process type (e.g. stopToLB, sleptons, etc) to differentiate signal stat names
+    process_type = signal_name
+    for i, c in enumerate(signal_name):
+        if c.isdigit() or c == '_':
+            process_type = signal_name[:i]
+            break
+
     # get signal yields
     signal_yields = {}
     signal_num_evts = {}
@@ -792,7 +801,7 @@ for signal_name in signal_points:
     for r in unique_regions:
         # append signal column
         bin_row.append(r.name)
-        process_row.append(signal_name)
+        process_row.append(datacard_signal_name)
         process_ix_row.append("0")
         rate_row.append("{:.3g}".format(signal_yields[r.name]['total']))
         # append background column
@@ -807,7 +816,7 @@ for signal_name in signal_points:
     stat_uncertainties_rows = []
     for r in unique_regions:
         # add row for each region
-        name = "signal_stat_{}_{}_{}".format(era, channel, r.name)
+        name = "{}_stat_{}_{}_{}".format(process_type, era, channel, r.name)
         row = [name, 'gmN', str(signal_num_evts[r.name]['total'])]
         # place scale factor in correct column and dashes in all others
         r_ix = unique_regions.index(r)
@@ -855,7 +864,7 @@ for signal_name in signal_points:
     main_tables = fancyTable(rate_table + stat_uncertainties_table + sys_uncertainties_table)
 
     # write datacard
-    datacard_name = 'datacard_{}.txt'.format(signal_name)
+    datacard_name = 'datacard_{}.txt'.format(datacard_signal_name)
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     print "making", datacard_name
     with open(datacard_path, 'w') as datacard:
