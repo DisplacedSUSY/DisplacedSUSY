@@ -27,6 +27,7 @@ d0_1_bin_edges = [100, 500, 100000] # um
 pt_bin_edges = {
     '2016'    : [0, 100, -1], # GeV
     '2017_18' : [0, 100, -1], # GeV
+    '2017' : [0, 100, -1], # GeV
     '2018' : [0, 100, -1], # GeV
 }
 # |d0| range of prompt lepton in prompt/prompt and prompt/displaced control regions
@@ -41,6 +42,10 @@ abcd_correlation_factors = { # from elog 1852
         'SR_I_hiPt' : (2.51, 0.87),
     },
     '2017_18' : {
+        'SR_I_loPt' : (4.20, 1.51),
+        'SR_I_hiPt' : (4.20, 1.51),
+    },
+    '2017' : {
         'SR_I_loPt' : (4.20, 1.51),
         'SR_I_hiPt' : (4.20, 1.51),
     },
@@ -61,6 +66,10 @@ abcd_extrapolation_systematics = { # from elog 1872
         'SR_I_loPt' : 0.24,
         'SR_I_hiPt' : 0.24,
     },
+    '2017' : {
+        'SR_I_loPt' : 0.24,
+        'SR_I_hiPt' : 0.24,
+    },
     '2018' : {
         'SR_I_loPt' : 0.24,
         'SR_I_hiPt' : 0.24,
@@ -76,6 +85,11 @@ abcd_systematics = { # from elog 1860
         'SR_IV'  : 0.64,
     },
     '2017_18' : {
+        'SR_II'  : 1.40,
+        'SR_III' : 1.40,
+        'SR_IV'  : 1.40,
+    },
+    '2017' : {
         'SR_II'  : 1.40,
         'SR_III' : 1.40,
         'SR_IV'  : 1.40,
@@ -138,6 +152,7 @@ signal_samples = {
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'MuMuPreselection_2017Analysis_Signal_29Jan2021/mergeOut',
+        #'dir'  : 'MuMuPreselection_2017Analysis_HToSS_21May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,

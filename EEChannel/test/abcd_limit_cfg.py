@@ -29,6 +29,7 @@ d0_1_bin_edges = [100, 500, 100000] # um
 pt_bin_edges = {
     '2016'    : [0, 300, -1], # GeV
     '2017_18' : [0, 400, -1], # GeV
+    '2017' : [0, 400, -1], # GeV
     '2018' : [0, 400, -1], # GeV
 }
 # |d0| range of prompt lepton in prompt/displaced control regions
@@ -46,10 +47,14 @@ abcd_correlation_factors = { # from elog 1852 and 1919
         'SR_I_loPt' : (1.51, 0.39),
         'SR_I_hiPt' : (1.51, 0.39),
     },
+    '2017' : {
+        'SR_I_loPt' : (1.51, 0.39),
+        'SR_I_hiPt' : (1.51, 0.39),
+    },
     '2018' : {
         'SR_I_loPt' : (1.51, 0.39),
         'SR_I_hiPt' : (1.51, 0.39),
-    }
+    },
 }
 
 # systematic uncertainty to account for uncertainty in extrapolation point used in determining
@@ -60,6 +65,10 @@ abcd_extrapolation_systematics = { # from elog 1872
         'SR_I_hiPt' : 0.00,
     },
     '2017_18' : {
+        'SR_I_loPt' : 0.12,
+        'SR_I_hiPt' : 0.12,
+    },
+    '2017' : {
         'SR_I_loPt' : 0.12,
         'SR_I_hiPt' : 0.12,
     },
@@ -78,6 +87,11 @@ abcd_systematics = { # from elog 1860
         'SR_IV'  : 1.99,
     },
     '2017_18' : {
+        'SR_II'  : 0.37,
+        'SR_III' : 0.37,
+        'SR_IV'  : 0.37,
+    },
+    '2017' : {
         'SR_II'  : 0.37,
         'SR_III' : 0.37,
         'SR_IV'  : 0.37,
@@ -140,6 +154,7 @@ signal_samples = {
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EEPreselection_2017Analysis_Signal_29Jan2021/mergeOut',
+        #'dir'  : 'EEPreselection_2017Analysis_HToSS_21May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
