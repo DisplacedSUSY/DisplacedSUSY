@@ -2849,3 +2849,12 @@ sleptons1000_7000mm                      1.0      1.0
 sleptons1000_8000mm                      1.0      1.0
 sleptons1000_9000mm                      1.0      1.0
 sleptons1000_10000mm                     1.0      1.0
+staus500_0p2mm                           1.0      1.0
+staus500_0p3mm                           1.0      1.0
+staus500_0p4mm                           1.0      1.0
+staus500_0p5mm                           1.0      1.0
+staus500_0p6mm                           1.0      1.0
+staus500_0p7mm                           1.0      1.0
+staus500_0p8mm                           1.0      1.0
+staus500_0p9mm                           1.0      1.0
+staus500_1mm                             1.0      1.0

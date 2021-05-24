@@ -2199,3 +2199,12 @@ staus500_700mm                           1.0      1.0
 staus500_800mm                           1.0      1.0
 staus500_900mm                           1.0      1.0
 staus500_1000mm                          1.0      1.0
+staus500_0p2mm                           0.99848  1.0
+staus500_0p3mm                           0.99848  1.0
+staus500_0p4mm                           0.99848  1.0
+staus500_0p5mm                           0.99848  1.0
+staus500_0p6mm                           0.99848  1.0
+staus500_0p7mm                           0.99848  1.0
+staus500_0p8mm                           0.99848  1.0
+staus500_0p9mm                           0.99848  1.0
+staus500_1mm                             0.99848  1.0
