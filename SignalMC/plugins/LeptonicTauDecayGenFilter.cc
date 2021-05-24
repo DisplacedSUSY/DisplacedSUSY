@@ -48,6 +48,7 @@ bool LeptonicTauDecayGenFilter::filter(edm::Event& iEvent, const edm::EventSetup
   iEvent.getByToken(genParticleCollection_, gen_handle);
 
   int nLeptonicDecays = 0;
+  int nTaus = 0;
 
   for (unsigned int i = 0; i < gen_handle->size(); i++) {
     const reco::GenParticle gen_particle = (*gen_handle)[i];
@@ -57,6 +58,7 @@ bool LeptonicTauDecayGenFilter::filter(edm::Event& iEvent, const edm::EventSetup
       //std::cout << "pdgId " << gen_particle.pdgId() << std::endl;
       //std::cout << "nDaughters " << gen_particle.numberOfDaughters() << std::endl;
 
+      nTaus++;
       // Check if tau decays leptonically
       for(size_t j=0; j<gen_particle.numberOfDaughters(); j++){
 	const reco::Candidate* daughterOfTau = gen_particle.daughter(j);
@@ -72,7 +74,8 @@ bool LeptonicTauDecayGenFilter::filter(edm::Event& iEvent, const edm::EventSetup
     }//end if gen particle is a tau
   }//end loop over gen particles
 
-  //std::cout<<" nLeptonicDecays is: "<<nLeptonicDecays<<std::endl;
+  std::cout<<" nTaus is: "<<nTaus<<std::endl;
+  std::cout<<" nLeptonicDecays is: "<<nLeptonicDecays<<std::endl;
   //need each tau to decay leptonically
   if(nLeptonicDecays>1) return true;
   else return false;
