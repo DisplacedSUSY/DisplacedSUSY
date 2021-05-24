@@ -136,6 +136,7 @@ class Region(object):
                 unweighted_events = 0
             else:
                 raise RuntimeError("Uncertainty is 0 while integral is nonzero. Check input hist.")
+        integral *= hist.lumi_factor
         return (integral, int(round(unweighted_events)))
 
     def get_yield(self, hist):
@@ -319,11 +320,13 @@ class SignalRegion(Region):
 
 
 class Hist(object):
-    def __init__(self, sample_info, blinded=True, interpolated=False, swap_axes=False):
+    def __init__(self, sample_info, blinded=True, interpolated=False, swap_axes=False,
+                 lumi_factor=1.0):
         file_path = "condor/{}/{}".format(sample_info['dir'], sample_info['file'])
         hist_path = sample_info['hist']
         self.var_bins = sample_info['var_bins']
         self.blinded = sample_info['blinded']
+        self.lumi_factor = lumi_factor
         self.hist = self.get_hist(file_path, hist_path, swap_axes)
         if interpolated:
             self.reweight_hist(file_path, hist_path, sample_info['name'])
@@ -662,6 +665,22 @@ for sys in external_systematic_uncertainties:
     if sys_channel != channel or sys_year not in years:
         continue
 
+    # use systematic value from stand-in year if scaling one year's sample to another's lumi
+    standin_year = standin_signal_years[sys_year]
+    if sys_year != standin_year:
+        found_match = False
+        for s in external_systematic_uncertainties:
+            s_name, s_channel, s_year = s.split('_')
+            # ignore last two characters of names to handle cases like muonPixelHitEff16_emu_2016
+            if s_name[:-2] in sys_name[:-2] or s_name[:-2] in sys_name[:-2]:
+                if s_channel == sys_channel and s_year == standin_year:
+                    sys = s
+                    found_match = True
+                    break
+        if not found_match:
+            print "unable to find stand-in systematic for {}; skipping".format(sys)
+            continue
+
     value_dict = {}
     with open("{}__{}.txt".format(base_path, sys)) as sys_file:
         for line in sys_file:
@@ -749,10 +768,12 @@ for signal_name in signal_points:
     interpolated = get_ctau(signal_name) != get_ctau(signal_file)
     signal_hists = {}
     for year in years:
-        signal_samples[year]['name'] = signal_name
-        signal_samples[year]['file'] = signal_file
-        signal_hists[year] = Hist(signal_samples[year], interpolated=interpolated,
-                                  swap_axes=swap_axes)
+        standin_year = standin_signal_years[year]
+        signal_samples[standin_year]['name'] = signal_name
+        signal_samples[standin_year]['file'] = signal_file
+        lumi_factor = lumi[year]/lumi[standin_year]
+        signal_hists[year] = Hist(signal_samples[standin_year], interpolated=interpolated,
+                                  swap_axes=swap_axes, lumi_factor=lumi_factor)
 
     # replace specific gmsb signal names with generic "gmsb" to facilitate channel combination
     datacard_signal_name = signal_name.replace("staus", "gmsb").replace("sleptons", "gmsb")

@@ -3,6 +3,12 @@ from DisplacedSUSY.Configuration.limitOptions import *
 
 channel = "ee"
 
+lumi = {
+    '2016' : 16.1,
+    '2017' : 41.5,
+    '2018' : 59.7,
+}
+
 # make the following substitutions for datacard brevity and legibility
 predefined_region_names = {
     '_0to100um'     : '',
@@ -19,6 +25,28 @@ predefined_sr_names = {
     'i_ii'  : 'II',
     'ii_i'  : 'III',
     'ii_ii' : 'IV',
+}
+
+# specify when to substitute a given year's signal sample for another's, usually when signal
+# samples are not available in all years. yields will be scaled by luminosity and systematic values
+# will be taken from the 'from' year
+standin_signal_years = {
+    #'to'  : 'from',
+
+    # stops
+    '2016' : '2016',
+    '2017' : '2017',
+    '2018' : '2018',
+
+    # gmsb
+    #'2016' : '2018',
+    #'2017' : '2018',
+    #'2018' : '2018',
+
+    # higgs
+    #'2016' : '2016',
+    #'2017' : '2017',
+    #'2018' : '2017',
 }
 
 # choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
@@ -139,12 +167,36 @@ data_samples = {
     },
 }
 
+# specify when to substitute a given year's signal sample for another's, usually when signal
+# samples are not available in all years. yields will be scaled by luminosity and systematic values
+# will be taken from the 'from' year
+standin_signal_years = {
+    #'to'  : 'from',
+
+    # stops
+    '2016' : '2016',
+    '2017' : '2017',
+    '2018' : '2018',
+
+    # gmsb
+    #'2016' : '2018',
+    #'2017' : '2018',
+    #'2018' : '2018',
+
+    # higgs
+    #'2016' : '2016',
+    #'2017' : '2017',
+    #'2018' : '2017',
+}
+
 # a separate datacard will be produced for each signal point
 # list separate dictionaries for each year; they will be combined by makeAbcdDatacards if necessary
 signal_samples = {
     '2016' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EEPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
+        #'dir'  : '',
+        #'dir'  : '',
         #'dir'  : 'EEPreselection_2016Analysis_HToSS_19Apr2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
@@ -154,6 +206,8 @@ signal_samples = {
     '2017' : {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'EEPreselection_2017Analysis_Signal_29Jan2021/mergeOut',
+        #'dir'  : '',
+        #'dir'  : '',
         #'dir'  : 'EEPreselection_2017Analysis_HToSS_21May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
@@ -165,9 +219,10 @@ signal_samples = {
         'dir'  : 'EEPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
         #'dir'  : 'EEPreselection_2018Analysis_sleptons_18May2021/mergeOut',
         #'dir'  : 'EEPreselection_2018Analysis_staus_19May2021/mergeOut',
+        #'dir'  : '',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
         'blinded'  : False,
-    }
+    },
 }
