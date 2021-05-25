@@ -27,28 +27,6 @@ predefined_sr_names = {
     'ii_ii' : 'IV',
 }
 
-# specify when to substitute a given year's signal sample for another's, usually when signal
-# samples are not available in all years. yields will be scaled by luminosity and systematic values
-# will be taken from the 'from' year
-standin_signal_years = {
-    #'to'  : 'from',
-
-    # stops
-    '2016' : '2016',
-    '2017' : '2017',
-    '2018' : '2018',
-
-    # gmsb
-    #'2016' : '2018',
-    #'2017' : '2018',
-    #'2018' : '2018',
-
-    # higgs
-    #'2016' : '2016',
-    #'2017' : '2017',
-    #'2018' : '2017',
-}
-
 # choose how inclusive signal region will be divided; current options are 'L', 'L_inv', and 'grid'
 sr_shapes = 'grid'
 # signal region binning; enter -1 to include overflow
