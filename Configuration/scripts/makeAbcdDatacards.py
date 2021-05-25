@@ -387,12 +387,12 @@ class Hist(object):
         elif(HToSS):
             weight_branch_template = "eventvariable_lifetimeWeight_9000006_{}cmTo{}cm"
         elif(GMSB):
-            if name.startswith("staus"):
-                weight_branch_template = "eventvariable_lifetimeWeight_1000015_{}cmTo{}cm"
-            elif channel == "ee":
+            if channel == "ee":
                 weight_branch_template = "eventvariable_lifetimeWeight_1000011_{}cmTo{}cm"
             elif channel == "mumu":
                 weight_branch_template = "eventvariable_lifetimeWeight_1000013_{}cmTo{}cm"
+        elif(GMSBstaus):
+                weight_branch_template = "eventvariable_lifetimeWeight_1000015_{}cmTo{}cm"
         weight_branch_name = weight_branch_template.format(mm_to_cm(src_ctau), mm_to_cm(dst_ctau))
 
         # identify branches that correspond to hist axes
@@ -789,6 +789,8 @@ for signal_name in signal_points:
     signal_num_evts = {}
     signal_sf = {}
     signal_exists = False
+    #inclusive_sr_num_evts = 0
+    inclusive_sr_yield = 0
     for r in unique_regions:
         signal_yields[r.name] = {}
         signal_num_evts[r.name] = {}
@@ -807,6 +809,10 @@ for signal_name in signal_points:
         signal_yields[r.name]['total'] = total_yield
         signal_num_evts[r.name]['total'] = int(round(total_events))
         signal_sf[r.name]['total'] = get_gamma_sf(total_yield, total_events)
+        if not r.cr:
+            #print total_yield
+            #inclusive_sr_num_evts += total_events
+            inclusive_sr_yield += total_yield
     if not signal_exists:
         print "skipping {} because signal yields are 0".format(signal_name)
         continue
@@ -887,7 +893,8 @@ for signal_name in signal_points:
     # write datacard
     datacard_name = 'datacard_{}.txt'.format(datacard_signal_name)
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
-    print "making", datacard_name
+    #print "making", datacard_name
+    print "{0: <20} {1}".format(signal_name, inclusive_sr_yield)
     with open(datacard_path, 'w') as datacard:
         datacard.write(header)
         datacard.write("\n\n")
