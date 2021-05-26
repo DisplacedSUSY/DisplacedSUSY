@@ -317,7 +317,11 @@ def getBinArray(key, dictionaries):
         bins = [float(d[key]) for d in dictionaries]
     bins = sorted(list(set(bins)))
     bins.append(bins[-1] + 100.0)
-    return array("d", bins)
+    if key=='lifetime' and arguments.ns:
+        nsBins = [i/30. for i in bins]
+        return array("d", nsBins)
+    else:
+        return array("d", bins)
 
 def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     x_bins = getBinArray('mass', limits)
@@ -358,10 +362,10 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
         for mass in ordered_masses:
             limit_point = limit_dict[lifetime][mass]['experiment']
             bin_content.append(limit_point)
-            gridPlot.Fill(mass, lifetime, limit_point)
-            #if arguments.ns: #probably needed here? but doing
-            #gridPlot.Fill(mass, lifetime/30., limit_point)
-            #isn't quite right yet...
+            if arguments.ns:
+                gridPlot.Fill(mass, lifetime/30., limit_point)
+            else:
+                gridPlot.Fill(mass, lifetime, limit_point)
     th2f = gridPlot
     th2f.SetDirectory(0)
     th2f.SetMaximum(th2f.GetMaximum())
@@ -816,9 +820,9 @@ def drawPlot(plot):
                 if arguments.ns:
                     yAxisMin = 0.1/30*float(lifetimes[0])
                     yAxisMax = 0.1/30*float(lifetimes[-1])
-                    yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes]) #maybe needs /30 ?
-                    yAxisBins.append(0.1*2.0*float(lifetimes[-1])) #maybe needs /30 ?
-                    yAxisBins.append(0.1*8.0*float(lifetimes[-1])) #maybe needs /30 ?
+                    yAxisBins.extend([0.1/30.*float(lifetime) for lifetime in lifetimes])
+                    yAxisBins.append(0.1*2.0/30.*float(lifetimes[-1]))
+                    yAxisBins.append(0.1*8.0/30.*float(lifetimes[-1]))
                 else:
                     yAxisMin = 0.1*float(lifetimes[0])
                     yAxisMax = 0.1*float(lifetimes[-1])
