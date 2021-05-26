@@ -842,22 +842,21 @@ def drawPlot(plot):
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
+        processText = ""
         if process in ['stopToLB', 'stopToLD']:
             quark = 'b' if process == 'stopToLB' else 'd'
             processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
-            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
-        elif process == 'sleptons' and channel == 'ee':
+        elif GMSB and channel == 'ee':
             processText = "#tilde{e}#tilde{e} #rightarrow e#tilde{G} e#tilde{G}"
-        elif process == 'sleptons' and channel == '#mu#mu':
+        elif GMSB and channel == '#mu#mu':
             processText = "#tilde{#mu}#tilde{#mu} #rightarrow #mu#tilde{G} #mu#tilde{G}"
-            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
-        elif process == 'gmsb':
+        elif GMSB and channel == None: # co-nlsp or several channels together
+            processText = "#tilde{l}#tilde{l} #rightarrow l#tilde{G} l#tilde{G}"
+        elif GMSBstaus:
             processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
-            legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'HToSSTo4L':
-            legend.SetHeader("#splitline{H #rightarrow SS #rightarrow 4l}{95% CL upper limits}")
-        else:
-            legend.SetHeader("95% CL upper limits")
+            processText = "H #rightarrow SS #rightarrow 4l"
+        legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
 
         # construct TGraph objects for all curves and draw them
         tGraphs = []
@@ -1087,6 +1086,7 @@ def drawPlot(plot):
         for th2f in plot.get('th2fs', []):
             for limit_type in th2f['th2fsToInclude']:
                 if limit_type == 'exp':
+                    print th2f['limits']
                     g = getTH2F(th2f['limits'], plot['xAxisType'], plot['yAxisType'], 'expected',
                                 'theory')
                     tTh2fs.append(g)
@@ -1178,7 +1178,7 @@ def drawPlot(plot):
         LumiLabel.SetFillStyle(0)
         LumiLabel.Draw()
 
-        if channel and process != "sleptons":
+        if channel and not GMSB and not GMSBstaus:
             channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
             channelLabel.SetTextSize(0.4)
