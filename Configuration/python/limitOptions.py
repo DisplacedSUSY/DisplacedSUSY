@@ -80,7 +80,7 @@ signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses 
 #processes = ['sleptons']
 #processes = ['gmsb']
 #masses = [50] + [m for m in range(100, 1001, 100)]
-#lifetimes = [b*10**e for e in range(-1, 4) for b in range(1, 10)] + [10000] #all lifetimes
+#lifetimes = [b*10**e for e in range(-1, 3) for b in range(1, 10)] + [1000] #all lifetimes
 #signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 
 #processes = ['staus']
