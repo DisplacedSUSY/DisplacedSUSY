@@ -1,7 +1,7 @@
 #!/bin/tcsh
 
-foreach i (100 200 300 400 500) #staus prioritize these
-#foreach i (50 150 250 350 450) #staus then maybe do these
+foreach i (50 100 200 300 400 500) #staus prioritize these
+#foreach i (150 250 350 450) #staus then maybe do these
    foreach j (0p1 1 10 100 1000) #prioritize these
    #foreach j (0p01 10000) #then maybe do these
 	cmsDriver.py Configuration/Generator/python/Staus_M_${i}_${j}mm_TuneCP5_13TeV_pythia8_2017_cff.py --fileout file:staus${i}_${j}mm.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 93X_mc2017_realistic_v3 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN,SIM --geometry DB:Extended --era Run2_2017 --customise SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi.customise,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeProduce --no_exec
