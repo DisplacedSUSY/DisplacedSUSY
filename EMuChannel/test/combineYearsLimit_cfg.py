@@ -7,4 +7,6 @@ inputDirs =[
     #'emu_ld_2017_18_03Feb2021',
     'emu_HToSS_2016_unblinded_29Apr2021',
     'emu_HToSS_2017_unblinded_24May2021',
+    #'staus_emu_2016_from2018Samples_25May2021',
+    #'staus_emu_2017_18_from2018Samples_25May2021',
 ]
