@@ -359,6 +359,9 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
             limit_point = limit_dict[lifetime][mass]['experiment']
             bin_content.append(limit_point)
             gridPlot.Fill(mass, lifetime, limit_point)
+            #if arguments.ns: #probably needed here? but doing
+            #gridPlot.Fill(mass, lifetime/30., limit_point)
+            #isn't quite right yet...
     th2f = gridPlot
     th2f.SetDirectory(0)
     th2f.SetMaximum(th2f.GetMaximum())
@@ -433,7 +436,11 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0
 
         x.append(mass_limit)
-        y.append(lifetime)
+        if arguments.ns:
+            y.append(lifetime/30.) #convert ctau in cm to lifetime in ns
+        else:
+            y.append(lifetime)
+
         if x_key == 'lifetime' and y_key == 'mass':
             x[-1], y[-1] = y[-1], x[-1]
 
@@ -805,19 +812,26 @@ def drawPlot(plot):
                     yAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
                     yAxisBins.append(8.0*float(masses[-1]) - 4.0*float(masses[-2]))
             elif plot['yAxisType'] == 'lifetime':
-                yAxisMin = 0.1*float(lifetimes[0])
-                yAxisMax = 0.1*float(lifetimes[-1])
                 canvas.SetLogy()
-                yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
-                yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
-                yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
+                if arguments.ns:
+                    yAxisMin = 0.1/30*float(lifetimes[0])
+                    yAxisMax = 0.1/30*float(lifetimes[-1])
+                    yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes]) #maybe needs /30 ?
+                    yAxisBins.append(0.1*2.0*float(lifetimes[-1])) #maybe needs /30 ?
+                    yAxisBins.append(0.1*8.0*float(lifetimes[-1])) #maybe needs /30 ?
+                else:
+                    yAxisMin = 0.1*float(lifetimes[0])
+                    yAxisMax = 0.1*float(lifetimes[-1])
+                    yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
+                    yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
+                    yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
                 if(HToSS):
                     xAxisBins.extend([float(mass) for mass in masses.keys()])
                     xAxisBins.append(2.0*float(masses.keys()[-1]) - float(masses.keys()[-2]))
                 else:
                     xAxisBins.extend([float(mass) for mass in masses])
                     xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
-            if process == 'staus':
+            if process == 'gmsb':
                 legend = TLegend(0.45, 0.53, 0.75, 0.78) #legend on the top right for stau 2D plot
             else:
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
@@ -837,7 +851,7 @@ def drawPlot(plot):
         elif process == 'sleptons' and channel == '#mu#mu':
             processText = "#tilde{#mu}#tilde{#mu} #rightarrow #mu#tilde{G} #mu#tilde{G}"
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
-        elif process == 'staus':
+        elif process == 'gmsb':
             processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
             legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
         elif process == 'HToSSTo4L':

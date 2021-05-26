@@ -37,7 +37,9 @@ parser.add_option("--nearCurveOnly", action="store_true", dest="nearCurveOnly", 
 parser.add_option("--doBR", action="store_true", dest="doBR", default=False,
                   help="make 1D branching ratio limit plots")
 parser.add_option("--mm", action="store_true", dest="mm", default=False,
-                  help="make limit plots vs lifetime in mm rather than cm")
+                  help="make limit plots vs ctau in mm rather than cm")
+parser.add_option("--ns", action="store_true", dest="ns", default=False,
+                  help="make limit plots vs lifetime in ns rather than ctau in cm")
 
 (arguments, args) = parser.parse_args()
 
@@ -115,7 +117,7 @@ signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses 
 #      signal_points.append("HToSSTo4L"+mH+"_250_"+str(ctau)+"mm")
 #  elif int(mH)==1000:
 #    for ctau in lifetimes:
-#      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+#      #signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
 #      signal_points.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
 #      signal_points.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
 #signal_points = [lt.replace(".", "p") for lt in signal_points]
