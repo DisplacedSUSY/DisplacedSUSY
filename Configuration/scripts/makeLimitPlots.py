@@ -665,6 +665,8 @@ def fetchLimits(process, mass, m, lifetime, directory, limits_to_include):
 
     # initialize dictionary with large default values for each desired limit type
     limit = {t : 1e12 for l in limits_to_include for t in limit_types[l]}
+    if arguments.fillGaps and 'exp' not in limits_to_include:
+        limit.update({t : 1e12 for t in limit_types['exp']})
 
     # get method used to compute limits
     fname = "limits/"+directory+"/method.txt"
@@ -749,6 +751,16 @@ def fetchLimits(process, mass, m, lifetime, directory, limits_to_include):
     for q in ['down2', 'down1', 'up1', 'up2']:
         if q in limit and 'expected' in limit:
             limit[q] = abs(limit[q] - limit['expected'])
+
+    # optionally replace observed limit with expected when observed does not converge
+    if arguments.fillGaps and 'observed' in limit:
+        if round(limit['observed'], 5) == round(2.00613, 5): # empirical value
+            print "Warning: observed limit did not converge; subsituting expected limit"
+            limit['observed'] = limit['expected']
+        # remove expected from limit if not otherwise desired
+        if 'exp' not in limits_to_include:
+            for t in limit_types['exp']:
+                limit.pop(t, None)
 
     if method != "Significance":
         # scale by xsection

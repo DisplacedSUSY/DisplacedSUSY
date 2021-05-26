@@ -40,6 +40,8 @@ parser.add_option("--mm", action="store_true", dest="mm", default=False,
                   help="make limit plots vs ctau in mm rather than cm")
 parser.add_option("--ns", action="store_true", dest="ns", default=False,
                   help="make limit plots vs lifetime in ns rather than ctau in cm")
+parser.add_option("--fillGaps", action="store_true", dest="fillGaps", default=False,
+                  help="plot expected limit value for points where observed has not converged")
 
 (arguments, args) = parser.parse_args()
 
