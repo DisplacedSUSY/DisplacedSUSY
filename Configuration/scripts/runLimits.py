@@ -78,7 +78,7 @@ def scaleSignal(src, dst):
 
     signalRate = []
     signalAlpha = []
-    signals = ("stop", "sleptons", "staus", "HTo")
+    signals = ("stop", "sleptons", "staus", "gmsb", "HTo")
     for process in range (0, len (processLine)):
         if processLine[process].startswith(signals):
             signalRate.append (float (rateLine[process]))
