@@ -13,7 +13,10 @@ inputDirs =[
     #'emu_staus_2018_unblinded_24May2021',
     #'ee_staus_2018_unblinded_24May2021',
     #'mumu_staus_2018_unblinded_24May2021',
-    'emu_HToSS_201617_unblinded_24May2021',
-    'ee_HToSS_201617_unblinded_24May2021',
-    'mumu_HToSS_201617_unblinded_24May2021',
+    #'emu_HToSS_201617_unblinded_24May2021',
+    #'ee_HToSS_201617_unblinded_24May2021',
+    #'mumu_HToSS_201617_unblinded_24May2021',
+    #'emu_HToSS_scaledRunII_unblinded_25May2021',
+    #'ee_HToSS_scaledRunII_unblinded_25May2021',
+    #'mumu_HToSS_scaledRunII_unblinded_25May2021',
 ]

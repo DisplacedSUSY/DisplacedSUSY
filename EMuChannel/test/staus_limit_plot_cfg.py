@@ -6,9 +6,9 @@ energy = '13'
 #channel = 'emu'
 channel = None # set to None for multi-channel plots
 
-process = 'staus'
-masses = [str(m) for m in range(200, 401, 100)]
-lifetimes = [str(b*10**e) for e in range(-1, 2) for b in range(1, 10)] + [str(100)]
+process = 'gmsb'
+masses = [str(m) for m in range(100, 501, 100)]
+lifetimes = [str(b*10**e) for e in range(-1, 3) for b in range(1, 10)] + [str(1000)]
 
 # description of all the plots to be made
 plotDefinitions = [
@@ -22,18 +22,19 @@ plotDefinitions = [
 
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{#tau}} [GeV]',
-        'yAxisLabel' : 'c#tau [cm]',
+        #'yAxisLabel' : 'c#tau [cm]',
+        'yAxisLabel' : '#tau [ns]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'graphsToInclude' : ['exp', 'oneSigma', 'obs'],
                 'colorScheme' : 'susy_pag',
             },
@@ -53,32 +54,39 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'lifetime' : '0.1',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '0.01 cm',
             },
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'lifetime' : '1',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '0.1 cm',
             },
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'lifetime' : '10',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '1 cm',
             },
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'lifetime' : '100',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '10 cm',
+            },
+            {
+                'source' : 'combined_staus_2018_unblinded_24May2021',
+                'lifetime' : '1000',
+                'graphsToInclude' : ['exp','obs'],
+                'colorScheme' : 'green',
+                'legendEntry' : '100 cm',
             },
         ],
     },
@@ -96,23 +104,23 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
-                'mass' : '200',
-                'graphsToInclude' : ['exp'],
-                'colorScheme' : 'blue',
-                'legendEntry' : '200 GeV',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
+                'mass' : '100',
+                'graphsToInclude' : ['exp','obs'],
+                'colorScheme' : 'black',
+                'legendEntry' : '100 GeV',
             },
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'mass' : '300',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '300 GeV',
             },
             {
-                'source' : 'combined_staus_2018_unblinded_19May2021',
+                'source' : 'combined_staus_2018_unblinded_24May2021',
                 'mass' : '400',
-                'graphsToInclude' : ['exp'],
+                'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '400 GeV',
             },
