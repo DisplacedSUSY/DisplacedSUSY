@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 intLumi = [112800, 117600] # full RunII for channel combination
+#intLumi = 59700 # 2018
 energy = '13'
 channel = None
 
@@ -12,7 +13,7 @@ lifetimes = [str(b*10**e) for e in range(-1, 3) for b in range(1, 10)] + [str(10
 plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'combined_standard_gmsb_scaled',
+        'title' : 'combined_standard_gmsb_runII_from2018Samples',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -26,13 +27,13 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : 'gmsb_eeAndmumu_runII_from2018Samples_25May2021',
+                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
-                'source' : 'gmsb_eeAndmumu_runII_from2018Samples_25May2021',
+                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'susy_pag',
             },
@@ -40,7 +41,7 @@ plotDefinitions = [
     },
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'comparison_standard_gmsb_scaled',
+        'title' : 'comparison_standard_gmsb_runII_from2018Samples',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -53,9 +54,9 @@ plotDefinitions = [
 
         'graphs' : [
             {
-                'source' : 'gmsb_eeAndmumu_runII_from2018Samples_25May2021',
+                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'yellow',
+                'colorScheme' : 'orange',
                 'legendEntry' : 'co-NLSP'
             },
             {

@@ -126,6 +126,12 @@ colorSchemes = {
         'oneSigma' : 402,
         'twoSigma' : 402,
     },
+    'orange' : {
+        'obs' : 806,
+        'exp' : 806,
+        'oneSigma' : 806,
+        'twoSigma' : 806,
+    },
     'magenta' : {
         'obs' : 616,
         'exp' : 616,
@@ -866,8 +872,8 @@ def drawPlot(plot):
             processText = "#tilde{e}#tilde{e} #rightarrow e#tilde{G} e#tilde{G}"
         elif GMSB and channel == '#mu#mu':
             processText = "#tilde{#mu}#tilde{#mu} #rightarrow #mu#tilde{G} #mu#tilde{G}"
-        elif GMSB and channel == None: # co-nlsp or several channels together
-            processText = "#tilde{l}#tilde{l} #rightarrow l#tilde{G} l#tilde{G}"
+        elif GMSB and channel == None: # co-nlsp or several channels on the same plot
+            processText = "#tilde{l}#tilde{l} #rightarrow l#tilde{G} l#tilde{G} (co-NLSP)"
         elif GMSBstaus:
             processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
         elif process == 'HToSSTo4L':
