@@ -145,7 +145,7 @@ if(HToSS):
                 )
             )
 
-elif(GMSB):
+elif(GMSB or GMSBstaus):
     for sourceCTau in [0.01, 0.1, 1, 10, 100]:
         srcCTau = str(int(sourceCTau)) if sourceCTau>=1 else str(sourceCTau).replace(".", "p")
 
