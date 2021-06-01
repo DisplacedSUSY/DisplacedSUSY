@@ -393,7 +393,42 @@ signal_mc_samples = {
     'stopToLD1800_1mm'    : "/DisplacedSUSY_stopToLD_M_1800_1mm_TuneCUETP8M1_13TeV_pythia8/RunIISummer16MiniAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/MINIAODSIM",
     'stopToLD1800_0p1mm'  : "/StopToLD_M_1800_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
+    # 2016 slepton and stau samples must be run in 9_4_X
+    'sleptons50_0p1mm'     : "/Sleptons_M_50_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons50_1mm'       : "/Sleptons_M_50_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons50_10mm'      : "/Sleptons_M_50_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons50_100mm'     : "/Sleptons_M_50_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons50_1000mm'    : "/Sleptons_M_50_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
+    'sleptons100_0p1mm'    : "/Sleptons_M_100_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons100_1mm'      : "/Sleptons_M_100_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons100_10mm'     : "/Sleptons_M_100_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons100_100mm'    : "/Sleptons_M_100_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons100_1000mm'   : "/Sleptons_M_100_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons200_0p1mm'    : "/Sleptons_M_200_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons200_1mm'      : "/Sleptons_M_200_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons200_10mm'     : "/Sleptons_M_200_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons200_100mm'    : "/Sleptons_M_200_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons200_1000mm'   : "/Sleptons_M_200_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons300_0p1mm'    : "/Sleptons_M_300_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons300_1mm'      : "/Sleptons_M_300_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons300_10mm'     : "/Sleptons_M_300_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons300_100mm'    : "/Sleptons_M_300_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons300_1000mm'   : "/Sleptons_M_300_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons400_0p1mm'    : "/Sleptons_M_500_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons400_1mm'      : "/Sleptons_M_400_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons400_10mm'     : "/Sleptons_M_400_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons400_100mm'    : "/Sleptons_M_400_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons400_1000mm'   : "/Sleptons_M_400_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons500_0p1mm'    : "/Sleptons_M_500_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons500_1mm'      : "/Sleptons_M_500_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons500_10mm'     : "/Sleptons_M_500_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons500_100mm'    : "/Sleptons_M_500_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons500_1000mm'   : "/Sleptons_M_500_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
 
     'HToSSTo4L125_30_10000mm'     : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
