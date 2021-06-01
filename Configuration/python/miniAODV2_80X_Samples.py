@@ -430,6 +430,36 @@ signal_mc_samples = {
     'sleptons500_100mm'    : "/Sleptons_M_500_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
     'sleptons500_1000mm'   : "/Sleptons_M_500_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
+    'sleptons600_0p1mm'    : "/Sleptons_M_600_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons600_1mm'      : "/Sleptons_M_600_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons600_10mm'     : "/Sleptons_M_600_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons600_100mm'    : "/Sleptons_M_600_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons600_1000mm'   : "/Sleptons_M_600_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons700_0p1mm'    : "/Sleptons_M_700_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons700_1mm'      : "/Sleptons_M_700_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons700_10mm'     : "/Sleptons_M_700_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons700_100mm'    : "/Sleptons_M_700_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons700_1000mm'   : "/Sleptons_M_700_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons800_0p1mm'    : "/Sleptons_M_800_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons800_1mm'      : "/Sleptons_M_800_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons800_10mm'     : "/Sleptons_M_800_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons800_100mm'    : "/Sleptons_M_800_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons800_1000mm'   : "/Sleptons_M_800_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons900_0p1mm'    : "/Sleptons_M_900_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons900_1mm'      : "/Sleptons_M_900_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons900_10mm'     : "/Sleptons_M_900_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons900_100mm'    : "/Sleptons_M_900_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons900_1000mm'   : "/Sleptons_M_900_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'sleptons1000_0p1mm'    : "/Sleptons_M_1000_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons1000_1mm'      : "/Sleptons_M_1000_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons1000_10mm'     : "/Sleptons_M_1000_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons1000_100mm'    : "/Sleptons_M_1000_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'sleptons1000_1000mm'   : "/Sleptons_M_1000_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
 
     'HToSSTo4L125_30_10000mm'     : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L125_30_1000mm'      : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
