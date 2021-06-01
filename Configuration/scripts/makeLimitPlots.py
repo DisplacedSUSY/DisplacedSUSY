@@ -779,6 +779,53 @@ def fetchLimits(process, mass, m, lifetime, directory, limits_to_include):
     limit['mass'] = mass
     return limit
 
+def printMassLifetimeExclusion(graph, xs, legendEntry):
+    allXPoints = []
+    allYPoints = []
+    x1Points = []
+    x2Points = []
+    y1Points = []
+    y2Points = []
+    for i in range(graph.GetN()):
+        xPoint = Double(0.0)
+        yPoint = Double(0.0)
+        graph.GetPoint(i, xPoint, yPoint)
+        allXPoints.append(xPoint)
+        allYPoints.append(yPoint)
+
+    #in the tgraph parabola of cross section vs lifetime, find the "falling" and "rising" points,
+    #separated by the minimum of the parabola
+    npAllYPoints = np.array(allYPoints)
+    index_minYPoints=np.argmin(npAllYPoints)
+    fallingYPoints=npAllYPoints[:index_minYPoints+1]
+    risingYPoints=npAllYPoints[index_minYPoints:]
+
+    #get the x and y values for the y points on either side of the 1000 GeV cross section
+    y1Points.append(fallingYPoints[fallingYPoints<xs].max())
+    y2Points.append(fallingYPoints[fallingYPoints>xs].min())
+    y1Points.append(risingYPoints[risingYPoints<xs].max())
+    y2Points.append(risingYPoints[risingYPoints>xs].min())
+
+    for i, y in enumerate(allYPoints):
+        for y1 in y1Points:
+            if y==y1:
+                x1Points.append(allXPoints[i])
+        for y2 in y2Points:
+            if y==y2:
+                x2Points.append(allXPoints[i])
+
+    #find the intersection of the lines:
+    #in y=mx+b, b=xs, m=dY/dX
+    #print "For 1000 GeV observed curve, exclude lifetimes between: "
+    #print "For 300 GeV observed curve, exclude lifetimes between: "
+    #500 GeV
+    print "For " +legendEntry +", exclude lifetimes between: "
+    for i in range(len(y2Points)):
+        dY = y2Points[i]-y1Points[i]
+        dX = x2Points[i]-x1Points[i]
+        lifetime = (xs - y2Points[i] + x2Points[i]*dY/dX)*(dX/dY)
+        print "  " +str(lifetime)+"cm"
+
 def drawPlot(plot):
     is2D = 'yAxisType' in plot
     outputFile.cd()
@@ -955,51 +1002,15 @@ def drawPlot(plot):
 
                         #print summary of limits for paper Summary section:
                         #find lifetime exclusion range for 1000 GeV mass point
-                        if legendEntry=='Observed: 1000 GeV':
+                        if stops and legendEntry=='Observed: 1000 GeV':
                             xs = 0.00615134 #1000 GeV stop cross section in pb
-                            allXPoints = []
-                            allYPoints = []
-                            x1Points = []
-                            x2Points = []
-                            y1Points = []
-                            y2Points = []
-                            for i in range(tGraphs[-1].GetN()):
-                                xPoint = Double(0.0)
-                                yPoint = Double(0.0)
-                                tGraphs[-1].GetPoint(i, xPoint, yPoint)
-                                allXPoints.append(xPoint)
-                                allYPoints.append(yPoint)
-
-                            #in the tgraph parabola of cross section vs lifetime, find the "falling" and "rising" points,
-                            #separated by the minimum of the parabola
-                            npAllYPoints = np.array(allYPoints)
-                            index_minYPoints=np.argmin(npAllYPoints)
-                            fallingYPoints=npAllYPoints[:index_minYPoints+1]
-                            risingYPoints=npAllYPoints[index_minYPoints:]
-
-                            #get the x and y values for the y points on either side of the 1000 GeV cross section
-                            y1Points.append(fallingYPoints[fallingYPoints<xs].max())
-                            y2Points.append(fallingYPoints[fallingYPoints>xs].min())
-                            y1Points.append(risingYPoints[risingYPoints<xs].max())
-                            y2Points.append(risingYPoints[risingYPoints>xs].min())
-
-                            for i, y in enumerate(allYPoints):
-                                for y1 in y1Points:
-                                    if y==y1:
-                                        x1Points.append(allXPoints[i])
-                                for y2 in y2Points:
-                                    if y==y2:
-                                        x2Points.append(allXPoints[i])
-
-                            #find the intersection of the lines:
-                            #in y=mx+b, b=xs, m=dY/dX
-                            print "For 1000 GeV observed curve, exclude lifetimes between: "
-                            for i in range(len(y2Points)):
-                                dY = y2Points[i]-y1Points[i]
-                                dX = x2Points[i]-x1Points[i]
-                                lifetime = (xs - y2Points[i] + x2Points[i]*dY/dX)*(dX/dY)
-                                print "  " +str(lifetime)+"cm"
-
+                            printMassLifetimeExclusion(tGraphs[-1], xs, legendEntry)
+                        elif GMSBstaus and legendEntry=='Observed: 300 GeV':
+                            xs = 0.0007755 #300 GeV stau cross section in pb
+                            printMassLifetimeExclusion(tGraphs[-1], xs, legendEntry)
+                        elif GMSB and not GMSBstaus and legendEntry=='Observed: 500 GeV':
+                            xs = 0.0006736 #500 GeV slepton cross section in pb
+                            printMassLifetimeExclusion(tGraphs[-1], xs, legendEntry)
 
             # draw 2D graphs
             else:
@@ -1149,7 +1160,7 @@ def drawPlot(plot):
             tGraph.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
             if not is2D:
                 if(arguments.doBR):
-                    tGraph.GetYaxis().SetTitle('#sigma_{95%CL}/#sigma_{theory}')
+                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS)')
                 else:
                     tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.4)
