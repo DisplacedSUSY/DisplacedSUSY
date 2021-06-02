@@ -2,7 +2,7 @@
 
 #selectrons and smuons
 #foreach i (50 100 200 300 400 500) #bryan
-foreach i (600 700 800 900 1000) #estefany
+foreach i (600 700 800 900) #estefany
     foreach j (0p1 1 10 100 1000) #prioritize these
     #foreach j (0p01 10000) #then maybe do these
 	cmsDriver.py Configuration/Generator/python/Sleptons_M_${i}_${j}mm_TuneCUETP8M1_13TeV_pythia8_cff.py --fileout file:sleptons${i}_${j}mm.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,SimG4Core/CustomPhysics/Exotica_HSCP_SIM_cfi.customise,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeProduce --datatier GEN-SIM --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step LHE,GEN,SIM --magField 38T_PostLS1 --no_exec
