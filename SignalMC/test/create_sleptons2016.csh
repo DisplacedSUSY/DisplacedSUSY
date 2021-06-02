@@ -27,3 +27,23 @@ foreach i (600 700 800 900) #estefany
 	#crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_MiniAod --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
     end
 end
+
+
+# generally worth resubmitting until ~99% of jobs are complete for a given step
+#foreach i (50 100 200)
+#  foreach j (0p1 1 10 100 1000)
+#    crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_DigiRawHlt --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
+#  end
+#end
+#foreach i (300 400 500 600 700 800 900)
+#  foreach j (0p1 100 1000)
+#    crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_DigiRawHlt --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
+#  end
+#end
+
+# generally worth resubmitting until ~90% of jobs are complete for a given step
+#foreach i (300 400 500 600 700 800 900)
+#  foreach j (1 10)
+#    crab resubmit -d crab/crab_sleptons_M_${i}_${j}mm_13TeV_2016MC_DigiRawHlt --sitewhitelist T1_US_FNAL,T2_US_Nebraska,T2_US_Vanderbilt
+#  end
+#end
