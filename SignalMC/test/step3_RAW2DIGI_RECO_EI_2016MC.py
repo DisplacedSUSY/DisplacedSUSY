@@ -1,8 +1,8 @@
 # Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step2 --filein file:EXO-RunIISummer16DR80Premix-08936_step1.root --fileout file:EXO-RunIISummer16DR80Premix-08936.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --step RAW2DIGI,RECO,EI --nThreads 4 --era Run2_2016 --no_exec
+# using:
+# Revision: 1.19
+# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
+# with command line options: step2 --filein file:EXO-RunIISummer16DR80Premix-08936_step1.root --fileout file:EXO-RunIISummer16DR80Premix-08936.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --step RAW2DIGI,RECO,EI --nThreads 4 --era Run2_2016 --no_exec --customise DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -78,9 +78,14 @@ process.schedule = cms.Schedule(process.raw2digi_step,process.reconstruction_ste
 process.options.numberOfThreads=cms.untracked.uint32(4)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 
+# Automatic addition of the customisation function from DisplacedSUSY.SignalMC.genParticlePlusGeant
+from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep
+
+#call to customisation function customizeKeep imported from DisplacedSUSY.SignalMC.genParticlePlusGeant
+process = customizeKeep(process)
+
 #do not add changes to your config after this point (unless you know what you are doing)
 from FWCore.ParameterSet.Utilities import convertToUnscheduled
 process=convertToUnscheduled(process)
 from FWCore.ParameterSet.Utilities import cleanUnscheduled
 process=cleanUnscheduled(process)
-

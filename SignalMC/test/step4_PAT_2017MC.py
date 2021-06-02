@@ -2,7 +2,7 @@
 # using:
 # Revision: 1.19
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
-# with command line options: step4 --fileout file:step4.root --filein file:step3.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 94X_mc2017_realistic_v14 --step PAT --nThreads 4 --scenario pp --era Run2_2017,run2_miniAOD_94XFall17 -n -1
+# with command line options: step4 --fileout file:step4.root --filein file:step3.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 94X_mc2017_realistic_v14 --step PAT --nThreads 4 --scenario pp --era Run2_2017,run2_miniAOD_94XFall17 -n -1  --customise DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep,DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeMiniAOD
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -167,6 +167,13 @@ from PhysicsTools.PatAlgos.slimming.miniAOD_tools import miniAOD_customizeAllMC
 
 #call to customisation function miniAOD_customizeAllMC imported from PhysicsTools.PatAlgos.slimming.miniAOD_tools
 process = miniAOD_customizeAllMC(process)
+
+# Automatic addition of the customisation function from DisplacedSUSY.SignalMC.genParticlePlusGeant
+from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep,customizeMiniAOD
+
+#call to customisation function customizeKeep imported from DisplacedSUSY.SignalMC.genParticlePlusGeant
+process = customizeMiniAOD(process)
+process = customizeKeep(process)
 
 # End of customisation functions
 

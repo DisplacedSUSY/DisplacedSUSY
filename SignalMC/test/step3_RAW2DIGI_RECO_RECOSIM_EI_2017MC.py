@@ -2,7 +2,7 @@
 # using:
 # Revision: 1.19
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v
-# with command line options: step3 --filein file:step2.root --fileout file:step3.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 94X_mc2017_realistic_v11 --step RAW2DIGI,RECO,RECOSIM,EI --nThreads 8 --era Run2_2017 -n -1
+# with command line options: step3 --filein file:step2.root --fileout file:step3.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 94X_mc2017_realistic_v11 --step RAW2DIGI,RECO,RECOSIM,EI --nThreads 8 --era Run2_2017 -n -1 --customise DisplacedSUSY/SignalMC/genParticlePlusGeant.customizeKeep
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -97,3 +97,9 @@ process = customiseLogErrorHarvesterUsingOutputCommands(process)
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)
 # End adding early deletion
+
+# Automatic addition of the customisation function from DisplacedSUSY.SignalMC.genParticlePlusGeant
+from DisplacedSUSY.SignalMC.genParticlePlusGeant import customizeKeep
+
+#call to customisation function customizeKeep imported from DisplacedSUSY.SignalMC.genParticlePlusGeant
+process = customizeKeep(process)
