@@ -836,7 +836,3 @@ generator.processFile = cms.untracked.string(PROCESS_FILE)
 generator.useregge = cms.bool(USE_REGGE)
 
 ProductionFilterSequence = cms.Sequence(externalLHEProducer*generator)
-
-leptonicTauDecayGenFilter = cms.EDFilter("LeptonicTauDecayGenFilter",
-                                                 inputTag = cms.InputTag("genParticlePlusGeant")
-                                             )
