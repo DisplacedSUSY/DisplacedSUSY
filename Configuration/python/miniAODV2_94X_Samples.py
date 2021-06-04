@@ -457,12 +457,12 @@ signal_mc_samples = {
     'HToSSTo4L800_150_10000mm'    : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_150_1000mm'     : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_150_100mm'      : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
-    'HToSSTo4L800_150_10mm'       : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER", #not yet available
+    'HToSSTo4L800_150_10mm'       : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-10_TuneCP5_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_150_1mm'        : "/ggH_HToSSTo4l_MH-800_MS-150_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
 
     'HToSSTo4L800_250_10000mm'    : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_250_1000mm'     : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
-    'HToSSTo4L800_250_100mm'      : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER", #not yet available
+    'HToSSTo4L800_250_100mm'      : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-100_TuneCP5_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_250_10mm'       : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L800_250_1mm'        : "/ggH_HToSSTo4l_MH-800_MS-250_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
 
