@@ -467,6 +467,12 @@ signal_mc_samples = {
     'HToSSTo4L125_30_10mm'        : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L125_30_1mm'         : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
 
+    'HToSSTo4L125_50_10000mm'     : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'HToSSTo4L125_50_1000mm'      : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'HToSSTo4L125_50_100mm'       : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'HToSSTo4L125_50_10mm'        : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+    'HToSSTo4L125_50_1mm'         : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
+
     'HToSSTo4L300_20_10000mm'     : "/ggH_HToSSTo4l_MH-300_MS-20_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L300_20_1000mm'      : "/ggH_HToSSTo4l_MH-300_MS-20_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L300_20_100mm'       : "/ggH_HToSSTo4l_MH-300_MS-20_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
