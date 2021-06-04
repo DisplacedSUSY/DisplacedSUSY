@@ -99,6 +99,7 @@ signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses 
 #  if int(mH)==125:
 #    for ctau in lifetimes:
 #      signal_points.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+#      signal_points.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
 #  elif int(mH)==300:
 #    for ctau in lifetimes:
 #      signal_points.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
