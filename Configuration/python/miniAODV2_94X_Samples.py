@@ -404,7 +404,7 @@ signal_mc_samples = {
     'HToSSTo4L125_50_1000mm'      : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L125_50_100mm'       : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L125_50_10mm'        : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
-    #'HToSSTo4L125_50_1mm'         : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER", #not yet available
+    'HToSSTo4L125_50_1mm'         : "/ggH_HToSSTo4l_MH-125_MS-50_ctauS-1_TuneCP5_13TeV-powheg-pythia8/fernance-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
 
     'HToSSTo4L300_20_10000mm'     : "/ggH_HToSSTo4l_MH-300_MS-20_ctauS-10000_TuneCP5_13TeV-powheg-pythia8/fernance-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L300_20_1000mm'      : "/ggH_HToSSTo4l_MH-300_MS-20_ctauS-1000_TuneCP5_13TeV-powheg-pythia8/fernance-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
