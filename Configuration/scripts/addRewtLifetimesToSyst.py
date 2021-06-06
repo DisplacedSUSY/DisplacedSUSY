@@ -24,6 +24,7 @@ if HToSS:
     if int(mH)==125:
       for ctau in lifetimes:
         datasets.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+        datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
     elif int(mH)==300:
       for ctau in lifetimes:
         datasets.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
@@ -114,7 +115,7 @@ for syst in systs:
             else:
               #read in original text file, split into 3 "words": original dataset name, down error, up error
               if HToSS:
-                infile = "../data/systematic_values__HToSS_" + syst + "_" + analysisChannel + "_" + year + ".txt"
+                infile = "../data/systematic_values__HToSS__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               elif GMSB:
                 infile = "../data/systematic_values__sleptons__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               else:
