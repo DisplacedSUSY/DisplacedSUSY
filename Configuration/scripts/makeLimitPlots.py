@@ -333,6 +333,7 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     x_bins = getBinArray('mass', limits)
     y_bins = getBinArray('lifetime', limits)
     gridPlot = TH2F("", "", len(x_bins)-1, x_bins, len(y_bins)-1, y_bins)
+    gridPlot.SetContour(500)
     bin_content = []
     limit_dict = {}
     for limit in limits:
