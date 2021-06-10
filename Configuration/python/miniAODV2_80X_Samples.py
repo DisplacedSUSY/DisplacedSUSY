@@ -454,12 +454,6 @@ signal_mc_samples = {
     'sleptons900_100mm'    : "/Sleptons_M_900_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
     'sleptons900_1000mm'   : "/Sleptons_M_900_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
-    'sleptons1000_0p1mm'    : "/Sleptons_M_1000_0p1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
-    'sleptons1000_1mm'      : "/Sleptons_M_1000_1mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
-    'sleptons1000_10mm'     : "/Sleptons_M_1000_10mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
-    'sleptons1000_100mm'    : "/Sleptons_M_1000_100mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
-    'sleptons1000_1000mm'   : "/Sleptons_M_1000_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
-
 
     'HToSSTo4L125_30_10000mm'     : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L125_30_1000mm'      : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
