@@ -928,7 +928,12 @@ def drawPlot(plot):
             processText = "H #rightarrow SS #rightarrow 4l, l = e, #mu"
         legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
 
-        if(HToSS):
+        # construct TGraph objects for all curves and draw them
+        tGraphs = []
+        tTh2fs = []
+        plotDrawn = False
+
+        if not is2D or not plot.get('th2fs', []):
             legend.SetTextSize(0.035)
             expEntry = legend.AddEntry("","Median expected","l",)
             obsEntry = legend.AddEntry("","Observed","l")
@@ -937,11 +942,6 @@ def drawPlot(plot):
             expEntry.SetLineStyle(7)
             expEntry.SetLineWidth(4)
             obsEntry.SetLineWidth(4)
-
-        # construct TGraph objects for all curves and draw them
-        tGraphs = []
-        tTh2fs = []
-        plotDrawn = False
 
         # draw theory curve
         if (not is2D) and plot.get('showTheory') and plot.get('showTheoryError'):
@@ -995,9 +995,7 @@ def drawPlot(plot):
                         legendEntry = 'Median expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
-                        #don't draw expected in legend for Higgs, so can do something fancier
-                        if not HToSS:
-                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        #don't draw expected in legend for 1D hists
 
                     # draw observed limit
                     elif graphName == 'obs':
@@ -1010,10 +1008,7 @@ def drawPlot(plot):
                         plotDrawn = True
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
-                            if(HToSS):
-                                legendEntry = graph['legendEntry']
-                            else:
-                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legendEntry = graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
                         #print summary of limits for paper Summary section:
@@ -1128,7 +1123,7 @@ def drawPlot(plot):
                         plotDrawn = True
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
-                            legendEntry = legendEntry + ": " + graph['legendEntry']
+                            legendEntry = graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName('L')
 
