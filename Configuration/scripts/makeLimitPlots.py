@@ -59,7 +59,7 @@ gStyle.SetLabelColor(1, "XYZ")
 gStyle.SetLabelFont(42, "XYZ")
 gStyle.SetLabelOffset(0.005, "XYZ")
 gStyle.SetLabelSize(0.04, "YZ")
-gStyle.SetLabelSize(0.03, "X")
+gStyle.SetLabelSize(0.033, "X")
 gStyle.SetAxisColor(1, "XYZ")
 gStyle.SetStripDecimals(True)
 gStyle.SetTickLength(0.03, "XYZ")
@@ -74,8 +74,8 @@ topLeft_x_right   = 0.6
 y_top     = 0.85
 
 #position for header
-header_x_left    = 0.50
-header_x_right   = 0.86
+header_x_left    = 0.45
+header_x_right   = 0.81
 
 colorSchemes = {
     'susy_pag' : {
@@ -907,7 +907,7 @@ def drawPlot(plot):
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-            legend = TLegend(topLeft_x_left+0.05, 0.50, 0.55, 0.75) #legend at the top for 1D plot
+            legend = TLegend(topLeft_x_left+0.05, 0.48, 0.55, 0.77) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
@@ -925,8 +925,18 @@ def drawPlot(plot):
         elif GMSBstaus:
             processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
         elif process == 'HToSSTo4L':
-            processText = "H #rightarrow SS #rightarrow 4l"
+            processText = "H #rightarrow SS #rightarrow 4l, l = e, #mu"
         legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+
+        if(HToSS):
+            legend.SetTextSize(0.035)
+            expEntry = legend.AddEntry("","Median expected","l",)
+            obsEntry = legend.AddEntry("","Observed","l")
+            legend.AddEntry("","","")
+
+            expEntry.SetLineStyle(7)
+            expEntry.SetLineWidth(4)
+            obsEntry.SetLineWidth(4)
 
         # construct TGraph objects for all curves and draw them
         tGraphs = []
@@ -985,7 +995,9 @@ def drawPlot(plot):
                         legendEntry = 'Median expected'
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
-                        legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        #don't draw expected in legend for Higgs, so can do something fancier
+                        if not HToSS:
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
                     # draw observed limit
                     elif graphName == 'obs':
@@ -998,7 +1010,10 @@ def drawPlot(plot):
                         plotDrawn = True
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
-                            legendEntry = legendEntry + ": " + graph['legendEntry']
+                            if(HToSS):
+                                legendEntry = graph['legendEntry']
+                            else:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
                         #print summary of limits for paper Summary section:

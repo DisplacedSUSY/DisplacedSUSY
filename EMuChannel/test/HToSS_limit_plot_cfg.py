@@ -11,30 +11,30 @@ channel = None # set to None for multi-channel plots
 
 process = 'HToSSTo4L'
 masses = {
-  "125"  : ["30"],
-  "300"  : ["20", "50", "150"],
-  "400"  : ["50", "150"],
-  "600"  : ["50", "150"],
-  "800"  : ["50", "150", "250"],
-  #"1000" : ["30", "150", "350"]
-  "1000" : ["150", "350"]
+    "125"  : ["30", "50"],
+    "300"  : ["20", "50", "150"],
+    "400"  : ["50", "150"],
+    "600"  : ["50", "150"],
+    "800"  : ["50", "150", "250"],
+    #"1000" : ["30", "150", "350"]
+    "1000" : ["150", "350"]
 }
 bareMasses = {
-  125  : [30],
-  300  : [20, 50, 150],
-  400  : [50, 150],
-  600  : [50, 150],
-  800  : [50, 150, 250],
-  #1000 : [30, 150, 350]
-  1000 : [150, 350]
+    125  : [30, 50],
+    300  : [20, 50, 150],
+    400  : [50, 150],
+    600  : [50, 150],
+    800  : [50, 150, 250],
+    #1000 : [30, 150, 350]
+    1000 : [150, 350]
 }
 #20: green
-#30: black
-#50: purple
-#150: red
+#30: blue
+#50: red
+#150: purple
 #250: magenta
-#350: blue
-#yellow
+#350: orange
+
 lifetimes = [str(b*10**e) for e in range(0, 4) for b in range(1, 10)] + [str(10000)] #all lifetimes
 
 # description of all the plots to be made
@@ -54,12 +54,21 @@ plotDefinitions = [
         'graphs' : [
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '125_30',
                 'm' : '125',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'black',
-                'legendEntry' : 'm_{H}, m_{S} = 125, 30 GeV',
+                'colorScheme' : 'blue',
+                'legendEntry' : 'm_{H} = 125 GeV, m_{S} = 30 GeV',
+            },
+            {
+                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
+                'mass' : '125_50',
+                'm' : '125',
+                'graphsToInclude' : ['exp', 'obs'],
+                'colorScheme' : 'red',
+                'legendEntry' : 'm_{H} = 125 GeV, m_{S} = 50 GeV',
             },
         ],
     },
@@ -78,30 +87,30 @@ plotDefinitions = [
         'graphs' : [
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_20',
                 'm' : '300',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
-                'legendEntry' : 'm_{H}, m_{S} = 300, 20 GeV',
+                'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 20 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_50',
                 'm' : '300',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
-                'legendEntry' : 'm_{H}, m_{S} = 300, 50 GeV',
+                'colorScheme' : 'red',
+                'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 50 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_150',
                 'm' : '300',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'm_{H}, m_{S} = 300, 150 GeV',
+                'colorScheme' : 'purple',
+                'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 150 GeV',
             },
         ],
     },
@@ -120,21 +129,21 @@ plotDefinitions = [
         'graphs' : [
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '400_50',
                 'm' : '400',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
-                'legendEntry' : 'm_{H}, m_{S} = 400, 50 GeV',
+                'colorScheme' : 'red',
+                'legendEntry' : 'm_{H} = 400 GeV, m_{S} = 50 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '400_150',
                 'm' : '400',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'm_{H}, m_{S} = 400, 150 GeV',
+                'colorScheme' : 'purple',
+                'legendEntry' : 'm_{H} = 400 GeV, m_{S} = 150 GeV',
             },
         ],
     },
@@ -153,21 +162,21 @@ plotDefinitions = [
         'graphs' : [
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '600_50',
                 'm' : '600',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
-                'legendEntry' : 'm_{H}, m_{S} = 600, 50 GeV',
+                'colorScheme' : 'red',
+                'legendEntry' : 'm_{H} = 600 GeV, m_{S} = 50 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '600_150',
                 'm' : '600',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'm_{H}, m_{S} = 600, 150 GeV',
+                'colorScheme' : 'purple',
+                'legendEntry' : 'm_{H} = 600 GeV, m_{S} = 150 GeV',
             },
         ],
     },
@@ -186,30 +195,30 @@ plotDefinitions = [
         'graphs' : [
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_50',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
-                'legendEntry' : 'm_{H}, m_{S} = 800, 50 GeV',
+                'colorScheme' : 'red',
+                'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 50 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_150',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'm_{H}, m_{S} = 800, 150 GeV',
+                'colorScheme' : 'purple',
+                'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 150 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_250',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'magenta',
-                'legendEntry' : 'm_{H}, m_{S} = 800, 250 GeV',
+                'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 250 GeV',
             },
         ],
     },
@@ -228,30 +237,30 @@ plotDefinitions = [
         'graphs' : [
             #{
             #    'source' : 'combined_HToSS_201617_unblinded_24May2021',
-            #    'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+            #    'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
             #    'mass' : '1000_30',
             #    'm' : '1000',
             #    'graphsToInclude' : ['exp', 'obs'],
-            #    'colorScheme' : 'black',
-            #    'legendEntry' : 'm_{H}, m_{S} = 1000, 30 GeV',
+            #    'colorScheme' : 'blue',
+            #    'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 30 GeV',
             #},
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '1000_150',
                 'm' : '1000',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
-                'legendEntry' : 'm_{H}, m_{S} = 1000, 150 GeV',
+                'colorScheme' : 'purple',
+                'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 150 GeV',
             },
             {
                 #'source' : 'combined_HToSS_201617_unblinded_24May2021',
-                'source' : 'combined_HToSS_scaledRunII_unblinded_25May2021',
+                'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '1000_350',
                 'm' : '1000',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'blue',
-                'legendEntry' : 'm_{H}, m_{S} = 1000, 350 GeV',
+                'colorScheme' : 'orange',
+                'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 350 GeV',
             },
         ],
     },
