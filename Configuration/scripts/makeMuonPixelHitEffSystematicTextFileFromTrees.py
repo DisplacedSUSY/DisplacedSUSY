@@ -241,7 +241,12 @@ def getMeanEfficiency(signalSample,condorDir,cosmicSample): #cosmicSample is cos
         return 1.0*sumOfEffProduct/sumOfWeights
 
 
-outputFile = os.environ['CMSSW_BASE']+"/src/DisplacedSUSY/Configuration/data/systematic_values__muonPixelHitEff_" + analysisChannel + "_" + year + ".txt"
+base_name = "muonPixelHitEff"
+if year == "2016":
+    base_name += "16"
+sys_name = "{}_{}_{}".format(base_name, analysisChannel, year)
+
+outputFile = "{}/src/DisplacedSUSY/Configuration/data/systematic_values__{}.txt".format(os.environ['CMSSW_BASE'], sys_name)
 open_mode = "a" if arguments.append else "w"
 fout = open (outputFile, open_mode)
 print "now starting muon pixel hit efficiency systematic for " + analysisChannel + " and " + year
@@ -342,9 +347,9 @@ if not os.path.exists(output_path):
 canvasVsLifetime.cd()
 hSystVsLifetime.Draw("p")
 LegLifetime.Draw()
-canvasVsLifetime.SaveAs(output_path + "/muonPixelHitEff_" + analysisChannel + "_" + year + "VsLifetime.pdf")
+canvasVsLifetime.SaveAs(output_path + "/" + sys_name + "VsLifetime.pdf")
 
 canvasVsMass.cd()
 hSystVsMass.Draw("p")
 LegMass.Draw()
-canvasVsMass.SaveAs(output_path + "/muonPixelHitEff_" + analysisChannel + "_" + year + "VsMass.pdf")
+canvasVsMass.SaveAs(output_path + "/" + sys_name + "VsMass.pdf")
