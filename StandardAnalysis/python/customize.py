@@ -19,7 +19,7 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
         elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
             process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True)
         else:
-            print "unrecognized CMSSW release; electron VID cut removal might not work"
+            print "unrecognized CMSSW release; lifetime reweighting may not work"
 
     elif(HToSS):
         process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
