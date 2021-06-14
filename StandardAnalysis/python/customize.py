@@ -10,14 +10,22 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
     #stops and HToSS can use last AND first copy
     #GMSB signal needs last copy only
     #need special R-hadron flag for stop samples but not for H to SS or GMSB samples
-    if(GMSB):
+    if(GMSB or GMSBstaus):
         process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(False)
-        process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True)
         process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
+        # require lastNotFirstCopy for 2017+2018 but not 2016 b/c relevant flag isn't set in 2016
+        if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
+            process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)
+        elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_9_4_") or os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
+            process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(True)
+        else:
+            print "unrecognized CMSSW release; electron VID cut removal might not work"
+
     elif(HToSS):
         process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)
         process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
+
     elif(stops):
         process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(True)
         process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)
