@@ -170,6 +170,67 @@ data_samples = {
 }
 
 signal_mc_samples = {
+
+    'sleptons50_0p1mm'     : "/Sleptons_M_50_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons50_1mm'       : "/Sleptons_M_50_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons50_10mm'      : "/Sleptons_M_50_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons50_100mm'     : "/Sleptons_M_50_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons50_1000mm'    : "/Sleptons_M_50_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons100_0p1mm'    : "/Sleptons_M_100_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons100_1mm'      : "/Sleptons_M_100_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons100_10mm'     : "/Sleptons_M_100_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons100_100mm'    : "/Sleptons_M_100_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons100_1000mm'   : "/Sleptons_M_100_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons200_0p1mm'    : "/Sleptons_M_200_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons200_1mm'      : "/Sleptons_M_200_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons200_10mm'     : "/Sleptons_M_200_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons200_100mm'    : "/Sleptons_M_200_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons200_1000mm'   : "/Sleptons_M_200_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons300_0p1mm'    : "/Sleptons_M_300_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons300_1mm'      : "/Sleptons_M_300_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons300_10mm'     : "/Sleptons_M_300_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons300_100mm'    : "/Sleptons_M_300_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons300_1000mm'   : "/Sleptons_M_300_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons400_0p1mm'    : "/Sleptons_M_400_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons400_1mm'      : "/Sleptons_M_400_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons400_10mm'     : "/Sleptons_M_400_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons400_100mm'    : "/Sleptons_M_400_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons400_1000mm'   : "/Sleptons_M_400_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons500_0p1mm'    : "/Sleptons_M_500_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons500_1mm'      : "/Sleptons_M_500_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons500_10mm'     : "/Sleptons_M_500_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons500_100mm'    : "/Sleptons_M_500_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons500_1000mm'   : "/Sleptons_M_500_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons600_0p1mm'    : "/Sleptons_M_600_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons600_1mm'      : "/Sleptons_M_600_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons600_10mm'     : "/Sleptons_M_600_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons600_100mm'    : "/Sleptons_M_600_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons600_1000mm'   : "/Sleptons_M_600_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons700_0p1mm'    : "/Sleptons_M_700_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons700_1mm'      : "/Sleptons_M_700_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons700_10mm'     : "/Sleptons_M_700_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons700_100mm'    : "/Sleptons_M_700_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons700_1000mm'   : "/Sleptons_M_700_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons800_0p1mm'    : "/Sleptons_M_800_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons800_1mm'      : "/Sleptons_M_800_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons800_10mm'     : "/Sleptons_M_800_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons800_100mm'    : "/Sleptons_M_800_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons800_1000mm'   : "/Sleptons_M_800_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
+    'sleptons900_0p1mm'    : "/Sleptons_M_900_0p1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons900_1mm'      : "/Sleptons_M_900_1mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons900_10mm'     : "/Sleptons_M_900_10mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons900_100mm'    : "/Sleptons_M_900_100mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+    'sleptons900_1000mm'   : "/Sleptons_M_900_1000mm_13TeV_2017MC/manunezo-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER"
+
     #DisplacedSUSY Signal (stop --> l+b) MC MiniAOD - 100k events/sample
     'stopToLB100_1000mm' : "/StopToLB_M_100_1000mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
     'stopToLB100_100mm'  : "/StopToLB_M_100_100mm_13TeV_2017MC/jalimena-MiniAod-18783c0a07109245951450a1a4f55409/USER",
