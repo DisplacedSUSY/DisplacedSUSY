@@ -12,6 +12,15 @@ config_file = "pu_cfg.py"
 #datasets.extend(composite_dataset_definitions['all_bg_mc'])
 #datasets.extend(composite_dataset_definitions['DisplacedSUSYSignal'])
 
+
+# gmsb
+#processes = ['sleptons']
+#masses = [50] + [m for m in range(100, 901, 100)]
+#lifetimes = [10**e for e in range(-1, 4)] # all lifetimes
+#datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+#datasets = [d.replace(".", "p") for d in datasets]
+
+
 processes = ['HToSSTo4L']
 massesH = ["125","300","400","600","800","1000"]
 massesS = []#minimum list of S masses that exist for every H mass
