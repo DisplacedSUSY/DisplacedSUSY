@@ -874,13 +874,13 @@ def drawPlot(plot):
                     yAxisBins.append(8.0*float(masses[-1]) - 4.0*float(masses[-2]))
             elif plot['yAxisType'] == 'lifetime':
                 canvas.SetLogy()
-                if arguments.ns:
-                    yAxisMin = 0.1*float(lifetimes[0])
-                    yAxisMax = 0.1*float(lifetimes[-1])
-                    yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
-                    yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
-                    yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
+                yAxisMin = 0.1*float(lifetimes[0])
+                yAxisMax = 0.1*float(lifetimes[-1])
+                yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
+                yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
+                yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
 
+                if arguments.ns:
                     rightAxisMin = yAxisMin/30
                     rightAxisMax = yAxisMax/30
                     rightAxis = TGaxis(xAxisMax, yAxisMin, xAxisMax, yAxisMax, rightAxisMin, rightAxisMax, 510, "+LG")
@@ -1015,6 +1015,7 @@ def drawPlot(plot):
                         elif GMSB and not GMSBstaus and legendEntry=='Observed: 500 GeV':
                             xs = 0.0006736 #500 GeV slepton cross section in pb
                             printMassLifetimeExclusion(tGraphs[-1], xs, legendEntry)
+                    tGraphs[-1].SetName("h_"+legendEntry)
 
             # draw 2D graphs
             else:
@@ -1030,7 +1031,6 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
                     if graphName == 'oneSigma':
                         g = getOneSigmaGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], colorScheme)
@@ -1042,7 +1042,6 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
                     if graphName == 'exp':
                         lineStyle = graph.get('lineStyle', 7)
                         g = getExpectedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1058,7 +1057,6 @@ def drawPlot(plot):
                             #legendEntry = graph['legendEntry']
                             #legend.SetHeader("Expected limits")
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
                     if graphName == 'twoSigmaTheory':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1070,7 +1068,6 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        tGraphs[-1].SetName('L')
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], 'observed', 'up2', colorScheme,
                                                lineStyle)
@@ -1081,7 +1078,6 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
                     if graphName == 'oneSigmaTheory':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1093,7 +1089,6 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        tGraphs[-1].SetName('L')
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], 'observed', 'up1', colorScheme,
                                                lineStyle)
@@ -1104,7 +1099,6 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
                     if graphName == 'obs':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1118,7 +1112,7 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName('L')
+                    tGraphs[-1].SetName("h_"+legendEntry)
 
         for th2f in plot.get('th2fs', []):
             for limit_type in th2f['th2fsToInclude']:
@@ -1141,6 +1135,7 @@ def drawPlot(plot):
                         for tGraph in tGraphs:
                             drawOption = tGraph.GetName() + ' same'
                             tGraph.Draw(drawOption)
+                tTh2fs[-1].SetName("h_"+canvas.GetName())
 
         if (not is2D) and plot.get('showTheory') and (not plot.get('showTheoryError')):
             if plot['xAxisType'] == 'mass':
@@ -1177,6 +1172,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetTitleOffset(1.5)
                 tGraph.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
                 tGraph.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
+            tGraph.Write()
         legend.Draw()
         canvas.SetTitle('')
         for th2f in tTh2fs:
@@ -1194,6 +1190,7 @@ def drawPlot(plot):
             elif 'obs' in canvas.GetName():
                 th2f.GetZaxis().SetTitle('Observed #sigma_{95%CL} [pb]')
             th2f.GetZaxis().SetTitleOffset(1.5)
+            th2f.Write()
 
         if arguments.ns:
             rightAxis.Draw()
