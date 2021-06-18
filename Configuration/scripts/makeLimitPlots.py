@@ -884,7 +884,7 @@ def drawPlot(plot):
                     rightAxisMin = yAxisMin/30
                     rightAxisMax = yAxisMax/30
                     rightAxis = TGaxis(xAxisMax, yAxisMin, xAxisMax, yAxisMax, rightAxisMin, rightAxisMax, 510, "+LG")
-                    rightAxis.SetTitle("#tau [ns]")
+                    rightAxis.SetTitle("#tau_{0} [ns]")
                     rightAxis.SetTitleFont(42)
                     rightAxis.SetLabelFont(42)
 

@@ -326,7 +326,7 @@ Leg = TLegend(0.2,0.6,0.8,0.8)
 Leg.AddEntry(hObs2016,"Data","ep")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
-Leg.AddEntry(hSig2016,"#tilde{t} #rightarrow bl, m_{#tilde{t}} = 1500 GeV, c#tau = 1 cm","l")
+Leg.AddEntry(hSig2016,"#tilde{t} #rightarrow bl, m_{#tilde{t}} = 1500 GeV, c#tau_{0} = 1 cm","l")
 Leg.SetBorderSize(0)
 
 Canvas2016.cd()

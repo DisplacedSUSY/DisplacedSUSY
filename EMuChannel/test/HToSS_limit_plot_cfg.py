@@ -45,7 +45,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -53,7 +53,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '125_30',
                 'm' : '125',
@@ -62,7 +62,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 125 GeV, m_{S} = 30 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '125_50',
                 'm' : '125',
@@ -78,7 +78,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -86,7 +86,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_20',
                 'm' : '300',
@@ -95,7 +95,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 20 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_50',
                 'm' : '300',
@@ -104,7 +104,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 50 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '300_150',
                 'm' : '300',
@@ -120,7 +120,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -128,7 +128,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '400_50',
                 'm' : '400',
@@ -137,7 +137,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 400 GeV, m_{S} = 50 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '400_150',
                 'm' : '400',
@@ -153,7 +153,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -161,7 +161,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '600_50',
                 'm' : '600',
@@ -170,7 +170,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 600 GeV, m_{S} = 50 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '600_150',
                 'm' : '600',
@@ -186,7 +186,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -194,7 +194,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_50',
                 'm' : '800',
@@ -203,7 +203,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 50 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_150',
                 'm' : '800',
@@ -212,7 +212,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 150 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '800_250',
                 'm' : '800',
@@ -228,7 +228,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -236,7 +236,7 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             #{
-            #    'source' : 'combined_HToSS_201617_unblinded_24May2021',
+            #    'source' : 'combined_HToSS_201617_unblinded_10June2021',
             #    'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
             #    'mass' : '1000_30',
             #    'm' : '1000',
@@ -245,7 +245,7 @@ plotDefinitions = [
             #    'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 30 GeV',
             #},
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '1000_150',
                 'm' : '1000',
@@ -254,7 +254,7 @@ plotDefinitions = [
                 'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 150 GeV',
             },
             {
-                #'source' : 'combined_HToSS_201617_unblinded_24May2021',
+                #'source' : 'combined_HToSS_201617_unblinded_10June2021',
                 'source' : 'combined_HToSS_scaledRunII_unblinded_10June2021',
                 'mass' : '1000_350',
                 'm' : '1000',

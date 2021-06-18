@@ -21,8 +21,8 @@ plotDefinitions = [
 
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
-        'yAxisLabel' : 'c#tau [cm]',
-        #'yAxisLabel' : '#tau [ns]',
+        'yAxisLabel' : 'c#tau_{0} [cm]',
+        #'yAxisLabel' : '#tau_{0} [ns]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
@@ -49,8 +49,8 @@ plotDefinitions = [
 
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
-        'yAxisLabel' : 'c#tau [cm]',
-        #'yAxisLabel' : '#tau [ns]',
+        'yAxisLabel' : 'c#tau_{0} [cm]',
+        #'yAxisLabel' : '#tau_{0} [ns]',
 
         'graphs' : [
             {
