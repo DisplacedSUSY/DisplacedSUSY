@@ -17,7 +17,7 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
-from ROOT import gROOT, gStyle, TFile, TCanvas, TH1F, TGraphAsymmErrors, TPaveLabel, TLegend, TLine
+from ROOT import gROOT, gStyle, TFile, TCanvas, TH1, TH1F, TGraphAsymmErrors, TPaveLabel, TLegend, TLine
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -51,6 +51,7 @@ gStyle.SetTickLength(0.03, "XYZ")
 gStyle.SetNdivisions(505, "XYZ")
 gStyle.SetPadTickX(1)
 gStyle.SetPadTickY(1)
+gStyle.SetErrorX(0)
 gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
@@ -109,12 +110,14 @@ LumiPrelimLabel.SetTextFont(62)
 LumiPrelimLabel.SetTextSize(0.8)
 LumiPrelimLabel.SetTextAlign(12)
 
-EMuLabel = TPaveLabel(emu_x_left,emu_y_bottom,emu_x_right,emu_y_top,"e#mu","nb")
+# the default is somehow bold for these, so you have to explicitly make the e's unbold (with a "second" #bf{})
+# to make them match the #mu's (which you can't get bold because they are greek letter... but really cuz root)
+EMuLabel = TPaveLabel(emu_x_left,emu_y_bottom,emu_x_right,emu_y_top,"#bf{e}#mu","nb")
 EMuLabel.SetTextFont(62)
 EMuLabel.SetTextSize(0.7)
 EMuLabel.SetTextAlign(22)
 
-EELabel = TPaveLabel(ee_x_left,emu_y_bottom,ee_x_right,emu_y_top,"ee","nb")
+EELabel = TPaveLabel(ee_x_left,emu_y_bottom,ee_x_right,emu_y_top,"#bf{ee}","nb")
 EELabel.SetTextFont(62)
 EELabel.SetTextSize(0.7)
 EELabel.SetTextAlign(22)
@@ -143,7 +146,8 @@ for label in labels:
 
 emueeLine = TLine(5,0,5,100)
 eemumuLine = TLine(10,0,10,100)
-
+emueeLine.SetLineWidth(2)
+eemumuLine.SetLineWidth(2)
 
 Canvas2016 = TCanvas("canvas2016","")
 Canvas2016Prelim = TCanvas("canvas2016Preliminary","")
@@ -195,14 +199,20 @@ SigRun2err = [sqrt(i*i+j*j) for i,j in zip(Sig2016err,Sig201718err)]
 hObs2016 = TH1F("hObs2016","",15,0,15)
 hObs2016.SetMarkerStyle(20)
 hObs2016.SetMarkerColor(1)
+hObs2016.SetLineColor(1)
+hObs2016.SetBinErrorOption(TH1.kPoisson)
 
 hObs201718 = TH1F("hObs201718","",15,0,15)
 hObs201718.SetMarkerStyle(20)
 hObs201718.SetMarkerColor(1)
+hObs201718.SetLineColor(1)
+hObs201718.SetBinErrorOption(TH1.kPoisson)
 
 hObsRun2 = TH1F("hObsRun2","",15,0,15)
 hObsRun2.SetMarkerStyle(20)
 hObsRun2.SetMarkerColor(1)
+hObsRun2.SetLineColor(1)
+hObsRun2.SetBinErrorOption(TH1.kPoisson)
 
 hExp2016 = TH1F("hExp2016","",15,0,15)
 hExp2016.SetFillStyle(1001)
@@ -255,6 +265,7 @@ ExpUncert_xErr = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
 Exp2016ErrUp = [4.8,0.53,0.12,0.15,0.004, 11, 0.17, 1.02, 0.85, 0.02, 3,0.11,0.11,0.12,0.01]
 Exp2016ErrDown = [3.8,0.41,0.09,0.15,0.003,  11,0.16,0.51,0.43,0.01,   3,0.11,0.11,0.12,0.01]
 hExpUncert2016 = makeTGraphAsymmErrors(ExpUncert_x, Exp2016, ExpUncert_xErr, ExpUncert_xErr, Exp2016ErrDown, Exp2016ErrUp)
+hExpUncert2016.SetName("hExpUncert2016")
 hExpUncert2016.SetFillStyle(3002)
 hExpUncert2016.SetFillColor(13)
 hExpUncert2016.SetLineWidth(0)
@@ -262,6 +273,7 @@ hExpUncert2016.SetLineWidth(0)
 Exp201718ErrUp = [13, 0.41, 0.27, 0.76, 0.02,   18, 0.33, 1.1, 1.4, 0.10,   1.5, 0.31, 0.12, 0.19, 0.02]
 Exp201718ErrDown = [13,0.34,0.23,0.71,0.01,  17, 0.35, 1.1, 1.4, 0.09,  1.5, 0.31, 0.08, 0.14, 0.01]
 hExpUncert201718 = makeTGraphAsymmErrors(ExpUncert_x, Exp201718, ExpUncert_xErr, ExpUncert_xErr, Exp201718ErrDown, Exp201718ErrUp)
+hExpUncert201718.SetName("hExpUncert201718")
 hExpUncert201718.SetFillStyle(3002)
 hExpUncert201718.SetFillColor(13)
 hExpUncert201718.SetLineWidth(0)
@@ -270,6 +282,7 @@ hExpUncert201718.SetLineWidth(0)
 ExpRun2ErrDown = [sqrt(i*i+j*j) for i,j in zip(Exp2016ErrDown,Exp201718ErrDown)]
 ExpRun2ErrUp = [sqrt(i*i+j*j) for i,j in zip(Exp2016ErrUp,Exp201718ErrUp)]
 hExpUncertRun2 = makeTGraphAsymmErrors(ExpUncert_x, ExpRun2, ExpUncert_xErr, ExpUncert_xErr, ExpRun2ErrDown, ExpRun2ErrUp)
+hExpUncertRun2.SetName("hExpUncertRun2")
 hExpUncertRun2.SetFillStyle(3002)
 hExpUncertRun2.SetFillColor(13)
 hExpUncertRun2.SetLineWidth(0)
@@ -310,17 +323,17 @@ for hist in hists:
     #hist.GetXaxis().Paint("L")
 
 Leg = TLegend(0.2,0.6,0.8,0.8)
-Leg.AddEntry(hObs2016,"Data","p")
+Leg.AddEntry(hObs2016,"Data","ep")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
-Leg.AddEntry(hSig2016,"#tilde{t}#tilde{t} #rightarrow lb lb, M = 1500 GeV, c#tau = 1 cm","l")
+Leg.AddEntry(hSig2016,"#tilde{t} #rightarrow bl, m_{#tilde{t}} = 1500 GeV, c#tau = 1 cm","l")
 Leg.SetBorderSize(0)
 
 Canvas2016.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
 hSig2016.Draw("histesame")
-hObs2016.Draw("psame")
+hObs2016.Draw("pe0same")
 LumiLabel.Draw()
 HeaderLabel2016.Draw()
 Leg.Draw()
@@ -335,7 +348,7 @@ Canvas2016Prelim.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
 hSig2016.Draw("histesame")
-hObs2016.Draw("psame")
+hObs2016.Draw("pe0same")
 LumiPrelimLabel.Draw()
 HeaderLabel2016.Draw()
 Leg.Draw()
@@ -350,7 +363,7 @@ Canvas201718.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
 hSig201718.Draw("histesame")
-hObs201718.Draw("psame")
+hObs201718.Draw("pe0same")
 LumiLabel.Draw()
 HeaderLabel201718.Draw()
 Leg.Draw()
@@ -365,7 +378,7 @@ Canvas201718Prelim.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
 hSig201718.Draw("histesame")
-hObs201718.Draw("psame")
+hObs201718.Draw("pe0same")
 LumiPrelimLabel.Draw()
 HeaderLabel201718.Draw()
 Leg.Draw()
@@ -380,7 +393,7 @@ CanvasRun2.cd()
 hExpRun2.Draw()
 hExpUncertRun2.Draw("e2same")
 hSigRun2.Draw("histesame")
-hObsRun2.Draw("psame")
+hObsRun2.Draw("pe0same")
 LumiLabel.Draw()
 HeaderLabelRun2.Draw()
 Leg.Draw()
@@ -395,7 +408,7 @@ CanvasRun2Prelim.cd()
 hExpRun2.Draw()
 hExpUncertRun2.Draw("e2same")
 hSigRun2.Draw("histesame")
-hObsRun2.Draw("psame")
+hObsRun2.Draw("pe0same")
 LumiPrelimLabel.Draw()
 HeaderLabelRun2.Draw()
 Leg.Draw()
@@ -405,3 +418,25 @@ MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
 CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary.pdf")
+
+
+#write histograms to root file for hepdata
+outputFile = TFile("SRyields.root", "RECREATE")
+outputFile.cd()
+
+hExp2016.Write()
+hExpUncert2016.Write()
+hSig2016.Write()
+hObs2016.Write()
+
+hExp201718.Write()
+hExpUncert201718.Write()
+hSig201718.Write()
+hObs201718.Write()
+
+hExpRun2.Write()
+hExpUncertRun2.Write()
+hSigRun2.Write()
+hObsRun2.Write()
+
+outputFile.Close()
