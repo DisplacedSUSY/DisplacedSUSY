@@ -402,3 +402,20 @@ elif arguments.signal:
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.pdf")
 else:
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.pdf")
+
+
+#write histograms to root file for hepdata
+if(arguments.diagramPlot):
+    outFileSuffix = "bkg_"+analysisChannel
+elif arguments.signal:
+    outFileSuffix = "dataWithSignal_"+analysisChannel
+else:
+    outFileSuffix = "data_"+analysisChannel
+
+outFilePrefix = "condor/%s/" % arguments.condorDir
+outputFile = TFile(outFilePrefix+"d0plots_"+outFileSuffix+".root", "RECREATE")
+outputFile.cd()
+h.Write()
+if arguments.signal:
+    hSignal.Write()
+outputFile.Close()
