@@ -31,7 +31,7 @@ else:
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV, signal_cross_sections_sleptons_13TeV, signal_cross_sections_staus_13TeV, signal_cross_sections_HToSS_13TeV
 signal_cross_sections = {}
 
-from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree
+from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree, TGaxis
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -64,7 +64,8 @@ gStyle.SetAxisColor(1, "XYZ")
 gStyle.SetStripDecimals(True)
 gStyle.SetTickLength(0.03, "XYZ")
 gStyle.SetPadTickX(1)
-gStyle.SetPadTickY(1)
+if not arguments.ns:
+    gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
@@ -323,11 +324,7 @@ def getBinArray(key, dictionaries):
         bins = [float(d[key]) for d in dictionaries]
     bins = sorted(list(set(bins)))
     bins.append(bins[-1] + 100.0)
-    if key=='lifetime' and arguments.ns:
-        nsBins = [i/30. for i in bins]
-        return array("d", nsBins)
-    else:
-        return array("d", bins)
+    return array("d", bins)
 
 def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     x_bins = getBinArray('mass', limits)
@@ -369,10 +366,7 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
         for mass in ordered_masses:
             limit_point = limit_dict[lifetime][mass]['experiment']
             bin_content.append(limit_point)
-            if arguments.ns:
-                gridPlot.Fill(mass, lifetime/30., limit_point)
-            else:
-                gridPlot.Fill(mass, lifetime, limit_point)
+            gridPlot.Fill(mass, lifetime, limit_point)
     th2f = gridPlot
     th2f.SetDirectory(0)
     th2f.SetMaximum(th2f.GetMaximum())
@@ -447,10 +441,7 @@ def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
                 mass_limit = 0.0
 
         x.append(mass_limit)
-        if arguments.ns:
-            y.append(lifetime/30.) #convert ctau in cm to lifetime in ns
-        else:
-            y.append(lifetime)
+        y.append(lifetime)
 
         if x_key == 'lifetime' and y_key == 'mass':
             x[-1], y[-1] = y[-1], x[-1]
@@ -884,17 +875,19 @@ def drawPlot(plot):
             elif plot['yAxisType'] == 'lifetime':
                 canvas.SetLogy()
                 if arguments.ns:
-                    yAxisMin = 0.1/30*float(lifetimes[0])
-                    yAxisMax = 0.1/30*float(lifetimes[-1])
-                    yAxisBins.extend([0.1/30.*float(lifetime) for lifetime in lifetimes])
-                    yAxisBins.append(0.1*2.0/30.*float(lifetimes[-1]))
-                    yAxisBins.append(0.1*8.0/30.*float(lifetimes[-1]))
-                else:
                     yAxisMin = 0.1*float(lifetimes[0])
                     yAxisMax = 0.1*float(lifetimes[-1])
                     yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                     yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
                     yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
+
+                    rightAxisMin = yAxisMin/30
+                    rightAxisMax = yAxisMax/30
+                    rightAxis = TGaxis(xAxisMax, yAxisMin, xAxisMax, yAxisMax, rightAxisMin, rightAxisMax, 510, "+LG")
+                    rightAxis.SetTitle("#tau [ns]")
+                    rightAxis.SetTitleFont(42)
+                    rightAxis.SetLabelFont(42)
+
                 if(HToSS):
                     xAxisBins.extend([float(mass) for mass in masses.keys()])
                     xAxisBins.append(2.0*float(masses.keys()[-1]) - float(masses.keys()[-2]))
@@ -1201,6 +1194,9 @@ def drawPlot(plot):
             elif 'obs' in canvas.GetName():
                 th2f.GetZaxis().SetTitle('Observed #sigma_{95%CL} [pb]')
             th2f.GetZaxis().SetTitleOffset(1.5)
+
+        if arguments.ns:
+            rightAxis.Draw()
 
         # draw header label
         HeaderLabel = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText,"NDC")
