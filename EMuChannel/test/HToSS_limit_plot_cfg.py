@@ -28,12 +28,6 @@ bareMasses = {
     #1000 : [30, 150, 350]
     1000 : [150, 350]
 }
-#20: green
-#30: blue
-#50: red
-#150: purple
-#250: magenta
-#350: orange
 
 lifetimes = [str(b*10**e) for e in range(0, 4) for b in range(1, 10)] + [str(10000)] #all lifetimes
 
@@ -91,7 +85,7 @@ plotDefinitions = [
                 'mass' : '300_20',
                 'm' : '300',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'green',
+                'colorScheme' : 'blue',
                 'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 20 GeV',
             },
             {
@@ -109,7 +103,7 @@ plotDefinitions = [
                 'mass' : '300_150',
                 'm' : '300',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
+                'colorScheme' : 'green',
                 'legendEntry' : 'm_{H} = 300 GeV, m_{S} = 150 GeV',
             },
         ],
@@ -133,7 +127,7 @@ plotDefinitions = [
                 'mass' : '400_50',
                 'm' : '400',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
+                'colorScheme' : 'blue',
                 'legendEntry' : 'm_{H} = 400 GeV, m_{S} = 50 GeV',
             },
             {
@@ -142,7 +136,7 @@ plotDefinitions = [
                 'mass' : '400_150',
                 'm' : '400',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
+                'colorScheme' : 'red',
                 'legendEntry' : 'm_{H} = 400 GeV, m_{S} = 150 GeV',
             },
         ],
@@ -166,7 +160,7 @@ plotDefinitions = [
                 'mass' : '600_50',
                 'm' : '600',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
+                'colorScheme' : 'blue',
                 'legendEntry' : 'm_{H} = 600 GeV, m_{S} = 50 GeV',
             },
             {
@@ -175,7 +169,7 @@ plotDefinitions = [
                 'mass' : '600_150',
                 'm' : '600',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
+                'colorScheme' : 'red',
                 'legendEntry' : 'm_{H} = 600 GeV, m_{S} = 150 GeV',
             },
         ],
@@ -199,7 +193,7 @@ plotDefinitions = [
                 'mass' : '800_50',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'red',
+                'colorScheme' : 'blue',
                 'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 50 GeV',
             },
             {
@@ -208,7 +202,7 @@ plotDefinitions = [
                 'mass' : '800_150',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
+                'colorScheme' : 'red',
                 'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 150 GeV',
             },
             {
@@ -217,7 +211,7 @@ plotDefinitions = [
                 'mass' : '800_250',
                 'm' : '800',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'magenta',
+                'colorScheme' : 'green',
                 'legendEntry' : 'm_{H} = 800 GeV, m_{S} = 250 GeV',
             },
         ],
@@ -250,7 +244,7 @@ plotDefinitions = [
                 'mass' : '1000_150',
                 'm' : '1000',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'purple',
+                'colorScheme' : 'blue',
                 'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 150 GeV',
             },
             {
@@ -259,7 +253,7 @@ plotDefinitions = [
                 'mass' : '1000_350',
                 'm' : '1000',
                 'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'orange',
+                'colorScheme' : 'red',
                 'legendEntry' : 'm_{H} = 1000 GeV, m_{S} = 350 GeV',
             },
         ],
