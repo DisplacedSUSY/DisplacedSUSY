@@ -615,6 +615,12 @@ signal_mc_samples = {
     'sleptons1000_1000mm'  : "/Sleptons_M_1000_1000mm_13TeV_2018MC/manunezo-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
     'sleptons1000_10000mm' : "/Sleptons_M_1000_10000mm_13TeV_2018MC/manunezo-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
 
+    'staus50_0p1mm'    : "/Staus_LeptonFilter_M_50_0p1mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'staus50_1mm'      : "/Staus_LeptonFilter_M_50_1mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'staus50_10mm'     : "/Staus_LeptonFilter_M_50_10mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'staus50_100mm'    : "/Staus_LeptonFilter_M_50_100mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+    'staus50_1000mm'   : "/Staus_LeptonFilter_M_50_1000mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
+
     'staus100_0p1mm'   : ["/Staus_LeptonFilter_M_100_0p1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
                           "/Staus_LeptonFilter_M_100_0p1mm_13TeV_2018MC_2/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER"],
     'staus100_1mm'     : ["/Staus_LeptonFilter_M_100_1mm_13TeV_2018MC/jalimena-MiniAod-c21dec93027231dc6f615dfe5c662834/USER",
