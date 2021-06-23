@@ -490,6 +490,43 @@ signal_mc_samples = {
     'HToSSTo4L1000_350_10mm'      : "/ggH_HToSSTo4l_MH-1000_MS-350_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
     'HToSSTo4L1000_350_1mm'       : "/ggH_HToSSTo4l_MH-1000_MS-350_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER",
 
+
+    'staus50_0p1mm'    : "/Staus_LeptonFilter_M_50_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus50_1mm'      : "/Staus_LeptonFilter_M_50_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus50_10mm'     : "/Staus_LeptonFilter_M_50_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus50_100mm'    : "/Staus_LeptonFilter_M_50_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus50_1000mm'   : "/Staus_LeptonFilter_M_50_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
+    'staus100_0p1mm'   : "/Staus_LeptonFilter_M_100_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus100_1mm'     : "/Staus_LeptonFilter_M_100_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus100_10mm'    : "/Staus_LeptonFilter_M_100_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus100_100mm'   : "/Staus_LeptonFilter_M_100_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus100_1000mm'  : "/Staus_LeptonFilter_M_100_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
+    'staus200_0p1mm'   : "/Staus_LeptonFilter_M_200_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus200_1mm'     : "/Staus_LeptonFilter_M_200_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus200_10mm'    : "/Staus_LeptonFilter_M_200_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus200_100mm'   : "/Staus_LeptonFilter_M_200_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus200_1000mm'  : "/Staus_LeptonFilter_M_200_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
+    'staus300_0p1mm'   : "/Staus_LeptonFilter_M_300_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus300_1mm'     : "/Staus_LeptonFilter_M_300_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus300_10mm'    : "/Staus_LeptonFilter_M_300_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus300_100mm'   : "/Staus_LeptonFilter_M_300_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus300_1000mm'  : "/Staus_LeptonFilter_M_300_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
+    'staus400_0p1mm'   : "/Staus_LeptonFilter_M_400_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus400_1mm'     : "/Staus_LeptonFilter_M_400_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus400_10mm'    : "/Staus_LeptonFilter_M_400_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus400_100mm'   : "/Staus_LeptonFilter_M_400_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus400_1000mm'  : "/Staus_LeptonFilter_M_400_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
+    'staus500_0p1mm'   : "/Staus_LeptonFilter_M_500_0p1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus500_1mm'     : "/Staus_LeptonFilter_M_500_1mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus500_10mm'    : "/Staus_LeptonFilter_M_500_10mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus500_100mm'   : "/Staus_LeptonFilter_M_500_100mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+    'staus500_1000mm'  : "/Staus_LeptonFilter_M_500_1000mm_13TeV_2017MC/jalimena-MiniAod-4fe98f39b775e67c69bc92a03424ad6b/USER",
+
 }
 
 # create composite dictionary of all samples
