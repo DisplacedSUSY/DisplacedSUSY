@@ -455,6 +455,49 @@ signal_mc_samples = {
     'sleptons900_1000mm'   : "/Sleptons_M_900_1000mm_13TeV_2016MC/bcardwel-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
 
 
+    'staus50_0p01mm'   : "/Staus_LeptonFilter_M_50_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus50_0p1mm'    : "/Staus_LeptonFilter_M_50_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus50_1mm'      : "/Staus_LeptonFilter_M_50_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus50_10mm'     : "/Staus_LeptonFilter_M_50_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus50_100mm'    : "/Staus_LeptonFilter_M_50_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus50_1000mm'   : "/Staus_LeptonFilter_M_50_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'staus100_0p01mm'   : "/Staus_LeptonFilter_M_100_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus100_0p1mm'    : "/Staus_LeptonFilter_M_100_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus100_1mm'      : "/Staus_LeptonFilter_M_100_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus100_10mm'     : "/Staus_LeptonFilter_M_100_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus100_100mm'    : "/Staus_LeptonFilter_M_100_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus100_1000mm'   : "/Staus_LeptonFilter_M_100_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'staus200_0p01mm'   : "/Staus_LeptonFilter_M_200_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus200_0p1mm'    : "/Staus_LeptonFilter_M_200_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus200_1mm'      : "/Staus_LeptonFilter_M_200_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus200_10mm'     : "/Staus_LeptonFilter_M_200_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus200_100mm'    : "/Staus_LeptonFilter_M_200_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus200_1000mm'   : "/Staus_LeptonFilter_M_200_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'staus300_0p01mm'   : "/Staus_LeptonFilter_M_300_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus300_0p1mm'    : "/Staus_LeptonFilter_M_300_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus300_1mm'      : "/Staus_LeptonFilter_M_300_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus300_10mm'     : "/Staus_LeptonFilter_M_300_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus300_100mm'    : "/Staus_LeptonFilter_M_300_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus300_1000mm'   : "/Staus_LeptonFilter_M_300_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'staus400_0p01mm'   : "/Staus_LeptonFilter_M_400_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus400_0p1mm'    : "/Staus_LeptonFilter_M_400_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus400_1mm'      : "/Staus_LeptonFilter_M_400_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus400_10mm'     : "/Staus_LeptonFilter_M_400_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus400_100mm'    : "/Staus_LeptonFilter_M_400_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus400_1000mm'   : "/Staus_LeptonFilter_M_400_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+    'staus500_0p01mm'   : "/Staus_LeptonFilter_M_500_0p01mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus500_0p1mm'    : "/Staus_LeptonFilter_M_500_0p1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus500_1mm'      : "/Staus_LeptonFilter_M_500_1mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus500_10mm'     : "/Staus_LeptonFilter_M_500_10mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus500_100mm'    : "/Staus_LeptonFilter_M_500_100mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+    'staus500_1000mm'   : "/Staus_LeptonFilter_M_500_1000mm_13TeV_2016MC/jalimena-MiniAod-53f8667ba4b240d5eafd36e71bf34742/USER",
+
+
     'HToSSTo4L125_30_10000mm'     : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L125_30_1000mm'      : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
     'HToSSTo4L125_30_100mm'       : "/ggH_HToSSTo4l_MH-125_MS-30_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER",
