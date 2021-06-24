@@ -68,10 +68,12 @@ elif GMSBstaus:
   processes = ['staus']
   masses = [50] + [m for m in range(100, 501, 100)]
   lifetimes = [10**e for e in range(-1, 4)]     #now with reweighting in trees
+  #lifetimes = [10**e for e in range(-2, 4)]     #now with reweighting in trees: down to 0p01 in unweighted samples
   datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
   datasets = [lt.replace(".", "p") for lt in datasets]
 
 lifetimes = ['2', '3', '4', '5', '6', '7', '8', '9', '10']
+lifetimes0p01 = ['0p001', '0p002', '0p003', '0p004', '0p005', '0p006', '0p007', '0p008', '0p009']
 lifetimes0p1 = ['0p01', '0p02', '0p03', '0p04', '0p05', '0p06', '0p07', '0p08', '0p09', '0p1']
 if HToSS:
   lifetimes1 = ['0p1', '0p2', '0p3', '0p4', '0p5', '0p6', '0p7', '0p8', '0p9', '1'] #HtoSS
@@ -145,6 +147,12 @@ for syst in systs:
                       for l in range(10):
                           newLifetime0p1 = oldLifetime.replace("0p1",lifetimes0p1[l])
                           newDataset = dataset.replace(oldLifetime,newLifetime0p1)
+                          line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
+                          contentNew += line
+                  elif oldLifetime.find("0p01mm")>=0:
+                      for l in range(9):
+                          newLifetime0p01 = oldLifetime.replace("0p01",lifetimes0p01[l])
+                          newDataset = dataset.replace(oldLifetime,newLifetime0p01)
                           line = '{0: <40}'.format(str(newDataset)) + " " + '{0: <8}'.format(errDn) + " " + str(errUp) + "\n"
                           contentNew += line
                   else:
