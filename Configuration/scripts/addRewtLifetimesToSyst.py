@@ -61,6 +61,8 @@ elif GMSB and not GMSBstaus:
   processes = ['sleptons']
   masses = [50] + [m for m in range(100, 1001, 100)]
   lifetimes = [10**e for e in range(-1, 5)]     #now with reweighting in trees, should eventually be extended
+  datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+  datasets = [lt.replace(".", "p") for lt in datasets]
 
 elif GMSBstaus:
   processes = ['staus']
