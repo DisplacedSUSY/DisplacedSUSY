@@ -57,17 +57,15 @@ elif stops:
   datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
   datasets = [lt.replace(".", "p") for lt in datasets]
 
-elif GMSB:
+elif GMSB and not GMSBstaus:
   processes = ['sleptons']
-  masses = [50]
-  for m in range(100, 1001, 100):
-    masses.append(m)
+  masses = [50] + [m for m in range(100, 1001, 100)]
   lifetimes = [10**e for e in range(-1, 5)]     #now with reweighting in trees, should eventually be extended
 
-  #processes = ['staus']
-  #masses = [m for m in range(100, 501, 100)]
-  #lifetimes = [10**e for e in range(-1, 4)]     #now with reweighting in trees
-
+elif GMSBstaus:
+  processes = ['staus']
+  masses = [50] + [m for m in range(100, 501, 100)]
+  lifetimes = [10**e for e in range(-1, 4)]     #now with reweighting in trees
   datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
   datasets = [lt.replace(".", "p") for lt in datasets]
 
@@ -116,8 +114,10 @@ for syst in systs:
               #read in original text file, split into 3 "words": original dataset name, down error, up error
               if HToSS:
                 infile = "../data/systematic_values__HToSS__" + syst + "_" + analysisChannel + "_" + year + ".txt"
-              elif GMSB:
+              elif GMSB and not GMSBstaus:
                 infile = "../data/systematic_values__sleptons__" + syst + "_" + analysisChannel + "_" + year + ".txt"
+              elif GMSBstaus:
+                infile = "../data/systematic_values__staus__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               else:
                 infile = "../data/systematic_values__" + syst + "_" + analysisChannel + "_" + year + ".txt"
               fin = open(infile, "r")
