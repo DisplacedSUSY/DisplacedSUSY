@@ -13,6 +13,9 @@ def customize (process, analysisChannel = "emu", applyPUReweighting = True, samp
     if(GMSB or GMSBstaus):
         process.LifetimeWeightProducer.requireLastAndFirstCopy = cms.bool(False)
         process.LifetimeWeightProducer.specialRHadronsForDispLeptons = cms.bool(False)
+        process.LifetimeWeightProducer.moreThanOneLLPType = cms.bool(True)
+        process.LifetimeWeightProducer.dummyPdgId = cms.string("0000010")
+        process.LifetimeWeightProducer.multiplePdgIds = cms.vint32(1000011, 1000013, 1000015, 2000011, 2000013, 2000015)
         # require lastNotFirstCopy for 2017+2018 but not 2016 b/c relevant flag isn't set in 2016
         if os.environ["CMSSW_VERSION"].startswith ("CMSSW_8_0_"):
             process.LifetimeWeightProducer.requireLastNotFirstCopy = cms.bool(False)

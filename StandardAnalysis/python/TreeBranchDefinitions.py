@@ -157,49 +157,14 @@ elif(GMSB or GMSBstaus):
 
         for dst in destinationCTaus:
             dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
-            thisName1 = "lifetimeWeight_1000011_" + srcCTau + "cmTo" + dstCTau + "cm"
-            thisName2 = "lifetimeWeight_2000011_" + srcCTau + "cmTo" + dstCTau + "cm"
-            thisName3 = "lifetimeWeight_1000013_" + srcCTau + "cmTo" + dstCTau + "cm"
-            thisName4 = "lifetimeWeight_2000013_" + srcCTau + "cmTo" + dstCTau + "cm"
-            thisName5 = "lifetimeWeight_1000015_" + srcCTau + "cmTo" + dstCTau + "cm"
-            thisName6 = "lifetimeWeight_2000015_" + srcCTau + "cmTo" + dstCTau + "cm"
+            thisName = "lifetimeWeight_0000010_" + srcCTau + "cmTo" + dstCTau + "cm" #dummy pdgid name for multiple slepton pdgids
             reweighting_pairs.append((srcCTau, dstCTau))
             #print thisName
             EventVariableBranches.branches.append(
                 cms.PSet(
-                    name = cms.string(thisName1),
-                    inputVariables = cms.vstring(thisName1),
+                    name = cms.string(thisName),
+                    inputVariables = cms.vstring(thisName),
                 ),
-            )
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName2),
-                    inputVariables = cms.vstring(thisName2),
-                ),
-            )
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName3),
-                    inputVariables = cms.vstring(thisName3),
-                ),
-            )
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName4),
-                    inputVariables = cms.vstring(thisName4),
-                ),
-            )
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName5),
-                    inputVariables = cms.vstring(thisName5),
-                ),
-            )
-            EventVariableBranches.branches.append(
-                cms.PSet(
-                    name = cms.string(thisName6),
-                    inputVariables = cms.vstring(thisName6),
-                )
             )
 
 else:

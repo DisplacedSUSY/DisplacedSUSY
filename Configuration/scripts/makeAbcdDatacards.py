@@ -386,13 +386,8 @@ class Hist(object):
             weight_branch_template = "eventvariable_lifetimeWeight_1000006_{}cmTo{}cm"
         elif(HToSS):
             weight_branch_template = "eventvariable_lifetimeWeight_9000006_{}cmTo{}cm"
-        elif(GMSB):
-            if channel == "ee":
-                weight_branch_template = "eventvariable_lifetimeWeight_1000011_{}cmTo{}cm"
-            elif channel == "mumu":
-                weight_branch_template = "eventvariable_lifetimeWeight_1000013_{}cmTo{}cm"
-        elif(GMSBstaus):
-                weight_branch_template = "eventvariable_lifetimeWeight_1000015_{}cmTo{}cm"
+        elif(GMSBstaus or GMSB):
+            weight_branch_template = "eventvariable_lifetimeWeight_0000010_{}cmTo{}cm"
         weight_branch_name = weight_branch_template.format(mm_to_cm(src_ctau), mm_to_cm(dst_ctau))
 
         # identify branches that correspond to hist axes
