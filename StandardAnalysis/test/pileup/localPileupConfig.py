@@ -44,4 +44,11 @@ for mH in massesH:
       #datasets.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
       datasets.append("HToSSTo4L"+mH+"_150_"+str(ctau)+"mm")
       datasets.append("HToSSTo4L"+mH+"_350_"+str(ctau)+"mm")
+
+# gmsb
+#processes = ['sleptons']
+#masses = [50] + [m for m in range(100, 901, 100)]
+#lifetimes = [10**e for e in range(-2, 5)]
+#datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+
 datasets = [lt.replace(".", "p") for lt in datasets]
