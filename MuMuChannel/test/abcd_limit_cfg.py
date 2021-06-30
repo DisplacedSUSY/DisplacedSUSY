@@ -149,15 +149,10 @@ data_samples = {
 standin_signal_years = {
     #'to'  : 'from',
 
-    # stops
+    # stops and gmsb
     '2016' : '2016',
     '2017' : '2017',
     '2018' : '2018',
-
-    # gmsb
-    #'2016' : '2018',
-    #'2017' : '2018',
-    #'2018' : '2018',
 
     # higgs
     #'2016' : '2016',
@@ -172,7 +167,7 @@ signal_samples = {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'MuMuPreselection_2016Analysis_Signal_30Jan2021/mergeOut',
         #'dir'  : '',
-        #'dir'  : '',
+        #'dir'  : 'MuMuPreselection_2016Analysis_staus_29June2021/mergeOut',
         #'dir'  : 'MuMuPreselection_2016Analysis_HToSS_19Apr2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
@@ -183,7 +178,7 @@ signal_samples = {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'MuMuPreselection_2017Analysis_Signal_29Jan2021/mergeOut',
         #'dir'  : '',
-        #'dir'  : '',
+        #'dir'  : 'MuMuPreselection_2017Analysis_staus_29June2021/mergeOut',
         #'dir'  : 'MuMuPreselection_2017Analysis_HToSS_21May2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
@@ -194,7 +189,7 @@ signal_samples = {
         'name' : '', # will be automatically generated for each signal point
         'dir'  : 'MuMuPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
         #'dir'  : 'MuMuPreselection_2018Analysis_sleptons_18May2021/mergeOut',
-        #'dir'  : 'MuMuPreselection_2018Analysis_staus_19May2021/mergeOut',
+        #'dir'  : 'MuMuPreselection_2018Analysis_staus_29June2021/mergeOut',
         #'dir'  : '',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,

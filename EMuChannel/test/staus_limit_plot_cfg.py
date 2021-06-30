@@ -24,20 +24,19 @@ plotDefinitions = [
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{#tau}} [GeV]',
         'yAxisLabel' : 'c#tau_{0} [cm]',
-        #'yAxisLabel' : '#tau_{0} [ns]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'graphsToInclude' : ['exp', 'oneSigma', 'obs'],
                 'colorScheme' : 'susy_pag',
             },
@@ -57,40 +56,40 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'lifetime' : '0.1',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'yellow',
                 'legendEntry' : '0.01 cm',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'lifetime' : '1',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'purple',
                 'legendEntry' : '0.1 cm',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'lifetime' : '10',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '1 cm',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'lifetime' : '100',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '10 cm',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'lifetime' : '1000',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'green',
@@ -112,32 +111,32 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'graphs' : [
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'mass' : '100',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'black',
                 'legendEntry' : '100 GeV',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'mass' : '300',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '300 GeV',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'mass' : '400',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '400 GeV',
             },
             {
-                #'source' : 'combined_staus_2018_unblinded_24May2021',
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
+                #'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
                 'mass' : '500',
                 'graphsToInclude' : ['exp','obs'],
                 'colorScheme' : 'blue',
