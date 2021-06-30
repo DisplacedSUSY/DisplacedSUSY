@@ -60,6 +60,12 @@ config_file = "Preselection_cfg.py"
 #datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 #datasets = [lt.replace(".", "p") for lt in datasets]
 
+#processes = ['staus']
+#masses = [50] + [m for m in range(100, 501, 100)]
+#lifetimes = [10**e for e in range(-1, 4)]
+#datasets = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
+#datasets = [lt.replace(".", "p") for lt in datasets]
+
 processes = ['HToSSTo4L']
 massesH = ["125","300","400","600","800","1000"]
 massesS = []#minimum list of S masses that exist for every H mass
@@ -69,6 +75,7 @@ for mH in massesH:
   if int(mH)==125:
     for ctau in lifetimes:
       datasets.append("HToSSTo4L"+mH+"_30_"+str(ctau)+"mm")
+      datasets.append("HToSSTo4L"+mH+"_50_"+str(ctau)+"mm")
   elif int(mH)==300:
     for ctau in lifetimes:
       datasets.append("HToSSTo4L"+mH+"_20_"+str(ctau)+"mm")
