@@ -149,15 +149,10 @@ data_samples = {
 standin_signal_years = {
     #'to'  : 'from',
 
-    # stops and gmsb
+    # stops, gmsb, and Higgs
     '2016' : '2016',
     '2017' : '2017',
     '2018' : '2018',
-
-    # higgs
-    #'2016' : '2016',
-    #'2017' : '2017',
-    #'2018' : '2017',
 }
 
 # a separate datacard will be produced for each signal point
@@ -190,7 +185,7 @@ signal_samples = {
         'dir'  : 'MuMuPreselection_2018Analysis_Signal_28Jan2021/mergeOut',
         #'dir'  : 'MuMuPreselection_2018Analysis_sleptons_18May2021/mergeOut',
         #'dir'  : 'MuMuPreselection_2018Analysis_staus_29June2021/mergeOut',
-        #'dir'  : '',
+        #'dir'  : 'MuMuPreselection_2018Analysis_HToSS_30June2021/mergeOut',
         'file' : '', # will be automatically generated for each signal point
         'hist' : hist,
         'var_bins' : True,
