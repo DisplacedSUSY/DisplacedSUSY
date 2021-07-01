@@ -6,14 +6,14 @@ energy = '13'
 channel = None
 
 process = 'gmsb'
-masses = [str(50)] + [str(m) for m in range(100, 1001, 100)]
-lifetimes = [str(b*10**e) for e in range(-1, 3) for b in range(1, 10)] + [str(1000)]
+masses = [str(50)] + [str(m) for m in range(100, 901, 100)]
+lifetimes = [str(b*10**e) for e in range(-2, 4) for b in range(1, 10)] + [str(10000)]
 
 # description of all the plots to be made
 plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'combined_standard_gmsb_runII_from2018Samples',
+        'title' : 'combined_standard_gmsb_runII_from2016and2018Samples',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -22,18 +22,17 @@ plotDefinitions = [
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
         'yAxisLabel' : 'c#tau_{0} [cm]',
-        #'yAxisLabel' : '#tau_{0} [ns]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
                 'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'susy_pag',
             },
@@ -41,7 +40,7 @@ plotDefinitions = [
     },
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'comparison_standard_gmsb_runII_from2018Samples',
+        'title' : 'comparison_standard_gmsb_runII_from2016and2018Samples',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -50,29 +49,28 @@ plotDefinitions = [
         # xmin, xmax, label
         'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
         'yAxisLabel' : 'c#tau_{0} [cm]',
-        #'yAxisLabel' : '#tau_{0} [ns]',
 
         'graphs' : [
             {
-                'source' : 'gmsb_coNLSP_runII_from2018Samples_25May2021',
+                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'orange',
                 'legendEntry' : 'co-NLSP'
             },
             {
-                'source' : 'sleptons_ee_runII_from2018Samples_25May2021',
+                'source' : 'sleptons_ee_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '#tilde{e} NLSP'
             },
             {
-                'source' : 'sleptons_mumu_runII_from2018Samples_25May2021',
+                'source' : 'sleptons_mumu_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
                 'legendEntry' : '#tilde{#mu} NLSP'
             },
             {
-                'source' : 'staus_combined_runII_from2018Samples_25May2021',
+                'source' : 'combined_staus_runII_unblinded_30June2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'red',
                 'legendEntry' : '#tilde{#tau} NLSP'

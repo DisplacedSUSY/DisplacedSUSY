@@ -80,8 +80,8 @@ signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses 
 # but then point both to 'gmsb' when you start to combine any datacards (combining by years and also by channels)
 #processes = ['sleptons']
 #processes = ['gmsb']
-#masses = [50] + [m for m in range(100, 1001, 100)]
-#lifetimes = [b*10**e for e in range(-1, 3) for b in range(1, 10)] + [1000] #all lifetimes
+#masses = [50] + [m for m in range(100, 901, 100)]
+#lifetimes = [b*10**e for e in range(-2, 4) for b in range(1, 10)] + [10000] #all lifetimes
 #signal_points = ["{}{}_{}mm".format(p, m, l) for p in processes for m in masses for l in lifetimes]
 
 #processes = ['staus']
