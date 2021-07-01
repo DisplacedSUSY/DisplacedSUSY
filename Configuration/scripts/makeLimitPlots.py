@@ -374,7 +374,10 @@ def getTH2F(limits, x_key, y_key, experiment_key, theory_key):
     th2f.SetMinimum(min_val)
     print "maximum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMaximumBin()))
     print "minimum bin content of th2f is: "+str(th2f.GetBinContent(th2f.GetMinimumBin()))
-    th2f.GetZaxis().SetRangeUser(0.0001,10) #based on max and min, need to always check! the point is to normalize all similar 2D histograms
+    if arguments.method == "Significance":
+        th2f.GetZaxis().SetRangeUser(0,2)
+    else:
+        th2f.GetZaxis().SetRangeUser(0.0001,10) #based on max and min, need to always check! the point is to normalize all similar 2D histograms
     return th2f
 
 def getGraph2D(limits, x_key, y_key, experiment_key, theory_key):
@@ -707,7 +710,7 @@ def fetchLimits(process, mass, m, lifetime, directory, limits_to_include):
         signal_name = makeSignalName(process, mass, lifetime)
         if method == "HybridNew":
             fname = "limits/{}/{}_expected/merged.root".format(directory, signal_name)
-        elif method == "AsymptoticLimits":
+        else:
             fname = makeSignalRootFileName(process, mass, lifetime, directory, "expected")
             #fname = "limits/{0}/{1}_expected/higgsCombine{1}.{2}.mH120.root".format(directory, signal_name, method)
 
@@ -855,8 +858,25 @@ def drawPlot(plot):
                 # convert lifetime to cm
                 xAxisMin = 0.1*float(lifetimes[0])
                 xAxisMax = 0.1*float(lifetimes[-1])
+
+        processText = ""
+        if process in ['stopToLB', 'stopToLD']:
+            quark = 'b' if process == 'stopToLB' else 'd'
+            processText = "\\~{\\text{t}} \\to \\text{" + "{0}".format(quark) + "}\\ell"
+        elif GMSBstaus:
+            processText = "\\~{\\tau} \\to \\tau\\~{\\text{G}}"
+        elif GMSB and channel == 'ee':
+            processText = "\\~{\\text{e}} \\to \\text{e}\\~{\\text{G}}"
+        elif GMSB and channel == '#mu#mu':
+            processText = "\\~{\\mu} \\to \\mu\\~{\\text{G}}"
+        elif GMSB and channel == None: # co-nlsp or several channels on the same plot
+            processText = "\\~{\\ell} \\to \\ell\\~{\\text{G}} (co-NLSP)"
+        elif process == 'HToSSTo4L':
+            processText = "\\text{H} \\to \\text{SS} \\to 4\\ell, \\ell = \\text{e}, \\mu"
+
         if is2D:
-            canvas.SetLogz()
+            if arguments.method != "Significance":
+                canvas.SetLogz()
             if plot['yAxisType'] == 'mass':
                 xAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                 xAxisBins.append(0.1*2.0*float(lifetimes[-1]))
@@ -894,32 +914,28 @@ def drawPlot(plot):
                 else:
                     xAxisBins.extend([float(mass) for mass in masses])
                     xAxisBins.append(2.0*float(masses[-1]) - float(masses[-2]))
+
+            print "process is: "+process
             if process == 'gmsb':
+                ProcessLabel = TPaveLabel(0.45, 0.53, 0.75, 0.78, processText, "NDC")
                 legend = TLegend(0.45, 0.53, 0.75, 0.78) #legend on the top right for stau 2D plot
+            elif arguments.method == "Significance":
+                ProcessLabel = TPaveLabel(topLeft_x_left+0.05, 0.55, 0.55, 0.84, processText, "NDC")
+                legend = TLegend(topLeft_x_left+0.05, 0.55, 0.55, 0.84) #legend at the top for significance plots
             else:
+                ProcessLabel = TPaveLabel(topLeft_x_left+0.05, 0.35, 0.55, 0.6, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-            legend = TLegend(topLeft_x_left+0.05, 0.48, 0.55, 0.77) #legend at the top for 1D plot
+            ProcessLabel = TPaveLabel(topLeft_x_left+0.09, 0.61, 0.59, 0.90, processText, "NDC")
+            legend = TLegend(topLeft_x_left+0.05, 0.45, 0.55, 0.74) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
-        processText = ""
-        if process in ['stopToLB', 'stopToLD']:
-            quark = 'b' if process == 'stopToLB' else 'd'
-            processText = "#tilde{{t}}#tilde{{t}} #rightarrow l{0} l{0}".format(quark)
-        elif GMSB and channel == 'ee':
-            processText = "#tilde{e}#tilde{e} #rightarrow e#tilde{G} e#tilde{G}"
-        elif GMSB and channel == '#mu#mu':
-            processText = "#tilde{#mu}#tilde{#mu} #rightarrow #mu#tilde{G} #mu#tilde{G}"
-        elif GMSB and channel == None: # co-nlsp or several channels on the same plot
-            processText = "#tilde{l}#tilde{l} #rightarrow l#tilde{G} l#tilde{G} (co-NLSP)"
-        elif GMSBstaus:
-            processText = "#tilde{#tau}#tilde{#tau}#rightarrow #tau#tilde{G} #tau#tilde{G}"
-        elif process == 'HToSSTo4L':
-            processText = "H #rightarrow SS #rightarrow 4l, l = e, #mu"
-        legend.SetHeader("#splitline{"+processText+"}{95% CL upper limits}")
+        if not arguments.method == "Significance":
+            legend.SetHeader("95% CL upper limits")
+
 
         # construct TGraph objects for all curves and draw them
         tGraphs = []
@@ -1003,7 +1019,8 @@ def drawPlot(plot):
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
                             legendEntry = graph['legendEntry']
-                        legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        if arguments.method != "Significance":
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
 
                         #print summary of limits for paper Summary section:
                         #find lifetime exclusion range for 1000 GeV mass point
@@ -1112,8 +1129,12 @@ def drawPlot(plot):
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
                             legendEntry = graph['legendEntry']
-                        legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        if arguments.method != "Significance":
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                     tGraphs[-1].SetName("h_"+legendEntry)
+                    if arguments.ns and plot['yAxisType'] == 'lifetime':
+                        rightAxis.Draw()
+
 
         for th2f in plot.get('th2fs', []):
             for limit_type in th2f['th2fsToInclude']:
@@ -1161,6 +1182,8 @@ def drawPlot(plot):
             if not is2D:
                 if(arguments.doBR):
                     tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS)')
+                elif(HToSS):
+                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS) #sigma')
                 else:
                     tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.4)
@@ -1175,6 +1198,15 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
             tGraph.Write()
         legend.Draw()
+
+        ProcessLabel.SetTextAlign(32)
+        ProcessLabel.SetTextFont(42)
+        ProcessLabel.SetTextSize(0.12)
+        ProcessLabel.SetBorderSize(0)
+        ProcessLabel.SetFillColor(0)
+        ProcessLabel.SetFillStyle(0)
+        ProcessLabel.Draw()
+
         canvas.SetTitle('')
         for th2f in tTh2fs:
             th2f.SetTitle("")
@@ -1189,12 +1221,12 @@ def drawPlot(plot):
             if 'exp' in canvas.GetName():
                 th2f.GetZaxis().SetTitle('Expected #sigma_{95%CL} [pb]')
             elif 'obs' in canvas.GetName():
-                th2f.GetZaxis().SetTitle('Observed #sigma_{95%CL} [pb]')
+                if not arguments.method == "Significance":
+                    th2f.GetZaxis().SetTitle('Observed #sigma_{95%CL} [pb]')
+                else:
+                    th2f.GetZaxis().SetTitle('Significance')
             th2f.GetZaxis().SetTitleOffset(1.5)
             th2f.Write()
-
-        if arguments.ns:
-            rightAxis.Draw()
 
         # draw header label
         HeaderLabel = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText,"NDC")
@@ -1217,7 +1249,8 @@ def drawPlot(plot):
         LumiLabel.Draw()
 
         if channel and not GMSB and not GMSBstaus:
-            channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
+            #channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
+            channelLabel = TPaveLabel(topLeft_x_left+0.05, 0.7, 0.3, 0.8, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
             channelLabel.SetTextSize(0.4)
             channelLabel.SetTextAlign(12)
