@@ -928,6 +928,7 @@ def drawPlot(plot):
 
         if not is2D or not plot.get('th2fs', []):
             legend.SetTextSize(0.035)
+            legend.AddEntry("","","")
             expEntry = legend.AddEntry("","Median expected","l",)
             obsEntry = legend.AddEntry("","Observed","l")
             legend.AddEntry("","","")
