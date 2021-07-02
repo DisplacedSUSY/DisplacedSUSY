@@ -23,7 +23,7 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{t}}\\text{ [GeV]}',
         'yAxisLabel' : 'c#tau_{0} [cm]',
 
         #define all the curves to include on this canvas
@@ -51,7 +51,7 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{t}}\\text{ [GeV]}',
         'yAxisLabel' : 'c#tau_{0} [cm]',
 
         #define all the curves to include on this canvas
@@ -89,7 +89,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{t}}\\text{ [GeV]}',
 
         'showTheory' : True,
         'showTheoryError' : True,
