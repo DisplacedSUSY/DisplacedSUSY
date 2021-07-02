@@ -20,7 +20,7 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{\\ell}}\\text{ [GeV]}',
         'yAxisLabel' : 'c#tau_{0} [cm]',
 
         #define all the curves to include on this canvas
@@ -47,7 +47,7 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{l}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{\\ell}}\\text{ [GeV]}',
         'yAxisLabel' : 'c#tau_{0} [cm]',
 
         'graphs' : [
@@ -61,19 +61,19 @@ plotDefinitions = [
                 'source' : 'sleptons_ee_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'blue',
-                'legendEntry' : '#tilde{e} NLSP'
+                'legendEntry' : '\\~{\\text{e}}\\text{ NLSP}'
             },
             {
                 'source' : 'sleptons_mumu_runII_from2016and2018_30Jun2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'green',
-                'legendEntry' : '#tilde{#mu} NLSP'
+                'legendEntry' : '\\~{\\mu}\\text{ NLSP}'
             },
             {
                 'source' : 'combined_staus_runII_unblinded_30June2021',
                 'graphsToInclude' : ['exp', 'obs'],
                 'colorScheme' : 'red',
-                'legendEntry' : '#tilde{#tau} NLSP'
+                'legendEntry' : '\\~{\\tau}\\text{ NLSP}'
             },
         ],
     },

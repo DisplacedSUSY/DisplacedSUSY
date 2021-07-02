@@ -870,7 +870,7 @@ def drawPlot(plot):
         elif GMSB and channel == '#mu#mu':
             processText = "\\~{\\mu} \\to \\mu\\~{\\text{G}}"
         elif GMSB and channel == None: # co-nlsp or several channels on the same plot
-            processText = "\\~{\\ell} \\to \\ell\\~{\\text{G}} (co-NLSP)"
+            processText = "\\~{\\ell} \\to \\ell\\~{\\text{G}}\\text{ (co-NLSP)}"
         elif process == 'HToSSTo4L':
             processText = "\\text{H} \\to \\text{SS} \\to 4\\ell, \\ell = \\text{e}, \\mu"
 
@@ -927,8 +927,8 @@ def drawPlot(plot):
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-            ProcessLabel = TPaveLabel(topLeft_x_left+0.09, 0.61, 0.59, 0.90, processText, "NDC")
-            legend = TLegend(topLeft_x_left+0.05, 0.45, 0.55, 0.74) #legend at the top for 1D plot
+            ProcessLabel = TPaveLabel(topLeft_x_left+0.06, 0.61, 0.56, 0.90, processText, "NDC")
+            legend = TLegend(topLeft_x_left+0.02, 0.45, 0.52, 0.74) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
@@ -1183,10 +1183,10 @@ def drawPlot(plot):
                 if(arguments.doBR):
                     tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS)')
                 elif(HToSS):
-                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS) #sigma')
+                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #sigma #times #bf{#it{#Beta}}(H #rightarrow SS)')
                 else:
                     tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
-                tGraph.GetYaxis().SetTitleOffset(1.4)
+                tGraph.GetYaxis().SetTitleOffset(1.5)
                 if 'yAxis' in plot:
                     tGraph.GetYaxis().SetRangeUser(plot['yAxis'][0], plot['yAxis'][1])
                 else:
