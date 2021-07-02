@@ -1,4 +1,5 @@
-Instructions for creating d0-d0 plots in paper and supplemental material:
+**Instructions for creating d0-d0 plots in paper and supplemental material:
+**
 
 emu 2018 background MC + diagram (paper):
 ```cd CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test```
