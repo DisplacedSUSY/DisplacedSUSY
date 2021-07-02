@@ -46,7 +46,7 @@ else:
     condirDir = arguments.condorDir
 
 
-from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel, TLegend
+from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel, TLegend, TColor
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -84,6 +84,23 @@ gStyle.SetTickLength(0.03, "XYZ")
 gStyle.SetNdivisions(505, "XYZ")
 gStyle.SetPadTickX(1)
 gStyle.SetPadTickY(1)
+
+#make colz in shades of blue
+nContours = 500
+stops = [0, 1]
+red =   [0, 1]
+green = [0.5, 1]
+blue =  [1, 1]
+
+s = array('d', stops)
+r = array('d', red)
+g = array('d', green)
+b = array('d', blue)
+
+length = len(s)
+TColor.CreateGradientColorTable(length, s, r, g, b, nContours)
+gStyle.SetNumberContours(nContours)
+
 gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
@@ -361,7 +378,7 @@ if arguments.signal:
     legend.SetFillColor(0)
     legend.SetLineWidth(2)
     legend.SetFillStyle(1001)
-    legend.AddEntry(hSignal, "#tilde{t}#tilde{t}#rightarrow lb lb, m_{#tilde{t}} = 1500 GeV, c#tau_{#tilde{t}} = 1 cm", 'f')
+    legend.AddEntry(hSignal, "\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{0}\\text{ = 1 cm}", 'f')
 
 Canvas.cd()
 h.Draw("colz")
@@ -376,12 +393,15 @@ if(arguments.diagramPlot):
     IIIBox.Draw()
     IVBox.Draw()
     Canvas.SaveAs("./abcdMethod.pdf")
+    Canvas.SaveAs("./abcdMethod.png")
 elif arguments.signal:
     hSignal.Draw("boxsame")
     legend.Draw()
-    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.pdf")
+    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.eps")
+    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.png")
 else:
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".pdf")
+    Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".png")
 
 CanvasPrelim.cd()
 h.Draw("colz")
@@ -396,12 +416,15 @@ if(arguments.diagramPlot):
     IIIBox.Draw()
     IVBox.Draw()
     CanvasPrelim.SaveAs("./abcdMethod_CMSPreliminary.pdf")
+    CanvasPrelim.SaveAs("./abcdMethod_CMSPreliminary.png")
 elif arguments.signal:
     hSignal.Draw("boxsame")
     legend.Draw()
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.pdf")
+    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.eps")
+    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.png")
 else:
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.pdf")
+    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.png")
 
 
 #write histograms to root file for hepdata
