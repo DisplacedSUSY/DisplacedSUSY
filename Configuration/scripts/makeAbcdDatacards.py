@@ -333,6 +333,7 @@ class Hist(object):
             self.var_bins = False
         else:
             self.var_bins = sample_info['var_bins']
+        self.num_input_evts = self.get_num_input_evts(file_path) if arguments.getEff else None
 
     def get_hist(self, file_path, hist_path, swap_axes):
         f = TFile(file_path)
@@ -423,6 +424,18 @@ class Hist(object):
             # fill hist at proper d0, d0, pT point using new weight product
             (x, y, z) = tuple(map(lambda a: getattr(tree, a), branches))
             self.hist.Fill(x, y, z, weight_product)
+
+    def get_num_input_evts(self, file_path):
+        f = TFile(file_path)
+        cutflow_path = "PreselectionCutFlowPlotter/cutFlow"
+        try:
+            cutflow = f.Get(cutflow_path).Clone()
+        except ReferenceError:
+            raise IOError("Could not load {} from {}".format(cutflow_path, file_path))
+        cutflow.SetDirectory(0)
+
+        return cutflow.GetBinContent(1)
+
 
 
 def fancyTable(arrays):
@@ -890,6 +903,10 @@ for signal_name in signal_points:
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     #print "making", datacard_name
     print "{0: <20} {1}".format(signal_name, inclusive_sr_yield)
+    if arguments.getEff:
+        input_evts = sum((signal_hists[y].num_input_evts for y in years))
+        eff = inclusive_sr_yield / input_evts
+        print "signal efficiency: {}%".format(100*round(eff, 4))
     with open(datacard_path, 'w') as datacard:
         datacard.write(header)
         datacard.write("\n\n")

@@ -42,6 +42,8 @@ parser.add_option("--ns", action="store_true", dest="ns", default=False,
                   help="make limit plots vs lifetime in ns rather than ctau in cm")
 parser.add_option("--fillGaps", action="store_true", dest="fillGaps", default=False,
                   help="plot expected limit value for points where observed has not converged")
+parser.add_option("--getEff", action="store_true", dest="getEff", default=False,
+                  help="print signal efficiencies")
 
 (arguments, args) = parser.parse_args()
 
