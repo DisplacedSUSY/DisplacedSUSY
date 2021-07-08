@@ -536,6 +536,13 @@ def get_ctau(name):
         raise RuntimeError("Cannot parse {}; getting ctau of {}".format(name, ctau))
     return ctau
 
+# extract mass from signal name
+# assume signal name includes the mass as the first number (or third number for higgs)
+def get_mass(name):
+    ix = 2 if HToSS else 0
+    mass = re.findall(r'\d+', name)[ix]
+    return mass
+
 def cm_to_mm(name):
     val = float(name.replace('p', '.'))
     val *= 10
@@ -768,6 +775,7 @@ for r in unique_regions:
             correlation_correction_rows.append(correction_row)
 abcd_table = fancyTable(abcd_rows + correlation_correction_rows)
 
+signal_effs = {}
 # write a datacard for each signal point
 for signal_name in signal_points:
     # get basic signal info; name and file may differ due to lifetime interpolation
@@ -824,6 +832,23 @@ for signal_name in signal_points:
     if not signal_exists:
         print "skipping {} because signal yields are 0".format(signal_name)
         continue
+
+    # get signal efficiency if requested
+    if arguments.getEff:
+        input_evts = sum((signal_hists[y].num_input_evts for y in years))
+        eff = inclusive_sr_yield / input_evts
+        # double selectron and smuon efficiencies to match single NLSP assumptions
+        if GMSB and not GMSBstaus:
+            eff *= 2
+
+        # store in dictionary to later print in summary table
+        ctau = get_ctau(signal_name)
+        mass = get_mass(signal_name)
+        if ctau not in signal_effs:
+            signal_effs[ctau] = {}
+        signal_effs[ctau][mass] = eff
+
+
 
     # build datacard elements that depend on signal
     # build rate table
@@ -903,10 +928,6 @@ for signal_name in signal_points:
     datacard_path = 'limits/{}/{}'.format(arguments.condorDir, datacard_name)
     #print "making", datacard_name
     print "{0: <20} {1}".format(signal_name, inclusive_sr_yield)
-    if arguments.getEff:
-        input_evts = sum((signal_hists[y].num_input_evts for y in years))
-        eff = inclusive_sr_yield / input_evts
-        print "signal efficiency: {}%".format(100*round(eff, 4))
     with open(datacard_path, 'w') as datacard:
         datacard.write(header)
         datacard.write("\n\n")
@@ -917,3 +938,18 @@ for signal_name in signal_points:
         datacard.write("\n\n")
         datacard.write("\n-------ABCD IMPLEMENTATION--------\n")
         datacard.write(abcd_table)
+
+# print signal efficiency table in latex format
+if arguments.getEff:
+    precision = 5
+    ctaus = sorted(signal_effs.keys())
+    masses = sorted(signal_effs[ctaus[0]].keys())
+    header_template = len(masses)*" & {}\\GeV" + " \\\\"
+    print
+    print header_template.format(*masses)
+    print "\\hline"
+    for ctau in ctaus:
+        effs = [100*round(signal_effs[ctau].get(mass, 0), precision) for mass in masses]
+        line_template = "{}\\cm &" + len(masses)*" {}\\%" + " \\\\"
+        print line_template.format(float(ctau)/10, *effs)
+    print
