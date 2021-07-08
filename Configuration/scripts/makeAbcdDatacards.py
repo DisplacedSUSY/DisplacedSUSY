@@ -950,6 +950,6 @@ if arguments.getEff:
     print "\\hline"
     for ctau in ctaus:
         effs = [100*round(signal_effs[ctau].get(mass, 0), precision) for mass in masses]
-        line_template = "{}\\cm &" + len(masses)*" {}\\%" + " \\\\"
+        line_template = "{}\\cm " + len(masses)*"& {}\\% " + "\\\\"
         print line_template.format(float(ctau)/10, *effs)
     print
