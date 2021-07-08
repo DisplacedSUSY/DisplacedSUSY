@@ -1048,7 +1048,10 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName("h_95%exp")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_2sigmaExp")
+                        newGraph.Write()
                     if graphName == 'oneSigma':
                         g = getOneSigmaGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], colorScheme)
@@ -1060,7 +1063,10 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName("h_68%exp")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_1sigmaExp")
+                        newGraph.Write()
                     if graphName == 'exp':
                         lineStyle = graph.get('lineStyle', 7)
                         g = getExpectedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1076,7 +1082,10 @@ def drawPlot(plot):
                             #legendEntry = graph['legendEntry']
                             #legend.SetHeader("Expected limits")
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName("h_medExp")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_exp")
+                        newGraph.Write()
                     if graphName == 'twoSigmaTheory':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1088,7 +1097,10 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        tGraphs[-1].SetName("h_twoSigmaTheory")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_2sigmaTheory")
+                        newGraph.Write()
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], 'observed', 'up2', colorScheme,
                                                lineStyle)
@@ -1099,7 +1111,10 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName("h_twoSigmaTheory_2")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_pm2sigmaTheory")
+                        newGraph.Write()
                     if graphName == 'oneSigmaTheory':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1111,7 +1126,10 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        tGraphs[-1].SetName("h_oneSigmaTheory")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_1sigmaTheory")
+                        newGraph.Write()
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
                                                plot['yAxisType'], 'observed', 'up1', colorScheme,
                                                lineStyle)
@@ -1122,7 +1140,10 @@ def drawPlot(plot):
                         if 'legendEntry' in graph:
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                         legend.AddEntry(tGraphs[-1], legendEntry, 'L')
-                        tGraphs[-1].SetName("h_oneSigmaTheory_2")
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_pm1sigmaTheory")
+                        newGraph.Write()
                     if graphName == 'obs':
                         lineStyle = graph.get('lineStyle', 1)
                         g = getObservedGraph2D(graph['limits'], plot['xAxisType'],
@@ -1135,9 +1156,12 @@ def drawPlot(plot):
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
                             legendEntry = graph['legendEntry']
-                        tGraphs[-1].SetName("h_obs")
                         if arguments.method != "Significance":
                             legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        tGraphs[-1].SetName('L')
+                        newGraph = tGraphs[-1].Clone()
+                        newGraph.SetName("g_obs")
+                        newGraph.Write()
                     if arguments.ns and plot['yAxisType'] == 'lifetime':
                         rightAxis.Draw()
 
