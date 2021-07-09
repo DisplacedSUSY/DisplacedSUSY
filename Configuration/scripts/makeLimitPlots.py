@@ -920,7 +920,7 @@ def drawPlot(plot):
                 ProcessLabel = TPaveLabel(0.45, 0.53, 0.75, 0.78, processText, "NDC")
                 legend = TLegend(0.45, 0.53, 0.75, 0.78) #legend on the top right for stau 2D plot
             elif arguments.method == "Significance":
-                ProcessLabel = TPaveLabel(topLeft_x_left+0.05, 0.55, 0.55, 0.84, processText, "NDC")
+                ProcessLabel = TPaveLabel(0.06, 0.55, 0.36, 0.84, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.55, 0.55, 0.84) #legend at the top for significance plots
             else:
                 ProcessLabel = TPaveLabel(topLeft_x_left+0.05, 0.35, 0.55, 0.6, processText, "NDC")
