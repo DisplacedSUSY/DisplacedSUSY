@@ -85,11 +85,11 @@ gStyle.SetNdivisions(505, "XYZ")
 gStyle.SetPadTickX(1)
 gStyle.SetPadTickY(1)
 
-#make colz in shades of blue
+#make colz in shades of blue (near-white to blue)
 nContours = 500
 stops = [0, 1]
-red =   [0, 1]
-green = [0.5, 1]
+red =   [0.9, 0]
+green = [1, 0.4]
 blue =  [1, 1]
 
 s = array('d', stops)
