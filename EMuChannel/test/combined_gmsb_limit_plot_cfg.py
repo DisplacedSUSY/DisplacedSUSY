@@ -53,27 +53,31 @@ plotDefinitions = [
         'graphs' : [
             {
                 'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
-                'graphsToInclude' : ['exp', 'obs'],
+                'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'orange',
-                'legendEntry' : 'co-NLSP'
-            },
-            {
-                'source' : 'sleptons_ee_runII_from2016and2018_30Jun2021',
-                'graphsToInclude' : ['exp', 'obs'],
-                'colorScheme' : 'blue',
-                'legendEntry' : '\\~{\\text{e}}\\text{ NLSP}'
+                'legendEntry' : 'co-NLSP',
+                'filled' : 'true',
             },
             {
                 'source' : 'sleptons_mumu_runII_from2016and2018_30Jun2021',
-                'graphsToInclude' : ['exp', 'obs'],
+                'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'green',
-                'legendEntry' : '\\~{\\mu}\\text{ NLSP}'
+                'legendEntry' : '\\~{\\mu}\\text{ NLSP}',
+                'filled' : 'true',
+            },
+            {
+                'source' : 'sleptons_ee_runII_from2016and2018_30Jun2021',
+                'graphsToInclude' : ['obs', 'exp'],
+                'colorScheme' : 'blue',
+                'legendEntry' : '\\~{\\text{e}}\\text{ NLSP}',
+                'filled' : 'true',
             },
             {
                 'source' : 'combined_staus_runII_unblinded_30June2021',
-                'graphsToInclude' : ['exp', 'obs'],
+                'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'red',
-                'legendEntry' : '\\~{\\tau}\\text{ NLSP}'
+                'legendEntry' : '\\~{\\tau}\\text{ NLSP}',
+                'filled' : 'true',
             },
         ],
     },

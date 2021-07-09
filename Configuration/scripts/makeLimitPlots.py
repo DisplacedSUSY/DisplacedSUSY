@@ -31,7 +31,7 @@ else:
 from DisplacedSUSY.Configuration.systematicsDefinitions import signal_cross_sections_13TeV, signal_cross_sections_sleptons_13TeV, signal_cross_sections_staus_13TeV, signal_cross_sections_HToSS_13TeV
 signal_cross_sections = {}
 
-from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree, TGaxis
+from ROOT import TFile, TGraph,TH2F, TGraphAsymmErrors, gROOT, gStyle, TStyle, TH1F, TCanvas, TString, TLegend, TArrow, THStack, TPaveLabel, TH2D, TPave, Double, TTree, TGaxis, kRed, kBlue, kGreen, kOrange, kMagenta, kViolet, kYellow
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -81,66 +81,77 @@ header_x_right   = 0.81
 colorSchemes = {
     'susy_pag' : {
         'obs' : 1,
+        'obsFill' : 15,
         'exp' : 632,
         'oneSigma' : 632,
         'twoSigma' : 632,
     },
     'brazilian' : {
         'obs' : 1,
+        'obsFill' : 15,
         'exp' : 4,
         'oneSigma' : 417,
         'twoSigma' : 800,
     },
     'theory' : {
         'obs' : 1,
+        'obsFill' : 15,
         'exp' : 1,
         'oneSigma' : 921,
         'twoSigma' : 920,
     },
     'red' : {
         'obs' : 632,
+        'obsFill' : kRed-10,
         'exp' : 632,
         'oneSigma' : 632,
         'twoSigma' : 632,
     },
     'blue' : {
         'obs' : 600,
+        'obsFill' : kBlue-10,
         'exp' : 600,
         'oneSigma' : 600,
         'twoSigma' : 600,
     },
     'green' : {
         'obs' : 413,
+        'obsFill' : kGreen-10,
         'exp' : 413,
         'oneSigma' : 413,
         'twoSigma' : 413,
     },
     'purple' : {
         'obs' : 882,
+        'obsFill' : kViolet-10,
         'exp' : 882,
         'oneSigma' : 882,
         'twoSigma' : 882,
     },
     'yellow' : {
         'obs' : 402,
+        'obsFill' : kYellow-10,
         'exp' : 402,
         'oneSigma' : 402,
         'twoSigma' : 402,
     },
     'orange' : {
         'obs' : 806,
+        'obsFill' : kOrange-9,
         'exp' : 806,
         'oneSigma' : 806,
         'twoSigma' : 806,
     },
     'magenta' : {
         'obs' : 616,
+        'obsFill' : kMagenta-10,
         'exp' : 616,
         'oneSigma' : 616,
         'twoSigma' : 616,
     },
     'black' : {
         'obs' : 1,
+        'obsFill' : 15,
         'exp' : 1,
         'oneSigma' : 1,
         'twoSigma' : 1,
@@ -471,7 +482,7 @@ def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key,
     graph = getGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key)
     graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
-    graph.SetFillColor(0)
+    graph.SetFillColor(colorSchemes[colorScheme]['obsFill'])
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
     graph.SetMarkerStyle(20)
     graph.SetMarkerSize(0.8)
@@ -1081,7 +1092,7 @@ def drawPlot(plot):
                             legendEntry = legendEntry + ": " + graph['legendEntry']
                             #legendEntry = graph['legendEntry']
                             #legend.SetHeader("Expected limits")
-                        legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                        legend.AddEntry(tGraphs[-1], legendEntry, 'L') #comment out this line when making the ATLAS-like GMSB limit plot
                         tGraphs[-1].SetName('L')
                         newGraph = tGraphs[-1].Clone()
                         newGraph.SetName("g_exp")
@@ -1150,14 +1161,22 @@ def drawPlot(plot):
                                                plot['yAxisType'], 'observed', 'theory', colorScheme,
                                                lineStyle)
                         tGraphs.append(g)
-                        draw_args = 'L' if plotDrawn else 'AL'
-                        tGraphs[-1].Draw(draw_args)
+                        if 'filled' in graph:
+                            draw_args = 'F' if plotDrawn else 'AF'
+                            tGraphs[-1].Draw(draw_args)
+                            tGraphs[-1].Draw('L')
+                        else:
+                            draw_args = 'L' if plotDrawn else 'AL'
+                            tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
                         legendEntry = 'Observed'
                         if 'legendEntry' in graph:
                             legendEntry = graph['legendEntry']
                         if arguments.method != "Significance":
-                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
+                            if 'filled' in graph:
+                                legend.AddEntry(tGraphs[-1], legendEntry, 'F')
+                            else:
+                                legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName('L')
                         newGraph = tGraphs[-1].Clone()
                         newGraph.SetName("g_obs")
