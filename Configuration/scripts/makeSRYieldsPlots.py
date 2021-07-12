@@ -481,17 +481,31 @@ ratios = []
 ratioUncerts = []
 ratioLegs = []
 
-def getRatioPlot(ratioName, hObs, hExp, ratioUncertName):
+def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
     ratio = hObs.Clone(ratioName)
     ratio.Add(hExp, -1)
     ratio.Divide(hExp)
     ratio.SetDirectory(0)
 
     ratioValues = []
+    obsValues = []
+    obsUncert = []
+    expValues = []
     for i in range(ratio.GetNbinsX()+1):
         ratioValues.append(ratio.GetBinContent(i))
-    ratioUncertDown = [1 for i in range(15)] #need to fix these dummy values
-    ratioUncertUp = [1 for i in range(15)] #need to fix these dummy values
+        obsValues.append(hObs.GetBinContent(i))
+        obsUncert.append(hObs.GetBinError(i))
+        expValues.append(hExp.GetBinContent(i))
+
+    #numerator is data-bkg. to get uncertainty in numerator, propapgate uncertainty for subtraction: sum in quadrature
+    numUncertDown = [sqrt(i*i+j*j) for i,j in zip(obsUncert,expErrDown)]
+    numUncertUp = [sqrt(i*i+j*j) for i,j in zip(obsUncert,expErrUp)]
+
+    #ratio is numerator divided by bkg. to get uncertainty in ratio, propagate uncertainty for division: sum fraction uncertainties in quadrature
+    numValues = [i-j for i,j in zip(obsValues,expValues)]
+    ratioUncertDown = [sqrt((i/a)*(i/a)+(j/b)*(j/b)) if(a!=0 and b!=0) else 0 for i,j,a,b in zip(numUncertDown,expErrDown,numValues,expValues)]
+    ratioUncertUp   = [sqrt((i/a)*(i/a)+(j/b)*(j/b)) if(a!=0 and b!=0) else 0 for i,j,a,b in zip(numUncertUp,expErrUp,numValues,expValues)]
+
     print "ratioName is: "+ratioName
     print "ratioValues are: "+ str(ratioValues)
     print "ratioUncertDown are: "+ str(ratioUncertDown)
@@ -526,37 +540,37 @@ if arguments.makeRatioPlots:
     for canvas in canvases:
         print "canvasName is: "+canvas.GetName()
         if canvas.GetName() == "canvas2016":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
 
         elif canvas.GetName() == "canvas2016Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
 
         elif canvas.GetName() == "canvas201718":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
 
         elif canvas.GetName() == "canvas201718Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
 
         elif canvas.GetName() == "canvasRun2":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
 
         elif canvas.GetName() == "canvasRun2Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim")
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim",ExpRun2ErrDown,ExpRun2ErrUp)
             ratios.append(ratio)
             ratioUncerts.append(ratioUncert)
             ratioLegs.append(ratioLeg)
