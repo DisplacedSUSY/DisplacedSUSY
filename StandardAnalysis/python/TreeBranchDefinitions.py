@@ -132,6 +132,8 @@ if(HToSS):
         destinationCTaus = [float(0.1 * i * sourceCTau) for i in range(2, 11)]
         if sourceCTau == 0.1:
             destinationCTaus.extend([0.01])
+        if sourceCTau == 100:
+            destinationCTaus.extend([float(1 * i * sourceCTau) for i in range(2, 11)])
 
         for dst in destinationCTaus:
             dstCTau = str(int(dst)) if dst>=1 else str(dst).replace(".", "p")
