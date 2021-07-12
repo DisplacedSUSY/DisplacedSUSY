@@ -106,7 +106,7 @@ datasets = [lt.replace(".", "p") for lt in datasets]
 # gmsb
 #processes = ['sleptons']
 #masses = [50] + [m for m in range(100, 901, 100)]
-#lifetimes = [10**e for e in range(-2, 5)]
+#lifetimes = [10**e for e in range(-2, 4)]
 
 #processes = ['staus']
 #masses = [50] + [m for m in range(100, 501, 100)]
