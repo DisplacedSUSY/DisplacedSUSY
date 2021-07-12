@@ -2,12 +2,14 @@
 
 # makes plot of yields in SR
 # all numbers in these plots are obtained from the output of the abcd script
-# usage: python makeSRYieldsPlots.py
+# usage: python makeSRYieldsPlots.py -r
+# -r option makes ratio plots, needed now for paper/supplemental material
 
 import sys
 import os
 import re
 import math
+import functools
 from math import *
 from array import *
 from decimal import *
@@ -17,7 +19,12 @@ from OSUT3Analysis.Configuration.processingUtilities import *
 from OSUT3Analysis.Configuration.formattingUtilities import *
 from OSUT3Analysis.Configuration.cutUtilities import *
 
-from ROOT import gROOT, gStyle, TFile, TCanvas, TH1, TH1F, TGraphAsymmErrors, TPaveLabel, TLegend, TLine
+parser = OptionParser()
+parser = set_commandline_arguments(parser)
+
+(arguments, args) = parser.parse_args()
+
+from ROOT import gROOT, gStyle, gPad, TFile, TCanvas, TH1, TH1F, TGraphAsymmErrors, TPaveLabel, TLegend, TLine
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -38,13 +45,13 @@ gStyle.SetTitleFont(42, "XYZ")
 gStyle.SetTitleSize(0.05, "XYZ")
 gStyle.SetTitleXSize(0.04)
 gStyle.SetTitleXOffset(1.25)
-gStyle.SetTitleYSize(0.04)
-gStyle.SetTitleYOffset(1.5)
+gStyle.SetTitleYSize(0.05)
+gStyle.SetTitleYOffset(1.1)
 gStyle.SetTextAlign(12)
 gStyle.SetLabelColor(1, "XYZ")
 gStyle.SetLabelFont(42, "XYZ")
 gStyle.SetLabelOffset(0.008, "XYZ")
-gStyle.SetLabelSize(0.04, "XYZ")
+gStyle.SetLabelSize(0.05, "XYZ")
 gStyle.SetAxisColor(1, "XYZ")
 gStyle.SetStripDecimals(True)
 gStyle.SetTickLength(0.03, "XYZ")
@@ -88,26 +95,26 @@ HeaderTextRun2 = "113-118 fb^{-1} (13 TeV)"
 HeaderLabel2016 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText2016,"NDC")
 HeaderLabel2016.SetTextAlign(32)
 HeaderLabel2016.SetTextFont(42)
-HeaderLabel2016.SetTextSize(0.697674)
+HeaderLabel2016.SetTextSize(0.9)
 
 HeaderLabel201718 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderText201718,"NDC")
 HeaderLabel201718.SetTextAlign(32)
 HeaderLabel201718.SetTextFont(42)
-HeaderLabel201718.SetTextSize(0.697674)
+HeaderLabel201718.SetTextSize(0.9)
 
 HeaderLabelRun2 = TPaveLabel(header_x_left,y_bottom,header_x_right,y_top,HeaderTextRun2,"NDC")
 HeaderLabelRun2.SetTextAlign(32)
 HeaderLabelRun2.SetTextFont(42)
-HeaderLabelRun2.SetTextSize(0.697674)
+HeaderLabelRun2.SetTextSize(0.9)
 
 LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
 LumiLabel.SetTextFont(62)
-LumiLabel.SetTextSize(0.8)
+LumiLabel.SetTextSize(1)
 LumiLabel.SetTextAlign(12)
 
 LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Preliminary","NDC")
 LumiPrelimLabel.SetTextFont(62)
-LumiPrelimLabel.SetTextSize(0.8)
+LumiPrelimLabel.SetTextSize(1)
 LumiPrelimLabel.SetTextAlign(12)
 
 # the default is somehow bold for these, so you have to explicitly make the e's unbold (with a "second" #bf{})
@@ -149,6 +156,11 @@ eemumuLine = TLine(10,0,10,100)
 emueeLine.SetLineWidth(2)
 eemumuLine.SetLineWidth(2)
 
+emueeRatioLine = TLine(5,-2.4,5,100)
+eemumuRatioLine = TLine(10,-2.4,10,100)
+emueeRatioLine.SetLineWidth(2)
+eemumuRatioLine.SetLineWidth(2)
+
 Canvas2016 = TCanvas("canvas2016","")
 Canvas2016Prelim = TCanvas("canvas2016Preliminary","")
 Canvas201718 = TCanvas("canvas201718","")
@@ -176,6 +188,25 @@ for canvas in canvases:
     canvas.SetFrameBorderMode(0)
     canvas.SetFrameBorderMode(0)
     canvas.SetLogy()
+    if arguments.makeRatioPlots:
+        canvas.SetFillStyle(0)
+        canvas.Divide(1,2)
+        canvas.cd(1)
+        gPad.SetPad(0,0.25,1,1)
+        gPad.SetMargin(0.15,0.05,0.0,0.15)
+        gPad.SetFillStyle(0)
+        gPad.SetLogy()
+        gPad.Update()
+        gPad.Draw()
+        canvas.cd(2)
+        gPad.SetPad(0,0,1,0.25)
+        #format: gPad.SetMargin(l,r,b,t)
+        gPad.SetMargin(0.15,0.05,0.4,0.01)
+        gPad.SetFillStyle(0)
+        gPad.SetGridy(1)
+        gPad.Update()
+        gPad.Draw()
+        canvas.cd(1)
 
 #central values
 #          emu SR I low pt, emu SR I high pt, emu SR II, emu SR III, emu SR IV, ee SR I low pt, ee SR I high pt, ee SR II, ee SR III, ee SR IV, mumu SR I low pt, mumu SR I high pt, mumu SR II, mumu SR III, mumu SR IV
@@ -200,46 +231,58 @@ hObs2016 = TH1F("hObs2016","",15,0,15)
 hObs2016.SetMarkerStyle(20)
 hObs2016.SetMarkerColor(1)
 hObs2016.SetLineColor(1)
+hObs2016.SetLineWidth(1)
 hObs2016.SetBinErrorOption(TH1.kPoisson)
+hObs2016.SetDirectory(0)
 
 hObs201718 = TH1F("hObs201718","",15,0,15)
 hObs201718.SetMarkerStyle(20)
 hObs201718.SetMarkerColor(1)
 hObs201718.SetLineColor(1)
+hObs201718.SetLineWidth(1)
 hObs201718.SetBinErrorOption(TH1.kPoisson)
+hObs201718.SetDirectory(0)
 
 hObsRun2 = TH1F("hObsRun2","",15,0,15)
 hObsRun2.SetMarkerStyle(20)
 hObsRun2.SetMarkerColor(1)
 hObsRun2.SetLineColor(1)
+hObsRun2.SetLineWidth(1)
 hObsRun2.SetBinErrorOption(TH1.kPoisson)
+hObsRun2.SetDirectory(0)
 
 hExp2016 = TH1F("hExp2016","",15,0,15)
 hExp2016.SetFillStyle(1001)
 hExp2016.SetFillColor(866)#kAzure+6
 hExp2016.SetLineWidth(0)
+hExp2016.SetDirectory(0)
 
 hExp201718 = TH1F("hExp201718","",15,0,15)
 hExp201718.SetFillStyle(1001)
 hExp201718.SetFillColor(866)#kAzure+6
 hExp201718.SetLineWidth(0)
+hExp201718.SetDirectory(0)
 
 hExpRun2 = TH1F("hExpRun2","",15,0,15)
 hExpRun2.SetFillStyle(1001)
 hExpRun2.SetFillColor(866)#kAzure+6
 hExpRun2.SetLineWidth(0)
+hExpRun2.SetDirectory(0)
 
 hSig2016 = TH1F("hSig2016","",15,0,15)
 hSig2016.SetLineColor(2)
 hSig2016.SetLineWidth(3)
+hSig2016.SetDirectory(0)
 
 hSig201718 = TH1F("hSig201718","",15,0,15)
 hSig201718.SetLineColor(2)
 hSig201718.SetLineWidth(3)
+hSig201718.SetDirectory(0)
 
 hSigRun2 = TH1F("hSigRun2","",15,0,15)
 hSigRun2.SetLineColor(2)
 hSigRun2.SetLineWidth(3)
+hSigRun2.SetDirectory(0)
 
 for i in range(1,16):
     hObs2016.SetBinContent(i,Obs2016[i-1])
@@ -317,19 +360,22 @@ for hist in hists:
     hist.GetXaxis().SetBinLabel(14,"III")
     hist.GetXaxis().SetBinLabel(15,"IV")
     #hist.GetYaxis().SetRangeUser(-0.1,100) # linear y axis
-    hist.GetYaxis().SetRangeUser(0.001,100000) #log y axis
+    hist.GetYaxis().SetRangeUser(0.0005,100000) #log y axis
     for i in range(hist.GetNbinsX()):
         hist.GetXaxis().ChangeLabel(i,-1,-1,1,2)
-    #hist.GetXaxis().Paint("L")
 
-Leg = TLegend(0.2,0.6,0.8,0.8)
+Leg = TLegend(0.2,0.62,0.9,0.82)
 Leg.AddEntry(hObs2016,"Data","ep")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
-Leg.AddEntry(hSig2016,"#tilde{t} #rightarrow bl, m_{#tilde{t}} = 1500 GeV, c#tau_{0} = 1 cm","l")
+Leg.AddEntry(hSig2016,"\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{0}\\text{ = 1 cm}","l")
 Leg.SetBorderSize(0)
 
-Canvas2016.cd()
+
+if arguments.makeRatioPlots:
+    Canvas2016.cd(1)
+else:
+    Canvas2016.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
 hSig2016.Draw("histesame")
@@ -342,9 +388,11 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-Canvas2016.SaveAs("./SR2016yields.pdf")
 
-Canvas2016Prelim.cd()
+if arguments.makeRatioPlots:
+    Canvas2016Prelim.cd(1)
+else:
+    Canvas2016Prelim.cd()
 hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
 hSig2016.Draw("histesame")
@@ -357,9 +405,11 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary.pdf")
 
-Canvas201718.cd()
+if arguments.makeRatioPlots:
+    Canvas201718.cd(1)
+else:
+    Canvas201718.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
 hSig201718.Draw("histesame")
@@ -372,9 +422,11 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-Canvas201718.SaveAs("./SR201718yields.pdf")
 
-Canvas201718Prelim.cd()
+if arguments.makeRatioPlots:
+    Canvas201718Prelim.cd(1)
+else:
+    Canvas201718Prelim.cd()
 hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
 hSig201718.Draw("histesame")
@@ -387,9 +439,11 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary.pdf")
 
-CanvasRun2.cd()
+if arguments.makeRatioPlots:
+    CanvasRun2.cd(1)
+else:
+    CanvasRun2.cd()
 hExpRun2.Draw()
 hExpUncertRun2.Draw("e2same")
 hSigRun2.Draw("histesame")
@@ -402,9 +456,11 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-CanvasRun2.SaveAs("./SRRun2yields.pdf")
 
-CanvasRun2Prelim.cd()
+if arguments.makeRatioPlots:
+    CanvasRun2Prelim.cd(1)
+else:
+    CanvasRun2Prelim.cd()
 hExpRun2.Draw()
 hExpUncertRun2.Draw("e2same")
 hSigRun2.Draw("histesame")
@@ -417,11 +473,125 @@ EELabel.Draw()
 MuMuLabel.Draw()
 emueeLine.Draw()
 eemumuLine.Draw()
-CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary.pdf")
-
 
 #write histograms to root file for hepdata
 outputFile = TFile("SRyields.root", "RECREATE")
+pdfSuffix = ""
+ratios = []
+ratioUncerts = []
+ratioLegs = []
+
+def getRatioPlot(ratioName, hObs, hExp, ratioUncertName):
+    ratio = hObs.Clone(ratioName)
+    ratio.Add(hExp, -1)
+    ratio.Divide(hExp)
+    ratio.SetDirectory(0)
+
+    ratioValues = []
+    for i in range(ratio.GetNbinsX()+1):
+        ratioValues.append(ratio.GetBinContent(i))
+    ratioUncertDown = [1 for i in range(15)] #need to fix these dummy values
+    ratioUncertUp = [1 for i in range(15)] #need to fix these dummy values
+    print "ratioName is: "+ratioName
+    print "ratioValues are: "+ str(ratioValues)
+    print "ratioUncertDown are: "+ str(ratioUncertDown)
+    print "ratioUncertUp are: "+ str(ratioUncertUp)
+
+    ratioUncert = makeTGraphAsymmErrors(ExpUncert_x, ratioValues, ExpUncert_xErr, ExpUncert_xErr, ratioUncertDown, ratioUncertUp)
+    ratioUncert.SetName(ratioUncertName)
+    ratioUncert.SetFillStyle(3002)
+    ratioUncert.SetFillColor(13)
+    ratioUncert.SetLineWidth(0)
+
+    ratioLeg = TLegend(0.18,0.75,0.4,0.9)
+    ratioLeg.SetBorderSize(0)
+    ratioLeg.AddEntry(ratioUncert,"Total uncertainty","f")
+
+    ratio.GetYaxis().SetNdivisions(505)
+    ratio.GetYaxis().SetTitle("#frac{Data-Bkg.}{Bkg.}")
+    ratio.GetYaxis().SetLabelSize(0.14)
+    ratio.GetYaxis().SetLabelOffset(0.008)
+    ratio.GetYaxis().SetTitleSize(0.14)
+    ratio.GetYaxis().SetTitleOffset(.3)
+
+    ratio.GetXaxis().SetLabelSize(0.16)
+    ratio.GetXaxis().SetLabelOffset(0.04)
+    ratio.GetXaxis().SetTitleSize(0.14)
+    ratio.GetXaxis().SetTitleOffset(1.25)
+
+    return ratio, ratioUncert, ratioLeg
+
+if arguments.makeRatioPlots:
+    pdfSuffix = "_withRatioPlots"
+    for canvas in canvases:
+        print "canvasName is: "+canvas.GetName()
+        if canvas.GetName() == "canvas2016":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+        elif canvas.GetName() == "canvas2016Preliminary":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+        elif canvas.GetName() == "canvas201718":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+        elif canvas.GetName() == "canvas201718Preliminary":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+        elif canvas.GetName() == "canvasRun2":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+        elif canvas.GetName() == "canvasRun2Preliminary":
+            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim")
+            ratios.append(ratio)
+            ratioUncerts.append(ratioUncert)
+            ratioLegs.append(ratioLeg)
+
+    for i, canvas in enumerate(canvases):
+        canvas.cd(2)
+        ratios[i].Draw("ep")
+        ratioUncerts[i].Draw("e2same")
+        emueeRatioLine.Draw()
+        eemumuRatioLine.Draw()
+        ratioLegs[i].Draw()
+        gPad.Modified()
+        gPad.Update()
+        gPad.RedrawAxis()
+        outputFile.cd()
+        ratios[i].Write()
+        ratioUncerts[i].Write()
+
+
+#need to save as .ps so that TMathText appears properly (can't with pdf)
+Canvas2016.SaveAs("./SR2016yields"+pdfSuffix+".ps")
+Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary"+pdfSuffix+".ps")
+Canvas201718.SaveAs("./SR201718yields"+pdfSuffix+".ps")
+Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary"+pdfSuffix+".ps")
+CanvasRun2.SaveAs("./SRRun2yields"+pdfSuffix+".ps")
+CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary"+pdfSuffix+".ps")
+
+Canvas2016.SaveAs("./SR2016yields"+pdfSuffix+".png")
+Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary"+pdfSuffix+".png")
+Canvas201718.SaveAs("./SR201718yields"+pdfSuffix+".png")
+Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary"+pdfSuffix+".png")
+CanvasRun2.SaveAs("./SRRun2yields"+pdfSuffix+".png")
+CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary"+pdfSuffix+".png")
+
+
 outputFile.cd()
 
 hExp2016.Write()
