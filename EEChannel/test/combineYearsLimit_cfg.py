@@ -6,7 +6,7 @@ inputDirs = [
     #'ee_ld_2016_03Feb2021',
     #'ee_ld_2017_18_03Feb2021',
     #'sleptons_ee_2016_30Jun2021',
-    #'sleptons_ee_2017_18_from2018_30Jun2021',
+    #'sleptons_ee_2017_18_12Jul2021',
     #'staus_ee_2016_from2018Samples_25May2021',
     #'staus_ee_2017_18_from2018Samples_25May2021',
     #'ee_HToSS_2016_unblinded_29Apr2021',
