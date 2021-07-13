@@ -565,7 +565,7 @@ if arguments.makeRatioPlots:
     for i, canvas in enumerate(canvases):
         canvas.cd(2)
         dummyRatios[i].Draw("axis")
-        ratios[i].Draw("pzsame")
+        ratios[i].Draw("pz0same")
         ratioUncerts[i].Draw("e2same")
         emueeRatioLine.Draw()
         eemumuRatioLine.Draw()
