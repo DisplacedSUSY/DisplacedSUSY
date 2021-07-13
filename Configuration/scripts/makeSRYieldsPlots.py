@@ -477,107 +477,95 @@ eemumuLine.Draw()
 #write histograms to root file for hepdata
 outputFile = TFile("SRyields.root", "RECREATE")
 pdfSuffix = ""
+dummyRatios = []
 ratios = []
 ratioUncerts = []
 ratioLegs = []
 
 def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
-    ratio = hObs.Clone(ratioName)
-    ratio.Add(hExp, -1)
-    ratio.Divide(hExp)
-    ratio.SetDirectory(0)
+    # make dummy ratio histogram to get proper axes
+    dummyRatio = hObs.Clone(ratioName)
+    dummyRatio.Add(hExp, -1)
+    dummyRatio.Divide(hExp)
+    dummyRatio.SetDirectory(0)
 
     ratioValues = []
     obsValues = []
-    obsUncert = []
+    obsErrDown = []
+    obsErrUp = []
     expValues = []
-    for i in range(ratio.GetNbinsX()+1):
-        ratioValues.append(ratio.GetBinContent(i))
+    for i in range(1, hObs.GetNbinsX()+1):
         obsValues.append(hObs.GetBinContent(i))
-        obsUncert.append(hObs.GetBinError(i))
+        obsErrUp.append(hObs.GetBinErrorUp(i))
+        obsErrDown.append(hObs.GetBinErrorLow(i))
         expValues.append(hExp.GetBinContent(i))
 
-    #numerator is data-bkg. to get uncertainty in numerator, propapgate uncertainty for subtraction: sum in quadrature
-    numUncertDown = [sqrt(i*i+j*j) for i,j in zip(obsUncert,expErrDown)]
-    numUncertUp = [sqrt(i*i+j*j) for i,j in zip(obsUncert,expErrUp)]
+    # calculate ratios; only account for poisson uncertainty on observed
+    ratioValues = [(o-e)/e for o, e in zip(obsValues, expValues)]
+    ratioErrUp = [u/e for u, e in zip(obsErrUp, expValues)]
+    ratioErrDown = [u/e for u, e in zip(obsErrDown, expValues)]
 
-    #ratio is numerator divided by bkg. to get uncertainty in ratio, propagate uncertainty for division: sum fraction uncertainties in quadrature
-    numValues = [i-j for i,j in zip(obsValues,expValues)]
-    ratioUncertDown = [sqrt((i/a)*(i/a)+(j/b)*(j/b)) if(a!=0 and b!=0) else 0 for i,j,a,b in zip(numUncertDown,expErrDown,numValues,expValues)]
-    ratioUncertUp   = [sqrt((i/a)*(i/a)+(j/b)*(j/b)) if(a!=0 and b!=0) else 0 for i,j,a,b in zip(numUncertUp,expErrUp,numValues,expValues)]
+    zero_errors = len(ratioValues)*[0]
+    ratio = makeTGraphAsymmErrors(ExpUncert_x, ratioValues, zero_errors, zero_errors, ratioErrDown, ratioErrUp)
+    ratio.SetName(ratioUncertName)
+    ratio.SetMarkerStyle(8)
 
-    print "ratioName is: "+ratioName
-    print "ratioValues are: "+ str(ratioValues)
-    print "ratioUncertDown are: "+ str(ratioUncertDown)
-    print "ratioUncertUp are: "+ str(ratioUncertUp)
+    # calculate relative expected uncertainty values to show uncertainty on estimate
+    expRelValues = [0.0 for v in expValues]
+    expRelErrUp = [u/e for u, e in zip(expErrUp, expValues)]
+    expRelErrDown = [u/e for u, e in zip(expErrDown, expValues)]
 
-    ratioUncert = makeTGraphAsymmErrors(ExpUncert_x, ratioValues, ExpUncert_xErr, ExpUncert_xErr, ratioUncertDown, ratioUncertUp)
+    ratioUncert = makeTGraphAsymmErrors(ExpUncert_x, expRelValues, ExpUncert_xErr, ExpUncert_xErr, expRelErrDown, expRelErrUp)
     ratioUncert.SetName(ratioUncertName)
     ratioUncert.SetFillStyle(3002)
     ratioUncert.SetFillColor(13)
     ratioUncert.SetLineWidth(0)
 
-    ratioLeg = TLegend(0.18,0.75,0.4,0.9)
+    ratioLeg = TLegend(0.43,0.75,0.65,0.9)
     ratioLeg.SetBorderSize(0)
-    ratioLeg.AddEntry(ratioUncert,"Total uncertainty","f")
+    ratioLeg.AddEntry(ratioUncert,"Bkg. uncertainty","f")
 
-    ratio.GetYaxis().SetNdivisions(505)
-    ratio.GetYaxis().SetTitle("#frac{Data-Bkg.}{Bkg.}")
-    ratio.GetYaxis().SetLabelSize(0.14)
-    ratio.GetYaxis().SetLabelOffset(0.008)
-    ratio.GetYaxis().SetTitleSize(0.14)
-    ratio.GetYaxis().SetTitleOffset(.3)
+    dummyRatio.GetYaxis().SetNdivisions(505)
+    dummyRatio.GetYaxis().SetTitle("#frac{Data-Bkg.}{Bkg.}")
+    dummyRatio.GetYaxis().SetLabelSize(0.14)
+    dummyRatio.GetYaxis().SetLabelOffset(0.008)
+    dummyRatio.GetYaxis().SetTitleSize(0.14)
+    dummyRatio.GetYaxis().SetTitleOffset(.3)
+    dummyRatio.GetYaxis().SetRangeUser(-2, 7)
 
-    ratio.GetXaxis().SetLabelSize(0.16)
-    ratio.GetXaxis().SetLabelOffset(0.04)
-    ratio.GetXaxis().SetTitleSize(0.14)
-    ratio.GetXaxis().SetTitleOffset(1.25)
+    dummyRatio.GetXaxis().SetLabelSize(0.16)
+    dummyRatio.GetXaxis().SetLabelOffset(0.04)
+    dummyRatio.GetXaxis().SetTitleSize(0.14)
+    dummyRatio.GetXaxis().SetTitleOffset(1.25)
 
-    return ratio, ratioUncert, ratioLeg
+    return dummyRatio, ratio, ratioUncert, ratioLeg
 
 if arguments.makeRatioPlots:
     pdfSuffix = "_withRatioPlots"
     for canvas in canvases:
         print "canvasName is: "+canvas.GetName()
         if canvas.GetName() == "canvas2016":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
-
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
         elif canvas.GetName() == "canvas2016Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
-
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
         elif canvas.GetName() == "canvas201718":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
-
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
         elif canvas.GetName() == "canvas201718Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
-
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
         elif canvas.GetName() == "canvasRun2":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
-
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
         elif canvas.GetName() == "canvasRun2Preliminary":
-            ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim",ExpRun2ErrDown,ExpRun2ErrUp)
-            ratios.append(ratio)
-            ratioUncerts.append(ratioUncert)
-            ratioLegs.append(ratioLeg)
+            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim",ExpRun2ErrDown,ExpRun2ErrUp)
+
+        dummyRatios.append(dummyRatio)
+        ratios.append(ratio)
+        ratioUncerts.append(ratioUncert)
+        ratioLegs.append(ratioLeg)
 
     for i, canvas in enumerate(canvases):
         canvas.cd(2)
-        ratios[i].Draw("ep")
+        dummyRatios[i].Draw("axis")
+        ratios[i].Draw("pzsame")
         ratioUncerts[i].Draw("e2same")
         emueeRatioLine.Draw()
         eemumuRatioLine.Draw()
