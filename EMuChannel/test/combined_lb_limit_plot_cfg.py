@@ -21,8 +21,8 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
-        'yAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : '\\text{m}_{\\~{\\text{t}}}\\text{ [GeV]}',
+        'yAxisLabel' : 'c#tau_{0} [cm]',
 
         #define all the curves to include on this canvas
         'th2fs' : [
@@ -49,8 +49,8 @@ plotDefinitions = [
         'yAxisType' : 'lifetime',
 
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
-        'yAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : '\\text{m}_{\\~{\\text{t}}}\\text{ [GeV]}',
+        'yAxisLabel' : 'c#tau_{0} [cm]',
 
         #define all the curves to include on this canvas
         'graphs' : [
@@ -92,7 +92,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
         # xmin, xmax, label
-        'xAxisLabel' : 'm_{#tilde{t}} [GeV]',
+        'xAxisLabel' : '\\text{m}_{\\~{\\text{t}}}\\text{ [GeV]}',
 
         'showTheory' : True,
         'showTheoryError' : True,
@@ -142,7 +142,7 @@ plotDefinitions = [
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'lifetime',
         # xmin, xmax, label
-        'xAxisLabel' : 'c#tau [cm]',
+        'xAxisLabel' : 'c#tau_{0} [cm]',
 
         'showTheory' : True,
         'showTheoryError' : True,
