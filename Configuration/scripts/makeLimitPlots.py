@@ -907,6 +907,7 @@ def drawPlot(plot):
                 canvas.SetLogy()
                 yAxisMin = 0.1*float(lifetimes[0])
                 yAxisMax = 0.1*float(lifetimes[-1])
+                #yAxisMax = 3000000 #use this for gmsb atlas-style plot
                 yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                 yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
                 yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
@@ -918,6 +919,7 @@ def drawPlot(plot):
                     rightAxis.SetTitle("#tau_{0} [ns]")
                     rightAxis.SetTitleFont(42)
                     rightAxis.SetLabelFont(42)
+                    rightAxis.SetTitleOffset(1.5)
 
                 if(HToSS):
                     xAxisBins.extend([float(mass) for mass in masses.keys()])
@@ -928,8 +930,11 @@ def drawPlot(plot):
 
             print "process is: "+process
             if process == 'gmsb':
-                ProcessLabel = TPaveLabel(0.45, 0.53, 0.75, 0.78, processText, "NDC")
-                legend = TLegend(0.45, 0.53, 0.75, 0.78) #legend on the top right for stau 2D plot
+                #ProcessLabel = TPaveLabel(0.40, 0.64, 0.70, 0.89, processText, "NDC")
+                #legend = TLegend(0.45, 0.49, 0.75, 0.74) #legend on the top right for atlas-style 2D plot
+
+                ProcessLabel = TPaveLabel(0.06, 0.48, 0.48, 0.73, processText, "NDC")
+                legend = TLegend(topLeft_x_left+0.02, 0.35, 0.52, 0.6) #legend in the middle of the y-axis for 2D colz plot
             elif arguments.method == "Significance":
                 ProcessLabel = TPaveLabel(0.06, 0.55, 0.36, 0.84, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.55, 0.55, 0.84) #legend at the top for significance plots
