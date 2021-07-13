@@ -13,7 +13,7 @@ lifetimes = [str(b*10**e) for e in range(-2, 4) for b in range(1, 10)] + [str(10
 plotDefinitions = [
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'combined_standard_gmsb_runII_from2016and2018Samples',
+        'title' : 'combined_standard_gmsb_runII',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -26,13 +26,13 @@ plotDefinitions = [
         #define all the curves to include on this canvas
         'th2fs' : [
             {
-                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
+                'source' : 'sleptons_coNLSP_run2_HN_12Jul2021',
                 'th2fsToInclude' : ['obs'],
             },
         ],
         'graphs' : [
             {
-                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
+                'source' : 'sleptons_coNLSP_run2_HN_12Jul2021',
                 'graphsToInclude' : ['oneSigma', 'exp', 'obs'],
                 'colorScheme' : 'susy_pag',
             },
@@ -40,7 +40,7 @@ plotDefinitions = [
     },
     {
         # this will be the name of the canvas in the output root file
-        'title' : 'comparison_standard_gmsb_runII_from2016and2018Samples',
+        'title' : 'comparison_standard_gmsb_runII',
 
         # current options are 'mass' and 'lifetime'
         'xAxisType' : 'mass',
@@ -52,28 +52,28 @@ plotDefinitions = [
 
         'graphs' : [
             {
-                'source' : 'sleptons_combined_runII_from2016and2018_30Jun2021',
+                'source' : 'sleptons_coNLSP_run2_HN_12Jul2021',
                 'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'orange',
                 'legendEntry' : 'co-NLSP',
                 'filled' : 'true',
             },
             {
-                'source' : 'sleptons_mumu_runII_from2016and2018_30Jun2021',
+                'source' : 'sleptons_mumu_run2_HN_12Jul2021',
                 'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'green',
                 'legendEntry' : '\\~{\\mu}\\text{ NLSP}',
                 'filled' : 'true',
             },
             {
-                'source' : 'sleptons_ee_runII_from2016and2018_30Jun2021',
+                'source' : 'HN_sleptons_ee_run2_12Jul2021',
                 'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'blue',
                 'legendEntry' : '\\~{\\text{e}}\\text{ NLSP}',
                 'filled' : 'true',
             },
             {
-                'source' : 'combined_staus_runII_unblinded_30June2021',
+                'source' : 'HN_combined_staus_runII_unblinded_1July2021',
                 'graphsToInclude' : ['obs', 'exp'],
                 'colorScheme' : 'red',
                 'legendEntry' : '\\~{\\tau}\\text{ NLSP}',
