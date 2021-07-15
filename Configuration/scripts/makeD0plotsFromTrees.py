@@ -397,7 +397,7 @@ if(arguments.diagramPlot):
 elif arguments.signal:
     hSignal.Draw("boxsame")
     legend.Draw()
-    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.eps")
+    Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.ps")
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.png")
 else:
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".pdf")
@@ -420,7 +420,7 @@ if(arguments.diagramPlot):
 elif arguments.signal:
     hSignal.Draw("boxsame")
     legend.Draw()
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.eps")
+    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.ps")
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.png")
 else:
     CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.pdf")
