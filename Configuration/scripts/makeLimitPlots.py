@@ -64,6 +64,7 @@ gStyle.SetAxisColor(1, "XYZ")
 gStyle.SetStripDecimals(True)
 gStyle.SetTickLength(0.03, "XYZ")
 gStyle.SetPadTickX(1)
+gStyle.SetCanvasPreferGL(True)
 if not arguments.ns:
     gStyle.SetPadTickY(1)
 gROOT.ForceStyle()
@@ -483,6 +484,7 @@ def getObservedGraph2D(limits, xAxisType, yAxisType, experiment_key, theory_key,
     graph.SetLineWidth(4)
     graph.SetLineStyle(lineStyle)
     graph.SetFillColor(colorSchemes[colorScheme]['obsFill'])
+    #graph.SetFillColorAlpha(colorSchemes[colorScheme]['obsFill'], 0.7)
     graph.SetLineColor(colorSchemes[colorScheme]['obs'])
     graph.SetMarkerStyle(20)
     graph.SetMarkerSize(0.8)
@@ -1250,6 +1252,7 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetTitleOffset(1.5)
                 tGraph.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
                 tGraph.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
+                #tGraph.GetXaxis().SetRangeUser(50,900) #for atlas-style plot
             tGraph.Write()
         legend.Draw()
 
@@ -1332,6 +1335,8 @@ def drawPlot(plot):
         canvas.Update()
         canvas.RedrawAxis('g')
         canvas.Write()
+        canvas.SaveAs("test.ps")
+        canvas.SaveAs("test.png")
         canvas.Close()
 
 def add_limit(limit, l, mass, lifetime):
