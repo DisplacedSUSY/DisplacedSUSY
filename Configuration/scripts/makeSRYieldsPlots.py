@@ -507,7 +507,7 @@ def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
 
     zero_errors = len(ratioValues)*[0]
     ratio = makeTGraphAsymmErrors(ExpUncert_x, ratioValues, zero_errors, zero_errors, ratioErrDown, ratioErrUp)
-    ratio.SetName(ratioUncertName)
+    ratio.SetName(ratioName)
     ratio.SetMarkerStyle(8)
 
     # calculate relative expected uncertainty values to show uncertainty on estimate
