@@ -10,7 +10,7 @@ config.General.transferLogs = True
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'HTo4muOr4eGenFilter_cfg.py'
 
-config.Data.outputDatasetTag = 'MiniAod_4muOr4eGenFilter'
+config.Data.outputDatasetTag = 'MiniAod_4muOr4eGenFilter_2017'
 config.Data.inputDBS = 'phys03'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
