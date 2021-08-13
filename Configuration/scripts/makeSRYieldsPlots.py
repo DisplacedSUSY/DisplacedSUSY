@@ -368,7 +368,7 @@ Leg = TLegend(0.2,0.62,0.9,0.82)
 Leg.AddEntry(hObs2016,"Data","ep")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
-Leg.AddEntry(hSig2016,"\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{0}\\text{ = 1 cm}","l")
+Leg.AddEntry(hSig2016,"\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{\\text{}_{0}} \\text{ = 1 cm}","l")
 Leg.SetBorderSize(0)
 
 
@@ -480,7 +480,6 @@ pdfSuffix = ""
 dummyRatios = []
 ratios = []
 ratioUncerts = []
-ratioLegs = []
 
 def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
     # make dummy ratio histogram to get proper axes
@@ -521,10 +520,6 @@ def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
     ratioUncert.SetFillColor(13)
     ratioUncert.SetLineWidth(0)
 
-    ratioLeg = TLegend(0.43,0.75,0.65,0.9)
-    ratioLeg.SetBorderSize(0)
-    ratioLeg.AddEntry(ratioUncert,"Bkg. uncertainty","f")
-
     dummyRatio.GetYaxis().SetNdivisions(505)
     dummyRatio.GetYaxis().SetTitle("#frac{Data-Bkg.}{Bkg.}")
     dummyRatio.GetYaxis().SetLabelSize(0.14)
@@ -538,29 +533,28 @@ def getRatioPlot(ratioName, hObs, hExp, ratioUncertName, expErrDown, expErrUp):
     dummyRatio.GetXaxis().SetTitleSize(0.14)
     dummyRatio.GetXaxis().SetTitleOffset(1.25)
 
-    return dummyRatio, ratio, ratioUncert, ratioLeg
+    return dummyRatio, ratio, ratioUncert
 
 if arguments.makeRatioPlots:
     pdfSuffix = "_withRatioPlots"
     for canvas in canvases:
         print "canvasName is: "+canvas.GetName()
         if canvas.GetName() == "canvas2016":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
         elif canvas.GetName() == "canvas2016Preliminary":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
         elif canvas.GetName() == "canvas201718":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
         elif canvas.GetName() == "canvas201718Preliminary":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
         elif canvas.GetName() == "canvasRun2":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
         elif canvas.GetName() == "canvasRun2Preliminary":
-            dummyRatio, ratio, ratioUncert, ratioLeg = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim",ExpRun2ErrDown,ExpRun2ErrUp)
+            dummyRatio, ratio, ratioUncert = getRatioPlot("ratioRun2Prelim",hObsRun2,hExpRun2,"ratioUncertRun2Prelim",ExpRun2ErrDown,ExpRun2ErrUp)
 
         dummyRatios.append(dummyRatio)
         ratios.append(ratio)
         ratioUncerts.append(ratioUncert)
-        ratioLegs.append(ratioLeg)
 
     for i, canvas in enumerate(canvases):
         canvas.cd(2)
@@ -569,7 +563,6 @@ if arguments.makeRatioPlots:
         ratioUncerts[i].Draw("e2same")
         emueeRatioLine.Draw()
         eemumuRatioLine.Draw()
-        ratioLegs[i].Draw()
         gPad.Modified()
         gPad.Update()
         gPad.RedrawAxis()
