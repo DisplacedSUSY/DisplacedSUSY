@@ -117,6 +117,11 @@ LumiPrelimLabel.SetTextFont(62)
 LumiPrelimLabel.SetTextSize(1)
 LumiPrelimLabel.SetTextAlign(12)
 
+LumiSuppLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Supplementary}}","NDC")
+LumiSuppLabel.SetTextFont(62)
+LumiSuppLabel.SetTextSize(1)
+LumiSuppLabel.SetTextAlign(12)
+
 # the default is somehow bold for these, so you have to explicitly make the e's unbold (with a "second" #bf{})
 # to make them match the #mu's (which you can't get bold because they are greek letter... but really cuz root)
 EMuLabel = TPaveLabel(emu_x_left,emu_y_bottom,emu_x_right,emu_y_top,"#bf{e}#mu","nb")
@@ -140,6 +145,7 @@ labels = [
     HeaderLabelRun2,
     LumiLabel,
     LumiPrelimLabel,
+    LumiSuppLabel,
     EMuLabel,
     EELabel,
     MuMuLabel,
@@ -162,17 +168,13 @@ emueeRatioLine.SetLineWidth(2)
 eemumuRatioLine.SetLineWidth(2)
 
 Canvas2016 = TCanvas("canvas2016","")
-Canvas2016Prelim = TCanvas("canvas2016Preliminary","")
 Canvas201718 = TCanvas("canvas201718","")
-Canvas201718Prelim = TCanvas("canvas201718Preliminary","")
 CanvasRun2 = TCanvas("canvasRun2","")
 CanvasRun2Prelim = TCanvas("canvasRun2Preliminary","")
 
 canvases = [
     Canvas2016,
-    Canvas2016Prelim,
     Canvas201718,
-    Canvas201718Prelim,
     CanvasRun2,
     CanvasRun2Prelim,
     ]
@@ -380,24 +382,7 @@ hExp2016.Draw()
 hExpUncert2016.Draw("e2same")
 hSig2016.Draw("histesame")
 hObs2016.Draw("pe0same")
-LumiLabel.Draw()
-HeaderLabel2016.Draw()
-Leg.Draw()
-EMuLabel.Draw()
-EELabel.Draw()
-MuMuLabel.Draw()
-emueeLine.Draw()
-eemumuLine.Draw()
-
-if arguments.makeRatioPlots:
-    Canvas2016Prelim.cd(1)
-else:
-    Canvas2016Prelim.cd()
-hExp2016.Draw()
-hExpUncert2016.Draw("e2same")
-hSig2016.Draw("histesame")
-hObs2016.Draw("pe0same")
-LumiPrelimLabel.Draw()
+LumiSuppLabel.Draw()
 HeaderLabel2016.Draw()
 Leg.Draw()
 EMuLabel.Draw()
@@ -414,24 +399,7 @@ hExp201718.Draw()
 hExpUncert201718.Draw("e2same")
 hSig201718.Draw("histesame")
 hObs201718.Draw("pe0same")
-LumiLabel.Draw()
-HeaderLabel201718.Draw()
-Leg.Draw()
-EMuLabel.Draw()
-EELabel.Draw()
-MuMuLabel.Draw()
-emueeLine.Draw()
-eemumuLine.Draw()
-
-if arguments.makeRatioPlots:
-    Canvas201718Prelim.cd(1)
-else:
-    Canvas201718Prelim.cd()
-hExp201718.Draw()
-hExpUncert201718.Draw("e2same")
-hSig201718.Draw("histesame")
-hObs201718.Draw("pe0same")
-LumiPrelimLabel.Draw()
+LumiSuppLabel.Draw()
 HeaderLabel201718.Draw()
 Leg.Draw()
 EMuLabel.Draw()
@@ -541,12 +509,8 @@ if arguments.makeRatioPlots:
         print "canvasName is: "+canvas.GetName()
         if canvas.GetName() == "canvas2016":
             dummyRatio, ratio, ratioUncert = getRatioPlot("ratio2016",hObs2016,hExp2016,"ratioUncert2016",Exp2016ErrDown,Exp2016ErrUp)
-        elif canvas.GetName() == "canvas2016Preliminary":
-            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio2016Prelim",hObs2016,hExp2016,"ratioUncert2016Prelim",Exp2016ErrDown,Exp2016ErrUp)
         elif canvas.GetName() == "canvas201718":
             dummyRatio, ratio, ratioUncert = getRatioPlot("ratio201718",hObs201718,hExp201718,"ratioUncert201718",Exp201718ErrDown,Exp201718ErrUp)
-        elif canvas.GetName() == "canvas201718Preliminary":
-            dummyRatio, ratio, ratioUncert = getRatioPlot("ratio201718Prelim",hObs201718,hExp201718,"ratioUncert201718Prelim",Exp201718ErrDown,Exp201718ErrUp)
         elif canvas.GetName() == "canvasRun2":
             dummyRatio, ratio, ratioUncert = getRatioPlot("ratioRun2",hObsRun2,hExpRun2,"ratioUncertRun2",ExpRun2ErrDown,ExpRun2ErrUp)
         elif canvas.GetName() == "canvasRun2Preliminary":
@@ -573,16 +537,12 @@ if arguments.makeRatioPlots:
 
 #need to save as .ps so that TMathText appears properly (can't with pdf)
 Canvas2016.SaveAs("./SR2016yields"+pdfSuffix+".ps")
-Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary"+pdfSuffix+".ps")
 Canvas201718.SaveAs("./SR201718yields"+pdfSuffix+".ps")
-Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary"+pdfSuffix+".ps")
 CanvasRun2.SaveAs("./SRRun2yields"+pdfSuffix+".ps")
 CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary"+pdfSuffix+".ps")
 
 Canvas2016.SaveAs("./SR2016yields"+pdfSuffix+".png")
-Canvas2016Prelim.SaveAs("./SR2016yields_CMSPreliminary"+pdfSuffix+".png")
 Canvas201718.SaveAs("./SR201718yields"+pdfSuffix+".png")
-Canvas201718Prelim.SaveAs("./SR201718yields_CMSPreliminary"+pdfSuffix+".png")
 CanvasRun2.SaveAs("./SRRun2yields"+pdfSuffix+".png")
 CanvasRun2Prelim.SaveAs("./SRRun2yields_CMSPreliminary"+pdfSuffix+".png")
 
