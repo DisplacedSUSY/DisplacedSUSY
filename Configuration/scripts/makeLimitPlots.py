@@ -885,7 +885,7 @@ def drawPlot(plot):
         elif GMSB and channel == None: # co-nlsp or several channels on the same plot
             processText = "\\~{\\ell} \\to \\ell\\~{\\text{G}}\\text{ (co-NLSP)}"
         elif process == 'HToSSTo4L':
-            processText = "\\text{H} \\to \\text{SS}, \\text{S} \\to 2\\ell, \\ell = \\text{e}, \\mu"
+            processText = "\\text{H} \\to \\text{SS}, \\text{S} \\to \\ell^{+}\\ell^{-}, \\ell = \\text{e}, \\mu"
 
         if is2D:
             if arguments.method != "Significance":
