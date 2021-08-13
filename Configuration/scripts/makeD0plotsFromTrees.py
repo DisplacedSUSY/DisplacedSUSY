@@ -172,10 +172,11 @@ HeaderLabel.SetBorderSize(0)
 HeaderLabel.SetFillColor(0)
 HeaderLabel.SetFillStyle(0)
 
+
 if arguments.mc or arguments.diagramPlot:
-    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Simulation","NDC")
+    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation}}","NDC")
 else:
-    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
+    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Supplementary}}","NDC")
 LumiLabel.SetTextFont(62)
 LumiLabel.SetTextSize(0.8)
 LumiLabel.SetTextAlign(12)
@@ -184,9 +185,9 @@ LumiLabel.SetFillColor(0)
 LumiLabel.SetFillStyle(0)
 
 if arguments.mc or arguments.diagramPlot:
-    LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Simulation Preliminary","NDC")
+    LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation Preliminary}}","NDC")
 else:
-    LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Preliminary","NDC")
+    LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Preliminary}}","NDC")
 LumiPrelimLabel.SetTextFont(62)
 LumiPrelimLabel.SetTextSize(0.8)
 LumiPrelimLabel.SetTextAlign(12)
@@ -403,11 +404,11 @@ else:
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".pdf")
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".png")
 
-CanvasPrelim.cd()
-h.Draw("colz")
-LumiPrelimLabel.Draw()
-HeaderLabel.Draw()
 if(arguments.diagramPlot):
+    CanvasPrelim.cd()
+    h.Draw("colz")
+    LumiPrelimLabel.Draw()
+    HeaderLabel.Draw()
     ABox.Draw()
     BBox.Draw()
     CBox.Draw()
@@ -417,14 +418,6 @@ if(arguments.diagramPlot):
     IVBox.Draw()
     CanvasPrelim.SaveAs("./abcdMethod_CMSPreliminary.pdf")
     CanvasPrelim.SaveAs("./abcdMethod_CMSPreliminary.png")
-elif arguments.signal:
-    hSignal.Draw("boxsame")
-    legend.Draw()
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.ps")
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal_CMSPreliminary.png")
-else:
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.pdf")
-    CanvasPrelim.SaveAs("./d0vsd0_" + analysisChannel + "_CMSPreliminary.png")
 
 
 #write histograms to root file for hepdata
