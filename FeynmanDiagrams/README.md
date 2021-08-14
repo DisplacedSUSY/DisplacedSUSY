@@ -14,3 +14,6 @@ HToSSTo4L.tex
 SleptonToGravitinoLepton.tex
 
 I could only get all the feynman packages right on my mac, couldn't make it work on lxplus, didn't try on the OSU T3 or FNAL LPC.
+
+Run with, for example:
+./compile.py SleptonToGravitinoLepton.tex
