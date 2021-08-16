@@ -58,15 +58,12 @@ datasets = [
 ```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w MuMuPreselection_AllData_1Mar2021```
 
 
-emu data with signal (supplemental material):
+emu signal (supplemental material):
 ```cd CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test```
 
 in PreselectionOptions.py, have:
 ```
 datasets = [
-    'MuonEG_2016_postHIP',
-    'MuonEG_2017_withoutB',
-    'MuonEG_2018',
     'stopToLB1500_10mm_2016',
     'stopToLB1500_10mm_2017',
     'stopToLB1500_10mm_2018',

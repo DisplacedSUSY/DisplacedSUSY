@@ -159,7 +159,7 @@ IV_y_top = 100000
 LumiInFb = intLumi/1000.
 #LumiText = str.format('{0:.1f}', LumiInFb) + " fb^{-1}"
 LumiText = "{:d} fb^{{-1}}".format(int(round(LumiInFb)))
-if arguments.mc or arguments.diagramPlot:
+if arguments.mc or arguments.diagramPlot or arguments.signal:
     HeaderText = "(13 TeV)"
 else:
     HeaderText = LumiText + " (13 TeV)"
@@ -312,17 +312,16 @@ nbins = int(len(log_100000um_bins)-1)
 nbinsY = int(len(y_log_100000um_bins)-1)
 if arguments.signal:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
-    h.SetTitle(";"+xTitle+";"+yTitle+";Events in data")
 else:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
-    h.SetTitle(";"+xTitle+";"+yTitle+";Events")
+h.SetTitle(";"+xTitle+";"+yTitle+";Events")
 h.SetFillColor(4)
 h.SetLineWidth(0)
 totalCount = 0
 srCount = 0
 
 hSignal = TH2F("hSignal","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
-hSignal.SetTitle(";"+xTitle+";"+yTitle+";Events in data")
+hSignal.SetTitle(";"+xTitle+";"+yTitle+";Events")
 hSignal.SetLineColor(1)
 
 for dataset in datasets:
@@ -379,13 +378,13 @@ if arguments.signal:
     legend.SetFillColor(0)
     legend.SetLineWidth(2)
     legend.SetFillStyle(1001)
-    legend.AddEntry(hSignal, "\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{0}\\text{ = 1 cm}", 'f')
+    legend.AddEntry(hSignal, "\\~{\\text{t}} \\to \\text{b}\\ell, \\text{m}_{\\~{\\text{t}}}\\text{ = 1500 GeV, }c\\tau_{\\text{}_{0}}\\text{ = 1 cm}", 'f')
 
 Canvas.cd()
-h.Draw("colz")
-LumiLabel.Draw()
-HeaderLabel.Draw()
 if(arguments.diagramPlot):
+    h.Draw("colz")
+    LumiLabel.Draw()
+    HeaderLabel.Draw()
     ABox.Draw()
     BBox.Draw()
     CBox.Draw()
@@ -396,11 +395,16 @@ if(arguments.diagramPlot):
     Canvas.SaveAs("./abcdMethod.pdf")
     Canvas.SaveAs("./abcdMethod.png")
 elif arguments.signal:
-    hSignal.Draw("boxsame")
+    hSignal.Draw("colz")
+    LumiLabel.Draw()
+    HeaderLabel.Draw()
     legend.Draw()
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.ps")
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + "_withSignal.png")
 else:
+    h.Draw("colz")
+    LumiLabel.Draw()
+    HeaderLabel.Draw()
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".pdf")
     Canvas.SaveAs("./d0vsd0_" + analysisChannel + ".png")
 
