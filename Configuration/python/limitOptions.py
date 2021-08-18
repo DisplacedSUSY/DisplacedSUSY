@@ -44,6 +44,8 @@ parser.add_option("--fillGaps", action="store_true", dest="fillGaps", default=Fa
                   help="plot expected limit value for points where observed has not converged")
 parser.add_option("--getEff", action="store_true", dest="getEff", default=False,
                   help="print signal efficiencies")
+parser.add_option("--atlas", action="store_true", dest="atlasStyle", default=False,
+                  help="use ATLAS-style formatting for limit plot")
 
 (arguments, args) = parser.parse_args()
 
