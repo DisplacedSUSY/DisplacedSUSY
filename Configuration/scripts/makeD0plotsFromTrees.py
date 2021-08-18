@@ -46,7 +46,7 @@ else:
     condirDir = arguments.condorDir
 
 
-from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel, TLegend, TColor
+from ROOT import gROOT, gStyle, TFile, TCanvas, TH2F, TPaveLabel, TLegend, TColor, TLine
 
 gROOT.SetBatch()
 gStyle.SetOptStat(0)
@@ -76,7 +76,8 @@ gStyle.SetTitleOffset(1.25,"Z")
 gStyle.SetTextAlign(12)
 gStyle.SetLabelColor(1, "XYZ")
 gStyle.SetLabelFont(42, "XYZ")
-gStyle.SetLabelOffset(0.005, "XYZ")
+gStyle.SetLabelOffset(0.005, "XZ")
+gStyle.SetLabelOffset(0.01, "Y")
 gStyle.SetLabelSize(0.04, "XYZ")
 gStyle.SetAxisColor(1, "XYZ")
 gStyle.SetStripDecimals(True)
@@ -194,6 +195,53 @@ LumiPrelimLabel.SetTextAlign(12)
 LumiPrelimLabel.SetBorderSize(0)
 LumiPrelimLabel.SetFillColor(0)
 LumiPrelimLabel.SetFillStyle(0)
+
+break_left = A_x_left*1.3
+break_right = A_x_left*1.6
+break_bottom = A_y_bottom*1.3
+break_top = A_y_bottom*1.6
+
+xAxisBreak = TLine(break_left,A_y_bottom-0.01,break_right,A_y_bottom-0.01)
+xAxisBreak.SetLineColor(0)
+xAxisBreak.SetLineWidth(5)
+
+xAxisBreakDiag1 = TLine(break_left*0.95,A_y_bottom*0.8,break_left*1.05,A_y_bottom*1.2)
+xAxisBreakDiag1.SetLineColor(1)
+xAxisBreakDiag1.SetLineWidth(4)
+
+xAxisBreakDiag2 = TLine(break_right*0.95,A_y_bottom*0.8,break_right*1.05,A_y_bottom*1.2)
+xAxisBreakDiag2.SetLineColor(1)
+xAxisBreakDiag2.SetLineWidth(4)
+
+yAxisBreak = TLine(A_x_left-0.01,break_bottom,A_x_left-0.01,break_top)
+yAxisBreak.SetLineColor(0)
+yAxisBreak.SetLineWidth(5)
+
+yAxisBreakDiag1 = TLine(A_x_left*0.8,break_bottom*1.05,A_x_left*1.2,break_bottom*0.95)
+yAxisBreakDiag1.SetLineColor(1)
+yAxisBreakDiag1.SetLineWidth(4)
+
+yAxisBreakDiag2 = TLine(A_x_left*0.8,break_top*1.05,A_x_left*1.2,break_top*0.95)
+yAxisBreakDiag2.SetLineColor(1)
+yAxisBreakDiag2.SetLineWidth(4)
+
+zeroLabelx = TPaveLabel(A_x_left*0.8,0.35,A_x_left*1.4,0.75,"0","nb")
+zeroLabelx.SetTextFont(42)
+zeroLabelx.SetTextSize(1)
+zeroLabelx.SetTextAlign(22)
+zeroLabelx.SetBorderSize(0)
+zeroLabelx.SetLineWidth(0)
+zeroLabelx.SetFillColor(0)
+zeroLabelx.SetFillStyle(1001)
+
+zeroLabely = TPaveLabel(0.5,A_y_bottom*0.65,0.9,A_y_bottom*1.45,"0","nb")
+zeroLabely.SetTextFont(42)
+zeroLabely.SetTextSize(0.98)
+zeroLabely.SetTextAlign(22)
+zeroLabely.SetBorderSize(0)
+zeroLabely.SetLineWidth(0)
+zeroLabely.SetFillColor(0)
+zeroLabely.SetFillStyle(1001)
 
 ABox = TPaveLabel(A_x_left,A_y_bottom,A_x_right,A_y_top,"A","nb")
 ABox.SetTextFont(62)
@@ -386,6 +434,14 @@ if(arguments.diagramPlot):
     LumiLabel.Draw()
     HeaderLabel.Draw()
     ABox.Draw()
+    zeroLabelx.Draw()
+    zeroLabely.Draw()
+    xAxisBreak.Draw()
+    xAxisBreakDiag1.Draw()
+    xAxisBreakDiag2.Draw()
+    yAxisBreak.Draw()
+    yAxisBreakDiag1.Draw()
+    yAxisBreakDiag2.Draw()
     BBox.Draw()
     CBox.Draw()
     IBox.Draw()
@@ -414,6 +470,14 @@ if(arguments.diagramPlot):
     LumiPrelimLabel.Draw()
     HeaderLabel.Draw()
     ABox.Draw()
+    zeroLabelx.Draw()
+    zeroLabely.Draw()
+    xAxisBreak.Draw()
+    xAxisBreakDiag1.Draw()
+    xAxisBreakDiag2.Draw()
+    yAxisBreak.Draw()
+    yAxisBreakDiag1.Draw()
+    yAxisBreakDiag2.Draw()
     BBox.Draw()
     CBox.Draw()
     IBox.Draw()
@@ -433,7 +497,7 @@ else:
     outFileSuffix = "data_"+analysisChannel
 
 outFilePrefix = "condor/%s/" % arguments.condorDir
-outputFile = TFile(outFilePrefix+"d0plots_"+outFileSuffix+".root", "RECREATE")
+outputFile = TFile("d0_plot_test.root", "RECREATE")
 outputFile.cd()
 h.Write()
 if arguments.signal:
