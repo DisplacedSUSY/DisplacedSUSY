@@ -907,9 +907,12 @@ def drawPlot(plot):
                     yAxisBins.append(8.0*float(masses[-1]) - 4.0*float(masses[-2]))
             elif plot['yAxisType'] == 'lifetime':
                 canvas.SetLogy()
-                yAxisMin = 0.1*float(lifetimes[0])
-                yAxisMax = 0.1*float(lifetimes[-1])
-                #yAxisMax = 3000000 #use this for gmsb atlas-style plot
+                if arguments.atlasStyle:
+                    yAxisMin = .001
+                    yAxisMax = 100000
+                else:
+                    yAxisMin = 0.1*float(lifetimes[0])
+                    yAxisMax = 0.1*float(lifetimes[-1])
                 yAxisBins.extend([0.1*float(lifetime) for lifetime in lifetimes])
                 yAxisBins.append(0.1*2.0*float(lifetimes[-1]))
                 yAxisBins.append(0.1*8.0*float(lifetimes[-1]))
@@ -920,8 +923,10 @@ def drawPlot(plot):
                     rightAxis = TGaxis(xAxisMax, yAxisMin, xAxisMax, yAxisMax, rightAxisMin, rightAxisMax, 510, "+LG")
                     rightAxis.SetTitle("#tau_{0} [ns]")
                     rightAxis.SetTitleFont(42)
-                    rightAxis.SetLabelFont(42)
+                    rightAxis.SetTitleSize(0.035)
                     rightAxis.SetTitleOffset(1.5)
+                    rightAxis.SetLabelFont(42)
+                    rightAxis.SetLabelSize(0.035)
 
                 if(HToSS):
                     xAxisBins.extend([float(mass) for mass in masses.keys()])
@@ -932,11 +937,13 @@ def drawPlot(plot):
 
             print "process is: "+process
             if process == 'gmsb':
-                #ProcessLabel = TPaveLabel(0.40, 0.64, 0.70, 0.89, processText, "NDC")
-                #legend = TLegend(0.45, 0.49, 0.75, 0.74) #legend on the top right for atlas-style 2D plot
-
-                ProcessLabel = TPaveLabel(0.06, 0.48, 0.48, 0.73, processText, "NDC")
-                legend = TLegend(topLeft_x_left+0.02, 0.35, 0.52, 0.6) #legend in the middle of the y-axis for 2D colz plot
+                if arguments.atlasStyle:
+                    ProcessLabel = TPaveLabel(0.22, 0.63, 0.49, 0.88, processText, "NDC")
+                    clLabel = TPaveLabel(0.31, 0.60, 0.48, 0.83, "95% CL upper limits", "NDC")
+                    legend = TLegend(0.51, 0.53, 0.72, 0.81) #legend on the top right for atlas-style 2D plot
+                else:
+                    ProcessLabel = TPaveLabel(0.06, 0.48, 0.48, 0.73, processText, "NDC")
+                    legend = TLegend(topLeft_x_left+0.02, 0.35, 0.52, 0.6) #legend in the middle of the y-axis for 2D colz plot
             elif arguments.method == "Significance":
                 ProcessLabel = TPaveLabel(0.06, 0.55, 0.36, 0.84, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.55, 0.55, 0.84) #legend at the top for significance plots
@@ -951,7 +958,7 @@ def drawPlot(plot):
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
-        if not arguments.method == "Significance":
+        if not arguments.method == "Significance" and not arguments.atlasStyle:
             legend.SetHeader("95% CL upper limits")
 
         # construct TGraph objects for all curves and draw them
@@ -960,11 +967,12 @@ def drawPlot(plot):
         plotDrawn = False
 
         if not is2D or not plot.get('th2fs', []):
-            legend.SetTextSize(0.035)
+            legend.SetTextSize(0.03)
             legend.AddEntry("","","")
             expEntry = legend.AddEntry("","Median expected","l",)
             obsEntry = legend.AddEntry("","Observed","l")
-            legend.AddEntry("","","")
+            if not arguments.atlasStyle:
+                legend.AddEntry("","","")
 
             expEntry.SetLineStyle(7)
             expEntry.SetLineWidth(4)
@@ -1094,12 +1102,13 @@ def drawPlot(plot):
                         draw_args = 'L' if plotDrawn else 'AL'
                         tGraphs[-1].Draw(draw_args)
                         plotDrawn = True
-                        legendEntry = 'Median expected'
-                        if 'legendEntry' in graph:
-                            legendEntry = legendEntry + ": " + graph['legendEntry']
-                            #legendEntry = graph['legendEntry']
-                            #legend.SetHeader("Expected limits")
-                        legend.AddEntry(tGraphs[-1], legendEntry, 'L') #comment out this line when making the ATLAS-like GMSB limit plot
+                        if not arguments.atlasStyle:
+                            legendEntry = 'Median expected'
+                            if 'legendEntry' in graph:
+                                legendEntry = legendEntry + ": " + graph['legendEntry']
+                                #legendEntry = graph['legendEntry']
+                                #legend.SetHeader("Expected limits")
+                            legend.AddEntry(tGraphs[-1], legendEntry, 'L')
                         tGraphs[-1].SetName('L')
                         newGraph = tGraphs[-1].Clone()
                         newGraph.SetName("g_exp")
@@ -1252,17 +1261,27 @@ def drawPlot(plot):
                 tGraph.GetYaxis().SetTitleOffset(1.5)
                 tGraph.GetYaxis().SetLimits(0.9*yAxisMin, 1.1*yAxisMax)
                 tGraph.GetYaxis().SetRangeUser(yAxisMin, yAxisMax)
-                #tGraph.GetXaxis().SetRangeUser(50,900) #for atlas-style plot
+                if arguments.atlasStyle:
+                    tGraph.GetXaxis().SetRangeUser(50,900)
             tGraph.Write()
         legend.Draw()
 
         ProcessLabel.SetTextAlign(32)
         ProcessLabel.SetTextFont(42)
-        ProcessLabel.SetTextSize(0.12)
+        ProcessLabel.SetTextSize(0.13)
         ProcessLabel.SetBorderSize(0)
         ProcessLabel.SetFillColor(0)
         ProcessLabel.SetFillStyle(0)
         ProcessLabel.Draw()
+
+        if arguments.atlasStyle:
+            clLabel.SetTextAlign(32)
+            clLabel.SetTextFont(42)
+            clLabel.SetTextSize(0.14)
+            clLabel.SetBorderSize(0)
+            clLabel.SetFillColor(0)
+            clLabel.SetFillStyle(0)
+            clLabel.Draw()
 
         canvas.SetTitle('')
         for th2f in tTh2fs:
