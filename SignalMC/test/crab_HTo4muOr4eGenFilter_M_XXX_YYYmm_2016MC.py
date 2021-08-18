@@ -204,22 +204,22 @@ if __name__ == '__main__':
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_400_150_1000mm_13TeV_2016MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_400_150_100mm_13TeV_2016MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_400_150_10mm_13TeV_2016MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_400_150_1mm_13TeV_2016MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8-v2/pablom-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/fernance-RunIISummer16MiniAODv3ext-bd3e7bcff6c9bcad356ea4ed7e4f08b4/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 

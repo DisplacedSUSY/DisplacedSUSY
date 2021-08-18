@@ -224,27 +224,27 @@ if __name__ == '__main__':
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_600_50_10000mm_13TeV_2017MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-2-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_600_50_1000mm_13TeV_2017MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-2-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_600_50_100mm_13TeV_2017MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-2-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_600_50_10mm_13TeV_2017MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-2-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 
     config.General.requestName = 'HTo4muOr4eGenFilter_M_600_50_1mm_13TeV_2017MC'
-    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-3-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
+    config.Data.inputDataset = '/ggH_HToSSTo4l_MH-600_MS-50_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/pablom-RunIIFall17MiniAODv2ext-5f646ecd4e1c7a39ab0ed099ff55ceb9/USER'
     submit(config)
     #resubmit('crab/crab_'+config.General.requestName)
 

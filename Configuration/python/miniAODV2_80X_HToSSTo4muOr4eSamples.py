@@ -549,10 +549,10 @@ signal_mc_samples = {
     'HToSSTo4L400_50_1mm'         : "/ggH_HToSSTo4l_MH-400_MS-50_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
 
     'HToSSTo4L400_150_10000mm'    : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
-    'HToSSTo4L400_150_1000mm'     : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
-    'HToSSTo4L400_150_100mm'      : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
-    'HToSSTo4L400_150_10mm'       : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
-    'HToSSTo4L400_150_1mm'        : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
+    'HToSSTo4L400_150_1000mm'     : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
+    'HToSSTo4L400_150_100mm'      : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-100_TuneCUEP8M1_13TeV-powheg-pythia8/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
+    'HToSSTo4L400_150_10mm'       : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-10_TuneCUEP8M1_13TeV-powheg-pythia8/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
+    'HToSSTo4L400_150_1mm'        : "/ggH_HToSSTo4l_MH-400_MS-150_ctauS-1_TuneCUEP8M1_13TeV-powheg-pythia8/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
 
     'HToSSTo4L600_50_10000mm'     : "/ggH_HToSSTo4l_MH-600_MS-50_ctauS-10000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
     'HToSSTo4L600_50_1000mm'      : "/ggH_HToSSTo4l_MH-600_MS-50_ctauS-1000_TuneCUEP8M1_13TeV-powheg-pythia8-v2/jalimena-MiniAod_4muOr4eGenFilter_2016-6e1874bd67587cdee6a49868d75e88be/USER",
