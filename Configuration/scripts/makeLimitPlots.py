@@ -952,7 +952,7 @@ def drawPlot(plot):
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-            ProcessLabel = TPaveLabel(topLeft_x_left+0.06, 0.61, 0.56, 0.90, processText, "NDC")
+            ProcessLabel = TPaveLabel(topLeft_x_left+0.03, 0.63, 0.63, 0.90, processText, "NDC")
             legend = TLegend(topLeft_x_left+0.02, 0.45, 0.52, 0.74) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
