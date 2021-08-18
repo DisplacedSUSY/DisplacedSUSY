@@ -497,7 +497,7 @@ else:
     outFileSuffix = "data_"+analysisChannel
 
 outFilePrefix = "condor/%s/" % arguments.condorDir
-outputFile = TFile("d0_plot_test.root", "RECREATE")
+outputFile = TFile(outFilePrefix+"d0plots_"+outFileSuffix+".root", "RECREATE")
 outputFile.cd()
 h.Write()
 if arguments.signal:
