@@ -372,6 +372,17 @@ hSignal = TH2F("hSignal","",nbins,array('d',log_100000um_bins),nbinsY,array('d',
 hSignal.SetTitle(";"+xTitle+";"+yTitle+";Events")
 hSignal.SetLineColor(1)
 
+# get approximate lumi*xs weight from equivalent sample that was merged with mergeOut.py
+def get_lumi_xs_weight(file_path):
+    file_path = file_path.replace("putHadd","")
+    f = TFile(file_path)
+    hist_path = "PreselectionCutFlowPlotter/eventCounter"
+    try:
+        h = f.Get(hist_path).Clone()
+    except ReferenceError:
+        raise IOError("Could not load {} from {}".format(hist_path, file_path))
+    return h.Integral() / h.GetEntries()
+
 for dataset in datasets:
 
     fileName = "condor/%s/mergeOutputHadd/%s.root" % (arguments.condorDir,dataset)
@@ -391,7 +402,7 @@ for dataset in datasets:
         sys.exit(1)
     tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
-    lumi_xs_weight = 1.0 # fixme: need to figure out how to get from tree
+    lumi_xs_weight = get_lumi_xs_weight(fileName)
 
     for iEntry in tree:
         if not dataset.startswith("stopTo"):
