@@ -362,7 +362,7 @@ if arguments.signal:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbinsY,array('d',y_log_100000um_bins))
 else:
     h = TH2F("h","",nbins,array('d',log_100000um_bins),nbins,array('d',log_100000um_bins))
-h.SetTitle(";"+xTitle+";"+yTitle+";Events")
+h.SetTitle(";"+xTitle+";"+yTitle+";Events / #mum^{2}")
 h.SetFillColor(4)
 h.SetLineWidth(0)
 totalCount = 0
@@ -391,6 +391,8 @@ for dataset in datasets:
         sys.exit(1)
     tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
+    lumi_xs_weight = 1.0 # fixme: need to figure out how to get from tree
+
     for iEntry in tree:
         if not dataset.startswith("stopTo"):
             totalCount += 1
@@ -401,19 +403,37 @@ for dataset in datasets:
         if d02<1.:
             d02 = 1.1
         #print "d01 is: " + str(d01) + " d02 is: " + str(d02)
+        weight_product = lumi_xs_weight*getattr(tree, "weights_weightProduct")
         if dataset.startswith("stopTo"):
-            hSignal.Fill(d01,d02)
+            hSignal.Fill(d01,d02,weight_product)
         else:
-            h.Fill(d01,d02)
+            h.Fill(d01,d02,weight_product)
 
         if (not dataset.startswith("stopTo")) and d01>100. and d02>100.:
             srCount += 1
 
+# divide bin contents by bin area
+for hist in [h]:
+    x_axis = hist.GetXaxis()
+    y_axis = hist.GetYaxis()
+    # loop over bins
+    for i in range(1, x_axis.GetNbins()+1):
+        for j in range(1, y_axis.GetNbins()+1):
+            x_width = x_axis.GetBinWidth(i)
+            y_width = y_axis.GetBinWidth(j)
+            # account for skipped 0-1um range when filling hist
+            if i == 1:
+                x_width += 1
+            if j == 1:
+                y_width += 1
+            area = x_width*y_width
+            content = hist.GetBinContent(i, j)
+            hist.SetBinContent(i, j, content/float(area))
+
     #Hists.append(h)
     inputFile.Close()
 
-if not arguments.mc:
-    h.GetZaxis().SetRangeUser(1,2000000)
+h.GetZaxis().SetRangeUser(1e-6, 1e4)
 print "total number of events is: " + str(totalCount)
 print "total number of events in inclusive SR is: " + str(srCount)
 print "maximum bin content is: "+str(h.GetBinContent(h.GetMaximumBin()))
