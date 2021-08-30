@@ -4,49 +4,49 @@ from hepdata_lib import Submission, Table, Variable, Uncertainty, RootFileReader
 
 def makeD0D0table(version):
 
-    if version=="bkg_emu": #emu ABCD 2018 bkg sim (paper figure 2)
+    if version=="emu_bkg": #emu ABCD 2018 bkg sim (paper figure 2)
         table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, bkg simulation")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in background simulation that pass the e$\\mu$ preselection with 2018 conditions. If a $|d_{0}|$ value is less than unity, it is set to unity in order to plot in log scale. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in background simulation that pass the e$\\mu$ preselection with 2018 conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Data from Figure 2"
         table.add_image("data/abcdMethod.pdf")
         d0xName = "Leading muon $|d_{0}|$"
         d0yName = "Leading electron $|d_{0}|$"
 
-    elif version=="data_emu": #emu ABCD data (supplemental material figure 2)
+    elif version=="emu": #emu ABCD data (supplemental material figure 2)
         table = Table("Leading muon $|d_{0}|$ vs leading electron $|d_{0}|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the e$\\mu$ preselection. If a $|d_{0}|$ value is less than unity, it is set to unity in order to plot in log scale. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the e$\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_emu.pdf")
         d0xName = "Leading muon $|d_{0}|$"
         d0yName = "Leading electron $|d_{0}|$"
 
-    elif version=="data_ee": #ee ABCD data (supplemental material figure 3)
+    elif version=="ee": #ee ABCD data (supplemental material figure 3)
         table = Table("Subleading electron $|d_0|$ vs leading electron $|d_0|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the ee preselection. If a $|d_{0}|$ value is less than unity, it is set to unity in order to plot in log scale. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the ee preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_ee.pdf")
         d0xName = "Subleading electron $|d_{0}|$"
         d0yName = "Leading electron $|d_{0}|$"
 
-    elif version=="data_mumu": #mumu ABCD data (supplemental material figure 4)
+    elif version=="mumu": #mumu ABCD data (supplemental material figure 4)
         table = Table("Subleading muon $|d_{0}|$ vs leading muon $|d_{0}|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the $\\mu\\mu$ preselection. If a $|d_{0}|$ value is less than unity, it is set to unity in order to plot in log scale. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the $\\mu\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_mumu.pdf")
         d0xName = "Subleading muon $|d_{0}|$"
         d0yName = "Leading muon $|d_{0}|$"
 
-    elif version=="dataWithSignal_emu": #emu ABCD data, signal (supplemental material figure 5)
-        table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, data & signal")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data and signal that pass the e$\\mu$ preselection. If a $|d_{0}|$ value is less than unity, it is set to unity in order to plot in log scale. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+    elif version=="emu_stopToLB700_10mm": #emu ABCD signal (supplemental material figure 5)
+        table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, signal")
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the e$\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
-        table.add_image("data/d0vsd0_emu_withSignal.pdf")
+        table.add_image("data/d0vsd0_emu_stopToLB700_10mm.pdf")
         d0xName = "Leading muon $|d_{0}|$"
         d0yName = "Leading electron $|d_{0}|$"
 
     table.keywords["observables"] = ["$|d_{0}|$"]
 
-    reader = RootFileReader("data/d0plots_"+version+".root")
+    reader = RootFileReader("data/d0vsd0_"+version+".root")
     data = reader.read_hist_2d("h")
 
     #for key in data.keys():
@@ -60,6 +60,11 @@ def makeD0D0table(version):
     d0y.values = data["y_edges"]
 
     events = Variable("Events in data", is_independent=False, is_binned=False, units="")
+
+    #overwrite values for signal plot:
+    if version=="emu_stopToLB700_10mm":
+        events = Variable("Events in signal", is_independent=False, is_binned=False, units="")
+
     events.values = data["z"]
     events.add_qualifier("SQRT(S)", 13, "TeV")
 
@@ -67,13 +72,6 @@ def makeD0D0table(version):
     table.add_variable(d0x)
     table.add_variable(d0y)
     table.add_variable(events)
-
-    if version=="dataWithSignal_emu":
-        signal = reader.read_hist_2d("hSignal")
-        eventsSignal = Variable("Events in signal", is_independent=False, is_binned=False, units="")
-        eventsSignal.values = signal["z"]
-        eventsSignal.add_qualifier("SQRT(S)", 13, "TeV")
-        table.add_variable(eventsSignal)
 
     return table
 
@@ -83,19 +81,19 @@ def makeSRyieldsTable(year):
 
     if year=="Run2":
         table = Table("SR yields")
-        table.description = "The number of estimated background and observed events in each channel and SR, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty (statistical plus systematic) is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
+        table.description = "The number of observed and estimated background events in each channel and SR, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty (statistical plus systematic) is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
         table.location = "Data from Figure 3"
         table.add_image("data/SRRun2yields_withRatioPlots.pdf")
 
     elif year=="2016":
         table = Table("SR yields, 2016")
-        table.description = "The number of estimated background and observed events in each channel and SR in 2016, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
+        table.description = "The number of observed and estimated background events in each channel and SR in 2016, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
         table.location = "Supplemental material"
         table.add_image("data/SR2016yields_withRatioPlots.pdf")
 
     elif year=="201718":
         table = Table("SR yields, 2017-2018")
-        table.description = "The number of estimated background and observed events in each channel and SR in 2017 and 2018, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
+        table.description = "The number of observed and estimated background events in each channel and SR in 2017 and 2018, with a representative signal overlaid. For each background estimate and signal yield, the total uncertainty is given. The distributions shown correspond to the events before the final maximum likelihood fit to the data."
         table.location = "Supplemental material"
         table.add_image("data/SR201718yields_withRatioPlots.pdf")
 
@@ -148,14 +146,14 @@ def makeSRyieldsTable(year):
 def makeStopPaper2DLimitsTable(decay):
 
     if decay=="lb":
-        table = Table("$\\tilde{t} \\to lb$ cross section limits")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table = Table("$\\tilde{t} \\to b\\ell$ cross section limits")
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
         table.location = "Data from Figure 4 left"
         table.add_image("data/2DlimitsCombinedStopToLB.pdf")
 
     elif decay=="ld":
-        table = Table("$\\tilde{t} \\to ld$ cross section limits")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}d\:l\\overline{d}$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table = Table("$\\tilde{t} \\to d\\ell$ cross section limits")
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
         table.location = "Data from Figure 4 right"
         table.add_image("data/2DlimitsCombinedStopToLD.pdf")
 
@@ -183,14 +181,14 @@ def makeStopPaper2DLimitsTable(decay):
 def makeStopPaperGraphLimitsTable(decay):
 
     if decay=="lb":
-        table = Table("$\\tilde{t} \\to lb$ mass limits vs $c\\tau_0$")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table = Table("$\\tilde{t} \\to b\\ell$ mass limits vs $c\\tau_0$")
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
         table.location = "Data from Figure 4 left"
         table.add_image("data/2DlimitsCombinedStopToLB.pdf")
 
     elif decay=="ld":
-        table = Table("$\\tilde{t} \\to ld$ mass limits vs $c\\tau_0$")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}d\:l\\overline{d}$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table = Table("$\\tilde{t} \\to d\\ell$ mass limits vs $c\\tau_0$")
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
         table.location = "Data from Figure 4 right"
         table.add_image("data/2DlimitsCombinedStopToLD.pdf")
 
@@ -227,14 +225,14 @@ def makeStopPaperGraphLimitsTable(decay):
 def makeStop3ChannelLimitsTable(decay):
 
     if decay=="lb":
-        table = Table("$\\tilde{t} \\to lb$ mass limits vs $c\\tau_0$ for each channel")
-        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}\cPqb\:l\cPaqb $ process is shown."
+        table = Table("$\\tilde{t} \\to b\\ell$ mass limits vs $c\\tau_0$ for each channel")
+        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t} \\to b\\ell $ process is shown."
         table.location = "Supplemental material"
         table.add_image("data/2DlimitsStopToLB.pdf")
 
     elif decay=="ld":
-        table = Table("$\\tilde{t} \\to ld$ mass limits vs $c\\tau_0$ for each channel")
-        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}\cPqd\:l\cPaqd$ process is shown."
+        table = Table("$\\tilde{t} \\to d\\ell$ mass limits vs $c\\tau_0$ for each channel")
+        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t} \\to d\\ell$ process is shown."
         table.location = "Supplemental material"
         table.add_image("data/2DlimitsStopToLD.pdf")
 
@@ -289,7 +287,7 @@ def makeStop3ChannelLimitsTable(decay):
 
 def makeGMSBPaperLimitsTable():
 
-    table = Table("$\\tilde{l} \\to l\\tilde{G}$ mass limits vs $c\\tau_0$")
+    table = Table("$\\tilde{\\ell} \\to \\ell\\tilde{G}$ mass limits vs $c\\tau_0$")
     table.description = "The 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_{0}$ -- mass plane. The $\\tilde{\\tau}$ and co-NLSP limits are shown for the three channels combined, while the $\\tilde{e}$ and $\\tilde{\\mu}$ NLSP limits are shown for the ee and $\\mu\\mu$ channels, respectively. The area to the left of the solid curves represents the observed exclusion region, and the dashed lines indicate the expected limits."
     table.location = "Data from Figure 5"
     table.add_image("data/2D_limits_gmsb_all_ns.pdf")
@@ -317,11 +315,11 @@ def makeGMSBPaperLimitsTable():
         elif channelNum=="6":
             channelName = "$\\tilde{\\tau}$ "
 
-        obsLimits = Variable("Observed 95% CL upper limits on $m_{\\tilde{l}}$, "+channelName+"NLSP", is_independent=False, is_binned=False, units="GeV")
+        obsLimits = Variable("Observed 95% CL upper limits on $m_{\\tilde{\\ell}}$, "+channelName+"NLSP", is_independent=False, is_binned=False, units="GeV")
         obsLimits.values = obs[i]["x"]
         obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
-        expLimits = Variable("Expected 95% CL upper limits on $m_{\\tilde{l}}$, "+channelName+"NLSP", is_independent=False, is_binned=False, units="GeV")
+        expLimits = Variable("Expected 95% CL upper limits on $m_{\\tilde{\\ell}}$, "+channelName+"NLSP", is_independent=False, is_binned=False, units="GeV")
         expLimits.values = exp[i]["x"]
         expLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
@@ -341,7 +339,7 @@ def makeGMSBPaperLimitsTable():
 
 def makeGMSBcoNLSP2DLimitsTable():
 
-    table = Table("$\\tilde{l} \\to l\\tilde{G}$ co-NLSP cross section limits")
+    table = Table("$\\tilde{\\ell} \\to \\ell\\tilde{G}$ co-NLSP cross section limits")
     table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
     table.location = "Supplemental material"
     table.add_image("data/limits_gmsb_coNLSP_2DwGrid.pdf")
@@ -350,7 +348,7 @@ def makeGMSBcoNLSP2DLimitsTable():
     twoD = reader.read_hist_2d("h_combined_standard_gmsb_runII_with_observed_limits")
 
     ### define variables
-    mass = Variable("$m_{\\tilde{l}}$", is_independent=True, is_binned=True, units="GeV")
+    mass = Variable("$m_{\\tilde{\\ell}}$", is_independent=True, is_binned=True, units="GeV")
     mass.values = twoD["x_edges"]
 
     ctau = Variable("$c\\tau_{0}$", is_independent=True, is_binned=True, units="cm")
@@ -369,7 +367,7 @@ def makeGMSBcoNLSP2DLimitsTable():
 
 def makeGMSBcoNLSPGraphLimitsTable():
 
-    table = Table("$\\tilde{l} \\to l\\tilde{G}$ co-NLSP mass limits vs $c\\tau_0$")
+    table = Table("$\\tilde{\\ell}\\to\\ell\\tilde{G}$ co-NLSP mass limits vs $c\\tau_0$")
     table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
     table.location = "Supplemental material"
     table.add_image("data/limits_gmsb_coNLSP_2DwGrid.pdf")
@@ -382,15 +380,12 @@ def makeGMSBcoNLSPGraphLimitsTable():
     ctau = Variable("$c\\tau_{0}$", is_independent=True, is_binned=False, units="cm")
     ctau.values = obs["y"]
 
-    obsLimits = Variable("Observed 95% CL upper limits on $m_{\\tilde{l}}$", is_independent=False, is_binned=False, units="GeV")
+    obsLimits = Variable("Observed 95% CL upper limits on $m_{\\tilde{\\ell}}$", is_independent=False, is_binned=False, units="GeV")
     obsLimits.values = obs["x"]
     obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
-    expLimits = Variable("Expected 95% CL upper limits on $m_{\\tilde{l}}$", is_independent=False, is_binned=False, units="GeV")
+    expLimits = Variable("Expected 95% CL upper limits on $m_{\\tilde{\\ell}}$", is_independent=False, is_binned=False, units="GeV")
     expLimits.values = exp["x"]
-    #exp1sigmaLimits = Uncertainty("68% CL", is_symmetric=False)
-    #exp1sigmaLimits.values = exp1sigma["dx"]
-    #expLimits.add_uncertainty(exp1sigmaLimits)
     expLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
     ### add variables and add table to submission
@@ -405,58 +400,56 @@ def makeGMSBcoNLSPGraphLimitsTable():
 def makeHToSSLimitsTable(mH):
 
     if mH=="125":
-        table = Table("H $\\to$ SS branching fraction limits, $m_{H}$=125 GeV")
-        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the three channels combined. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
+        table = Table("H(125) $\\to$ SS, S $\\to \\ell^{+}\\ell^{-}$, bf limits")
+        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the three channels combined. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
         table.location = "Data from Figure 6"
         mSes = ["30", "50"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BR.root")
 
     elif mH=="300":
-        table = Table("H $\\to$ SS $\\sigma \\times$ B limits, $m_{H}$=300 GeV")
-        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ as a function of $c\\tau_0$, for a 300 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table = Table("H(300) $\\to$ SS, S $\\to\\ell^{+}\\ell^{-}, \\sigma\\times$ bf limits")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ as a function of $c\\tau_0$, for a 300 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
         table.location = "Supplemental material"
         mSes = ["20", "50", "150"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BRXS.root")
 
     elif mH=="400":
-        table = Table("H $\\to$ SS $\\sigma \\times$ B limits, $m_{H}$=400 GeV")
-        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ as a function of $c\\tau_0$, for a 400 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table = Table("H(400) $\\to$ SS, S $\\to\\ell^{+}\\ell^{-}, \\sigma\\times$ bf limits")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ as a function of $c\\tau_0$, for a 400 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
         table.location = "Supplemental material"
         mSes = ["50", "150"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BRXS.root")
 
     elif mH=="600":
-        table = Table("H $\\to$ SS $\\sigma \\times$ B limits, $m_{H}$=600 GeV")
-        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ as a function of $c\\tau_0$, for a 600 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table = Table("H(600) $\\to$ SS, S $\\to\\ell^{+}\\ell^{-}, \\sigma\\times$ bf limits")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ as a function of $c\\tau_0$, for a 600 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
         table.location = "Supplemental material"
         mSes = ["50", "150"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BRXS.root")
 
     elif mH=="800":
-        table = Table("H $\\to$ SS $\\sigma \\times$ B limits, $m_{H}$=800 GeV")
-        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ as a function of $c\\tau_0$, for a 800 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table = Table("H(800) $\\to$ SS, S $\\to\\ell^{+}\\ell^{-}, \\sigma\\times$ bf limits")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ as a function of $c\\tau_0$, for a 800 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
         table.location = "Supplemental material"
         mSes = ["50", "150", "250"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BRXS.root")
 
     elif mH=="1000":
-        table = Table("H $\\to$ SS $\\sigma \\times$ B limits, $m_{H}$=1000 GeV")
-        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to l\\overline{l}\:l\\overline{l}$ as a function of $c\\tau_0$, for a 1000 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table = Table("H(1000) $\\to$ SS, S$\\to\\ell^{+}\\ell^{-}, \\sigma\\times$ bf limits")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}, \\mathrm{S} \\to \\ell^{+}\\ell^{-}$ as a function of $c\\tau_0$, for a 1000 GeV Higgs boson and several long-lived scalar masses, for the three channels combined. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
         table.location = "Supplemental material"
         mSes = ["150", "350"]
         reader = RootFileReader("data/HToSSLimits/limit_plot_BRXS.root")
 
-    table.add_image("data/limits_vs_lifetime_H"+mH+".pdf")
+    table.add_image("data/HToSSLimits/limits_vs_lifetime_H"+mH+".pdf")
     table.keywords["observables"] = ["95% CL upper limits, $c\\tau_{0}$"]
 
     obs = []
     exp = []
-    #exp1sigma = []
 
     for mS in mSes:
         obs.append(reader.read_graph("h_m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
         exp.append(reader.read_graph("h_Median expected: m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
-        #exp1sigma.append(reader.read_graph("exp1sigma_"+mS))
 
     ctau = Variable("$c\\tau_{0}$", is_independent=True, is_binned=False, units="cm")
     ctau.values = obs[1]["x"]
@@ -475,18 +468,154 @@ def makeHToSSLimitsTable(mH):
         obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
         expLimits.values = exp[i]["y"]
-        #exp1sigmaLimits = Uncertainty("68% CL", is_symmetric=False)
-        #exp1sigmaLimits.values = exp1sigma[i]["dy"]
-        #expLimits.add_uncertainty(exp1sigmaLimits)
         expLimits.add_qualifier("SQRT(S)", 13, "TeV")
 
         #fix the H(125), S(30) case, where there's less values (set the BR to 1 for these):
-        if len(obs[i]["y"]) < len(ctau.values):
-            for j in range(len(ctau.values) - len(obs[i]["y"])):
+        if len(obs[i]["y"]) != len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(obs[i]["y"]))):
                 obsLimits.values.append(1)
-        if len(exp[i]["y"]) < len(ctau.values):
-            for j in range(len(ctau.values) - len(exp[i]["y"])):
+        if len(exp[i]["y"]) != len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(exp[i]["y"]))):
                 expLimits.values.append(1)
+
+        #print("length of obs " +str(i) + "y is: "+str(len(obsLimits.values)))
+        #print("length of exp " +str(i) + "y is: "+str(len(expLimits.values)))
+        #print("")
+
+        table.add_variable(obsLimits)
+        table.add_variable(expLimits)
+
+    return table
+
+
+def makeHToSSTo4eLimitsTable(mH):
+
+    if mH=="125":
+        table = Table("H(125) $\\to 4\\ell$, bf limits, ee channel")
+        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the ee channel only. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
+        table.location = "Data from Figure 6"
+        mSes = ["30", "50"]
+        reader = RootFileReader("data/HToSSTo4e/limit_plot_eeBR.root")
+
+    elif mH=="600":
+        table = Table("H(600) $\\to 4\\ell, \\sigma\\times$ bf limits, ee channel")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ as a function of $c\\tau_0$, for a 600 GeV Higgs boson and several long-lived scalar masses, for the ee channel only. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table.location = "Supplemental material"
+        mSes = ["50", "150"]
+        reader = RootFileReader("data/HToSSTo4e/limit_plot_ee.root")
+
+    elif mH=="1000":
+        table = Table("H(1000) $\\to 4\\ell, \\sigma\\times$ bf limits, ee channel")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ as a function of $c\\tau_0$, for a 1000 GeV Higgs boson and several long-lived scalar masses, for the ee channel only. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table.location = "Supplemental material"
+        mSes = ["150", "350"]
+        reader = RootFileReader("data/HToSSTo4e/limit_plot_ee.root")
+
+    table.add_image("data/HToSSTo4e/limits_vs_lifetime_H"+mH+"_4e.pdf")
+    table.keywords["observables"] = ["95% CL upper limits, $c\\tau_{0}$"]
+
+    obs = []
+    exp = []
+
+    for mS in mSes:
+        obs.append(reader.read_graph("h_m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
+        exp.append(reader.read_graph("h_Median expected: m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
+
+    ctau = Variable("$c\\tau_{0}$", is_independent=True, is_binned=False, units="cm")
+    ctau.values = obs[1]["x"]
+    table.add_variable(ctau)
+
+    for i,mS in enumerate(mSes):
+
+        if mH=="125":        
+            obsLimits = Variable("Observed 95% CL upper limit on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            expLimits = Variable("Expected 95% CL upper limits on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+        else:
+            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+
+        obsLimits.values = obs[i]["y"]
+        obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
+
+        expLimits.values = exp[i]["y"]
+        expLimits.add_qualifier("SQRT(S)", 13, "TeV")
+
+        #fix the H(125), S(30) case, where there's less values (set the BR to 1 for these):
+        if len(obs[i]["y"]) != len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(obs[i]["y"]))):
+                obsLimits.values.append(1)
+        if len(exp[i]["y"]) != len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(exp[i]["y"]))):
+                expLimits.values.append(1)
+
+        #print("length of obs " +str(i) + "y is: "+str(len(obsLimits.values)))
+        #print("length of exp " +str(i) + "y is: "+str(len(expLimits.values)))
+        #print("")
+
+        table.add_variable(obsLimits)
+        table.add_variable(expLimits)
+
+    return table
+
+def makeHToSSTo4muLimitsTable(mH):
+
+    if mH=="125":
+        table = Table("H(125) $\\to 4\\ell$, bf limits, $\\mu\\mu$ channel")
+        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the $\\mu\\mu$ channel only. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
+        table.location = "Data from Figure 6"
+        mSes = ["30", "50"]
+        reader = RootFileReader("data/HToSSTo4mu/limit_plot_mumuBR.root")
+
+    elif mH=="600":
+        table = Table("H(600) $\\to 4\\ell, \\sigma\\times$ bf limits, $\\mu\\mu$ channel")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ as a function of $c\\tau_0$, for a 600 GeV Higgs boson and several long-lived scalar masses, for the $\\mu\\mu$ channel only. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table.location = "Supplemental material"
+        mSes = ["50", "150"]
+        reader = RootFileReader("data/HToSSTo4mu/limit_plot_mumu.root")
+
+    elif mH=="1000":
+        table = Table("H(1000) $\\to 4\\ell, \\sigma\\times$ bf limits, $\\mu\\mu$ channel")
+        table.description = "The 95% CL upper limits on the product of the cross section and branching fraction $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ as a function of $c\\tau_0$, for a 1000 GeV Higgs boson and several long-lived scalar masses, for the $\\mu\\mu$ channel only. The area above the solid (dashed) curves represents the observed (expected) exclusion region."
+        table.location = "Supplemental material"
+        mSes = ["150", "350"]
+        reader = RootFileReader("data/HToSSTo4mu/limit_plot_mumu.root")
+
+    table.add_image("data/HToSSTo4mu/limits_vs_lifetime_H"+mH+"_4mu.pdf")
+    table.keywords["observables"] = ["95% CL upper limits, $c\\tau_{0}$"]
+
+    obs = []
+    exp = []
+
+    for mS in mSes:
+        obs.append(reader.read_graph("h_m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
+        exp.append(reader.read_graph("h_Median expected: m_{H} = "+mH+" GeV, m_{S} = "+mS+" GeV"))
+
+    ctau = Variable("$c\\tau_{0}$", is_independent=True, is_binned=False, units="cm")
+    ctau.values = obs[1]["x"]
+    table.add_variable(ctau)
+
+    for i,mS in enumerate(mSes):
+
+        if mH=="125":        
+            obsLimits = Variable("Observed 95% CL upper limit on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            expLimits = Variable("Expected 95% CL upper limits on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+        else:
+            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+
+        obsLimits.values = obs[i]["y"]
+        obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
+
+        expLimits.values = exp[i]["y"]
+        expLimits.add_qualifier("SQRT(S)", 13, "TeV")
+
+        #fix the H(125), S(30) case, where there's less values (set the BR to 1 for these):
+        if len(obs[i]["y"]) > len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(obs[i]["y"]))):
+                obsLimits.values.pop()
+        if len(exp[i]["y"]) > len(ctau.values):
+            for j in range(abs(len(ctau.values) - len(exp[i]["y"]))):
+                expLimits.values.pop()
 
         #print("length of obs " +str(i) + "y is: "+str(len(obsLimits.values)))
         #print("length of exp " +str(i) + "y is: "+str(len(expLimits.values)))
@@ -505,25 +634,25 @@ def makeSignificanceTable(channel):
 
     if channel=="EMu":
         table = Table("Observed significance, e$\\mu$ channel")
-        table.description = "The observed significance for the $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process as a function of $\\tilde{t}$ mass and lifetime, for the e$\\mu$ channel."
+        table.description = "The observed significance for the $\\tilde{t} \\to b\\ell $ process as a function of $\\tilde{t}$ mass and lifetime, for the e$\\mu$ channel."
         table.location = "Supplemental material"
         table.add_image("data/significances/"+channel+"/emu_lb_significance.pdf")
         data = reader.read_hist_2d("h_emu_standard_with_observed_limits")
     elif channel=="EE":
         table = Table("Observed significance, ee channel")
-        table.description = "The observed significance for the $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process as a function of $\\tilde{t}$ mass and lifetime, for the ee channel."
+        table.description = "The observed significance for the $\\tilde{t} \\to b\\ell $ process as a function of $\\tilde{t}$ mass and lifetime, for the ee channel."
         table.location = "Supplemental material"
         table.add_image("data/significances/"+channel+"/ee_lb_significance.pdf")
         data = reader.read_hist_2d("h_ee_standard_with_observed_limits")
     elif channel=="MuMu":
         table = Table("Observed significance, $\\mu\\mu$ channel")
-        table.description = "The observed significance for the $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process as a function of $\\tilde{t}$ mass and lifetime, for the $\\mu\\mu$ channel."
+        table.description = "The observed significance for the $\\tilde{t} \\to b\\ell $ process as a function of $\\tilde{t}$ mass and lifetime, for the $\\mu\\mu$ channel."
         table.location = "Supplemental material"
         table.add_image("data/significances/"+channel+"/mumu_lb_significance.pdf")
         data = reader.read_hist_2d("h_mumu_standard_with_observed_limits")
     elif channel=="combined":
         table = Table("Observed significance, all channels")
-        table.description = "The observed significance for the $\\tilde{t}\\tilde{\\overline{t}} \\to \\overline{l}b\:l\\overline{b} $ process as a function of $\\tilde{t}$ mass and lifetime, for the three channels combined."
+        table.description = "The observed significance for the $\\tilde{t} \\to b\\ell $ process as a function of $\\tilde{t}$ mass and lifetime, for the three channels combined."
         table.location = "Supplemental material"
         table.add_image("data/significances/"+channel+"/combined_lb_significance.pdf")
         data = reader.read_hist_2d("h_emu_standard_with_observed_limits")
@@ -550,6 +679,83 @@ def makeSignificanceTable(channel):
 
 ###################################################################################################### 
 
+def make1DD0PlotsTable(lepton):
+
+    #readerData = RootFileReader("data/D01Dplots/MuonEG_2016_2017_2018.root")
+    #reader700_1 = RootFileReader("data/D01Dplots/stopToLB700_1mm.root")
+    #reader700_10 = RootFileReader("data/D01Dplots/stopToLB700_10mm.root")
+    #reader700_100 = RootFileReader("data/D01Dplots/stopToLB700_100mm.root")
+
+    reader = RootFileReader("data/D01Dplots/stacked_histograms_Rebin5.root")
+
+    if lepton=="electron":
+        table = Table("Electron $|d_0|$")
+        table.description = "The distribution of electron $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection."
+        table.location = "Supplemental material"
+        table.add_image("data/D01Dplots/electronAbsD0_2000um.pdf")
+
+        data = reader.read_hist_1d("PreselectionPlotter/Electron-beamspot Plots/electronAbsD0_2000um;4")
+        stopToLB700_1mm = reader.read_hist_1d("PreselectionPlotter/Electron-beamspot Plots/electronAbsD0_2000um;1")
+        stopToLB700_10mm = reader.read_hist_1d("PreselectionPlotter/Electron-beamspot Plots/electronAbsD0_2000um;2")
+        stopToLB700_100mm = reader.read_hist_1d("PreselectionPlotter/Electron-beamspot Plots/electronAbsD0_2000um;3")
+
+        d0 = Variable("Electron $|d_0|$", is_independent=True, is_binned=True, units="$\\mu$m")
+
+    elif lepton=="muon":
+        table = Table("Muon $|d_0|$")
+        table.description = "The distribution of muon $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection."
+        table.location = "Supplemental material"
+        table.add_image("data/D01Dplots/muonAbsD0_2000um.pdf")
+
+        data = reader.read_hist_1d("PreselectionPlotter/Muon-beamspot Plots/muonAbsD0_2000um;4")
+        stopToLB700_1mm = reader.read_hist_1d("PreselectionPlotter/Muon-beamspot Plots/muonAbsD0_2000um;1")
+        stopToLB700_10mm = reader.read_hist_1d("PreselectionPlotter/Muon-beamspot Plots/muonAbsD0_2000um;2")
+        stopToLB700_100mm = reader.read_hist_1d("PreselectionPlotter/Muon-beamspot Plots/muonAbsD0_2000um;3")
+
+        d0 = Variable("Muon $|d_0|$", is_independent=True, is_binned=True, units="$\\mu$m")
+
+    ### define variables
+    table.keywords["observables"] = ["Lepton $|d_0|$"]
+    d0.values = data["x_edges"]
+
+    dataEvents = Variable("Data events", is_independent=False, is_binned=False, units="")
+    dataEvents.values = data["y"]
+    #dataUncert = Uncertainty("68% CL", is_symmetric=True)
+    #dataUncert.values = data["dy"]
+    #dataEvents.add_uncertainty(dataUncert)
+    dataEvents.add_qualifier("SQRT(S)", 13, "TeV")
+
+    stopToLB700_1mmEvents = Variable("$\\tilde{t}\\to b\\ell$ events, $m_{\\tilde{t}}$=700 GeV, $c\\tau_{0}$=0.1 cm", is_independent=False, is_binned=False, units="")
+    stopToLB700_1mmEvents.values = stopToLB700_1mm["y"]
+    stopToLB700_1mmUncert = Uncertainty("68% CL", is_symmetric=True)
+    stopToLB700_1mmUncert.values = stopToLB700_1mm["dy"]
+    stopToLB700_1mmEvents.add_uncertainty(stopToLB700_1mmUncert)
+    stopToLB700_1mmEvents.add_qualifier("SQRT(S)", 13, "TeV")
+
+    stopToLB700_10mmEvents = Variable("$\\tilde{t}\\to b\\ell$ events, $m_{\\tilde{t}}$=700 GeV, $c\\tau_{0}$=1 cm", is_independent=False, is_binned=False, units="")
+    stopToLB700_10mmEvents.values = stopToLB700_10mm["y"]
+    stopToLB700_10mmUncert = Uncertainty("68% CL", is_symmetric=True)
+    stopToLB700_10mmUncert.values = stopToLB700_10mm["dy"]
+    stopToLB700_10mmEvents.add_uncertainty(stopToLB700_10mmUncert)
+    stopToLB700_10mmEvents.add_qualifier("SQRT(S)", 13, "TeV")
+
+    stopToLB700_100mmEvents = Variable("$\\tilde{t}\\to b\\ell$ events, $m_{\\tilde{t}}$=700 GeV, $c\\tau_{0}$=10 cm", is_independent=False, is_binned=False, units="")
+    stopToLB700_100mmEvents.values = stopToLB700_100mm["y"]
+    stopToLB700_100mmUncert = Uncertainty("68% CL", is_symmetric=True)
+    stopToLB700_100mmUncert.values = stopToLB700_100mm["dy"]
+    stopToLB700_100mmEvents.add_uncertainty(stopToLB700_100mmUncert)
+    stopToLB700_100mmEvents.add_qualifier("SQRT(S)", 13, "TeV")
+
+    ### add variables and add table to submission
+    table.add_variable(d0)
+    table.add_variable(dataEvents)
+    table.add_variable(stopToLB700_1mmEvents)
+    table.add_variable(stopToLB700_10mmEvents)
+    table.add_variable(stopToLB700_100mmEvents)
+
+    return table
+###################################################################################################### 
+
 def main():
 
     #create submission
@@ -560,11 +766,14 @@ def main():
     #submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:1802.09407")
     #submission.add_record_id(1657397, "inspire")
 
-    submission.add_table(makeD0D0table("bkg_emu"))
-    submission.add_table(makeD0D0table("data_emu"))
-    submission.add_table(makeD0D0table("data_ee"))
-    submission.add_table(makeD0D0table("data_mumu"))
-    submission.add_table(makeD0D0table("dataWithSignal_emu"))
+    submission.add_table(make1DD0PlotsTable("electron"))
+    submission.add_table(make1DD0PlotsTable("muon"))
+
+    submission.add_table(makeD0D0table("emu_bkg"))
+    submission.add_table(makeD0D0table("emu"))
+    submission.add_table(makeD0D0table("ee"))
+    submission.add_table(makeD0D0table("mumu"))
+    submission.add_table(makeD0D0table("emu_stopToLB700_10mm"))
 
     submission.add_table(makeSRyieldsTable("Run2"))
     submission.add_table(makeSRyieldsTable("2016"))
@@ -590,10 +799,18 @@ def main():
     submission.add_table(makeHToSSLimitsTable("800"))
     submission.add_table(makeHToSSLimitsTable("1000"))
 
-    submission.add_table(makeSignificanceTable("EMu"))
-    submission.add_table(makeSignificanceTable("EE"))
-    submission.add_table(makeSignificanceTable("MuMu"))
-    submission.add_table(makeSignificanceTable("combined"))
+    submission.add_table(makeHToSSTo4eLimitsTable("125"))
+    submission.add_table(makeHToSSTo4eLimitsTable("600"))
+    submission.add_table(makeHToSSTo4eLimitsTable("1000"))
+
+    submission.add_table(makeHToSSTo4muLimitsTable("125"))
+    submission.add_table(makeHToSSTo4muLimitsTable("600"))
+    submission.add_table(makeHToSSTo4muLimitsTable("1000"))
+
+    #submission.add_table(makeSignificanceTable("EMu"))
+    #submission.add_table(makeSignificanceTable("EE"))
+    #submission.add_table(makeSignificanceTable("MuMu"))
+    #submission.add_table(makeSignificanceTable("combined"))
 
     for table in submission.tables:
         table.keywords["cmenergies"] = [13000]
