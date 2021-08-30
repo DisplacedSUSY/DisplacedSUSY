@@ -174,12 +174,16 @@ HeaderLabel.SetFillColor(0)
 HeaderLabel.SetFillStyle(0)
 
 
-if arguments.mc or arguments.diagramPlot:
+if arguments.mc and arguments.diagramPlot:
     LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation}}","NDC")
+    LumiLabel.SetTextSize(0.8)
+elif arguments.mc:
+    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation Supplementary}}","NDC")
+    LumiLabel.SetTextSize(0.78)
 else:
     LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Supplementary}}","NDC")
+    LumiLabel.SetTextSize(0.8)
 LumiLabel.SetTextFont(62)
-LumiLabel.SetTextSize(0.8)
 LumiLabel.SetTextAlign(12)
 LumiLabel.SetBorderSize(0)
 LumiLabel.SetFillColor(0)
@@ -402,10 +406,16 @@ for dataset in datasets:
         sys.exit(1)
     tree = inputFile.Get("PreselectionTreeMaker/Tree")
 
-    lumi_xs_weight = get_lumi_xs_weight(fileName)
+    if arguments.mc:
+        lumi_xs_weight = get_lumi_xs_weight(fileName)
 
     for iEntry in tree:
-        if not dataset.startswith("stopTo"):
+        if arguments.mc:
+            weight_product = lumi_xs_weight*getattr(tree, "weights_weightProduct")
+        else:
+            weight_product = 1.0
+
+        if not (dataset.startswith("stopTo") and arguments.signal):
             totalCount += 1
         d01 = getattr(iEntry,var1)
         d02 = getattr(iEntry,var2)
@@ -414,13 +424,12 @@ for dataset in datasets:
         if d02<1.:
             d02 = 1.1
         #print "d01 is: " + str(d01) + " d02 is: " + str(d02)
-        weight_product = lumi_xs_weight*getattr(tree, "weights_weightProduct")
-        if dataset.startswith("stopTo"):
+        if dataset.startswith("stopTo") and arguments.signal:
             hSignal.Fill(d01,d02,weight_product)
         else:
             h.Fill(d01,d02,weight_product)
 
-        if (not dataset.startswith("stopTo")) and d01>100. and d02>100.:
+        if (not (dataset.startswith("stopTo") and arguments.signal)) and d01>100. and d02>100.:
             srCount += 1
 
 # divide bin contents by bin area
