@@ -866,11 +866,17 @@ def drawPlot(plot):
             canvas.SetLogx()
             if arguments.mm:
                 xAxisMin = float(lifetimes[0])
-                xAxisMax = float(lifetimes[-1])
+                if process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
+                    xAxisMax = 1000
+                else:
+                    xAxisMax = float(lifetimes[-1])
             else:
                 # convert lifetime to cm
                 xAxisMin = 0.1*float(lifetimes[0])
-                xAxisMax = 0.1*float(lifetimes[-1])
+                if process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
+                    xAxisMax = 100
+                else:
+                    xAxisMax = 0.1*float(lifetimes[-1])
 
         processText = ""
         if process in ['stopToLB', 'stopToLD']:
@@ -884,8 +890,10 @@ def drawPlot(plot):
             processText = "\\~{\\mu} \\to \\mu\\~{\\text{G}}"
         elif GMSB and channel == None: # co-nlsp or several channels on the same plot
             processText = "\\~{\\ell} \\to \\ell\\~{\\text{G}}\\text{ (co-NLSP)}"
-        elif process == 'HToSSTo4L':
+        elif process == 'HToSSTo4L' and channel == None:
             processText = "\\text{H} \\to \\text{SS}, \\text{S} \\to \\ell^{+}\\ell^{-}, \\ell = \\text{e}, \\mu"
+        elif process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
+            processText = "\\text{H} \\to \\text{SS} \\to 4\\ell, \\ell = \\text{e}, \\mu"
 
         if is2D:
             if arguments.method != "Significance":
@@ -952,7 +960,10 @@ def drawPlot(plot):
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
-            ProcessLabel = TPaveLabel(topLeft_x_left+0.03, 0.63, 0.63, 0.90, processText, "NDC")
+            if process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
+                ProcessLabel = TPaveLabel(topLeft_x_left+0.09, 0.61, 0.59, 0.90, processText, "NDC")
+            else:
+                ProcessLabel = TPaveLabel(topLeft_x_left+0.03, 0.63, 0.63, 0.90, processText, "NDC")
             legend = TLegend(topLeft_x_left+0.02, 0.45, 0.52, 0.74) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
@@ -1248,7 +1259,7 @@ def drawPlot(plot):
                 if(arguments.doBR):
                     tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS)')
                 elif(HToSS):
-                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #sigma #times #bf{#it{#Beta}}(H #rightarrow SS)')
+                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #sigma #times #bf{#it{#Beta}}(H #rightarrow SS) [pb]')
                 else:
                     tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.5)
@@ -1326,7 +1337,10 @@ def drawPlot(plot):
 
         if channel and not GMSB and not GMSBstaus:
             #channelLabel = TPaveLabel(0.7, 0.65, 0.9, 0.75, channel+" channel", "NDC")
-            channelLabel = TPaveLabel(topLeft_x_left+0.05, 0.7, 0.3, 0.8, channel+" channel", "NDC")
+            if process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
+                channelLabel = TPaveLabel(topLeft_x_left+0.4, 0.68, 0.65, 0.78, channel+" channel", "NDC")
+            else:
+                channelLabel = TPaveLabel(topLeft_x_left+0.05, 0.7, 0.3, 0.8, channel+" channel", "NDC")
             channelLabel.SetTextFont(52)
             channelLabel.SetTextSize(0.4)
             channelLabel.SetTextAlign(12)
