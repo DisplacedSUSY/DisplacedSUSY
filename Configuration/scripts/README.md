@@ -58,16 +58,38 @@ datasets = [
 ```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w MuMuPreselection_AllData_1Mar2021```
 
 
-emu signal (supplemental material):
+emu 2018 signal (supplemental material):
 ```cd CMSSW_10_2_12/src/DisplacedSUSY/EMuChannel/test```
 
 in PreselectionOptions.py, have:
 ```
 datasets = [
-    'stopToLB1500_10mm_2016',
-    'stopToLB1500_10mm_2017',
-    'stopToLB1500_10mm_2018',
+    'stopToLB1500_10mm',
 ]
 ```
 
-```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w EMuPreselection_AllData_1Mar2021 -s```
+```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w EMuPreselection_2018Analysis_Signal_28Jan2021 -m```
+
+ee 2018 signal (supplemental material):
+```cd CMSSW_10_2_12/src/DisplacedSUSY/EEChannel/test```
+
+in PreselectionOptions.py, have:
+```
+datasets = [
+    'stopToLB1500_10mm',
+]
+```
+
+```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w EEPreselection_2018Analysis_Signal_28Jan2021 -m```
+
+mumu 2018 signal (supplemental material):
+```cd CMSSW_10_2_12/src/DisplacedSUSY/MuMuChannel/test```
+
+in PreselectionOptions.py, have:
+```
+datasets = [
+    'stopToLB1500_10mm',
+]
+```
+
+```../../Configuration/scripts/makeD0plotsFromTrees.py -l PreselectionOptions.py -w MuMuPreselection_2018Analysis_Signal_28Jan2021 -m```

@@ -453,7 +453,8 @@ for hist in [h]:
     #Hists.append(h)
     inputFile.Close()
 
-h.GetZaxis().SetRangeUser(1e-6, 1e4)
+h.GetZaxis().SetRangeUser(1e-7, 1e5)
+#h.GetZaxis().SetRangeUser(1e-11, 1e-3)
 print "total number of events is: " + str(totalCount)
 print "total number of events in inclusive SR is: " + str(srCount)
 print "maximum bin content is: "+str(h.GetBinContent(h.GetMaximumBin()))
