@@ -36,13 +36,29 @@ def makeD0D0table(version):
         d0xName = "Subleading muon $|d_{0}|$"
         d0yName = "Leading muon $|d_{0}|$"
 
-    elif version=="emu_stopToLB700_10mm": #emu ABCD signal (supplemental material figure 5)
+    elif version=="emu_stopToLB700_10mm": #emu ABCD signal (supplemental material)
         table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, signal")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the e$\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the e$\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_emu_stopToLB700_10mm.pdf")
         d0xName = "Leading muon $|d_{0}|$"
         d0yName = "Leading electron $|d_{0}|$"
+
+    elif version=="ee_stopToLB700_10mm": #ee ABCD signal (supplemental material)
+        table = Table("Subleading electron $|d_0|$ vs leading electron $|d_0|$, signal")
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the ee preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.location = "Supplemental material"
+        table.add_image("data/d0vsd0_ee_stopToLB700_10mm.pdf")
+        d0xName = "Subeading electron $|d_{0}|$"
+        d0yName = "Leading electron $|d_{0}|$"
+
+    elif version=="mumu_stopToLB700_10mm": #mumu ABCD signal (supplemental material)
+        table = Table("Subleading muon $|d_0|$ vs leading muon $|d_0|$, signal")
+        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the $\\mu\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.location = "Supplemental material"
+        table.add_image("data/d0vsd0_mumu_stopToLB700_10mm.pdf")
+        d0xName = "Subleading muon $|d_{0}|$"
+        d0yName = "Leading muon $|d_{0}|$"
 
     table.keywords["observables"] = ["$|d_{0}|$"]
 
@@ -62,7 +78,7 @@ def makeD0D0table(version):
     events = Variable("Events in data", is_independent=False, is_binned=False, units="")
 
     #overwrite values for signal plot:
-    if version=="emu_stopToLB700_10mm":
+    if version=="emu_stopToLB700_10mm" or version=="ee_stopToLB700_10mm" or version=="mumu_stopToLB700_10mm":
         events = Variable("Events in signal", is_independent=False, is_binned=False, units="")
 
     events.values = data["z"]
@@ -461,8 +477,8 @@ def makeHToSSLimitsTable(mH):
             obsLimits = Variable("Observed 95% CL upper limit on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
             expLimits = Variable("Expected 95% CL upper limits on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
         else:
-            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
-            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
+            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
 
         obsLimits.values = obs[i]["y"]
         obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
@@ -531,8 +547,8 @@ def makeHToSSTo4eLimitsTable(mH):
             obsLimits = Variable("Observed 95% CL upper limit on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
             expLimits = Variable("Expected 95% CL upper limits on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
         else:
-            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
-            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
+            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
 
         obsLimits.values = obs[i]["y"]
         obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
@@ -600,8 +616,8 @@ def makeHToSSTo4muLimitsTable(mH):
             obsLimits = Variable("Observed 95% CL upper limit on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
             expLimits = Variable("Expected 95% CL upper limits on B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
         else:
-            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
-            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="")
+            obsLimits = Variable("Observed 95% CL upper limit on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
+            expLimits = Variable("Expected 95% CL upper limits on $\\sigma \\times$ B(H $\\to$ SS), $m_{H} = "+mH+"$ GeV, $m_{S} = "+mS+"$ GeV", is_independent=False, is_binned=False, units="pb")
 
         obsLimits.values = obs[i]["y"]
         obsLimits.add_qualifier("SQRT(S)", 13, "TeV")
@@ -690,7 +706,7 @@ def make1DD0PlotsTable(lepton):
 
     if lepton=="electron":
         table = Table("Electron $|d_0|$")
-        table.description = "The distribution of electron $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection."
+        table.description = "The distribution of electron $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured better."
         table.location = "Supplemental material"
         table.add_image("data/D01Dplots/electronAbsD0_2000um.pdf")
 
@@ -703,7 +719,7 @@ def make1DD0PlotsTable(lepton):
 
     elif lepton=="muon":
         table = Table("Muon $|d_0|$")
-        table.description = "The distribution of muon $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection."
+        table.description = "The distribution of muon $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured better."
         table.location = "Supplemental material"
         table.add_image("data/D01Dplots/muonAbsD0_2000um.pdf")
 
@@ -774,6 +790,8 @@ def main():
     submission.add_table(makeD0D0table("ee"))
     submission.add_table(makeD0D0table("mumu"))
     submission.add_table(makeD0D0table("emu_stopToLB700_10mm"))
+    submission.add_table(makeD0D0table("ee_stopToLB700_10mm"))
+    submission.add_table(makeD0D0table("mumu_stopToLB700_10mm"))
 
     submission.add_table(makeSRyieldsTable("Run2"))
     submission.add_table(makeSRyieldsTable("2016"))
