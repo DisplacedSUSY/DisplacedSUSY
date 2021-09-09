@@ -43,6 +43,19 @@ else:
     era = arguments.era
 
 
+def get_unweighted_events(integral, error):
+    # round to same precision to avoid rare issue due to ROOT Double
+    integral = round(integral, 15)
+    error = round(error, 15)
+    try:
+        unweighted_events = (integral / error)**2
+    except ZeroDivisionError:
+        if integral == 0:
+            unweighted_events = 0
+        else:
+            raise RuntimeError("Uncertainty is 0 while integral is nonzero. Check input hist.")
+    return unweighted_events
+
 # class to represent rectangular prisms in d0-d0-pT space
 class Region(object):
     def __init__(self, name, d0_0_lo, d0_0_hi, d0_1_lo, d0_1_hi, pt_lo, pt_hi):
@@ -126,16 +139,7 @@ class Region(object):
             integral *= bin_factor
             error *= bin_factor
 
-        # round integral and error to same precision to avoid rare issue due to ROOT Double
-        integral = round(integral, 15)
-        error = round(error, 15)
-        try:
-            unweighted_events = (integral / error)**2
-        except ZeroDivisionError:
-            if integral == 0:
-                unweighted_events = 0
-            else:
-                raise RuntimeError("Uncertainty is 0 while integral is nonzero. Check input hist.")
+        unweighted_events = get_unweighted_events(integral, error)
         integral *= hist.lumi_factor
         return (integral, int(round(unweighted_events)))
 
@@ -333,7 +337,15 @@ class Hist(object):
             self.var_bins = False
         else:
             self.var_bins = sample_info['var_bins']
-        self.num_input_evts = self.get_num_input_evts(file_path) if arguments.getEff else None
+        # get number of weighted and unweighted input events if making signal efficiency table
+        if arguments.getEff:
+            (evts, unweighted_evts) = self.get_num_input_evts(file_path) if arguments.getEff else (None, None)
+            self.num_input_evts = evts
+            self.num_unweighted_input_evts = unweighted_evts
+        else:
+            self.num_input_evts = None
+            self.num_unweighted_input_evts = None
+
 
     def get_hist(self, file_path, hist_path, swap_axes):
         f = TFile(file_path)
@@ -434,8 +446,11 @@ class Hist(object):
             raise IOError("Could not load {} from {}".format(cutflow_path, file_path))
         cutflow.SetDirectory(0)
 
-        return cutflow.GetBinContent(1)
+        evts = cutflow.GetBinContent(1)
+        err = cutflow.GetBinError(1)
+        unweighted_evts = get_unweighted_events(evts, err)
 
+        return (evts, unweighted_evts)
 
 
 def fancyTable(arrays):
@@ -829,14 +844,19 @@ for signal_name in signal_points:
             #print total_yield
             #inclusive_sr_num_evts += total_events
             inclusive_sr_yield += total_yield
-    if not signal_exists:
-        print "skipping {} because signal yields are 0".format(signal_name)
-        continue
 
     # get signal efficiency if requested
     if arguments.getEff:
         input_evts = sum((signal_hists[y].num_input_evts for y in years))
         eff = inclusive_sr_yield / input_evts
+        if eff == 0:
+            try:
+                eff = 1.0 / sum((signal_hists[y].num_unweighted_input_evts for y in years))
+                print "Setting 0 signal efficency to the upper bound of {}%.".format(100*eff)
+                print "You may want to add a '<' to the table entry by hand"
+            except ZeroDivisionError:
+                print "0 unweighted events. Setting eff to 0"
+                eff = 0
         # double selectron and smuon efficiencies to match single NLSP assumptions
         if GMSB and not GMSBstaus:
             eff *= 2
@@ -848,7 +868,9 @@ for signal_name in signal_points:
             signal_effs[ctau] = {}
         signal_effs[ctau][mass] = eff
 
-
+    if not signal_exists:
+        print "skipping {} because signal yields are 0".format(signal_name)
+        continue
 
     # build datacard elements that depend on signal
     # build rate table
@@ -950,6 +972,6 @@ if arguments.getEff:
     print "\\hline"
     for ctau in ctaus:
         effs = [100*round(signal_effs[ctau].get(mass, 0), precision) for mass in masses]
-        line_template = "{}\\cm " + len(masses)*"& {}\\% " + "\\\\"
+        line_template = "{}\\cm " + len(masses)*"& {:f}\\% " + "\\\\"
         print line_template.format(float(ctau)/10, *effs)
     print
