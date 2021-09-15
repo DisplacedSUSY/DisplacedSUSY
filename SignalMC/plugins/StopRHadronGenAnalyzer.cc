@@ -117,10 +117,13 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
   oneDHists_["muonNumberOfValidPixelHits"] = fs_->make<TH1D>("muonNumberOfValidPixelHits", ";muon number of valid pixel hits", 10, -0.5, 9.5);
   oneDHists_["muonIsGlobal"] = fs_->make<TH1D>("muonIsGlobal", ";muon is global", 2, -0.5, 1.5);
   oneDHists_["muonIsPF"] = fs_->make<TH1D>("muonIsPF", ";muon is PF", 2, -0.5, 1.5);
+  oneDHists_["muonIso"] = fs_->make<TH1D>("muonIso", ";muon isolation", 100, 0, 1.0);
   oneDHists_["muonAbsD0_100um"] = fs_->make<TH1D>("muonAbsD0_100um", ";muon |d_{0}| [#mum]", 100, 0, 100);
   oneDHists_["muonAbsD0_1000um"] = fs_->make<TH1D>("muonAbsD0_1000um", ";muon |d_{0}| [#mum]", 100, 0, 1000);
   oneDHists_["muonAbsD0_10000um"] = fs_->make<TH1D>("muonAbsD0_10000um", ";muon |d_{0}| [#mum]", 100, 0, 10000);
   oneDHists_["muonAbsD0_100000um"] = fs_->make<TH1D>("muonAbsD0_100000um", ";muon |d_{0}| [#mum]", 1000, 0, 100000);
+
+  oneDHists_["muonPt_tightIso"] = fs_->make<TH1D>("muonPt_tightIso", ";muon p_{T} [GeV]", 200, 0, 2000);
 
   electronsToken_      = consumes<vector<pat::Electron> >        (electrons_);
   muonsToken_          = consumes<vector<pat::Muon> >            (muons_);
@@ -253,10 +256,10 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
 	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt()<<std::endl;
 
-      oneDHists_.at("bQuarkAllDaughterId")->Fill(abs(bQuarkDaughter->pdgId()));
+	  oneDHists_.at("bQuarkAllDaughterId")->Fill(abs(bQuarkDaughter->pdgId()));
 
 	  //find daughter of final b-quark that carries most of the momentum
-      if(bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
+	  if(bQuarkDaughter->pt()>ptBQuarkDaughterWithLargestPt){
 	    ptBQuarkDaughterWithLargestPt = bQuarkDaughter->pt();
 	    pdgIdBQuarkDaughterWithLargestPt = abs(bQuarkDaughter->pdgId());
 	  }
@@ -372,6 +375,9 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 
 	if(muon){
 	  double muonAbsD0 = 10000*abs((-(muon->vx() - beamspot.x0())*muon->py() + (muon->vy() - beamspot.y0())*muon->px())/muon->pt());
+	  //double muonIso = 1/muon->pt() * max(muon->pfIsolationR04().sumChargedHadronPt + muon->pfIsolationR04().sumPUPt + muon->pfIsolationR04().sumNeutralHadronEt + muon->pfIsolationR04().sumPhotonEt - muon->rho()*0.503, 0);
+	  float zero = 0.;
+	  double muonIso = 1/muon->pt() * std::max(muon->pfIsolationR04().sumChargedHadronPt + muon->pfIsolationR04().sumPUPt + muon->pfIsolationR04().sumNeutralHadronEt + muon->pfIsolationR04().sumPhotonEt, zero);
 
           oneDHists_.at("matchedMuon")->Fill(1.0);
           oneDHists_.at("muonPt")->Fill(muon->pt());
@@ -385,10 +391,13 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
           }
           oneDHists_.at("muonIsGlobal")->Fill(muon->isGlobalMuon());
           oneDHists_.at("muonIsPF")->Fill(muon->isPFMuon());
+	  oneDHists_.at("muonIso")->Fill(muonIso);
 	  oneDHists_.at("muonAbsD0_100um")->Fill(muonAbsD0);
 	  oneDHists_.at("muonAbsD0_1000um")->Fill(muonAbsD0);
 	  oneDHists_.at("muonAbsD0_10000um")->Fill(muonAbsD0);
 	  oneDHists_.at("muonAbsD0_100000um")->Fill(muonAbsD0);
+
+	  if(muonIso< 0.10) oneDHists_.at("muonPt_tightIso")->Fill(muon->pt());
         }
 	else {
 	  oneDHists_.at("matchedMuon")->Fill(0.0);
