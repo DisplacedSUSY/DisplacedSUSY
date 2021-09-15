@@ -1,9 +1,9 @@
 //makes plots at gen level for stops WITHOUT cloud model turned on and decay done in pythia
 //matches the gen electrons and muons from the decay to pat electrons and muons, and makes plots of those
 
-#include "DisplacedSUSY/SignalMC/plugins/StopRHadronGenAnalyzer.h"
+#include "DisplacedSUSY/SignalMC/plugins/StopRHadronGenPatAnalyzer.h"
 
-StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
+StopRHadronGenPatAnalyzer::StopRHadronGenPatAnalyzer(const edm::ParameterSet &cfg) :
   electrons_                 (cfg.getParameter<edm::InputTag>("electrons")),
   muons_                     (cfg.getParameter<edm::InputTag>("muons")),
   beamspots_                 (cfg.getParameter<edm::InputTag>("beamspots")),
@@ -132,12 +132,12 @@ StopRHadronGenAnalyzer::StopRHadronGenAnalyzer(const edm::ParameterSet &cfg) :
 
 }
 
-StopRHadronGenAnalyzer::~StopRHadronGenAnalyzer()
+StopRHadronGenPatAnalyzer::~StopRHadronGenPatAnalyzer()
 {
 }
 
 void
-StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &setup)
+StopRHadronGenPatAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &setup)
 {
   edm::Handle<vector<pat::Electron> > electrons;
   event.getByToken(electronsToken_, electrons);
@@ -198,7 +198,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
     oneDHists_.at("genCTau_10000")->Fill((x - y).Mag() * boost);
     oneDHists_.at("genCTau_100000")->Fill((x - y).Mag() * boost);
 
-    LogDebug("StopRHadronGenAnalyzer")<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status();
+    LogDebug("StopRHadronGenPatAnalyzer")<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status();
     //std::cout<<" stop has id "<<genParticle.pdgId()<<", pt is: "<<genParticle.pt()<<", eta is: "<<genParticle.eta()<<", phi is: "<<genParticle.phi()<<", status is: "<<genParticle.status()<<std::endl;
 
     //if decay done in pythia, find r-hadron mother particle
@@ -206,7 +206,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
     int partId = mother->pdgId();
 
     if( (abs(partId)>1000600 && abs(partId)<1000700) || (abs(partId)>1006000 && abs(partId)<1007000)){ //if mother of stop is stop r-hadron
-      LogDebug("StopRHadronGenAnalyzer")<<"gen stop mother is a gen r-hadron with id "<<partId<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status();
+      LogDebug("StopRHadronGenPatAnalyzer")<<"gen stop mother is a gen r-hadron with id "<<partId<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status();
       //std::cout<<" stop mother is a gen r-hadron with id "<<partId<<", pt is: "<<mother->pt()<<", eta is: "<<mother->eta()<<", phi is: "<<mother->phi()<<", status is: "<<genParticle.status()<<std::endl;
       if(genRhadronId_0==0 && genRhadronId_1==0){
 	genRhadronId_0 = partId;
@@ -214,10 +214,10 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       else if(genRhadronId_0!=0 && genRhadronId_1==0){
 	genRhadronId_1 = partId;
       }
-      else edm::LogInfo("StopRHadronGenAnalyzer")<<"you have a third gen r-hadron??";
+      else edm::LogInfo("StopRHadronGenPatAnalyzer")<<"you have a third gen r-hadron??";
 
     }
-    else edm::LogInfo("StopRHadronGenAnalyzer")<<"stop has no gen r-hadron mother!!!";
+    else edm::LogInfo("StopRHadronGenPatAnalyzer")<<"stop has no gen r-hadron mother!!!";
 
     oneDHists_.at("nRhadronDaughters")->Fill(mother->numberOfDaughters());
     oneDHists_.at("nStopDaughters")->Fill(genParticle.numberOfDaughters());
@@ -239,7 +239,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 
       oneDHists_.at("stopDaughterId")->Fill(abs(daughterId));
 
-      LogDebug("StopRHadronGenAnalyzer")<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughterPt<<"/"<<daughterEta<<"/"<<daughterPhi<<"/"<<daughterStatus;
+      LogDebug("StopRHadronGenPatAnalyzer")<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughterPt<<"/"<<daughterEta<<"/"<<daughterPhi<<"/"<<daughterStatus;
       //std::cout<<"stop daughter "<<daughterId<<" has pt/eta/phi/status of "<<daughterPt<<"/"<<daughterEta<<"/"<<daughterPhi<<"/"<<daughterStatus<<std::endl;
 
       if(abs(daughterId)==5){ //if b-quark, does it decay?
@@ -253,7 +253,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 
 	for(size_t k=0; k<finalBQuark->numberOfDaughters(); k++){
 	  const reco::Candidate* bQuarkDaughter = finalBQuark->daughter(k);
-	  LogDebug("StopRHadronGenAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
+	  LogDebug("StopRHadronGenPatAnalyzer")<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt();
 	  //std::cout<<"b-quark daughter is: "<<bQuarkDaughter->pdgId()<<" with status "<<bQuarkDaughter->status()<<" and pt "<<bQuarkDaughter->pt()<<std::endl;
 
 	  oneDHists_.at("bQuarkAllDaughterId")->Fill(abs(bQuarkDaughter->pdgId()));
@@ -295,7 +295,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
       else if(abs(daughterId)==15){ //if tau, does it decay?
 	for(size_t k=0; k<daughter->numberOfDaughters(); k++){
 	  const reco::Candidate* tauDaughter = daughter->daughter(k);
-	  LogDebug("StopRHadronGenAnalyzer")<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status();
+	  LogDebug("StopRHadronGenPatAnalyzer")<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status();
 	  //std::cout<<"tau daughter "<<tauDaughter->pdgId()<<" has pt/eta/phi/status of "<<tauDaughter->pt()<<"/"<<tauDaughter->eta()<<"/"<<tauDaughter->phi()<<"/"<<tauDaughter->status()<<std::endl;
 	}
       }
@@ -409,7 +409,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
   }//end loop over gen particles
 
   oneDHists_.at("nStops")->Fill(nStops);
-  if(!nStops) edm::LogInfo("StopRHadronGenAnalyzer") << "[" << event.id() << "] No stops found!";
+  if(!nStops) edm::LogInfo("StopRHadronGenPatAnalyzer") << "[" << event.id() << "] No stops found!";
 
   oneDHists_.at("genRhadronId_10006XX")->Fill(abs(genRhadronId_0));
   oneDHists_.at("genRhadronId_10006XX")->Fill(abs(genRhadronId_1));
@@ -419,7 +419,7 @@ StopRHadronGenAnalyzer::analyze(const edm::Event &event, const edm::EventSetup &
 }//end analyze
 
 
-void StopRHadronGenAnalyzer::getEndVertex(const reco::GenParticle &genParticle, TVector3 &y) const
+void StopRHadronGenPatAnalyzer::getEndVertex(const reco::GenParticle &genParticle, TVector3 &y) const
 {
   if(!genParticle.numberOfDaughters())
     y.SetXYZ(99999.0, 99999.0, 99999.0);
@@ -435,7 +435,7 @@ void StopRHadronGenAnalyzer::getEndVertex(const reco::GenParticle &genParticle, 
 }
 
 
-const pat::Electron * StopRHadronGenAnalyzer::getMatchedElectron(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Electron> > &electrons) const
+const pat::Electron * StopRHadronGenPatAnalyzer::getMatchedElectron(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Electron> > &electrons) const
 {
   const pat::Electron *matchedElectron = NULL;
   double minDR = -1.0;
@@ -454,7 +454,7 @@ const pat::Electron * StopRHadronGenAnalyzer::getMatchedElectron(const reco::Can
   return matchedElectron;
 }
 
-const pat::Muon * StopRHadronGenAnalyzer::getMatchedMuon(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Muon> > &muons) const
+const pat::Muon * StopRHadronGenPatAnalyzer::getMatchedMuon(const reco::Candidate &genParticle, const edm::Handle<vector<pat::Muon> > &muons) const
 {
   const pat::Muon *matchedMuon = NULL;
   double minDR = -1.0;
@@ -474,7 +474,7 @@ const pat::Muon * StopRHadronGenAnalyzer::getMatchedMuon(const reco::Candidate &
 }
 
 //get final particle of same type by continuing along decay chain until daughters do not include a particle with the same pdgId as the initial particle
-const reco::Candidate * StopRHadronGenAnalyzer::getFinalParticle(const reco::Candidate &genParticle) const
+const reco::Candidate * StopRHadronGenPatAnalyzer::getFinalParticle(const reco::Candidate &genParticle) const
 {
   const reco::Candidate *finalParticle = &genParticle;
 
@@ -488,4 +488,4 @@ const reco::Candidate * StopRHadronGenAnalyzer::getFinalParticle(const reco::Can
 }
 
 
-DEFINE_FWK_MODULE(StopRHadronGenAnalyzer);
+DEFINE_FWK_MODULE(StopRHadronGenPatAnalyzer);

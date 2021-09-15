@@ -1,6 +1,6 @@
-#ifndef STOPRHADRONGENANALYZER
+#ifndef STOPRHADRONGENPATANALYZER
 
-#define STOPRHADRONGENANALYZER
+#define STOPRHADRONGENPATANALYZER
 
 #include <map>
 #include <string>
@@ -28,10 +28,10 @@
 
 using namespace std;
 
-class StopRHadronGenAnalyzer : public edm::EDAnalyzer {
+class StopRHadronGenPatAnalyzer : public edm::EDAnalyzer {
  public:
-  explicit StopRHadronGenAnalyzer (const edm::ParameterSet &);
-  ~StopRHadronGenAnalyzer ();
+  explicit StopRHadronGenPatAnalyzer (const edm::ParameterSet &);
+  ~StopRHadronGenPatAnalyzer ();
 
  private:
   void analyze (const edm::Event &, const edm::EventSetup &);
