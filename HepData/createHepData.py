@@ -6,7 +6,7 @@ def makeD0D0table(version):
 
     if version=="emu_bkg": #emu ABCD 2018 bkg sim (paper figure 2)
         table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, bkg simulation")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in background simulation that pass the e$\\mu$ preselection with 2018 conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of $|d_{0}^{a}|$ vs $|d_{0}^{b}|$, for the events in background simulation that pass the e$\\mu$ preselection with 2018 conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Data from Figure 2"
         table.add_image("data/abcdMethod.pdf")
         d0xName = "Leading muon $|d_{0}|$"
@@ -14,7 +14,7 @@ def makeD0D0table(version):
 
     elif version=="emu": #emu ABCD data (supplemental material figure 2)
         table = Table("Leading muon $|d_{0}|$ vs leading electron $|d_{0}|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the e$\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading electron vs the leading muon $|d_{0}|$, for the events in data that pass the e$\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_emu.pdf")
         d0xName = "Leading muon $|d_{0}|$"
@@ -22,7 +22,7 @@ def makeD0D0table(version):
 
     elif version=="ee": #ee ABCD data (supplemental material figure 3)
         table = Table("Subleading electron $|d_0|$ vs leading electron $|d_0|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the ee preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading vs the subleading electron $|d_0|$, for the events in data that pass the ee preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_ee.pdf")
         d0xName = "Subleading electron $|d_{0}|$"
@@ -30,7 +30,7 @@ def makeD0D0table(version):
 
     elif version=="mumu": #mumu ABCD data (supplemental material figure 4)
         table = Table("Subleading muon $|d_{0}|$ vs leading muon $|d_{0}|$, data")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for the events in data that pass the $\\mu\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading vs the subleading muon $|d_{0}|$, for the events in data that pass the $\\mu\\mu$ preselection. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_mumu.pdf")
         d0xName = "Subleading muon $|d_{0}|$"
@@ -38,7 +38,7 @@ def makeD0D0table(version):
 
     elif version=="emu_stopToLB700_10mm": #emu ABCD signal (supplemental material)
         table = Table("Leading muon $|d_0|$ vs leading electron $|d_0|$, signal")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the e$\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading electron vs the leading muon $|d_0|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the e$\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_emu_stopToLB700_10mm.pdf")
         d0xName = "Leading muon $|d_{0}|$"
@@ -46,7 +46,7 @@ def makeD0D0table(version):
 
     elif version=="ee_stopToLB700_10mm": #ee ABCD signal (supplemental material)
         table = Table("Subleading electron $|d_0|$ vs leading electron $|d_0|$, signal")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the ee preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading vs the subleading electron $|d_0|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the ee preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_ee_stopToLB700_10mm.pdf")
         d0xName = "Subeading electron $|d_{0}|$"
@@ -54,7 +54,7 @@ def makeD0D0table(version):
 
     elif version=="mumu_stopToLB700_10mm": #mumu ABCD signal (supplemental material)
         table = Table("Subleading muon $|d_0|$ vs leading muon $|d_0|$, signal")
-        table.description = "Two-dimensional distributions of $|d_{0}^{a}|$ and $|d_{0}^{b}|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the $\\mu\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100$\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
+        table.description = "Two-dimensional distribution of the leading vs the subleading muon $|d_0|$, for $\\tilde{t} \\to b\\ell$ signal events with a $\\tilde{t}$ mass of 700 GeV and a proper decay length of 10 mm that pass the $\\mu\\mu$ preselection and correspond to 2018 data-taking conditions. In each $|d_{0}|$-$|d_{0}|$ bin, the number of events divided by the bin area is plotted. The inclusive signal region covers the region between 100 $\\mu$m and 10 cm in each $|d_{0}|$ variable shown."
         table.location = "Supplemental material"
         table.add_image("data/d0vsd0_mumu_stopToLB700_10mm.pdf")
         d0xName = "Subleading muon $|d_{0}|$"
@@ -163,13 +163,13 @@ def makeStopPaper2DLimitsTable(decay):
 
     if decay=="lb":
         table = Table("$\\tilde{t} \\to b\\ell$ cross section limits")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
         table.location = "Data from Figure 4 left"
         table.add_image("data/2DlimitsCombinedStopToLB.pdf")
 
     elif decay=="ld":
         table = Table("$\\tilde{t} \\to d\\ell$ cross section limits")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
         table.location = "Data from Figure 4 right"
         table.add_image("data/2DlimitsCombinedStopToLD.pdf")
 
@@ -198,13 +198,13 @@ def makeStopPaperGraphLimitsTable(decay):
 
     if decay=="lb":
         table = Table("$\\tilde{t} \\to b\\ell$ mass limits vs $c\\tau_0$")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to b\\ell $ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
         table.location = "Data from Figure 4 left"
         table.add_image("data/2DlimitsCombinedStopToLB.pdf")
 
     elif decay=="ld":
         table = Table("$\\tilde{t} \\to d\\ell$ mass limits vs $c\\tau_0$")
-        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+        table.description = "The observed 95% CL upper limits on the long-lived top squark production cross section, in the $c\\tau_0$ -- mass plane, for the three channels combined. The $\\tilde{t} \\to d\\ell$ process is shown. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
         table.location = "Data from Figure 4 right"
         table.add_image("data/2DlimitsCombinedStopToLD.pdf")
 
@@ -242,13 +242,13 @@ def makeStop3ChannelLimitsTable(decay):
 
     if decay=="lb":
         table = Table("$\\tilde{t} \\to b\\ell$ mass limits vs $c\\tau_0$ for each channel")
-        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t} \\to b\\ell $ process is shown."
+        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels, and their combination. The $\\tilde{t} \\to b\\ell $ process is shown."
         table.location = "Supplemental material"
         table.add_image("data/2DlimitsStopToLB.pdf")
 
     elif decay=="ld":
         table = Table("$\\tilde{t} \\to d\\ell$ mass limits vs $c\\tau_0$ for each channel")
-        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels. The $\\tilde{t} \\to d\\ell$ process is shown."
+        table.description = "The 95% CL upper limits on the long-lived top squark proper decay length ($c\\tau_0$) as a function of its mass, for the e$\\mu$, ee, and $\\mu\\mu$ channels, and their combination. The $\\tilde{t} \\to d\\ell$ process is shown."
         table.location = "Supplemental material"
         table.add_image("data/2DlimitsStopToLD.pdf")
 
@@ -356,7 +356,7 @@ def makeGMSBPaperLimitsTable():
 def makeGMSBcoNLSP2DLimitsTable():
 
     table = Table("$\\tilde{\\ell} \\to \\ell\\tilde{G}$ co-NLSP cross section limits")
-    table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+    table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
     table.location = "Supplemental material"
     table.add_image("data/limits_gmsb_coNLSP_2DwGrid.pdf")
 
@@ -384,7 +384,7 @@ def makeGMSBcoNLSP2DLimitsTable():
 def makeGMSBcoNLSPGraphLimitsTable():
 
     table = Table("$\\tilde{\\ell}\\to\\ell\\tilde{G}$ co-NLSP mass limits vs $c\\tau_0$")
-    table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% CLs."
+    table.description = "The observed 95% CL upper limits on the long-lived slepton production cross section, in the $c\\tau_0$ -- mass plane. The co-NLSP limits are shown for the three channels combined. The area to the left of the black curve represents the observed exclusion region, and the dashed red lines indicate the expected limits and their 68% confidence intervals."
     table.location = "Supplemental material"
     table.add_image("data/limits_gmsb_coNLSP_2DwGrid.pdf")
 
@@ -508,8 +508,8 @@ def makeHToSSTo4eLimitsTable(mH):
 
     if mH=="125":
         table = Table("H(125) $\\to 4\\ell$, bf limits, ee channel")
-        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the ee channel only. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
-        table.location = "Data from Figure 6"
+        table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the ee channel only. The area above the solid (dashed) curve represents the observed (expected) exclusion region. The curves are not smooth because very few ee channel events pass the preselection for the Higgs boson and scalar masses shown in this figure."
+        table.location = "Supplemental material"
         mSes = ["30", "50"]
         reader = RootFileReader("data/HToSSTo4e/limit_plot_eeBR.root")
 
@@ -578,7 +578,7 @@ def makeHToSSTo4muLimitsTable(mH):
     if mH=="125":
         table = Table("H(125) $\\to 4\\ell$, bf limits, $\\mu\\mu$ channel")
         table.description = "The 95% CL upper limits on the $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S} \\to 4\\ell$ branching fraction as a function of $c\\tau_0$, for a Higgs boson with a mass of 125 GeV and a long-lived scalar with a mass of 30 GeV or 50 GeV, for the $\\mu\\mu$ channel only. The area above the solid (dashed) curve represents the observed (expected) exclusion region."
-        table.location = "Data from Figure 6"
+        table.location = "Supplemental material"
         mSes = ["30", "50"]
         reader = RootFileReader("data/HToSSTo4mu/limit_plot_mumuBR.root")
 
@@ -706,7 +706,7 @@ def make1DD0PlotsTable(lepton):
 
     if lepton=="electron":
         table = Table("Electron $|d_0|$")
-        table.description = "The distribution of electron $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured better."
+        table.description = "The distribution of electron $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured more precisely."
         table.location = "Supplemental material"
         table.add_image("data/D01Dplots/electronAbsD0_2000um.pdf")
 
@@ -719,7 +719,7 @@ def make1DD0PlotsTable(lepton):
 
     elif lepton=="muon":
         table = Table("Muon $|d_0|$")
-        table.description = "The distribution of muon $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured better."
+        table.description = "The distribution of muon $|d_0|$ for the events in data and signal that pass the e$\\mu$ preselection. In all of the histograms, the last bin includes the overflow. The electron $|d_0|$ distributions have a longer tail than those of muons because the muon $|d_0|$ values are measured more precisely."
         table.location = "Supplemental material"
         table.add_image("data/D01Dplots/muonAbsD0_2000um.pdf")
 
