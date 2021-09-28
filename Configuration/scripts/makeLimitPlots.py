@@ -49,10 +49,8 @@ gStyle.SetPadLeftMargin(0.20)
 gStyle.SetPadRightMargin(0.20)
 gStyle.SetTitleColor(1, "XYZ")
 gStyle.SetTitleFont(42, "XYZ")
-gStyle.SetTitleSize(0.05, "XYZ")
-gStyle.SetTitleXSize(0.04)
+gStyle.SetTitleSize(0.04, "XYZ")
 gStyle.SetTitleXOffset(1.25)
-gStyle.SetTitleYSize(0.04)
 gStyle.SetTitleYOffset(1.5)
 gStyle.SetTextAlign(12)
 gStyle.SetLabelColor(1, "XYZ")
@@ -71,9 +69,16 @@ gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
 topLeft_x_left    = 0.2
-y_bottom  = 0.8
+topLeft_x_leftCMS = 0.22
+y_bottom    = 0.8
+y_bottomCMS = 0.73
 topLeft_x_right   = 0.6
 y_top     = 0.85
+y_topCMS  = 0.78
+
+if(HToSS):
+    y_bottomCMS = 0.75
+    y_topCMS  = 0.80
 
 #position for header
 header_x_left    = 0.45
@@ -946,8 +951,8 @@ def drawPlot(plot):
             print "process is: "+process
             if process == 'gmsb':
                 if arguments.atlasStyle:
-                    ProcessLabel = TPaveLabel(0.22, 0.63, 0.49, 0.88, processText, "NDC")
-                    clLabel = TPaveLabel(0.31, 0.60, 0.48, 0.83, "95% CL upper limits", "NDC")
+                    ProcessLabel = TPaveLabel(0.22, 0.58, 0.49, 0.83, processText, "NDC")
+                    clLabel = TPaveLabel(0.31, 0.55, 0.48, 0.78, "95% CL upper limits", "NDC")
                     legend = TLegend(0.51, 0.53, 0.72, 0.81) #legend on the top right for atlas-style 2D plot
                 else:
                     ProcessLabel = TPaveLabel(0.06, 0.48, 0.48, 0.73, processText, "NDC")
@@ -963,8 +968,8 @@ def drawPlot(plot):
             if process == 'HToSSTo4L' and (channel == 'ee' or channel == '#mu#mu'):
                 ProcessLabel = TPaveLabel(topLeft_x_left+0.09, 0.61, 0.59, 0.90, processText, "NDC")
             else:
-                ProcessLabel = TPaveLabel(topLeft_x_left+0.03, 0.63, 0.63, 0.90, processText, "NDC")
-            legend = TLegend(topLeft_x_left+0.02, 0.45, 0.52, 0.74) #legend at the top for 1D plot
+                ProcessLabel = TPaveLabel(topLeft_x_left+0.03, 0.60, 0.63, 0.87, processText, "NDC")
+            legend = TLegend(topLeft_x_left+0.02, 0.40, 0.52, 0.69) #legend at the top for 1D plot
         legend.SetTextSize(0.04)
         legend.SetBorderSize(0)
         legend.SetFillColor(0)
@@ -1325,8 +1330,8 @@ def drawPlot(plot):
         HeaderLabel.SetFillStyle(0)
         HeaderLabel.Draw()
 
-        #LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
-        LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Preliminary","NDC")
+        LumiLabel = TPaveLabel(topLeft_x_leftCMS,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS","NDC")
+        #LumiLabel = TPaveLabel(topLeft_x_leftCMS,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS Preliminary","NDC")
         LumiLabel.SetTextFont(62)
         LumiLabel.SetTextSize(0.8)
         LumiLabel.SetTextAlign(12)

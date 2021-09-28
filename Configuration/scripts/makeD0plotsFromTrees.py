@@ -174,7 +174,7 @@ HeaderLabel.SetFillColor(0)
 HeaderLabel.SetFillStyle(0)
 
 
-if arguments.mc and arguments.diagramPlot:
+if arguments.diagramPlot:
     LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation}}","NDC")
     LumiLabel.SetTextSize(0.8)
 elif arguments.mc:
@@ -319,8 +319,8 @@ elif analysisChannel == "emu":
     var1 = "muon_beamspot_absD0Muon0"
     var2 = "electron_beamspot_absD0Electron0"
     if(arguments.diagramPlot):
-        xTitle = "|d^{b}_{0}| [#mum]"
-        yTitle = "|d^{a}_{0}| [#mum]"
+        xTitle = "|d^{#kern[0.2]{b}}_{#kern[0.2]{0}}| [#mum]" #kern puts a bit of extra space
+        yTitle = "|d^{#kern[0.2]{a}}_{#kern[0.2]{0}}| [#mum]"
     else:
         xTitle = "Leading muon |d_{0}| [#mum]"
         yTitle = "Leading electron |d_{0}| [#mum]"

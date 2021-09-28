@@ -62,10 +62,12 @@ gStyle.SetErrorX(0)
 gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
-topLeft_x_left    = 0.15
-y_bottom  = 0.85
-topLeft_x_right   = 0.50
+topLeft_x_left    = 0.17
+y_bottom    = 0.85
+y_bottomCMS = 0.77
+topLeft_x_right   = 0.52
 y_top     = 0.9
+y_topCMS  = 0.82
 
 #position for header
 header_x_left    = 0.60
@@ -107,17 +109,17 @@ HeaderLabelRun2.SetTextAlign(32)
 HeaderLabelRun2.SetTextFont(42)
 HeaderLabelRun2.SetTextSize(0.9)
 
-LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS","NDC")
+LumiLabel = TPaveLabel(topLeft_x_left,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS","NDC")
 LumiLabel.SetTextFont(62)
 LumiLabel.SetTextSize(1)
 LumiLabel.SetTextAlign(12)
 
-LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS Preliminary","NDC")
+LumiPrelimLabel = TPaveLabel(topLeft_x_left,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS Preliminary","NDC")
 LumiPrelimLabel.SetTextFont(62)
 LumiPrelimLabel.SetTextSize(1)
 LumiPrelimLabel.SetTextAlign(12)
 
-LumiSuppLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Supplementary}}","NDC")
+LumiSuppLabel = TPaveLabel(topLeft_x_left,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS #bf{#it{Supplementary}}","NDC")
 LumiSuppLabel.SetTextFont(62)
 LumiSuppLabel.SetTextSize(1)
 LumiSuppLabel.SetTextAlign(12)
@@ -201,7 +203,8 @@ for canvas in canvases:
         gPad.Update()
         gPad.Draw()
         canvas.cd(2)
-        gPad.SetPad(0,0,1,0.25)
+        #gPad.SetPad(0,0,1,0.25)
+        gPad.SetPad(0,0,1,0.24)
         #format: gPad.SetMargin(l,r,b,t)
         gPad.SetMargin(0.15,0.05,0.4,0.01)
         gPad.SetFillStyle(0)
@@ -366,7 +369,7 @@ for hist in hists:
     for i in range(hist.GetNbinsX()):
         hist.GetXaxis().ChangeLabel(i,-1,-1,1,2)
 
-Leg = TLegend(0.2,0.62,0.9,0.82)
+Leg = TLegend(0.25,0.62,0.9,0.82)
 Leg.AddEntry(hObs2016,"Data","ep")
 Leg.AddEntry(hExp2016,"Background","f")
 Leg.AddEntry(hExpUncert2016,"Background uncertainty","f")
