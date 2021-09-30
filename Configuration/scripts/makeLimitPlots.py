@@ -1262,9 +1262,9 @@ def drawPlot(plot):
             tGraph.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
             if not is2D:
                 if(arguments.doBR):
-                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #bf{#it{#Beta}}(H #rightarrow SS)')
+                    tGraph.GetYaxis().SetTitle('#bf{#it{#Beta}}(H #rightarrow SS)')
                 elif(HToSS):
-                    tGraph.GetYaxis().SetTitle('95% CL upper limit on #sigma #times #bf{#it{#Beta}}(H #rightarrow SS) [pb]')
+                    tGraph.GetYaxis().SetTitle('#sigma #times #bf{#it{#Beta}}(H #rightarrow SS) [pb]')
                 else:
                     tGraph.GetYaxis().SetTitle('#sigma_{95%CL} [pb]')
                 tGraph.GetYaxis().SetTitleOffset(1.5)
@@ -1305,6 +1305,8 @@ def drawPlot(plot):
             th2f.GetXaxis().SetTitle(plot['xAxisLabel'])
             th2f.GetXaxis().SetLimits(0.9*xAxisMin, 1.1*xAxisMax)
             th2f.GetXaxis().SetRangeUser(xAxisMin, xAxisMax)
+            if process in ['stopToLB', 'stopToLD']:
+                th2f.GetXaxis().SetNdivisions(505)
             th2f.GetYaxis().SetTitle(plot['yAxisLabel'])
             th2f.GetXaxis().SetTitleOffset(1.2)
             th2f.GetYaxis().SetTitleOffset(1.5)
