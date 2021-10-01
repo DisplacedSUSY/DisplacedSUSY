@@ -961,7 +961,7 @@ def drawPlot(plot):
                 ProcessLabel = TPaveLabel(0.06, 0.55, 0.36, 0.84, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.55, 0.55, 0.84) #legend at the top for significance plots
             else:
-                ProcessLabel = TPaveLabel(topLeft_x_left+0.05, 0.35, 0.55, 0.6, processText, "NDC")
+                ProcessLabel = TPaveLabel(0.01, 0.55, 0.35, 0.85, processText, "NDC")
                 legend = TLegend(topLeft_x_left+0.05, 0.35, 0.55, 0.6) #legend in the middle of the y-axis for 2D plot
         else:
             canvas.SetLogy()
@@ -1333,6 +1333,7 @@ def drawPlot(plot):
         HeaderLabel.Draw()
 
         LumiLabel = TPaveLabel(topLeft_x_leftCMS,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS","NDC")
+        #LumiLabel = TPaveLabel(topLeft_x_leftCMS,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS #bf{#it{Supplementary}}","NDC")
         #LumiLabel = TPaveLabel(topLeft_x_leftCMS,y_bottomCMS,topLeft_x_right,y_topCMS,"CMS Preliminary","NDC")
         LumiLabel.SetTextFont(62)
         LumiLabel.SetTextSize(0.8)
