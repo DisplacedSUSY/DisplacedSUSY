@@ -106,13 +106,9 @@ gROOT.ForceStyle()
 
 #bestest place for lumi. label, in top left corner
 topLeft_x_left    = 0.2
-topLeft_x_leftSim    = 0.21
 y_bottom  = 0.8
-y_bottomSim  = 0.72
 topLeft_x_right   = 0.6
-topLeft_x_rightSim   = 0.61
 y_top     = 0.85
-y_topSim  = 0.77
 
 #position for header
 header_x_left    = 0.50
@@ -179,7 +175,7 @@ HeaderLabel.SetFillStyle(0)
 
 
 if arguments.diagramPlot:
-    LumiLabel = TPaveLabel(topLeft_x_leftSim,y_bottomSim,topLeft_x_rightSim,y_topSim,"#splitline{CMS}{#bf{#it{Simulation}}}","NDC")
+    LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation}}","NDC")
     LumiLabel.SetTextSize(0.8)
 elif arguments.mc:
     LumiLabel = TPaveLabel(topLeft_x_left,y_bottom,topLeft_x_right,y_top,"CMS #bf{#it{Simulation Supplementary}}","NDC")
