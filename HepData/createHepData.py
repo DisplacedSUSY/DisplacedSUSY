@@ -799,7 +799,7 @@ def main():
     submission.read_abstract("data/abstract.txt")
     submission.add_link("Webpage with all figures and tables", "https://cms-results.web.cern.ch/cms-results/public-results/publications/EXO-18-003/")
     submission.add_link("arXiv", "http://arxiv.org/abs/arXiv:2110.04809")
-    submission.add_record_id(113658, "inspire")
+    submission.add_record_id(1940976, "inspire")
 
     submission.add_table(make1DD0PlotsTable("electron"))
     submission.add_table(make1DD0PlotsTable("muon"))
