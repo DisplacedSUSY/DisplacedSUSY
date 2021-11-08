@@ -5,6 +5,7 @@ import string
 from DisplacedSUSY.StandardAnalysis.BasicSelections import *
 
 muon_softID_cut.numberRequired = cms.string(">= 2")
+muon_tightID_cut.numberRequired = cms.string(">= 2")
 
 muon_d0_lessThan50_cut.numberRequired = cms.string(">= 2")
 muon_d0_lessThan50_cut.alias = cms.string(">=2 muons with |d_0| < 50 mum")
@@ -39,6 +40,12 @@ muon_pt_4p2_dummy = cms.PSet(
 diMuon_deltaR_greaterThanP5_cut = cms.PSet (
     inputCollection = cms.vstring("muons", "muons"),
     cutString = cms.string("deltaR(muon, muon) > 0.5"),
+    numberRequired = cms.string(">= 1"),
+    )
+
+diMuon_deltaR_greaterThanP2_cut = cms.PSet (
+    inputCollection = cms.vstring("muons", "muons"),
+    cutString = cms.string("deltaR(muon, muon) > 0.2"),
     numberRequired = cms.string(">= 1"),
     )
 

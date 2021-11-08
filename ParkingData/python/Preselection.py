@@ -48,9 +48,11 @@ ParkingPreselection = cms.PSet(
     name = cms.string("ParkingPreselection"),
     triggers = triggersParkingData,
     cuts = cms.VPSet (
-        muon_pt_4p2_cut,
         muon_eta_lessThan2p4_cut,
-        muon_softID_cut,
+        muon_tightID_cut,
+        muon_global_cut,
+        diMuon_deltaR_greaterThanP2_cut,
+        diMuon_cosAlpha_veto,
         ),
     )
 

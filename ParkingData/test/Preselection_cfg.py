@@ -10,7 +10,7 @@ from DisplacedSUSY.ParkingData.Preselection import *
 
 eventSelections = [
    # MuMuPreselection,
-   # ParkingPreselection,
+    ParkingPreselection,
    # ParkingPreselectionD0Sig,
    # ParkingPreselectionNoTrigger,
    # ParkingTrigger,
@@ -18,9 +18,9 @@ eventSelections = [
    # NoSelections,
    # GenMotherStopMuonTightID,
    # GenMotherStopMuonSoftID,
-    GenMotherStop,
-    ParkingTriggerGenMotherIsStop,
-    MuMuTriggerGenMotherIsStop,
+   # GenMotherStop,
+   # ParkingTriggerGenMotherIsStop,
+   # MuMuTriggerGenMotherIsStop,
    # MuMuPreselectionStopGen,
    # ParkingPreselectionStopGen,
    # MuonGenMotherIsStop,
@@ -44,4 +44,4 @@ scalingfactorproducers = []
 add_channels (process, eventSelections, histograms, weights, scalingfactorproducers, collectionMap, variableProducers)
 
 # customize the process:
-customize (process, "mumu", True, False, "signal")
+customize (process, "mumu", True, "signal")

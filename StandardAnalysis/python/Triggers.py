@@ -151,6 +151,15 @@ elif os.environ["CMSSW_VERSION"].startswith ("CMSSW_10_2_"):
        # "HLT_Mu9_IP6_part3_v",
     #trigger for signal 2018 closest to parking
         "HLT_Mu8_v",
+        "HLT_Mu7_IP4",
+        "HLT_Mu8_IP6",
+        "HLT_Mu8_IP3",
+        "HLT_Mu8p5_IP3p5",
+        "HLT_Mu9_IP6",
+        "HLT_Mu9_IP5",
+        "HLT_Mu9_IP4",
+        "HLT_Mu10p5_IP3p5",
+        "HLT_Mu12_IP6",
         )
 
     #main signal triggers for the MuMu channel
