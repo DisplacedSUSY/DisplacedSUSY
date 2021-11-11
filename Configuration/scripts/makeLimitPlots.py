@@ -142,11 +142,11 @@ colorSchemes = {
         'twoSigma' : 402,
     },
     'orange' : {
-        'obs' : 806,
+        'obs' : 800,
         'obsFill' : kOrange-9,
-        'exp' : 806,
-        'oneSigma' : 806,
-        'twoSigma' : 806,
+        'exp' : 800,
+        'oneSigma' : 800,
+        'twoSigma' : 800,
     },
     'magenta' : {
         'obs' : 616,
